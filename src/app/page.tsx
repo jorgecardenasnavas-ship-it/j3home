@@ -1,9 +1,29 @@
+import { Navbar } from "@/components/Navbar";
+import { HeroSection } from "@/components/HeroSection";
+import { SponsorsBanner } from "@/components/SponsorsBanner";
+import { ImpactSection } from "@/components/ImpactSection";
+import { SystemReveal } from "@/components/SystemReveal";
+import { ProductsSection } from "@/components/ProductsSection";
+import { NosotrosSection } from "@/components/NosotrosSection";
+
+import { ContactoSection } from "@/components/ContactoSection";
+import { Footer } from "@/components/Footer";
+
 export default function Home() {
   return (
-    <main className="flex min-h-screen items-center justify-center">
-      <p className="text-muted-foreground">
-        Clone target not yet built. Run <code className="font-mono text-foreground">/clone-website</code> to start.
-      </p>
-    </main>
+    <>
+      <Navbar />
+      <main>
+        <HeroSection />
+        <SponsorsBanner />
+        <ImpactSection />
+        <SystemReveal />
+        <ProductsSection />
+        <NosotrosSection />
+
+        <ContactoSection />
+      </main>
+      <Footer />
+    </>
   );
 }
