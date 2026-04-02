@@ -1,40 +1,23 @@
 "use client";
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useI18n } from "@/i18n/context";
 
-const servicioOptions = [
-  "Soy...",
-  "Entrenador / Coach",
-  "Jugador amateur",
-  "Aficionado al pádel",
-  "Director de academia / club",
-  "Interesado en franquicia",
-  "Otro",
-] as const;
-
-const interesOptions = [
-  "Me interesa...",
-  "Coach360 · Formación",
-  "J3PTV · Contenido",
-  "Academy · Entrenar en Málaga",
-  "Franquicia · Sistema llave en mano",
-  "J3 Experience · Venid a mi club",
-  "Otra cosa",
-] as const;
-
-const contactItems: { icon: string; label: string; value: string; href?: string }[] = [
-  { icon: "✉", label: "Email", value: "info@j3padel.com", href: "mailto:info@j3padel.com" },
-  { icon: "📞", label: "Teléfono", value: "722 272 598", href: "tel:+34722272598" },
-  { icon: "📍", label: "Sede", value: "Málaga, España" },
+const contactItems: { icon: string; key: "email" | "telefono" | "sede"; value: string; href?: string }[] = [
+  { icon: "✉", key: "email", value: "info@j3padel.com", href: "mailto:info@j3padel.com" },
+  { icon: "📞", key: "telefono", value: "722 272 598", href: "tel:+34722272598" },
+  { icon: "📍", key: "sede", value: "Málaga, España" },
 ];
 
 export function ContactoSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const { t } = useI18n();
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [soy, setSoy] = useState("");
   const [interes, setInteres] = useState("");
   const [mensaje, setMensaje] = useState("");
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -62,6 +45,17 @@ export function ContactoSection() {
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (!nombre.trim() || !email.trim() || !mensaje.trim()) {
+      setStatus("error");
+      return;
+    }
+    setStatus("sending");
+    // Simulate sending (replace with real API later)
+    setTimeout(() => {
+      setStatus("sent");
+      setNombre(""); setEmail(""); setSoy(""); setInteres(""); setMensaje("");
+      setTimeout(() => setStatus("idle"), 3000);
+    }, 1500);
   }
 
   return (
@@ -73,21 +67,20 @@ export function ContactoSection() {
       {/* Left Column */}
       <div>
         <span className="reveal-up text-[10px] font-normal tracking-[4px] uppercase text-[var(--g1)] mb-3.5 block">
-          Contacto
+          {t.contacto.label}
         </span>
 
         <h2 className="reveal-up font-bold text-[clamp(32px,4vw,52px)] uppercase leading-none mb-3.5">
-          <span className="text-[var(--wh)]">Cuéntanos</span>
+          <span className="text-[var(--wh)]">{t.contacto.heading1}</span>
           <br />
-          <span className="j3-grad-text">qué buscas.</span>
+          <span className="j3-grad-text">{t.contacto.heading2}</span>
         </h2>
 
         <p className="reveal-up text-[16px] font-light text-[var(--gy2)] leading-[1.7] max-w-[380px] mb-10">
-          Si has llegado hasta aquí algo te ha resonado. Cuéntanos dónde estás
-          y qué buscas.
+          {t.contacto.body}
         </p>
 
-        {/* Contact Info — Apple-style stagger */}
+        {/* Contact Info */}
         <div className="flex flex-col">
           {contactItems.map((item, idx) => (
             <div
@@ -99,7 +92,7 @@ export function ContactoSection() {
               </div>
               <div>
                 <div className="text-[9px] font-normal tracking-[3px] uppercase text-[var(--gy)] mb-[3px]">
-                  {item.label}
+                  {t.contacto[item.key]}
                 </div>
                 <div className="text-[14px] font-light">
                   {item.href ? (
@@ -116,13 +109,13 @@ export function ContactoSection() {
         </div>
       </div>
 
-      {/* Right Column — Apple-style form */}
+      {/* Right Column — Form */}
       <form onSubmit={handleSubmit} className="reveal-up flex flex-col gap-[10px]">
         <div className="grid grid-cols-2 max-[960px]:grid-cols-1 gap-[10px]">
           <div>
             <input
               type="text"
-              placeholder="Nombre"
+              placeholder={t.contacto.placeholders.nombre}
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
               className="j3-input w-full bg-[var(--bk3)] border border-white/[.08] text-[var(--wh)]"
@@ -131,7 +124,7 @@ export function ContactoSection() {
           <div>
             <input
               type="email"
-              placeholder="Email"
+              placeholder={t.contacto.placeholders.email}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="j3-input w-full bg-[var(--bk3)] border border-white/[.08] text-[var(--wh)]"
@@ -145,8 +138,8 @@ export function ContactoSection() {
             onChange={(e) => setSoy(e.target.value)}
             className={`j3-input w-full bg-[var(--bk3)] border border-white/[.08] cursor-pointer ${soy ? "text-[var(--wh)]" : "text-[var(--gy)]"}`}
           >
-            {servicioOptions.map((opt) => (
-              <option key={opt} value={opt === "Soy..." ? "" : opt}>
+            {t.contacto.soyOptions.map((opt, i) => (
+              <option key={opt} value={i === 0 ? "" : opt}>
                 {opt}
               </option>
             ))}
@@ -159,8 +152,8 @@ export function ContactoSection() {
             onChange={(e) => setInteres(e.target.value)}
             className={`j3-input w-full bg-[var(--bk3)] border border-white/[.08] cursor-pointer ${interes ? "text-[var(--wh)]" : "text-[var(--gy)]"}`}
           >
-            {interesOptions.map((opt) => (
-              <option key={opt} value={opt === "Me interesa..." ? "" : opt}>
+            {t.contacto.interesOptions.map((opt, i) => (
+              <option key={opt} value={i === 0 ? "" : opt}>
                 {opt}
               </option>
             ))}
@@ -170,21 +163,44 @@ export function ContactoSection() {
         <div>
           <textarea
             rows={4}
-            placeholder="Mensaje"
+            placeholder={t.contacto.placeholders.mensaje}
             value={mensaje}
             onChange={(e) => setMensaje(e.target.value)}
             className="j3-input w-full bg-[var(--bk3)] border border-white/[.08] text-[var(--wh)]"
           />
         </div>
 
-        {/* Nike-style pill submit with glow */}
+        {/* Submit button */}
         <button
           type="submit"
-          className="btn-glow w-full py-[15px] rounded-[980px] text-black font-bold text-[12px] tracking-[3px] uppercase border-none cursor-pointer mt-1.5"
-          style={{ background: "var(--j3-grad)" }}
+          disabled={status === "sending" || status === "sent"}
+          className={`btn-glow w-full py-[15px] rounded-[980px] font-bold text-[12px] tracking-[3px] uppercase border-none cursor-pointer mt-1.5 transition-all duration-300 ${
+            status === "sent"
+              ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
+              : status === "sending"
+              ? "opacity-70 cursor-wait"
+              : ""
+          }`}
+          style={status === "sent" ? undefined : { background: "var(--j3-grad)", color: "#000" }}
         >
-          Enviar
+          {status === "sending" ? (
+            <span className="flex items-center justify-center gap-2">
+              <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+              {t.contacto.sending}
+            </span>
+          ) : status === "sent" ? (
+            <span className="flex items-center justify-center gap-2">
+              {t.contacto.sent}
+            </span>
+          ) : (
+            t.contacto.submit
+          )}
         </button>
+        {status === "error" && (
+          <p className="text-[12px] text-red-400 mt-2 text-center">
+            {t.contacto.error}
+          </p>
+        )}
       </form>
     </section>
   );

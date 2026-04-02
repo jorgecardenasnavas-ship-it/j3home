@@ -47,6 +47,28 @@
   color: transparent;
 }
 
+/* ─── Animations ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes clipRevealUp {
+  from { clip-path: inset(100% 0 0 0); opacity: 0; transform: translateY(40px); }
+  to { clip-path: inset(-10% 0 0 0); opacity: 1; transform: translateY(0); }
+}
+@keyframes slideFromLeft {
+  from { clip-path: inset(0 100% 0 0); opacity: 0; transform: translateX(-60px); }
+  to { clip-path: inset(0 0 0 0); opacity: 1; transform: translateX(0); }
+}
+@keyframes slideFromRight {
+  from { clip-path: inset(0 0 0 100%); opacity: 0; transform: translateX(60px); }
+  to { clip-path: inset(0 0 0 0); opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeInSoft {
+  from { opacity: 0; filter: blur(8px); transform: translateY(12px); }
+  to { opacity: 1; filter: blur(0); transform: translateY(0); }
+}
+
 /* ─── Apple-style input design ─── */
 .j3-input {
   font-family: var(--font-display);
@@ -240,8 +262,9 @@
     background-color: var(--bk);
     color: var(--wh);
     font-family: var(--font-display);
-    overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(220, 175, 100, 0.15) transparent;
   }
   html {
     scroll-behavior: smooth;

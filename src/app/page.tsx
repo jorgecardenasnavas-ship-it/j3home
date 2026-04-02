@@ -5,7 +5,7 @@ import { ImpactSection } from "@/components/ImpactSection";
 import { SystemReveal } from "@/components/SystemReveal";
 import { ProductsSection } from "@/components/ProductsSection";
 import { NosotrosSection } from "@/components/NosotrosSection";
-
+import { HomeTextBlock } from "@/components/HomeTextBlock";
 import { ContactoSection } from "@/components/ContactoSection";
 import { Footer } from "@/components/Footer";
 
@@ -18,6 +18,7 @@ export default function Home() {
         <SponsorsBanner />
         <ImpactSection />
         <SystemReveal />
+        <HomeTextBlock />
         <ProductsSection />
         <NosotrosSection />
 

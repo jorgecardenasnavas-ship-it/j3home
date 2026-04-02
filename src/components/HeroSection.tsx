@@ -1,36 +1,11 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-
-interface Milestone {
-  year: string;
-  text: string;
-}
-
-const milestones: Milestone[] = [
-  { year: "2004", text: "Empieza el camino" },
-  { year: "2014", text: "Sede World Padel Tour" },
-  { year: "2018", text: "Mejor club del mundo" },
-  { year: "2022", text: "Mejor entrenador español en ranking pro" },
-  { year: "2024", text: "10º aniversario de J3" },
-  { year: "11×", text: "Títulos en circuito profesional" },
-];
-
-interface CredItem {
-  value: string;
-  lines: string[];
-}
-
-const credsMobile: CredItem[] = [
-  { value: "#1", lines: ["Mejor club 2018"] },
-  { value: "20+", lines: ["Años"] },
-  { value: "WPT", lines: ["Sede 2014"] },
-  { value: "🥇11·🥈7", lines: ["Victorias pro"] },
-  { value: "🏆", lines: ["Campeones"] },
-];
+import { useI18n } from "@/i18n/context";
 
 export function HeroSection() {
   const heroRef = useRef<HTMLElement>(null);
+  const { t } = useI18n();
 
   useEffect(() => {
     const section = heroRef.current;
@@ -114,19 +89,19 @@ export function HeroSection() {
           {/* Left — Claim */}
           <div className="pointer-events-none">
             <span className="hero-word block font-bold text-[clamp(60px,9vw,140px)] max-[960px]:text-[clamp(52px,15vw,110px)] uppercase tracking-[-3px] leading-[.88] j3-grad-text">
-              Play.
+              {t.hero.play}
             </span>
             <span className="hero-word block font-bold text-[clamp(60px,9vw,140px)] max-[960px]:text-[clamp(52px,15vw,110px)] uppercase tracking-[-3px] leading-[.88] text-[var(--wh)]">
-              Coach.
+              {t.hero.coach}
             </span>
             <span className="hero-word block font-bold text-[clamp(60px,9vw,140px)] max-[960px]:text-[clamp(52px,15vw,110px)] uppercase tracking-[-3px] leading-[.88] j3-stroke-gold">
-              Manage.
+              {t.hero.manage}
             </span>
           </div>
 
           {/* Right — Milestones timeline (desktop only) */}
           <div className="hero-timeline reveal-up hidden min-[961px]:flex flex-col gap-5 pt-2 min-w-[200px]">
-            {milestones.map((m, i) => (
+            {t.hero.milestones.map((m, i) => (
               <div key={i} className="flex items-start gap-3">
                 <span className="text-[13px] font-bold j3-grad-text leading-none mt-[2px] whitespace-nowrap">
                   {m.year}
@@ -141,7 +116,7 @@ export function HeroSection() {
             ))}
             <div className="h-[1px] w-full bg-gradient-to-r from-[var(--g1)]/20 to-transparent mt-1" />
             <span className="text-[9px] font-light text-[var(--gy)] tracking-[3px] uppercase">
-              Cantera campeona de España y del Mundo
+              {t.hero.tagline}
             </span>
           </div>
         </div>
@@ -154,13 +129,13 @@ export function HeroSection() {
               className="btn-glow text-[12px] font-bold tracking-[2px] uppercase py-[11px] px-[26px] rounded-[980px] no-underline cursor-pointer border-none"
               style={{ background: "var(--j3-grad)", color: "#000" }}
             >
-              Ver productos
+              {t.hero.cta1}
             </a>
             <a
               href="/coach360"
               className="text-[12px] font-bold tracking-[2px] uppercase py-[11px] px-[26px] rounded-[980px] no-underline transition-all duration-300 cursor-pointer text-[var(--g1)] border border-[rgba(220,175,100,.3)] bg-transparent hover:bg-[rgba(220,175,100,.07)] hover:border-[rgba(220,175,100,.5)]"
             >
-              Coach360
+              {t.hero.cta2}
             </a>
           </div>
         </div>
@@ -168,19 +143,14 @@ export function HeroSection() {
 
       {/* Mobile Creds */}
       <div className="hidden max-[960px]:!flex bg-black/90 border-t border-white/[.07] justify-around flex-wrap py-3.5">
-        {credsMobile.map((cred, idx) => (
+        {t.hero.credsMobile.map((cred, idx) => (
           <div key={idx} className="text-center py-1.5 px-2">
             <span className="text-[14px] font-bold j3-grad-text block mb-[3px]">
-              {cred.value}
+              {cred.val}
             </span>
-            {cred.lines.map((line, li) => (
-              <span
-                key={li}
-                className="text-[8px] font-light text-[var(--gy)] tracking-[1px] uppercase block"
-              >
-                {line}
-              </span>
-            ))}
+            <span className="text-[8px] font-light text-[var(--gy)] tracking-[1px] uppercase block">
+              {cred.label}
+            </span>
           </div>
         ))}
       </div>

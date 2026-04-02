@@ -2,16 +2,11 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-
-const stats: { value: string; lines: string[]; valueFontSize?: string }[] = [
-  { value: "#1", lines: ["Mejor club", "del mundo 2018"] },
-  { value: "20+", lines: ["Años en", "el sector"] },
-  { value: "🏆", lines: ["Campeones", "España y Mundo"] },
-  { value: "🥇11·🥈7", lines: ["Circuito", "profesional"], valueFontSize: "17px" },
-];
+import { useI18n } from "@/i18n/context";
 
 export function NosotrosSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const { t } = useI18n();
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -46,50 +41,49 @@ export function NosotrosSection() {
       {/* Left */}
       <div className="flex-1 min-w-[260px] max-w-[440px]">
         <span className="reveal-up text-[10px] font-normal tracking-[4px] uppercase text-[var(--g1)] mb-3.5 block">
-          Quiénes somos
+          {t.nosotros.label}
         </span>
 
         <h2 className="reveal-up font-bold text-[clamp(22px,3vw,36px)] uppercase leading-none mb-3.5">
-          <span className="text-[var(--wh)]">Más de 20 años</span>
+          <span className="text-[var(--wh)]">{t.nosotros.heading1}</span>
           <br />
-          <span className="j3-grad-text">dentro del pádel.</span>
+          <span className="j3-grad-text">{t.nosotros.heading2}</span>
         </h2>
 
         <p className="reveal-up text-[15px] font-light text-[var(--gy2)] leading-[1.7] mb-5">
-          Empezamos cuando el pádel era otro deporte. Hemos formado jugadores
-          que hoy están en el circuito, gestionado el mejor club del mundo y
-          entrenado a profesionales del WPT. Eso es lo que hay detrás.
+          {t.nosotros.body}
         </p>
 
         <Link
-          href="/nosotros"
+          href="/story"
           className="reveal-up text-[11px] font-bold tracking-[2px] uppercase text-[var(--g1)] no-underline inline-flex items-center gap-2 hover:gap-3.5 transition-[gap] duration-200"
         >
-          Conoce nuestra trayectoria
+          {t.nosotros.link}
           <span>→</span>
         </Link>
       </div>
 
-      {/* Right — Stats with Apple-style reveal */}
+      {/* Right — Stats */}
       <div className="reveal-up">
         <div className="flex flex-wrap">
-          {stats.map((stat, idx) => (
+          {t.nosotros.stats.map((stat, idx) => (
             <div
               key={idx}
               className={`py-4 px-6 ${idx > 0 ? "border-l border-white/[.07]" : ""}`}
             >
               <span
-                className="font-bold text-[24px] j3-grad-text leading-none block mb-[5px]"
-                style={stat.valueFontSize ? { fontSize: stat.valueFontSize } : undefined}
+                className={`font-bold j3-grad-text leading-none block mb-[5px] ${
+                  stat.val.length > 4 ? "text-[17px]" : "text-[24px]"
+                }`}
               >
-                {stat.value}
+                {stat.val}
               </span>
-              {stat.lines.map((line, li) => (
+              {[stat.line1, stat.line2].map((line, li) => (
                 <span
                   key={li}
                   className="text-[10px] font-light text-[var(--gy)] tracking-[1px] uppercase leading-[1.5] block"
                 >
-                  {line}
+                  {line.replace(" /", "")}
                 </span>
               ))}
             </div>

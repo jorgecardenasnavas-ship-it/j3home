@@ -1,80 +1,65 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useI18n } from "@/i18n/context";
 
 interface ProductCard {
-  tag: string;
   nameParts: { text: string; white?: boolean }[];
-  forLabel: string;
-  description?: string;
-  buttons: { label: string; href: string; variant: "gold" | "ghost" }[];
+  buttons: { href: string; variant: "gold" | "ghost" }[];
   actionsPosition: "top" | "bottom";
   solo?: boolean;
+  featured?: boolean;
   watermark: string;
 }
 
 const cards: ProductCard[] = [
   {
-    tag: "Online · Formación",
     nameParts: [{ text: "Coach" }, { text: "360", white: true }],
-    forLabel: "Entrenadores de pádel",
-    description: "Criterio, método y comunidad. Contenido nuevo cada semana.",
     buttons: [
-      { label: "Ver más", href: "/coach360", variant: "ghost" },
-      { label: "Unirse", href: "https://j3padel.com/join", variant: "gold" },
+      { href: "/coach360", variant: "ghost" },
+      { href: "https://j3padel.com/join", variant: "gold" },
     ],
     actionsPosition: "bottom",
+    featured: true,
     watermark: "C360",
   },
   {
-    tag: "Online · Contenido",
     nameParts: [{ text: "J3P" }, { text: "TV", white: true }],
-    forLabel: "Todos los perfiles",
-    description: "Análisis, debate y el juego moderno sin ruido.",
     buttons: [
-      { label: "Ver más", href: "/j3ptv", variant: "ghost" },
-      { label: "Acceder", href: "/j3ptv/acceder", variant: "gold" },
+      { href: "/j3ptv", variant: "ghost" },
+      { href: "/j3ptv/acceder", variant: "gold" },
     ],
     actionsPosition: "top",
+    featured: true,
     watermark: "TV",
   },
   {
-    tag: "Headquarters · Stages · Camps",
     nameParts: [{ text: "J3" }, { text: "Academy", white: true }],
-    forLabel: "Kids · Amateur · Next Gen",
-    description: "El mismo sistema del circuito profesional, adaptado a ti.",
     buttons: [
-      { label: "Entrena con nosotros", href: "/academy", variant: "gold" },
+      { href: "/academy", variant: "gold" },
     ],
     actionsPosition: "bottom",
     watermark: "ACA",
   },
   {
-    tag: "Gestión · Optimización",
     nameParts: [{ text: "Business" }, { text: "Plan", white: true }],
-    forLabel: "Academias y clubes",
-    description: "Optimiza tu club con nuestro know-how.",
     buttons: [
-      { label: "Saber más", href: "/business", variant: "ghost" },
-      { label: "Agendar llamada", href: "/business/llamada", variant: "gold" },
+      { href: "/business", variant: "ghost" },
+      { href: "/business/llamada", variant: "gold" },
     ],
     actionsPosition: "top",
     watermark: "BIZ",
   },
   {
-    tag: "Servicio · Presencial",
     nameParts: [{ text: "J3" }, { text: "Experience", white: true }],
-    forLabel: "Clubes, academias y grupos",
-    buttons: [{ label: "Solicitar", href: "/experience", variant: "ghost" }],
+    buttons: [{ href: "/experience", variant: "ghost" }],
     actionsPosition: "bottom",
     solo: true,
     watermark: "EXP",
   },
   {
-    tag: "Expansión · Llave en mano",
     nameParts: [{ text: "J3" }, { text: "Partner", white: true }],
-    forLabel: "Clubes y academias",
-    buttons: [{ label: "Saber más", href: "/partner", variant: "ghost" }],
+    buttons: [{ href: "/partner", variant: "ghost" }],
     actionsPosition: "bottom",
     solo: true,
     watermark: "PTR",
@@ -85,10 +70,12 @@ function PillButton({
   label,
   href,
   variant,
+  dark = true,
 }: {
   label: string;
   href: string;
   variant: "gold" | "ghost";
+  dark?: boolean;
 }) {
   if (variant === "gold") {
     return (
@@ -104,7 +91,7 @@ function PillButton({
   return (
     <a
       href={href}
-      className="text-[12px] font-bold tracking-[2px] uppercase py-[11px] px-[26px] rounded-[980px] no-underline transition-all duration-300 cursor-pointer text-[var(--g1)] border border-[rgba(220,175,100,.3)] bg-transparent hover:bg-[rgba(220,175,100,.07)] hover:border-[rgba(220,175,100,.5)]"
+      className={`text-[12px] font-bold tracking-[2px] uppercase py-[11px] px-[26px] rounded-[980px] no-underline transition-all duration-300 cursor-pointer ${dark ? "text-[var(--g1)] border border-[rgba(220,175,100,.3)] bg-transparent hover:bg-[rgba(220,175,100,.07)] hover:border-[rgba(220,175,100,.5)]" : "text-[var(--bk)] border border-black/20 bg-transparent hover:bg-black/[.04] hover:border-black/40"}`}
     >
       {label}
     </a>
@@ -113,6 +100,7 @@ function PillButton({
 
 export function ProductsSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const { t } = useI18n();
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -146,33 +134,37 @@ export function ProductsSection() {
     >
 
       <div className="grid grid-cols-2 max-[960px]:grid-cols-1 border-l border-white/[.06]">
-        {cards.map((card) => {
+        {cards.map((card, cardIdx) => {
           const isSolo = card.solo;
+          const isDark = !isSolo;
+          const tCard = t.products.cards[cardIdx];
 
           const content = (
             <div>
-              <div className="text-[10px] font-normal tracking-[3.5px] uppercase text-[rgba(220,175,100,.55)] mb-4">
-                {card.tag}
+              <div className={`text-[10px] font-normal tracking-[3.5px] uppercase mb-4 ${isDark ? "text-[rgba(220,175,100,.55)]" : "text-black/40"}`}>
+                {tCard.tag}
               </div>
-              <div className="font-bold text-[clamp(38px,5vw,64px)] uppercase tracking-[-1.5px] leading-[.9]">
+              <div className={`font-bold uppercase tracking-[-1.5px] leading-[.9] ${card.featured ? "text-[clamp(44px,6vw,72px)]" : "text-[clamp(38px,5vw,64px)]"}`}>
                 {card.nameParts.map((part, i) =>
                   part.white ? (
-                    <span key={i} className="text-[var(--wh)]">
+                    <span key={i} className={isDark ? "text-[var(--wh)]" : "text-[var(--bk)]"}>
                       {part.text}
                     </span>
                   ) : (
-                    <span key={i} className="j3-grad-text">
+                    <span key={i} className={isDark ? "j3-grad-text" : ""} style={!isDark ? { color: "#b8943e" } : undefined}>
                       {part.text}
                     </span>
                   ),
                 )}
               </div>
-              <div className="text-[10px] font-light tracking-[2px] uppercase text-white/30 mt-[10px]">
-                {card.forLabel}
+              <div className={`text-[10px] font-light tracking-[2px] uppercase mt-[10px] ${isDark ? "text-white/30" : "text-black/30"}`}>
+                {tCard.forLabel}
               </div>
-              {card.description && (
-                <p className="text-[13px] font-light text-[var(--gy2)] leading-[1.6] mt-3 max-w-[280px] opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  {card.description}
+              {tCard.description && (
+                <p className={`text-[13px] font-light leading-[1.6] mt-3 whitespace-nowrap text-center transition-opacity duration-500 ${
+                  card.featured ? "opacity-60 group-hover:opacity-100" : "opacity-0 group-hover:opacity-100"
+                } ${isDark ? "text-[var(--gy2)]" : "text-black/50"}`}>
+                  {tCard.description}
                 </p>
               )}
             </div>
@@ -182,36 +174,41 @@ export function ProductsSection() {
             <div
               className={`flex gap-[10px] flex-wrap ${isSolo ? "justify-start max-[960px]:justify-center" : "justify-center"} ${card.actionsPosition === "bottom" ? "mt-7" : "mb-7 max-[960px]:mb-6 max-[960px]:mt-0"}`}
             >
-              {card.buttons.map((btn) => (
+              {card.buttons.map((btn, btnIdx) => (
                 <PillButton
-                  key={btn.label}
-                  label={btn.label}
+                  key={btn.href}
+                  label={tCard.buttons[btnIdx]}
                   href={btn.href}
                   variant={btn.variant}
+                  dark={isDark}
                 />
               ))}
             </div>
           );
 
-          const baseCardClasses =
-            "pc-card group relative overflow-hidden border-r border-white/[.06] border-b border-b-white/[.06] transition-all duration-300 cursor-pointer hover:bg-[var(--bk2)]";
+          const baseCardClasses = isDark
+            ? "pc-card group relative overflow-hidden border-r border-white/[.06] border-b border-b-white/[.06] transition-all duration-300 cursor-pointer hover:bg-[var(--bk2)]"
+            : "pc-card group relative overflow-hidden border-r border-black/[.08] border-b border-b-black/[.08] transition-all duration-300 cursor-pointer hover:bg-[#f5f5f7]";
 
           if (isSolo) {
             return (
               <div
-                key={card.tag}
-                className={`${baseCardClasses} col-span-2 max-[960px]:col-span-1 bg-[var(--bk)] min-h-[180px] max-[960px]:min-h-0 flex max-[960px]:flex-col items-center max-[960px]:items-center justify-center gap-20 max-[960px]:gap-0 py-[52px] px-20 max-[960px]:py-[52px] max-[960px]:px-8 text-left max-[960px]:text-center`}
+                key={card.watermark}
+                className={`${baseCardClasses} col-span-2 max-[960px]:col-span-1 min-h-[220px] max-[960px]:min-h-0 flex max-[960px]:flex-col items-center max-[960px]:items-center justify-center gap-20 max-[960px]:gap-0 py-[60px] px-20 max-[960px]:py-[52px] max-[960px]:px-8 text-left max-[960px]:text-center border border-[rgba(220,175,100,.15)]`}
+                style={{
+                  background: "linear-gradient(135deg, #faf8f4 0%, #f5f0e8 50%, #faf8f4 100%)",
+                }}
               >
-                {/* Adidas-style oversized watermark */}
-                <span className="absolute -bottom-6 -right-3 font-bold text-[140px] max-[960px]:text-[90px] uppercase leading-none tracking-[-4px] pointer-events-none select-none text-white/[.015] group-hover:text-[var(--g1)]/[.05] transition-colors duration-700">
+                {/* Oversized watermark */}
+                <span className="absolute -bottom-6 -right-3 font-bold text-[140px] max-[960px]:text-[90px] uppercase leading-none tracking-[-4px] pointer-events-none select-none text-[var(--g1)]/[.06] group-hover:text-[var(--g1)]/[.12] transition-colors duration-700">
                   {card.watermark}
                 </span>
 
-                {/* Nike-style gold accent line on hover */}
-                <div className="absolute top-0 left-0 w-0 group-hover:w-full h-[2px] bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] transition-all duration-700 ease-out" />
+                {/* Gold accent line */}
+                <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[var(--g1)] to-transparent opacity-40 group-hover:opacity-80 transition-opacity duration-500" />
 
-                {/* Nike hover gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[var(--g1)]/[.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                {/* Hover gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[var(--g1)]/[.04] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
                 <div className="relative z-10 flex flex-col items-start max-[960px]:items-center">
                   {content}
@@ -223,18 +220,20 @@ export function ProductsSection() {
 
           return (
             <div
-              key={card.tag}
-              className={`${baseCardClasses} bg-[var(--bk)] py-16 px-[52px] max-[960px]:py-[52px] max-[960px]:px-8 flex flex-col justify-between min-h-[320px] max-[960px]:min-h-0 text-center items-center`}
+              key={card.watermark}
+              className={`${baseCardClasses} bg-[var(--bk)] py-16 px-[52px] max-[960px]:py-[52px] max-[960px]:px-8 flex flex-col justify-between ${card.featured ? "min-h-[400px]" : "min-h-[320px]"} max-[960px]:min-h-0 text-center items-center`}
             >
-              {/* Adidas-style oversized watermark */}
+              {/* Oversized watermark */}
               <span className="absolute -bottom-6 -right-3 font-bold text-[140px] max-[960px]:text-[90px] uppercase leading-none tracking-[-4px] pointer-events-none select-none text-white/[.015] group-hover:text-[var(--g1)]/[.05] transition-colors duration-700">
                 {card.watermark}
               </span>
 
-              {/* Nike-style gold accent line on hover */}
-              <div className="absolute top-0 left-0 w-0 group-hover:w-full h-[2px] bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] transition-all duration-700 ease-out" />
+              {/* Gold accent line */}
+              <div className={`absolute top-0 left-0 h-[2px] bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] transition-all duration-700 ease-out ${
+                card.featured ? "w-full opacity-50 group-hover:opacity-100" : "w-0 group-hover:w-full"
+              }`} />
 
-              {/* Nike hover gradient overlay */}
+              {/* Hover gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-br from-[var(--g1)]/[.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
               <div className="relative z-10 flex flex-col items-center w-full h-full justify-between">

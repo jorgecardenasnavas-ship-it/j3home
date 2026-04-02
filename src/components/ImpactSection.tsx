@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useI18n } from "@/i18n/context";
 
 export function ImpactSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
+  const { t } = useI18n();
 
   useEffect(() => {
     const container = containerRef.current;
@@ -15,10 +17,10 @@ export function ImpactSection() {
       const windowH = window.innerHeight;
       const totalH = container!.scrollHeight;
 
-      // Start animation only when section top reaches the viewport top
-      const scrolled = -rect.top;
-      // Animation range: use ~80% of total height — less hold time after
-      const animRange = totalH * 0.8;
+      // Start animation when section is 35% into the viewport
+      const scrolled = -rect.top + windowH * 0.35;
+      // Animation range: use ~55% of total height — more hold time after tagline
+      const animRange = totalH * 0.55;
       const p = Math.max(0, Math.min(1, scrolled / animRange));
       setProgress(p);
     }
@@ -28,11 +30,11 @@ export function ImpactSection() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Phase 1 (0-30%): "La academia" rises from below + deblurs
+  // Phase 1 (0-30%): line1 rises from below + deblurs
   const p1 = Math.min(1, progress / 0.3);
-  // Phase 2 (25-55%): "de pádel #1" rises from below
+  // Phase 2 (25-55%): line2 rises from below
   const p2 = Math.max(0, Math.min(1, (progress - 0.25) / 0.3));
-  // Phase 3 (50-80%): "en la Costa del Sol." rises from below
+  // Phase 3 (50-80%): line3 rises from below
   const p3 = Math.max(0, Math.min(1, (progress - 0.5) / 0.3));
   // Phase 4 (75-100%): Gold accent line + tagline
   const p4 = Math.max(0, Math.min(1, (progress - 0.75) / 0.25));
@@ -41,7 +43,7 @@ export function ImpactSection() {
     <div
       ref={containerRef}
       className="relative bg-[var(--bk)]"
-      style={{ height: "170vh" }}
+      style={{ height: "250vh" }}
     >
       <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
         {/* Subtle radial glow */}
@@ -53,7 +55,7 @@ export function ImpactSection() {
         />
 
         <div className="w-full max-w-[1200px] px-12 max-[960px]:px-6">
-          {/* Line 1 — "La academia" — gold gradient */}
+          {/* Line 1 — gold gradient */}
           <div className="text-left overflow-hidden">
             <span
               className="block font-bold text-[clamp(52px,10vw,130px)] max-[960px]:text-[clamp(38px,9vw,80px)] uppercase tracking-[-2px] leading-[1] j3-grad-text"
@@ -63,11 +65,11 @@ export function ImpactSection() {
                 filter: `blur(${(1 - p1) * 6}px)`,
               }}
             >
-              La academia
+              {t.impact.line1}
             </span>
           </div>
 
-          {/* Line 2 — "de pádel #1" — stroke outline, right-aligned */}
+          {/* Line 2 — stroke outline, right-aligned */}
           <div className="text-right overflow-hidden">
             <span
               className="block font-bold text-[clamp(52px,10vw,130px)] max-[960px]:text-[clamp(38px,9vw,80px)] uppercase tracking-[-2px] leading-[1]"
@@ -79,11 +81,11 @@ export function ImpactSection() {
                 filter: `blur(${(1 - p2) * 6}px)`,
               }}
             >
-              de pádel #1
+              {t.impact.line2}
             </span>
           </div>
 
-          {/* Line 3 — "en la Costa del Sol." — white, left with offset */}
+          {/* Line 3 — white, left with offset */}
           <div className="text-left pl-[8vw] max-[960px]:pl-0 overflow-hidden">
             <span
               className="block font-bold text-[clamp(36px,7vw,100px)] max-[960px]:text-[clamp(24px,6.5vw,70px)] uppercase tracking-[-2px] leading-[1] text-[var(--wh)] whitespace-nowrap"
@@ -93,7 +95,7 @@ export function ImpactSection() {
                 filter: `blur(${(1 - p3) * 6}px)`,
               }}
             >
-              en la Costa del Sol.
+              {t.impact.line3}
             </span>
           </div>
 
@@ -116,7 +118,7 @@ export function ImpactSection() {
               opacity: Math.max(0, (p4 - 0.3) / 0.7),
             }}
           >
-            Desde 2004 · Málaga, España
+            {t.impact.tagline}
           </p>
         </div>
       </div>
