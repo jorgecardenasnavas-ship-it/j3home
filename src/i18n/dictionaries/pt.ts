@@ -339,6 +339,40 @@ export const pt = {
       nextGenProLabel: "Chegaram como promessa · Consolidados no circuito",
       featuredLabel: "Colaborações profissionais de destaque",
       sharedLabel: "Também partilharam equipa com J3",
+      heroPlayers: [
+        { info: "Formado desde jovem em Ocean Padel. Alcançou o top 4 mundial.", tag: "Top 4 Mundial" },
+        { info: "Formação Ocean Padel / J3. 100 % de Málaga. Top 5 mundial.", tag: "Top 5 Mundial" },
+        { info: "Top 8 mundial no PPT. Cofundador de J3Padel.", tag: "Cofundador J3 · Top 8 PPT" },
+      ],
+      nextGenTags: [
+        "Campeão de Espanha e do Mundo",
+        "Campeã de Espanha e do Mundo",
+        "Campeã de Espanha · Circuito Pro",
+        "Campeão de Espanha · Circuito Pro",
+        "Campeão de Espanha e do Mundo Júnior",
+      ],
+      nextGenProTags: [
+        "Next Gen → Top 30",
+        "Next Gen → Top 30",
+      ],
+      featuredPlayers: [
+        { info: "5 finais e dupla n.º 4 do mundo em 2021.", tag: "3 Títulos · #4 Mundial 2021" },
+        { info: "Meias-finais do P2 Premier Padel em Milão 2022.", tag: "MF P2 Milão 2022" },
+        { info: "Meias-finais do P2 Premier Padel em Milão 2022.", tag: "MF P2 Milão 2022" },
+        { info: "Título FIP Platinum na Cidade do México.", tag: "Título FIP Platinum CDMX" },
+      ],
+      sharedTags: [
+        "Top Mundial",
+        "Top Mundial",
+        "Circuito Pro",
+        "Circuito Pro",
+        "Circuito Pro",
+        "Circuito Pro",
+        "Circuito Pro",
+        "Circuito Pro",
+        "Circuito Pro",
+        "Circuito Pro",
+      ],
     },
 
     philosophy: {

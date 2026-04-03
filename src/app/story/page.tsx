@@ -43,46 +43,44 @@ function useParallax() {
 
 /* ───────── DATA ───────── */
 
-/* ── Player data: tiered by achievement ── */
-const playersHero = [
-  { first: "Álex", last: "Ruiz", info: "Formado desde joven en Ocean Padel. Alcanzó el top 4 mundial.", tag: "Top 4 Mundial" },
-  { first: "Momo", last: "González", info: "Cantera Ocean Padel / J3. 100 % malagueño. Top 5 mundial.", tag: "Top 5 Mundial" },
-  { first: "Jordi", last: "Muñoz", info: "Top 8 mundial en el PPT. Cofundador de J3Padel.", tag: "Cofundador J3 · Top 8 PPT" },
+/* ── Player names (proper nouns — not translated) ── */
+const playerHeroNames = [
+  { first: "Álex", last: "Ruiz" },
+  { first: "Momo", last: "González" },
+  { first: "Jordi", last: "Muñoz" },
 ];
 
-const playersNextGen = [
-  { first: "Guille", last: "Collado", tag: "Campeón de España y del Mundo" },
-  { first: "Bea", last: "González", tag: "Campeona de España y del Mundo" },
-  { first: "Raquel", last: "Segura", tag: "Campeona de España · Circuito Pro" },
-  { first: "Ernesto", last: "Moreno", tag: "Campeón de España · Circuito Pro" },
-  { first: "Marcos", last: "González", tag: "Campeón de España y del Mundo Junior" },
+const playerNextGenNames = [
+  { first: "Guille", last: "Collado" },
+  { first: "Bea", last: "González" },
+  { first: "Raquel", last: "Segura" },
+  { first: "Ernesto", last: "Moreno" },
+  { first: "Marcos", last: "González" },
 ];
 
-const playersNextGenPro = [
-  { first: "Martina", last: "Fassio", tag: "Next Gen → Top 30" },
-  { first: "José", last: "Jiménez Casas", tag: "Next Gen → Top 30" },
+const playerNextGenProNames = [
+  { first: "Martina", last: "Fassio" },
+  { first: "José", last: "Jiménez Casas" },
 ];
 
-/* Featured pro collaborations — notable results together */
-const playersFeatured = [
-  { first: "Franco", last: "Stupaczuk", info: "5 finales y pareja n.º 4 del mundo en 2021.", tag: "3 Títulos · #4 Mundial 2021" },
-  { first: "Fede", last: "Chingotto", info: "Semifinales del P2 Premier Padel en Milán 2022.", tag: "SF P2 Milán 2022" },
-  { first: "Javi", last: "Garrido", info: "Semifinales del P2 Premier Padel en Milán 2022.", tag: "SF P2 Milán 2022" },
-  { first: "Álex", last: "Arroyo", info: "Título FIP Platinum en Ciudad de México.", tag: "Título FIP Platinum CDMX" },
+const playerFeaturedNames = [
+  { first: "Franco", last: "Stupaczuk" },
+  { first: "Fede", last: "Chingotto" },
+  { first: "Javi", last: "Garrido" },
+  { first: "Álex", last: "Arroyo" },
 ];
 
-/* Rest of shared circuit players */
-const playersShared = [
-  { first: "Paquito", last: "Navarro", tag: "Top Mundial" },
-  { first: "Maxi", last: "Sánchez", tag: "Top Mundial" },
-  { first: "Fede", last: "Quiles", tag: "Circuito Pro" },
-  { first: "Raquel", last: "Eugenio", tag: "Circuito Pro" },
-  { first: "Álex", last: "Chozas", tag: "Circuito Pro" },
-  { first: "Pincho", last: "Fernández", tag: "Circuito Pro" },
-  { first: "Miguel Á.", last: "Benítez", tag: "Circuito Pro" },
-  { first: "Martín", last: "Andornino", tag: "Circuito Pro" },
-  { first: "Fran", last: "Jurado", tag: "Circuito Pro" },
-  { first: "Pol", last: "Hernández", tag: "Circuito Pro" },
+const playerSharedNames = [
+  { first: "Paquito", last: "Navarro" },
+  { first: "Maxi", last: "Sánchez" },
+  { first: "Fede", last: "Quiles" },
+  { first: "Raquel", last: "Eugenio" },
+  { first: "Álex", last: "Chozas" },
+  { first: "Pincho", last: "Fernández" },
+  { first: "Miguel Á.", last: "Benítez" },
+  { first: "Martín", last: "Andornino" },
+  { first: "Fran", last: "Jurado" },
+  { first: "Pol", last: "Hernández" },
 ];
 
 const brandsPast = ["Wilson", "Babolat", "Adidas", "Varlion"];
@@ -867,6 +865,30 @@ function StoryImpact() {
 
 export default function StoryPage() {
   const { t } = useI18n();
+
+  /* ── Build i18n-aware player arrays ── */
+  const playersHero = playerHeroNames.map((n, i) => ({
+    ...n,
+    info: t.story.players.heroPlayers[i].info,
+    tag: t.story.players.heroPlayers[i].tag,
+  }));
+  const playersNextGen = playerNextGenNames.map((n, i) => ({
+    ...n,
+    tag: t.story.players.nextGenTags[i],
+  }));
+  const playersNextGenPro = playerNextGenProNames.map((n, i) => ({
+    ...n,
+    tag: t.story.players.nextGenProTags[i],
+  }));
+  const playersFeatured = playerFeaturedNames.map((n, i) => ({
+    ...n,
+    info: t.story.players.featuredPlayers[i].info,
+    tag: t.story.players.featuredPlayers[i].tag,
+  }));
+  const playersShared = playerSharedNames.map((n, i) => ({
+    ...n,
+    tag: t.story.players.sharedTags[i],
+  }));
 
   /* Hero parallax */
   const heroRef = useRef<HTMLDivElement>(null);

@@ -339,6 +339,40 @@ export const es = {
       nextGenProLabel: "Llegaron como promesa \u00B7 Consolidados en el circuito",
       featuredLabel: "Colaboraciones profesionales destacadas",
       sharedLabel: "Tambi\u00E9n han compartido equipo con J3",
+      heroPlayers: [
+        { info: "Formado desde joven en Ocean Padel. Alcanz\u00F3 el top 4 mundial.", tag: "Top 4 Mundial" },
+        { info: "Cantera Ocean Padel / J3. 100 % malague\u00F1o. Top 5 mundial.", tag: "Top 5 Mundial" },
+        { info: "Top 8 mundial en el PPT. Cofundador de J3Padel.", tag: "Cofundador J3 \u00B7 Top 8 PPT" },
+      ],
+      nextGenTags: [
+        "Campe\u00F3n de Espa\u00F1a y del Mundo",
+        "Campeona de Espa\u00F1a y del Mundo",
+        "Campeona de Espa\u00F1a \u00B7 Circuito Pro",
+        "Campe\u00F3n de Espa\u00F1a \u00B7 Circuito Pro",
+        "Campe\u00F3n de Espa\u00F1a y del Mundo Junior",
+      ],
+      nextGenProTags: [
+        "Next Gen \u2192 Top 30",
+        "Next Gen \u2192 Top 30",
+      ],
+      featuredPlayers: [
+        { info: "5 finales y pareja n.\u00BA 4 del mundo en 2021.", tag: "3 T\u00EDtulos \u00B7 #4 Mundial 2021" },
+        { info: "Semifinales del P2 Premier Padel en Mil\u00E1n 2022.", tag: "SF P2 Mil\u00E1n 2022" },
+        { info: "Semifinales del P2 Premier Padel en Mil\u00E1n 2022.", tag: "SF P2 Mil\u00E1n 2022" },
+        { info: "T\u00EDtulo FIP Platinum en Ciudad de M\u00E9xico.", tag: "T\u00EDtulo FIP Platinum CDMX" },
+      ],
+      sharedTags: [
+        "Top Mundial",
+        "Top Mundial",
+        "Circuito Pro",
+        "Circuito Pro",
+        "Circuito Pro",
+        "Circuito Pro",
+        "Circuito Pro",
+        "Circuito Pro",
+        "Circuito Pro",
+        "Circuito Pro",
+      ],
     },
 
     philosophy: {

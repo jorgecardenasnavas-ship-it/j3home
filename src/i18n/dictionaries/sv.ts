@@ -339,6 +339,40 @@ export const sv = {
       nextGenProLabel: "Kom som löften \u00B7 Etablerade på touren",
       featuredLabel: "Framstående professionella samarbeten",
       sharedLabel: "Har också delat team med J3",
+      heroPlayers: [
+        { info: "Utbildad från ung ålder på Ocean Padel. Nådde världens topp 4.", tag: "Världens topp 4" },
+        { info: "Ungdomsakademin Ocean Padel / J3. 100 % från Málaga. Världens topp 5.", tag: "Världens topp 5" },
+        { info: "Världens topp 8 på PPT. Medgrundare av J3Padel.", tag: "Medgrundare J3 · PPT topp 8" },
+      ],
+      nextGenTags: [
+        "Mästare i Spanien och världen",
+        "Mästarinna i Spanien och världen",
+        "Mästarinna i Spanien · Proffstouren",
+        "Mästare i Spanien · Proffstouren",
+        "Mästare i Spanien och världen Junior",
+      ],
+      nextGenProTags: [
+        "Next Gen → Topp 30",
+        "Next Gen → Topp 30",
+      ],
+      featuredPlayers: [
+        { info: "5 finaler och världens par nr 4 år 2021.", tag: "3 titlar · #4 i världen 2021" },
+        { info: "Semifinal i P2 Premier Padel i Milano 2022.", tag: "SF P2 Milano 2022" },
+        { info: "Semifinal i P2 Premier Padel i Milano 2022.", tag: "SF P2 Milano 2022" },
+        { info: "FIP Platinum-titel i Mexico City.", tag: "FIP Platinum-titel CDMX" },
+      ],
+      sharedTags: [
+        "Världstopp",
+        "Världstopp",
+        "Proffstouren",
+        "Proffstouren",
+        "Proffstouren",
+        "Proffstouren",
+        "Proffstouren",
+        "Proffstouren",
+        "Proffstouren",
+        "Proffstouren",
+      ],
     },
 
     philosophy: {

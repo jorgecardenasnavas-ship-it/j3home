@@ -339,6 +339,40 @@ export const en = {
       nextGenProLabel: "Arrived as prospects \u00B7 Established on the circuit",
       featuredLabel: "Notable professional collaborations",
       sharedLabel: "Have also been part of the J3 team",
+      heroPlayers: [
+        { info: "Trained from a young age at Ocean Padel. Reached world #4.", tag: "World Top 4" },
+        { info: "Ocean Padel / J3 youth academy. 100% from M\u00E1laga. World top 5.", tag: "World Top 5" },
+        { info: "World top 8 on the PPT. Co-founder of J3Padel.", tag: "J3 Co-founder \u00B7 PPT Top 8" },
+      ],
+      nextGenTags: [
+        "Champion of Spain and the World",
+        "Champion of Spain and the World",
+        "Champion of Spain \u00B7 Pro Circuit",
+        "Champion of Spain \u00B7 Pro Circuit",
+        "Champion of Spain and the World Junior",
+      ],
+      nextGenProTags: [
+        "Next Gen \u2192 Top 30",
+        "Next Gen \u2192 Top 30",
+      ],
+      featuredPlayers: [
+        { info: "5 finals and world #4 pair in 2021.", tag: "3 Titles \u00B7 #4 World 2021" },
+        { info: "P2 Premier Padel semi-finals in Milan 2022.", tag: "SF P2 Milan 2022" },
+        { info: "P2 Premier Padel semi-finals in Milan 2022.", tag: "SF P2 Milan 2022" },
+        { info: "FIP Platinum title in Mexico City.", tag: "FIP Platinum Title CDMX" },
+      ],
+      sharedTags: [
+        "World Top",
+        "World Top",
+        "Pro Circuit",
+        "Pro Circuit",
+        "Pro Circuit",
+        "Pro Circuit",
+        "Pro Circuit",
+        "Pro Circuit",
+        "Pro Circuit",
+        "Pro Circuit",
+      ],
     },
 
     philosophy: {

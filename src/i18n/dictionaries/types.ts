@@ -165,6 +165,11 @@ export interface Dictionary {
       nextGenProLabel: string;
       featuredLabel: string;
       sharedLabel: string;
+      heroPlayers: readonly { info: string; tag: string }[];
+      nextGenTags: readonly string[];
+      nextGenProTags: readonly string[];
+      featuredPlayers: readonly { info: string; tag: string }[];
+      sharedTags: readonly string[];
     };
 
     philosophy: {

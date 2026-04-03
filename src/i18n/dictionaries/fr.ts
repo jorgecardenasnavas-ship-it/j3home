@@ -339,6 +339,40 @@ export const fr = {
       nextGenProLabel: "Arriv\u00E9s comme espoirs \u00B7 Confirm\u00E9s sur le circuit",
       featuredLabel: "Collaborations professionnelles remarquables",
       sharedLabel: "Ont \u00E9galement partag\u00E9 l\u2019\u00E9quipe J3",
+      heroPlayers: [
+        { info: "Form\u00E9 d\u00E8s son plus jeune \u00E2ge \u00E0 Ocean Padel. A atteint le top 4 mondial.", tag: "Top 4 Mondial" },
+        { info: "Centre de formation Ocean Padel / J3. 100 % de M\u00E1laga. Top 5 mondial.", tag: "Top 5 Mondial" },
+        { info: "Top 8 mondial au PPT. Cofondateur de J3Padel.", tag: "Cofondateur J3 \u00B7 Top 8 PPT" },
+      ],
+      nextGenTags: [
+        "Champion d\u2019Espagne et du Monde",
+        "Championne d\u2019Espagne et du Monde",
+        "Championne d\u2019Espagne \u00B7 Circuit Pro",
+        "Champion d\u2019Espagne \u00B7 Circuit Pro",
+        "Champion d\u2019Espagne et du Monde Junior",
+      ],
+      nextGenProTags: [
+        "Next Gen \u2192 Top 30",
+        "Next Gen \u2192 Top 30",
+      ],
+      featuredPlayers: [
+        { info: "5 finales et paire n\u00B0 4 mondiale en 2021.", tag: "3 Titres \u00B7 #4 Mondial 2021" },
+        { info: "Demi-finales du P2 Premier Padel \u00E0 Milan 2022.", tag: "DF P2 Milan 2022" },
+        { info: "Demi-finales du P2 Premier Padel \u00E0 Milan 2022.", tag: "DF P2 Milan 2022" },
+        { info: "Titre FIP Platinum \u00E0 Mexico.", tag: "Titre FIP Platinum CDMX" },
+      ],
+      sharedTags: [
+        "Top Mondial",
+        "Top Mondial",
+        "Circuit Pro",
+        "Circuit Pro",
+        "Circuit Pro",
+        "Circuit Pro",
+        "Circuit Pro",
+        "Circuit Pro",
+        "Circuit Pro",
+        "Circuit Pro",
+      ],
     },
 
     philosophy: {
