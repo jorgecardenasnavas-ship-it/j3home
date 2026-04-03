@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
+import { useSyncExternalStore, useCallback, type ReactNode } from "react";
 import type { Dictionary } from "./dictionaries/types";
 import { es } from "./dictionaries/es";
 import { en } from "./dictionaries/en";
@@ -12,35 +12,53 @@ export type Locale = "es" | "en" | "fr" | "sv" | "pt";
 
 const dictionaries: Record<Locale, Dictionary> = { es, en, fr, sv, pt };
 
-interface I18nContextType {
-  locale: Locale;
-  setLocale: (locale: Locale) => void;
-  t: Dictionary;
+/* ── Global store (singleton, no React Context needed) ── */
+
+type Listener = () => void;
+
+let currentLocale: Locale = "es";
+const listeners = new Set<Listener>();
+
+function emitChange() {
+  listeners.forEach((fn) => fn());
 }
 
-const I18nContext = createContext<I18nContextType>({
-  locale: "es",
-  setLocale: () => {},
-  t: es,
-});
-
-export function I18nProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>("es");
-
-  const setLocale = useCallback((l: Locale) => {
-    setLocaleState(l);
-    if (typeof window !== "undefined") {
-      document.documentElement.lang = l;
-    }
-  }, []);
-
-  return (
-    <I18nContext.Provider value={{ locale, setLocale, t: dictionaries[locale] }}>
-      {children}
-    </I18nContext.Provider>
-  );
+function subscribe(listener: Listener) {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
 }
+
+function getSnapshot(): Locale {
+  return currentLocale;
+}
+
+function getServerSnapshot(): Locale {
+  return "es";
+}
+
+export function setGlobalLocale(l: Locale) {
+  if (l === currentLocale) return;
+  currentLocale = l;
+  if (typeof window !== "undefined") {
+    document.documentElement.lang = l;
+  }
+  emitChange();
+}
+
+/* ── Hook ── */
 
 export function useI18n() {
-  return useContext(I18nContext);
+  const locale = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+
+  const setLocale = useCallback((l: Locale) => {
+    setGlobalLocale(l);
+  }, []);
+
+  return { locale, setLocale, t: dictionaries[locale] };
+}
+
+/* ── Provider (thin wrapper — just renders children) ── */
+
+export function I18nProvider({ children }: { children: ReactNode }) {
+  return <>{children}</>;
 }
