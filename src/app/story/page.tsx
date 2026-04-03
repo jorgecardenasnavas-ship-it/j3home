@@ -730,7 +730,7 @@ function StoryImpact() {
   const canteraDelays = [0.25, 0.30, 0.35, 0.40, 0.40];
 
   return (
-    <div ref={containerRef} className="relative bg-[var(--bk)] -mt-[12vh]" style={{ height: "200vh" }}>
+    <div ref={containerRef} className="relative bg-[var(--bk)] -mt-[12vh]" style={{ height: "250vh" }}>
       <div className="sticky top-0 h-screen flex items-center justify-center">
         {/* Subtle radial glow */}
         <div
@@ -738,7 +738,7 @@ function StoryImpact() {
           style={{ background: `radial-gradient(ellipse 70% 50% at 50% 50%, rgba(220,175,100,${0.04 * p3}) 0%, transparent 70%)` }}
         />
 
-        <div className="w-full max-w-[1100px] px-12 max-[960px]:px-6 text-center">
+        <div className="w-full max-w-[1100px] px-12 max-[960px]:px-5 text-center">
           {/* Line 1 */}
           <span
             className="block font-bold text-[clamp(32px,4.5vw,58px)] max-[960px]:text-[clamp(26px,7vw,52px)] uppercase tracking-[-2px] leading-[1.05] text-[var(--wh)]"
@@ -781,7 +781,7 @@ function StoryImpact() {
               return (
                 <span
                   key={i}
-                  className={`block py-[4px] text-[clamp(13px,1.5vw,17px)] tracking-[0.3px] leading-[1.5] ${
+                  className={`block py-[4px] text-[clamp(15px,1.5vw,17px)] max-[960px]:text-[16px] tracking-[0.3px] leading-[1.5] ${
                     line.accent ? "font-medium text-[var(--g1)]" : "font-light text-[var(--gy2)]"
                   }`}
                   style={{
@@ -799,7 +799,7 @@ function StoryImpact() {
               const closeP = Math.max(0, Math.min(1, (p3 - 0.12) / 0.4));
               return (
                 <span
-                  className="block mt-3 font-bold text-[clamp(16px,2vw,22px)] text-[var(--wh)] italic tracking-[-0.3px]"
+                  className="block mt-3 font-bold text-[clamp(18px,2vw,22px)] max-[960px]:text-[20px] text-[var(--wh)] italic tracking-[-0.3px]"
                   style={{
                     opacity: closeP,
                     transform: `translateY(${(1 - closeP) * 18}px) scale(${0.97 + closeP * 0.03})`,
@@ -816,9 +816,9 @@ function StoryImpact() {
           {(() => {
             const sepP = Math.max(0, Math.min(1, (p3 - 0.2) / 0.3));
             return (
-              <div className="flex items-center justify-center gap-3 mt-8" style={{ opacity: sepP * 0.5 }}>
+              <div className="flex items-center justify-center gap-3 mt-8 max-[960px]:mt-6" style={{ opacity: sepP * 0.5 }}>
                 <span className="h-px bg-gradient-to-r from-transparent to-[var(--g1)]" style={{ width: `${sepP * 40}px` }} />
-                <span className="text-[8px] font-bold tracking-[4px] uppercase text-[var(--g1)]">{t.story.impact.proudLabel}</span>
+                <span className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[4px] uppercase text-[var(--g1)]">{t.story.impact.proudLabel}</span>
                 <span className="h-px bg-gradient-to-l from-transparent to-[var(--g1)]" style={{ width: `${sepP * 40}px` }} />
               </div>
             );
@@ -831,9 +831,9 @@ function StoryImpact() {
               return (
                 <span
                   key={i}
-                  className="block py-[3px] text-[clamp(12px,1.3vw,15px)] font-light text-[var(--gy)] tracking-[0.3px] leading-[1.55]"
+                  className="block py-[3px] text-[clamp(14px,1.3vw,15px)] max-[960px]:text-[15px] font-light text-[var(--gy)] tracking-[0.3px] leading-[1.55] max-[960px]:leading-[1.65]"
                   style={{
-                    opacity: lineP * 0.8,
+                    opacity: lineP * 0.9,
                     transform: `translateY(${(1 - lineP) * 12}px)`,
                     filter: `blur(${(1 - lineP) * 3}px)`,
                   }}
@@ -850,7 +850,7 @@ function StoryImpact() {
             style={{ opacity: Math.max(0, (p4 - 0.3) / 0.7) }}
           >
             <span className="w-8 h-px bg-[var(--g1)]" style={{ opacity: 0.2 }} />
-            <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--gy)]">
+            <span className="text-[11px] max-[960px]:text-[12px] font-normal tracking-[5px] uppercase text-[var(--gy)]">
               {t.story.impact.historyLabel}
             </span>
             <span className="w-8 h-px bg-[var(--g1)]" style={{ opacity: 0.2 }} />
