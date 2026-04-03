@@ -1,32 +1,32 @@
 "use client";
 
-import { useSyncExternalStore, useCallback, useState, useEffect, type ReactNode } from "react";
+import { useSyncExternalStore, useCallback, type ReactNode } from "react";
 import type { Dictionary } from "./dictionaries/types";
 import { es } from "./dictionaries/es";
+import { en } from "./dictionaries/en";
+import { fr } from "./dictionaries/fr";
+import { sv } from "./dictionaries/sv";
+import { pt } from "./dictionaries/pt";
 
 export type Locale = "es" | "en" | "fr" | "sv" | "pt";
 
-/* ── Dictionary cache (es is always available, others loaded on demand) ── */
-
-const loaded: Record<string, Dictionary> = { es };
-
-async function loadDict(locale: Locale): Promise<Dictionary> {
-  if (loaded[locale]) return loaded[locale];
+/* ── Force all dictionaries into the bundle ── */
+/* The switch ensures each import is reachable at runtime */
+function getDict(locale: Locale): Dictionary {
   switch (locale) {
-    case "en": { const m = await import("./dictionaries/en"); loaded.en = m.en; return m.en; }
-    case "fr": { const m = await import("./dictionaries/fr"); loaded.fr = m.fr; return m.fr; }
-    case "sv": { const m = await import("./dictionaries/sv"); loaded.sv = m.sv; return m.sv; }
-    case "pt": { const m = await import("./dictionaries/pt"); loaded.pt = m.pt; return m.pt; }
-    default: return es;
+    case "es": return es;
+    case "en": return en;
+    case "fr": return fr;
+    case "sv": return sv;
+    case "pt": return pt;
   }
 }
 
-/* ── Global store (singleton, no React Context needed) ── */
+/* ── Global store (singleton) ── */
 
 type Listener = () => void;
 
 let currentLocale: Locale = "es";
-let currentDict: Dictionary = es;
 const listeners = new Set<Listener>();
 
 function emitChange() {
@@ -50,7 +50,6 @@ function getServerSnapshot(): Locale {
 
 export function useI18n() {
   const locale = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
-  const [dict, setDict] = useState<Dictionary>(currentDict);
 
   const setLocale = useCallback((l: Locale) => {
     if (l === currentLocale) return;
@@ -58,27 +57,13 @@ export function useI18n() {
     if (typeof window !== "undefined") {
       document.documentElement.lang = l;
     }
-    // Load dictionary then update
-    loadDict(l).then((d) => {
-      currentDict = d;
-      emitChange();
-    });
-    emitChange(); // trigger re-render for locale change
+    emitChange();
   }, []);
 
-  // Keep dict in sync with global state
-  useEffect(() => {
-    if (loaded[locale]) {
-      setDict(loaded[locale]);
-    } else {
-      loadDict(locale).then((d) => setDict(d));
-    }
-  }, [locale]);
-
-  return { locale, setLocale, t: dict };
+  return { locale, setLocale, t: getDict(locale) };
 }
 
-/* ── Provider (thin wrapper — just renders children) ── */
+/* ── Provider (passthrough — kept for layout.tsx compatibility) ── */
 
 export function I18nProvider({ children }: { children: ReactNode }) {
   return <>{children}</>;
