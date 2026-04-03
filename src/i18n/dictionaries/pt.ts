@@ -4,7 +4,7 @@ export const pt = {
   /* ── Shared components ── */
 
   nav: {
-    soluciones: "Soluções",
+    soluciones: "Premium",
     acceder: "Entrar",
     inicio: "Início",
   },

@@ -4,7 +4,7 @@ export const es = {
   /* ── Shared components ── */
 
   nav: {
-    soluciones: "Soluciones",
+    soluciones: "Premium",
     acceder: "Acceder",
     inicio: "Inicio",
   },

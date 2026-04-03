@@ -4,7 +4,7 @@ export const fr = {
   /* ── Shared components ── */
 
   nav: {
-    soluciones: "Solutions",
+    soluciones: "Premium",
     acceder: "Se connecter",
     inicio: "Accueil",
   },
