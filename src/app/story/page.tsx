@@ -726,7 +726,7 @@ function StoryImpact() {
   const p4 = Math.max(0, Math.min(1, (progress - 0.75) / 0.25));
 
   const canteraLines = t.story.impact.cantera;
-  const canteraDelays = [0.25, 0.30, 0.35, 0.40, 0.40];
+  const canteraDelays = [0.25, 0.30, 0.35, 0.40];
 
   return (
     <div ref={containerRef} className="relative bg-[var(--bk)] -mt-[12vh]" style={{ height: "200vh" }}>
