@@ -811,28 +811,34 @@ function StoryImpact() {
             })()}
           </div>
 
-          {/* Separator */}
+          {/* Proud label — statement */}
           {(() => {
-            const sepP = Math.max(0, Math.min(1, (p3 - 0.2) / 0.3));
+            const sepP = Math.max(0, Math.min(1, (p3 - 0.18) / 0.35));
             return (
-              <div className="flex items-center justify-center gap-3 mt-8 max-[960px]:mt-6" style={{ opacity: sepP * 0.5 }}>
-                <span className="h-px bg-gradient-to-r from-transparent to-[var(--g1)]" style={{ width: `${sepP * 40}px` }} />
-                <span className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[4px] uppercase text-[var(--g1)]">{t.story.impact.proudLabel}</span>
-                <span className="h-px bg-gradient-to-l from-transparent to-[var(--g1)]" style={{ width: `${sepP * 40}px` }} />
+              <div className="mt-10 max-[960px]:mt-8" style={{ opacity: sepP, transform: `translateY(${(1 - sepP) * 16}px)` }}>
+                <div className="flex justify-center mb-3">
+                  <div className="h-[2px] bg-gradient-to-r from-transparent via-[var(--g1)] to-transparent" style={{ width: `${sepP * 100}%`, maxWidth: "200px", opacity: 0.5 }} />
+                </div>
+                <span className="block text-center font-bold text-[clamp(13px,1.4vw,16px)] max-[960px]:text-[14px] tracking-[3px] max-[960px]:tracking-[2px] uppercase j3-grad-text">{t.story.impact.proudLabel}</span>
               </div>
             );
           })()}
 
-          {/* Block 2 — cantera */}
-          <div className="mt-5 flex flex-col items-center gap-[2px]">
+          {/* Block 2 — cantera (emotional peak) */}
+          <div className="mt-6 flex flex-col items-center gap-[3px]">
             {canteraLines.map((text, i) => {
               const lineP = Math.max(0, Math.min(1, (p3 - canteraDelays[i]) / 0.4));
+              const isLast = i === canteraLines.length - 1;
               return (
                 <span
                   key={i}
-                  className="block py-[3px] text-[clamp(14px,1.3vw,15px)] max-[960px]:text-[15px] font-light text-[var(--gy)] tracking-[0.3px] leading-[1.55] max-[960px]:leading-[1.65]"
+                  className={`block py-[3px] tracking-[0.3px] leading-[1.6] max-[960px]:leading-[1.7] ${
+                    isLast
+                      ? "text-[clamp(14px,1.4vw,16px)] max-[960px]:text-[15px] font-medium text-[var(--gy2)] mt-1"
+                      : "text-[clamp(14px,1.3vw,15px)] max-[960px]:text-[15px] font-light text-[var(--gy)]"
+                  }`}
                   style={{
-                    opacity: lineP * 0.9,
+                    opacity: lineP,
                     transform: `translateY(${(1 - lineP) * 12}px)`,
                     filter: `blur(${(1 - lineP) * 3}px)`,
                   }}
@@ -843,17 +849,19 @@ function StoryImpact() {
             })}
           </div>
 
-          {/* Tagline with decorative lines */}
-          <div
-            className="flex items-center justify-center gap-4 mt-8"
-            style={{ opacity: Math.max(0, (p4 - 0.3) / 0.7) }}
-          >
-            <span className="w-8 h-px bg-[var(--g1)]" style={{ opacity: 0.2 }} />
-            <span className="text-[11px] max-[960px]:text-[12px] font-normal tracking-[5px] uppercase text-[var(--gy)]">
-              {t.story.impact.historyLabel}
-            </span>
-            <span className="w-8 h-px bg-[var(--g1)]" style={{ opacity: 0.2 }} />
-          </div>
+          {/* "Nuestra historia" — bridge to timeline */}
+          {(() => {
+            const hP = Math.max(0, (p4 - 0.2) / 0.8);
+            return (
+              <div className="mt-10 max-[960px]:mt-8 flex flex-col items-center" style={{ opacity: hP, transform: `translateY(${(1 - hP) * 10}px)` }}>
+                <div className="h-[2px] bg-gradient-to-r from-transparent via-[var(--g1)] to-transparent mb-5" style={{ width: `${hP * 100}%`, maxWidth: "280px", opacity: 0.6 }} />
+                <span className="font-bold text-[clamp(14px,1.5vw,18px)] max-[960px]:text-[15px] tracking-[6px] max-[960px]:tracking-[4px] uppercase text-[var(--wh)]/80">
+                  {t.story.impact.historyLabel}
+                </span>
+                <div className="h-[2px] bg-gradient-to-r from-transparent via-[var(--g1)] to-transparent mt-5" style={{ width: `${hP * 100}%`, maxWidth: "280px", opacity: 0.6 }} />
+              </div>
+            );
+          })()}
         </div>
       </div>
     </div>
