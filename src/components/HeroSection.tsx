@@ -148,7 +148,7 @@ export function HeroSection() {
             <span className="text-[14px] font-bold j3-grad-text block mb-[3px]">
               {cred.val}
             </span>
-            <span className="text-[8px] font-light text-[var(--gy)] tracking-[1px] uppercase block">
+            <span className="text-[10px] font-light text-[var(--gy2)] tracking-[0.5px] uppercase block">
               {cred.label}
             </span>
           </div>

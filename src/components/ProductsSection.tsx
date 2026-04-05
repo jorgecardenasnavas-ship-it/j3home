@@ -141,7 +141,7 @@ export function ProductsSection() {
 
           const content = (
             <div>
-              <div className={`text-[10px] font-normal tracking-[3.5px] uppercase mb-4 ${isDark ? "text-[rgba(220,175,100,.55)]" : "text-black/40"}`}>
+              <div className={`text-[10px] max-[960px]:text-[11px] font-normal tracking-[3.5px] max-[960px]:tracking-[2px] uppercase mb-4 ${isDark ? "text-[rgba(220,175,100,.65)]" : "text-black/45"}`}>
                 {tCard.tag}
               </div>
               <div className={`font-bold uppercase tracking-[-1.5px] leading-[.9] ${card.featured ? "text-[clamp(44px,6vw,72px)]" : "text-[clamp(38px,5vw,64px)]"}`}>
@@ -157,12 +157,12 @@ export function ProductsSection() {
                   ),
                 )}
               </div>
-              <div className={`text-[10px] font-light tracking-[2px] uppercase mt-[10px] ${isDark ? "text-white/30" : "text-black/30"}`}>
+              <div className={`text-[10px] max-[960px]:text-[11px] font-light tracking-[2px] max-[960px]:tracking-[1.5px] uppercase mt-[10px] ${isDark ? "text-white/40" : "text-black/35"}`}>
                 {tCard.forLabel}
               </div>
               {tCard.description && (
-                <p className={`text-[13px] font-light leading-[1.6] mt-3 whitespace-nowrap text-center transition-opacity duration-500 ${
-                  card.featured ? "opacity-60 group-hover:opacity-100" : "opacity-0 group-hover:opacity-100"
+                <p className={`text-[13px] max-[960px]:text-[14px] font-light leading-[1.6] mt-3 text-center transition-opacity duration-500 ${
+                  card.featured ? "opacity-60 group-hover:opacity-100 max-[960px]:opacity-80" : "opacity-0 group-hover:opacity-100 max-[960px]:opacity-70"
                 } ${isDark ? "text-[var(--gy2)]" : "text-black/50"}`}>
                   {tCard.description}
                 </p>

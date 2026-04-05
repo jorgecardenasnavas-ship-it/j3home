@@ -50,7 +50,7 @@ export function NosotrosSection() {
           <span className="j3-grad-text">{t.nosotros.heading2}</span>
         </h2>
 
-        <p className="reveal-up text-[15px] font-light text-[var(--gy2)] leading-[1.7] mb-5">
+        <p className="reveal-up text-[15px] max-[960px]:text-[16px] font-light text-[var(--gy2)] leading-[1.7] max-[960px]:leading-[1.75] mb-5">
           {t.nosotros.body}
         </p>
 
@@ -81,7 +81,7 @@ export function NosotrosSection() {
               {[stat.line1, stat.line2].map((line, li) => (
                 <span
                   key={li}
-                  className="text-[10px] font-light text-[var(--gy)] tracking-[1px] uppercase leading-[1.5] block"
+                  className="text-[10px] max-[960px]:text-[11px] font-light text-[var(--gy2)] tracking-[1px] max-[960px]:tracking-[0.5px] uppercase leading-[1.5] block"
                 >
                   {line.replace(" /", "")}
                 </span>

@@ -199,7 +199,7 @@ function StatsSection() {
                   <div className="absolute -inset-8 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(220,175,100,.06) 0%, transparent 70%)" }} />
                 )}
               </div>
-              <span className={`text-[10px] font-light tracking-[2px] uppercase leading-[1.6] whitespace-pre-line block ${
+              <span className={`text-[10px] max-[960px]:text-[11px] font-light tracking-[2px] uppercase leading-[1.6] whitespace-pre-line block ${
                 isHero ? "text-[var(--gy2)]" : "text-[var(--gy2)]"
               }`}>{s.lbl}</span>
             </div>
@@ -233,7 +233,7 @@ function StatsSection() {
               <Counter val={typeof s.val === "number" ? s.val : 0} prefix={s.prefix} suffix={s.suffix} label={s.label}
                 className="font-bold j3-grad-text/70 leading-[1] block mb-2 text-[clamp(28px,3.5vw,46px)]"
               />
-              <span className="text-[10px] font-light text-[var(--gy2)] tracking-[2px] uppercase leading-[1.6] whitespace-pre-line block">{s.lbl}</span>
+              <span className="text-[10px] max-[960px]:text-[11px] font-light text-[var(--gy2)] tracking-[2px] uppercase leading-[1.6] whitespace-pre-line block">{s.lbl}</span>
             </div>
           );
         })}
@@ -346,7 +346,7 @@ function TimelineSection() {
               />
               {/* Show era label next to first dot of each era */}
               {era && isActive && (
-                <span className="text-[8px] font-bold tracking-[2px] uppercase text-[var(--g1)]/70 whitespace-nowrap">{era}</span>
+                <span className="text-[8px] max-[960px]:text-[10px] font-bold tracking-[2px] uppercase text-[var(--g1)]/70 whitespace-nowrap">{era}</span>
               )}
             </div>
           );
@@ -380,8 +380,8 @@ function TimelineSection() {
               {/* Era + year */}
               {activeIndex >= 0 && (
                 <div className="flex items-center justify-between px-4 py-[6px]">
-                  <span className="text-[8px] font-bold tracking-[3px] uppercase text-[var(--g1)]/80">{currentEra}</span>
-                  <span className="text-[10px] font-bold tracking-[2px] text-[var(--wh)]/70">{currentYear}</span>
+                  <span className="text-[8px] max-[960px]:text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)]/80">{currentEra}</span>
+                  <span className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[2px] text-[var(--wh)]/70">{currentYear}</span>
                 </div>
               )}
             </div>
@@ -399,7 +399,7 @@ function TimelineSection() {
           transition: "all .8s cubic-bezier(.16,1,.3,1)",
         }}
       >
-        <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] mb-3 block max-[640px]:text-[9px] max-[640px]:tracking-[3px]">{t.story.timeline.sectionLabel}</span>
+        <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] mb-3 block max-[960px]:text-[12px] max-[960px]:tracking-[3px] max-[640px]:text-[9px] max-[640px]:tracking-[3px]">{t.story.timeline.sectionLabel}</span>
         <h2 className="font-bold text-[clamp(28px,4vw,52px)] uppercase tracking-[-1px] leading-[1]">
           {t.story.timeline.heading1} <span className="j3-grad-text">{t.story.timeline.heading2}</span>
         </h2>
@@ -420,7 +420,7 @@ function TimelineSection() {
                 <div className="relative pl-12 pb-5 pt-6 max-[640px]:pl-5">
                   <div className="flex items-center gap-3 max-[640px]:gap-2">
                     <span className="h-px w-6 bg-[var(--g1)]/25 max-[640px]:w-4" />
-                    <span className="text-[9px] font-bold tracking-[4px] uppercase text-[var(--g1)]/70 max-[640px]:text-[8px] max-[640px]:tracking-[2.5px]">{era}</span>
+                    <span className="text-[9px] font-bold tracking-[4px] uppercase text-[var(--g1)]/70 max-[960px]:text-[10px] max-[640px]:text-[8px] max-[640px]:tracking-[2.5px]">{era}</span>
                     <span className="h-px flex-1 bg-[var(--g1)]/10" />
                   </div>
                 </div>
@@ -520,7 +520,7 @@ function NextGenRow({ p, index }: { p: { first: string; last: string; tag: strin
           <span className="j3-grad-text">{p.first}</span> <span className="text-[var(--wh)]/80">{p.last}</span>
         </h4>
       </div>
-      <span className="text-[8px] font-bold tracking-[2px] uppercase text-[var(--gy)] whitespace-nowrap ml-4 group-hover/ng:text-[var(--g1)]/80 transition-colors">
+      <span className="text-[8px] max-[960px]:text-[10px] font-bold tracking-[2px] max-[960px]:tracking-[1px] uppercase text-[var(--gy)] whitespace-nowrap ml-4 group-hover/ng:text-[var(--g1)]/80 transition-colors">
         {p.tag}
       </span>
     </div>
@@ -544,7 +544,7 @@ function FeaturedCollab({ p, index }: { p: { first: string; last: string; info: 
         <span className="j3-grad-text">{p.first}</span> <span className="text-[var(--wh)]/80">{p.last}</span>
       </h4>
       <p className="text-[11px] font-light text-[var(--gy2)] leading-[1.6] mb-3">{p.info}</p>
-      <span className="text-[8px] font-bold tracking-[2px] uppercase text-[var(--g1)]/70">{p.tag}</span>
+      <span className="text-[8px] max-[960px]:text-[10px] font-bold tracking-[2px] uppercase text-[var(--g1)]/70">{p.tag}</span>
     </div>
   );
 }
@@ -565,7 +565,7 @@ function SharedPlayerTag({ p, index }: { p: { first: string; last: string; tag: 
       <span className="font-bold text-[14px] max-[640px]:text-[12px] uppercase tracking-[-0.3px] text-[var(--wh)]/70 group-hover/sh:text-[var(--wh)]/80 transition-colors">
         {p.first} {p.last}
       </span>
-      <span className="text-[8px] font-bold tracking-[1.5px] uppercase text-[var(--gy)]/70">{p.tag}</span>
+      <span className="text-[8px] max-[960px]:text-[10px] font-bold tracking-[1.5px] uppercase text-[var(--gy)]/70">{p.tag}</span>
     </span>
   );
 }
@@ -706,9 +706,8 @@ function StoryImpact() {
       const rect = container!.getBoundingClientRect();
       const windowH = window.innerHeight;
       const totalH = container!.scrollHeight;
-      // scrolled = how far into the section we are (0 when top hits viewport bottom)
-      const scrolled = -rect.top;
-      // animRange = total scrollable distance within sticky section
+      // Start earlier so less black dead space on mobile
+      const scrolled = -rect.top + windowH * 0.15;
       const animRange = totalH - windowH;
       setProgress(Math.max(0, Math.min(1, scrolled / animRange)));
     }
@@ -730,7 +729,7 @@ function StoryImpact() {
   const canteraDelays = [0.25, 0.30, 0.35, 0.40, 0.40];
 
   return (
-    <div ref={containerRef} className="relative bg-[var(--bk)] -mt-[12vh]" style={{ height: "250vh" }}>
+    <div ref={containerRef} className="relative bg-[var(--bk)] -mt-[12vh]" style={{ height: "200vh" }}>
       <div className="sticky top-0 h-screen flex items-center justify-center">
         {/* Subtle radial glow */}
         <div
@@ -979,7 +978,7 @@ export default function StoryPage() {
             transition: "all .8s cubic-bezier(.16,1,.3,1)",
           }}
         >
-          <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] mb-3 block">{t.story.team.label}</span>
+          <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] mb-3 block max-[960px]:text-[12px] max-[960px]:tracking-[3px]">{t.story.team.label}</span>
           <h2 className="font-bold text-[clamp(32px,4vw,52px)] uppercase tracking-[-1px] leading-[1]">
             {t.story.team.heading1}<br /><span className="j3-grad-text">{t.story.team.heading2}</span>
           </h2>
@@ -1002,7 +1001,7 @@ export default function StoryPage() {
             transition: "all .8s cubic-bezier(.16,1,.3,1)",
           }}
         >
-          <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] mb-3 block">{t.story.players.label}</span>
+          <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] mb-3 block max-[960px]:text-[12px] max-[960px]:tracking-[3px]">{t.story.players.label}</span>
           <h2 className="font-bold text-[clamp(32px,4vw,52px)] uppercase tracking-[-1px] leading-[1]">
             {t.story.players.heading1}<br /><span className="j3-grad-text">{t.story.players.heading2}</span>
           </h2>
@@ -1012,26 +1011,26 @@ export default function StoryPage() {
         </div>
 
         {/* ── Tier 1: Hero players — top mundial ── */}
-        <p className="text-[10px] font-bold tracking-[3px] max-[640px]:tracking-[1.5px] uppercase text-[var(--g1)]/80 mb-5">{t.story.players.heroLabel}</p>
+        <p className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[3px] max-[640px]:tracking-[1.5px] uppercase text-[var(--g1)]/80 mb-5">{t.story.players.heroLabel}</p>
         <div className="grid grid-cols-3 max-[960px]:grid-cols-2 max-[640px]:grid-cols-1 gap-3 mb-14">
           {playersHero.map((p, i) => <HeroPlayerCard key={i} p={p} index={i} />)}
         </div>
 
         {/* ── Tier 2: Next gen — de la cantera al circuito ── */}
-        <p className="text-[10px] font-bold tracking-[3px] max-[640px]:tracking-[1.5px] uppercase text-[var(--gy)] mb-2">{t.story.players.nextGenLabel}</p>
+        <p className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[3px] max-[640px]:tracking-[1.5px] uppercase text-[var(--gy)] mb-2">{t.story.players.nextGenLabel}</p>
         <div className="max-w-[700px] mb-16">
           {playersNextGen.map((p, i) => <NextGenRow key={i} p={p} index={i} />)}
         </div>
 
         {/* ── Tier 2b: Next gen → circuito pro ── */}
-        <p className="text-[10px] font-bold tracking-[3px] max-[640px]:tracking-[1.5px] uppercase text-[var(--gy)] mb-2">{t.story.players.nextGenProLabel}</p>
+        <p className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[3px] max-[640px]:tracking-[1.5px] uppercase text-[var(--gy)] mb-2">{t.story.players.nextGenProLabel}</p>
         <div className="max-w-[700px] mb-16">
           {playersNextGenPro.map((p, i) => <NextGenRow key={i} p={p} index={i} />)}
         </div>
 
         {/* ── Tier 3: Featured pro collaborations ── */}
         <div className="border-t border-white/[.06] pt-10 mb-10">
-          <p className="text-[10px] font-bold tracking-[3px] max-[640px]:tracking-[1.5px] uppercase text-[var(--gy)] mb-5">{t.story.players.featuredLabel}</p>
+          <p className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[3px] max-[640px]:tracking-[1.5px] uppercase text-[var(--gy)] mb-5">{t.story.players.featuredLabel}</p>
           <div className="grid grid-cols-4 max-[960px]:grid-cols-2 max-[640px]:grid-cols-1 gap-3">
             {playersFeatured.map((p, i) => (
               <FeaturedCollab key={i} p={p} index={i} />
@@ -1041,7 +1040,7 @@ export default function StoryPage() {
 
         {/* ── Tier 4: Rest of shared circuit — subtle ── */}
         <div className="border-t border-white/[.06] pt-8">
-          <p className="text-[10px] font-bold tracking-[3px] max-[640px]:tracking-[1.5px] uppercase text-[var(--gy)]/70 mb-5">{t.story.players.sharedLabel}</p>
+          <p className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[3px] max-[640px]:tracking-[1.5px] uppercase text-[var(--gy)]/70 mb-5">{t.story.players.sharedLabel}</p>
           <div className="flex flex-wrap gap-x-6 gap-y-3 max-[640px]:gap-x-4 max-[640px]:gap-y-2">
             {playersShared.map((p, i) => <SharedPlayerTag key={i} p={p} index={i} />)}
           </div>
@@ -1061,7 +1060,7 @@ export default function StoryPage() {
               transition: "opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1)",
             }}
           >
-            <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] mb-3 block">{t.story.philosophy.label}</span>
+            <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] mb-3 block max-[960px]:text-[12px] max-[960px]:tracking-[3px]">{t.story.philosophy.label}</span>
             <h2 className="font-bold text-[clamp(40px,6vw,80px)] uppercase tracking-[-2px] leading-[.88] mb-8">
               <span className="j3-grad-text">{t.story.philosophy.word1}</span><br />
               <span className="j3-stroke">{t.story.philosophy.word2}</span><br />
@@ -1089,7 +1088,7 @@ export default function StoryPage() {
             transition: "all .8s cubic-bezier(.16,1,.3,1)",
           }}
         >
-          <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] mb-3 block">{t.story.clubs.label}</span>
+          <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] mb-3 block max-[960px]:text-[12px] max-[960px]:tracking-[3px]">{t.story.clubs.label}</span>
           <h2 className="font-bold text-[clamp(32px,4vw,52px)] uppercase tracking-[-1px] leading-[1]">
             {t.story.clubs.heading1}<br /><span className="j3-grad-text">{t.story.clubs.heading2}</span>
           </h2>
@@ -1099,7 +1098,7 @@ export default function StoryPage() {
         </div>
 
         {/* ── Origins: Ocean Padel + Belife ── */}
-        <p className="text-[10px] font-bold tracking-[3px] uppercase text-[var(--gy)]/80 mb-4">{t.story.clubs.originLabel}</p>
+        <p className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[3px] uppercase text-[var(--gy)]/80 mb-4">{t.story.clubs.originLabel}</p>
         <div className="grid grid-cols-2 max-[640px]:grid-cols-1 gap-3 mb-4">
           {clubOrigin.map((c, i) => <ClubCard key={i} c={c} index={i} />)}
         </div>
@@ -1108,7 +1107,7 @@ export default function StoryPage() {
         <HigueronHero />
 
         {/* ── Present: Finura + Vals ── */}
-        <p className="text-[10px] font-bold tracking-[3px] uppercase text-[var(--gy)]/80 mb-4 mt-12">{t.story.clubs.presentLabel}</p>
+        <p className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[3px] uppercase text-[var(--gy)]/80 mb-4 mt-12">{t.story.clubs.presentLabel}</p>
         <div className="grid grid-cols-2 max-[640px]:grid-cols-1 gap-3">
           {clubPresent.map((c, i) => <ClubCard key={i} c={c} index={i} />)}
         </div>
@@ -1124,13 +1123,13 @@ export default function StoryPage() {
             transition: "all .8s cubic-bezier(.16,1,.3,1)",
           }}
         >
-          <span className="text-[10px] font-normal tracking-[3px] uppercase text-black/60 text-center mb-10 block">{t.story.brands.currentLabel}</span>
+          <span className="text-[10px] max-[960px]:text-[12px] font-normal tracking-[3px] max-[960px]:tracking-[2px] uppercase text-black/60 text-center mb-10 block">{t.story.brands.currentLabel}</span>
           <div className="flex items-center justify-center gap-16 mb-10 flex-wrap">
             <span className="font-bold text-[clamp(18px,2.5vw,32px)] uppercase text-black/60 tracking-[1px]">Technifibre</span>
             <span className="font-bold text-[clamp(18px,2.5vw,32px)] uppercase text-black/60 tracking-[1px]">Lacoste</span>
           </div>
           <div className="w-full h-px bg-black/[.08] my-8" />
-          <p className="text-[10px] font-normal tracking-[3px] uppercase text-black/55 text-center mb-5">{t.story.brands.pastLabel}</p>
+          <p className="text-[10px] max-[960px]:text-[12px] font-normal tracking-[3px] max-[960px]:tracking-[2px] uppercase text-black/55 text-center mb-5">{t.story.brands.pastLabel}</p>
           <div className="flex items-center justify-center gap-8 flex-wrap">
             {brandsPast.map((b, i) => (
               <span key={i}>
@@ -1153,11 +1152,11 @@ export default function StoryPage() {
             transition: "all .9s cubic-bezier(.16,1,.3,1)",
           }}
         >
-          <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--gy)]/70 mb-6 block">{t.story.cta.label}</span>
+          <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--gy)]/70 mb-6 block max-[960px]:text-[12px] max-[960px]:tracking-[3px]">{t.story.cta.label}</span>
           <h2 className="font-bold text-[clamp(32px,4.5vw,56px)] uppercase tracking-[-1.5px] leading-[1.05] mb-6">
             {t.story.cta.heading1}<br /><span className="j3-grad-text">{t.story.cta.heading2}</span>
           </h2>
-          <p className="text-[16px] font-light text-[var(--gy2)] leading-[1.8] mb-10 max-w-[520px] mx-auto">
+          <p className="text-[16px] max-[960px]:text-[16px] max-[960px]:leading-[1.7] font-light text-[var(--gy2)] leading-[1.8] mb-10 max-w-[520px] mx-auto">
             {t.story.cta.body}
           </p>
         </div>

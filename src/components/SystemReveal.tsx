@@ -17,8 +17,8 @@ export function SystemReveal() {
       const windowH = window.innerHeight;
       const totalH = container!.scrollHeight;
 
-      const scrolled = windowH - rect.top - windowH * 0.35;
-      const animRange = totalH * 0.8;
+      const scrolled = windowH - rect.top - windowH * 0.2;
+      const animRange = totalH * 0.75;
       const p = Math.max(0, Math.min(1, scrolled / animRange));
       setProgress(p);
     }
@@ -47,7 +47,7 @@ export function SystemReveal() {
     <div
       ref={containerRef}
       className="relative bg-[var(--bk)]"
-      style={{ height: "220vh" }}
+      style={{ height: "180vh" }}
     >
       <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
         {/* Subtle radial glow */}
@@ -121,7 +121,7 @@ export function SystemReveal() {
                 className="flex flex-col items-center gap-2"
               >
                 <div className="w-[10px] h-[10px] rounded-full border border-[var(--g1)]/50 bg-[var(--g1)]/10" />
-                <span className="text-[9px] font-bold tracking-[2px] uppercase text-[var(--g1)]/70">
+                <span className="text-[9px] max-[960px]:text-[11px] font-bold tracking-[2px] max-[960px]:tracking-[1px] uppercase text-[var(--g1)]/70">
                   {name}
                 </span>
               </div>

@@ -17,10 +17,10 @@ export function ImpactSection() {
       const windowH = window.innerHeight;
       const totalH = container!.scrollHeight;
 
-      // Start animation when section is 35% into the viewport
-      const scrolled = -rect.top + windowH * 0.35;
-      // Animation range: use ~55% of total height — more hold time after tagline
-      const animRange = totalH * 0.55;
+      // Start animation as soon as the section enters viewport
+      const scrolled = -rect.top + windowH * 0.5;
+      // Tighter range for faster reveal
+      const animRange = totalH * 0.5;
       const p = Math.max(0, Math.min(1, scrolled / animRange));
       setProgress(p);
     }
@@ -43,7 +43,7 @@ export function ImpactSection() {
     <div
       ref={containerRef}
       className="relative bg-[var(--bk)]"
-      style={{ height: "250vh" }}
+      style={{ height: "160vh" }}
     >
       <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
         {/* Subtle radial glow */}
@@ -113,7 +113,7 @@ export function ImpactSection() {
 
           {/* Tagline */}
           <p
-            className="text-center text-[11px] font-normal tracking-[5px] uppercase text-[var(--gy)] mt-4"
+            className="text-center text-[11px] max-[960px]:text-[12px] font-normal tracking-[5px] max-[960px]:tracking-[3px] uppercase text-[var(--gy2)] mt-4"
             style={{
               opacity: Math.max(0, (p4 - 0.3) / 0.7),
             }}

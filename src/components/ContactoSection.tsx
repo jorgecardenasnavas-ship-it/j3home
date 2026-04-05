@@ -91,7 +91,7 @@ export function ContactoSection() {
                 {item.icon}
               </div>
               <div>
-                <div className="text-[9px] font-normal tracking-[3px] uppercase text-[var(--gy)] mb-[3px]">
+                <div className="text-[10px] max-[960px]:text-[11px] font-normal tracking-[2.5px] max-[960px]:tracking-[2px] uppercase text-[var(--gy2)] mb-[3px]">
                   {t.contacto[item.key]}
                 </div>
                 <div className="text-[14px] font-light">
