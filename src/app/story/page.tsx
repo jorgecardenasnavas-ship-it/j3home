@@ -824,27 +824,58 @@ function StoryImpact() {
             );
           })()}
 
-          {/* Block 2 — cantera (emotional peak) */}
-          <div className="mt-6 flex flex-col items-center gap-[3px]">
-            {canteraLines.map((text, i) => {
-              const lineP = Math.max(0, Math.min(1, (p3 - canteraDelays[i]) / 0.4));
-              const isLast = i === canteraLines.length - 1;
+          {/* Block 2 — cantera interactive steps */}
+          <div className="mt-8 max-[960px]:mt-6 relative flex flex-col items-start max-w-[460px] mx-auto pl-10 max-[960px]:pl-8">
+            {/* Vertical progress line */}
+            {(() => {
+              const lineProgress = Math.max(0, Math.min(1, (p3 - 0.22) / 0.5));
               return (
-                <span
+                <div className="absolute left-[14px] max-[960px]:left-[10px] top-[6px] bottom-[6px] w-[2px] bg-white/[.06] rounded-full overflow-hidden">
+                  <div
+                    className="w-full bg-gradient-to-b from-[var(--g1)] to-[var(--g2)] rounded-full transition-none"
+                    style={{ height: `${lineProgress * 100}%` }}
+                  />
+                </div>
+              );
+            })()}
+
+            {canteraLines.map((text, i) => {
+              const stepP = Math.max(0, Math.min(1, (p3 - canteraDelays[i]) / 0.35));
+              const isLast = i === canteraLines.length - 1;
+              const stepNum = String(i + 1).padStart(2, "0");
+              return (
+                <div
                   key={i}
-                  className={`block py-[3px] tracking-[0.3px] leading-[1.6] max-[960px]:leading-[1.7] ${
-                    isLast
-                      ? "text-[clamp(14px,1.4vw,16px)] max-[960px]:text-[15px] font-medium text-[var(--gy2)] mt-1"
-                      : "text-[clamp(14px,1.3vw,15px)] max-[960px]:text-[15px] font-light text-[var(--gy)]"
-                  }`}
+                  className={`relative flex items-start gap-4 max-[960px]:gap-3 ${i > 0 ? "mt-5 max-[960px]:mt-4" : ""}`}
                   style={{
-                    opacity: lineP,
-                    transform: `translateY(${(1 - lineP) * 12}px)`,
-                    filter: `blur(${(1 - lineP) * 3}px)`,
+                    opacity: stepP,
+                    transform: `translateX(${(1 - stepP) * 20}px)`,
+                    filter: `blur(${(1 - stepP) * 3}px)`,
                   }}
                 >
-                  {text}
-                </span>
+                  {/* Step dot */}
+                  <div className="absolute -left-10 max-[960px]:-left-8 top-[5px] flex items-center justify-center">
+                    <div
+                      className="w-[10px] h-[10px] rounded-full border transition-all duration-500"
+                      style={{
+                        borderColor: stepP > 0.5 ? "var(--g1)" : "rgba(255,255,255,.12)",
+                        background: stepP > 0.8 ? "rgba(220,175,100,.2)" : "transparent",
+                        boxShadow: stepP > 0.8 ? "0 0 8px rgba(220,175,100,.15)" : "none",
+                      }}
+                    />
+                  </div>
+
+                  {/* Content */}
+                  <div className="flex-1">
+                    <span className={`block text-left leading-[1.6] max-[960px]:leading-[1.65] ${
+                      isLast
+                        ? "text-[clamp(14px,1.4vw,16px)] max-[960px]:text-[15px] font-medium text-[var(--wh)]"
+                        : "text-[clamp(13px,1.3vw,15px)] max-[960px]:text-[15px] font-light text-[var(--gy2)]"
+                    }`}>
+                      {text}
+                    </span>
+                  </div>
+                </div>
               );
             })}
           </div>
