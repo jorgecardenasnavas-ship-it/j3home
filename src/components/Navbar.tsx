@@ -124,11 +124,13 @@ export function Navbar() {
         }`}
       >
         {/* Logo */}
-        <Link
-          href="/"
-          className="font-bold text-[15px] tracking-[4px] j3-grad-text no-underline"
-        >
-          J3P&Aacute;DEL
+        <Link href="/" className="flex items-center no-underline" aria-label="J3Pádel — Inicio">
+          <img
+            src="/images/j3padel-logo.svg"
+            alt="J3Pádel"
+            className="h-[40px] w-auto select-none"
+            draggable={false}
+          />
         </Link>
 
         {/* Desktop Nav Links */}
