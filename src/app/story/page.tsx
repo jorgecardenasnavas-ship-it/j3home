@@ -329,22 +329,21 @@ function AccentManifesto() {
                 A
               </span>
 
-              {/* Macron accent — flat horizontal bar (matches the J3Pádel logo).
-                  CSS-keyframe drives a clean vertical fall + bounce + settle. */}
+              {/* The acute accent — CSS-keyframe fall + bounce + settle */}
               <span
                 aria-hidden
                 className="absolute pointer-events-none"
                 style={{
                   left: "50%",
-                  top: "0.18em",
-                  width: "0.42em",
-                  height: "0.058em",
+                  top: "0.21em",
+                  width: "0.18em",
+                  height: "0.075em",
                   background:
-                    "linear-gradient(90deg, #dcaf64 0%, #eede80 50%, #fff1b4 100%)",
-                  borderRadius: "0.012em",
+                    "linear-gradient(135deg, #dcaf64 0%, #fff1b4 50%, #dcaf64 100%)",
+                  borderRadius: "0.015em",
                   transformOrigin: "center center",
                   // Resting state if not yet triggered
-                  transform: "translate(-50%, -900%)",
+                  transform: "translate(-50%, -700%) rotate(-60deg)",
                   opacity: 0,
                   animation: accentTriggered
                     ? "accentFallBounce 1.7s cubic-bezier(.32,.72,.38,1) 0.15s both"
