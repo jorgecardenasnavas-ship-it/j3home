@@ -49,6 +49,13 @@ export const es = {
       { val: "\uD83E\uDD47\u0031\u0031\u00B7\uD83E\uDD48\u0037", label: "Victorias pro" },
       { val: "\uD83C\uDFC6", label: "Campeones" },
     ],
+    accentTouch: {
+      before: "El mundo perdi\u00F3 la tilde.",
+      accent: "Nosotros la jugamos.",
+      after: "",
+      labelLeft: "P\u00C1DEL \u00B7 CON \u00B7 ACENTO",
+      labelRight: "DESDE 2004 \u2014 M\u00C1LAGA",
+    },
   },
 
   impact: {

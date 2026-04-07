@@ -49,6 +49,13 @@ export const en = {
       { val: "\uD83E\uDD47\u0031\u0031\u00B7\uD83E\uDD48\u0037", label: "Pro wins" },
       { val: "\uD83C\uDFC6", label: "Champions" },
     ],
+    accentTouch: {
+      before: "The world dropped the accent.",
+      accent: "We never let it go.",
+      after: "",
+      labelLeft: "P\u00C1DEL \u00B7 WITH \u00B7 ACCENT",
+      labelRight: "SINCE 2004 \u2014 M\u00C1LAGA",
+    },
   },
 
   impact: {

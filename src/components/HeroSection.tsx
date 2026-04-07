@@ -121,22 +121,30 @@ export function HeroSection() {
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="relative z-[5] px-12 max-[960px]:px-6 pb-14 max-[960px]:pb-11 flex items-end justify-between gap-6 flex-wrap">
-          <div className="hero-actions reveal-up flex gap-3">
-            <a
-              href="#productos"
-              className="btn-glow j3-press text-[12px] font-bold tracking-[2px] uppercase py-[11px] px-[26px] rounded-[980px] no-underline cursor-pointer border-none"
-              style={{ background: "var(--j3-grad)", color: "#000" }}
-            >
-              {t.hero.cta1}
-            </a>
-            <a
-              href="/coach360"
-              className="btn-ghost j3-press text-[12px] font-bold tracking-[2px] uppercase py-[11px] px-[26px] rounded-[980px] no-underline cursor-pointer text-[var(--g1)] border border-[rgba(220,175,100,.3)] bg-transparent hover:bg-[rgba(220,175,100,.07)] hover:border-[rgba(220,175,100,.5)]"
-            >
-              {t.hero.cta2}
-            </a>
+        {/* Bottom bar — "Pádel con acento" brushstroke */}
+        <div className="relative z-[5] px-12 max-[960px]:px-6 pb-14 max-[960px]:pb-11">
+          <div className="hero-actions reveal-up flex items-start gap-5 max-w-[760px]">
+            {/* Vertical gold hairline */}
+            <span className="w-px h-[68px] max-[960px]:h-[60px] mt-1 shrink-0 bg-gradient-to-b from-[var(--g1)] via-[var(--g1)]/40 to-transparent" />
+
+            <div className="leading-[1.35]">
+              <span className="block text-[clamp(15px,1.6vw,21px)] font-light text-[var(--gy3)] tracking-[-0.2px]">
+                {t.hero.accentTouch.before}
+              </span>
+              <span className="block text-[clamp(20px,2.4vw,32px)] font-bold italic tracking-[-0.5px] j3-grad-text mt-[2px]">
+                {t.hero.accentTouch.accent}
+              </span>
+
+              <div className="flex items-center gap-4 mt-4 flex-wrap">
+                <span className="text-[9px] font-bold tracking-[3px] uppercase text-[var(--g1)]/85">
+                  {t.hero.accentTouch.labelLeft}
+                </span>
+                <span className="w-4 h-px bg-[var(--g1)]/25" />
+                <span className="text-[9px] font-bold tracking-[3px] uppercase text-[var(--g1)]/55">
+                  {t.hero.accentTouch.labelRight}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
 

@@ -35,6 +35,13 @@ export interface Dictionary {
     cta1: string;
     cta2: string;
     credsMobile: readonly { val: string; label: string }[];
+    accentTouch: {
+      before: string;
+      accent: string;
+      after: string;
+      labelLeft: string;
+      labelRight: string;
+    };
   };
 
   impact: {
