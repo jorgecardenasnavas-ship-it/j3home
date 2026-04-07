@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef, useEffect, useState, useCallback } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { useI18n } from "@/i18n/context";
 
 
 /* ═══════════════════════════════════════════════════════
@@ -118,6 +119,7 @@ function Counter({ val, prefix, suffix, label }: { val: number; prefix?: string;
    ═══════════════════════════════════════════════════════ */
 
 function HeroSection() {
+  const { t } = useI18n();
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -125,12 +127,7 @@ function HeroSection() {
     return () => clearTimeout(t);
   }, []);
 
-  /* word-by-word data */
-  const titleWords = ["Repeat."];
-  const titleOutline = ["Repeat.", "AND"];
-  const titleWords2 = ["repeat."];
-  const subtitleLine1 = "La mejor academia de p\u00e1del en la Costa del Sol.".split(" ");
-  const subtitleLine2 = "Desde 2004 entrenando jugadores de todos los niveles.".split(" ");
+  const subtitleLine1 = t.academy.hero.subtitleLine1.split(" ");
 
   return (
     <section className="relative h-screen min-h-[600px] flex items-end overflow-hidden bg-black">
@@ -183,7 +180,7 @@ function HeroSection() {
             transition: "all 0.8s cubic-bezier(0.16,1,0.3,1) 0.4s",
           }}
         >
-          M&aacute;laga &middot; Costa del Sol
+          {t.academy.hero.locationLabel}
         </span>
 
         {/* Title */}
@@ -198,7 +195,7 @@ function HeroSection() {
               transition: "all 1.1s cubic-bezier(0.16,1,0.3,1) 0.6s",
             }}
           >
-            Repeat.
+            {t.academy.hero.titleLine1}
           </span>
           {/* Line 2 — REPEAT. stroke */}
           <span
@@ -210,7 +207,7 @@ function HeroSection() {
               transition: "all 1.1s cubic-bezier(0.16,1,0.3,1) 0.75s",
             }}
           >
-            Repeat.
+            {t.academy.hero.titleLine2}
           </span>
           {/* Line 3 — AND white + repeat gold cursive */}
           <span className="block text-[clamp(72px,12vw,168px)]">
@@ -223,7 +220,7 @@ function HeroSection() {
                 transition: "all 1.1s cubic-bezier(0.16,1,0.3,1) 0.9s",
               }}
             >
-              AND
+              {t.academy.hero.titleLine3a}
             </span>
             <span
               className="j3-grad-text inline-block font-[var(--font-serif)] italic normal-case"
@@ -234,7 +231,7 @@ function HeroSection() {
                 transition: "all 1.1s cubic-bezier(0.16,1,0.3,1) 1.05s",
               }}
             >
-              repeat.
+              {" "}{t.academy.hero.titleLine3b}
             </span>
           </span>
         </h1>
@@ -262,7 +259,7 @@ function HeroSection() {
             transition: "opacity 0.8s ease 1.5s",
           }}
         >
-          Desde 2004 entrenando jugadores de todos los niveles.
+          {t.academy.hero.subtitleLine2}
         </p>
       </div>
 
@@ -291,17 +288,17 @@ function HeroSection() {
    ═══════════════════════════════════════════════════════ */
 
 function StatementSection() {
+  const { t } = useI18n();
   const { ref, visible } = useReveal(0.15);
 
-  /* Each line: main text + optional italic serif accent word */
-  const lines: {
-    before: string; accent?: string; after?: string;
-    style: string; accentStyle?: string; align: string;
-  }[] = [
-    { before: "Formamos", accent: "jugadores.", style: "j3-grad-text", accentStyle: "font-[var(--font-serif)] italic normal-case", align: "text-left" },
-    { before: "Desarrollamos", accent: "personas.", style: "j3-stroke", accentStyle: "font-[var(--font-serif)] italic normal-case j3-stroke", align: "text-right" },
-    { before: "Construimos", accent: "carreras.", style: "text-[var(--wh)]", accentStyle: "font-[var(--font-serif)] italic normal-case j3-grad-text", align: "text-left pl-[8%] max-[960px]:pl-0" },
+  /* Visual styles per line — kept in component since they're presentation, not copy */
+  const lineStyles: { style: string; accentStyle?: string; align: string }[] = [
+    { style: "j3-grad-text", accentStyle: "font-[var(--font-serif)] italic normal-case", align: "text-left" },
+    { style: "j3-stroke", accentStyle: "font-[var(--font-serif)] italic normal-case j3-stroke", align: "text-right" },
+    { style: "text-[var(--wh)]", accentStyle: "font-[var(--font-serif)] italic normal-case j3-grad-text", align: "text-left pl-[8%] max-[960px]:pl-0" },
   ];
+
+  const lines = t.academy.statement.lines.map((l, i) => ({ ...l, ...lineStyles[i] }));
 
   const { itemRefs, visibleItems } = useStaggerReveal(lines.length, 0.2);
 
@@ -322,7 +319,7 @@ function StatementSection() {
           }}
         >
           <span className="text-[10px] font-bold tracking-[5px] uppercase text-[var(--g1)]">
-            Nuestra misi&oacute;n
+            {t.academy.statement.eyebrow}
           </span>
         </div>
 
@@ -375,15 +372,9 @@ function StatementSection() {
    ═══════════════════════════════════════════════════════ */
 
 function ProofSection() {
+  const { t } = useI18n();
   const { ref, visible } = useReveal(0.15);
-  const players = [
-    { name: "Guille Collado", info: "Circuito profesional WPT / APT" },
-    { name: "\u00c1lex Ruiz", info: "Circuito profesional" },
-    { name: "Bea Gonz\u00e1lez", info: "Circuito femenino" },
-    { name: "Momo Gonz\u00e1lez", info: "Circuito profesional" },
-    { name: "Martina Fassio", info: "Circuito profesional" },
-    { name: "Jos\u00e9 Jim\u00e9nez", info: "Circuito profesional" },
-  ];
+  const players = t.academy.proof.players;
 
   const { itemRefs, visibleItems } = useStaggerReveal(players.length, 0.2);
 
@@ -401,7 +392,7 @@ function ProofSection() {
         >
           <img
             src="/images/proof-players.jpg"
-            alt="Jugadores J3 Academy en el circuito profesional"
+            alt={t.academy.proof.imageAlt}
             className="w-full h-full object-cover object-[center_20%]"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-black/80 max-[960px]:bg-gradient-to-b max-[960px]:from-transparent max-[960px]:via-transparent max-[960px]:to-black/70" />
@@ -417,14 +408,14 @@ function ProofSection() {
         >
           {/* Eyebrow */}
           <span className="text-[10px] font-bold tracking-[4px] uppercase text-[var(--g1)] block mb-6">
-            Trayectoria &middot; Resultados
+            {t.academy.proof.eyebrow}
           </span>
 
           {/* Quote */}
           <blockquote className="font-[var(--font-serif)] italic text-[clamp(24px,3.5vw,42px)] leading-[1.25] tracking-[-0.5px] mb-10">
-            <span className="text-[var(--wh)]">&ldquo;Nuestros jugadores no solo llegan al circuito. </span>
-            <span className="j3-grad-text inline-block pr-[0.15em] py-[0.1em] -mr-[0.15em]">Destacan</span>
-            <span className="text-[var(--wh)]">.&rdquo;</span>
+            <span className="text-[var(--wh)]">{t.academy.proof.quoteOpen}</span>
+            <span className="j3-grad-text inline-block pr-[0.15em] py-[0.1em] -mr-[0.15em]">{t.academy.proof.quoteAccent}</span>
+            <span className="text-[var(--wh)]">{t.academy.proof.quoteClose}</span>
           </blockquote>
 
           {/* Player names — subtle, secondary */}
@@ -547,22 +538,38 @@ function ProgramCard({
 }
 
 function PerfilesSection() {
+  const { t } = useI18n();
   const { ref, visible } = useReveal(0.1);
 
-  /* Juniors cards */
-  const juniorsCards = [
-    { tag: "Iniciaci\u00f3n", title: "Kinder", sub: "4 \u2013 10 a\u00f1os", featured: false, image: "/images/academy/kinder.jpeg", ctas: [{ label: "Solicitar info", href: waLink("Hola, quiero info sobre Kinder (4-10 a\u00f1os)") }] },
-    { tag: "Tecnificaci\u00f3n", title: "Kids", sub: "10+", featured: false, image: "/images/academy/kids.jpeg", ctas: [{ label: "Solicitar info", href: waLink("Hola, quiero info sobre Kids (10+)") }] },
-    { tag: "Kids to PRO", title: "Next Gen", sub: "14+ \u00b7 Competici\u00f3n", featured: true, image: "/images/academy/nextgen.jpeg", ctas: [{ label: "Solicitar info", href: waLink("Hola, quiero info sobre Next Gen (14+ competici\u00f3n)") }] },
-    { tag: "Alto rendimiento", title: "Next Gen Pro", sub: "16+ \u00b7 Circuito", featured: false, image: "/images/academy/nextgen-pro.jpeg", ctas: [{ label: "Solicitar info", href: waLink("Hola, quiero info sobre Next Gen Pro (16+ circuito)") }] },
+  /* Juniors cards — visual data merged with i18n strings */
+  const juniorsImages = [
+    "/images/academy/kinder.jpeg",
+    "/images/academy/kids.jpeg",
+    "/images/academy/nextgen.jpeg",
+    "/images/academy/nextgen-pro.jpeg",
   ];
+  const juniorsFeatured = [false, false, true, false];
+  const juniorsCards = t.academy.programs.juniorsCards.map((c, i) => ({
+    tag: c.tag,
+    title: c.title,
+    sub: c.sub,
+    featured: juniorsFeatured[i],
+    image: juniorsImages[i],
+    ctas: [{ label: c.ctaLabel, href: waLink(c.waMsg) }],
+  }));
   const { itemRefs: jRefs, visibleItems: jVis } = useStaggerReveal(juniorsCards.length, 0.15);
 
   /* Adultos cards */
-  const adultosCards = [
-    { tag: "Todos los niveles", title: "Amateur", sub: "Iniciaci\u00f3n \u00b7 Intermedio \u00b7 Avanzado \u00b7 Competici\u00f3n", featured: false, image: "/images/academy/amateur.jpeg", ctas: [{ label: "Apuntarme", href: waLink("Hola, quiero info sobre programa Amateur") }] },
-    { tag: "Circuito profesional", title: "Pro", sub: "Entrenamiento de \u00e9lite", featured: true, image: "/images/academy/pro.jpeg", ctas: [{ label: "Solicitar info", href: waLink("Hola, quiero info sobre programa Pro") }] },
-  ];
+  const adultosImages = ["/images/academy/amateur.jpeg", "/images/academy/pro.jpeg"];
+  const adultosFeatured = [false, true];
+  const adultosCards = t.academy.programs.adultosCards.map((c, i) => ({
+    tag: c.tag,
+    title: c.title,
+    sub: c.sub,
+    featured: adultosFeatured[i],
+    image: adultosImages[i],
+    ctas: [{ label: c.ctaLabel, href: waLink(c.waMsg) }],
+  }));
   const { itemRefs: aRefs, visibleItems: aVis } = useStaggerReveal(adultosCards.length, 0.15);
 
   /* Intensive Training — standalone reveal */
@@ -581,11 +588,11 @@ function PerfilesSection() {
         }}
       >
         <span className="text-[10px] font-bold tracking-[4px] uppercase text-[var(--g1)] block mb-4">
-          Academia &middot; Entrenamientos
+          {t.academy.programs.eyebrow}
         </span>
         <h2 className="font-bold text-[clamp(36px,5vw,72px)] uppercase tracking-[-2px] leading-[1]">
-          <span className="text-[var(--wh)]">Encuentra tu </span>
-          <span className="j3-grad-text">programa.</span>
+          <span className="text-[var(--wh)]">{t.academy.programs.headingPre}</span>
+          <span className="j3-grad-text">{t.academy.programs.headingAccent}</span>
         </h2>
       </div>
 
@@ -594,7 +601,7 @@ function PerfilesSection() {
         {/* Block label */}
         <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b border-white/[.06]">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] j3-grad-text tracking-[-1px]">01</span>
-          <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">Juniors</span>
+          <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.juniorsLabel}</span>
         </div>
         {/* Cards grid */}
         <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-10 grid grid-cols-2 max-[960px]:grid-cols-1 gap-5">
@@ -611,7 +618,7 @@ function PerfilesSection() {
         {/* Block label */}
         <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b border-white/[.06]">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] j3-grad-text tracking-[-1px]">02</span>
-          <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">Adultos</span>
+          <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.adultosLabel}</span>
         </div>
         {/* Cards grid */}
         <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-10 grid grid-cols-2 max-[960px]:grid-cols-1 gap-5">
@@ -627,7 +634,7 @@ function PerfilesSection() {
       <div className="bg-[var(--bk)] border-t border-white/[.06]">
         <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b border-white/[.06]">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] j3-grad-text tracking-[-1px]">03</span>
-          <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">Intensive Training</span>
+          <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.intensiveLabel}</span>
         </div>
 
         <div
@@ -643,7 +650,7 @@ function PerfilesSection() {
             {/* Background image */}
             <img
               src="/images/academy/stage-group.jpeg"
-              alt="Grupo de jugadores en stage de pádel"
+              alt={t.academy.programs.intensiveImageAlt}
               className="absolute inset-0 w-full h-full object-cover object-[center_25%]"
               style={{ opacity: 0.45 }}
             />
@@ -655,37 +662,37 @@ function PerfilesSection() {
 
             <div className="relative z-10 text-center">
               <span className="text-[10px] font-bold tracking-[4px] uppercase text-[var(--g1)] block mb-3">
-                Camps &middot; Stages &middot; Programas personalizados
+                {t.academy.programs.intensiveEyebrow}
               </span>
 
               <h3 className="font-bold text-[clamp(32px,5vw,72px)] uppercase tracking-[-2px] leading-[1] mb-3">
-                <span className="text-[var(--wh)]">Ven a entrenar</span>
+                <span className="text-[var(--wh)]">{t.academy.programs.intensiveTitlePre}</span>
                 <br />
-                <span className="j3-grad-text font-[var(--font-serif)] italic normal-case">con nosotros.</span>
+                <span className="j3-grad-text font-[var(--font-serif)] italic normal-case">{t.academy.programs.intensiveTitleAccent}</span>
               </h3>
 
               <p className="text-[clamp(14px,1.5vw,17px)] text-[var(--gy2)] leading-[1.5] font-light mb-6">
-                Dise&ntilde;amos un plan a tu medida.
+                {t.academy.programs.intensiveDesc}
               </p>
 
               <div className="flex flex-wrap gap-3 justify-center">
                 <a
-                  href={waLink("Hola, quiero reservar Intensive Training")}
+                  href={waLink(t.academy.programs.intensiveWaMsgBook)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="j3-press btn-glow inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-[13px] font-semibold tracking-[0.5px] text-black"
                   style={{ background: "var(--j3-grad)" }}
                 >
                   <WaIcon size={13} />
-                  Reservar tu training
+                  {t.academy.programs.intensiveCtaBook}
                 </a>
                 <a
-                  href={waLink("Hola, quiero info sobre Intensive Training")}
+                  href={waLink(t.academy.programs.intensiveWaMsgInfo)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="j3-press btn-ghost inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-white/15 text-[13px] font-semibold tracking-[0.5px] text-[var(--wh)] hover:border-[var(--g1)]/40 hover:text-[var(--g1)]"
                 >
-                  M&aacute;s informaci&oacute;n
+                  {t.academy.programs.intensiveCtaInfo}
                 </a>
               </div>
             </div>
@@ -790,6 +797,7 @@ function SedeCard({
 }
 
 function SedesSection() {
+  const { t } = useI18n();
   const { ref, visible } = useReveal(0.15);
 
   return (
@@ -805,33 +813,33 @@ function SedesSection() {
         }}
       >
         <span className="text-[10px] font-bold tracking-[4px] uppercase text-[var(--g1)] block mb-4">
-          Headquarters
+          {t.academy.headquarters.eyebrow}
         </span>
         <h2 className="font-bold text-[clamp(36px,5vw,72px)] uppercase tracking-[-2px] leading-[1]">
-          <span className="text-[var(--wh)]">Dos sedes. Una sola </span>
-          <span className="j3-grad-text">exigencia.</span>
+          <span className="text-[var(--wh)]">{t.academy.headquarters.headingPre}</span>
+          <span className="j3-grad-text">{t.academy.headquarters.headingAccent}</span>
         </h2>
       </div>
 
       {/* Sede 1 */}
       <SedeCard
         video="https://finurapadelgym.com/wp-content/uploads/2025/10/home-2.webm"
-        tag="P&aacute;del Indoor &middot; Churriana"
-        name="Finura P&aacute;del"
-        detail="7 pistas cubiertas &middot; M&aacute;laga"
+        tag={t.academy.headquarters.sedes[0].tag}
+        name={t.academy.headquarters.sedes[0].name}
+        detail={t.academy.headquarters.sedes[0].detail}
         href="https://finurapadelgym.com"
-        ctaLabel="Ver sede &rarr;"
+        ctaLabel={t.academy.headquarters.sedeCta}
         index={0}
       />
 
       {/* Sede 2 */}
       <SedeCard
         images={["/images/vals-1.jpg", "/images/vals-2.jpg", "/images/vals-3.jpg"]}
-        tag="P&aacute;del &middot; Puerto de la Torre"
-        name="Vals Sport Limoneros"
-        detail="11 pistas &middot; Pr&oacute;xima apertura"
+        tag={t.academy.headquarters.sedes[1].tag}
+        name={t.academy.headquarters.sedes[1].name}
+        detail={t.academy.headquarters.sedes[1].detail}
         href="https://valssport.com/limoneros/"
-        ctaLabel="Ver sede &rarr;"
+        ctaLabel={t.academy.headquarters.sedeCta}
         index={1}
       />
     </section>
@@ -839,18 +847,14 @@ function SedesSection() {
 }
 
 /* ═══════════════════════════════════════════════════════
-   S6 — M\u00c9TODO (timeline methodology)
+   S6 — MÉTODO (timeline methodology)
    ═══════════════════════════════════════════════════════ */
 
 function MetodoSection() {
+  const { t } = useI18n();
   const { ref, visible } = useReveal(0.1);
 
-  const steps = [
-    { title: "Diagn\u00f3stico individual", desc: "Cada jugador entra con una evaluaci\u00f3n real. Sabemos de d\u00f3nde parte antes de decirle a d\u00f3nde puede llegar." },
-    { title: "Planificaci\u00f3n por objetivos", desc: "No hay dos programas iguales. El entrenamiento se dise\u00f1a seg\u00fan el perfil, el nivel y la meta de cada jugador." },
-    { title: "Entrenadores de referencia", desc: "El equipo t\u00e9cnico viene del circuito profesional. Han entrenado campeones de Espa\u00f1a y del mundo, y conocen el camino." },
-    { title: "Seguimiento continuo", desc: "La mejora se mide, no se intuye. Revisi\u00f3n constante del progreso con ajustes reales, no ruido de fondo." },
-  ];
+  const steps = t.academy.method.steps;
 
   const { itemRefs, visibleItems } = useStaggerReveal(steps.length, 0.2);
 
@@ -867,11 +871,11 @@ function MetodoSection() {
           }}
         >
           <span className="text-[10px] font-bold tracking-[4px] uppercase text-[var(--g1)] block mb-4">
-            M&eacute;todo J3
+            {t.academy.method.eyebrow}
           </span>
           <h2 className="font-bold text-[clamp(36px,5vw,72px)] uppercase tracking-[-2px] leading-[1]">
-            <span className="text-[var(--wh)]">C&oacute;mo </span>
-            <span className="j3-grad-text">trabajamos.</span>
+            <span className="text-[var(--wh)]">{t.academy.method.headingPre}</span>
+            <span className="j3-grad-text">{t.academy.method.headingAccent}</span>
           </h2>
         </div>
 
@@ -915,13 +919,17 @@ function MetodoSection() {
    ═══════════════════════════════════════════════════════ */
 
 function StatsSection() {
-  const stats = [
-    { val: 20, suffix: "+", label: undefined as string | undefined, lbl: "A\u00f1os en el sector" },
-    { val: 0, suffix: "", label: "#1", lbl: "Mejor club del mundo 2018" },
-    { val: 30, suffix: "+", label: undefined as string | undefined, lbl: "Jugadores profesionales entrenados" },
-    { val: 18, suffix: "", label: undefined as string | undefined, lbl: "T\u00edtulos en circuito profesional" },
-    { val: 2000, suffix: "+", label: undefined as string | undefined, lbl: "Jugadores amateurs entrenados" },
+  const { t } = useI18n();
+
+  /* Numeric values are presentation, labels come from i18n */
+  const statValues: { val: number; suffix: string; label?: string }[] = [
+    { val: 20, suffix: "+" },
+    { val: 0, suffix: "", label: "#1" },
+    { val: 30, suffix: "+" },
+    { val: 18, suffix: "" },
+    { val: 2000, suffix: "+" },
   ];
+  const stats = statValues.map((s, i) => ({ ...s, lbl: t.academy.stats.items[i].lbl }));
 
   const { itemRefs, visibleItems } = useStaggerReveal(stats.length, 0.3);
 
@@ -964,6 +972,7 @@ function StatsSection() {
    ═══════════════════════════════════════════════════════ */
 
 function CtaFinalSection() {
+  const { t } = useI18n();
   const { ref, visible } = useReveal(0.15);
 
   return (
@@ -990,35 +999,35 @@ function CtaFinalSection() {
       >
         {/* Eyebrow */}
         <span className="text-[10px] font-bold tracking-[4px] uppercase text-[var(--g1)] block mb-6">
-          Primera toma de contacto
+          {t.academy.cta.eyebrow}
         </span>
 
         {/* Title */}
         <h2 className="font-bold text-[clamp(48px,7vw,96px)] uppercase tracking-[-3px] leading-[0.95] mb-6">
-          <span className="j3-stroke">Empieza</span>{" "}
-          <span className="j3-grad-text font-[var(--font-serif)] italic normal-case">hoy.</span>
+          <span className="j3-stroke">{t.academy.cta.titlePre}</span>{" "}
+          <span className="j3-grad-text font-[var(--font-serif)] italic normal-case">{t.academy.cta.titleAccent}</span>
         </h2>
 
         {/* Subtitle */}
         <p className="text-[clamp(14px,1.5vw,18px)] text-[var(--gy2)] leading-[1.6] font-light mb-10 max-w-[560px] mx-auto">
-          Cu&eacute;ntanos tu nivel, tus objetivos y tu disponibilidad. Te respondemos en menos de 24&nbsp;horas.
+          {t.academy.cta.subtitle}
         </p>
 
         {/* CTA */}
         <a
-          href={waLink("Hola, quiero informaci\u00f3n sobre J3Academy")}
+          href={waLink(t.academy.cta.waMsg)}
           target="_blank"
           rel="noopener noreferrer"
           className="j3-press btn-glow inline-flex items-center gap-2.5 px-8 py-4 rounded-full font-semibold text-[15px] tracking-[0.5px] text-black"
           style={{ background: "var(--j3-grad)" }}
         >
           <WaIcon size={15} />
-          Escribir por WhatsApp
+          {t.academy.cta.button}
         </a>
 
         {/* Note */}
         <p className="text-[11px] text-[var(--gy)] tracking-[2px] uppercase mt-8">
-          Sin compromiso &middot; Sin formularios &middot; Respuesta directa
+          {t.academy.cta.note}
         </p>
       </div>
     </section>
@@ -1049,7 +1058,7 @@ export default function AcademyPage() {
       {/* S5 — Sedes */}
       <SedesSection />
 
-      {/* S6 — M\u00e9todo */}
+      {/* S6 — Método */}
       <MetodoSection />
 
       {/* S7 — Stats */}

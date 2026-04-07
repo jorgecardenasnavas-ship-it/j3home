@@ -3,6 +3,7 @@
 import { useRef, useEffect, useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { useI18n } from "@/i18n/context";
 
 
 /* ═══════════════════════════════════════════════════════
@@ -118,6 +119,7 @@ function Counter({ val, prefix, suffix, label }: { val: number; prefix?: string;
    ═══════════════════════════════════════════════════════ */
 
 function HeroSection() {
+  const { t } = useI18n();
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -125,11 +127,11 @@ function HeroSection() {
     return () => clearTimeout(t);
   }, []);
 
-  const titleWords: { text: string; style: string }[] = [
-    { text: "T\u00DA", style: "j3-grad-text" },
-    { text: "ELIGES", style: "j3-stroke" },
-    { text: "VIVIRLO.", style: "j3-stroke" },
-  ];
+  const titleStyles = ["j3-grad-text", "j3-stroke", "j3-stroke"];
+  const titleWords = t.experience.hero.titleLines.map((text, i) => ({
+    text,
+    style: titleStyles[i] ?? "j3-stroke",
+  }));
 
   return (
     <section className="relative h-screen min-h-[640px] flex items-end overflow-hidden bg-black">
@@ -184,7 +186,7 @@ function HeroSection() {
             transition: "all 0.8s cubic-bezier(0.16,1,0.3,1) 0.4s",
           }}
         >
-          J3Experience &middot; En pista &middot; Internacional
+          {t.experience.hero.eyebrow}
         </span>
 
         {/* Title — word-by-word reveal with blur */}
@@ -217,9 +219,9 @@ function HeroSection() {
             transition: "all 0.9s cubic-bezier(0.16,1,0.3,1) 1.2s",
           }}
         >
-          Camps, stages y experiencias{" "}
-          <span className="font-[var(--font-serif)] italic text-[var(--g1)]">a medida</span>{" "}
-          en cualquier lugar del mundo.
+          {t.experience.hero.subtitleBefore}
+          <span className="font-[var(--font-serif)] italic text-[var(--g1)]">{t.experience.hero.subtitleAccent}</span>
+          {t.experience.hero.subtitleAfter}
         </p>
       </div>
 
@@ -248,16 +250,15 @@ function HeroSection() {
    ═══════════════════════════════════════════════════════ */
 
 function StatementSection() {
+  const { t } = useI18n();
   const { ref, visible } = useReveal(0.15);
 
-  const lines: {
-    before: string; accent?: string; after?: string;
-    style: string; accentStyle?: string; align: string;
-  }[] = [
-    { before: "Disfruta de", accent: "una", style: "j3-grad-text", accentStyle: "font-[var(--font-serif)] italic normal-case text-[var(--wh)]", align: "text-left" },
-    { before: "experiencia \u00FAnica", style: "j3-stroke", align: "text-right" },
-    { before: "con", accent: "nosotros.", style: "text-[var(--wh)]", accentStyle: "font-[var(--font-serif)] italic normal-case j3-grad-text", align: "text-left pl-[8%] max-[960px]:pl-0" },
+  const lineStyles: { style: string; accentStyle?: string; align: string }[] = [
+    { style: "j3-grad-text", accentStyle: "font-[var(--font-serif)] italic normal-case text-[var(--wh)]", align: "text-left" },
+    { style: "j3-stroke", align: "text-right" },
+    { style: "text-[var(--wh)]", accentStyle: "font-[var(--font-serif)] italic normal-case j3-grad-text", align: "text-left pl-[8%] max-[960px]:pl-0" },
   ];
+  const lines = t.experience.statement.lines.map((l, i) => ({ ...l, ...lineStyles[i] }));
 
   const { itemRefs, visibleItems } = useStaggerReveal(lines.length, 0.2);
 
@@ -278,7 +279,7 @@ function StatementSection() {
           }}
         >
           <span className="text-[10px] font-bold tracking-[5px] uppercase text-[var(--g1)]">
-            La experiencia
+            {t.experience.statement.eyebrow}
           </span>
         </div>
 
@@ -371,22 +372,13 @@ function CampCard({
 }
 
 function FlowCampSection() {
+  const { t } = useI18n();
   const { ref, visible } = useReveal(0.1);
 
-  /* J\u00f3venes cards */
-  const jovenesCards = [
-    { label: "El evento", title: "J3 en tu ciudad", desc: "Buscamos sede, convocamos jugadores j\u00f3venes y lo ejecutamos. Un evento intensivo de uno o varios d\u00edas con el equipo J3 en pista." },
-    { label: "El m\u00e9todo", title: "T\u00e9cnica \u00b7 T\u00e1ctica \u00b7 Mentalidad", desc: "No es solo mejorar el golpe. El Flow Camp trabaja los tres pilares del sistema J3 \u2014 porque el p\u00e1del de alto nivel empieza en la cabeza." },
-    { label: "Los entrenadores", title: "Formaci\u00f3n express incluida", desc: "Los entrenadores locales participan junto a J3 en pista. Se llevan el m\u00e9todo, la visi\u00f3n y una formaci\u00f3n real. Todos salen ganando." },
-  ];
+  const jovenesCards = t.experience.flowCamp.jovenesCards;
   const { itemRefs: jRefs, visibleItems: jVis } = useStaggerReveal(jovenesCards.length, 0.15);
 
-  /* Adultos cards */
-  const adultosCards = [
-    { label: "Qui\u00e9n", title: "Para los que juegan en serio", desc: "Grupos de amigos, equipos que compiten a nivel amateur o cualquiera que quiera vivir un camp sin tener que venir a M\u00e1laga." },
-    { label: "Qu\u00e9", title: "Intensivo en tu ciudad", desc: "Sesiones en pista con el equipo J3. T\u00e9cnica, t\u00e1ctica, partidos analizados. En vuestra instalaci\u00f3n o en la que encontremos juntos." },
-    { label: "El plus", title: "Sin salir de casa", desc: "La experiencia J3 sin desplazamiento. Ideal si el grupo es grande, si hay nivel variado o si simplemente prefieres jugar en tu terreno." },
-  ];
+  const adultosCards = t.experience.flowCamp.adultosCards;
   const { itemRefs: aRefs, visibleItems: aVis } = useStaggerReveal(adultosCards.length, 0.15);
 
   return (
@@ -402,31 +394,31 @@ function FlowCampSection() {
         }}
       >
         <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] block mb-4">
-          Worldwide &middot; Kids &middot; Juniors &middot; Players
+          {t.experience.flowCamp.eyebrow}
         </span>
         <h2 className="font-bold text-[clamp(56px,9vw,130px)] uppercase tracking-[-3px] leading-[0.88]">
-          <span className="j3-grad-text">Flow</span>{" "}
-          <span className="j3-stroke">Camp</span>
+          <span className="j3-grad-text">{t.experience.flowCamp.headingFlow}</span>{" "}
+          <span className="j3-stroke">{t.experience.flowCamp.headingCamp}</span>
         </h2>
         <p className="text-[clamp(14px,1.5vw,18px)] font-light text-[var(--gy2)] leading-[1.7] max-w-[520px] mt-6">
-          Buscamos lugares, encontramos gente y compartimos lo que sabemos.{" "}
-          <span className="font-[var(--font-serif)] italic text-[var(--wh)]">En pista y fuera de ella.</span>
+          {t.experience.flowCamp.introBefore}
+          <span className="font-[var(--font-serif)] italic text-[var(--wh)]">{t.experience.flowCamp.introAccent}</span>
         </p>
       </div>
 
-      {/* Sub-block A: Flow Camp - J\u00f3venes */}
+      {/* Sub-block A: Flow Camp - Jóvenes */}
       <div className="border-t border-white/[.06]">
         {/* Block label */}
         <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b border-white/[.06]">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] j3-grad-text tracking-[-1px]">01</span>
-          <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">Flow Camp &middot; J&oacute;venes</span>
+          <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.experience.flowCamp.jovenesLabel}</span>
         </div>
 
         {/* Intro text */}
         <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto pt-10 pb-4">
           <h3 className="font-bold text-[clamp(22px,3vw,32px)] uppercase tracking-[-1px] text-[var(--wh)] max-w-[800px]">
-            <span className="j3-grad-text">Flow Camp.</span>{" "}
-P&aacute;del, valores y mentalidad. Para j&oacute;venes que entienden el deporte como algo m&aacute;s.
+            <span className="j3-grad-text">{t.experience.flowCamp.jovenesTitleAccent}</span>
+            {t.experience.flowCamp.jovenesTitleRest}
           </h3>
         </div>
 
@@ -448,15 +440,15 @@ P&aacute;del, valores y mentalidad. Para j&oacute;venes que entienden el deporte
         {/* Block label */}
         <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b border-white/[.06]">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] j3-grad-text tracking-[-1px]">02</span>
-          <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">Players Camp &middot; Adultos</span>
+          <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.experience.flowCamp.adultosLabel}</span>
         </div>
 
         {/* Intro text */}
         <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto pt-10 pb-4">
           <h3 className="font-bold text-[clamp(22px,3vw,32px)] uppercase tracking-[-1px] text-[var(--wh)] max-w-[800px]">
-            <span className="j3-grad-text">Players Camp.</span>{" "}
-            Tu ciudad, nuestra{" "}
-            <span className="font-[var(--font-serif)] italic normal-case text-[var(--wh)]">experiencia.</span>
+            <span className="j3-grad-text">{t.experience.flowCamp.adultosTitleAccent}</span>
+            {t.experience.flowCamp.adultosTitleMid}
+            <span className="font-[var(--font-serif)] italic normal-case text-[var(--wh)]">{t.experience.flowCamp.adultosTitleSerif}</span>
           </h3>
         </div>
 
@@ -474,16 +466,16 @@ P&aacute;del, valores y mentalidad. Para j&oacute;venes que entienden el deporte
       <div className="border-t border-white/[.06] px-12 max-[960px]:px-6">
         <div className="max-w-[1200px] mx-auto py-12 flex items-center justify-between flex-wrap gap-5">
           <span className="text-[13px] font-light text-[var(--gy2)] max-w-[480px]">
-            Cu&eacute;ntanos tu ciudad y qui&eacute;nes sois. El resto lo hacemos nosotros.
+            {t.experience.flowCamp.ctaText}
           </span>
           <a
-            href={waLink("Hola, quiero informaci\u00f3n sobre Flow Camp")}
+            href={waLink(t.experience.flowCamp.waMsg)}
             target="_blank"
             rel="noopener noreferrer"
             className="j3-press btn-ghost inline-flex items-center gap-2 px-6 py-3 rounded-full border border-[var(--g1)]/35 text-[12px] font-bold tracking-[2px] uppercase text-[var(--g1)] hover:bg-[rgba(220,175,100,.07)]"
           >
             <WaIcon size={13} />
-            Solicitar Flow Camp
+            {t.experience.flowCamp.ctaButton}
           </a>
         </div>
       </div>
@@ -496,13 +488,10 @@ P&aacute;del, valores y mentalidad. Para j&oacute;venes que entienden el deporte
    ═══════════════════════════════════════════════════════ */
 
 function EmpresasSection() {
+  const { t } = useI18n();
   const { ref, visible } = useReveal(0.1);
 
-  const formatos = [
-    { tag: "Formato 01", name: "Meet & Greet", desc: "Conecta tu marca con la comunidad p\u00e1del. J3 organiza el evento, convoca jugadores y crea el momento." },
-    { tag: "Formato 02", name: "Activaci\u00f3n de marca", desc: "Presencia de marca en un entorno deportivo real. Con jugadores reales, no figurantes." },
-    { tag: "Formato 03", name: "Team Building", desc: "Tu equipo en pista. Din\u00e1mica competitiva, trabajo en equipo y una experiencia que va m\u00e1s all\u00e1 del paddle friki de empresa." },
-  ];
+  const formatos = t.experience.empresas.formatos;
 
   const { itemRefs, visibleItems } = useStaggerReveal(formatos.length, 0.2);
 
@@ -521,15 +510,15 @@ function EmpresasSection() {
         }}
       >
         <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] block mb-4">
-          Conectamos equipos &middot; Activamos marcas
+          {t.experience.empresas.eyebrow}
         </span>
         <h2 className="font-bold text-[clamp(56px,9vw,130px)] uppercase tracking-[-3px] leading-[0.88]">
-          <span className="j3-grad-text">Empresas</span>
+          <span className="j3-grad-text">{t.experience.empresas.heading}</span>
         </h2>
         <p className="text-[clamp(14px,1.5vw,18px)] font-light text-[var(--gy2)] leading-[1.7] max-w-[520px] mt-6">
-          El p&aacute;del como{" "}
-          <span className="font-[var(--font-serif)] italic text-[var(--wh)]">herramienta.</span>{" "}
-          Para conectar con tu comunidad o activar a tu equipo &mdash; dise&ntilde;amos la experiencia de principio a fin.
+          {t.experience.empresas.introBefore}
+          <span className="font-[var(--font-serif)] italic text-[var(--wh)]">{t.experience.empresas.introAccent}</span>
+          {t.experience.empresas.introAfter}
         </p>
       </div>
 
@@ -548,20 +537,20 @@ function EmpresasSection() {
           >
             <div>
               <p className="text-[15px] font-light text-[var(--gy2)] leading-[1.8] max-w-[400px] mb-6">
-                Trabajamos con marcas y empresas que entienden que el p&aacute;del es mucho m&aacute;s que un deporte. Es un punto de encuentro, una activaci&oacute;n, un momento que une.
+                {t.experience.empresas.leftPara1}
               </p>
               <p className="text-[15px] font-light text-[var(--gy2)] leading-[1.8] max-w-[400px] mb-10">
-                En vuestro espacio o en el nuestro. En M&aacute;laga o donde lo necesit&eacute;is.
+                {t.experience.empresas.leftPara2}
               </p>
             </div>
             <a
-              href={waLink("Hola, quiero informaci\u00f3n sobre J3Experience para empresas")}
+              href={waLink(t.experience.empresas.waMsg)}
               target="_blank"
               rel="noopener noreferrer"
               className="j3-press btn-ghost inline-flex items-center gap-2 px-6 py-3 rounded-full border border-[var(--g1)]/35 text-[12px] font-bold tracking-[2px] uppercase text-[var(--g1)] hover:bg-[rgba(220,175,100,.07)] self-start"
             >
               <WaIcon size={13} />
-              Hablar con el equipo
+              {t.experience.empresas.ctaButton}
             </a>
           </div>
 
@@ -586,7 +575,7 @@ function EmpresasSection() {
                 </span>
                 <div className="flex flex-col gap-1.5">
                   <h4 className="font-bold text-[17px] uppercase tracking-[-0.2px] text-[var(--wh)] group-hover:text-[var(--g1)] transition-colors duration-300">
-                    {f.name === "Meet & Greet" ? <>Meet &amp; Greet</> : f.name}
+                    {f.name}
                   </h4>
                   <p className="text-[12px] font-light text-[var(--gy2)] leading-[1.6]">{f.desc}</p>
                 </div>
@@ -606,12 +595,15 @@ function EmpresasSection() {
    ═══════════════════════════════════════════════════════ */
 
 function StatsSection() {
-  const stats = [
-    { val: 20, suffix: "+", label: undefined as string | undefined, lbl: "A\u00f1os en\nel sector" },
-    { val: 0, suffix: "", label: "#1", lbl: "Mejor club\ndel mundo 2018" },
-    { val: 0, suffix: "", label: "\uD83E\uDD4711\u00b7\uD83E\uDD482", lbl: "Victorias en\ncircuito profesional" },
-    { val: 0, suffix: "", label: "WPT", lbl: "Sede oficial\nM\u00e1laga 2014" },
+  const { t } = useI18n();
+
+  const statValues: { val: number; suffix: string; label?: string }[] = [
+    { val: 20, suffix: "+" },
+    { val: 0, suffix: "", label: "#1" },
+    { val: 0, suffix: "", label: "\uD83E\uDD4711\u00B7\uD83E\uDD482" },
+    { val: 0, suffix: "", label: "WPT" },
   ];
+  const stats = statValues.map((s, i) => ({ ...s, lbl: t.experience.stats.items[i].lbl }));
 
   const { itemRefs, visibleItems } = useStaggerReveal(stats.length, 0.3);
 
@@ -654,6 +646,7 @@ function StatsSection() {
    ═══════════════════════════════════════════════════════ */
 
 function CtaFinalSection() {
+  const { t } = useI18n();
   const { ref, visible } = useReveal(0.15);
 
   return (
@@ -680,31 +673,31 @@ function CtaFinalSection() {
       >
         {/* Left — title */}
         <h2 className="font-bold text-[clamp(52px,8vw,100px)] uppercase tracking-[-3px] leading-[0.88]">
-          <span className="j3-grad-text">&iquest;Cu&aacute;ndo</span><br />
-          <span className="j3-stroke">es tu</span><br />
-          <span className="j3-grad-text font-[var(--font-serif)] italic normal-case inline-block pr-[0.15em] py-[0.1em] -mr-[0.15em]">Experience</span>
-          <span className="j3-stroke">?</span>
+          <span className="j3-grad-text">{t.experience.cta.titleLine1}</span><br />
+          <span className="j3-stroke">{t.experience.cta.titleLine2}</span><br />
+          <span className="j3-grad-text font-[var(--font-serif)] italic normal-case inline-block pr-[0.15em] py-[0.1em] -mr-[0.15em]">{t.experience.cta.titleAccent}</span>
+          <span className="j3-stroke">{t.experience.cta.titleEnd}</span>
         </h2>
 
         {/* Right — CTA content */}
         <div className="flex flex-col gap-6">
           <p className="text-[16px] font-light text-[var(--gy2)] leading-[1.75] max-w-[380px]">
-            Escr&iacute;benos por WhatsApp. Cu&eacute;ntanos qu&eacute; buscas y lo dise&ntilde;amos juntos.
+            {t.experience.cta.body}
           </p>
 
           <a
-            href={waLink("Hola, quiero informaci\u00f3n sobre J3Experience")}
+            href={waLink(t.experience.cta.waMsg)}
             target="_blank"
             rel="noopener noreferrer"
             className="j3-press btn-glow inline-flex items-center gap-2.5 px-8 py-4 rounded-full font-bold text-[12px] tracking-[2px] uppercase text-black self-start"
             style={{ background: "var(--j3-grad)" }}
           >
             <WaIcon size={15} />
-            Solicitar ahora
+            {t.experience.cta.button}
           </a>
 
           <span className="text-[11px] font-light text-[var(--gy)] tracking-[1px]">
-            Respuesta en menos de 24h &middot; Sin compromiso
+            {t.experience.cta.note}
           </span>
         </div>
       </div>

@@ -237,4 +237,174 @@ export interface Dictionary {
       buttons: readonly string[];
     };
   };
+
+  /* ── Academy page ── */
+
+  academy: {
+    hero: {
+      readonly locationLabel: string;
+      readonly titleLine1: string;
+      readonly titleLine2: string;
+      readonly titleLine3a: string;
+      readonly titleLine3b: string;
+      readonly subtitleLine1: string;
+      readonly subtitleLine2: string;
+    };
+
+    statement: {
+      readonly eyebrow: string;
+      readonly lines: readonly { readonly before: string; readonly accent?: string }[];
+    };
+
+    proof: {
+      readonly eyebrow: string;
+      readonly quoteOpen: string;
+      readonly quoteAccent: string;
+      readonly quoteClose: string;
+      readonly imageAlt: string;
+      readonly players: readonly { readonly name: string; readonly info: string }[];
+    };
+
+    programs: {
+      readonly eyebrow: string;
+      readonly headingPre: string;
+      readonly headingAccent: string;
+      readonly juniorsLabel: string;
+      readonly juniorsCards: readonly {
+        readonly tag: string;
+        readonly title: string;
+        readonly sub: string;
+        readonly ctaLabel: string;
+        readonly waMsg: string;
+      }[];
+      readonly adultosLabel: string;
+      readonly adultosCards: readonly {
+        readonly tag: string;
+        readonly title: string;
+        readonly sub: string;
+        readonly ctaLabel: string;
+        readonly waMsg: string;
+      }[];
+      readonly intensiveLabel: string;
+      readonly intensiveEyebrow: string;
+      readonly intensiveTitlePre: string;
+      readonly intensiveTitleAccent: string;
+      readonly intensiveDesc: string;
+      readonly intensiveImageAlt: string;
+      readonly intensiveCtaBook: string;
+      readonly intensiveCtaInfo: string;
+      readonly intensiveWaMsgBook: string;
+      readonly intensiveWaMsgInfo: string;
+    };
+
+    headquarters: {
+      readonly eyebrow: string;
+      readonly headingPre: string;
+      readonly headingAccent: string;
+      readonly sedeCta: string;
+      readonly sedes: readonly {
+        readonly tag: string;
+        readonly name: string;
+        readonly detail: string;
+      }[];
+    };
+
+    method: {
+      readonly eyebrow: string;
+      readonly headingPre: string;
+      readonly headingAccent: string;
+      readonly steps: readonly { readonly title: string; readonly desc: string }[];
+    };
+
+    stats: {
+      readonly items: readonly { readonly lbl: string }[];
+    };
+
+    cta: {
+      readonly eyebrow: string;
+      readonly titlePre: string;
+      readonly titleAccent: string;
+      readonly subtitle: string;
+      readonly button: string;
+      readonly note: string;
+      readonly waMsg: string;
+    };
+  };
+
+  /* ── Experience page ── */
+
+  experience: {
+    hero: {
+      readonly eyebrow: string;
+      readonly titleLines: readonly string[];
+      readonly subtitleBefore: string;
+      readonly subtitleAccent: string;
+      readonly subtitleAfter: string;
+    };
+
+    statement: {
+      readonly eyebrow: string;
+      readonly lines: readonly { readonly before: string; readonly accent?: string }[];
+    };
+
+    flowCamp: {
+      readonly eyebrow: string;
+      readonly headingFlow: string;
+      readonly headingCamp: string;
+      readonly introBefore: string;
+      readonly introAccent: string;
+      readonly jovenesLabel: string;
+      readonly jovenesTitleAccent: string;
+      readonly jovenesTitleRest: string;
+      readonly jovenesCards: readonly {
+        readonly label: string;
+        readonly title: string;
+        readonly desc: string;
+      }[];
+      readonly adultosLabel: string;
+      readonly adultosTitleAccent: string;
+      readonly adultosTitleMid: string;
+      readonly adultosTitleSerif: string;
+      readonly adultosCards: readonly {
+        readonly label: string;
+        readonly title: string;
+        readonly desc: string;
+      }[];
+      readonly ctaText: string;
+      readonly ctaButton: string;
+      readonly waMsg: string;
+    };
+
+    empresas: {
+      readonly eyebrow: string;
+      readonly heading: string;
+      readonly introBefore: string;
+      readonly introAccent: string;
+      readonly introAfter: string;
+      readonly leftPara1: string;
+      readonly leftPara2: string;
+      readonly ctaButton: string;
+      readonly waMsg: string;
+      readonly formatos: readonly {
+        readonly tag: string;
+        readonly name: string;
+        readonly desc: string;
+      }[];
+    };
+
+    stats: {
+      readonly items: readonly { readonly lbl: string }[];
+    };
+
+    cta: {
+      readonly titleLine1: string;
+      readonly titleLine2: string;
+      readonly titleAccent: string;
+      readonly titleEnd: string;
+      readonly body: string;
+      readonly button: string;
+      readonly note: string;
+      readonly waMsg: string;
+    };
+  };
 }

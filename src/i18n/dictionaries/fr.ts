@@ -474,6 +474,294 @@ export const fr = {
       buttons: ["Parlons-en", "Coach360", "Academy", "Business"],
     },
   },
+
+  /* ── Academy page ── */
+
+  academy: {
+    hero: {
+      locationLabel: "M\u00E1laga \u00B7 Costa del Sol",
+      titleLine1: "Repeat.",
+      titleLine2: "Repeat.",
+      titleLine3a: "AND",
+      titleLine3b: "repeat.",
+      subtitleLine1: "La meilleure acad\u00E9mie de padel de la Costa del Sol.",
+      subtitleLine2: "Depuis 2004, nous formons des joueurs de tous niveaux.",
+    },
+
+    statement: {
+      eyebrow: "Notre mission",
+      lines: [
+        { before: "Nous formons", accent: "des joueurs." },
+        { before: "Nous d\u00E9veloppons", accent: "des personnes." },
+        { before: "Nous b\u00E2tissons", accent: "des carri\u00E8res." },
+      ],
+    },
+
+    proof: {
+      eyebrow: "Parcours \u00B7 R\u00E9sultats",
+      quoteOpen: "\u00AB\u202FNos joueurs n\u2019arrivent pas seulement sur le circuit. ",
+      quoteAccent: "Ils s\u2019imposent",
+      quoteClose: ".\u202F\u00BB",
+      imageAlt: "Joueurs de J3 Academy sur le circuit professionnel",
+      players: [
+        { name: "Guille Collado", info: "Circuit pro WPT / APT" },
+        { name: "\u00C1lex Ruiz", info: "Circuit professionnel" },
+        { name: "Bea Gonz\u00E1lez", info: "Circuit f\u00E9minin" },
+        { name: "Momo Gonz\u00E1lez", info: "Circuit professionnel" },
+        { name: "Martina Fassio", info: "Circuit professionnel" },
+        { name: "Jos\u00E9 Jim\u00E9nez", info: "Circuit professionnel" },
+      ],
+    },
+
+    programs: {
+      eyebrow: "Acad\u00E9mie \u00B7 Entra\u00EEnements",
+      headingPre: "Trouvez votre ",
+      headingAccent: "programme.",
+      juniorsLabel: "Juniors",
+      juniorsCards: [
+        {
+          tag: "Initiation",
+          title: "Kinder",
+          sub: "4 \u2013 10 ans",
+          ctaLabel: "Demander des infos",
+          waMsg: "Bonjour, je souhaite des infos sur Kinder (4-10 ans)",
+        },
+        {
+          tag: "Perfectionnement",
+          title: "Kids",
+          sub: "10+",
+          ctaLabel: "Demander des infos",
+          waMsg: "Bonjour, je souhaite des infos sur Kids (10+)",
+        },
+        {
+          tag: "Kids to PRO",
+          title: "Next Gen",
+          sub: "14+ \u00B7 Comp\u00E9tition",
+          ctaLabel: "Demander des infos",
+          waMsg: "Bonjour, je souhaite des infos sur Next Gen (14+ comp\u00E9tition)",
+        },
+        {
+          tag: "Haut niveau",
+          title: "Next Gen Pro",
+          sub: "16+ \u00B7 Circuit",
+          ctaLabel: "Demander des infos",
+          waMsg: "Bonjour, je souhaite des infos sur Next Gen Pro (16+ circuit)",
+        },
+      ],
+      adultosLabel: "Adultes",
+      adultosCards: [
+        {
+          tag: "Tous niveaux",
+          title: "Amateur",
+          sub: "D\u00E9butant \u00B7 Interm\u00E9diaire \u00B7 Avanc\u00E9 \u00B7 Comp\u00E9tition",
+          ctaLabel: "Je m\u2019inscris",
+          waMsg: "Bonjour, je souhaite des infos sur le programme Amateur",
+        },
+        {
+          tag: "Circuit professionnel",
+          title: "Pro",
+          sub: "Entra\u00EEnement d\u2019\u00E9lite",
+          ctaLabel: "Demander des infos",
+          waMsg: "Bonjour, je souhaite des infos sur le programme Pro",
+        },
+      ],
+      intensiveLabel: "Intensive Training",
+      intensiveEyebrow: "Camps \u00B7 Stages \u00B7 Programmes sur mesure",
+      intensiveTitlePre: "Venez vous entra\u00EEner",
+      intensiveTitleAccent: "avec nous.",
+      intensiveDesc: "Nous concevons un plan sur mesure.",
+      intensiveImageAlt: "Groupe de joueurs lors d\u2019un stage de padel",
+      intensiveCtaBook: "R\u00E9server votre training",
+      intensiveCtaInfo: "Plus d\u2019informations",
+      intensiveWaMsgBook: "Bonjour, je souhaite r\u00E9server un Intensive Training",
+      intensiveWaMsgInfo: "Bonjour, je souhaite des infos sur Intensive Training",
+    },
+
+    headquarters: {
+      eyebrow: "Headquarters",
+      headingPre: "Deux sites. Une seule ",
+      headingAccent: "exigence.",
+      sedeCta: "Voir le site \u2192",
+      sedes: [
+        {
+          tag: "Padel Indoor \u00B7 Churriana",
+          name: "Finura P\u00E1del",
+          detail: "7 courts couverts \u00B7 M\u00E1laga",
+        },
+        {
+          tag: "Padel \u00B7 Puerto de la Torre",
+          name: "Vals Sport Limoneros",
+          detail: "11 courts \u00B7 Ouverture prochaine",
+        },
+      ],
+    },
+
+    method: {
+      eyebrow: "M\u00E9thode J3",
+      headingPre: "Comment ",
+      headingAccent: "nous travaillons.",
+      steps: [
+        {
+          title: "Diagnostic individuel",
+          desc: "Chaque joueur d\u00E9marre par une \u00E9valuation r\u00E9elle. Nous savons d\u2019o\u00F9 il part avant de lui dire o\u00F9 il peut aller.",
+        },
+        {
+          title: "Planification par objectifs",
+          desc: "Aucun programme ne se ressemble. L\u2019entra\u00EEnement est con\u00E7u selon le profil, le niveau et l\u2019objectif de chaque joueur.",
+        },
+        {
+          title: "Entra\u00EEneurs de r\u00E9f\u00E9rence",
+          desc: "L\u2019\u00E9quipe technique vient du circuit professionnel. Ils ont form\u00E9 des champions d\u2019Espagne et du monde, et connaissent le chemin.",
+        },
+        {
+          title: "Suivi continu",
+          desc: "On mesure la progression, on ne la devine pas. Revue constante des progr\u00E8s avec de vrais ajustements, pas du bruit de fond.",
+        },
+      ],
+    },
+
+    stats: {
+      items: [
+        { lbl: "Ann\u00E9es dans le secteur" },
+        { lbl: "Meilleur club du monde 2018" },
+        { lbl: "Joueurs professionnels form\u00E9s" },
+        { lbl: "Titres sur le circuit professionnel" },
+        { lbl: "Joueurs amateurs form\u00E9s" },
+      ],
+    },
+
+    cta: {
+      eyebrow: "Premier contact",
+      titlePre: "Commence",
+      titleAccent: "aujourd\u2019hui.",
+      subtitle: "Dites-nous votre niveau, vos objectifs et vos disponibilit\u00E9s. Nous vous r\u00E9pondons en moins de 24\u00A0heures.",
+      button: "\u00C9crire sur WhatsApp",
+      note: "Sans engagement \u00B7 Sans formulaires \u00B7 R\u00E9ponse directe",
+      waMsg: "Bonjour, je souhaite des informations sur J3Academy",
+    },
+  },
+
+  /* ── Experience page ── */
+
+  experience: {
+    hero: {
+      eyebrow: "J3Experience \u00B7 Sur le court \u00B7 International",
+      titleLines: ["TU", "CHOISIS", "DE LE VIVRE."],
+      subtitleBefore: "Camps, stages et exp\u00E9riences ",
+      subtitleAccent: "sur mesure",
+      subtitleAfter: " partout dans le monde.",
+    },
+
+    statement: {
+      eyebrow: "L\u2019exp\u00E9rience",
+      lines: [
+        { before: "Profite d\u2019", accent: "une" },
+        { before: "exp\u00E9rience unique" },
+        { before: "avec", accent: "nous." },
+      ],
+    },
+
+    flowCamp: {
+      eyebrow: "Worldwide \u00B7 Kids \u00B7 Juniors \u00B7 Players",
+      headingFlow: "Flow",
+      headingCamp: "Camp",
+      introBefore: "Nous trouvons les lieux, rassemblons les gens et partageons ce que nous savons. ",
+      introAccent: "Sur le court et en dehors.",
+      jovenesLabel: "Flow Camp \u00B7 Jeunes",
+      jovenesTitleAccent: "Flow Camp.",
+      jovenesTitleRest: " Padel, valeurs et mental. Pour les jeunes qui voient le sport comme quelque chose de plus.",
+      jovenesCards: [
+        {
+          label: "L\u2019\u00E9v\u00E9nement",
+          title: "J3 dans ta ville",
+          desc: "Nous trouvons le lieu, rassemblons les jeunes joueurs et organisons tout. Un \u00E9v\u00E9nement intensif d\u2019un ou plusieurs jours avec l\u2019\u00E9quipe J3 sur le court.",
+        },
+        {
+          label: "La m\u00E9thode",
+          title: "Technique \u00B7 Tactique \u00B7 Mental",
+          desc: "Il ne s\u2019agit pas seulement d\u2019am\u00E9liorer le coup. Le Flow Camp travaille les trois piliers du syst\u00E8me J3 \u2014 parce que le padel de haut niveau commence dans la t\u00EAte.",
+        },
+        {
+          label: "Les entra\u00EEneurs",
+          title: "Formation express incluse",
+          desc: "Les entra\u00EEneurs locaux participent aux c\u00F4t\u00E9s de J3 sur le court. Ils repartent avec la m\u00E9thode, la vision et une vraie formation. Tout le monde y gagne.",
+        },
+      ],
+      adultosLabel: "Players Camp \u00B7 Adultes",
+      adultosTitleAccent: "Players Camp.",
+      adultosTitleMid: " Ta ville, notre ",
+      adultosTitleSerif: "exp\u00E9rience.",
+      adultosCards: [
+        {
+          label: "Pour qui",
+          title: "Pour ceux qui jouent s\u00E9rieusement",
+          desc: "Groupes d\u2019amis, \u00E9quipes qui disputent des comp\u00E9titions amateur ou toute personne qui veut vivre un camp sans venir \u00E0 M\u00E1laga.",
+        },
+        {
+          label: "Quoi",
+          title: "Intensif dans ta ville",
+          desc: "Sessions sur le court avec l\u2019\u00E9quipe J3. Technique, tactique, matchs analys\u00E9s. Dans votre club ou dans celui que nous trouvons ensemble.",
+        },
+        {
+          label: "Le plus",
+          title: "Sans sortir de chez toi",
+          desc: "L\u2019exp\u00E9rience J3 sans d\u00E9placement. Id\u00E9al si le groupe est grand, si les niveaux varient ou si tu pr\u00E9f\u00E8res jouer sur ton terrain.",
+        },
+      ],
+      ctaText: "Dis-nous ta ville et qui vous \u00EAtes. Le reste, nous nous en occupons.",
+      ctaButton: "Demander un Flow Camp",
+      waMsg: "Bonjour, je souhaite des informations sur Flow Camp",
+    },
+
+    empresas: {
+      eyebrow: "Nous connectons des \u00E9quipes \u00B7 Nous activons des marques",
+      heading: "Entreprises",
+      introBefore: "Le padel comme ",
+      introAccent: "outil.",
+      introAfter: " Pour connecter votre communaut\u00E9 ou activer votre \u00E9quipe \u2014 nous concevons l\u2019exp\u00E9rience du d\u00E9but \u00E0 la fin.",
+      leftPara1: "Nous travaillons avec des marques et des entreprises qui ont compris que le padel est bien plus qu\u2019un sport. C\u2019est un point de rencontre, une activation, un moment qui rassemble.",
+      leftPara2: "Dans votre espace ou dans le n\u00F4tre. \u00C0 M\u00E1laga ou l\u00E0 o\u00F9 vous en avez besoin.",
+      ctaButton: "Parler \u00E0 l\u2019\u00E9quipe",
+      waMsg: "Bonjour, je souhaite des informations sur J3Experience pour les entreprises",
+      formatos: [
+        {
+          tag: "Format 01",
+          name: "Meet & Greet",
+          desc: "Connectez votre marque \u00E0 la communaut\u00E9 padel. J3 organise l\u2019\u00E9v\u00E9nement, r\u00E9unit les joueurs et cr\u00E9e le moment.",
+        },
+        {
+          tag: "Format 02",
+          name: "Activation de marque",
+          desc: "Pr\u00E9sence de la marque dans un v\u00E9ritable environnement sportif. Avec de vrais joueurs, pas des figurants.",
+        },
+        {
+          tag: "Format 03",
+          name: "Team Building",
+          desc: "Votre \u00E9quipe sur le court. Dynamique comp\u00E9titive, travail d\u2019\u00E9quipe et une exp\u00E9rience qui va bien au-del\u00E0 du padel de bureau.",
+        },
+      ],
+    },
+
+    stats: {
+      items: [
+        { lbl: "Ann\u00E9es dans\nle secteur" },
+        { lbl: "Meilleur club\ndu monde 2018" },
+        { lbl: "Victoires sur le\ncircuit professionnel" },
+        { lbl: "Si\u00E8ge officiel\nM\u00E1laga 2014" },
+      ],
+    },
+
+    cta: {
+      titleLine1: "\u00C0 quand",
+      titleLine2: "ton",
+      titleAccent: "Experience",
+      titleEnd: "?",
+      body: "\u00C9cris-nous sur WhatsApp. Dis-nous ce que tu cherches et on le con\u00E7oit ensemble.",
+      button: "Demander maintenant",
+      note: "R\u00E9ponse en moins de 24h \u00B7 Sans engagement",
+      waMsg: "Bonjour, je souhaite des informations sur J3Experience",
+    },
+  },
 } as const satisfies Dictionary;
 
 export default fr;

@@ -474,4 +474,292 @@ export const sv = {
       buttons: ["Prata med oss", "Coach360", "Academy", "Business"],
     },
   },
+
+  /* ── Academy page ── */
+
+  academy: {
+    hero: {
+      locationLabel: "M\u00E1laga \u00B7 Costa del Sol",
+      titleLine1: "Repeat.",
+      titleLine2: "Repeat.",
+      titleLine3a: "AND",
+      titleLine3b: "repeat.",
+      subtitleLine1: "Den b\u00E4sta padelakademin p\u00E5 Costa del Sol.",
+      subtitleLine2: "Sedan 2004 tr\u00E4nar vi spelare p\u00E5 alla niv\u00E5er.",
+    },
+
+    statement: {
+      eyebrow: "V\u00E5rt uppdrag",
+      lines: [
+        { before: "Vi formar", accent: "spelare." },
+        { before: "Vi utvecklar", accent: "m\u00E4nniskor." },
+        { before: "Vi bygger", accent: "karri\u00E4rer." },
+      ],
+    },
+
+    proof: {
+      eyebrow: "Erfarenhet \u00B7 Resultat",
+      quoteOpen: "\u201DV\u00E5ra spelare n\u00E5r inte bara touren. ",
+      quoteAccent: "De sticker ut",
+      quoteClose: ".\u201D",
+      imageAlt: "J3 Academy-spelare p\u00E5 den professionella touren",
+      players: [
+        { name: "Guille Collado", info: "Proffstour WPT / APT" },
+        { name: "\u00C1lex Ruiz", info: "Proffstour" },
+        { name: "Bea Gonz\u00E1lez", info: "Damtour" },
+        { name: "Momo Gonz\u00E1lez", info: "Proffstour" },
+        { name: "Martina Fassio", info: "Proffstour" },
+        { name: "Jos\u00E9 Jim\u00E9nez", info: "Proffstour" },
+      ],
+    },
+
+    programs: {
+      eyebrow: "Akademi \u00B7 Tr\u00E4ning",
+      headingPre: "Hitta ditt ",
+      headingAccent: "program.",
+      juniorsLabel: "Juniorer",
+      juniorsCards: [
+        {
+          tag: "Nyb\u00F6rjare",
+          title: "Kinder",
+          sub: "4 \u2013 10 \u00E5r",
+          ctaLabel: "Beg\u00E4r info",
+          waMsg: "Hej, jag vill ha info om Kinder (4-10 \u00E5r)",
+        },
+        {
+          tag: "Utveckling",
+          title: "Kids",
+          sub: "10+",
+          ctaLabel: "Beg\u00E4r info",
+          waMsg: "Hej, jag vill ha info om Kids (10+)",
+        },
+        {
+          tag: "Kids to PRO",
+          title: "Next Gen",
+          sub: "14+ \u00B7 T\u00E4vling",
+          ctaLabel: "Beg\u00E4r info",
+          waMsg: "Hej, jag vill ha info om Next Gen (14+ t\u00E4vling)",
+        },
+        {
+          tag: "H\u00F6gprestation",
+          title: "Next Gen Pro",
+          sub: "16+ \u00B7 Touren",
+          ctaLabel: "Beg\u00E4r info",
+          waMsg: "Hej, jag vill ha info om Next Gen Pro (16+ touren)",
+        },
+      ],
+      adultosLabel: "Vuxna",
+      adultosCards: [
+        {
+          tag: "Alla niv\u00E5er",
+          title: "Amateur",
+          sub: "Nyb\u00F6rjare \u00B7 Medel \u00B7 Avancerad \u00B7 T\u00E4vling",
+          ctaLabel: "Anm\u00E4l mig",
+          waMsg: "Hej, jag vill ha info om Amateur-programmet",
+        },
+        {
+          tag: "Proffstour",
+          title: "Pro",
+          sub: "Elittr\u00E4ning",
+          ctaLabel: "Beg\u00E4r info",
+          waMsg: "Hej, jag vill ha info om Pro-programmet",
+        },
+      ],
+      intensiveLabel: "Intensive Training",
+      intensiveEyebrow: "Camps \u00B7 Stages \u00B7 Skr\u00E4ddarsydda program",
+      intensiveTitlePre: "Kom och tr\u00E4na",
+      intensiveTitleAccent: "med oss.",
+      intensiveDesc: "Vi skapar en plan p\u00E5 dina villkor.",
+      intensiveImageAlt: "Grupp av spelare p\u00E5 padel-stage",
+      intensiveCtaBook: "Boka din tr\u00E4ning",
+      intensiveCtaInfo: "Mer information",
+      intensiveWaMsgBook: "Hej, jag vill boka Intensive Training",
+      intensiveWaMsgInfo: "Hej, jag vill ha info om Intensive Training",
+    },
+
+    headquarters: {
+      eyebrow: "Headquarters",
+      headingPre: "Tv\u00E5 anl\u00E4ggningar. Ett enda ",
+      headingAccent: "krav.",
+      sedeCta: "Se anl\u00E4ggning \u2192",
+      sedes: [
+        {
+          tag: "Padel Indoor \u00B7 Churriana",
+          name: "Finura P\u00E1del",
+          detail: "7 inomhusbanor \u00B7 M\u00E1laga",
+        },
+        {
+          tag: "Padel \u00B7 Puerto de la Torre",
+          name: "Vals Sport Limoneros",
+          detail: "11 banor \u00B7 Snart \u00F6ppet",
+        },
+      ],
+    },
+
+    method: {
+      eyebrow: "J3-metoden",
+      headingPre: "S\u00E5 h\u00E4r ",
+      headingAccent: "jobbar vi.",
+      steps: [
+        {
+          title: "Individuell diagnos",
+          desc: "Varje spelare b\u00F6rjar med en verklig utv\u00E4rdering. Vi vet var de st\u00E5r innan vi s\u00E4ger var de kan n\u00E5.",
+        },
+        {
+          title: "Planering efter m\u00E5l",
+          desc: "Inga tv\u00E5 program \u00E4r lika. Tr\u00E4ningen utformas efter varje spelares profil, niv\u00E5 och m\u00E5l.",
+        },
+        {
+          title: "Tr\u00E4nare i v\u00E4rldsklass",
+          desc: "Tr\u00E4narteamet kommer fr\u00E5n proffstouren. De har tr\u00E4nat spanska och v\u00E4rldsm\u00E4stare och de k\u00E4nner v\u00E4gen.",
+        },
+        {
+          title: "L\u00F6pande uppf\u00F6ljning",
+          desc: "F\u00F6rb\u00E4ttring m\u00E4ts, den gissas inte. St\u00E4ndig uppf\u00F6ljning med verkliga justeringar, inte bakgrundsbrus.",
+        },
+      ],
+    },
+
+    stats: {
+      items: [
+        { lbl: "\u00C5r i branschen" },
+        { lbl: "V\u00E4rldens b\u00E4sta klubb 2018" },
+        { lbl: "Proffsspelare tr\u00E4nade" },
+        { lbl: "Titlar p\u00E5 proffstouren" },
+        { lbl: "Amat\u00F6rspelare tr\u00E4nade" },
+      ],
+    },
+
+    cta: {
+      eyebrow: "F\u00F6rsta kontakt",
+      titlePre: "B\u00F6rja",
+      titleAccent: "idag.",
+      subtitle: "Ber\u00E4tta om din niv\u00E5, dina m\u00E5l och n\u00E4r du kan. Vi svarar p\u00E5 mindre \u00E4n 24\u00A0timmar.",
+      button: "Skriv p\u00E5 WhatsApp",
+      note: "Utan f\u00F6rpliktelse \u00B7 Inga formul\u00E4r \u00B7 Direkt svar",
+      waMsg: "Hej, jag vill ha information om J3Academy",
+    },
+  },
+
+  /* ── Experience page ── */
+
+  experience: {
+    hero: {
+      eyebrow: "J3Experience \u00B7 P\u00E5 banan \u00B7 Internationellt",
+      titleLines: ["DU", "V\u00C4LJER", "ATT LEVA DET."],
+      subtitleBefore: "Camps, stages och ",
+      subtitleAccent: "skr\u00E4ddarsydda",
+      subtitleAfter: " upplevelser var som helst i v\u00E4rlden.",
+    },
+
+    statement: {
+      eyebrow: "Upplevelsen",
+      lines: [
+        { before: "Njut av", accent: "en" },
+        { before: "unik upplevelse" },
+        { before: "med", accent: "oss." },
+      ],
+    },
+
+    flowCamp: {
+      eyebrow: "Worldwide \u00B7 Kids \u00B7 Juniors \u00B7 Players",
+      headingFlow: "Flow",
+      headingCamp: "Camp",
+      introBefore: "Vi letar platser, samlar folk och delar det vi kan. ",
+      introAccent: "P\u00E5 banan och utanf\u00F6r den.",
+      jovenesLabel: "Flow Camp \u00B7 Unga",
+      jovenesTitleAccent: "Flow Camp.",
+      jovenesTitleRest: " Padel, v\u00E4rderingar och mentalitet. F\u00F6r unga som ser sporten som n\u00E5got mer.",
+      jovenesCards: [
+        {
+          label: "Eventet",
+          title: "J3 i din stad",
+          desc: "Vi hittar platsen, samlar unga spelare och genomf\u00F6r det. Ett intensivt event i en eller flera dagar med J3-teamet p\u00E5 banan.",
+        },
+        {
+          label: "Metoden",
+          title: "Teknik \u00B7 Taktik \u00B7 Mentalitet",
+          desc: "Det handlar inte bara om att sl\u00E5 b\u00E4ttre. Flow Camp arbetar med de tre pelarna i J3-systemet \u2014 f\u00F6r padel p\u00E5 h\u00F6g niv\u00E5 b\u00F6rjar i huvudet.",
+        },
+        {
+          label: "Tr\u00E4narna",
+          title: "Expressutbildning ing\u00E5r",
+          desc: "Lokala tr\u00E4nare deltar tillsammans med J3 p\u00E5 banan. De tar med sig metoden, visionen och en \u00E4kta utbildning. Alla vinner.",
+        },
+      ],
+      adultosLabel: "Players Camp \u00B7 Vuxna",
+      adultosTitleAccent: "Players Camp.",
+      adultosTitleMid: " Din stad, v\u00E5r ",
+      adultosTitleSerif: "upplevelse.",
+      adultosCards: [
+        {
+          label: "Vem",
+          title: "F\u00F6r dem som spelar p\u00E5 riktigt",
+          desc: "Kompisg\u00E4ng, amat\u00F6rlag som t\u00E4vlar eller alla som vill uppleva ett camp utan att beh\u00F6va resa till M\u00E1laga.",
+        },
+        {
+          label: "Vad",
+          title: "Intensivt i din stad",
+          desc: "Tr\u00E4ningspass p\u00E5 banan med J3-teamet. Teknik, taktik, analyserade matcher. P\u00E5 er anl\u00E4ggning eller en vi hittar tillsammans.",
+        },
+        {
+          label: "Plus",
+          title: "Utan att l\u00E4mna hemmet",
+          desc: "J3-upplevelsen utan att resa. Perfekt om gruppen \u00E4r stor, niv\u00E5erna varierar eller du helt enkelt f\u00F6redrar hemmaplan.",
+        },
+      ],
+      ctaText: "Ber\u00E4tta din stad och vilka ni \u00E4r. Resten tar vi hand om.",
+      ctaButton: "Beg\u00E4r Flow Camp",
+      waMsg: "Hej, jag vill ha information om Flow Camp",
+    },
+
+    empresas: {
+      eyebrow: "Vi kopplar ihop team \u00B7 Vi aktiverar varum\u00E4rken",
+      heading: "F\u00F6retag",
+      introBefore: "Padel som ",
+      introAccent: "verktyg.",
+      introAfter: " F\u00F6r att n\u00E5 din community eller aktivera ditt team \u2014 vi designar upplevelsen fr\u00E5n b\u00F6rjan till slut.",
+      leftPara1: "Vi jobbar med varum\u00E4rken och f\u00F6retag som f\u00F6rst\u00E5r att padel \u00E4r mycket mer \u00E4n en sport. Det \u00E4r en m\u00F6tesplats, en aktivering, ett \u00F6gonblick som f\u00F6renar.",
+      leftPara2: "I er lokal eller i v\u00E5r. I M\u00E1laga eller d\u00E4r ni beh\u00F6ver oss.",
+      ctaButton: "Prata med teamet",
+      waMsg: "Hej, jag vill ha information om J3Experience f\u00F6r f\u00F6retag",
+      formatos: [
+        {
+          tag: "Format 01",
+          name: "Meet & Greet",
+          desc: "Koppla ditt varum\u00E4rke till padel-communityn. J3 arrangerar eventet, samlar spelarna och skapar \u00F6gonblicket.",
+        },
+        {
+          tag: "Format 02",
+          name: "Varum\u00E4rkesaktivering",
+          desc: "Varum\u00E4rkesn\u00E4rvaro i en \u00E4kta sportmilj\u00F6. Med riktiga spelare, inte statister.",
+        },
+        {
+          tag: "Format 03",
+          name: "Team Building",
+          desc: "Ditt team p\u00E5 banan. Konkurrensdynamik, lagarbete och en upplevelse som g\u00E5r l\u00E5ngt bortom vanlig f\u00F6retagspadel.",
+        },
+      ],
+    },
+
+    stats: {
+      items: [
+        { lbl: "\u00C5r i\nbranschen" },
+        { lbl: "V\u00E4rldens b\u00E4sta\nklubb 2018" },
+        { lbl: "Segrar p\u00E5\nproffstouren" },
+        { lbl: "Officiell v\u00E4rd\nM\u00E1laga 2014" },
+      ],
+    },
+
+    cta: {
+      titleLine1: "N\u00E4r",
+      titleLine2: "\u00E4r din",
+      titleAccent: "Experience",
+      titleEnd: "?",
+      body: "Skriv till oss p\u00E5 WhatsApp. Ber\u00E4tta vad du s\u00F6ker s\u00E5 designar vi det tillsammans.",
+      button: "Beg\u00E4r nu",
+      note: "Svar inom 24h \u00B7 Utan f\u00F6rpliktelse",
+      waMsg: "Hej, jag vill ha information om J3Experience",
+    },
+  },
 } as const satisfies Dictionary;

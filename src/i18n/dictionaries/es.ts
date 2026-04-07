@@ -497,4 +497,292 @@ export const es = {
       buttons: ["Habla con nosotros", "Coach360", "Academy", "Business"],
     },
   },
+
+  /* ── Academy page ── */
+
+  academy: {
+    hero: {
+      locationLabel: "M\u00E1laga \u00B7 Costa del Sol",
+      titleLine1: "Repeat.",
+      titleLine2: "Repeat.",
+      titleLine3a: "AND",
+      titleLine3b: "repeat.",
+      subtitleLine1: "La mejor academia de p\u00E1del en la Costa del Sol.",
+      subtitleLine2: "Desde 2004 entrenando jugadores de todos los niveles.",
+    },
+
+    statement: {
+      eyebrow: "Nuestra misi\u00F3n",
+      lines: [
+        { before: "Formamos", accent: "jugadores." },
+        { before: "Desarrollamos", accent: "personas." },
+        { before: "Construimos", accent: "carreras." },
+      ],
+    },
+
+    proof: {
+      eyebrow: "Trayectoria \u00B7 Resultados",
+      quoteOpen: "\u201CNuestros jugadores no solo llegan al circuito. ",
+      quoteAccent: "Destacan",
+      quoteClose: ".\u201D",
+      imageAlt: "Jugadores J3 Academy en el circuito profesional",
+      players: [
+        { name: "Guille Collado", info: "Circuito profesional WPT / APT" },
+        { name: "\u00C1lex Ruiz", info: "Circuito profesional" },
+        { name: "Bea Gonz\u00E1lez", info: "Circuito femenino" },
+        { name: "Momo Gonz\u00E1lez", info: "Circuito profesional" },
+        { name: "Martina Fassio", info: "Circuito profesional" },
+        { name: "Jos\u00E9 Jim\u00E9nez", info: "Circuito profesional" },
+      ],
+    },
+
+    programs: {
+      eyebrow: "Academia \u00B7 Entrenamientos",
+      headingPre: "Encuentra tu ",
+      headingAccent: "programa.",
+      juniorsLabel: "Juniors",
+      juniorsCards: [
+        {
+          tag: "Iniciaci\u00F3n",
+          title: "Kinder",
+          sub: "4 \u2013 10 a\u00F1os",
+          ctaLabel: "Solicitar info",
+          waMsg: "Hola, quiero info sobre Kinder (4-10 a\u00F1os)",
+        },
+        {
+          tag: "Tecnificaci\u00F3n",
+          title: "Kids",
+          sub: "10+",
+          ctaLabel: "Solicitar info",
+          waMsg: "Hola, quiero info sobre Kids (10+)",
+        },
+        {
+          tag: "Kids to PRO",
+          title: "Next Gen",
+          sub: "14+ \u00B7 Competici\u00F3n",
+          ctaLabel: "Solicitar info",
+          waMsg: "Hola, quiero info sobre Next Gen (14+ competici\u00F3n)",
+        },
+        {
+          tag: "Alto rendimiento",
+          title: "Next Gen Pro",
+          sub: "16+ \u00B7 Circuito",
+          ctaLabel: "Solicitar info",
+          waMsg: "Hola, quiero info sobre Next Gen Pro (16+ circuito)",
+        },
+      ],
+      adultosLabel: "Adultos",
+      adultosCards: [
+        {
+          tag: "Todos los niveles",
+          title: "Amateur",
+          sub: "Iniciaci\u00F3n \u00B7 Intermedio \u00B7 Avanzado \u00B7 Competici\u00F3n",
+          ctaLabel: "Apuntarme",
+          waMsg: "Hola, quiero info sobre programa Amateur",
+        },
+        {
+          tag: "Circuito profesional",
+          title: "Pro",
+          sub: "Entrenamiento de \u00E9lite",
+          ctaLabel: "Solicitar info",
+          waMsg: "Hola, quiero info sobre programa Pro",
+        },
+      ],
+      intensiveLabel: "Intensive Training",
+      intensiveEyebrow: "Camps \u00B7 Stages \u00B7 Programas personalizados",
+      intensiveTitlePre: "Ven a entrenar",
+      intensiveTitleAccent: "con nosotros.",
+      intensiveDesc: "Dise\u00F1amos un plan a tu medida.",
+      intensiveImageAlt: "Grupo de jugadores en stage de p\u00E1del",
+      intensiveCtaBook: "Reservar tu training",
+      intensiveCtaInfo: "M\u00E1s informaci\u00F3n",
+      intensiveWaMsgBook: "Hola, quiero reservar Intensive Training",
+      intensiveWaMsgInfo: "Hola, quiero info sobre Intensive Training",
+    },
+
+    headquarters: {
+      eyebrow: "Headquarters",
+      headingPre: "Dos sedes. Una sola ",
+      headingAccent: "exigencia.",
+      sedeCta: "Ver sede \u2192",
+      sedes: [
+        {
+          tag: "P\u00E1del Indoor \u00B7 Churriana",
+          name: "Finura P\u00E1del",
+          detail: "7 pistas cubiertas \u00B7 M\u00E1laga",
+        },
+        {
+          tag: "P\u00E1del \u00B7 Puerto de la Torre",
+          name: "Vals Sport Limoneros",
+          detail: "11 pistas \u00B7 Pr\u00F3xima apertura",
+        },
+      ],
+    },
+
+    method: {
+      eyebrow: "M\u00E9todo J3",
+      headingPre: "C\u00F3mo ",
+      headingAccent: "trabajamos.",
+      steps: [
+        {
+          title: "Diagn\u00F3stico individual",
+          desc: "Cada jugador entra con una evaluaci\u00F3n real. Sabemos de d\u00F3nde parte antes de decirle a d\u00F3nde puede llegar.",
+        },
+        {
+          title: "Planificaci\u00F3n por objetivos",
+          desc: "No hay dos programas iguales. El entrenamiento se dise\u00F1a seg\u00FAn el perfil, el nivel y la meta de cada jugador.",
+        },
+        {
+          title: "Entrenadores de referencia",
+          desc: "El equipo t\u00E9cnico viene del circuito profesional. Han entrenado campeones de Espa\u00F1a y del mundo, y conocen el camino.",
+        },
+        {
+          title: "Seguimiento continuo",
+          desc: "La mejora se mide, no se intuye. Revisi\u00F3n constante del progreso con ajustes reales, no ruido de fondo.",
+        },
+      ],
+    },
+
+    stats: {
+      items: [
+        { lbl: "A\u00F1os en el sector" },
+        { lbl: "Mejor club del mundo 2018" },
+        { lbl: "Jugadores profesionales entrenados" },
+        { lbl: "T\u00EDtulos en circuito profesional" },
+        { lbl: "Jugadores amateurs entrenados" },
+      ],
+    },
+
+    cta: {
+      eyebrow: "Primera toma de contacto",
+      titlePre: "Empieza",
+      titleAccent: "hoy.",
+      subtitle: "Cu\u00E9ntanos tu nivel, tus objetivos y tu disponibilidad. Te respondemos en menos de 24\u00A0horas.",
+      button: "Escribir por WhatsApp",
+      note: "Sin compromiso \u00B7 Sin formularios \u00B7 Respuesta directa",
+      waMsg: "Hola, quiero informaci\u00F3n sobre J3Academy",
+    },
+  },
+
+  /* ── Experience page ── */
+
+  experience: {
+    hero: {
+      eyebrow: "J3Experience \u00B7 En pista \u00B7 Internacional",
+      titleLines: ["T\u00DA", "ELIGES", "VIVIRLO."],
+      subtitleBefore: "Camps, stages y experiencias ",
+      subtitleAccent: "a medida",
+      subtitleAfter: " en cualquier lugar del mundo.",
+    },
+
+    statement: {
+      eyebrow: "La experiencia",
+      lines: [
+        { before: "Disfruta de", accent: "una" },
+        { before: "experiencia \u00FAnica" },
+        { before: "con", accent: "nosotros." },
+      ],
+    },
+
+    flowCamp: {
+      eyebrow: "Worldwide \u00B7 Kids \u00B7 Juniors \u00B7 Players",
+      headingFlow: "Flow",
+      headingCamp: "Camp",
+      introBefore: "Buscamos lugares, encontramos gente y compartimos lo que sabemos. ",
+      introAccent: "En pista y fuera de ella.",
+      jovenesLabel: "Flow Camp \u00B7 J\u00F3venes",
+      jovenesTitleAccent: "Flow Camp.",
+      jovenesTitleRest: " P\u00E1del, valores y mentalidad. Para j\u00F3venes que entienden el deporte como algo m\u00E1s.",
+      jovenesCards: [
+        {
+          label: "El evento",
+          title: "J3 en tu ciudad",
+          desc: "Buscamos sede, convocamos jugadores j\u00F3venes y lo ejecutamos. Un evento intensivo de uno o varios d\u00EDas con el equipo J3 en pista.",
+        },
+        {
+          label: "El m\u00E9todo",
+          title: "T\u00E9cnica \u00B7 T\u00E1ctica \u00B7 Mentalidad",
+          desc: "No es solo mejorar el golpe. El Flow Camp trabaja los tres pilares del sistema J3 \u2014 porque el p\u00E1del de alto nivel empieza en la cabeza.",
+        },
+        {
+          label: "Los entrenadores",
+          title: "Formaci\u00F3n express incluida",
+          desc: "Los entrenadores locales participan junto a J3 en pista. Se llevan el m\u00E9todo, la visi\u00F3n y una formaci\u00F3n real. Todos salen ganando.",
+        },
+      ],
+      adultosLabel: "Players Camp \u00B7 Adultos",
+      adultosTitleAccent: "Players Camp.",
+      adultosTitleMid: " Tu ciudad, nuestra ",
+      adultosTitleSerif: "experiencia.",
+      adultosCards: [
+        {
+          label: "Qui\u00E9n",
+          title: "Para los que juegan en serio",
+          desc: "Grupos de amigos, equipos que compiten a nivel amateur o cualquiera que quiera vivir un camp sin tener que venir a M\u00E1laga.",
+        },
+        {
+          label: "Qu\u00E9",
+          title: "Intensivo en tu ciudad",
+          desc: "Sesiones en pista con el equipo J3. T\u00E9cnica, t\u00E1ctica, partidos analizados. En vuestra instalaci\u00F3n o en la que encontremos juntos.",
+        },
+        {
+          label: "El plus",
+          title: "Sin salir de casa",
+          desc: "La experiencia J3 sin desplazamiento. Ideal si el grupo es grande, si hay nivel variado o si simplemente prefieres jugar en tu terreno.",
+        },
+      ],
+      ctaText: "Cu\u00E9ntanos tu ciudad y qui\u00E9nes sois. El resto lo hacemos nosotros.",
+      ctaButton: "Solicitar Flow Camp",
+      waMsg: "Hola, quiero informaci\u00F3n sobre Flow Camp",
+    },
+
+    empresas: {
+      eyebrow: "Conectamos equipos \u00B7 Activamos marcas",
+      heading: "Empresas",
+      introBefore: "El p\u00E1del como ",
+      introAccent: "herramienta.",
+      introAfter: " Para conectar con tu comunidad o activar a tu equipo \u2014 dise\u00F1amos la experiencia de principio a fin.",
+      leftPara1: "Trabajamos con marcas y empresas que entienden que el p\u00E1del es mucho m\u00E1s que un deporte. Es un punto de encuentro, una activaci\u00F3n, un momento que une.",
+      leftPara2: "En vuestro espacio o en el nuestro. En M\u00E1laga o donde lo necesit\u00E9is.",
+      ctaButton: "Hablar con el equipo",
+      waMsg: "Hola, quiero informaci\u00F3n sobre J3Experience para empresas",
+      formatos: [
+        {
+          tag: "Formato 01",
+          name: "Meet & Greet",
+          desc: "Conecta tu marca con la comunidad p\u00E1del. J3 organiza el evento, convoca jugadores y crea el momento.",
+        },
+        {
+          tag: "Formato 02",
+          name: "Activaci\u00F3n de marca",
+          desc: "Presencia de marca en un entorno deportivo real. Con jugadores reales, no figurantes.",
+        },
+        {
+          tag: "Formato 03",
+          name: "Team Building",
+          desc: "Tu equipo en pista. Din\u00E1mica competitiva, trabajo en equipo y una experiencia que va m\u00E1s all\u00E1 del paddle friki de empresa.",
+        },
+      ],
+    },
+
+    stats: {
+      items: [
+        { lbl: "A\u00F1os en\nel sector" },
+        { lbl: "Mejor club\ndel mundo 2018" },
+        { lbl: "Victorias en\ncircuito profesional" },
+        { lbl: "Sede oficial\nM\u00E1laga 2014" },
+      ],
+    },
+
+    cta: {
+      titleLine1: "\u00BFCu\u00E1ndo",
+      titleLine2: "es tu",
+      titleAccent: "Experience",
+      titleEnd: "?",
+      body: "Escr\u00EDbenos por WhatsApp. Cu\u00E9ntanos qu\u00E9 buscas y lo dise\u00F1amos juntos.",
+      button: "Solicitar ahora",
+      note: "Respuesta en menos de 24h \u00B7 Sin compromiso",
+      waMsg: "Hola, quiero informaci\u00F3n sobre J3Experience",
+    },
+  },
 } as const satisfies Dictionary;
