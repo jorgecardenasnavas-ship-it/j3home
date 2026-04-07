@@ -226,6 +226,7 @@ export const fr = {
           title: "Smash Padel \u2192 Ocean Padel",
           desc: "Nous nous r\u00E9unissons pour la premi\u00E8re fois tous les trois \u2014 Javi, Jorge et Jordi Mu\u00F1oz \u2014 pour cr\u00E9er une acad\u00E9mie de jeunes \u00E0 Smash Padel. Peu apr\u00E8s, elle se transforme en Ocean Padel, et la vraie mont\u00E9e en puissance commence.",
           highlight: true,
+          image: "/images/story/timeline/ocean-padel.jpg",
         },
         {
           year: "2010-2014",
@@ -238,6 +239,7 @@ export const fr = {
           title: "Naissance de J3Padel",
           desc: "Lorsque Ocean Padel ferme ses portes, l\u2019\u00E9quipe se s\u00E9pare mais la marque J3 na\u00EEt en tant qu\u2019entit\u00E9 propre. Nous organisons le WPT de M\u00E1laga avec pr\u00E8s de 300 paires inscrites.",
           badge: "World Padel Tour \u00B7 Si\u00E8ge officiel M\u00E1laga 2014",
+          image: "/images/story/timeline/j3padel-fundadores.jpeg",
         },
         {
           year: "2015",
@@ -247,7 +249,15 @@ export const fr = {
         {
           year: "2016",
           title: "Higuer\u00F3n Resort",
-          desc: "Nous int\u00E9grons Reserva del Higuer\u00F3n \u2014 aujourd\u2019hui Higuer\u00F3n Resort. Le cycle le plus long et le plus exigeant du projet commence. Jordi Mu\u00F1oz quitte M\u00E1laga et le projet J3 pour des raisons personnelles. Son empreinte reste pr\u00E9sente.",
+          desc: "Nous int\u00E9grons Reserva del Higuer\u00F3n \u2014 aujourd\u2019hui Higuer\u00F3n Resort. Le cycle le plus long et le plus exigeant du projet commence.",
+          image: "/images/story/timeline/higueron-resort.jpg",
+        },
+        {
+          year: "Fin 2016",
+          title: "Jordi Mu\u00F1oz quitte le projet",
+          desc: "Jordi quitte M\u00E1laga et le projet J3 pour des raisons personnelles. Son empreinte reste pr\u00E9sente. Javi et Jorge poursuivent le projet, sans le J qui leur avait ouvert la voie.",
+          image: "/images/story/timeline/tres-j.jpeg",
+          imagePosition: "center 25%",
         },
         {
           year: "2018",
@@ -255,6 +265,7 @@ export const fr = {
           desc: "Higuer\u00F3n Resort, sous notre direction, est reconnu comme le meilleur club de padel du monde. Un titre qui arrive apr\u00E8s deux ans de travail discret et ambitieux.",
           badge: "#1 Best Padel Club in the World \u00B7 2018",
           highlight: true,
+          image: "/images/story/timeline/mejor-club-2018.jpeg",
         },
         {
           year: "2016-2022",
@@ -267,12 +278,23 @@ export const fr = {
           desc: "Nous revenons au haut niveau. Le r\u00E9sultat est historique : nous terminons l\u2019ann\u00E9e dans le top 4 mondial du WPT.",
           badge: "Top 4 Mondial WPT \u00B7 2021",
           highlight: true,
+          image: "/images/story/timeline/franco-alex-pozzoni-jorge.jpeg",
+          imagePosition: "center 55%",
         },
         {
-          year: "2022-2023",
-          title: "\u00C1lex Ruiz et Momo Gonz\u00E1lez",
-          desc: "Une paire 100% malaguen\u00F1a form\u00E9e \u00E0 Ocean Padel / J3. Ils atteignent le top 5 mondial. Finale du WPT \u00E0 Marbella \u2014 \u00E0 la maison.",
-          badge: "Top 5 Mondial \u00B7 Finale WPT Marbella",
+          year: "2022",
+          title: "Finale WPT Marbella",
+          desc: "Une paire 100% malague\u00F1a et form\u00E9e \u00E0 Ocean Padel / J3. Finale du WPT \u00E0 Marbella \u2014 \u00E0 la maison, avec les n\u00F4tres dans les tribunes.",
+          badge: "WPT Marbella Master \u00B7 2022",
+          image: "/images/story/timeline/wpt-marbella-2022.jpeg",
+        },
+        {
+          year: "D\u00E9cembre 2022",
+          title: "\u00C1lex Ruiz et Momo Gonz\u00E1lez \u00B7 Top 5",
+          desc: "Ils atteignent le top 5 mondial. Deux joueurs form\u00E9s \u00E0 Ocean Padel, entra\u00EEn\u00E9s par J3, au plus haut niveau du circuit professionnel.",
+          badge: "Top 5 Mondial \u00B7 D\u00E9cembre 2022",
+          highlight: true,
+          image: "/images/story/timeline/momo-alex-jorge.jpeg",
         },
         {
           year: "2023-2024",

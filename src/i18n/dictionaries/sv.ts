@@ -226,6 +226,7 @@ export const sv = {
           title: "Smash Padel \u2192 Ocean Padel",
           desc: "Vi samlas för första gången alla tre — Javi, Jorge och Jordi Muñoz — för att starta en juniorakademi på Smash Padel. Kort därefter omvandlas den till Ocean Padel, och den riktiga expansionen börjar.",
           highlight: true,
+          image: "/images/story/timeline/ocean-padel.jpg",
         },
         {
           year: "2010-2014",
@@ -238,6 +239,7 @@ export const sv = {
           title: "J3Padel föds",
           desc: "När Ocean Padel stänger splittras teamet, men varumärket J3 föds som en egen enhet. Vi organiserar WPT i Málaga med nästan 300 anmälda par.",
           badge: "World Padel Tour \u00B7 Officiell värd Málaga 2014",
+          image: "/images/story/timeline/j3padel-fundadores.jpeg",
         },
         {
           year: "2015",
@@ -247,7 +249,15 @@ export const sv = {
         {
           year: "2016",
           title: "Higuerón Resort",
-          desc: "Vi ansluter oss till Reserva del Higuerón — idag Higuerón Resort. Den längsta och mest krävande perioden i projektet inleds. Jordi Muñoz lämnar Málaga och J3-projektet av personliga skäl. Hans avtryck lever kvar.",
+          desc: "Vi ansluter oss till Reserva del Higuerón — idag Higuerón Resort. Den längsta och mest krävande perioden i projektet inleds.",
+          image: "/images/story/timeline/higueron-resort.jpg",
+        },
+        {
+          year: "Slutet av 2016",
+          title: "Jordi Muñoz lämnar projektet",
+          desc: "Jordi lämnar Málaga och J3-projektet av personliga skäl. Hans avtryck lever kvar. Javi och Jorge fortsätter med projektet, även om det är utan det J som öppnade vägen för dem.",
+          image: "/images/story/timeline/tres-j.jpeg",
+          imagePosition: "center 25%",
         },
         {
           year: "2018",
@@ -255,6 +265,7 @@ export const sv = {
           desc: "Higuerón Resort, under vår ledning, utses till världens bästa padelklubb. En titel som kommer efter två år av tyst och ambitiöst arbete.",
           badge: "#1 Best Padel Club in the World \u00B7 2018",
           highlight: true,
+          image: "/images/story/timeline/mejor-club-2018.jpeg",
         },
         {
           year: "2016-2022",
@@ -267,12 +278,23 @@ export const sv = {
           desc: "Vi återvänder till elitträning. Resultatet är historiskt: vi avslutar året som topp 4 i världen på WPT.",
           badge: "Topp 4 i världen WPT \u00B7 2021",
           highlight: true,
+          image: "/images/story/timeline/franco-alex-pozzoni-jorge.jpeg",
+          imagePosition: "center 55%",
         },
         {
-          year: "2022-2023",
-          title: "Álex Ruiz och Momo González",
-          desc: "Ett helmalaguenskt par, utbildade på Ocean Padel / J3. De når topp 5 i världen. Final i WPT i Marbella — på hemmaplan.",
-          badge: "Topp 5 i världen \u00B7 Final WPT Marbella",
+          year: "2022",
+          title: "Final WPT Marbella",
+          desc: "Ett helmalaguenskt par, utbildade på Ocean Padel / J3. Final i WPT i Marbella — på hemmaplan, med våra egna på läktaren.",
+          badge: "WPT Marbella Master \u00B7 2022",
+          image: "/images/story/timeline/wpt-marbella-2022.jpeg",
+        },
+        {
+          year: "December 2022",
+          title: "Álex Ruiz och Momo González \u00B7 Topp 5",
+          desc: "De når topp 5 i världen. Två spelare utbildade på Ocean Padel, tränade av J3, högst upp på den professionella touren.",
+          badge: "Topp 5 i världen \u00B7 December 2022",
+          highlight: true,
+          image: "/images/story/timeline/momo-alex-jorge.jpeg",
         },
         {
           year: "2023-2024",

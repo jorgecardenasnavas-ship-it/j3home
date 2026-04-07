@@ -226,6 +226,7 @@ export const en = {
           title: "Smash Padel \u2192 Ocean Padel",
           desc: "The three of us \u2014 Javi, Jorge and Jordi Mu\u00F1oz \u2014 joined forces for the first time to build a youth academy at Smash Padel. Shortly after, it became Ocean Padel, and the real scaling began.",
           highlight: true,
+          image: "/images/story/timeline/ocean-padel.jpg",
         },
         {
           year: "2010-2014",
@@ -238,6 +239,7 @@ export const en = {
           title: "J3Padel is born",
           desc: "When Ocean Padel closed, the team split but the J3 brand was born as its own entity. We organized the WPT in M\u00E1laga with nearly 300 registered pairs.",
           badge: "World Padel Tour \u00B7 Official host M\u00E1laga 2014",
+          image: "/images/story/timeline/j3padel-fundadores.jpeg",
         },
         {
           year: "2015",
@@ -247,7 +249,15 @@ export const en = {
         {
           year: "2016",
           title: "Higuer\u00F3n Resort",
-          desc: "We joined Reserva del Higuer\u00F3n \u2014 now Higuer\u00F3n Resort. The longest and most demanding chapter of the project began. Jordi Mu\u00F1oz left M\u00E1laga and the J3 project for personal reasons. His essence remains present.",
+          desc: "We joined Reserva del Higuer\u00F3n \u2014 now Higuer\u00F3n Resort. The longest and most demanding chapter of the project begins.",
+          image: "/images/story/timeline/higueron-resort.jpg",
+        },
+        {
+          year: "Late 2016",
+          title: "Jordi Mu\u00F1oz leaves the project",
+          desc: "Jordi leaves M\u00E1laga and the J3 project for personal reasons. His essence remains present. Javi and Jorge continue with the project, although without the J that opened the way for them.",
+          image: "/images/story/timeline/tres-j.jpeg",
+          imagePosition: "center 25%",
         },
         {
           year: "2018",
@@ -255,6 +265,7 @@ export const en = {
           desc: "Higuer\u00F3n Resort, under our management, was recognized as the best padel club in the world. A title that came after two years of quiet, ambitious work.",
           badge: "#1 Best Padel Club in the World \u00B7 2018",
           highlight: true,
+          image: "/images/story/timeline/mejor-club-2018.jpeg",
         },
         {
           year: "2016-2022",
@@ -267,12 +278,23 @@ export const en = {
           desc: "We returned to high performance. The result was historic: we finished the year ranked in the world's top 4 on the WPT.",
           badge: "World Top 4 WPT \u00B7 2021",
           highlight: true,
+          image: "/images/story/timeline/franco-alex-pozzoni-jorge.jpeg",
+          imagePosition: "center 55%",
         },
         {
-          year: "2022-2023",
-          title: "\u00C1lex Ruiz and Momo Gonz\u00E1lez",
-          desc: "A 100% M\u00E1laga-born pair, both trained at Ocean Padel / J3. They reached the world top 5. WPT final in Marbella \u2014 at home.",
-          badge: "World Top 5 \u00B7 WPT Marbella Final",
+          year: "2022",
+          title: "WPT Marbella Final",
+          desc: "A 100% M\u00E1laga-born pair, trained at Ocean Padel / J3. WPT final in Marbella \u2014 at home, with our people in the stands.",
+          badge: "WPT Marbella Master \u00B7 2022",
+          image: "/images/story/timeline/wpt-marbella-2022.jpeg",
+        },
+        {
+          year: "December 2022",
+          title: "\u00C1lex Ruiz and Momo Gonz\u00E1lez \u00B7 Top 5",
+          desc: "They reach the world top 5. Two players developed at Ocean Padel, coached by J3, at the very top of the professional circuit.",
+          badge: "World Top 5 \u00B7 December 2022",
+          highlight: true,
+          image: "/images/story/timeline/momo-alex-jorge.jpeg",
         },
         {
           year: "2023-2024",
