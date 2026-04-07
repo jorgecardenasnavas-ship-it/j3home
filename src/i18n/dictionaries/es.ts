@@ -15,9 +15,9 @@ export const es = {
 
   sponsors: {
     items: [
-      { src: "/images/j3/tecnifibre.png", alt: "Tecnifibre", w: 200, h: 52 },
-      { src: "/images/j3/lacoste.png", alt: "Lacoste", w: 200, h: 52 },
-      { src: "/images/j3/alquilavisual.jpg", alt: "Alquilavisual", w: 200, h: 56 },
+      { src: "/images/j3/tecnifibre.png", alt: "Tecnifibre", w: 200, h: 52, href: "https://www.tecnifibre.com" },
+      { src: "/images/j3/lacoste.png", alt: "Lacoste", w: 200, h: 52, href: "https://www.lacoste.com" },
+      { src: "/images/j3/alquilavisual.jpg", alt: "Alquilavisual", w: 200, h: 56, href: "http://www.alquilavisual.com" },
     ],
   },
 
@@ -226,6 +226,7 @@ export const es = {
           title: "Smash Padel \u2192 Ocean Padel",
           desc: "Nos juntamos por primera vez los tres \u2014 Javi, Jorge y Jordi Mu\u00F1oz \u2014 para montar una academia de menores en Smash Padel. Poco despu\u00E9s se transforma en Ocean Padel, y empieza la escala real.",
           highlight: true,
+          image: "/images/story/timeline/ocean-padel.jpg",
         },
         {
           year: "2010-2014",
@@ -236,8 +237,9 @@ export const es = {
         {
           year: "2014",
           title: "Nace J3Padel",
-          desc: "Cuando cierra Ocean Padel, el equipo se divide pero la marca J3 nace como entidad propia. Organizamos el WPT de M\u00E1laga con casi 300 parejas inscritas.",
+          desc: "Cuando cierra Ocean Padel, el equipo se divide pero la marca J3 nace como entidad propia. Una idea que se consolid\u00F3. Organizamos el WPT de M\u00E1laga con casi 300 parejas inscritas.",
           badge: "World Padel Tour \u00B7 Sede oficial M\u00E1laga 2014",
+          image: "/images/story/timeline/j3padel-fundadores.jpeg",
         },
         {
           year: "2015",
@@ -247,7 +249,14 @@ export const es = {
         {
           year: "2016",
           title: "Higuer\u00F3n Resort",
-          desc: "Nos incorporamos a Reserva del Higuer\u00F3n \u2014 hoy Higuer\u00F3n Resort. Comienza el ciclo m\u00E1s largo y m\u00E1s exigente del proyecto. Jordi Mu\u00F1oz abandona M\u00E1laga y el proyecto J3 por motivos personales. Su esencia sigue presente.",
+          desc: "Nos incorporamos a Reserva del Higuer\u00F3n \u2014 hoy Higuer\u00F3n Resort. Comienza el ciclo m\u00E1s largo y m\u00E1s exigente del proyecto.",
+          image: "/images/story/timeline/higueron-resort.jpg",
+        },
+        {
+          year: "Finales 2016",
+          title: "Jordi Mu\u00F1oz deja el proyecto",
+          desc: "Jordi abandona M\u00E1laga y el proyecto J3 por motivos personales. Su esencia sigue presente. Javi y Jorge contin\u00FAan con el proyecto, aunque sin la J que les abri\u00F3 el camino.",
+          image: "/images/story/timeline/tres-j.jpeg",
         },
         {
           year: "2018",
@@ -255,6 +264,7 @@ export const es = {
           desc: "Higuer\u00F3n Resort, bajo nuestra gesti\u00F3n, es reconocido como el mejor club de p\u00E1del del mundo. Un t\u00EDtulo que llega despu\u00E9s de dos a\u00F1os de trabajo silencioso y ambicioso.",
           badge: "#1 Best Padel Club in the World \u00B7 2018",
           highlight: true,
+          image: "/images/story/timeline/mejor-club-2018.jpeg",
         },
         {
           year: "2016-2022",
@@ -267,22 +277,33 @@ export const es = {
           desc: "Volvemos al alto rendimiento. El resultado es hist\u00F3rico: acabamos el a\u00F1o en el top 4 del mundo en el WPT.",
           badge: "Top 4 Mundial WPT \u00B7 2021",
           highlight: true,
+          image: "/images/story/timeline/higueron-pro.jpeg",
         },
         {
-          year: "2022-2023",
-          title: "\u00C1lex Ruiz y Momo Gonz\u00E1lez",
-          desc: "Pareja 100% malague\u00F1a y formada en Ocean Padel / J3. Alcanzan el top 5 del mundo. Final del WPT en Marbella \u2014 en casa.",
-          badge: "Top 5 Mundial \u00B7 Final WPT Marbella",
+          year: "2022",
+          title: "Final WPT Marbella",
+          desc: "Pareja 100% malague\u00F1a y formada en Ocean Padel / J3. Final del WPT en Marbella \u2014 en casa, con los nuestros en la grada.",
+          badge: "WPT Marbella Master \u00B7 2022",
+          image: "/images/story/timeline/wpt-marbella-2022.jpeg",
+        },
+        {
+          year: "Diciembre 2022",
+          title: "\u00C1lex Ruiz y Momo Gonz\u00E1lez \u00B7 Top 5",
+          desc: "Alcanzan el top 5 del mundo. Dos jugadores formados en Ocean Padel, entrenados por J3, en lo m\u00E1s alto del circuito profesional.",
+          badge: "Top 5 Mundial \u00B7 Diciembre 2022",
+          highlight: true,
+          image: "/images/story/timeline/momo-alex-jorge.jpeg",
         },
         {
           year: "2023-2024",
           title: "Varlion",
-          desc: "Javi entra en Varlion como responsable de expansi\u00F3n para la marca. Etapa de aprendizaje estrat\u00E9gico fuera de pista.",
+          desc: "Javi entra en Varlion como team manager de la marca. Etapa de aprendizaje estrat\u00E9gico fuera de pista.",
         },
         {
           year: "2024",
           title: "Fin de un ciclo",
           desc: "Nos desvinculamos de Higuer\u00F3n Resort y de Varlion. Casi una d\u00E9cada gestionando el que fue el mejor club del mundo. Ese ciclo se cierra.",
+          badge: "Cambio de juego",
         },
         {
           year: "2024-2025",
@@ -307,13 +328,15 @@ export const es = {
     team: {
       label: "El equipo",
       heading1: "Dos personas.",
-      heading2: "Un mismo criterio.",
+      heading2: "Un mismo",
+      heading2Accent: "criterio.",
       members: [
         {
           num: "01",
           role: "Co-founder \u00B7 CEO",
           first: "Javi",
           last: "C\u00E1rdenas",
+          last2: "Navas",
           bio: "Jugador, entrenador, ejecutor. Crece en la pista y sigue entrenando, pero con un don natural para convertir ideas en estructura. Organiza el WPT M\u00E1laga con casi 300 parejas, gestiona el Higuer\u00F3n hasta convertirlo en el mejor club del mundo y hoy lidera la operativa de todo el ecosistema J3.",
           quote: "Sin ejecuci\u00F3n, la visi\u00F3n se queda en conversaci\u00F3n.",
         },
@@ -322,17 +345,19 @@ export const es = {
           role: "Co-founder \u00B7 CSO",
           first: "Jorge",
           last: "C\u00E1rdenas",
-          bio: "Jugador, entrenador, estratega. Siempre con la visi\u00F3n puesta en lo que viene. Define la metodolog\u00EDa J3 desde la pista, forma a decenas de menores que llegan a lo m\u00E1s alto y lleva jugadores al top 5 mundial. Hoy dise\u00F1a hacia d\u00F3nde va J3Padel.",
+          last2: "Navas",
+          bio: "Jugador, entrenador, estratega. Siempre con la visi\u00F3n puesta en lo que viene. Define la metodolog\u00EDa J3 desde la pista, forma a decenas de menores que llegan a lo m\u00E1s alto y lleva jugadores al top 5 mundial. En 2022, el entrenador espa\u00F1ol mejor situado en el ranking. Hoy dise\u00F1a hacia d\u00F3nde va J3Padel.",
           quote: "Ver el juego antes de que ocurra. Eso es entrenar.",
         },
       ],
     },
 
     players: {
-      label: "Jugadores",
-      heading1: "Formados con",
-      heading2: "el sistema J3.",
-      description: "Dos tipos de relaci\u00F3n. Los que formamos desde base \u2014 hoy en el circuito profesional. Y los que han contado con J3 para preparaci\u00F3n a alto nivel.",
+      label: "Jugadores profesionales",
+      heading1: "Cada jugador",
+      heading2: "tiene su",
+      heading2Accent: "roadmap.",
+      description: "Un sistema desarrollado por cada uno de los jugadores que hemos entrenado.",
       heroLabel: "Formados desde base \u00B7 Lo m\u00E1s alto del circuito",
       nextGenLabel: "De la cantera al circuito profesional",
       nextGenProLabel: "Llegaron como promesa \u00B7 Consolidados en el circuito",

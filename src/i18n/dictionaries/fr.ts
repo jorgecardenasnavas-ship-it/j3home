@@ -15,9 +15,9 @@ export const fr = {
 
   sponsors: {
     items: [
-      { src: "/images/j3/tecnifibre.png", alt: "Tecnifibre", w: 200, h: 52 },
-      { src: "/images/j3/lacoste.png", alt: "Lacoste", w: 200, h: 52 },
-      { src: "/images/j3/alquilavisual.jpg", alt: "Alquilavisual", w: 200, h: 56 },
+      { src: "/images/j3/tecnifibre.png", alt: "Tecnifibre", w: 200, h: 52, href: "https://www.tecnifibre.com" },
+      { src: "/images/j3/lacoste.png", alt: "Lacoste", w: 200, h: 52, href: "https://www.lacoste.com" },
+      { src: "/images/j3/alquilavisual.jpg", alt: "Alquilavisual", w: 200, h: 56, href: "http://www.alquilavisual.com" },
     ],
   },
 
@@ -307,13 +307,15 @@ export const fr = {
     team: {
       label: "L\u2019\u00E9quipe",
       heading1: "Deux personnes.",
-      heading2: "Une m\u00EAme vision.",
+      heading2: "Une même",
+      heading2Accent: "vision.",
       members: [
         {
           num: "01",
           role: "Co-founder \u00B7 CEO",
           first: "Javi",
           last: "C\u00E1rdenas",
+          last2: "Navas",
           bio: "Joueur, entra\u00EEneur, ex\u00E9cutant. Il grandit sur le terrain et continue d\u2019entra\u00EEner, avec un don naturel pour transformer les id\u00E9es en structure. Il organise le WPT M\u00E1laga avec pr\u00E8s de 300 paires, g\u00E8re le Higuer\u00F3n jusqu\u2019\u00E0 en faire le meilleur club du monde et dirige aujourd\u2019hui l\u2019ensemble de l\u2019\u00E9cosyst\u00E8me J3.",
           quote: "Sans ex\u00E9cution, la vision reste une simple conversation.",
         },
@@ -322,6 +324,7 @@ export const fr = {
           role: "Co-founder \u00B7 CSO",
           first: "Jorge",
           last: "C\u00E1rdenas",
+          last2: "Navas",
           bio: "Joueur, entra\u00EEneur, strat\u00E8ge. Toujours tourn\u00E9 vers ce qui arrive. Il d\u00E9finit la m\u00E9thodologie J3 depuis le terrain, forme des dizaines de jeunes qui atteignent les sommets et am\u00E8ne des joueurs au top 5 mondial. Aujourd\u2019hui, il dessine l\u2019avenir de J3Padel.",
           quote: "Voir le jeu avant qu\u2019il ne se produise. C\u2019est \u00E7a, entra\u00EEner.",
         },
@@ -330,8 +333,9 @@ export const fr = {
 
     players: {
       label: "Joueurs",
-      heading1: "Form\u00E9s avec",
-      heading2: "le syst\u00E8me J3.",
+      heading1: "Chaque joueur",
+      heading2: "a son",
+      heading2Accent: "roadmap.",
       description: "Deux types de relation. Ceux que nous avons form\u00E9s depuis la base \u2014 aujourd\u2019hui sur le circuit professionnel. Et ceux qui ont fait appel \u00E0 J3 pour une pr\u00E9paration de haut niveau.",
       heroLabel: "Form\u00E9s depuis la base \u00B7 Au plus haut du circuit",
       nextGenLabel: "Du centre de formation au circuit professionnel",

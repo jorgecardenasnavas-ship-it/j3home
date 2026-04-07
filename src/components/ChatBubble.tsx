@@ -1,11 +1,41 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useI18n } from "@/i18n/context";
 
 export function ChatBubble() {
   const [hovered, setHovered] = useState(false);
+  const [bottomOffset, setBottomOffset] = useState(24); // 24px = bottom-6
   const { t } = useI18n();
+  const rafRef = useRef(0);
+
+  useEffect(() => {
+    function check() {
+      const footer = document.querySelector("footer");
+      if (!footer) return;
+      const rect = footer.getBoundingClientRect();
+      const viewH = window.innerHeight;
+      // If footer is visible, push the button above it
+      if (rect.top < viewH) {
+        const overlap = viewH - rect.top;
+        setBottomOffset(overlap + 16); // 16px gap above footer
+      } else {
+        setBottomOffset(24);
+      }
+    }
+
+    function onScroll() {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(check);
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    check();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
 
   return (
     <a
@@ -13,7 +43,11 @@ export function ChatBubble() {
       aria-label="Iniciar conversación"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="fixed bottom-6 right-6 z-100 flex items-center gap-3 no-underline group cursor-pointer"
+      className="fixed right-6 z-100 flex items-center gap-3 no-underline group cursor-pointer"
+      style={{
+        bottom: `${bottomOffset}px`,
+        transition: "bottom .25s ease-out",
+      }}
     >
       {/* Tooltip label */}
       <span
@@ -28,7 +62,7 @@ export function ChatBubble() {
 
       {/* Button */}
       <div
-        className="relative w-[52px] h-[52px] rounded-full flex items-center justify-center shadow-[0_4px_24px_rgba(220,175,100,.3)] transition-all duration-300 group-hover:shadow-[0_4px_32px_rgba(220,175,100,.45)] group-hover:scale-105"
+        className="relative w-[52px] h-[52px] rounded-full flex items-center justify-center shadow-[0_4px_24px_rgba(220,175,100,.3)] transition-[transform,box-shadow] duration-300 ease-[var(--ease-out)] group-hover:shadow-[0_4px_32px_rgba(220,175,100,.45)] group-hover:scale-105 group-active:scale-95"
         style={{ background: "var(--j3-grad)" }}
       >
         {/* Chat icon */}

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useI18n } from "@/i18n/context";
 
+
 export function ImpactSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
@@ -72,7 +73,7 @@ export function ImpactSection() {
           {/* Line 2 — stroke outline, right-aligned */}
           <div className="text-right overflow-hidden">
             <span
-              className="block font-bold text-[clamp(52px,10vw,130px)] max-[960px]:text-[clamp(38px,9vw,80px)] uppercase tracking-[-2px] leading-[1]"
+              className="block font-bold text-[clamp(52px,10vw,130px)] max-[960px]:text-[clamp(38px,9vw,80px)] uppercase tracking-[-2px] leading-[1] pt-[0.15em]"
               style={{
                 WebkitTextStroke: "1.5px rgba(255,255,255,.18)",
                 color: "transparent",
@@ -99,21 +100,21 @@ export function ImpactSection() {
             </span>
           </div>
 
-          {/* Gold accent line */}
-          <div className="flex justify-center mt-6">
+          {/* Gold accent line — asymmetric, starts from left */}
+          <div className="mt-6 overflow-hidden">
             <div
-              className="h-[2px] bg-gradient-to-r from-transparent via-[var(--g1)] to-transparent"
+              className="h-[2px] bg-gradient-to-r from-[var(--g1)] via-[var(--g2)] to-transparent"
               style={{
                 width: `${p4 * 100}%`,
-                maxWidth: "500px",
+                maxWidth: "400px",
                 opacity: p4,
               }}
             />
           </div>
 
-          {/* Tagline */}
+          {/* Tagline — left-aligned to match asymmetry */}
           <p
-            className="text-center text-[11px] max-[960px]:text-[12px] font-normal tracking-[5px] max-[960px]:tracking-[3px] uppercase text-[var(--gy2)] mt-4"
+            className="text-left text-[11px] max-[960px]:text-[12px] font-normal tracking-[5px] max-[960px]:tracking-[3px] uppercase text-[var(--gy2)] mt-4"
             style={{
               opacity: Math.max(0, (p4 - 0.3) / 0.7),
             }}

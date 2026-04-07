@@ -17,7 +17,7 @@ export interface Dictionary {
   };
 
   sponsors: {
-    items: readonly { src: string; alt: string; w: number; h: number }[];
+    items: readonly { src: string; alt: string; w: number; h: number; href: string }[];
   };
 
   chat: {
@@ -138,6 +138,7 @@ export interface Dictionary {
         desc: string;
         badge?: string;
         highlight?: boolean;
+        image?: string;
       }[];
     };
 
@@ -145,11 +146,13 @@ export interface Dictionary {
       label: string;
       heading1: string;
       heading2: string;
+      heading2Accent: string;
       members: readonly {
         num: string;
         role: string;
         first: string;
         last: string;
+        last2?: string;
         bio: string;
         quote: string;
       }[];
@@ -159,6 +162,7 @@ export interface Dictionary {
       label: string;
       heading1: string;
       heading2: string;
+      heading2Accent: string;
       description: string;
       heroLabel: string;
       nextGenLabel: string;

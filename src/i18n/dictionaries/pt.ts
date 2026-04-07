@@ -15,9 +15,9 @@ export const pt = {
 
   sponsors: {
     items: [
-      { src: "/images/j3/tecnifibre.png", alt: "Tecnifibre", w: 200, h: 52 },
-      { src: "/images/j3/lacoste.png", alt: "Lacoste", w: 200, h: 52 },
-      { src: "/images/j3/alquilavisual.jpg", alt: "Alquilavisual", w: 200, h: 56 },
+      { src: "/images/j3/tecnifibre.png", alt: "Tecnifibre", w: 200, h: 52, href: "https://www.tecnifibre.com" },
+      { src: "/images/j3/lacoste.png", alt: "Lacoste", w: 200, h: 52, href: "https://www.lacoste.com" },
+      { src: "/images/j3/alquilavisual.jpg", alt: "Alquilavisual", w: 200, h: 56, href: "http://www.alquilavisual.com" },
     ],
   },
 
@@ -307,13 +307,15 @@ export const pt = {
     team: {
       label: "A equipa",
       heading1: "Duas pessoas.",
-      heading2: "Um mesmo critério.",
+      heading2: "Um mesmo",
+      heading2Accent: "critério.",
       members: [
         {
           num: "01",
           role: "Co-founder · CEO",
           first: "Javi",
           last: "Cárdenas",
+          last2: "Navas",
           bio: "Jogador, treinador, executor. Cresce no campo e continua a treinar, mas com um dom natural para transformar ideias em estrutura. Organiza o WPT Málaga com quase 300 pares, gere o Higuerón até o converter no melhor clube do mundo e hoje lidera a operação de todo o ecossistema J3.",
           quote: "Sem execução, a visão fica em conversa.",
         },
@@ -322,7 +324,8 @@ export const pt = {
           role: "Co-founder · CSO",
           first: "Jorge",
           last: "Cárdenas",
-          bio: "Jogador, treinador, estratega. Sempre com a visão no que está por vir. Define a metodologia J3 a partir do campo, forma dezenas de menores que chegam ao mais alto e leva jogadores ao top 5 mundial. Hoje desenha o rumo de J3Padel.",
+          last2: "Navas",
+          bio: "Jogador, treinador, estratega. Sempre com a visão no que está por vir. Define a metodologia J3 a partir do campo, forma dezenas de menores que chegam ao mais alto e leva jogadores ao top 5 mundial. Em 2022, o treinador espanhol melhor posicionado no ranking. Hoje desenha o rumo de J3Padel.",
           quote: "Ver o jogo antes de acontecer. Isso é treinar.",
         },
       ],
@@ -330,8 +333,9 @@ export const pt = {
 
     players: {
       label: "Jogadores",
-      heading1: "Formados com",
-      heading2: "o sistema J3.",
+      heading1: "Cada jogador",
+      heading2: "tem o seu",
+      heading2Accent: "roadmap.",
       description: "Dois tipos de relação. Os que formámos desde a base — hoje no circuito profissional. E os que contaram com J3 para preparação de alto nível.",
       heroLabel: "Formados desde a base · O mais alto do circuito",
       nextGenLabel: "Da formação ao circuito profissional",

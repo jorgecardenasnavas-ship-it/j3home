@@ -15,9 +15,9 @@ export const sv = {
 
   sponsors: {
     items: [
-      { src: "/images/j3/tecnifibre.png", alt: "Tecnifibre", w: 200, h: 52 },
-      { src: "/images/j3/lacoste.png", alt: "Lacoste", w: 200, h: 52 },
-      { src: "/images/j3/alquilavisual.jpg", alt: "Alquilavisual", w: 200, h: 56 },
+      { src: "/images/j3/tecnifibre.png", alt: "Tecnifibre", w: 200, h: 52, href: "https://www.tecnifibre.com" },
+      { src: "/images/j3/lacoste.png", alt: "Lacoste", w: 200, h: 52, href: "https://www.lacoste.com" },
+      { src: "/images/j3/alquilavisual.jpg", alt: "Alquilavisual", w: 200, h: 56, href: "http://www.alquilavisual.com" },
     ],
   },
 
@@ -307,13 +307,15 @@ export const sv = {
     team: {
       label: "Teamet",
       heading1: "Två personer.",
-      heading2: "Samma omdöme.",
+      heading2: "Samma",
+      heading2Accent: "omdöme.",
       members: [
         {
           num: "01",
           role: "Co-founder \u00B7 CEO",
           first: "Javi",
           last: "Cárdenas",
+          last2: "Navas",
           bio: "Spelare, tränare, genomförare. Växer upp på banan och fortsätter träna, men med en naturlig talang för att omvandla idéer till struktur. Organiserar WPT Málaga med nästan 300 par, driver Higuerón tills det blir världens bästa klubb och leder idag hela J3-ekosystemets operativa verksamhet.",
           quote: "Utan genomförande förblir visionen bara ett samtal.",
         },
@@ -322,7 +324,8 @@ export const sv = {
           role: "Co-founder \u00B7 CSO",
           first: "Jorge",
           last: "Cárdenas",
-          bio: "Spelare, tränare, strateg. Alltid med blicken riktad mot det som komma skall. Definierar J3-metodiken från banan, utbildar dussintals juniorer som når toppen och leder spelare till topp 5 i världen. Idag designar han vart J3Padel är på väg.",
+          last2: "Navas",
+          bio: "Spelare, tränare, strateg. Alltid med blicken riktad mot det som komma skall. Definierar J3-metodiken från banan, utbildar dussintals juniorer som når toppen och leder spelare till topp 5 i världen. 2022, den högst rankade spanska tränaren. Idag designar han vart J3Padel är på väg.",
           quote: "Att se spelet innan det händer. Det är att träna.",
         },
       ],
@@ -330,8 +333,9 @@ export const sv = {
 
     players: {
       label: "Spelare",
-      heading1: "Utbildade med",
-      heading2: "J3-systemet.",
+      heading1: "Varje spelare",
+      heading2: "har sin",
+      heading2Accent: "roadmap.",
       description: "Två typer av relationer. De vi utbildade från grunden — idag på proffstouren. Och de som anlitat J3 för förberedelser på elitnivå.",
       heroLabel: "Utbildade från grunden \u00B7 Högsta nivån på touren",
       nextGenLabel: "Från ungdomsakademin till proffstouren",

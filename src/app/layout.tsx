@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Roboto_Condensed } from "next/font/google";
+import { Roboto_Condensed, Instrument_Serif } from "next/font/google";
 import { ChatBubble } from "@/components/ChatBubble";
 import { I18nProvider } from "@/i18n/context";
 import "./globals.css";
@@ -8,6 +8,13 @@ const robotoCondensed = Roboto_Condensed({
   variable: "--font-display",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800"],
+});
+
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-serif",
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
@@ -37,10 +44,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${robotoCondensed.variable} h-full antialiased`}>
+    <html lang="es" className={`${robotoCondensed.variable} ${instrumentSerif.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-[var(--bk)] text-[var(--wh)]">
+        <a href="#main-content" className="skip-to-content">
+          Skip to content
+        </a>
         <I18nProvider>
-          {children}
+          <main id="main-content">
+            {children}
+          </main>
           <ChatBubble />
         </I18nProvider>
       </body>

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useI18n, type Locale } from "@/i18n/context";
 
+
 /* Primary nav links (flat) */
 const primaryLinks = [
   { label: "Coach360", href: "/coach360" },
@@ -127,7 +128,7 @@ export function Navbar() {
           href="/"
           className="font-bold text-[15px] tracking-[4px] j3-grad-text no-underline"
         >
-          J3PÁDEL
+          J3P&Aacute;DEL
         </Link>
 
         {/* Desktop Nav Links */}
@@ -152,11 +153,17 @@ export function Navbar() {
               onMouseLeave={closeDropdown}
             >
               <button
-                className={`flex items-center text-[12px] font-normal tracking-[1px] uppercase no-underline transition-colors duration-300 bg-transparent border-none cursor-pointer ${
-                  isOnSolucionesPage || dropdownOpen ? "text-[var(--wh)]" : "text-[var(--gy2)] hover:text-[var(--wh)]"
+                className={`group/prem relative flex items-center gap-[6px] text-[12px] font-medium tracking-[1.5px] uppercase no-underline transition-all duration-300 bg-transparent border-none cursor-pointer ${
+                  isOnSolucionesPage || dropdownOpen ? "text-[var(--g1)]" : "text-[var(--gy2)] hover:text-[var(--g1)]"
                 }`}
               >
-                {t.nav.soluciones}
+                {/* Subtle glow behind on hover */}
+                <span className="absolute inset-0 -inset-x-3 -inset-y-1 rounded-full bg-[var(--g1)]/0 group-hover/prem:bg-[var(--g1)]/[.06] transition-all duration-300" />
+                {/* Star/diamond icon */}
+                <svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor" className="relative opacity-60 group-hover/prem:opacity-100 transition-opacity duration-300">
+                  <path d="M8 0l2.2 5.5L16 6.3l-4 3.7 1 5.5L8 12.8 2.9 15.5l1-5.5-4-3.7 5.9-.8z" />
+                </svg>
+                <span className="relative">{t.nav.soluciones}</span>
                 <ChevronDown />
               </button>
 
@@ -365,7 +372,12 @@ export function Navbar() {
         {/* Soluciones group */}
         {visibleSoluciones.length > 0 && (
           <>
-            <span className="text-[9px] font-normal tracking-[3px] uppercase text-[var(--gy)] mt-2">{t.nav.soluciones}</span>
+            <span className="flex items-center gap-2 text-[9px] font-medium tracking-[3px] uppercase text-[var(--g1)] mt-2">
+              <svg width="8" height="8" viewBox="0 0 16 16" fill="currentColor" className="opacity-60">
+                <path d="M8 0l2.2 5.5L16 6.3l-4 3.7 1 5.5L8 12.8 2.9 15.5l1-5.5-4-3.7 5.9-.8z" />
+              </svg>
+              {t.nav.soluciones}
+            </span>
             {visibleSoluciones.map((link) => (
               <Link
                 key={link.href}

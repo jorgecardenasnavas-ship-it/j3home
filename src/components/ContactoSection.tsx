@@ -1,23 +1,41 @@
 "use client";
 
-import { useEffect, useRef, useState, type FormEvent } from "react";
-import { useI18n } from "@/i18n/context";
+import { useEffect, useRef } from "react";
+import Link from "next/link";
 
-const contactItems: { icon: string; key: "email" | "telefono" | "sede"; value: string; href?: string }[] = [
-  { icon: "✉", key: "email", value: "info@j3padel.com", href: "mailto:info@j3padel.com" },
-  { icon: "📞", key: "telefono", value: "722 272 598", href: "tel:+34722272598" },
-  { icon: "📍", key: "sede", value: "Málaga, España" },
+const pillars = [
+  {
+    number: "01",
+    title: "Academy",
+    desc: "Formamos jugadores desde los 4 a\u00f1os hasta el circuito profesional.",
+    href: "/academy",
+    cta: "Explorar Academy",
+  },
+  {
+    number: "02",
+    title: "Coach360",
+    desc: "Sistema de formaci\u00f3n integral para entrenadores de p\u00e1del.",
+    href: "/coach360",
+    cta: "Descubrir Coach360",
+  },
+  {
+    number: "03",
+    title: "Experience",
+    desc: "Llevamos el m\u00e9todo J3 a tu club. Stages, camps y clinics a medida.",
+    href: "/experience",
+    cta: "Ver Experience",
+  },
+  {
+    number: "04",
+    title: "Story",
+    desc: "20 a\u00f1os construyendo un camino propio en el p\u00e1del profesional.",
+    href: "/story",
+    cta: "Leer nuestra historia",
+  },
 ];
 
 export function ContactoSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const { t } = useI18n();
-  const [nombre, setNombre] = useState("");
-  const [email, setEmail] = useState("");
-  const [soy, setSoy] = useState("");
-  const [interes, setInteres] = useState("");
-  const [mensaje, setMensaje] = useState("");
-  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -43,165 +61,102 @@ export function ContactoSection() {
     return () => observer.disconnect();
   }, []);
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    if (!nombre.trim() || !email.trim() || !mensaje.trim()) {
-      setStatus("error");
-      return;
-    }
-    setStatus("sending");
-    // Simulate sending (replace with real API later)
-    setTimeout(() => {
-      setStatus("sent");
-      setNombre(""); setEmail(""); setSoy(""); setInteres(""); setMensaje("");
-      setTimeout(() => setStatus("idle"), 3000);
-    }, 1500);
-  }
-
   return (
     <section
       id="contacto"
       ref={sectionRef}
-      className="py-[100px] max-[960px]:py-[60px] px-12 max-[960px]:px-6 border-t border-white/[.06] grid grid-cols-2 max-[960px]:grid-cols-1 gap-20 items-start"
+      className="relative py-[120px] max-[960px]:py-[80px] px-12 max-[960px]:px-6 border-t border-white/[.06] overflow-hidden"
     >
-      {/* Left Column */}
-      <div>
-        <span className="reveal-up text-[10px] font-normal tracking-[4px] uppercase text-[var(--g1)] mb-3.5 block">
-          {t.contacto.label}
+      {/* Radial gold glow */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 60% 50% at 50% 30%, rgba(220,175,100,.05) 0%, transparent 70%)",
+        }}
+      />
+
+      {/* Header */}
+      <div className="relative z-10 max-w-[1200px] mx-auto text-center mb-20 max-[960px]:mb-14">
+        <span className="reveal-up text-[10px] font-bold tracking-[5px] uppercase text-[var(--g1)] block mb-6">
+          Ecosistema J3
         </span>
 
-        <h2 className="reveal-up font-bold text-[clamp(32px,4vw,52px)] uppercase leading-none mb-3.5">
-          <span className="text-[var(--wh)]">{t.contacto.heading1}</span>
+        <h2 className="reveal-up font-bold text-[clamp(40px,6vw,88px)] uppercase tracking-[-3px] leading-[0.95] mb-6">
+          <span className="j3-stroke">Un sistema.</span>
           <br />
-          <span className="j3-grad-text">{t.contacto.heading2}</span>
+          <span className="j3-grad-text font-[var(--font-serif)] italic normal-case">Infinitas posibilidades.</span>
         </h2>
 
-        <p className="reveal-up text-[16px] font-light text-[var(--gy2)] leading-[1.7] max-w-[380px] mb-10">
-          {t.contacto.body}
+        <p className="reveal-up text-[clamp(14px,1.5vw,18px)] text-[var(--gy2)] leading-[1.6] font-light max-w-[540px] mx-auto">
+          Todo lo que hacemos est&aacute; conectado. Entrenamos jugadores, formamos entrenadores y llevamos el m&eacute;todo a cualquier club del mundo.
         </p>
-
-        {/* Contact Info */}
-        <div className="flex flex-col">
-          {contactItems.map((item, idx) => (
-            <div
-              key={idx}
-              className={`reveal-up flex gap-4 py-4 border-b border-white/[.06] ${idx === 0 ? "border-t border-t-white/[.06]" : ""}`}
-            >
-              <div className="text-[var(--g1)] text-[14px] shrink-0 mt-[2px]">
-                {item.icon}
-              </div>
-              <div>
-                <div className="text-[10px] max-[960px]:text-[11px] font-normal tracking-[2.5px] max-[960px]:tracking-[2px] uppercase text-[var(--gy2)] mb-[3px]">
-                  {t.contacto[item.key]}
-                </div>
-                <div className="text-[14px] font-light">
-                  {item.href ? (
-                    <a href={item.href} className="text-[var(--gy3)] no-underline hover:text-[var(--wh)] transition-colors duration-200">
-                      {item.value}
-                    </a>
-                  ) : (
-                    <span className="text-[var(--gy3)]">{item.value}</span>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
 
-      {/* Right Column — Form */}
-      <form onSubmit={handleSubmit} className="reveal-up flex flex-col gap-[10px]">
-        <div className="grid grid-cols-2 max-[960px]:grid-cols-1 gap-[10px]">
-          <div>
-            <input
-              type="text"
-              placeholder={t.contacto.placeholders.nombre}
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
-              className="j3-input w-full bg-[var(--bk3)] border border-white/[.08] text-[var(--wh)]"
-            />
-          </div>
-          <div>
-            <input
-              type="email"
-              placeholder={t.contacto.placeholders.email}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="j3-input w-full bg-[var(--bk3)] border border-white/[.08] text-[var(--wh)]"
-            />
-          </div>
-        </div>
-
-        <div>
-          <select
-            value={soy}
-            onChange={(e) => setSoy(e.target.value)}
-            className={`j3-input w-full bg-[var(--bk3)] border border-white/[.08] cursor-pointer ${soy ? "text-[var(--wh)]" : "text-[var(--gy)]"}`}
+      {/* Pillars grid */}
+      <div className="relative z-10 max-w-[1200px] mx-auto grid grid-cols-4 max-[960px]:grid-cols-2 max-[600px]:grid-cols-1 gap-px bg-white/[.06]">
+        {pillars.map((p, i) => (
+          <Link
+            key={p.number}
+            href={p.href}
+            className="reveal-up group relative bg-[var(--bk)] p-8 max-[960px]:p-6 no-underline flex flex-col justify-between min-h-[240px] transition-colors duration-500 hover:bg-[var(--bk2)]"
           >
-            {t.contacto.soyOptions.map((opt, i) => (
-              <option key={opt} value={i === 0 ? "" : opt}>
-                {opt}
-              </option>
-            ))}
-          </select>
-        </div>
+            {/* Hover glow */}
+            <div
+              className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-500"
+              style={{
+                background:
+                  "radial-gradient(ellipse at 50% 30%, rgba(220,175,100,.06) 0%, transparent 70%)",
+              }}
+            />
 
-        <div>
-          <select
-            value={interes}
-            onChange={(e) => setInteres(e.target.value)}
-            className={`j3-input w-full bg-[var(--bk3)] border border-white/[.08] cursor-pointer ${interes ? "text-[var(--wh)]" : "text-[var(--gy)]"}`}
-          >
-            {t.contacto.interesOptions.map((opt, i) => (
-              <option key={opt} value={i === 0 ? "" : opt}>
-                {opt}
-              </option>
-            ))}
-          </select>
-        </div>
+            {/* Top — number + title */}
+            <div className="relative z-10">
+              <span className="text-[clamp(32px,4vw,48px)] font-bold j3-grad-text leading-none block mb-3 opacity-30 group-hover:opacity-60 transition-opacity duration-500">
+                {p.number}
+              </span>
+              <h3 className="font-bold text-[clamp(22px,2.5vw,32px)] uppercase tracking-[-1px] leading-[1] text-[var(--wh)] mb-3">
+                {p.title}
+              </h3>
+              <p className="text-[13px] text-[var(--gy2)] leading-[1.6] font-light">
+                {p.desc}
+              </p>
+            </div>
 
-        <div>
-          <textarea
-            rows={4}
-            placeholder={t.contacto.placeholders.mensaje}
-            value={mensaje}
-            onChange={(e) => setMensaje(e.target.value)}
-            className="j3-input w-full bg-[var(--bk3)] border border-white/[.08] text-[var(--wh)]"
-          />
-        </div>
+            {/* Bottom — CTA */}
+            <div className="relative z-10 mt-6">
+              <span className="text-[11px] font-bold tracking-[2px] uppercase text-[var(--gy)] group-hover:text-[var(--g1)] transition-colors duration-300 inline-flex items-center gap-2 group-hover:gap-3">
+                {p.cta}
+                <span className="transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
+              </span>
+            </div>
 
-        {/* Submit button */}
-        <button
-          type="submit"
-          disabled={status === "sending" || status === "sent"}
-          className={`btn-glow w-full py-[15px] rounded-[980px] font-bold text-[12px] tracking-[3px] uppercase border-none cursor-pointer mt-1.5 transition-all duration-300 ${
-            status === "sent"
-              ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
-              : status === "sending"
-              ? "opacity-70 cursor-wait"
-              : ""
-          }`}
-          style={status === "sent" ? undefined : { background: "var(--j3-grad)", color: "#000" }}
+            {/* Gold accent line — bottom, expands on hover */}
+            <div className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] transition-all duration-700 ease-[var(--ease-out)]" />
+          </Link>
+        ))}
+      </div>
+
+      {/* Contact info — minimal */}
+      <div className="relative z-10 max-w-[1200px] mx-auto mt-16 max-[960px]:mt-12 flex items-center justify-center gap-8 max-[960px]:flex-col max-[960px]:gap-4">
+        <a
+          href="mailto:info@j3padel.com"
+          className="reveal-up text-[13px] font-light text-[var(--gy)] hover:text-[var(--wh)] transition-colors duration-200 no-underline tracking-[0.5px]"
         >
-          {status === "sending" ? (
-            <span className="flex items-center justify-center gap-2">
-              <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
-              {t.contacto.sending}
-            </span>
-          ) : status === "sent" ? (
-            <span className="flex items-center justify-center gap-2">
-              {t.contacto.sent}
-            </span>
-          ) : (
-            t.contacto.submit
-          )}
-        </button>
-        {status === "error" && (
-          <p className="text-[12px] text-red-400 mt-2 text-center">
-            {t.contacto.error}
-          </p>
-        )}
-      </form>
+          info@j3padel.com
+        </a>
+        <span className="text-[var(--gy)]/30 max-[960px]:hidden">&middot;</span>
+        <a
+          href="tel:+34722272598"
+          className="reveal-up text-[13px] font-light text-[var(--gy)] hover:text-[var(--wh)] transition-colors duration-200 no-underline tracking-[0.5px]"
+        >
+          +34 722 272 598
+        </a>
+        <span className="text-[var(--gy)]/30 max-[960px]:hidden">&middot;</span>
+        <span className="reveal-up text-[13px] font-light text-[var(--gy)] tracking-[0.5px]">
+          M&aacute;laga, Espa&ntilde;a
+        </span>
+      </div>
     </section>
   );
 }

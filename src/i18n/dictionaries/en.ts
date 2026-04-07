@@ -15,9 +15,9 @@ export const en = {
 
   sponsors: {
     items: [
-      { src: "/images/j3/tecnifibre.png", alt: "Tecnifibre", w: 200, h: 52 },
-      { src: "/images/j3/lacoste.png", alt: "Lacoste", w: 200, h: 52 },
-      { src: "/images/j3/alquilavisual.jpg", alt: "Alquilavisual", w: 200, h: 56 },
+      { src: "/images/j3/tecnifibre.png", alt: "Tecnifibre", w: 200, h: 52, href: "https://www.tecnifibre.com" },
+      { src: "/images/j3/lacoste.png", alt: "Lacoste", w: 200, h: 52, href: "https://www.lacoste.com" },
+      { src: "/images/j3/alquilavisual.jpg", alt: "Alquilavisual", w: 200, h: 56, href: "http://www.alquilavisual.com" },
     ],
   },
 
@@ -307,13 +307,15 @@ export const en = {
     team: {
       label: "The team",
       heading1: "Two people.",
-      heading2: "One shared vision.",
+      heading2: "One shared",
+      heading2Accent: "vision.",
       members: [
         {
           num: "01",
           role: "Co-founder \u00B7 CEO",
           first: "Javi",
           last: "C\u00E1rdenas",
+          last2: "Navas",
           bio: "Player, coach, executor. He grew up on the court and still coaches, but with a natural gift for turning ideas into structure. He organized the WPT M\u00E1laga with nearly 300 pairs, managed Higuer\u00F3n until it became the best club in the world and today leads the operations of the entire J3 ecosystem.",
           quote: "Without execution, vision is just conversation.",
         },
@@ -322,7 +324,8 @@ export const en = {
           role: "Co-founder \u00B7 CSO",
           first: "Jorge",
           last: "C\u00E1rdenas",
-          bio: "Player, coach, strategist. Always focused on what comes next. He defined the J3 methodology from the court, trained dozens of young players who reached the top and coached players to the world top 5. Today he designs where J3Padel is headed.",
+          last2: "Navas",
+          bio: "Player, coach, strategist. Always focused on what comes next. He defined the J3 methodology from the court, trained dozens of young players who reached the top and coached players to the world top 5. In 2022, the highest-ranked Spanish coach. Today he designs where J3Padel is headed.",
           quote: "Seeing the game before it happens. That is coaching.",
         },
       ],
@@ -330,8 +333,9 @@ export const en = {
 
     players: {
       label: "Players",
-      heading1: "Trained with",
-      heading2: "the J3 system.",
+      heading1: "Every player",
+      heading2: "has their",
+      heading2Accent: "roadmap.",
       description: "Two types of relationship. Those we developed from the ground up \u2014 now on the professional circuit. And those who trusted J3 for high-performance preparation.",
       heroLabel: "Developed from the ground up \u00B7 The highest level of the circuit",
       nextGenLabel: "From the youth academy to the professional circuit",

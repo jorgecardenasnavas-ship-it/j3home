@@ -51,7 +51,7 @@ export function HeroSection() {
       <section
         id="hero"
         ref={heroRef}
-        className="h-screen min-h-[640px] relative overflow-hidden flex flex-col justify-end"
+        className="h-[92vh] min-h-[640px] relative overflow-hidden flex flex-col justify-end"
       >
         {/* Background Video */}
         <video
@@ -126,19 +126,21 @@ export function HeroSection() {
           <div className="hero-actions reveal-up flex gap-3">
             <a
               href="#productos"
-              className="btn-glow text-[12px] font-bold tracking-[2px] uppercase py-[11px] px-[26px] rounded-[980px] no-underline cursor-pointer border-none"
+              className="btn-glow j3-press text-[12px] font-bold tracking-[2px] uppercase py-[11px] px-[26px] rounded-[980px] no-underline cursor-pointer border-none"
               style={{ background: "var(--j3-grad)", color: "#000" }}
             >
               {t.hero.cta1}
             </a>
             <a
               href="/coach360"
-              className="text-[12px] font-bold tracking-[2px] uppercase py-[11px] px-[26px] rounded-[980px] no-underline transition-all duration-300 cursor-pointer text-[var(--g1)] border border-[rgba(220,175,100,.3)] bg-transparent hover:bg-[rgba(220,175,100,.07)] hover:border-[rgba(220,175,100,.5)]"
+              className="btn-ghost j3-press text-[12px] font-bold tracking-[2px] uppercase py-[11px] px-[26px] rounded-[980px] no-underline cursor-pointer text-[var(--g1)] border border-[rgba(220,175,100,.3)] bg-transparent hover:bg-[rgba(220,175,100,.07)] hover:border-[rgba(220,175,100,.5)]"
             >
               {t.hero.cta2}
             </a>
           </div>
         </div>
+
+
       </section>
 
       {/* Mobile Creds */}
