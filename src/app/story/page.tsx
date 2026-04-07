@@ -282,10 +282,10 @@ function AccentManifesto() {
   return (
     <div
       ref={containerRef}
-      className="relative bg-[var(--bk)] border-y border-white/[.05]"
+      className="relative bg-[var(--bk)] border-y border-white/[.05] overflow-clip"
       style={{ height: "220vh" }}
     >
-      <div className="sticky top-0 h-screen overflow-hidden flex items-center">
+      <div className="sticky top-0 h-screen flex items-center">
         {/* Subtle radial glow */}
         <div
           className="absolute inset-0 pointer-events-none"
@@ -299,13 +299,14 @@ function AccentManifesto() {
         <div className="relative w-full max-w-[1400px] mx-auto px-12 max-[960px]:px-6 grid grid-cols-[1.1fr_1fr] gap-16 items-center max-[960px]:grid-cols-1 max-[960px]:gap-8">
           {/* ── LEFT: Giant Á ── */}
           <div className="relative flex items-center justify-center">
-            <div className="relative inline-block leading-[0.85]">
+            <div className="relative inline-block leading-none pb-[0.12em] pt-[0.18em]">
               {/* The A (base letter) */}
               <span
                 className="j3-grad-text font-bold block select-none"
                 style={{
-                  fontSize: "clamp(220px, 34vw, 460px)",
-                  letterSpacing: "-0.05em",
+                  fontSize: "clamp(200px, 30vw, 420px)",
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1,
                   opacity: pA,
                   transform: `scale(${0.92 + pA * 0.08})`,
                   filter: `blur(${(1 - pA) * 10}px)`,
@@ -321,7 +322,7 @@ function AccentManifesto() {
                 style={{
                   left: "50%",
                   top: "-0.04em",
-                  fontSize: "clamp(220px, 34vw, 460px)",
+                  fontSize: "clamp(200px, 30vw, 420px)",
                   width: "0.18em",
                   height: "0.08em",
                   background:
@@ -341,7 +342,7 @@ function AccentManifesto() {
                 style={{
                   left: "50%",
                   top: "-0.02em",
-                  fontSize: "clamp(220px, 34vw, 460px)",
+                  fontSize: "clamp(200px, 30vw, 420px)",
                   width: "0.34em",
                   height: "0.14em",
                   transform: "translate(-50%, 0)",
