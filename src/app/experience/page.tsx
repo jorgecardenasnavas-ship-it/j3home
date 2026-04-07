@@ -254,7 +254,7 @@ function StatementSection() {
     before: string; accent?: string; after?: string;
     style: string; accentStyle?: string; align: string;
   }[] = [
-    { before: "Disfruta de", accent: "una", style: "j3-grad-text", accentStyle: "font-[var(--font-serif)] italic normal-case j3-grad-text", align: "text-left" },
+    { before: "Disfruta de", accent: "una", style: "j3-grad-text", accentStyle: "font-[var(--font-serif)] italic normal-case text-[var(--wh)]", align: "text-left" },
     { before: "experiencia \u00FAnica", style: "j3-stroke", align: "text-right" },
     { before: "con", accent: "nosotros.", style: "text-[var(--wh)]", accentStyle: "font-[var(--font-serif)] italic normal-case j3-grad-text", align: "text-left pl-[8%] max-[960px]:pl-0" },
   ];
