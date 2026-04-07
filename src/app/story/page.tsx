@@ -250,6 +250,7 @@ function AccentManifesto() {
   const { eyebrow, slogan, manifesto } = t.story.accent;
   const containerRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
+  const [accentTriggered, setAccentTriggered] = useState(false);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -267,12 +268,16 @@ function AccentManifesto() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Trigger accent CSS keyframe once the A is mostly visible
+  useEffect(() => {
+    if (progress > 0.12 && !accentTriggered) setAccentTriggered(true);
+  }, [progress, accentTriggered]);
+
   // Phase helper — returns 0..1 for a given slice of progress
   const phase = (start: number, end: number) =>
     Math.max(0, Math.min(1, (progress - start) / (end - start)));
 
   const pA = phase(0.00, 0.18); // A scales in
-  const pB = phase(0.14, 0.34); // Accent falls
   const pC = phase(0.28, 0.44); // Slogan line 1 (Pádel.)
   const pD = phase(0.36, 0.52); // Slogan line 2 (Con.)
   const pE = phase(0.44, 0.60); // Slogan line 3 (Acento.)
@@ -299,30 +304,38 @@ function AccentManifesto() {
         <div className="relative w-full max-w-[1400px] mx-auto px-12 max-[960px]:px-6 grid grid-cols-[1.1fr_1fr] gap-16 items-center max-[960px]:grid-cols-1 max-[960px]:gap-8">
           {/* ── LEFT: Giant Á ── */}
           <div className="relative flex items-center justify-center">
-            <div className="relative inline-block leading-none pb-[0.12em] pt-[0.18em]">
-              {/* The A (base letter) */}
+            <div
+              className="relative inline-block"
+              style={{
+                fontSize: "clamp(190px, 28vw, 380px)",
+                lineHeight: 1,
+              }}
+            >
+              {/* The A (base letter) — padding in em so glyph has breathing room */}
               <span
                 className="j3-grad-text font-bold block select-none"
                 style={{
-                  fontSize: "clamp(200px, 30vw, 420px)",
+                  fontSize: "1em",
                   letterSpacing: "-0.03em",
                   lineHeight: 1,
+                  paddingTop: "0.1em",
+                  paddingBottom: "0.15em",
                   opacity: pA,
                   transform: `scale(${0.92 + pA * 0.08})`,
+                  transformOrigin: "center center",
                   filter: `blur(${(1 - pA) * 10}px)`,
                 }}
               >
                 A
               </span>
 
-              {/* The acute accent — geometric bar that falls */}
+              {/* The acute accent — CSS-keyframe fall + bounce + settle */}
               <span
                 aria-hidden
                 className="absolute pointer-events-none"
                 style={{
                   left: "50%",
-                  top: "-0.04em",
-                  fontSize: "clamp(200px, 30vw, 420px)",
+                  top: "0.05em",
                   width: "0.18em",
                   height: "0.08em",
                   background:
@@ -330,8 +343,12 @@ function AccentManifesto() {
                   borderRadius: "0.015em",
                   boxShadow: "0 0.01em 0.05em rgba(253,230,138,0.5)",
                   transformOrigin: "center center",
-                  transform: `translate(-50%, ${(1 - pB) * -260}%) rotate(${-60 + pB * 42}deg)`,
-                  opacity: pB,
+                  // Resting state if not yet triggered
+                  transform: "translate(-50%, -520%) rotate(-60deg)",
+                  opacity: 0,
+                  animation: accentTriggered
+                    ? "accentFallBounce 1.8s cubic-bezier(.32,.72,.38,1) 0.15s both"
+                    : "none",
                 }}
               />
 
@@ -341,15 +358,18 @@ function AccentManifesto() {
                 className="absolute pointer-events-none"
                 style={{
                   left: "50%",
-                  top: "-0.02em",
-                  fontSize: "clamp(200px, 30vw, 420px)",
+                  top: "0.05em",
                   width: "0.34em",
                   height: "0.14em",
                   transform: "translate(-50%, 0)",
                   background:
                     "radial-gradient(ellipse, rgba(253,230,138,0.55) 0%, transparent 70%)",
                   filter: "blur(0.04em)",
-                  opacity: pB > 0.85 ? (pB - 0.85) * 6.6 : 0,
+                  opacity: 0,
+                  transition: "opacity 0.6s ease",
+                  ...(accentTriggered && {
+                    animation: "fadeInSoft 0.8s ease 0.8s both",
+                  }),
                 }}
               />
             </div>

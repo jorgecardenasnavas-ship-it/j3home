@@ -79,6 +79,17 @@
   50% { transform: translateY(5px); opacity: 1; }
 }
 
+/* Accent tilde — falls onto the A, bounces, settles close to it */
+@keyframes accentFallBounce {
+  0%   { transform: translate(-50%, -520%) rotate(-60deg); opacity: 0; }
+  12%  { opacity: 1; }
+  38%  { transform: translate(-50%, 8%) rotate(-14deg); }   /* impact on A */
+  52%  { transform: translate(-50%, -55%) rotate(-22deg); } /* bounce up */
+  66%  { transform: translate(-50%, -8%) rotate(-16deg); }  /* settle down */
+  78%  { transform: translate(-50%, -30%) rotate(-19deg); } /* mini bounce */
+  100% { transform: translate(-50%, -22%) rotate(-18deg); opacity: 1; } /* final rest, closer to A */
+}
+
 /* ─── Apple-style input design ─── */
 .j3-input {
   font-family: var(--font-display);
