@@ -805,7 +805,7 @@ function SedesSection() {
         }}
       >
         <span className="text-[10px] font-bold tracking-[4px] uppercase text-[var(--g1)] block mb-4">
-          D&oacute;nde entrenamos
+          Headquarters
         </span>
         <h2 className="font-bold text-[clamp(36px,5vw,72px)] uppercase tracking-[-2px] leading-[1]">
           <span className="text-[var(--wh)]">Dos sedes. Una sola </span>
