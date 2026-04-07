@@ -525,12 +525,6 @@ export const en = {
       titleLine3b: "advance.",
       subtitleLine1: "The best p\u00E1del academy on the Costa del Sol.",
       subtitleLine2: "Training players of all levels since 2004.",
-      accentTouch: {
-        before: "Where p\u00E1del is trained",
-        accent: "with accent.",
-        labelLeft: "ACADEMY \u00B7 J3",
-        labelRight: "M\u00C1LAGA \u2014 SPAIN",
-      },
     },
 
     statement: {
@@ -695,12 +689,6 @@ export const en = {
       subtitleBefore: "Camps, stages and ",
       subtitleAccent: "bespoke",
       subtitleAfter: " experiences anywhere in the world.",
-      accentTouch: {
-        before: "Where p\u00E1del is lived",
-        accent: "with accent.",
-        labelLeft: "EXPERIENCE \u00B7 J3",
-        labelRight: "M\u00C1LAGA \u2014 SPAIN",
-      },
     },
 
     statement: {

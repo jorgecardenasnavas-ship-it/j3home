@@ -234,7 +234,7 @@ function HeroSection() {
           </span>
         </h1>
 
-        {/* "Pádel con acento" brushstroke */}
+        {/* Subtitle — brushstroke layout */}
         <div
           className="flex items-start gap-5 max-w-[760px]"
           style={{
@@ -248,22 +248,12 @@ function HeroSection() {
           <span className="w-px h-[68px] max-[960px]:h-[60px] mt-1 shrink-0 bg-gradient-to-b from-[var(--g1)] via-[var(--g1)]/40 to-transparent" />
 
           <div className="leading-[1.35]">
-            <span className="block text-[clamp(15px,1.6vw,21px)] font-light text-[var(--gy3)] tracking-[-0.2px]">
-              {t.academy.hero.accentTouch.before}
+            <span className="block text-[clamp(16px,1.8vw,22px)] font-bold italic tracking-[-0.3px] j3-grad-text">
+              {t.academy.hero.subtitleLine1}
             </span>
-            <span className="block text-[clamp(20px,2.4vw,32px)] font-bold italic tracking-[-0.5px] j3-grad-text mt-[2px]">
-              {t.academy.hero.accentTouch.accent}
+            <span className="block text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)]/75 mt-3">
+              {t.academy.hero.subtitleLine2}
             </span>
-
-            <div className="flex items-center gap-4 mt-4 flex-wrap">
-              <span className="text-[9px] font-bold tracking-[3px] uppercase text-[var(--g1)]/85">
-                {t.academy.hero.accentTouch.labelLeft}
-              </span>
-              <span className="w-4 h-px bg-[var(--g1)]/25" />
-              <span className="text-[9px] font-bold tracking-[3px] uppercase text-[var(--g1)]/55">
-                {t.academy.hero.accentTouch.labelRight}
-              </span>
-            </div>
           </div>
         </div>
       </div>
