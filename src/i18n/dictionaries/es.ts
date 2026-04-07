@@ -279,7 +279,7 @@ export const es = {
           badge: "Top 4 Mundial WPT \u00B7 2021",
           highlight: true,
           image: "/images/story/timeline/franco-alex-pozzoni-jorge.jpeg",
-          imagePosition: "center 35%",
+          imagePosition: "center 55%",
         },
         {
           year: "2022",
