@@ -337,7 +337,7 @@ function AccentManifesto() {
                 className="absolute pointer-events-none"
                 style={{
                   left: "50%",
-                  top: "0.21em",
+                  top: "0.26em",
                   width: "0.18em",
                   height: "0.075em",
                   background:
