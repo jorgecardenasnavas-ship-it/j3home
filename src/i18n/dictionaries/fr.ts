@@ -502,10 +502,10 @@ export const fr = {
   academy: {
     hero: {
       locationLabel: "M\u00E1laga \u00B7 Costa del Sol",
-      titleLine1: "Repeat.",
-      titleLine2: "Repeat.",
-      titleLine3a: "AND",
-      titleLine3b: "repeat.",
+      titleLine1: "R\u00E9p\u00E9ter.",
+      titleLine2: "Affiner.",
+      titleLine3a: "ET",
+      titleLine3b: "avancer.",
       subtitleLine1: "La meilleure acad\u00E9mie de padel de la Costa del Sol.",
       subtitleLine2: "Depuis 2004, nous formons des joueurs de tous niveaux.",
     },

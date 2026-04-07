@@ -503,9 +503,9 @@ export const en = {
     hero: {
       locationLabel: "M\u00E1laga \u00B7 Costa del Sol",
       titleLine1: "Repeat.",
-      titleLine2: "Repeat.",
+      titleLine2: "Refine.",
       titleLine3a: "AND",
-      titleLine3b: "repeat.",
+      titleLine3b: "advance.",
       subtitleLine1: "The best p\u00E1del academy on the Costa del Sol.",
       subtitleLine2: "Training players of all levels since 2004.",
     },

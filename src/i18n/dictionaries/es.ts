@@ -503,10 +503,10 @@ export const es = {
   academy: {
     hero: {
       locationLabel: "M\u00E1laga \u00B7 Costa del Sol",
-      titleLine1: "Repeat.",
-      titleLine2: "Repeat.",
-      titleLine3a: "AND",
-      titleLine3b: "repeat.",
+      titleLine1: "Repetir.",
+      titleLine2: "Ajustar.",
+      titleLine3a: "Y",
+      titleLine3b: "avanzar.",
       subtitleLine1: "La mejor academia de p\u00E1del en la Costa del Sol.",
       subtitleLine2: "Desde 2004 entrenando jugadores de todos los niveles.",
     },

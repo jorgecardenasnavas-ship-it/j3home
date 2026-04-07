@@ -502,10 +502,10 @@ export const sv = {
   academy: {
     hero: {
       locationLabel: "M\u00E1laga \u00B7 Costa del Sol",
-      titleLine1: "Repeat.",
-      titleLine2: "Repeat.",
-      titleLine3a: "AND",
-      titleLine3b: "repeat.",
+      titleLine1: "Upprepa.",
+      titleLine2: "Finjustera.",
+      titleLine3a: "OCH",
+      titleLine3b: "g\u00E5 fram\u00E5t.",
       subtitleLine1: "Den b\u00E4sta padelakademin p\u00E5 Costa del Sol.",
       subtitleLine2: "Sedan 2004 tr\u00E4nar vi spelare p\u00E5 alla niv\u00E5er.",
     },
