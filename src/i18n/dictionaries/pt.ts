@@ -37,7 +37,7 @@ export const pt = {
       { year: "2018", text: "Melhor clube do mundo" },
       { year: "2022", text: "Melhor treinador espanhol no ranking pro" },
       { year: "2024", text: "10.º aniversário de J3" },
-      { year: "11\u00D7", text: "Vitórias" },
+      { year: "11\u00D7", text: "Vitórias — Campeão no circuito profissional" },
     ],
     tagline: "Formação campeã de Espanha e do Mundo",
     cta1: "Ver produtos",

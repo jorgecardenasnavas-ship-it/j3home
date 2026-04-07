@@ -37,7 +37,7 @@ export const sv = {
       { year: "2018", text: "Bästa klubben i världen" },
       { year: "2022", text: "Bästa spanska tränaren i profrankingen" },
       { year: "2024", text: "10-årsjubileum för J3" },
-      { year: "11\u00D7", text: "Segrar" },
+      { year: "11\u00D7", text: "Segrar — Mästare på proffstouren" },
     ],
     tagline: "Ungdomsakademi — mästare i Spanien och världen",
     cta1: "Se produkter",
