@@ -37,7 +37,7 @@ export const fr = {
       { year: "2018", text: "Meilleur club du monde" },
       { year: "2022", text: "Meilleur entra\u00EEneur espagnol au classement pro" },
       { year: "2024", text: "10\u00E8me anniversaire de J3" },
-      { year: "11\u00D7", text: "Victoires \u2014 Champion sur le circuit pro" },
+      { year: "11\u00D7", text: "Champion sur le circuit pro" },
     ],
     tagline: "Centre de formation champion d\u2019Espagne et du Monde",
     cta1: "Voir les produits",

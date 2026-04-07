@@ -37,7 +37,7 @@ export const es = {
       { year: "2018", text: "Mejor club del mundo" },
       { year: "2022", text: "Mejor entrenador espa\u00F1ol en ranking pro" },
       { year: "2024", text: "10\u00BA aniversario de J3" },
-      { year: "11\u00D7", text: "Victorias \u2014 Campe\u00F3n en el circuito profesional" },
+      { year: "11\u00D7", text: "Campe\u00F3n en el circuito profesional" },
     ],
     tagline: "Cantera campeona de Espa\u00F1a y del Mundo",
     cta1: "Ver productos",

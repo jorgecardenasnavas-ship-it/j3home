@@ -37,7 +37,7 @@ export const en = {
       { year: "2018", text: "Best club in the world" },
       { year: "2022", text: "Top-ranked Spanish coach on the pro circuit" },
       { year: "2024", text: "J3's 10th anniversary" },
-      { year: "11\u00D7", text: "Wins \u2014 Champion on the pro circuit" },
+      { year: "11\u00D7", text: "Champion on the pro circuit" },
     ],
     tagline: "Youth academy \u2014 champions of Spain and the World",
     cta1: "View products",
