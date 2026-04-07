@@ -5,6 +5,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useI18n } from "@/i18n/context";
 
+
 /* ───────── HOOKS ───────── */
 
 function useReveal(threshold = 0.15) {
@@ -45,42 +46,42 @@ function useParallax() {
 
 /* ── Player names (proper nouns — not translated) ── */
 const playerHeroNames = [
-  { first: "Álex", last: "Ruiz" },
-  { first: "Momo", last: "González" },
-  { first: "Jordi", last: "Muñoz" },
+  { first: "\u00C1lex", last: "Ruiz" },
+  { first: "Momo", last: "Gonz\u00E1lez" },
+  { first: "Jordi", last: "Mu\u00F1oz" },
 ];
 
 const playerNextGenNames = [
   { first: "Guille", last: "Collado" },
-  { first: "Bea", last: "González" },
+  { first: "Bea", last: "Gonz\u00E1lez" },
   { first: "Raquel", last: "Segura" },
   { first: "Ernesto", last: "Moreno" },
-  { first: "Marcos", last: "González" },
+  { first: "Marcos", last: "Gonz\u00E1lez" },
 ];
 
 const playerNextGenProNames = [
   { first: "Martina", last: "Fassio" },
-  { first: "José", last: "Jiménez Casas" },
+  { first: "Jos\u00E9", last: "Jim\u00E9nez Casas" },
 ];
 
 const playerFeaturedNames = [
   { first: "Franco", last: "Stupaczuk" },
   { first: "Fede", last: "Chingotto" },
   { first: "Javi", last: "Garrido" },
-  { first: "Álex", last: "Arroyo" },
+  { first: "\u00C1lex", last: "Arroyo" },
 ];
 
 const playerSharedNames = [
   { first: "Paquito", last: "Navarro" },
-  { first: "Maxi", last: "Sánchez" },
+  { first: "Maxi", last: "S\u00E1nchez" },
   { first: "Fede", last: "Quiles" },
   { first: "Raquel", last: "Eugenio" },
-  { first: "Álex", last: "Chozas" },
-  { first: "Pincho", last: "Fernández" },
-  { first: "Miguel Á.", last: "Benítez" },
-  { first: "Martín", last: "Andornino" },
+  { first: "\u00C1lex", last: "Chozas" },
+  { first: "Pincho", last: "Fern\u00E1ndez" },
+  { first: "Miguel \u00C1.", last: "Ben\u00EDtez" },
+  { first: "Mart\u00EDn", last: "Andornino" },
   { first: "Fran", last: "Jurado" },
-  { first: "Pol", last: "Hernández" },
+  { first: "Pol", last: "Hern\u00E1ndez" },
 ];
 
 const brandsPast = ["Wilson", "Babolat", "Adidas", "Varlion"];
@@ -249,7 +250,7 @@ function TimelineSection() {
   const timeline = t.story.timeline.entries;
   const eras = t.story.timeline.eras;
   // Map era indices: entry 0→era[0], entry 3→era[1], entry 6→era[2], entry 12→era[3]
-  const eraMap: Record<number, string> = { 0: eras[0], 3: eras[1], 6: eras[2], 12: eras[3] };
+  const eraMap: Record<number, string> = { 0: eras[0], 3: eras[1], 6: eras[2], 14: eras[3] };
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -259,6 +260,19 @@ function TimelineSection() {
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [visibleItems, setVisibleItems] = useState<boolean[]>(new Array(timeline.length).fill(false));
   const headerReveal = useReveal(0.2);
+  const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null);
+
+  useEffect(() => {
+    if (!lightbox) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setLightbox(null); };
+    document.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [lightbox]);
 
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
@@ -286,17 +300,18 @@ function TimelineSection() {
       const wH = window.innerHeight;
       const sRect = section.getBoundingClientRect();
 
-      // Is timeline in view? Combine section + last item checks
+      // Is timeline in view? Only show when first timeline item is visible
+      const firstEl = itemRefs.current[0];
       const lastEl = itemRefs.current[timeline.length - 1];
+      const firstRect = firstEl?.getBoundingClientRect();
       const lastRect = lastEl?.getBoundingClientRect();
-      // Hide when the last item's TOP has scrolled above the viewport center
+      const firstItemVisible = firstRect ? firstRect.top < wH * 0.8 : false;
       const lastItemPassed = lastRect ? lastRect.top < wH * 0.35 : sRect.bottom < wH;
-      setInView(sRect.top < wH * 0.5 && !lastItemPassed);
+      setInView(firstItemVisible && !lastItemPassed);
 
       // Calculate scroll progress through the timeline
-      const firstEl = itemRefs.current[0];
       if (firstEl && lastEl) {
-        const start = firstEl.getBoundingClientRect().top;
+        const start = firstRect!.top;
         const end = lastEl.getBoundingClientRect().bottom;
         const total = end - start;
         const scrolled = wH * 0.5 - start;
@@ -369,21 +384,21 @@ function TimelineSection() {
             className="min-[800px]:hidden fixed top-[52px] left-0 right-0 z-50 pointer-events-none"
             style={{ opacity: inView ? 1 : 0, transition: "opacity .4s ease" }}
           >
-            <div className="bg-[var(--bk2)] border-b border-white/[.06] backdrop-blur-md">
-              {/* Progress bar */}
-              <div className="h-[3px] w-full bg-white/[.06]">
-                <div
-                  className="h-full bg-gradient-to-r from-[var(--g1)] to-[var(--g2)]"
-                  style={{ width: `${scrollProgress * 100}%`, transition: "width .15s linear" }}
-                />
-              </div>
+            <div className="bg-black border-b border-white/[.06] backdrop-blur-md">
               {/* Era + year */}
               {activeIndex >= 0 && (
                 <div className="flex items-center justify-between px-4 py-[6px]">
-                  <span className="text-[8px] max-[960px]:text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)]/80">{currentEra}</span>
-                  <span className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[2px] text-[var(--wh)]/70">{currentYear}</span>
+                  <span className="text-[8px] max-[960px]:text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{currentEra}</span>
+                  <span className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[2px] text-white/50">{currentYear}</span>
                 </div>
               )}
+              {/* Progress bar — at the bottom of the banner */}
+              <div className="h-[5px] w-full bg-black rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] rounded-full shadow-[0_0_8px_rgba(220,175,100,0.4)]"
+                  style={{ width: `${scrollProgress * 100}%`, transition: "width .15s linear" }}
+                />
+              </div>
             </div>
           </div>
         );
@@ -405,7 +420,7 @@ function TimelineSection() {
         </h2>
       </div>
 
-      <div ref={trackRef} className="relative pl-8 max-[640px]:pl-4 w-full break-words">
+      <div ref={trackRef} className="relative pl-8 max-[640px]:pl-4 w-full max-w-[1180px] mx-auto break-words">
         {/* Track line */}
         <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[rgba(220,175,100,.2)] to-transparent" />
 
@@ -449,27 +464,75 @@ function TimelineSection() {
                     boxShadow: isHL && visible ? "0 0 14px rgba(220,175,100,.5)" : "none",
                   }}
                 />
-                <span className={`text-[11px] font-bold tracking-[3px] uppercase mb-2 block max-[640px]:text-[10px] max-[640px]:tracking-[2px] max-[640px]:mb-1 ${isHL ? "text-[var(--g1)]" : "text-[var(--g1)]/80"}`}>{item.year}</span>
-                <h3 className={`font-bold uppercase tracking-[-0.5px] leading-[1.1] mb-[10px] max-[640px]:mb-[6px] ${
-                  isHL ? "text-[clamp(18px,3vw,32px)]" : "text-[clamp(16px,2.5vw,26px)] text-[var(--gy3)]"
-                }`}>
-                  {isHL ? <span className="j3-grad-text">{item.title}</span> : item.title}
-                </h3>
-                <p className={`font-light leading-[1.75] max-w-[620px] max-[640px]:leading-[1.6] ${isHL ? "text-[15px] max-[640px]:text-[13px] text-[var(--gy2)]" : "text-[13px] max-[640px]:text-[12px] text-[var(--gy)]"}`}>{item.desc}</p>
-                {item.badge && (
-                  <span className={`inline-block text-[9px] max-[640px]:text-[8px] font-bold tracking-[2px] max-[640px]:tracking-[1.5px] uppercase px-3 max-[640px]:px-2.5 py-1 rounded-full mt-3 max-[640px]:mt-2 ${
-                    isHL
-                      ? "bg-[rgba(220,175,100,.1)] border border-[rgba(220,175,100,.35)] text-[var(--g1)]"
-                      : "border border-[rgba(220,175,100,.2)] text-[var(--g1)]/80"
-                  }`}>
-                    {item.badge}
-                  </span>
-                )}
+                <div className={item.image ? "min-[960px]:flex min-[960px]:gap-10 min-[960px]:items-start" : ""}>
+                  <div className={item.image ? "min-[960px]:flex-1 min-[960px]:min-w-0" : ""}>
+                    <span className={`text-[11px] font-bold tracking-[3px] uppercase mb-2 block max-[640px]:text-[10px] max-[640px]:tracking-[2px] max-[640px]:mb-1 ${isHL ? "text-[var(--g1)]" : "text-[var(--g1)]/80"}`}>{item.year}</span>
+                    <h3 className={`font-bold uppercase tracking-[-0.5px] leading-[1.1] mb-[10px] max-[640px]:mb-[6px] ${
+                      isHL ? "text-[clamp(18px,3vw,32px)]" : "text-[clamp(16px,2.5vw,26px)] text-[var(--gy3)]"
+                    }`}>
+                      {isHL ? <span className="j3-grad-text">{item.title}</span> : item.title}
+                    </h3>
+                    <p className={`font-light leading-[1.75] max-w-[620px] max-[640px]:leading-[1.6] ${isHL ? "text-[15px] max-[640px]:text-[13px] text-[var(--gy2)]" : "text-[13px] max-[640px]:text-[12px] text-[var(--gy)]"}`}>{item.desc}</p>
+                    {item.badge && (
+                      <span className={`inline-block text-[9px] max-[640px]:text-[8px] font-bold tracking-[2px] max-[640px]:tracking-[1.5px] uppercase px-3 max-[640px]:px-2.5 py-1 rounded-full mt-3 max-[640px]:mt-2 ${
+                        isHL
+                          ? "bg-[rgba(220,175,100,.1)] border border-[rgba(220,175,100,.35)] text-[var(--g1)]"
+                          : "border border-[rgba(220,175,100,.2)] text-[var(--g1)]/80"
+                      }`}>
+                        {item.badge}
+                      </span>
+                    )}
+                  </div>
+                  {item.image && (
+                    <button
+                      type="button"
+                      onClick={() => setLightbox({ src: item.image!, alt: item.title })}
+                      className="relative mt-4 min-[960px]:mt-0 min-[960px]:flex-shrink-0 w-full max-w-[420px] min-[960px]:w-[340px] min-[1280px]:w-[400px] max-[640px]:max-w-full overflow-hidden rounded-sm border border-white/[.08] aspect-[16/9] cursor-zoom-in group/img block"
+                    >
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-full h-full object-cover opacity-80 group-hover/img:opacity-100 group-hover/img:scale-[1.03] transition-all duration-500"
+                        loading="lazy"
+                      />
+                      <span className="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/60 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white/90 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300" aria-hidden="true">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                      </span>
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           );
         })}
       </div>
+
+      {/* Lightbox */}
+      {lightbox && (
+        <div
+          className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-sm flex items-center justify-center p-4 sm:p-10 cursor-zoom-out animate-[fadeIn_.25s_ease-out]"
+          onClick={() => setLightbox(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-label={lightbox.alt}
+        >
+          <img
+            src={lightbox.src}
+            alt={lightbox.alt}
+            className="max-w-full max-h-full object-contain shadow-[0_30px_80px_rgba(0,0,0,.6)]"
+            onClick={(e) => e.stopPropagation()}
+          />
+          <button
+            type="button"
+            onClick={() => setLightbox(null)}
+            className="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md flex items-center justify-center text-white text-xl transition-colors"
+            aria-label="Cerrar"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+          <span className="absolute bottom-5 left-1/2 -translate-x-1/2 text-[11px] font-bold tracking-[3px] uppercase text-white/60">{lightbox.alt}</span>
+        </div>
+      )}
     </section>
   );
 }
@@ -570,34 +633,58 @@ function SharedPlayerTag({ p, index }: { p: { first: string; last: string; tag: 
   );
 }
 
+/* ── Photo map for team members ── */
+const teamPhotos: Record<string, string> = {
+  Javi: "/images/story/javi.jpeg",
+  Jorge: "/images/story/jorge.jpeg",
+};
+
 /* ── Team member card ── */
-function TeamCard({ m, index }: { m: { num: string; role: string; first: string; last: string; bio: string; quote: string }; index: number }) {
+function TeamCard({ m, index }: { m: { num: string; role: string; first: string; last: string; last2?: string; bio: string; quote: string }; index: number }) {
   const { ref, visible } = useReveal(0.15);
+  const photo = teamPhotos[m.first];
   return (
     <div
       ref={ref}
-      className="bg-[var(--bk3)] p-14 max-[960px]:p-10 max-[640px]:p-6 relative overflow-hidden transition-colors hover:bg-[#161616] group"
+      className="bg-[var(--bk3)] relative overflow-hidden transition-colors hover:bg-[#161616] group"
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "none" : `translateX(${index === 0 ? "-40" : "40"}px)`,
         transition: `all .8s cubic-bezier(.16,1,.3,1) ${index * 0.15}s`,
       }}
     >
-      <span className="absolute top-8 right-10 max-[640px]:top-4 max-[640px]:right-4 font-bold text-[80px] max-[640px]:text-[60px] text-white/[.03] leading-[1] tracking-[-3px] transition-all duration-700 group-hover:text-white/[.06] group-hover:scale-110">{m.num}</span>
-      <span className="text-[10px] font-normal tracking-[4px] uppercase text-[var(--g1)] mb-4 block">{m.role}</span>
-      <h3 className="font-bold text-[clamp(28px,4vw,52px)] uppercase tracking-[-1.5px] leading-[.92] mb-5">
-        <span className="j3-grad-text">{m.first}</span>
-        <span className="text-[var(--wh)]"> {m.last}</span>
-      </h3>
-      <p className="text-[14px] max-[640px]:text-[13px] font-light text-[var(--gy2)] leading-[1.8] max-w-[420px] mb-7">{m.bio}</p>
-      <blockquote className="text-[18px] max-[640px]:text-[16px] font-bold italic text-[var(--wh)] leading-[1.4] border-l-2 border-[var(--g1)] pl-5 opacity-85 transition-all group-hover:pl-7">
-        &ldquo;{m.quote}&rdquo;
-      </blockquote>
+      {/* Photo */}
+      {photo && (
+        <div className="relative w-full aspect-[16/9] overflow-hidden">
+          <img
+            src={photo}
+            alt={`${m.first} ${m.last}`}
+            className="absolute inset-0 w-full h-full object-cover object-[center_25%] transition-transform duration-700 ease-out group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--bk3)] via-transparent to-transparent" />
+          <span className="absolute top-6 right-6 font-bold text-[80px] max-[640px]:text-[60px] text-white/[.08] leading-[1] tracking-[-3px]">{m.num}</span>
+        </div>
+      )}
+
+      {/* Content */}
+      <div className="p-14 max-[960px]:p-10 max-[640px]:p-6 relative">
+        {!photo && <span className="absolute top-8 right-10 max-[640px]:top-4 max-[640px]:right-4 font-bold text-[80px] max-[640px]:text-[60px] text-white/[.03] leading-[1] tracking-[-3px] transition-all duration-700 group-hover:text-white/[.06] group-hover:scale-110">{m.num}</span>}
+        <span className="text-[10px] font-normal tracking-[4px] uppercase text-[var(--g1)] mb-4 block">{m.role}</span>
+        <h3 className="font-bold text-[clamp(28px,4vw,52px)] uppercase tracking-[-1.5px] leading-[.92] mb-5">
+          <span className="j3-grad-text">{m.first}</span>
+          <span className="text-[var(--wh)]"> {m.last}</span>
+          {m.last2 && <span className="j3-stroke-gold font-[var(--font-serif)] italic normal-case tracking-[-0.5px] ml-[0.08em]">{m.last2}</span>}
+        </h3>
+        <p className="text-[14px] max-[640px]:text-[13px] font-light text-[var(--gy2)] leading-[1.8] max-w-[420px] mb-7">{m.bio}</p>
+        <blockquote className="text-[20px] max-[640px]:text-[18px] italic text-[var(--wh)] leading-[1.4] border-l-2 border-[var(--g1)] pl-5 opacity-85 transition-all group-hover:pl-7" style={{ fontFamily: "var(--font-serif)" }}>
+          &ldquo;{m.quote}&rdquo;
+        </blockquote>
+      </div>
     </div>
   );
 }
 
-/* ── Higuerón hero + lesson aside ── */
+/* ── Higuer\u00F3n hero + lesson aside ── */
 function HigueronHero() {
   const { t } = useI18n();
   const clubHero = t.story.clubs.heroClub;
@@ -620,7 +707,7 @@ function HigueronHero() {
         <span className="text-[13px] font-light text-[var(--gy)]/80">{clubLesson.name} — {t.story.clubs.lessonAside}</span>
       </div>
 
-      {/* Higuerón — hero card */}
+      {/* Higuer\u00F3n — hero card */}
       <div
         ref={heroReveal.ref}
         className="relative p-10 max-[640px]:p-6 border border-white/[.07] bg-gradient-to-br from-[var(--bk2)] to-[var(--bk)] overflow-hidden"
@@ -639,7 +726,7 @@ function HigueronHero() {
           <span className="text-[10px] font-normal tracking-[3px] uppercase text-[var(--g1)]/80 mb-4 block">{clubHero.flag}</span>
           <h3 className="font-bold text-[clamp(28px,4vw,48px)] uppercase tracking-[-1.5px] leading-[1] mb-4">
             <span className="j3-grad-text">Reserva del</span><br />
-            <span className="text-[var(--wh)]">Higuerón</span>
+            <span className="text-[var(--wh)]">{"Higuer\u00F3n"}</span>
           </h3>
           <p className="text-[14px] font-light text-[var(--gy2)] leading-[1.8] max-w-[560px] mb-5">{clubHero.detail}</p>
           <span className="inline-block text-[9px] max-[640px]:text-[8px] font-bold tracking-[2px] max-[640px]:tracking-[1px] uppercase px-3 py-[5px] rounded-full bg-[rgba(220,175,100,.1)] text-[var(--g1)] border border-[rgba(220,175,100,.25)]">{clubHero.highlight}</span>
@@ -730,7 +817,7 @@ function StoryImpact() {
 
   return (
     <div ref={containerRef} className="relative bg-[var(--bk)] -mt-[12vh]" style={{ height: "200vh" }}>
-      <div className="sticky top-0 h-screen flex items-center justify-center">
+      <div className="sticky top-0 h-screen flex items-center justify-center pt-[52px] max-[960px]:pt-[52px]">
         {/* Subtle radial glow */}
         <div
           className="absolute inset-0 pointer-events-none"
@@ -825,7 +912,7 @@ function StoryImpact() {
           })()}
 
           {/* Block 2 — cantera interactive steps */}
-          <div className="mt-8 max-[960px]:mt-6 relative flex flex-col items-start max-w-[460px] mx-auto pl-10 max-[960px]:pl-8">
+          <div className="mt-8 max-[960px]:mt-6 relative flex flex-col items-start max-w-[460px] mx-auto pl-10 max-[960px]:pl-8" style={{ opacity: p3 > 0.05 ? 1 : 0, transition: "opacity .4s ease" }}>
             {/* Vertical progress line */}
             {(() => {
               const lineProgress = Math.max(0, Math.min(1, (p3 - 0.22) / 0.5));
@@ -867,11 +954,14 @@ function StoryImpact() {
 
                   {/* Content */}
                   <div className="flex-1">
-                    <span className={`block text-left leading-[1.6] max-[960px]:leading-[1.65] ${
-                      isLast
-                        ? "text-[clamp(14px,1.4vw,16px)] max-[960px]:text-[15px] font-medium text-[var(--wh)]"
-                        : "text-[clamp(13px,1.3vw,15px)] max-[960px]:text-[15px] font-light text-[var(--gy2)]"
-                    }`}>
+                    <span
+                      className={`block text-left leading-[1.6] max-[960px]:leading-[1.65] ${
+                        isLast
+                          ? "text-[clamp(15px,1.5vw,18px)] max-[960px]:text-[16px] italic text-[var(--wh)]"
+                          : "text-[clamp(13px,1.3vw,15px)] max-[960px]:text-[15px] font-light text-[var(--gy2)]"
+                      }`}
+                      style={isLast ? { fontFamily: "var(--font-serif)" } : undefined}
+                    >
                       {text}
                     </span>
                   </div>
@@ -964,11 +1054,23 @@ export default function StoryPage() {
       <Navbar />
 
       {/* ─── HERO ─── */}
-      <section ref={heroRef} className="relative h-screen min-h-[580px] flex items-end overflow-hidden">
-        <div
-          className="absolute inset-0 bg-[url('https://j3padel.com/images/hero.jpeg')] bg-center bg-cover scale-110"
-          style={{ transform: `translateY(${heroY}px) scale(1.1)`, opacity: 0.28 }}
-        />
+      <section ref={heroRef} className="relative h-screen min-h-[580px] flex items-end overflow-hidden bg-black">
+        {/* Video background */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <iframe
+            src="https://iframe.mediadelivery.net/embed/553002/e3949095-f75b-4c0b-9490-e3b17294ab31?autoplay=true&loop=true&muted=true&controls=false&responsive=false"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-0"
+            style={{
+              width: "177.78vh", minWidth: "100%",
+              height: "56.25vw", minHeight: "100%",
+              opacity: 0.4,
+              transform: `translateY(${heroY}px)`,
+            }}
+            allow="autoplay"
+            loading="lazy"
+            title="J3 Pádel Story video"
+          />
+        </div>
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black" />
         <div
           className="relative z-10 px-12 pb-[72px] max-[960px]:px-6 max-[960px]:pb-14 w-full"
@@ -1019,7 +1121,7 @@ export default function StoryPage() {
         >
           <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] mb-3 block max-[960px]:text-[12px] max-[960px]:tracking-[3px]">{t.story.team.label}</span>
           <h2 className="font-bold text-[clamp(32px,4vw,52px)] uppercase tracking-[-1px] leading-[1]">
-            {t.story.team.heading1}<br /><span className="j3-grad-text">{t.story.team.heading2}</span>
+            {t.story.team.heading1}<br />{t.story.team.heading2}<span className="j3-grad-text font-[var(--font-serif)] italic normal-case tracking-[-0.5px] ml-[0.08em]">{t.story.team.heading2Accent}</span>
           </h2>
         </div>
 
@@ -1042,7 +1144,7 @@ export default function StoryPage() {
         >
           <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] mb-3 block max-[960px]:text-[12px] max-[960px]:tracking-[3px]">{t.story.players.label}</span>
           <h2 className="font-bold text-[clamp(32px,4vw,52px)] uppercase tracking-[-1px] leading-[1]">
-            {t.story.players.heading1}<br /><span className="j3-grad-text">{t.story.players.heading2}</span>
+            {t.story.players.heading1}<br />{t.story.players.heading2}<span className="j3-grad-text font-[var(--font-serif)] italic normal-case tracking-[-0.5px] ml-[0.08em]">{t.story.players.heading2Accent}</span>
           </h2>
           <p className="text-[14px] font-light text-[var(--gy2)] leading-[1.8] mt-4">
             {t.story.players.description}
