@@ -335,41 +335,19 @@ function AccentManifesto() {
                 className="absolute pointer-events-none"
                 style={{
                   left: "50%",
-                  top: "0.05em",
+                  top: "0.21em",
                   width: "0.18em",
-                  height: "0.08em",
+                  height: "0.075em",
                   background:
                     "linear-gradient(135deg, #dcaf64 0%, #fff1b4 50%, #dcaf64 100%)",
                   borderRadius: "0.015em",
-                  boxShadow: "0 0.01em 0.05em rgba(253,230,138,0.5)",
                   transformOrigin: "center center",
                   // Resting state if not yet triggered
-                  transform: "translate(-50%, -520%) rotate(-60deg)",
+                  transform: "translate(-50%, -700%) rotate(-60deg)",
                   opacity: 0,
                   animation: accentTriggered
-                    ? "accentFallBounce 1.8s cubic-bezier(.32,.72,.38,1) 0.15s both"
+                    ? "accentFallBounce 1.7s cubic-bezier(.32,.72,.38,1) 0.15s both"
                     : "none",
-                }}
-              />
-
-              {/* Spark glow when accent lands */}
-              <span
-                aria-hidden
-                className="absolute pointer-events-none"
-                style={{
-                  left: "50%",
-                  top: "0.05em",
-                  width: "0.34em",
-                  height: "0.14em",
-                  transform: "translate(-50%, 0)",
-                  background:
-                    "radial-gradient(ellipse, rgba(253,230,138,0.55) 0%, transparent 70%)",
-                  filter: "blur(0.04em)",
-                  opacity: 0,
-                  transition: "opacity 0.6s ease",
-                  ...(accentTriggered && {
-                    animation: "fadeInSoft 0.8s ease 0.8s both",
-                  }),
                 }}
               />
             </div>
