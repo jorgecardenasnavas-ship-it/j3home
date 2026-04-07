@@ -46,8 +46,8 @@ export const es = {
       { val: "#1", label: "Mejor club 2018" },
       { val: "20+", label: "A\u00F1os" },
       { val: "WPT", label: "Sede 2014" },
-      { val: "\uD83E\uDD47\u0031\u0031\u00B7\uD83E\uDD48\u0037", label: "Victorias pro" },
-      { val: "\uD83C\uDFC6", label: "Campeones" },
+      { val: "18", label: "T\u00EDtulos PRO" },
+      { val: "\uD83C\uDFC6", label: "Campeones del mundo y de Espa\u00F1a en menores" },
     ],
     accentTouch: {
       before: "El mundo perdi\u00F3 la tilde.",

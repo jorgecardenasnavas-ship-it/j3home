@@ -46,8 +46,8 @@ export const sv = {
       { val: "#1", label: "Bästa klubb 2018" },
       { val: "20+", label: "År" },
       { val: "WPT", label: "Värd 2014" },
-      { val: "\uD83E\uDD47\u0031\u0031\u00B7\uD83E\uDD48\u0037", label: "Profsegrar" },
-      { val: "\uD83C\uDFC6", label: "Mästare" },
+      { val: "18", label: "PRO-titlar" },
+      { val: "\uD83C\uDFC6", label: "Världs- och spanska juniormästare" },
     ],
     accentTouch: {
       before: "Världen tappade accenten.",

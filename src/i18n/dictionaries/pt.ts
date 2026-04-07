@@ -46,8 +46,8 @@ export const pt = {
       { val: "#1", label: "Melhor clube 2018" },
       { val: "20+", label: "Anos" },
       { val: "WPT", label: "Sede 2014" },
-      { val: "\uD83E\uDD47\u0031\u0031\u00B7\uD83E\uDD48\u0037", label: "Vitórias pro" },
-      { val: "\uD83C\uDFC6", label: "Campeões" },
+      { val: "18", label: "Títulos PRO" },
+      { val: "\uD83C\uDFC6", label: "Campeões do mundo e de Espanha em menores" },
     ],
     accentTouch: {
       before: "O mundo perdeu o acento.",

@@ -46,8 +46,8 @@ export const en = {
       { val: "#1", label: "Best club 2018" },
       { val: "20+", label: "Years" },
       { val: "WPT", label: "Host 2014" },
-      { val: "\uD83E\uDD47\u0031\u0031\u00B7\uD83E\uDD48\u0037", label: "Pro wins" },
-      { val: "\uD83C\uDFC6", label: "Champions" },
+      { val: "18", label: "PRO titles" },
+      { val: "\uD83C\uDFC6", label: "World & Spanish junior champions" },
     ],
     accentTouch: {
       before: "The world dropped the accent.",
