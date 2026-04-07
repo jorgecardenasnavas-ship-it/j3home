@@ -139,6 +139,7 @@ export interface Dictionary {
         badge?: string;
         highlight?: boolean;
         image?: string;
+        imagePosition?: string;
       }[];
     };
 

@@ -257,6 +257,7 @@ export const es = {
           title: "Jordi Mu\u00F1oz deja el proyecto",
           desc: "Jordi abandona M\u00E1laga y el proyecto J3 por motivos personales. Su esencia sigue presente. Javi y Jorge contin\u00FAan con el proyecto, aunque sin la J que les abri\u00F3 el camino.",
           image: "/images/story/timeline/tres-j.jpeg",
+          imagePosition: "center 25%",
         },
         {
           year: "2018",

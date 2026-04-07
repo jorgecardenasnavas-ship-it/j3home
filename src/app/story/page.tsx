@@ -493,6 +493,7 @@ function TimelineSection() {
                         src={item.image}
                         alt={item.title}
                         className="w-full h-full object-cover opacity-80 group-hover/img:opacity-100 group-hover/img:scale-[1.03] transition-all duration-500"
+                        style={item.imagePosition ? { objectPosition: item.imagePosition } : undefined}
                         loading="lazy"
                       />
                       <span className="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/60 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white/90 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300" aria-hidden="true">
