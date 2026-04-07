@@ -525,6 +525,12 @@ export const sv = {
       titleLine3b: "g\u00E5 fram\u00E5t.",
       subtitleLine1: "Den b\u00E4sta padelakademin p\u00E5 Costa del Sol.",
       subtitleLine2: "Sedan 2004 tr\u00E4nar vi spelare p\u00E5 alla niv\u00E5er.",
+      accentTouch: {
+        before: "D\u00E4r p\u00E1del tr\u00E4nas",
+        accent: "med accent.",
+        labelLeft: "ACADEMY \u00B7 J3",
+        labelRight: "M\u00C1LAGA \u2014 SPANIEN",
+      },
     },
 
     statement: {
@@ -689,6 +695,12 @@ export const sv = {
       subtitleBefore: "Camps, stages och ",
       subtitleAccent: "skr\u00E4ddarsydda",
       subtitleAfter: " upplevelser var som helst i v\u00E4rlden.",
+      accentTouch: {
+        before: "D\u00E4r p\u00E1del levs",
+        accent: "med accent.",
+        labelLeft: "EXPERIENCE \u00B7 J3",
+        labelRight: "M\u00C1LAGA \u2014 SPANIEN",
+      },
     },
 
     statement: {

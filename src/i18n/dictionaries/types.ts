@@ -262,6 +262,12 @@ export interface Dictionary {
       readonly titleLine3b: string;
       readonly subtitleLine1: string;
       readonly subtitleLine2: string;
+      readonly accentTouch: {
+        readonly before: string;
+        readonly accent: string;
+        readonly labelLeft: string;
+        readonly labelRight: string;
+      };
     };
 
     statement: {
@@ -353,6 +359,12 @@ export interface Dictionary {
       readonly subtitleBefore: string;
       readonly subtitleAccent: string;
       readonly subtitleAfter: string;
+      readonly accentTouch: {
+        readonly before: string;
+        readonly accent: string;
+        readonly labelLeft: string;
+        readonly labelRight: string;
+      };
     };
 
     statement: {

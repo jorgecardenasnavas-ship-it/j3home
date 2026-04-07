@@ -525,6 +525,12 @@ export const fr = {
       titleLine3b: "avancer.",
       subtitleLine1: "La meilleure acad\u00E9mie de padel de la Costa del Sol.",
       subtitleLine2: "Depuis 2004, nous formons des joueurs de tous niveaux.",
+      accentTouch: {
+        before: "L\u00E0 o\u00F9 le p\u00E1del s\u2019entra\u00EEne",
+        accent: "avec accent.",
+        labelLeft: "ACADEMY \u00B7 J3",
+        labelRight: "M\u00C1LAGA \u2014 ESPAGNE",
+      },
     },
 
     statement: {
@@ -689,6 +695,12 @@ export const fr = {
       subtitleBefore: "Camps, stages et exp\u00E9riences ",
       subtitleAccent: "sur mesure",
       subtitleAfter: " partout dans le monde.",
+      accentTouch: {
+        before: "L\u00E0 o\u00F9 le p\u00E1del se vit",
+        accent: "avec accent.",
+        labelLeft: "EXPERIENCE \u00B7 J3",
+        labelRight: "M\u00C1LAGA \u2014 ESPAGNE",
+      },
     },
 
     statement: {
