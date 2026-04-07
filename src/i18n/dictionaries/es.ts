@@ -278,7 +278,8 @@ export const es = {
           desc: "Volvemos al alto rendimiento. El resultado es hist\u00F3rico: acabamos el a\u00F1o en el top 4 del mundo en el WPT.",
           badge: "Top 4 Mundial WPT \u00B7 2021",
           highlight: true,
-          image: "/images/story/timeline/higueron-pro.jpeg",
+          image: "/images/story/timeline/franco-alex-pozzoni-jorge.jpeg",
+          imagePosition: "center 35%",
         },
         {
           year: "2022",
