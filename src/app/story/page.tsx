@@ -243,6 +243,176 @@ function StatsSection() {
   );
 }
 
+/* ───────── ACCENT MANIFESTO — Á gigante con tilde que cae ───────── */
+
+function AccentManifesto() {
+  const { t } = useI18n();
+  const { ref, visible } = useReveal(0.25);
+  const { eyebrow, slogan, manifesto } = t.story.accent;
+
+  return (
+    <section
+      ref={ref}
+      className="relative bg-[var(--bk)] overflow-hidden border-y border-white/[.05]"
+    >
+      {/* Subtle radial glow */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 60% 50% at 30% 50%, rgba(220,175,100,0.07) 0%, transparent 70%)",
+          opacity: visible ? 1 : 0,
+          transition: "opacity 1.2s ease 0.4s",
+        }}
+      />
+
+      <div className="relative max-w-[1400px] mx-auto px-12 py-[140px] max-[960px]:px-6 max-[960px]:py-[90px] grid grid-cols-[1.1fr_1fr] gap-16 items-center max-[960px]:grid-cols-1 max-[960px]:gap-12">
+        {/* ── LEFT: Giant Á ── */}
+        <div className="relative flex items-center justify-center min-h-[380px] max-[960px]:min-h-[260px]">
+          <div className="relative inline-block leading-[0.8]">
+            {/* The A (base letter) — scales in */}
+            <span
+              className="j3-grad-text font-bold block select-none"
+              style={{
+                fontSize: "clamp(260px, 38vw, 520px)",
+                letterSpacing: "-0.05em",
+                opacity: visible ? 1 : 0,
+                transform: visible ? "scale(1)" : "scale(0.92)",
+                filter: visible ? "blur(0)" : "blur(10px)",
+                transition:
+                  "opacity 1.1s cubic-bezier(.16,1,.3,1) 0.2s, transform 1.1s cubic-bezier(.16,1,.3,1) 0.2s, filter 1.1s cubic-bezier(.16,1,.3,1) 0.2s",
+              }}
+            >
+              A
+            </span>
+
+            {/* The acute accent — a geometric bar that falls from above */}
+            <span
+              aria-hidden
+              className="absolute pointer-events-none"
+              style={{
+                left: "50%",
+                top: "-0.06em",
+                fontSize: "clamp(260px, 38vw, 520px)",
+                width: "0.18em",
+                height: "0.08em",
+                background:
+                  "linear-gradient(135deg, #dcaf64 0%, #fff1b4 50%, #dcaf64 100%)",
+                borderRadius: "0.015em",
+                boxShadow: "0 0.01em 0.04em rgba(253,230,138,0.4)",
+                transformOrigin: "center center",
+                transform: visible
+                  ? "translate(-50%, 0) rotate(-18deg)"
+                  : "translate(-50%, -260%) rotate(-60deg)",
+                opacity: visible ? 1 : 0,
+                transition:
+                  "transform 1.3s cubic-bezier(.34,1.56,.64,1) 1.1s, opacity 0.5s ease 1.1s",
+              }}
+            />
+            {/* Small spark glow when accent lands */}
+            <span
+              aria-hidden
+              className="absolute pointer-events-none"
+              style={{
+                left: "50%",
+                top: "-0.02em",
+                fontSize: "clamp(260px, 38vw, 520px)",
+                width: "0.3em",
+                height: "0.12em",
+                transform: "translate(-50%, 0)",
+                background:
+                  "radial-gradient(ellipse, rgba(253,230,138,0.45) 0%, transparent 70%)",
+                filter: "blur(0.04em)",
+                opacity: visible ? 1 : 0,
+                transition: "opacity 0.9s ease 2.0s",
+              }}
+            />
+
+          </div>
+        </div>
+
+        {/* ── RIGHT: Slogan + manifiesto ── */}
+        <div>
+          {/* Eyebrow */}
+          <span
+            className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] mb-6 block max-[960px]:text-[11px] max-[960px]:tracking-[3px]"
+            style={{
+              opacity: visible ? 1 : 0,
+              transform: visible ? "none" : "translateY(14px)",
+              transition: "all 0.8s cubic-bezier(.16,1,.3,1) 0.3s",
+            }}
+          >
+            {eyebrow}
+          </span>
+
+          {/* Slogan — three lines */}
+          <h2 className="font-bold uppercase tracking-[-3px] leading-[0.92] mb-10 max-[960px]:mb-8">
+            <span
+              className="j3-grad-text block text-[clamp(56px,8vw,120px)]"
+              style={{
+                opacity: visible ? 1 : 0,
+                transform: visible ? "none" : "translateY(60px)",
+                filter: visible ? "blur(0)" : "blur(8px)",
+                transition: "all 1.0s cubic-bezier(.16,1,.3,1) 0.5s",
+              }}
+            >
+              {slogan[0]}
+            </span>
+            <span
+              className="j3-stroke block text-[clamp(56px,8vw,120px)]"
+              style={{
+                opacity: visible ? 1 : 0,
+                transform: visible ? "none" : "translateY(60px)",
+                filter: visible ? "blur(0)" : "blur(8px)",
+                transition: "all 1.0s cubic-bezier(.16,1,.3,1) 0.7s",
+              }}
+            >
+              {slogan[1]}
+            </span>
+            <span
+              className="block text-[clamp(56px,8vw,120px)] text-[var(--wh)] font-[var(--font-serif)] italic normal-case tracking-[-1px]"
+              style={{
+                opacity: visible ? 1 : 0,
+                transform: visible ? "none" : "translateY(60px)",
+                filter: visible ? "blur(0)" : "blur(8px)",
+                transition: "all 1.0s cubic-bezier(.16,1,.3,1) 0.9s",
+              }}
+            >
+              {slogan[2]}
+            </span>
+          </h2>
+
+          {/* Gold hairline */}
+          <div
+            className="h-px bg-gradient-to-r from-[var(--g1)] via-[var(--g1)]/40 to-transparent mb-8 max-[960px]:mb-6"
+            style={{
+              width: visible ? "240px" : "0px",
+              transition: "width 1.1s cubic-bezier(.16,1,.3,1) 1.4s",
+            }}
+          />
+
+          {/* Manifesto — 3 lines */}
+          <div className="space-y-2 max-w-[520px]">
+            {manifesto.map((line, i) => (
+              <p
+                key={i}
+                className="text-[clamp(15px,1.4vw,19px)] text-[var(--gy2)] leading-[1.55] font-light"
+                style={{
+                  opacity: visible ? 1 : 0,
+                  transform: visible ? "none" : "translateY(16px)",
+                  transition: `all 0.8s cubic-bezier(.16,1,.3,1) ${1.6 + i * 0.15}s`,
+                }}
+              >
+                {line}
+              </p>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ───────── TIMELINE SECTION (scroll-driven) ───────── */
 
 function TimelineSection() {
@@ -1102,6 +1272,9 @@ export default function StoryPage() {
 
       {/* ─── STATEMENT (scroll-driven like ImpactSection) ─── */}
       <StoryImpact />
+
+      {/* ─── ACCENT MANIFESTO ─── */}
+      <AccentManifesto />
 
       {/* ─── TIMELINE ─── */}
       <TimelineSection />

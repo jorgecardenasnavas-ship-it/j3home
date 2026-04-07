@@ -194,6 +194,16 @@ export const pt = {
       historyLabel: "A nossa história",
     },
 
+    accent: {
+      eyebrow: "A nossa assinatura",
+      slogan: ["Pádel.", "Com.", "Acento."],
+      manifesto: [
+        "Quando o desporto saiu de Espanha, perdeu o til.",
+        "Nós nunca o largámos.",
+        "Porque o acento não é ortografia — é origem.",
+      ],
+    },
+
     stats: {
       header: "A nossa história em números",
       items: [

@@ -194,6 +194,16 @@ export const en = {
       historyLabel: "Our history",
     },
 
+    accent: {
+      eyebrow: "Our signature",
+      slogan: ["P\u00E1del.", "With.", "Accent."],
+      manifesto: [
+        "When the sport left Spain, it lost the tilde.",
+        "We never let it go.",
+        "Because the accent isn\u2019t spelling \u2014 it\u2019s origin.",
+      ],
+    },
+
     stats: {
       header: "Our history in numbers",
       items: [

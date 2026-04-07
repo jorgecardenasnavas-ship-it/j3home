@@ -116,6 +116,12 @@ export interface Dictionary {
       historyLabel: string;
     };
 
+    accent: {
+      eyebrow: string;
+      slogan: readonly [string, string, string];
+      manifesto: readonly string[];
+    };
+
     stats: {
       header: string;
       items: readonly {

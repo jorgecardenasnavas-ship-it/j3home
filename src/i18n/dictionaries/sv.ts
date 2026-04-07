@@ -194,6 +194,16 @@ export const sv = {
       historyLabel: "Vår historia",
     },
 
+    accent: {
+      eyebrow: "Vår signatur",
+      slogan: ["Pádel.", "Med.", "Accent."],
+      manifesto: [
+        "När sporten lämnade Spanien tappade den sin accent.",
+        "Vi släppte den aldrig.",
+        "För accenten är inte stavning — det är ursprung.",
+      ],
+    },
+
     stats: {
       header: "Vår historia i siffror",
       items: [

@@ -194,6 +194,16 @@ export const fr = {
       historyLabel: "Notre histoire",
     },
 
+    accent: {
+      eyebrow: "Notre signature",
+      slogan: ["P\u00E1del.", "Avec.", "Accent."],
+      manifesto: [
+        "Quand le sport a quitt\u00E9 l\u2019Espagne, il a perdu son accent.",
+        "Nous ne l\u2019avons jamais l\u00E2ch\u00E9.",
+        "Car l\u2019accent n\u2019est pas orthographe \u2014 c\u2019est origine.",
+      ],
+    },
+
     stats: {
       header: "Notre histoire en chiffres",
       items: [
