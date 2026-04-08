@@ -251,8 +251,27 @@ function HeroSection() {
               <span className="text-[clamp(26px,3.2vw,42px)] font-bold italic tracking-[-0.5px] j3-grad-text inline-block pr-[0.18em] align-baseline">
                 {t.experience.hero.subtitleAccent}
               </span>
-              <span className="italic font-medium text-[var(--wh)] underline decoration-[var(--g1)]/55 decoration-1 underline-offset-[4px] pr-[0.12em]">
+              <span className="relative inline-block italic font-medium text-[var(--wh)] pr-[0.12em]">
                 {t.experience.hero.subtitleAfter}
+                <svg
+                  aria-hidden="true"
+                  className="absolute left-0 right-0 -bottom-[7px] w-full h-[12px] pointer-events-none overflow-visible"
+                  viewBox="0 0 200 12"
+                  preserveAspectRatio="none"
+                >
+                  <defs>
+                    <linearGradient id="brushUL" x1="0" x2="1" y1="0" y2="0">
+                      <stop offset="0" stopColor="rgb(220,175,100)" stopOpacity="0.1" />
+                      <stop offset="0.18" stopColor="rgb(220,175,100)" stopOpacity="0.95" />
+                      <stop offset="0.82" stopColor="rgb(220,175,100)" stopOpacity="0.95" />
+                      <stop offset="1" stopColor="rgb(220,175,100)" stopOpacity="0.1" />
+                    </linearGradient>
+                  </defs>
+                  <path
+                    d="M 2 5 Q 100 0 198 4 Q 100 11 2 6 Z"
+                    fill="url(#brushUL)"
+                  />
+                </svg>
               </span>
               <span className="text-[var(--gy3)]">.</span>
             </p>
