@@ -34,9 +34,6 @@ export interface Dictionary {
     tagline: string;
     cta1: string;
     cta2: string;
-    credsMobile: readonly { val: string; label: string }[];
-    credsHeading: string;
-    credsKicker: string;
     accentTouch: {
       topLine: string;
       accentWord: string;
@@ -79,6 +76,7 @@ export interface Dictionary {
     heading2: string;
     body: string;
     link: string;
+    statsLabel: string;
     stats: readonly { val: string; line1: string; line2: string }[];
   };
 

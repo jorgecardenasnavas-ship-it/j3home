@@ -99,36 +99,58 @@ export function NosotrosSection() {
         </Link>
       </div>
 
-      {/* Right — Stats */}
-      <div ref={statsRef} className="reveal-up will-change-transform">
-        <div className="flex flex-wrap rounded-xl border border-white/[.06] bg-white/[.02] backdrop-blur-[2px] overflow-hidden">
-          {t.nosotros.stats.map((stat, idx) => (
-            <div
-              key={idx}
-              className={`py-5 px-7 relative group transition-colors duration-300 ease-[var(--ease-out)] hover:bg-white/[.03] ${idx > 0 ? "border-l border-white/[.06]" : ""}`}
-            >
-              {/* Subtle gold glow on hover */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                style={{ background: "radial-gradient(ellipse at 50% 30%, rgba(220,175,100,.06) 0%, transparent 70%)" }}
-              />
-              <span
-                className={`relative font-bold j3-grad-text leading-none block mb-[5px] ${
-                  stat.val.length > 4 ? "text-[17px]" : "text-[24px]"
-                }`}
-              >
-                {stat.val}
-              </span>
-              {[stat.line1, stat.line2].map((line, li) => (
-                <span
-                  key={li}
-                  className="relative text-[10px] max-[960px]:text-[11px] font-light text-[var(--gy2)] tracking-[1px] max-[960px]:tracking-[0.5px] uppercase leading-[1.5] block"
-                >
-                  {line.replace(" /", "")}
-                </span>
-              ))}
-            </div>
-          ))}
+      {/* Right — Editorial credentials ledger */}
+      <div
+        ref={statsRef}
+        className="reveal-up will-change-transform flex-1 min-w-[320px] max-w-[460px] max-[960px]:max-w-full max-[960px]:w-full"
+      >
+        {/* Eyebrow header */}
+        <div className="flex items-center gap-3 mb-5">
+          <span className="block w-[26px] h-px bg-[var(--g1)]/70" />
+          <span className="text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)]/80">
+            {t.nosotros.statsLabel}
+          </span>
         </div>
+
+        <ol className="relative pl-7">
+          {/* Continuous gold hairline */}
+          <span className="absolute left-[3px] top-2 bottom-2 w-px bg-gradient-to-b from-[var(--g1)]/60 via-[var(--g1)]/25 to-transparent pointer-events-none" />
+
+          {t.nosotros.stats.map((stat, idx) => (
+            <li
+              key={idx}
+              className="relative group pb-5 last:pb-0"
+            >
+              {/* Dot marker */}
+              <span className="absolute -left-[27px] top-[14px] w-[7px] h-[7px] rounded-full bg-[var(--g1)] ring-2 ring-black transition-transform duration-300 ease-[var(--ease-out)] group-hover:scale-125" />
+
+              {/* Hover glow */}
+              <div
+                className="absolute inset-y-0 -left-2 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-md"
+                style={{ background: "linear-gradient(90deg, rgba(220,175,100,.06) 0%, transparent 80%)" }}
+              />
+
+              {/* Index */}
+              <span className="relative block text-[9px] font-bold tracking-[3px] text-[var(--g1)]/60 mb-[2px]">
+                {String(idx + 1).padStart(2, "0")}
+              </span>
+
+              {/* Value + label row */}
+              <div className="relative flex items-baseline gap-3 flex-wrap">
+                <span
+                  className={`font-bold italic tracking-[-1px] j3-grad-text inline-block pr-[0.14em] leading-[1] ${
+                    stat.val.length > 3 ? "text-[26px]" : "text-[34px]"
+                  }`}
+                >
+                  {stat.val}
+                </span>
+                <span className="text-[10px] font-light tracking-[1.4px] uppercase text-[var(--gy2)] leading-[1.45]">
+                  {stat.line1.replace(" /", "")} {stat.line2.replace(" /", "")}
+                </span>
+              </div>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );
