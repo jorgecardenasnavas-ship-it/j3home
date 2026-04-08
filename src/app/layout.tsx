@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Roboto_Condensed, Instrument_Serif } from "next/font/google";
 import { ChatBubble } from "@/components/ChatBubble";
+import { SmoothScroll } from "@/components/SmoothScroll";
 import { I18nProvider } from "@/i18n/context";
 import "./globals.css";
 
@@ -50,10 +51,12 @@ export default function RootLayout({
           Skip to content
         </a>
         <I18nProvider>
-          <main id="main-content">
-            {children}
-          </main>
-          <ChatBubble />
+          <SmoothScroll>
+            <main id="main-content">
+              {children}
+            </main>
+            <ChatBubble />
+          </SmoothScroll>
         </I18nProvider>
       </body>
     </html>
