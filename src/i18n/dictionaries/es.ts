@@ -689,7 +689,7 @@ export const es = {
       subtitleTags: ["Camps", "Stages", "Experiencias"],
       subtitleBefore: "",
       subtitleAccent: "a medida",
-      subtitleAfter: "en cualquier lugar del mundo.",
+      subtitleAfter: "en cualquier lugar del mundo",
     },
 
     statement: {

@@ -688,7 +688,7 @@ export const sv = {
       subtitleTags: ["Camps", "Stages", "Upplevelser"],
       subtitleBefore: "",
       subtitleAccent: "skr\u00E4ddarsydda",
-      subtitleAfter: "var som helst i v\u00E4rlden.",
+      subtitleAfter: "var som helst i v\u00E4rlden",
     },
 
     statement: {

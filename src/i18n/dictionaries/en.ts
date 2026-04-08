@@ -688,7 +688,7 @@ export const en = {
       subtitleTags: ["Camps", "Stages", "Experiences"],
       subtitleBefore: "",
       subtitleAccent: "bespoke",
-      subtitleAfter: "anywhere in the world.",
+      subtitleAfter: "anywhere in the world",
     },
 
     statement: {

@@ -223,26 +223,39 @@ function HeroSection() {
           <span className="w-px h-[60px] max-[960px]:h-[54px] mt-1 shrink-0 bg-gradient-to-b from-[var(--g1)] via-[var(--g1)]/40 to-transparent" />
 
           <div className="leading-[1.35]">
-            {/* Top line — chip row of tags with gold bullet separators */}
-            <div className="flex items-center flex-wrap gap-x-[10px] gap-y-1 mb-[6px]">
-              {t.experience.hero.subtitleTags.map((tag, i) => (
-                <span key={tag} className="flex items-center gap-[10px]">
-                  <span className="text-[clamp(13px,1.45vw,17px)] font-bold tracking-[2px] uppercase text-[var(--wh)]">
-                    {tag}
+            {/* Top line — chip row with hairline separators; last chip italic gold */}
+            <div className="flex items-center flex-wrap gap-x-[14px] gap-y-1 mb-[14px]">
+              {t.experience.hero.subtitleTags.map((tag, i) => {
+                const isLast = i === t.experience.hero.subtitleTags.length - 1;
+                return (
+                  <span key={tag} className="flex items-center gap-[14px]">
+                    <span
+                      className={
+                        isLast
+                          ? "text-[clamp(14px,1.55vw,18px)] font-bold italic tracking-[1.5px] j3-grad-text inline-block pr-[0.1em]"
+                          : "text-[clamp(13px,1.45vw,17px)] font-bold tracking-[2px] uppercase text-[var(--wh)]"
+                      }
+                    >
+                      {tag}
+                    </span>
+                    {!isLast && (
+                      <span className="block w-[14px] h-px bg-[var(--g1)]/70" />
+                    )}
                   </span>
-                  {i < t.experience.hero.subtitleTags.length - 1 && (
-                    <span className="w-[3px] h-[3px] rounded-full bg-[var(--g1)]" />
-                  )}
-                </span>
-              ))}
+                );
+              })}
             </div>
 
-            {/* Big italic gold word + rest of phrase */}
+            {/* Big italic gold word + rest of phrase with location underline */}
             <p className="text-[clamp(16px,1.8vw,22px)] font-light text-[var(--gy3)] leading-[1.25] mt-[2px]">
               <span className="text-[clamp(26px,3.2vw,42px)] font-bold italic tracking-[-0.5px] j3-grad-text inline-block pr-[0.1em] align-baseline">
                 {t.experience.hero.subtitleAccent}
               </span>
-              {t.experience.hero.subtitleAfter}
+              {" "}
+              <span className="italic font-medium j3-grad-text underline decoration-[var(--g1)]/55 decoration-1 underline-offset-[4px] pr-[0.12em]">
+                {t.experience.hero.subtitleAfter}
+              </span>
+              <span className="text-[var(--gy3)]">.</span>
             </p>
           </div>
         </div>
