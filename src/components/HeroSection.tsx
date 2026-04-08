@@ -15,7 +15,6 @@ export function HeroSection() {
     const video = section.querySelector<HTMLVideoElement>(".hero-video");
     const words = section.querySelectorAll<HTMLElement>(".hero-word");
     const shimmer = section.querySelector<HTMLElement>(".hero-shimmer");
-    const timeline = section.querySelector<HTMLElement>(".hero-timeline");
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -29,8 +28,6 @@ export function HeroSection() {
             });
 
             const wordsEnd = 900 + words.length * 500;
-            // Timeline appears first, shimmer syncs with it
-            setTimeout(() => timeline?.classList.add("in"), wordsEnd + 200);
             setTimeout(() => shimmer?.classList.add("in"), wordsEnd + 300);
 
             observer.disconnect();
@@ -82,9 +79,8 @@ export function HeroSection() {
           <div className="hero-shimmer-bar absolute top-0 left-0 w-full h-full" />
         </div>
 
-        {/* Main content — two columns on desktop */}
-        <div className="absolute top-1/2 left-0 right-0 -translate-y-[55%] z-[5] px-12 max-[960px]:px-6 flex items-start justify-between gap-16 max-[960px]:block">
-          {/* Left — Claim */}
+        {/* Main content — claim */}
+        <div className="absolute top-1/2 left-0 right-0 -translate-y-[55%] z-[5] px-12 max-[960px]:px-6">
           <div className="pointer-events-none">
             <span className="hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] j3-grad-text">
               {t.hero.play}
@@ -94,27 +90,6 @@ export function HeroSection() {
             </span>
             <span className="hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] j3-stroke-gold">
               {t.hero.manage}
-            </span>
-          </div>
-
-          {/* Right — Milestones timeline (desktop only) */}
-          <div className="hero-timeline reveal-up hidden min-[961px]:flex flex-col gap-5 pt-2 min-w-[200px]">
-            {t.hero.milestones.map((m, i) => (
-              <div key={i} className="flex items-start gap-3">
-                <span className="text-[13px] font-bold j3-grad-text leading-none mt-[2px] whitespace-nowrap">
-                  {m.year}
-                </span>
-                <div className="flex flex-col gap-0">
-                  <div className="w-[1px] h-3 bg-[var(--g1)]/30 mb-1 hidden" />
-                  <span className="text-[11px] font-light text-[var(--gy2)] tracking-[1px] leading-[1.3]">
-                    {m.text}
-                  </span>
-                </div>
-              </div>
-            ))}
-            <div className="h-[1px] w-full bg-gradient-to-r from-[var(--g1)]/20 to-transparent mt-1" />
-            <span className="text-[9px] font-light text-[var(--gy)] tracking-[3px] uppercase">
-              {t.hero.tagline}
             </span>
           </div>
         </div>
