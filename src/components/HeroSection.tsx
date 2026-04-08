@@ -88,13 +88,13 @@ export function HeroSection() {
         <div className="absolute top-1/2 left-0 right-0 -translate-y-[55%] z-[5] px-12 max-[960px]:px-6 flex items-start justify-between gap-16 max-[960px]:block">
           {/* Left — Claim */}
           <div className="pointer-events-none">
-            <span className="hero-word block font-bold text-[clamp(60px,9vw,140px)] max-[960px]:text-[clamp(52px,15vw,110px)] uppercase tracking-[-3px] leading-[.88] j3-grad-text">
+            <span className="hero-word block font-bold text-hero uppercase tracking-[-3px] leading-[.88] j3-grad-text">
               {t.hero.play}
             </span>
-            <span className="hero-word block font-bold text-[clamp(60px,9vw,140px)] max-[960px]:text-[clamp(52px,15vw,110px)] uppercase tracking-[-3px] leading-[.88] text-[var(--wh)]">
+            <span className="hero-word block font-bold text-hero uppercase tracking-[-3px] leading-[.88] text-[var(--wh)]">
               {t.hero.coach}
             </span>
-            <span className="hero-word block font-bold text-[clamp(60px,9vw,140px)] max-[960px]:text-[clamp(52px,15vw,110px)] uppercase tracking-[-3px] leading-[.88] j3-stroke-gold">
+            <span className="hero-word block font-bold text-hero uppercase tracking-[-3px] leading-[.88] j3-stroke-gold">
               {t.hero.manage}
             </span>
           </div>
@@ -103,19 +103,19 @@ export function HeroSection() {
           <div className="hero-timeline reveal-up hidden min-[961px]:flex flex-col gap-5 pt-2 min-w-[200px]">
             {t.hero.milestones.map((m, i) => (
               <div key={i} className="flex items-start gap-3">
-                <span className="text-[13px] font-bold j3-grad-text leading-none mt-[2px] whitespace-nowrap">
+                <span className="text-sm font-bold j3-grad-text leading-none mt-[2px] whitespace-nowrap">
                   {m.year}
                 </span>
                 <div className="flex flex-col gap-0">
                   <div className="w-[1px] h-3 bg-[var(--g1)]/30 mb-1 hidden" />
-                  <span className="text-[11px] font-light text-[var(--gy2)] tracking-[1px] leading-[1.3]">
+                  <span className="text-xs font-light text-[var(--gy2)] tracking-[1px] leading-[1.3]">
                     {m.text}
                   </span>
                 </div>
               </div>
             ))}
             <div className="h-[1px] w-full bg-gradient-to-r from-[var(--g1)]/20 to-transparent mt-1" />
-            <span className="text-[9px] font-light text-[var(--gy)] tracking-[3px] uppercase">
+            <span className="text-xs font-light text-[var(--gy)] tracking-[3px] uppercase">
               {t.hero.tagline}
             </span>
           </div>
@@ -129,24 +129,24 @@ export function HeroSection() {
 
             <div className="leading-[1.35]">
               {/* Top line — small uppercase */}
-              <span className="block text-[clamp(13px,1.4vw,18px)] font-light tracking-[1px] uppercase text-[var(--gy3)]">
+              <span className="block text-base font-light tracking-[1px] uppercase text-[var(--gy3)]">
                 {t.hero.accentTouch.topLine}
               </span>
 
               {/* Big italic gold word + rest of phrase, baseline-aligned */}
-              <p className="text-[clamp(16px,1.8vw,22px)] font-light text-[var(--gy3)] leading-[1.2] mt-[2px]">
-                <span className="text-[clamp(26px,3.2vw,42px)] font-bold italic tracking-[-0.5px] j3-grad-text inline-block pr-[0.18em] align-baseline">
+              <p className="text-xl font-light text-[var(--gy3)] leading-[1.2] mt-[2px]">
+                <span className="text-2xl font-bold italic tracking-[-0.5px] j3-grad-text inline-block pr-[0.18em] align-baseline">
                   {t.hero.accentTouch.accentWord}
                 </span>
                 {t.hero.accentTouch.afterAccent}
               </p>
 
               <div className="flex items-center gap-4 mt-4 flex-wrap">
-                <span className="text-[9px] font-bold tracking-[3px] uppercase text-[var(--g1)]/85">
+                <span className="text-xs font-bold tracking-[3px] uppercase text-[var(--g1)]/85">
                   {t.hero.accentTouch.labelLeft}
                 </span>
                 <span className="w-4 h-px bg-[var(--g1)]/25" />
-                <span className="text-[9px] font-bold tracking-[3px] uppercase text-[var(--g1)]/55">
+                <span className="text-xs font-bold tracking-[3px] uppercase text-[var(--g1)]/55">
                   {t.hero.accentTouch.labelRight}
                 </span>
               </div>
