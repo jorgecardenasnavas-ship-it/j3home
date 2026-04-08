@@ -65,7 +65,7 @@
 
 /* J3 Stroke Text (outline only — gold) */
 .j3-stroke-gold {
-  -webkit-text-stroke: 1.5px rgba(220, 175, 100, 0.35);
+  -webkit-text-stroke: 2.5px rgba(220, 175, 100, 0.6);
   color: transparent;
 }
 
