@@ -50,9 +50,9 @@ export const pt = {
       { val: "\uD83C\uDFC6", label: "Campeões do mundo e de Espanha em menores" },
     ],
     accentTouch: {
-      before: "O mundo perdeu o acento.",
-      accent: "Nós nunca o soltámos.",
-      after: "",
+      topLine: "O mundo perdeu o acento.",
+      accentWord: "Nós",
+      afterAccent: " nunca o soltámos.",
       labelLeft: "P\u00C1DEL \u00B7 COM \u00B7 ACENTO",
       labelRight: "DESDE 2004 \u2014 M\u00C1LAGA",
     },
@@ -523,7 +523,9 @@ export const pt = {
       titleLine2: "Aperfei\u00E7oar.",
       titleLine3a: "E",
       titleLine3b: "avan\u00E7ar.",
-      subtitleLine1: "A melhor academia de p\u00E1del na Costa del Sol.",
+      subtitleBefore: "A melhor",
+      subtitleAccent: "academia",
+      subtitleAfter: " de p\u00E1del na Costa del Sol.",
       subtitleLine2: "Desde 2004 a treinar jogadores de todos os n\u00EDveis.",
     },
 

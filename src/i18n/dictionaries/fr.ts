@@ -50,9 +50,9 @@ export const fr = {
       { val: "\uD83C\uDFC6", label: "Champions du monde et d\u2019Espagne juniors" },
     ],
     accentTouch: {
-      before: "Le monde a perdu l\u2019accent.",
-      accent: "Nous l\u2019avons gard\u00E9.",
-      after: "",
+      topLine: "Le monde a perdu l\u2019accent.",
+      accentWord: "Nous",
+      afterAccent: " l\u2019avons gard\u00E9.",
       labelLeft: "P\u00C1DEL \u00B7 AVEC \u00B7 ACCENT",
       labelRight: "DEPUIS 2004 \u2014 M\u00C1LAGA",
     },
@@ -523,7 +523,9 @@ export const fr = {
       titleLine2: "Affiner.",
       titleLine3a: "ET",
       titleLine3b: "avancer.",
-      subtitleLine1: "La meilleure acad\u00E9mie de padel de la Costa del Sol.",
+      subtitleBefore: "La meilleure",
+      subtitleAccent: "acad\u00E9mie",
+      subtitleAfter: " de padel de la Costa del Sol.",
       subtitleLine2: "Depuis 2004, nous formons des joueurs de tous niveaux.",
     },
 

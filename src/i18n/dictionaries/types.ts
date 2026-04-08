@@ -36,9 +36,9 @@ export interface Dictionary {
     cta2: string;
     credsMobile: readonly { val: string; label: string }[];
     accentTouch: {
-      before: string;
-      accent: string;
-      after: string;
+      topLine: string;
+      accentWord: string;
+      afterAccent: string;
       labelLeft: string;
       labelRight: string;
     };
@@ -260,7 +260,9 @@ export interface Dictionary {
       readonly titleLine2: string;
       readonly titleLine3a: string;
       readonly titleLine3b: string;
-      readonly subtitleLine1: string;
+      readonly subtitleBefore: string;
+      readonly subtitleAccent: string;
+      readonly subtitleAfter: string;
       readonly subtitleLine2: string;
     };
 

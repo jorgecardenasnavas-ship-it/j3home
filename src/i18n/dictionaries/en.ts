@@ -50,9 +50,9 @@ export const en = {
       { val: "\uD83C\uDFC6", label: "World & Spanish junior champions" },
     ],
     accentTouch: {
-      before: "The world dropped the accent.",
-      accent: "We never let it go.",
-      after: "",
+      topLine: "The world dropped the accent.",
+      accentWord: "We",
+      afterAccent: " never let it go.",
       labelLeft: "P\u00C1DEL \u00B7 WITH \u00B7 ACCENT",
       labelRight: "SINCE 2004 \u2014 M\u00C1LAGA",
     },
@@ -523,7 +523,9 @@ export const en = {
       titleLine2: "Refine.",
       titleLine3a: "AND",
       titleLine3b: "advance.",
-      subtitleLine1: "The best p\u00E1del academy on the Costa del Sol.",
+      subtitleBefore: "The best p\u00E1del",
+      subtitleAccent: "academy",
+      subtitleAfter: " on the Costa del Sol.",
       subtitleLine2: "Training players of all levels since 2004.",
     },
 

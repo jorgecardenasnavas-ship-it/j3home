@@ -248,10 +248,20 @@ function HeroSection() {
           <span className="w-px h-[68px] max-[960px]:h-[60px] mt-1 shrink-0 bg-gradient-to-b from-[var(--g1)] via-[var(--g1)]/40 to-transparent" />
 
           <div className="leading-[1.35]">
-            <span className="block text-[clamp(16px,1.8vw,22px)] font-bold italic tracking-[-0.3px] j3-grad-text">
-              {t.academy.hero.subtitleLine1}
+            {/* Top line — small uppercase */}
+            <span className="block text-[clamp(13px,1.4vw,18px)] font-light tracking-[1px] uppercase text-[var(--gy3)]">
+              {t.academy.hero.subtitleBefore}
             </span>
-            <span className="block text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)]/75 mt-3">
+
+            {/* Big italic gold word + rest of phrase */}
+            <p className="text-[clamp(16px,1.8vw,22px)] font-light text-[var(--gy3)] leading-[1.2] mt-[2px]">
+              <span className="text-[clamp(26px,3.2vw,42px)] font-bold italic tracking-[-0.5px] j3-grad-text mr-1 align-baseline">
+                {t.academy.hero.subtitleAccent}
+              </span>
+              {t.academy.hero.subtitleAfter}
+            </p>
+
+            <span className="block text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)]/75 mt-4">
               {t.academy.hero.subtitleLine2}
             </span>
           </div>

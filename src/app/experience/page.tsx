@@ -222,11 +222,20 @@ function HeroSection() {
           {/* Vertical gold hairline */}
           <span className="w-px h-[60px] max-[960px]:h-[54px] mt-1 shrink-0 bg-gradient-to-b from-[var(--g1)] via-[var(--g1)]/40 to-transparent" />
 
-          <p className="text-[clamp(15px,1.7vw,21px)] font-light text-[var(--gy3)] tracking-[-0.2px] leading-[1.45]">
-            {t.experience.hero.subtitleBefore}
-            <span className="font-bold italic j3-grad-text">{t.experience.hero.subtitleAccent}</span>
-            {t.experience.hero.subtitleAfter}
-          </p>
+          <div className="leading-[1.35]">
+            {/* Top line — small uppercase */}
+            <span className="block text-[clamp(13px,1.4vw,18px)] font-light tracking-[1px] uppercase text-[var(--gy3)]">
+              {t.experience.hero.subtitleBefore}
+            </span>
+
+            {/* Big italic gold word + rest of phrase */}
+            <p className="text-[clamp(16px,1.8vw,22px)] font-light text-[var(--gy3)] leading-[1.2] mt-[2px]">
+              <span className="text-[clamp(26px,3.2vw,42px)] font-bold italic tracking-[-0.5px] j3-grad-text mr-1 align-baseline">
+                {t.experience.hero.subtitleAccent}
+              </span>
+              {t.experience.hero.subtitleAfter}
+            </p>
+          </div>
         </div>
       </div>
 

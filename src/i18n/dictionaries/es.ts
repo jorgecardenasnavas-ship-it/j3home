@@ -50,9 +50,9 @@ export const es = {
       { val: "\uD83C\uDFC6", label: "Campeones del mundo y de Espa\u00F1a en menores" },
     ],
     accentTouch: {
-      before: "El mundo perdi\u00F3 la tilde.",
-      accent: "Nosotros la jugamos.",
-      after: "",
+      topLine: "El mundo perdi\u00F3 la tilde.",
+      accentWord: "Nosotros",
+      afterAccent: " la jugamos.",
       labelLeft: "P\u00C1DEL \u00B7 CON \u00B7 ACENTO",
       labelRight: "DESDE 2004 \u2014 M\u00C1LAGA",
     },
@@ -524,7 +524,9 @@ export const es = {
       titleLine2: "Ajustar.",
       titleLine3a: "Y",
       titleLine3b: "avanzar.",
-      subtitleLine1: "La mejor academia de p\u00E1del en la Costa del Sol.",
+      subtitleBefore: "La mejor",
+      subtitleAccent: "academia",
+      subtitleAfter: " de p\u00E1del en la Costa del Sol.",
       subtitleLine2: "Desde 2004 entrenando jugadores de todos los niveles.",
     },
 

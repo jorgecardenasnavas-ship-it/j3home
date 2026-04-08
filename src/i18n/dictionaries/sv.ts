@@ -50,9 +50,9 @@ export const sv = {
       { val: "\uD83C\uDFC6", label: "Världs- och spanska juniormästare" },
     ],
     accentTouch: {
-      before: "Världen tappade accenten.",
-      accent: "Vi har den kvar.",
-      after: "",
+      topLine: "Världen tappade accenten.",
+      accentWord: "Vi",
+      afterAccent: " har den kvar.",
       labelLeft: "P\u00C1DEL \u00B7 MED \u00B7 ACCENT",
       labelRight: "SEDAN 2004 \u2014 M\u00C1LAGA",
     },
@@ -523,7 +523,9 @@ export const sv = {
       titleLine2: "Finjustera.",
       titleLine3a: "OCH",
       titleLine3b: "g\u00E5 fram\u00E5t.",
-      subtitleLine1: "Den b\u00E4sta padelakademin p\u00E5 Costa del Sol.",
+      subtitleBefore: "Den b\u00E4sta",
+      subtitleAccent: "padelakademin",
+      subtitleAfter: " p\u00E5 Costa del Sol.",
       subtitleLine2: "Sedan 2004 tr\u00E4nar vi spelare p\u00E5 alla niv\u00E5er.",
     },
 
