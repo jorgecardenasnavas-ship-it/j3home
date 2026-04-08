@@ -9,6 +9,23 @@
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.625rem;
+
+  /* ──────────────────────────────────────────────────────────
+     J3Pádel typography scale (ratio ~1.25 · Major Third)
+     Namespace propio (--text-j3-*) para NO sobrescribir los
+     defaults de Tailwind v4. Genera utilidades text-j3-xs ...
+     text-j3-hero. Base 16px. 10 niveles + heroes fluidos.
+     ────────────────────────────────────────────────────────── */
+  --text-j3-xs: 10px;
+  --text-j3-sm: 12px;
+  --text-j3-base: 14px;
+  --text-j3-md: 16px;
+  --text-j3-lg: 18px;
+  --text-j3-xl: 22px;
+  --text-j3-2xl: clamp(28px, 3vw, 36px);
+  --text-j3-3xl: clamp(36px, 5vw, 64px);
+  --text-j3-4xl: clamp(48px, 6vw, 88px);
+  --text-j3-hero: clamp(60px, 9vw, 140px);
 }
 
 :root {

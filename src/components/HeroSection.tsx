@@ -88,13 +88,13 @@ export function HeroSection() {
         <div className="absolute top-1/2 left-0 right-0 -translate-y-[55%] z-[5] px-12 max-[960px]:px-6 flex items-start justify-between gap-16 max-[960px]:block">
           {/* Left — Claim */}
           <div className="pointer-events-none">
-            <span className="hero-word block font-bold text-[clamp(60px,9vw,140px)] max-[960px]:text-[clamp(52px,15vw,110px)] uppercase tracking-[-3px] leading-[.88] j3-grad-text">
+            <span className="hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] j3-grad-text">
               {t.hero.play}
             </span>
-            <span className="hero-word block font-bold text-[clamp(60px,9vw,140px)] max-[960px]:text-[clamp(52px,15vw,110px)] uppercase tracking-[-3px] leading-[.88] text-[var(--wh)]">
+            <span className="hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] text-[var(--wh)]">
               {t.hero.coach}
             </span>
-            <span className="hero-word block font-bold text-[clamp(60px,9vw,140px)] max-[960px]:text-[clamp(52px,15vw,110px)] uppercase tracking-[-3px] leading-[.88] j3-stroke-gold">
+            <span className="hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] j3-stroke-gold">
               {t.hero.manage}
             </span>
           </div>
