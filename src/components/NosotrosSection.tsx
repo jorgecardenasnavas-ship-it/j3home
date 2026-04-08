@@ -122,18 +122,13 @@ export function NosotrosSection() {
               className="relative group pb-5 last:pb-0"
             >
               {/* Dot marker */}
-              <span className="absolute -left-[27px] top-[14px] w-[7px] h-[7px] rounded-full bg-[var(--g1)] ring-2 ring-black transition-transform duration-300 ease-[var(--ease-out)] group-hover:scale-125" />
+              <span className="absolute -left-[27px] top-1/2 -translate-y-[60%] w-[7px] h-[7px] rounded-full bg-[var(--g1)] ring-2 ring-black transition-transform duration-300 ease-[var(--ease-out)] group-hover:scale-125" />
 
               {/* Hover glow */}
               <div
                 className="absolute inset-y-0 -left-2 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-md"
                 style={{ background: "linear-gradient(90deg, rgba(220,175,100,.06) 0%, transparent 80%)" }}
               />
-
-              {/* Index */}
-              <span className="relative block text-[9px] font-bold tracking-[3px] text-[var(--g1)]/60 mb-[2px]">
-                {String(idx + 1).padStart(2, "0")}
-              </span>
 
               {/* Value + label row */}
               <div className="relative flex items-baseline gap-3 flex-wrap">
