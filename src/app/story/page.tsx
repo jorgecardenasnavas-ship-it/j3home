@@ -347,12 +347,16 @@ function AccentManifesto() {
         tl.to(el, { opacity: 1, y: 0, duration: 0.18 }, start);
       });
 
-      // pOutro 0.88→1.00 — exit mask wipe
+      // pOutro 0.72→1.00 — diagonal clip-path wipe (entra antes, agresivo)
       tl.fromTo(
         outroRef.current,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.12 },
-        0.88
+        { clipPath: "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)", opacity: 1 },
+        {
+          clipPath: "polygon(0 -20%, 100% -40%, 100% 100%, 0 100%)",
+          duration: 0.28,
+          ease: "power3.in",
+        },
+        0.72
       );
 
       // ── Parallax depth layers (independent ScrollTriggers, run constantly) ──
@@ -432,12 +436,12 @@ function AccentManifesto() {
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "radial-gradient(ellipse 80% 70% at 50% 50%, transparent 30%, rgba(0,0,0,0.55) 75%, #000 100%)",
-            opacity: 0.35,
+              "radial-gradient(ellipse 70% 60% at 50% 50%, transparent 20%, rgba(0,0,0,0.70) 70%, #000 100%)",
+            opacity: 0.55,
           }}
         />
 
-        {/* DEPTH LAYER 2 — film grain SVG noise (subtle, fixed) */}
+        {/* DEPTH LAYER 2 — film grain SVG noise (visible texture) */}
         <div
           ref={grainRef}
           aria-hidden
@@ -445,8 +449,8 @@ function AccentManifesto() {
           style={{
             backgroundImage:
               "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>\")",
-            backgroundSize: "220px 220px",
-            opacity: 0.07,
+            backgroundSize: "180px 180px",
+            opacity: 0.16,
           }}
         />
 
@@ -456,9 +460,9 @@ function AccentManifesto() {
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "radial-gradient(ellipse 60% 50% at 30% 50%, rgba(220,175,100,0.10) 0%, transparent 65%)",
+              "radial-gradient(ellipse 65% 55% at 30% 50%, rgba(220,175,100,0.22) 0%, transparent 65%)",
             opacity: 0,
-            animation: "ambientPulse 7s ease-in-out infinite",
+            animation: "ambientPulse 6s ease-in-out infinite",
             transformOrigin: "30% 50%",
           }}
         />
@@ -469,9 +473,9 @@ function AccentManifesto() {
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "radial-gradient(ellipse 40% 40% at 75% 60%, rgba(220,175,100,0.06) 0%, transparent 70%)",
+              "radial-gradient(ellipse 45% 45% at 75% 60%, rgba(220,175,100,0.16) 0%, transparent 70%)",
             opacity: 0,
-            animation: "ambientPulse 9s ease-in-out infinite 1.5s",
+            animation: "ambientPulse 8s ease-in-out infinite 1.5s",
             transformOrigin: "75% 60%",
           }}
         />
@@ -1458,7 +1462,7 @@ export default function StoryPage() {
         className="fixed inset-0 pointer-events-none z-[1]"
         style={{
           background:
-            "radial-gradient(ellipse 100% 80% at 50% 50%, transparent 40%, rgba(0,0,0,0.45) 90%, #000 100%)",
+            "radial-gradient(ellipse 90% 70% at 50% 50%, transparent 25%, rgba(0,0,0,0.55) 75%, rgba(0,0,0,0.85) 100%)",
         }}
       />
       <div
@@ -1467,8 +1471,8 @@ export default function StoryPage() {
         style={{
           backgroundImage:
             "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>\")",
-          backgroundSize: "220px 220px",
-          opacity: 0.04,
+          backgroundSize: "200px 200px",
+          opacity: 0.13,
         }}
       />
 
