@@ -4,6 +4,13 @@ import { useRef, useEffect, useState, useCallback } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useI18n } from "@/i18n/context";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger, useGSAP);
+}
 
 
 /* ───────── HOOKS ───────── */
@@ -249,41 +256,117 @@ function AccentManifesto() {
   const { t } = useI18n();
   const { eyebrow, slogan, manifesto } = t.story.accent;
   const containerRef = useRef<HTMLDivElement>(null);
-  const [progress, setProgress] = useState(0);
+  const aRef = useRef<HTMLSpanElement>(null);
+  const accentRef = useRef<HTMLSpanElement>(null);
+  const eyebrowRef = useRef<HTMLSpanElement>(null);
+  const slogan1Ref = useRef<HTMLSpanElement>(null);
+  const slogan2Ref = useRef<HTMLSpanElement>(null);
+  const slogan3Ref = useRef<HTMLSpanElement>(null);
+  const hairlineRef = useRef<HTMLDivElement>(null);
+  const manifestoRefs = useRef<(HTMLParagraphElement | null)[]>([]);
+  const glow1Ref = useRef<HTMLDivElement>(null);
+  const glow2Ref = useRef<HTMLDivElement>(null);
+  const cordRef = useRef<HTMLDivElement>(null);
+  const outroRef = useRef<HTMLDivElement>(null);
   const [accentTriggered, setAccentTriggered] = useState(false);
 
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-    function handleScroll() {
-      const rect = container!.getBoundingClientRect();
-      const windowH = window.innerHeight;
-      const totalH = container!.scrollHeight;
-      const scrolled = -rect.top + windowH * 0.15;
-      const animRange = totalH - windowH;
-      setProgress(Math.max(0, Math.min(1, scrolled / animRange)));
-    }
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  useGSAP(
+    () => {
+      const container = containerRef.current;
+      if (!container) return;
 
-  // Trigger accent CSS keyframe once the A is fully resolved
-  useEffect(() => {
-    if (progress > 0.20 && !accentTriggered) setAccentTriggered(true);
-  }, [progress, accentTriggered]);
+      // Master timeline — driven by ScrollTrigger scrub. Time units = "phase units" (0..1).
+      const tl = gsap.timeline({
+        defaults: { ease: "none" },
+        scrollTrigger: {
+          trigger: container,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 0.4, // soft scrub — smoothes residual jitter
+        },
+      });
 
-  // Phase helper — returns 0..1 for a given slice of progress
-  const phase = (start: number, end: number) =>
-    Math.max(0, Math.min(1, (progress - start) / (end - start)));
+      // pA 0.00→0.18 — Á + eyebrow appear
+      tl.to(
+        aRef.current,
+        { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.18 },
+        0
+      ).to(
+        eyebrowRef.current,
+        { opacity: 1, y: 0, duration: 0.18 },
+        0
+      ).to(
+        [glow1Ref.current, glow2Ref.current, cordRef.current],
+        { opacity: 1, duration: 0.18 },
+        0
+      );
 
-  const pA = phase(0.00, 0.18); // A scales in
-  const pC = phase(0.28, 0.44); // Slogan line 1 (Pádel.)
-  const pD = phase(0.36, 0.52); // Slogan line 2 (Con.)
-  const pE = phase(0.44, 0.60); // Slogan line 3 (Acento.)
-  const pF = phase(0.55, 0.68); // Gold hairline
-  const pG = phase(0.58, 0.85); // Manifesto lines
-  const pOutro = phase(0.88, 1.00); // Exit mask wipe
+      // Tilde trigger flag at progress 0.20 (one-shot CSS keyframe)
+      tl.call(() => setAccentTriggered(true), [], 0.20);
+
+      // pC 0.28→0.44 — slogan line 1 PÁDEL
+      tl.to(
+        slogan1Ref.current,
+        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.16 },
+        0.28
+      );
+      // pD 0.36→0.52 — slogan line 2 CON
+      tl.to(
+        slogan2Ref.current,
+        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.16 },
+        0.36
+      );
+      // pE 0.44→0.60 — slogan line 3 Acento
+      tl.to(
+        slogan3Ref.current,
+        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.16 },
+        0.44
+      );
+
+      // pF 0.55→0.68 — gold hairline width grows
+      tl.fromTo(
+        hairlineRef.current,
+        { width: 0 },
+        { width: 240, duration: 0.13 },
+        0.55
+      );
+
+      // pG 0.58→0.85 — manifesto lines staggered (3 lines, each over its slice)
+      manifestoRefs.current.forEach((el, i) => {
+        if (!el) return;
+        const start = 0.58 + i * 0.09;
+        tl.to(el, { opacity: 1, y: 0, duration: 0.18 }, start);
+      });
+
+      // pOutro 0.88→1.00 — exit mask wipe
+      tl.fromTo(
+        outroRef.current,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.12 },
+        0.88
+      );
+    },
+    { scope: containerRef }
+  );
+
+  // Cord clip-path needs to map directly to ScrollTrigger progress (not through TL).
+  useGSAP(
+    () => {
+      const container = containerRef.current;
+      const cord = cordRef.current;
+      if (!container || !cord) return;
+      const st = ScrollTrigger.create({
+        trigger: container,
+        start: "top top",
+        end: "bottom bottom",
+        onUpdate: (self) => {
+          cord.style.clipPath = `inset(0 0 ${(1 - self.progress) * 100}% 0)`;
+        },
+      });
+      return () => st.kill();
+    },
+    { scope: containerRef }
+  );
 
   return (
     <div
@@ -294,11 +377,12 @@ function AccentManifesto() {
       <div className="sticky top-0 h-screen flex items-center overflow-hidden">
         {/* Ambient breathing glow — continuous slow pulse behind everything */}
         <div
+          ref={glow1Ref}
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
               "radial-gradient(ellipse 60% 50% at 30% 50%, rgba(220,175,100,0.10) 0%, transparent 65%)",
-            opacity: Math.min(1, pA * 2),
+            opacity: 0,
             animation: "ambientPulse 7s ease-in-out infinite",
             transformOrigin: "30% 50%",
           }}
@@ -306,38 +390,40 @@ function AccentManifesto() {
 
         {/* Secondary ambient layer — offset so the breath isn't symmetric */}
         <div
+          ref={glow2Ref}
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
               "radial-gradient(ellipse 40% 40% at 75% 60%, rgba(220,175,100,0.06) 0%, transparent 70%)",
-            opacity: Math.min(1, pA * 2),
+            opacity: 0,
             animation: "ambientPulse 9s ease-in-out infinite 1.5s",
             transformOrigin: "75% 60%",
           }}
         />
 
-        {/* Vertical scroll cord — right edge, descends with progress */}
+        {/* Vertical scroll cord — right edge, descends with progress (set imperatively) */}
         <div
+          ref={cordRef}
           aria-hidden
           className="absolute top-0 right-8 max-[960px]:right-4 w-px pointer-events-none hidden sm:block"
           style={{
             height: "100%",
             background:
               "linear-gradient(to bottom, transparent 0%, rgba(220,175,100,.55) 15%, rgba(220,175,100,.55) 85%, transparent 100%)",
-            clipPath: `inset(0 0 ${Math.max(0, (1 - progress) * 100)}% 0)`,
-            transition: "clip-path 40ms linear",
-            opacity: Math.min(1, pA * 1.5),
+            clipPath: "inset(0 0 100% 0)",
+            opacity: 0,
           }}
         />
 
         {/* Exit mask wipe — diagonal dark curtain rising from below to cover scene at the end */}
         <div
+          ref={outroRef}
           aria-hidden
           className="absolute inset-0 pointer-events-none z-[20]"
           style={{
             background:
               "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.0) 35%, rgba(0,0,0,0.85) 75%, #000 100%)",
-            opacity: pOutro,
+            opacity: 0,
           }}
         />
 
@@ -353,6 +439,7 @@ function AccentManifesto() {
             >
               {/* The A (base letter) — padding in em so glyph has breathing room */}
               <span
+                ref={aRef}
                 className="j3-grad-text font-bold block select-none"
                 style={{
                   fontSize: "1em",
@@ -362,10 +449,10 @@ function AccentManifesto() {
                   paddingBottom: "0.28em",
                   paddingLeft: "0.08em",
                   paddingRight: "0.08em",
-                  opacity: pA,
-                  transform: `scale(${0.92 + pA * 0.08})`,
+                  opacity: 0,
+                  transform: "scale(0.92)",
                   transformOrigin: "center center",
-                  filter: `blur(${(1 - pA) * 10}px)`,
+                  filter: "blur(10px)",
                 }}
               >
                 A
@@ -373,6 +460,7 @@ function AccentManifesto() {
 
               {/* The acute accent — CSS-keyframe fall + bounce + settle */}
               <span
+                ref={accentRef}
                 aria-hidden
                 className="absolute pointer-events-none"
                 style={{
@@ -384,7 +472,6 @@ function AccentManifesto() {
                     "linear-gradient(135deg, #dcaf64 0%, #fff1b4 50%, #dcaf64 100%)",
                   borderRadius: "0.015em",
                   transformOrigin: "center center",
-                  // Resting state if not yet triggered
                   transform: "translate(-50%, -700%) rotate(-60deg)",
                   opacity: 0,
                   animation: accentTriggered
@@ -399,11 +486,9 @@ function AccentManifesto() {
           <div>
             {/* Eyebrow */}
             <span
+              ref={eyebrowRef}
               className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] mb-6 block max-[960px]:text-[11px] max-[960px]:tracking-[3px] max-[960px]:mb-4"
-              style={{
-                opacity: pA,
-                transform: `translateY(${(1 - pA) * 14}px)`,
-              }}
+              style={{ opacity: 0, transform: "translateY(14px)" }}
             >
               {eyebrow}
             </span>
@@ -411,32 +496,23 @@ function AccentManifesto() {
             {/* Slogan — three lines */}
             <h2 className="font-bold uppercase tracking-[-3px] leading-[0.92] mb-10 max-[960px]:mb-6">
               <span
+                ref={slogan1Ref}
                 className="j3-grad-text block text-[clamp(48px,7vw,110px)]"
-                style={{
-                  opacity: pC,
-                  transform: `translateY(${(1 - pC) * 60}px)`,
-                  filter: `blur(${(1 - pC) * 8}px)`,
-                }}
+                style={{ opacity: 0, transform: "translateY(60px)", filter: "blur(8px)" }}
               >
                 {slogan[0]}
               </span>
               <span
+                ref={slogan2Ref}
                 className="j3-stroke block text-[clamp(48px,7vw,110px)]"
-                style={{
-                  opacity: pD,
-                  transform: `translateY(${(1 - pD) * 60}px)`,
-                  filter: `blur(${(1 - pD) * 8}px)`,
-                }}
+                style={{ opacity: 0, transform: "translateY(60px)", filter: "blur(8px)" }}
               >
                 {slogan[1]}
               </span>
               <span
+                ref={slogan3Ref}
                 className="block text-[clamp(48px,7vw,110px)] text-[var(--wh)] font-[var(--font-serif)] italic normal-case tracking-[-1px]"
-                style={{
-                  opacity: pE,
-                  transform: `translateY(${(1 - pE) * 60}px)`,
-                  filter: `blur(${(1 - pE) * 8}px)`,
-                }}
+                style={{ opacity: 0, transform: "translateY(60px)", filter: "blur(8px)" }}
               >
                 {slogan[2]}
               </span>
@@ -444,19 +520,14 @@ function AccentManifesto() {
 
             {/* Gold hairline */}
             <div
+              ref={hairlineRef}
               className="h-px bg-gradient-to-r from-[var(--g1)] via-[var(--g1)]/40 to-transparent mb-8 max-[960px]:mb-5"
-              style={{
-                width: `${pF * 240}px`,
-              }}
+              style={{ width: 0 }}
             />
 
             {/* Manifesto — 3 lines with diff. weight/pace (setup → punch → closer) */}
             <div className="flex flex-col gap-3 max-w-[560px]">
               {manifesto.map((line, i) => {
-                const localP = Math.max(0, Math.min(1, (pG - i * 0.18) * 1.6));
-                // i=0 → setup (light, small, muted)
-                // i=1 → punch (heavier, bigger, white)
-                // i=2 → closer (italic serif, muted gold)
                 const styles =
                   i === 0
                     ? "text-[clamp(15px,1.4vw,19px)] text-[var(--gy2)] leading-[1.55] font-light"
@@ -466,11 +537,12 @@ function AccentManifesto() {
                 return (
                   <p
                     key={i}
+                    ref={el => { manifestoRefs.current[i] = el; }}
                     className={styles}
                     style={{
                       fontFamily: i === 2 ? "var(--font-serif)" : undefined,
-                      opacity: localP,
-                      transform: `translateY(${(1 - localP) * 18}px)`,
+                      opacity: 0,
+                      transform: "translateY(18px)",
                     }}
                   >
                     {line}
