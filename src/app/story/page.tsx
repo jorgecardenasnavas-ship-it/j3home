@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState, useCallback } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useI18n } from "@/i18n/context";
@@ -34,18 +34,24 @@ function useReveal(threshold = 0.15) {
 function useParallax() {
   const ref = useRef<HTMLDivElement>(null);
   const [offset, setOffset] = useState(0);
-  const onScroll = useCallback(() => {
-    const el = ref.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const t = rect.top / window.innerHeight;
-    setOffset(t * 80);
-  }, []);
-  useEffect(() => {
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [onScroll]);
+  useGSAP(
+    () => {
+      const el = ref.current;
+      if (!el) return;
+      const st = ScrollTrigger.create({
+        trigger: el,
+        start: "top bottom",
+        end: "bottom top",
+        onUpdate: () => {
+          // Preserve original formula: (rect.top / windowH) * 80
+          const rect = el.getBoundingClientRect();
+          setOffset((rect.top / window.innerHeight) * 80);
+        },
+      });
+      return () => st.kill();
+    },
+    { scope: ref }
+  );
   return { ref, offset };
 }
 
@@ -676,45 +682,47 @@ function TimelineSection() {
     return () => observers.forEach(io => io.disconnect());
   }, []);
 
-  useEffect(() => {
-    function handleScroll() {
+  useGSAP(
+    () => {
       const section = sectionRef.current;
       if (!section) return;
-      const wH = window.innerHeight;
-      const sRect = section.getBoundingClientRect();
+      const st = ScrollTrigger.create({
+        trigger: section,
+        start: "top bottom",
+        end: "bottom top",
+        onUpdate: () => {
+          const wH = window.innerHeight;
+          const firstEl = itemRefs.current[0];
+          const lastEl = itemRefs.current[timeline.length - 1];
+          if (!firstEl || !lastEl) return;
+          const firstRect = firstEl.getBoundingClientRect();
+          const lastRect = lastEl.getBoundingClientRect();
 
-      // Is timeline in view? Only show when first timeline item is visible
-      const firstEl = itemRefs.current[0];
-      const lastEl = itemRefs.current[timeline.length - 1];
-      const firstRect = firstEl?.getBoundingClientRect();
-      const lastRect = lastEl?.getBoundingClientRect();
-      const firstItemVisible = firstRect ? firstRect.top < wH * 0.8 : false;
-      const lastItemPassed = lastRect ? lastRect.top < wH * 0.35 : sRect.bottom < wH;
-      setInView(firstItemVisible && !lastItemPassed);
+          // Is timeline in view?
+          const firstItemVisible = firstRect.top < wH * 0.8;
+          const lastItemPassed = lastRect.top < wH * 0.35;
+          setInView(firstItemVisible && !lastItemPassed);
 
-      // Calculate scroll progress through the timeline
-      if (firstEl && lastEl) {
-        const start = firstRect!.top;
-        const end = lastEl.getBoundingClientRect().bottom;
-        const total = end - start;
-        const scrolled = wH * 0.5 - start;
-        setScrollProgress(Math.max(0, Math.min(1, scrolled / total)));
-      }
+          // Scroll progress through timeline
+          const start = firstRect.top;
+          const end = lastRect.bottom;
+          const total = end - start;
+          const scrolled = wH * 0.5 - start;
+          setScrollProgress(Math.max(0, Math.min(1, scrolled / total)));
 
-      // Find active item (last one past viewport center)
-      let active = -1;
-      for (let i = 0; i < timeline.length; i++) {
-        const el = itemRefs.current[i];
-        if (el && el.getBoundingClientRect().top < wH * 0.55) {
-          active = i;
-        }
-      }
-      setActiveIndex(active);
-    }
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [timeline.length]);
+          // Active item (last past viewport center)
+          let active = -1;
+          for (let i = 0; i < timeline.length; i++) {
+            const el = itemRefs.current[i];
+            if (el && el.getBoundingClientRect().top < wH * 0.55) active = i;
+          }
+          setActiveIndex(active);
+        },
+      });
+      return () => st.kill();
+    },
+    { scope: sectionRef, dependencies: [timeline.length] }
+  );
 
   return (
     <section ref={sectionRef} className="relative px-4 sm:px-6 md:px-12 pb-[72px] md:pb-[100px] overflow-hidden">
@@ -1170,22 +1178,27 @@ function StoryImpact() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
 
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-    function handleScroll() {
-      const rect = container!.getBoundingClientRect();
-      const windowH = window.innerHeight;
-      const totalH = container!.scrollHeight;
-      // Start earlier so less black dead space on mobile
-      const scrolled = -rect.top + windowH * 0.15;
-      const animRange = totalH - windowH;
-      setProgress(Math.max(0, Math.min(1, scrolled / animRange)));
-    }
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  useGSAP(
+    () => {
+      const container = containerRef.current;
+      if (!container) return;
+      const st = ScrollTrigger.create({
+        trigger: container,
+        start: "top bottom",
+        end: "bottom top",
+        onUpdate: () => {
+          const rect = container.getBoundingClientRect();
+          const windowH = window.innerHeight;
+          const totalH = container.scrollHeight;
+          const scrolled = -rect.top + windowH * 0.15;
+          const animRange = totalH - windowH;
+          setProgress(Math.max(0, Math.min(1, scrolled / animRange)));
+        },
+      });
+      return () => st.kill();
+    },
+    { scope: containerRef }
+  );
 
   // Phase 1 (0-30%): Main quote line 1
   const p1 = Math.min(1, progress / 0.3);
@@ -1406,14 +1419,18 @@ export default function StoryPage() {
   const heroRef = useRef<HTMLDivElement>(null);
   const [heroY, setHeroY] = useState(0);
   const [heroOp, setHeroOp] = useState(1);
-  useEffect(() => {
-    const fn = () => {
-      const y = window.scrollY;
-      setHeroY(y * 0.4);
-      setHeroOp(Math.max(0, 1 - y / 600));
-    };
-    window.addEventListener("scroll", fn, { passive: true });
-    return () => window.removeEventListener("scroll", fn);
+  useGSAP(() => {
+    const st = ScrollTrigger.create({
+      trigger: document.body,
+      start: "top top",
+      end: "+=600",
+      onUpdate: (self) => {
+        const y = self.progress * 600;
+        setHeroY(y * 0.4);
+        setHeroOp(Math.max(0, 1 - y / 600));
+      },
+    });
+    return () => st.kill();
   }, []);
 
   /* Section reveals */
