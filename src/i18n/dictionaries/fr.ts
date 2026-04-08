@@ -52,7 +52,7 @@ export const fr = {
     accentTouch: {
       topLine: "Le monde a perdu l\u2019accent.",
       accentWord: "Nous",
-      afterAccent: " l\u2019avons gard\u00E9.",
+      afterAccent: "l\u2019avons gard\u00E9.",
       labelLeft: "P\u00C1DEL \u00B7 AVEC \u00B7 ACCENT",
       labelRight: "DEPUIS 2004 \u2014 M\u00C1LAGA",
     },

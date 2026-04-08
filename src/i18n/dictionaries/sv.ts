@@ -52,7 +52,7 @@ export const sv = {
     accentTouch: {
       topLine: "Världen tappade accenten.",
       accentWord: "Vi",
-      afterAccent: " har den kvar.",
+      afterAccent: "har den kvar.",
       labelLeft: "P\u00C1DEL \u00B7 MED \u00B7 ACCENT",
       labelRight: "SEDAN 2004 \u2014 M\u00C1LAGA",
     },

@@ -52,7 +52,7 @@ export const es = {
     accentTouch: {
       topLine: "El mundo perdi\u00F3 la tilde.",
       accentWord: "Nosotros",
-      afterAccent: " la jugamos.",
+      afterAccent: "la jugamos.",
       labelLeft: "P\u00C1DEL \u00B7 CON \u00B7 ACENTO",
       labelRight: "DESDE 2004 \u2014 M\u00C1LAGA",
     },

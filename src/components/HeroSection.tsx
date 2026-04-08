@@ -135,7 +135,7 @@ export function HeroSection() {
 
               {/* Big italic gold word + rest of phrase, baseline-aligned */}
               <p className="text-[clamp(16px,1.8vw,22px)] font-light text-[var(--gy3)] leading-[1.2] mt-[2px]">
-                <span className="text-[clamp(26px,3.2vw,42px)] font-bold italic tracking-[-0.5px] j3-grad-text mr-1 align-baseline">
+                <span className="text-[clamp(26px,3.2vw,42px)] font-bold italic tracking-[-0.5px] j3-grad-text inline-block pr-[0.18em] -mr-[0.08em] align-baseline">
                   {t.hero.accentTouch.accentWord}
                 </span>
                 {t.hero.accentTouch.afterAccent}
