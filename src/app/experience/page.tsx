@@ -252,7 +252,7 @@ function HeroSection() {
                 {t.experience.hero.subtitleAccent}
               </span>
               {" "}
-              <span className="italic font-medium j3-grad-text underline decoration-[var(--g1)]/55 decoration-1 underline-offset-[4px] pr-[0.12em]">
+              <span className="italic font-medium text-[var(--wh)] underline decoration-[var(--g1)]/55 decoration-1 underline-offset-[4px] pr-[0.12em]">
                 {t.experience.hero.subtitleAfter}
               </span>
               <span className="text-[var(--gy3)]">.</span>
