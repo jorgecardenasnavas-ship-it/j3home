@@ -268,9 +268,9 @@ function AccentManifesto() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Trigger accent CSS keyframe once the A is mostly visible
+  // Trigger accent CSS keyframe once the A is fully resolved
   useEffect(() => {
-    if (progress > 0.12 && !accentTriggered) setAccentTriggered(true);
+    if (progress > 0.20 && !accentTriggered) setAccentTriggered(true);
   }, [progress, accentTriggered]);
 
   // Phase helper — returns 0..1 for a given slice of progress
@@ -283,6 +283,7 @@ function AccentManifesto() {
   const pE = phase(0.44, 0.60); // Slogan line 3 (Acento.)
   const pF = phase(0.55, 0.68); // Gold hairline
   const pG = phase(0.58, 0.85); // Manifesto lines
+  const pOutro = phase(0.88, 1.00); // Exit mask wipe
 
   return (
     <div
@@ -290,14 +291,53 @@ function AccentManifesto() {
       className="relative bg-[var(--bk)] border-y border-white/[.05] overflow-clip"
       style={{ height: "220vh" }}
     >
-      <div className="sticky top-0 h-screen flex items-center">
-        {/* Subtle radial glow */}
+      <div className="sticky top-0 h-screen flex items-center overflow-hidden">
+        {/* Ambient breathing glow — continuous slow pulse behind everything */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "radial-gradient(ellipse 60% 50% at 30% 50%, rgba(220,175,100,0.08) 0%, transparent 70%)",
+              "radial-gradient(ellipse 60% 50% at 30% 50%, rgba(220,175,100,0.10) 0%, transparent 65%)",
             opacity: Math.min(1, pA * 2),
+            animation: "ambientPulse 7s ease-in-out infinite",
+            transformOrigin: "30% 50%",
+          }}
+        />
+
+        {/* Secondary ambient layer — offset so the breath isn't symmetric */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse 40% 40% at 75% 60%, rgba(220,175,100,0.06) 0%, transparent 70%)",
+            opacity: Math.min(1, pA * 2),
+            animation: "ambientPulse 9s ease-in-out infinite 1.5s",
+            transformOrigin: "75% 60%",
+          }}
+        />
+
+        {/* Vertical scroll cord — right edge, descends with progress */}
+        <div
+          aria-hidden
+          className="absolute top-0 right-8 max-[960px]:right-4 w-px pointer-events-none hidden sm:block"
+          style={{
+            height: "100%",
+            background:
+              "linear-gradient(to bottom, transparent 0%, rgba(220,175,100,.55) 15%, rgba(220,175,100,.55) 85%, transparent 100%)",
+            clipPath: `inset(0 0 ${Math.max(0, (1 - progress) * 100)}% 0)`,
+            transition: "clip-path 40ms linear",
+            opacity: Math.min(1, pA * 1.5),
+          }}
+        />
+
+        {/* Exit mask wipe — diagonal dark curtain rising from below to cover scene at the end */}
+        <div
+          aria-hidden
+          className="absolute inset-0 pointer-events-none z-[20]"
+          style={{
+            background:
+              "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.0) 35%, rgba(0,0,0,0.85) 75%, #000 100%)",
+            opacity: pOutro,
           }}
         />
 
@@ -410,17 +450,27 @@ function AccentManifesto() {
               }}
             />
 
-            {/* Manifesto — 3 lines */}
-            <div className="space-y-2 max-w-[520px]">
+            {/* Manifesto — 3 lines with diff. weight/pace (setup → punch → closer) */}
+            <div className="flex flex-col gap-3 max-w-[560px]">
               {manifesto.map((line, i) => {
-                const localP = Math.max(0, Math.min(1, (pG - i * 0.15) * 1.6));
+                const localP = Math.max(0, Math.min(1, (pG - i * 0.18) * 1.6));
+                // i=0 → setup (light, small, muted)
+                // i=1 → punch (heavier, bigger, white)
+                // i=2 → closer (italic serif, muted gold)
+                const styles =
+                  i === 0
+                    ? "text-[clamp(15px,1.4vw,19px)] text-[var(--gy2)] leading-[1.55] font-light"
+                    : i === 1
+                    ? "text-[clamp(18px,1.7vw,24px)] text-[var(--wh)] leading-[1.35] font-medium tracking-[-0.2px]"
+                    : "text-[clamp(15px,1.4vw,19px)] italic text-[var(--g1)]/85 leading-[1.5] font-light";
                 return (
                   <p
                     key={i}
-                    className="text-[clamp(15px,1.4vw,19px)] text-[var(--gy2)] leading-[1.55] font-light"
+                    className={styles}
                     style={{
+                      fontFamily: i === 2 ? "var(--font-serif)" : undefined,
                       opacity: localP,
-                      transform: `translateY(${(1 - localP) * 16}px)`,
+                      transform: `translateY(${(1 - localP) * 18}px)`,
                     }}
                   >
                     {line}
