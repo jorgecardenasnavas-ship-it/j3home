@@ -49,6 +49,8 @@ export const en = {
       { val: "18", label: "PRO titles" },
       { val: "\uD83C\uDFC6", label: "World & Spanish junior champions" },
     ],
+    credsHeading: "By the numbers",
+    credsKicker: "What counts.",
     accentTouch: {
       topLine: "The world dropped the accent.",
       accentWord: "We",

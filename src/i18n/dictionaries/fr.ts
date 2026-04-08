@@ -49,6 +49,8 @@ export const fr = {
       { val: "18", label: "Titres PRO" },
       { val: "\uD83C\uDFC6", label: "Champions du monde et d\u2019Espagne juniors" },
     ],
+    credsHeading: "Par les chiffres",
+    credsKicker: "Ce qui compte.",
     accentTouch: {
       topLine: "Le monde a perdu l\u2019accent.",
       accentWord: "Nous",

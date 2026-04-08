@@ -49,6 +49,8 @@ export const sv = {
       { val: "18", label: "PRO-titlar" },
       { val: "\uD83C\uDFC6", label: "Världs- och spanska juniormästare" },
     ],
+    credsHeading: "I siffror",
+    credsKicker: "Det som r\u00E4knas.",
     accentTouch: {
       topLine: "Världen tappade accenten.",
       accentWord: "Vi",

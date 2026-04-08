@@ -2,6 +2,7 @@ import { Navbar } from "@/components/Navbar";
 import { HeroSection } from "@/components/HeroSection";
 import { SponsorsBanner } from "@/components/SponsorsBanner";
 import { ImpactSection } from "@/components/ImpactSection";
+import { MobileStatsBand } from "@/components/MobileStatsBand";
 import { SystemReveal } from "@/components/SystemReveal";
 import { ProductsSection } from "@/components/ProductsSection";
 import { NosotrosSection } from "@/components/NosotrosSection";
@@ -17,6 +18,7 @@ export default function Home() {
         <HeroSection />
         <SponsorsBanner />
         <ImpactSection />
+        <MobileStatsBand />
         <SystemReveal />
         <HomeTextBlock />
         <ProductsSection />

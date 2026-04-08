@@ -156,20 +156,6 @@ export function HeroSection() {
 
 
       </section>
-
-      {/* Mobile Creds */}
-      <div className="hidden max-[960px]:!grid grid-cols-2 gap-x-4 gap-y-3 bg-black/90 border-t border-white/[.07] py-4 px-5">
-        {t.hero.credsMobile.map((cred, idx) => (
-          <div key={idx} className="flex items-start gap-2.5 min-w-0">
-            <span className="text-[15px] font-bold j3-grad-text leading-none mt-[2px] shrink-0 whitespace-nowrap">
-              {cred.val}
-            </span>
-            <span className="text-[10px] font-light text-[var(--gy2)] tracking-[0.5px] uppercase leading-[1.3] break-words">
-              {cred.label}
-            </span>
-          </div>
-        ))}
-      </div>
     </>
   );
 }
