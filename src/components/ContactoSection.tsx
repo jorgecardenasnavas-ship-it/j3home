@@ -82,7 +82,7 @@ export function ContactoSection() {
           Ecosistema J3
         </span>
 
-        <h2 className="reveal-up font-bold text-[clamp(40px,6vw,88px)] uppercase tracking-[-3px] leading-[0.95] mb-6">
+        <h2 className="reveal-up font-bold text-j3-4xl uppercase tracking-[-3px] leading-[0.95] mb-6">
           <span className="j3-stroke">Un sistema.</span>
           <br />
           <span className="j3-grad-text font-[var(--font-serif)] italic normal-case">Infinitas posibilidades.</span>

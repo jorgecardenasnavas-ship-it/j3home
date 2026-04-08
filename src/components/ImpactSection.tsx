@@ -59,7 +59,7 @@ export function ImpactSection() {
           {/* Line 1 — gold gradient */}
           <div className="text-left overflow-hidden">
             <span
-              className="block font-bold text-[clamp(52px,10vw,130px)] max-[960px]:text-[clamp(38px,9vw,80px)] uppercase tracking-[-2px] leading-[1] j3-grad-text"
+              className="block font-bold text-j3-hero uppercase tracking-[-2px] leading-[1] j3-grad-text"
               style={{
                 opacity: p1,
                 transform: `translateY(${(1 - p1) * 80}px)`,
@@ -73,7 +73,7 @@ export function ImpactSection() {
           {/* Line 2 — stroke outline, right-aligned */}
           <div className="text-right overflow-hidden">
             <span
-              className="block font-bold text-[clamp(52px,10vw,130px)] max-[960px]:text-[clamp(38px,9vw,80px)] uppercase tracking-[-2px] leading-[1] pt-[0.15em]"
+              className="block font-bold text-j3-hero uppercase tracking-[-2px] leading-[1] pt-[0.15em]"
               style={{
                 WebkitTextStroke: "1.5px rgba(255,255,255,.18)",
                 color: "transparent",
@@ -89,7 +89,7 @@ export function ImpactSection() {
           {/* Line 3 — white, left with offset */}
           <div className="text-left pl-[8vw] max-[960px]:pl-0 overflow-hidden">
             <span
-              className="block font-bold text-[clamp(36px,7vw,100px)] max-[960px]:text-[clamp(24px,6.5vw,70px)] uppercase tracking-[-2px] leading-[1] text-[var(--wh)] whitespace-nowrap"
+              className="block font-bold text-j3-4xl uppercase tracking-[-2px] leading-[1] text-[var(--wh)] whitespace-nowrap"
               style={{
                 opacity: p3,
                 transform: `translateY(${(1 - p3) * 80}px)`,

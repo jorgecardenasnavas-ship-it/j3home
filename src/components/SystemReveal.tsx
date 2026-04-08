@@ -61,7 +61,7 @@ export function SystemReveal() {
         <div className="text-center px-6 max-w-[900px]">
           {/* Block 1 */}
           <h2
-            className="font-bold uppercase tracking-[-3px] leading-[.85] text-[clamp(36px,5.5vw,80px)]"
+            className="font-bold uppercase tracking-[-3px] leading-[.85] text-j3-4xl"
             style={{ opacity: p1 }}
           >
             <span className="text-[var(--wh)] block">{blocks[0].line1}</span>
@@ -82,7 +82,7 @@ export function SystemReveal() {
 
           {/* Block 2 */}
           <h3
-            className="font-bold uppercase tracking-[-2px] leading-[.85] text-[clamp(36px,5.5vw,80px)]"
+            className="font-bold uppercase tracking-[-2px] leading-[.85] text-j3-4xl"
             style={{ opacity: p2 }}
           >
             <span className="j3-grad-text block">{blocks[1].line1}</span>
@@ -103,7 +103,7 @@ export function SystemReveal() {
 
           {/* Block 3 */}
           <h3
-            className="font-bold uppercase tracking-[-2px] leading-[.85] text-[clamp(36px,5.5vw,80px)]"
+            className="font-bold uppercase tracking-[-2px] leading-[.85] text-j3-4xl"
             style={{ opacity: p3 }}
           >
             <span className="text-[var(--wh)] block">{blocks[2].line1}</span>
