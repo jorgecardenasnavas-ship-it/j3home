@@ -347,18 +347,22 @@ function AccentManifesto() {
         tl.to(el, { opacity: 1, y: 0, duration: 0.14 }, start);
       });
 
-      // Dwell 0.76→0.92 — todo visible, sin animaciones, solo lectura
-      // pOutro 0.92→1.00 — diagonal clip-path wipe (sólo cuando ya se ha leído)
-      tl.fromTo(
-        outroRef.current,
-        { clipPath: "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)", opacity: 1 },
-        {
-          clipPath: "polygon(0 -20%, 100% -40%, 100% 100%, 0 100%)",
-          duration: 0.08,
-          ease: "power2.in",
-        },
-        0.92
-      );
+      // Dwell 0.76→0.86 — todo visible, sin animaciones, solo lectura
+      // pOutro 0.86→1.00 — el manifesto NO se mueve, sólo va perdiendo peso
+      // (opacity baja gradualmente). La siguiente sección, solapada por margen
+      // negativo, gana peso al mismo tiempo. No hay velo ni wipe.
+      const manifestoContent = container.querySelector("[data-manifesto-content]");
+      if (manifestoContent) {
+        tl.to(
+          manifestoContent,
+          {
+            opacity: 0,
+            duration: 0.14,
+            ease: "power1.inOut",
+          },
+          0.86
+        );
+      }
 
       // ── Parallax depth layers (independent ScrollTriggers, run constantly) ──
       gsap.to(glow1Ref.current, {
@@ -495,19 +499,13 @@ function AccentManifesto() {
           }}
         />
 
-        {/* Exit mask wipe — diagonal dark curtain rising from below to cover scene at the end */}
-        <div
-          ref={outroRef}
-          aria-hidden
-          className="absolute inset-0 pointer-events-none z-[20]"
-          style={{
-            background:
-              "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.0) 35%, rgba(0,0,0,0.85) 75%, #000 100%)",
-            opacity: 0,
-          }}
-        />
+        {/* outroRef se mantiene como elemento invisible (la animación pOutro
+            ya no lo usa — ahora se anima la opacidad del contenido del
+            manifesto en su lugar). Se conserva la ref para no romper otras
+            referencias del archivo */}
+        <div ref={outroRef} aria-hidden className="hidden" />
 
-        <div className="relative w-full max-w-[1400px] mx-auto px-12 max-[960px]:px-6 grid grid-cols-[1.1fr_1fr] gap-16 items-center max-[960px]:grid-cols-1 max-[960px]:gap-8">
+        <div data-manifesto-content className="relative w-full max-w-[1400px] mx-auto px-12 max-[960px]:px-6 grid grid-cols-[1.1fr_1fr] gap-16 items-center max-[960px]:grid-cols-1 max-[960px]:gap-8">
           {/* ── LEFT: Giant Á ── */}
           <div className="relative flex items-center justify-center">
             <div
@@ -648,12 +646,12 @@ function TimelineSection() {
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const headerEntryRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(-1);
   const [inView, setInView] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [visibleItems, setVisibleItems] = useState<boolean[]>(new Array(timeline.length).fill(false));
-  const headerReveal = useReveal(0.2);
   const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null);
 
   useEffect(() => {
@@ -691,6 +689,27 @@ function TimelineSection() {
     () => {
       const section = sectionRef.current;
       if (!section) return;
+
+      // ── Header "gana peso" durante el solapamiento con el manifesto ──
+      // Scrubbed: desde que el header entra por abajo hasta que llega al centro
+      // de la viewport va de (opacity 0, scale .92, blur 14, y 40) a su estado
+      // final. Esto coincide en el tiempo con el fade-out del manifesto.
+      const headerST = headerEntryRef.current
+        ? gsap.to(headerEntryRef.current, {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            filter: "blur(0px)",
+            ease: "none",
+            scrollTrigger: {
+              trigger: headerEntryRef.current,
+              start: "top bottom",
+              end: "top 35%",
+              scrub: 0.6,
+            },
+          })
+        : null;
+
       const st = ScrollTrigger.create({
         trigger: section,
         start: "top bottom",
@@ -724,13 +743,20 @@ function TimelineSection() {
           setActiveIndex(active);
         },
       });
-      return () => st.kill();
+      return () => {
+        st.kill();
+        headerST?.scrollTrigger?.kill();
+      };
     },
     { scope: sectionRef, dependencies: [timeline.length] }
   );
 
   return (
-    <section ref={sectionRef} className="relative px-4 sm:px-6 md:px-12 pb-[72px] md:pb-[100px] overflow-hidden">
+    <section
+      ref={sectionRef}
+      className="relative px-4 sm:px-6 md:px-12 pb-[72px] md:pb-[100px] overflow-visible z-10"
+      style={{ marginTop: "-60vh" }}
+    >
       {/* Mini-map — desktop only */}
       <div
         className="hidden min-[800px]:flex fixed right-8 top-1/2 -translate-y-1/2 z-30 flex-col items-center gap-[6px] pointer-events-none"
@@ -800,14 +826,16 @@ function TimelineSection() {
         );
       })()}
 
-      {/* Header */}
+      {/* Header — scrub-driven entry; "gana peso" mientras el manifesto anterior
+          se va desvaneciendo. Empieza con opacity 0, scale .92 y blur 14px,
+          y converge a su estado final cuando la sección entra en la vista. */}
       <div
-        ref={headerReveal.ref}
-        className="pt-20 pb-[60px] max-[640px]:pt-14 max-[640px]:pb-10"
+        ref={headerEntryRef}
+        className="pt-20 pb-[60px] max-[640px]:pt-14 max-[640px]:pb-10 will-change-transform"
         style={{
-          opacity: headerReveal.visible ? 1 : 0,
-          transform: headerReveal.visible ? "none" : "translateY(30px)",
-          transition: "all .8s cubic-bezier(.16,1,.3,1)",
+          opacity: 0,
+          transform: "translateY(40px) scale(0.92)",
+          filter: "blur(14px)",
         }}
       >
         <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] mb-3 block max-[960px]:text-[12px] max-[960px]:tracking-[3px] max-[640px]:text-[9px] max-[640px]:tracking-[3px]">{t.story.timeline.sectionLabel}</span>
