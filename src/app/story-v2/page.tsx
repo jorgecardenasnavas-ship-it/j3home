@@ -30,6 +30,7 @@ export default function StoryV2() {
 function HeroV2() {
   const rootRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
+  const ballRef = useRef<HTMLImageElement>(null);
   const eyebrowRef = useRef<HTMLDivElement>(null);
   const wordsRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
@@ -54,7 +55,7 @@ function HeroV2() {
         0
       );
 
-      // 2. Ken Burns slow zoom + drift on background — runs from t=0 forever (loop infinite via .to)
+      // 2. Ken Burns slow zoom + drift on background — runs from t=0 forever
       gsap.fromTo(
         bgRef.current,
         { scale: 1.18, x: "-2%", y: "1.5%" },
@@ -75,15 +76,62 @@ function HeroV2() {
         0.2
       );
 
-      // 4. Eyebrow appears
+      // ── 4. PELOTA RODANDO — entra en escena antes que el texto ──
+      // Empieza fuera de pantalla a la derecha, rodando rápido, y desacelera
+      // hasta detenerse en su posición final (ligeramente a la izquierda del centro).
+      tl.fromTo(
+        ballRef.current,
+        {
+          opacity: 0,
+          xPercent: 220,
+          rotate: 0,
+          scale: 0.85,
+        },
+        {
+          opacity: 1,
+          duration: 0.4,
+          ease: "power2.out",
+        },
+        0.6
+      ).to(
+        ballRef.current,
+        {
+          xPercent: 0,
+          rotate: -1080, // 3 vueltas completas
+          scale: 1,
+          duration: 2.4,
+          ease: "power3.out",
+        },
+        0.6
+      );
+      // Pequeño "rebote" al detenerse
+      tl.to(
+        ballRef.current,
+        {
+          y: "-=10",
+          duration: 0.18,
+          ease: "power2.out",
+        },
+        2.7
+      ).to(
+        ballRef.current,
+        {
+          y: "+=10",
+          duration: 0.22,
+          ease: "bounce.out",
+        },
+        2.88
+      );
+
+      // 5. Eyebrow appears (después de que la pelota se detiene)
       tl.fromTo(
         eyebrowRef.current,
         { opacity: 0, y: 12, letterSpacing: "10px" },
         { opacity: 1, y: 0, letterSpacing: "8px", duration: 1.0 },
-        0.9
+        3.1
       );
 
-      // 5. Title words stagger with blur and rise
+      // 6. Title words stagger with blur and rise
       const wordEls = wordsRef.current?.querySelectorAll("[data-word]");
       if (wordEls && wordEls.length) {
         tl.fromTo(
@@ -95,35 +143,35 @@ function HeroV2() {
             filter: "blur(0px)",
             scale: 1,
             duration: 1.3,
-            stagger: 0.13,
+            stagger: 0.11,
             ease: "expo.out",
           },
-          1.1
+          3.3
         );
       }
 
-      // 6. Gold hairline draws under title
+      // 7. Gold hairline draws under title
       tl.fromTo(
         lineRef.current,
         { width: 0, opacity: 0 },
         { width: "100%", opacity: 1, duration: 1.4, ease: "expo.out" },
-        1.9
+        4.2
       );
 
-      // 7. Subtitle line fades up
+      // 8. Subtitle line fades up
       tl.fromTo(
         subRef.current,
         { opacity: 0, y: 16 },
         { opacity: 1, y: 0, duration: 1.0 },
-        2.1
+        4.4
       );
 
-      // 8. Scroll hint pulsing in
+      // 9. Scroll hint pulsing in
       tl.fromTo(
         scrollHintRef.current,
         { opacity: 0, y: -8 },
         { opacity: 1, y: 0, duration: 0.8 },
-        2.6
+        4.9
       );
 
       // ── SCROLL-DRIVEN — el hero reacciona al scroll mientras sigue vivo ──
@@ -144,6 +192,19 @@ function HeroV2() {
       gsap.to([wordsRef.current, lineRef.current, subRef.current, eyebrowRef.current], {
         yPercent: -40,
         opacity: 0,
+        ease: "none",
+        scrollTrigger: {
+          trigger: root,
+          start: "top top",
+          end: "bottom top",
+          scrub: 0.6,
+        },
+      });
+
+      // Ball parallax — sube más despacio que el bg
+      gsap.to(ballRef.current, {
+        yPercent: -25,
+        rotate: "-=180",
         ease: "none",
         scrollTrigger: {
           trigger: root,
@@ -221,6 +282,26 @@ function HeroV2() {
         <rect width="100%" height="100%" filter="url(#v2-noise)" />
       </svg>
 
+      {/* ── BALL ── */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        ref={ballRef}
+        src="/images/story-v2/ball.png"
+        alt=""
+        aria-hidden
+        className="absolute z-10 will-change-transform pointer-events-none select-none"
+        style={{
+          left: "calc(50% - 90px)",
+          bottom: "18vh",
+          width: "180px",
+          height: "180px",
+          mixBlendMode: "screen",
+          opacity: 0,
+          filter: "drop-shadow(0 12px 24px rgba(0,0,0,0.6))",
+        }}
+        draggable={false}
+      />
+
       {/* ── LETTERBOX BARS (cinematic open) ── */}
       <div
         ref={topBarRef}
@@ -245,25 +326,31 @@ function HeroV2() {
             <span className="inline-block w-8 h-px bg-[var(--g1)] align-middle ml-3" />
           </div>
 
-          {/* Title — 3 word groups, staggered */}
+          {/* Title — palabra a palabra con stagger */}
           <h1
             ref={wordsRef}
-            className="font-bold uppercase tracking-[-3px] leading-[0.88] text-[clamp(56px,10vw,156px)] mb-6"
+            aria-label="Más de 20 años dentro del juego"
+            className="font-bold uppercase tracking-[-3px] leading-[0.88] text-[clamp(48px,8.4vw,132px)] mb-6"
           >
-            <span data-word className="inline-block text-[var(--wh)] mr-[0.18em]">
+            <span data-word className="inline-block text-[var(--wh)] mr-[0.16em]">
+              Más
+            </span>
+            <span data-word className="inline-block text-[var(--wh)] mr-[0.16em]">
+              de
+            </span>
+            <span data-word className="inline-block j3-grad-text mr-[0.16em]">
               20
             </span>
-            <span data-word className="inline-block j3-grad-text mr-[0.18em]">
-              años.
-            </span>
+            <span data-word className="inline-block j3-grad-text">años</span>
             <br />
-            <span data-word className="inline-block text-[var(--wh)] mr-[0.18em]">
-              Un
+            <span data-word className="inline-block text-[var(--wh)] mr-[0.16em]">
+              dentro
             </span>
-            <span data-word className="inline-block j3-grad-text">método.</span>
-            <br />
-            <span data-word className="inline-block font-[var(--font-serif)] italic normal-case text-[var(--wh)]">
-              Tres letras.
+            <span data-word className="inline-block text-[var(--wh)] mr-[0.16em]">
+              del
+            </span>
+            <span data-word className="inline-block font-[var(--font-serif)] italic normal-case j3-grad-text">
+              juego.
             </span>
           </h1>
 
