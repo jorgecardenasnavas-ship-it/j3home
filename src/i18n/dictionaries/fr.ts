@@ -521,7 +521,8 @@ export const fr = {
       titleLine3b: "avancer.",
       subtitleBefore: "La meilleure",
       subtitleAccent: "acad\u00E9mie",
-      subtitleAfter: " de padel de la Costa del Sol.",
+      subtitleAfter: "de padel",
+      subtitleLocation: "sur la Costa del Sol",
       subtitleLine2: "Depuis 2004, nous formons des joueurs de tous niveaux.",
     },
 

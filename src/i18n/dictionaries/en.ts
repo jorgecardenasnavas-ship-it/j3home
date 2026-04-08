@@ -521,7 +521,8 @@ export const en = {
       titleLine3b: "advance.",
       subtitleBefore: "The best p\u00E1del",
       subtitleAccent: "academy",
-      subtitleAfter: " on the Costa del Sol.",
+      subtitleAfter: "",
+      subtitleLocation: "on the Costa del Sol",
       subtitleLine2: "Training players of all levels since 2004.",
     },
 

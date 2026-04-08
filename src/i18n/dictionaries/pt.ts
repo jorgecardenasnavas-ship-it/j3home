@@ -521,7 +521,8 @@ export const pt = {
       titleLine3b: "avan\u00E7ar.",
       subtitleBefore: "A melhor",
       subtitleAccent: "academia",
-      subtitleAfter: " de p\u00E1del na Costa del Sol.",
+      subtitleAfter: "de p\u00E1del",
+      subtitleLocation: "na Costa del Sol",
       subtitleLine2: "Desde 2004 a treinar jogadores de todos os n\u00EDveis.",
     },
 

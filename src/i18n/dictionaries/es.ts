@@ -522,7 +522,8 @@ export const es = {
       titleLine3b: "avanzar.",
       subtitleBefore: "La mejor",
       subtitleAccent: "academia",
-      subtitleAfter: " de p\u00E1del en la Costa del Sol.",
+      subtitleAfter: "de p\u00E1del",
+      subtitleLocation: "en la Costa del Sol",
       subtitleLine2: "Desde 2004 entrenando jugadores de todos los niveles.",
     },
 

@@ -521,7 +521,8 @@ export const sv = {
       titleLine3b: "g\u00E5 fram\u00E5t.",
       subtitleBefore: "Den b\u00E4sta",
       subtitleAccent: "padelakademin",
-      subtitleAfter: " p\u00E5 Costa del Sol.",
+      subtitleAfter: "",
+      subtitleLocation: "p\u00E5 Costa del Sol",
       subtitleLine2: "Sedan 2004 tr\u00E4nar vi spelare p\u00E5 alla niv\u00E5er.",
     },
 

@@ -263,6 +263,7 @@ export interface Dictionary {
       readonly subtitleBefore: string;
       readonly subtitleAccent: string;
       readonly subtitleAfter: string;
+      readonly subtitleLocation: string;
       readonly subtitleLine2: string;
     };
 

@@ -254,11 +254,16 @@ function HeroSection() {
             </span>
 
             {/* Big italic gold word + rest of phrase */}
-            <p className="text-[clamp(16px,1.8vw,22px)] font-light text-[var(--gy3)] leading-[1.2] mt-[2px]">
-              <span className="text-[clamp(26px,3.2vw,42px)] font-bold italic tracking-[-0.5px] j3-grad-text mr-1 align-baseline">
+            <p className="text-[clamp(16px,1.8vw,22px)] font-light text-[var(--gy3)] leading-[1.25] mt-[2px]">
+              <span className="text-[clamp(26px,3.2vw,42px)] font-bold italic tracking-[-0.5px] j3-grad-text inline-block pr-[0.1em] align-baseline">
                 {t.academy.hero.subtitleAccent}
               </span>
               {t.academy.hero.subtitleAfter}
+              {" "}
+              <span className="italic font-medium j3-grad-text underline decoration-[var(--g1)]/55 decoration-1 underline-offset-[4px] pr-[0.12em]">
+                {t.academy.hero.subtitleLocation}
+              </span>
+              <span className="text-[var(--gy3)]">.</span>
             </p>
 
             <span className="block text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)]/75 mt-4">
