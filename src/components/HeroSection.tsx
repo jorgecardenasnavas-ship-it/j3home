@@ -15,7 +15,6 @@ export function HeroSection() {
     const video = section.querySelector<HTMLVideoElement>(".hero-video");
     const words = section.querySelectorAll<HTMLElement>(".hero-word");
     const shimmer = section.querySelector<HTMLElement>(".hero-shimmer");
-    const actions = section.querySelector<HTMLElement>(".hero-actions");
     const timeline = section.querySelector<HTMLElement>(".hero-timeline");
 
     const observer = new IntersectionObserver(
@@ -33,7 +32,6 @@ export function HeroSection() {
             // Timeline appears first, shimmer syncs with it
             setTimeout(() => timeline?.classList.add("in"), wordsEnd + 200);
             setTimeout(() => shimmer?.classList.add("in"), wordsEnd + 300);
-            setTimeout(() => actions?.classList.add("in"), wordsEnd + 700);
 
             observer.disconnect();
           }
@@ -120,40 +118,6 @@ export function HeroSection() {
             </span>
           </div>
         </div>
-
-        {/* Bottom bar — "Pádel con acento" brushstroke */}
-        <div className="relative z-[5] px-12 max-[960px]:px-6 pb-14 max-[960px]:pb-11">
-          <div className="hero-actions reveal-up flex items-start gap-5 max-w-[760px]">
-            {/* Vertical gold hairline */}
-            <span className="w-px h-[68px] max-[960px]:h-[60px] mt-1 shrink-0 bg-gradient-to-b from-[var(--g1)] via-[var(--g1)]/40 to-transparent" />
-
-            <div className="leading-[1.35]">
-              {/* Top line — small uppercase */}
-              <span className="block text-[clamp(13px,1.4vw,18px)] font-light tracking-[1px] uppercase text-[var(--gy3)]">
-                {t.hero.accentTouch.topLine}
-              </span>
-
-              {/* Big italic gold word + rest of phrase, baseline-aligned */}
-              <p className="text-[clamp(16px,1.8vw,22px)] font-light text-[var(--gy3)] leading-[1.2] mt-[2px]">
-                <span className="text-[clamp(26px,3.2vw,42px)] font-bold italic tracking-[-0.5px] j3-grad-text inline-block pr-[0.18em] align-baseline">
-                  {t.hero.accentTouch.accentWord}
-                </span>
-                {t.hero.accentTouch.afterAccent}
-              </p>
-
-              <div className="flex items-center gap-4 mt-4 flex-wrap">
-                <span className="text-[9px] font-bold tracking-[3px] uppercase text-[var(--g1)]/85">
-                  {t.hero.accentTouch.labelLeft}
-                </span>
-                <span className="w-4 h-px bg-[var(--g1)]/25" />
-                <span className="text-[9px] font-bold tracking-[3px] uppercase text-[var(--g1)]/55">
-                  {t.hero.accentTouch.labelRight}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
 
       </section>
     </>
