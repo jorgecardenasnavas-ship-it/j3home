@@ -1451,7 +1451,27 @@ export default function StoryPage() {
   const clubPresent = t.story.clubs.present;
 
   return (
-    <main className="bg-[var(--bk)] text-[var(--wh)] font-sans w-full">
+    <main className="relative bg-[var(--bk)] text-[var(--wh)] font-sans w-full">
+      {/* ── Global atmosphere: grain + vignette over the whole /story page ── */}
+      <div
+        aria-hidden
+        className="fixed inset-0 pointer-events-none z-[1]"
+        style={{
+          background:
+            "radial-gradient(ellipse 100% 80% at 50% 50%, transparent 40%, rgba(0,0,0,0.45) 90%, #000 100%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="fixed inset-0 pointer-events-none z-[1] mix-blend-overlay"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>\")",
+          backgroundSize: "220px 220px",
+          opacity: 0.04,
+        }}
+      />
+
       <Navbar />
 
       {/* ─── HERO ─── */}
