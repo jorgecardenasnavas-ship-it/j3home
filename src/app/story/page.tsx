@@ -340,23 +340,24 @@ function AccentManifesto() {
         0.55
       );
 
-      // pG 0.58→0.85 — manifesto lines staggered (3 lines, each over its slice)
+      // pG 0.50→0.76 — manifesto lines staggered (3 lines, dejando margen para leer)
       manifestoRefs.current.forEach((el, i) => {
         if (!el) return;
-        const start = 0.58 + i * 0.09;
-        tl.to(el, { opacity: 1, y: 0, duration: 0.18 }, start);
+        const start = 0.50 + i * 0.07;
+        tl.to(el, { opacity: 1, y: 0, duration: 0.14 }, start);
       });
 
-      // pOutro 0.72→1.00 — diagonal clip-path wipe (entra antes, agresivo)
+      // Dwell 0.76→0.92 — todo visible, sin animaciones, solo lectura
+      // pOutro 0.92→1.00 — diagonal clip-path wipe (sólo cuando ya se ha leído)
       tl.fromTo(
         outroRef.current,
         { clipPath: "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)", opacity: 1 },
         {
           clipPath: "polygon(0 -20%, 100% -40%, 100% 100%, 0 100%)",
-          duration: 0.28,
-          ease: "power3.in",
+          duration: 0.08,
+          ease: "power2.in",
         },
-        0.72
+        0.92
       );
 
       // ── Parallax depth layers (independent ScrollTriggers, run constantly) ──
@@ -411,7 +412,7 @@ function AccentManifesto() {
     <div
       ref={containerRef}
       className="relative bg-[var(--bk)] border-y border-white/[.05] overflow-clip"
-      style={{ height: "220vh" }}
+      style={{ height: "320vh" }}
     >
       <div className="sticky top-0 h-screen flex items-center overflow-hidden">
         {/* DEPTH LAYER 0 — perspective floor lines (very subtle, suggests court horizon) */}
