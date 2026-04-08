@@ -685,9 +685,10 @@ export const sv = {
     hero: {
       eyebrow: "J3Experience \u00B7 P\u00E5 banan \u00B7 Internationellt",
       titleLines: ["DU", "V\u00C4LJER", "ATT LEVA DET."],
-      subtitleBefore: "Camps, stages och ",
+      subtitleTags: ["Camps", "Stages", "Upplevelser"],
+      subtitleBefore: "",
       subtitleAccent: "skr\u00E4ddarsydda",
-      subtitleAfter: " upplevelser var som helst i v\u00E4rlden.",
+      subtitleAfter: "var som helst i v\u00E4rlden.",
     },
 
     statement: {

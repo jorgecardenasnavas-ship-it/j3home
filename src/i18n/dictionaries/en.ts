@@ -685,9 +685,10 @@ export const en = {
     hero: {
       eyebrow: "J3Experience \u00B7 On court \u00B7 International",
       titleLines: ["YOU", "CHOOSE", "TO LIVE IT."],
-      subtitleBefore: "Camps, stages and ",
+      subtitleTags: ["Camps", "Stages", "Experiences"],
+      subtitleBefore: "",
       subtitleAccent: "bespoke",
-      subtitleAfter: " experiences anywhere in the world.",
+      subtitleAfter: "anywhere in the world.",
     },
 
     statement: {

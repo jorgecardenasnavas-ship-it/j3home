@@ -353,6 +353,7 @@ export interface Dictionary {
     hero: {
       readonly eyebrow: string;
       readonly titleLines: readonly string[];
+      readonly subtitleTags: readonly string[];
       readonly subtitleBefore: string;
       readonly subtitleAccent: string;
       readonly subtitleAfter: string;
