@@ -248,10 +248,9 @@ function HeroSection() {
 
             {/* Big italic gold word + rest of phrase with location underline */}
             <p className="text-[clamp(16px,1.8vw,22px)] font-light text-[var(--gy3)] leading-[1.25] mt-[2px]">
-              <span className="text-[clamp(26px,3.2vw,42px)] font-bold italic tracking-[-0.5px] j3-grad-text inline-block pr-[0.1em] align-baseline">
+              <span className="text-[clamp(26px,3.2vw,42px)] font-bold italic tracking-[-0.5px] j3-grad-text inline-block pr-[0.18em] align-baseline">
                 {t.experience.hero.subtitleAccent}
               </span>
-              {" "}
               <span className="italic font-medium text-[var(--wh)] underline decoration-[var(--g1)]/55 decoration-1 underline-offset-[4px] pr-[0.12em]">
                 {t.experience.hero.subtitleAfter}
               </span>
