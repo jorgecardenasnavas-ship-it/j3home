@@ -268,6 +268,9 @@ function AccentManifesto() {
   const glow2Ref = useRef<HTMLDivElement>(null);
   const cordRef = useRef<HTMLDivElement>(null);
   const outroRef = useRef<HTMLDivElement>(null);
+  const grainRef = useRef<HTMLDivElement>(null);
+  const vignetteRef = useRef<HTMLDivElement>(null);
+  const perspectiveRef = useRef<HTMLDivElement>(null);
   const [accentTriggered, setAccentTriggered] = useState(false);
 
   useGSAP(
@@ -345,6 +348,32 @@ function AccentManifesto() {
         { opacity: 1, duration: 0.12 },
         0.88
       );
+
+      // ── Parallax depth layers (independent ScrollTriggers, run constantly) ──
+      gsap.to(glow1Ref.current, {
+        yPercent: -18,
+        ease: "none",
+        scrollTrigger: { trigger: container, start: "top top", end: "bottom top", scrub: true },
+      });
+      gsap.to(glow2Ref.current, {
+        yPercent: 22,
+        ease: "none",
+        scrollTrigger: { trigger: container, start: "top top", end: "bottom top", scrub: true },
+      });
+      gsap.to(perspectiveRef.current, {
+        yPercent: -10,
+        ease: "none",
+        scrollTrigger: { trigger: container, start: "top top", end: "bottom top", scrub: true },
+      });
+      gsap.fromTo(
+        vignetteRef.current,
+        { opacity: 0.35 },
+        {
+          opacity: 0.65,
+          ease: "none",
+          scrollTrigger: { trigger: container, start: "top top", end: "bottom top", scrub: true },
+        }
+      );
     },
     { scope: containerRef }
   );
@@ -375,6 +404,46 @@ function AccentManifesto() {
       style={{ height: "220vh" }}
     >
       <div className="sticky top-0 h-screen flex items-center overflow-hidden">
+        {/* DEPTH LAYER 0 — perspective floor lines (very subtle, suggests court horizon) */}
+        <div
+          ref={perspectiveRef}
+          aria-hidden
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(180deg, transparent 0%, transparent 55%, rgba(220,175,100,0.025) 65%, transparent 85%), repeating-linear-gradient(180deg, transparent 0px, transparent 78px, rgba(220,175,100,0.018) 79px, transparent 80px)",
+            maskImage:
+              "radial-gradient(ellipse 60% 45% at 50% 75%, black 0%, transparent 70%)",
+            WebkitMaskImage:
+              "radial-gradient(ellipse 60% 45% at 50% 75%, black 0%, transparent 70%)",
+          }}
+        />
+
+        {/* DEPTH LAYER 1 — radial vignette (focuses eye, deepens void) */}
+        <div
+          ref={vignetteRef}
+          aria-hidden
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse 80% 70% at 50% 50%, transparent 30%, rgba(0,0,0,0.55) 75%, #000 100%)",
+            opacity: 0.35,
+          }}
+        />
+
+        {/* DEPTH LAYER 2 — film grain SVG noise (subtle, fixed) */}
+        <div
+          ref={grainRef}
+          aria-hidden
+          className="absolute inset-0 pointer-events-none mix-blend-overlay"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>\")",
+            backgroundSize: "220px 220px",
+            opacity: 0.07,
+          }}
+        />
+
         {/* Ambient breathing glow — continuous slow pulse behind everything */}
         <div
           ref={glow1Ref}
