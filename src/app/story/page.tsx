@@ -2021,7 +2021,7 @@ export default function StoryPage() {
               bt.style.filter = `blur(${p6 * 20}px)`;
               bt.style.opacity = String(Math.max(0, 1 - p6 * 2.5));
             }
-            // Court line starts appearing simultaneously with convergence (at 2700)
+            // Court gold line appears simultaneously with convergence (at 2700)
             const p7 = Math.max(0, (scrolled - 2700) / 200);
             if (cb) {
               const vw = window.innerWidth;
@@ -2030,15 +2030,22 @@ export default function StoryPage() {
               cb.style.width = `${courtW * 0.6 * p7}px`;
               cb.style.height = "2px";
               cb.style.display = "flex";
+              cb.style.background = "var(--g1)"; // gold line visible
             }
-            // Reset line strokes
-            lines.forEach(l => {
+            // Reset line strokes but start outer rect early
+            lines.forEach((l, i) => {
               if (!l) return;
               l.classList.remove("court-draw-in", "court-draw-out");
               const len = parseFloat(getComputedStyle(l).getPropertyValue("--court-len")) || 96;
               l.style.transition = "none";
               l.style.strokeDasharray = String(len);
-              l.style.strokeDashoffset = String(len);
+              // Outer rect (i=0) starts drawing during phase 7
+              if (i === 0) {
+                const rectP = Math.max(0, p7 * 0.3);
+                l.style.strokeDashoffset = String(len * (1 - rectP));
+              } else {
+                l.style.strokeDashoffset = String(len);
+              }
             });
           } else if (scrolled <= 4000) {
             // Phase 8: court takes shape + lines draw in progressively
@@ -2053,6 +2060,7 @@ export default function StoryPage() {
               cb.style.transitionDuration = "0s";
               cb.style.width = `${courtW * 0.6 + (courtW * 0.4) * sizeP}px`;
               cb.style.height = `${2 + (courtH - 2) * sizeP}px`;
+              cb.style.background = "var(--bk)"; // switch from gold to black as court grows
             }
             const delays = [0.0, 0.12, 0.22, 0.32, 0.42, 0.52];
             lines.forEach((l, i) => {
@@ -2239,7 +2247,7 @@ export default function StoryPage() {
           className="absolute z-30 flex items-center justify-center overflow-hidden"
           style={{
             top: "50%", left: "50%", transform: "translate(-50%,-50%)",
-            background: "var(--bk)",
+            background: "var(--g1)",
             width: 0, height: "2px",
           }}
         >
