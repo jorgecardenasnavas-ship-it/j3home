@@ -2060,13 +2060,20 @@ export default function StoryPage() {
               cb.style.transitionDuration = "0s";
               cb.style.width = `${courtW * 0.6 + (courtW * 0.4) * sizeP}px`;
               cb.style.height = `${2 + (courtH - 2) * sizeP}px`;
-              cb.style.background = "var(--bk)"; // switch from gold to black as court grows
+              // Smooth gold→transparent transition over first 15% of phase 8
+              const bgFade = Math.min(1, p8 / 0.15);
+              const goldR = 220, goldG = 175, goldB = 100;
+              cb.style.background = `rgba(${goldR},${goldG},${goldB},${1 - bgFade})`;
             }
+            // Outer rect starts at 0.3 (where Phase 7 left off) and continues to 1.0
+            const RECT_START = 0.3;
             const delays = [0.0, 0.12, 0.22, 0.32, 0.42, 0.52];
             lines.forEach((l, i) => {
               if (!l) return;
               const len = parseFloat(getComputedStyle(l).getPropertyValue("--court-len")) || 96;
-              const lineP = Math.max(0, Math.min(1, (p8 - delays[i]) / 0.35));
+              const rawP = Math.max(0, Math.min(1, (p8 - delays[i]) / 0.35));
+              // For outer rect (i=0), blend from RECT_START→1.0 so it continues smoothly
+              const lineP = i === 0 ? RECT_START + rawP * (1 - RECT_START) : rawP;
               l.classList.remove("court-draw-in", "court-draw-out");
               l.style.transition = "none";
               l.style.strokeDasharray = String(len);
