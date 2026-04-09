@@ -12,7 +12,6 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
 }
 
-
 /* ───────── HOOKS ───────── */
 
 function useReveal(threshold = 0.15) {
@@ -263,7 +262,6 @@ function AccentManifesto() {
   const { eyebrow, slogan, manifesto } = t.story.accent;
   const containerRef = useRef<HTMLDivElement>(null);
   const aRef = useRef<HTMLSpanElement>(null);
-  const accentRef = useRef<HTMLSpanElement>(null);
   const eyebrowRef = useRef<HTMLSpanElement>(null);
   const slogan1Ref = useRef<HTMLSpanElement>(null);
   const slogan2Ref = useRef<HTMLSpanElement>(null);
@@ -273,8 +271,6 @@ function AccentManifesto() {
   const glow1Ref = useRef<HTMLDivElement>(null);
   const glow2Ref = useRef<HTMLDivElement>(null);
   const cordRef = useRef<HTMLDivElement>(null);
-  const outroRef = useRef<HTMLDivElement>(null);
-  const grainRef = useRef<HTMLDivElement>(null);
   const vignetteRef = useRef<HTMLDivElement>(null);
   const perspectiveRef = useRef<HTMLDivElement>(null);
   const [accentTriggered, setAccentTriggered] = useState(false);
@@ -448,7 +444,6 @@ function AccentManifesto() {
 
         {/* DEPTH LAYER 2 — film grain SVG noise (visible texture) */}
         <div
-          ref={grainRef}
           aria-hidden
           className="absolute inset-0 pointer-events-none mix-blend-overlay"
           style={{
@@ -499,12 +494,6 @@ function AccentManifesto() {
           }}
         />
 
-        {/* outroRef se mantiene como elemento invisible (la animación pOutro
-            ya no lo usa — ahora se anima la opacidad del contenido del
-            manifesto en su lugar). Se conserva la ref para no romper otras
-            referencias del archivo */}
-        <div ref={outroRef} aria-hidden className="hidden" />
-
         <div data-manifesto-content className="relative w-full max-w-[1400px] mx-auto px-12 max-[960px]:px-6 grid grid-cols-[1.1fr_1fr] gap-16 items-center max-[960px]:grid-cols-1 max-[960px]:gap-8">
           {/* ── LEFT: Giant Á ── */}
           <div className="relative flex items-center justify-center">
@@ -538,7 +527,6 @@ function AccentManifesto() {
 
               {/* The acute accent — CSS-keyframe fall + bounce + settle */}
               <span
-                ref={accentRef}
                 aria-hidden
                 className="absolute pointer-events-none"
                 style={{
@@ -645,7 +633,6 @@ function TimelineSection() {
   const eraMap: Record<number, string> = { 0: eras[0], 3: eras[1], 6: eras[2], 14: eras[3] };
 
   const sectionRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
   const headerEntryRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(-1);
   const [inView, setInView] = useState(false);
@@ -844,7 +831,7 @@ function TimelineSection() {
         </h2>
       </div>
 
-      <div ref={trackRef} className="relative pl-8 max-[640px]:pl-4 w-full max-w-[1180px] mx-auto break-words">
+      <div className="relative pl-8 max-[640px]:pl-4 w-full max-w-[1180px] mx-auto break-words">
         {/* Track line */}
         <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[rgba(220,175,100,.2)] to-transparent" />
 
