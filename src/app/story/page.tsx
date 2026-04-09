@@ -136,6 +136,173 @@ function Counter({ val, prefix, suffix, label, className }: { val: number; prefi
   );
 }
 
+/* ───────── HERO CREDENTIALS BAR ───────── */
+
+const heroCredentials = [
+  { value: "#1", label: "MEJOR CLUB\nDEL MUNDO 2018" },
+  { value: "100+", label: "COACHES FORMADOS\nEN COACH360" },
+  { value: "2000+", label: "JUGADORES AMATEUR\nENTRENADOS" },
+  { value: "30+", label: "JUGADORES PRO\nFORMADOS" },
+  { value: "N.º1", label: "ENTRENADOR ESPAÑOL\nEN RANKING WPT 2022" },
+  { value: "11", label: "TÍTULOS PROFESIONALES\nEN 18 FINALES" },
+  { value: "WPT", label: "SEDE OFICIAL\nMÁLAGA 2014", isLabel: true },
+] as const;
+
+function HeroCredentials() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [revealed, setRevealed] = useState<boolean[]>(new Array(heroCredentials.length).fill(false));
+  const [sectionVisible, setSectionVisible] = useState(false);
+
+  /* Staggered reveal via IntersectionObserver */
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setSectionVisible(true);
+          heroCredentials.forEach((_, i) => {
+            setTimeout(() => {
+              setRevealed(prev => { const n = [...prev]; n[i] = true; return n; });
+            }, 200 + i * 140);
+          });
+          io.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+    io.observe(container);
+    return () => io.disconnect();
+  }, []);
+
+  /* Animated counter for numeric values */
+  const AnimVal = ({ raw }: { raw: string }) => {
+    const numMatch = raw.match(/(\d+)/);
+    const prefix = raw.match(/^([^\d]*)/)?.[1] || "";
+    const suffix = raw.match(/(\D*)$/)?.[1] || "";
+    const target = numMatch ? parseInt(numMatch[1], 10) : 0;
+    const [count, setCount] = useState(0);
+    const [started, setStarted] = useState(false);
+    const ref = useRef<HTMLSpanElement>(null);
+
+    useEffect(() => {
+      const el = ref.current;
+      if (!el) return;
+      const io = new IntersectionObserver(([e]) => {
+        if (e.isIntersecting) { setStarted(true); io.disconnect(); }
+      }, { threshold: 0.5 });
+      io.observe(el);
+      return () => io.disconnect();
+    }, []);
+
+    useEffect(() => {
+      if (!started || !target) return;
+      const dur = 1400;
+      const steps = 35;
+      const inc = target / steps;
+      let frame = 0;
+      const iv = setInterval(() => {
+        frame++;
+        // Ease-out deceleration
+        const progress = 1 - Math.pow(1 - frame / steps, 3);
+        setCount(Math.min(Math.round(target * progress), target));
+        if (frame >= steps) clearInterval(iv);
+      }, dur / steps);
+      return () => clearInterval(iv);
+    }, [started, target]);
+
+    return (
+      <span ref={ref} className="j3-grad-text font-black tabular-nums">
+        {prefix}{target ? count : raw}{suffix}
+      </span>
+    );
+  };
+
+  return (
+    <section
+      ref={containerRef}
+      className="relative py-12 min-[960px]:py-16 px-6 min-[960px]:px-12 bg-[var(--bk)] overflow-hidden border-b border-white/[.04]"
+    >
+      {/* Ambient glow behind cards */}
+      <div
+        className="absolute inset-0 pointer-events-none transition-opacity duration-[2s]"
+        style={{
+          opacity: sectionVisible ? 1 : 0,
+          background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(220,175,100,.05) 0%, transparent 70%)",
+        }}
+      />
+
+      {/* Shimmer sweep overlay */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          opacity: sectionVisible ? 1 : 0,
+          background: "linear-gradient(105deg, transparent 40%, rgba(220,175,100,.04) 45%, rgba(220,175,100,.08) 50%, rgba(220,175,100,.04) 55%, transparent 60%)",
+          backgroundSize: "200% 100%",
+          animation: sectionVisible ? "shimmer-sweep 3s 0.5s ease both" : "none",
+        }}
+      />
+
+      {/* Grid: flexible wrap — 2 cols mobile, auto-fill desktop */}
+      <div className="relative z-[1] max-w-[1100px] mx-auto grid grid-cols-2 min-[960px]:grid-cols-4 gap-3 min-[960px]:gap-4">
+        {heroCredentials.map((cred, i) => {
+          const isLabel = "isLabel" in cred && cred.isLabel;
+          return (
+            <div
+              key={i}
+              ref={el => { cardRefs.current[i] = el; }}
+              className={`group relative rounded-xl p-5 min-[960px]:p-6 overflow-hidden
+                ${revealed[i] ? "" : ""}
+              `}
+              style={{
+                opacity: revealed[i] ? 1 : 0,
+                transform: revealed[i] ? "translateY(0) scale(1)" : "translateY(40px) scale(0.92)",
+                filter: revealed[i] ? "blur(0px)" : "blur(8px)",
+                transition: `all .9s cubic-bezier(.16,1,.3,1) ${i * 0.05}s`,
+                background: revealed[i]
+                  ? "linear-gradient(160deg, rgba(220,175,100,.06) 0%, rgba(220,175,100,.01) 50%, rgba(0,0,0,.2) 100%)"
+                  : "transparent",
+                border: "0.5px solid",
+                borderColor: revealed[i] ? "rgba(220,175,100,.15)" : "transparent",
+              }}
+            >
+              {/* Glow dot top-left */}
+              <div
+                className="absolute top-0 left-0 w-24 h-24 pointer-events-none transition-opacity duration-1000"
+                style={{
+                  opacity: revealed[i] ? 1 : 0,
+                  background: "radial-gradient(circle at top left, rgba(220,175,100,.12) 0%, transparent 70%)",
+                }}
+              />
+
+              {/* Value */}
+              <div className="relative text-[clamp(28px,3.5vw,42px)] leading-[1] mb-3 tracking-[-0.02em]">
+                {isLabel ? (
+                  <span className="j3-grad-text font-black">{cred.value}</span>
+                ) : (
+                  <AnimVal raw={cred.value} />
+                )}
+              </div>
+
+              {/* Label */}
+              <div
+                className="relative text-[9px] min-[960px]:text-[10px] font-medium tracking-[1.5px] uppercase text-[var(--gy)] leading-[1.6] whitespace-pre-line"
+                style={{
+                  opacity: revealed[i] ? 1 : 0,
+                  transition: `opacity .6s cubic-bezier(.16,1,.3,1) ${0.3 + i * 0.08}s`,
+                }}
+              >
+                {cred.label}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
 /* ───────── STATS SECTION ───────── */
 
 function StatsSection() {
@@ -185,16 +352,16 @@ function StatsSection() {
         <span className="text-[9px] font-bold tracking-[4px] uppercase text-[var(--g1)]">{t.story.stats.header}</span>
       </div>
 
-      {/* Row 1 — 3 main stats */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-y-10 gap-x-4 max-w-[900px] mx-auto">
-        {stats.slice(0, 3).map((s, i) => {
+      {/* Row 1 — first 4 stats */}
+      <div className="grid grid-cols-2 min-[960px]:grid-cols-4 gap-y-10 gap-x-4 max-w-[1000px] mx-auto">
+        {stats.slice(0, 4).map((s, i) => {
           const visible = visibleItems[i];
-          const isHero = i === 1; // #1 Mejor Club
+          const isHero = i === 0; // #1 Mejor Club
           return (
             <div
               key={i}
               ref={el => { itemRefs.current[i] = el; }}
-              className={`text-center ${isHero ? "col-span-2 md:col-span-1 order-first md:order-none" : ""}`}
+              className="text-center"
               style={{
                 opacity: visible ? 1 : 0,
                 transform: visible ? "none" : "translateY(24px) scale(0.97)",
@@ -212,9 +379,7 @@ function StatsSection() {
                   <div className="absolute -inset-8 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(220,175,100,.06) 0%, transparent 70%)" }} />
                 )}
               </div>
-              <span className={`text-[10px] max-[960px]:text-[11px] font-light tracking-[2px] uppercase leading-[1.6] whitespace-pre-line block ${
-                isHero ? "text-[var(--gy2)]" : "text-[var(--gy2)]"
-              }`}>{s.lbl}</span>
+              <span className="text-[10px] max-[960px]:text-[11px] font-light tracking-[2px] uppercase leading-[1.6] whitespace-pre-line block text-[var(--gy2)]">{s.lbl}</span>
             </div>
           );
         })}
@@ -227,16 +392,16 @@ function StatsSection() {
         <span className="h-px w-12 bg-[var(--g1)]/20" />
       </div>
 
-      {/* Row 2 — 2 secondary stats */}
-      <div className="grid grid-cols-2 gap-x-4 max-w-[500px] mx-auto">
-        {stats.slice(3).map((s, i) => {
-          const idx = i + 3;
+      {/* Row 2 — remaining 4 stats */}
+      <div className="grid grid-cols-2 min-[960px]:grid-cols-4 gap-y-10 gap-x-4 max-w-[1000px] mx-auto">
+        {stats.slice(4).map((s, i) => {
+          const idx = i + 4;
           const visible = visibleItems[idx];
           return (
             <div
               key={idx}
               ref={el => { itemRefs.current[idx] = el; }}
-              className="text-center"
+              className={`text-center ${i === 2 ? "col-span-2 min-[960px]:col-span-1" : ""}`}
               style={{
                 opacity: visible ? 1 : 0,
                 transform: visible ? "none" : "translateY(24px)",
@@ -273,6 +438,7 @@ function AccentManifesto() {
   const cordRef = useRef<HTMLDivElement>(null);
   const vignetteRef = useRef<HTMLDivElement>(null);
   const perspectiveRef = useRef<HTMLDivElement>(null);
+  const fadeOverlayRef = useRef<HTMLDivElement>(null);
   const [accentTriggered, setAccentTriggered] = useState(false);
 
   useGSAP(
@@ -347,18 +513,7 @@ function AccentManifesto() {
       // pOutro 0.86→1.00 — el manifesto NO se mueve, sólo va perdiendo peso
       // (opacity baja gradualmente). La siguiente sección, solapada por margen
       // negativo, gana peso al mismo tiempo. No hay velo ni wipe.
-      const manifestoContent = container.querySelector("[data-manifesto-content]");
-      if (manifestoContent) {
-        tl.to(
-          manifestoContent,
-          {
-            opacity: 0,
-            duration: 0.14,
-            ease: "power1.inOut",
-          },
-          0.86
-        );
-      }
+      // Outro fade is handled imperatively in the cord ScrollTrigger below
 
       // ── Parallax depth layers (independent ScrollTriggers, run constantly) ──
       gsap.to(glow1Ref.current, {
@@ -394,13 +549,20 @@ function AccentManifesto() {
     () => {
       const container = containerRef.current;
       const cord = cordRef.current;
+      const fadeOverlay = fadeOverlayRef.current;
       if (!container || !cord) return;
       const st = ScrollTrigger.create({
         trigger: container,
         start: "top top",
         end: "bottom bottom",
         onUpdate: (self) => {
-          cord.style.clipPath = `inset(0 0 ${(1 - self.progress) * 100}% 0)`;
+          const p = self.progress;
+          cord.style.clipPath = `inset(0 0 ${(1 - p) * 100}% 0)`;
+          // Outro fade: 0.86→1.0 — overlay fades to black
+          if (fadeOverlay) {
+            const fadeP = p <= 0.86 ? 0 : Math.min(1, (p - 0.86) / 0.14);
+            fadeOverlay.style.opacity = String(fadeP);
+          }
         },
       });
       return () => st.kill();
@@ -411,8 +573,8 @@ function AccentManifesto() {
   return (
     <div
       ref={containerRef}
-      className="relative bg-[var(--bk)] border-y border-white/[.05] overflow-clip"
-      style={{ height: "320vh" }}
+      className="relative bg-[var(--bk)] overflow-clip"
+      style={{ height: "320vh", marginTop: "-100vh" }}
     >
       <div className="sticky top-0 h-screen flex items-center overflow-hidden">
         {/* DEPTH LAYER 0 — perspective floor lines (very subtle, suggests court horizon) */}
@@ -618,6 +780,14 @@ function AccentManifesto() {
             </div>
           </div>
         </div>
+
+        {/* Fade-to-black overlay — covers content during outro phase */}
+        <div
+          ref={fadeOverlayRef}
+          aria-hidden
+          className="absolute inset-0 pointer-events-none z-50"
+          style={{ background: "var(--bk)", opacity: 0 }}
+        />
       </div>
     </div>
   );
@@ -1408,6 +1578,290 @@ function StoryImpact() {
 
 /* ───────── PAGE ───────── */
 
+/* ───────── J3 BALL LOGO (pelota + 3 rayas) ───────── */
+/* Extracted from logo-gold.svg — only the ball portion, normalised to viewBox 0 0 150 155 */
+
+const J3_BALL_OUTER = "M74.13,0c-99.18,1.72-98.49,148.91-.03,150.44,99.53-2.75,98.92-148.04.03-150.44Z";
+const J3_BALL_OUTER_INNER = "M131.88,86.77c-14.47,68.36-115.43,59.57-116.69-11.57C17.88-9.88,145.93,2.79,131.88,86.77Z";
+const J3_BALL_STRIPE_1 = "M68.83,30.97c-19.79,1.66-37.93,20.27-39.09,40.06,25.38-.94,49.5,23.19,48.56,48.56,19.79-1.16,38.4-19.3,40.06-39.09-12.75.21-25.57-4.53-35.29-14.25-9.71-9.71-14.45-22.54-14.25-35.29Z";
+const J3_BALL_STRIPE_2 = "M77.28,30.77c-1.47,21.83,19.47,42.76,41.29,41.29-.69-20.97-20.33-40.6-41.29-41.29Z";
+const J3_BALL_STRIPE_3 = "M29.75,79.48c1.21,20.15,19.96,38.91,40.12,40.11.75-20.96-19.16-40.87-40.12-40.11Z";
+
+/* 3 vertical "leg" lines below the ball — extracted from logo-gold.svg */
+const J3_LEG_LEFT = "M24.26,200.51h25.34l9.18-43.08c-8.22-1.53-16.18-4.32-23.59-8.23l-10.93,51.31Z";
+const J3_LEG_CENTER = "M70.55,158.77l-8.88,41.75h25.33l9.52-44.72c-7.26,2.02-14.8,3.09-22.42,3.09-1.18,0-2.37-.07-3.55-.12Z";
+const J3_LEG_RIGHT = "M127.02,140.02c-5.36,4.38-11.23,8.04-17.44,10.95l-10.53,49.56,25.35-.02,15.69-73.91c-3.83,4.92-8.2,9.44-13.07,13.42Z";
+
+/* Circle circumference for stroke-dasharray draw-in animation */
+const CIRCLE_R = 72;
+const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * CIRCLE_R;
+
+/* ───────── FLYING ACCENT ───────── */
+
+const TOTAL_FRAMES = 97;
+
+function FlyingAccent({ flyT, fadeOutT }: { flyT: number; fadeOutT: number; heroAccentRef: React.RefObject<HTMLSpanElement | null> }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const framesRef = useRef<HTMLImageElement[]>([]);
+  const [framesLoaded, setFramesLoaded] = useState(false);
+
+  // Preload all frame images on mount
+  useEffect(() => {
+    let loaded = 0;
+    const images: HTMLImageElement[] = [];
+    for (let i = 1; i <= TOTAL_FRAMES; i++) {
+      const img = new Image();
+      img.src = `/videos/frames/f${String(i).padStart(3, "0")}.jpg`;
+      img.onload = () => {
+        loaded++;
+        if (loaded === TOTAL_FRAMES) {
+          framesRef.current = images;
+          setFramesLoaded(true);
+        }
+      };
+      images.push(img);
+    }
+  }, []);
+
+  // Draw current frame to canvas based on flyT
+  useEffect(() => {
+    if (!framesLoaded) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // Map flyT 0.12→0.88 to frames (matches fade in/out timing)
+    const videoProgress = Math.max(0, Math.min(1, (flyT - 0.12) / 0.73));
+    const frameIndex = Math.min(TOTAL_FRAMES - 1, Math.floor(videoProgress * (TOTAL_FRAMES - 1)));
+    const img = framesRef.current[frameIndex];
+    if (!img) return;
+
+    if (canvas.width !== img.naturalWidth) canvas.width = img.naturalWidth;
+    if (canvas.height !== img.naturalHeight) canvas.height = img.naturalHeight;
+    ctx.drawImage(img, 0, 0);
+  }, [flyT, framesLoaded]);
+
+  if (typeof window !== "undefined" && window.innerWidth < 960) return null;
+
+  const clamp = (v: number) => Math.max(0, Math.min(1, v));
+
+  // ── Black bg overlay — fades in, stays during logo, fades out with logo ──
+  const bgFadeIn = clamp((flyT - 0.01) / 0.08);
+  const bgBlackOp = flyT <= 0 ? 0 : bgFadeIn * (1 - fadeOutT);
+
+  // ── Video canvas opacity — fades in, then fades out (canvas only) ──
+  const videoFadeIn = clamp((flyT - 0.12) / 0.10);
+  const videoFadeOut = clamp((flyT - 0.92) / 0.07);
+  const videoOp = flyT <= 0 ? 0 : videoFadeIn * (1 - videoFadeOut);
+
+  // ── SVG overlay opacity — fades in with video but STAYS visible ──
+  const svgOp = flyT <= 0 ? 0 : videoFadeIn;
+
+  const showBg = bgBlackOp > 0.01;
+  const showVideo = videoOp > 0.01;
+
+  /* ── SVG stripe animation ──
+     Ball position in 960×540 frame coords: center (479, 266), radius ~123
+     SVG path coords: ball center ~(74, 75), radius 72
+     Scale: 123/72 ≈ 1.708
+     Translate: (479 - 74*1.708, 266 - 75*1.708) ≈ (352.6, 137.9)
+  */
+  const BALL_SCALE = 1.708;
+  const BALL_TX = 352.6;
+  const BALL_TY = 137.9;
+
+  /* ── Interior stripes — assemble BEFORE the flash (flyT 0.62 → 0.74) ── */
+  // Stripe 3 (bottom-left) from left, stripe 2 (top-right) from right, stripe 1 (big cross) from bottom
+  const s3P = clamp((flyT - 0.62) / 0.10);  // starts first
+  const s2P = clamp((flyT - 0.64) / 0.10);  // starts second
+  const s1P = clamp((flyT - 0.66) / 0.10);  // starts last (biggest)
+
+  const s3E = 1 - Math.pow(1 - s3P, 3);
+  const s2E = 1 - Math.pow(1 - s2P, 3);
+  const s1E = 1 - Math.pow(1 - s1P, 3);
+
+  const s3Tx = (1 - s3E) * -90;   // from left
+  const s2Tx = (1 - s2E) * 90;    // from right
+  const s1Ty = (1 - s1E) * 90;    // from bottom
+
+  const showStripes = svgOp > 0.01 && s3P > 0.01;
+
+  /* ── 3 vertical legs — animate AFTER the flash (flyT 0.78 → 0.92) ── */
+  const legProgress = clamp((flyT - 0.78) / 0.14);
+
+  const legLeftP   = clamp((flyT - 0.78) / 0.11);
+  const legRightP  = clamp((flyT - 0.80) / 0.11);
+  const legCenterP = clamp((flyT - 0.82) / 0.11);
+
+  const legLeftE   = 1 - Math.pow(1 - legLeftP, 3);
+  const legRightE  = 1 - Math.pow(1 - legRightP, 3);
+  const legCenterE = 1 - Math.pow(1 - legCenterP, 3);
+
+  const legLeftTx   = (1 - legLeftE) * -60;
+  const legRightTx  = (1 - legRightE) * 60;
+  const legCenterTy = (1 - legCenterE) * 70;
+
+  const showLegs = svgOp > 0.01 && legProgress > 0.01;
+
+  // ── SVG logo fade out via fadeOutT ──
+  const logoFinalOp = 1 - fadeOutT;
+
+  return (
+    <>
+      {/* Scroll-driven frame sequence — canvas renders preloaded images */}
+      <div
+        className="fixed inset-0 z-[60] pointer-events-none hidden min-[960px]:flex items-center justify-center"
+        style={{
+          opacity: showVideo ? videoOp : 0,
+          willChange: "opacity",
+        }}
+      >
+        <canvas
+          ref={canvasRef}
+          className="w-full h-full object-contain"
+          style={{ background: "#000" }}
+        />
+      </div>
+
+      {/* SVG logo assembly — stripes, ring, legs + contour glow */}
+      {(showStripes || showLegs) && (
+        <div
+          className="fixed inset-0 z-[61] pointer-events-none hidden min-[960px]:flex items-center justify-center"
+          style={{
+            opacity: svgOp * logoFinalOp,
+            willChange: "opacity",
+          }}
+        >
+          <svg
+            viewBox="0 0 960 540"
+            preserveAspectRatio="xMidYMid meet"
+            className="w-full h-full"
+            style={{ position: "absolute", inset: 0 }}
+          >
+            <defs>
+              <linearGradient id="stripe-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#eddb7e" />
+                <stop offset="30%" stopColor="#fff1b4" />
+                <stop offset="60%" stopColor="#eede80" />
+                <stop offset="100%" stopColor="#dcaf64" />
+              </linearGradient>
+              {/* Soft glow for contour */}
+              <filter id="glow-soft" x="-40%" y="-40%" width="180%" height="180%">
+                <feGaussianBlur stdDeviation="6" result="blur1" />
+                <feGaussianBlur stdDeviation="14" result="blur2" />
+                <feMerge>
+                  <feMergeNode in="blur2" />
+                  <feMergeNode in="blur1" />
+                </feMerge>
+              </filter>
+              {/* Clip to ball circle */}
+              <clipPath id="ball-clip">
+                <circle cx={74} cy={75} r={72} transform={`translate(${BALL_TX}, ${BALL_TY}) scale(${BALL_SCALE})`} />
+              </clipPath>
+            </defs>
+
+            {/* ═══ GLOW LAYER — traces every contour of the logo ═══ */}
+            {(() => {
+              // Glow appears as pieces assemble, peaks during transition, fades when complete
+              const glowIn = clamp((flyT - 0.62) / 0.08);     // starts with first stripe
+              const glowPeak = clamp((flyT - 0.88) / 0.03);   // peaks at ring transition
+              const glowOut = clamp((flyT - 0.94) / 0.04);    // fades after everything settles
+              const glowOp = glowIn * (1 - glowOut) * (0.3 + glowPeak * 0.4);
+              if (glowOp < 0.01) return null;
+              return (
+                <g filter="url(#glow-soft)" opacity={glowOp}>
+                  {/* Glow: Ball outer ring */}
+                  <path
+                    d={J3_BALL_OUTER}
+                    fill="none"
+                    stroke="#fff1b4"
+                    strokeWidth={4}
+                    transform={`translate(${BALL_TX}, ${BALL_TY}) scale(${BALL_SCALE})`}
+                  />
+                  {/* Glow: Inner circle */}
+                  <path
+                    d={J3_BALL_OUTER_INNER}
+                    fill="none"
+                    stroke="#fff1b4"
+                    strokeWidth={3}
+                    transform={`translate(${BALL_TX}, ${BALL_TY}) scale(${BALL_SCALE})`}
+                  />
+                  {/* Glow: Interior stripes */}
+                  <g clipPath="url(#ball-clip)">
+                    <path d={J3_BALL_STRIPE_3} fill="#fff1b4"
+                      transform={`translate(${BALL_TX + s3Tx * BALL_SCALE}, ${BALL_TY}) scale(${BALL_SCALE})`}
+                      opacity={s3E} />
+                    <path d={J3_BALL_STRIPE_2} fill="#fff1b4"
+                      transform={`translate(${BALL_TX + s2Tx * BALL_SCALE}, ${BALL_TY}) scale(${BALL_SCALE})`}
+                      opacity={s2E} />
+                    <path d={J3_BALL_STRIPE_1} fill="#fff1b4"
+                      transform={`translate(${BALL_TX}, ${BALL_TY + s1Ty * BALL_SCALE}) scale(${BALL_SCALE})`}
+                      opacity={s1E} />
+                  </g>
+                  {/* Glow: Legs */}
+                  <path d={J3_LEG_LEFT} fill="#fff1b4"
+                    transform={`translate(${BALL_TX + legLeftTx * BALL_SCALE}, ${BALL_TY}) scale(${BALL_SCALE})`}
+                    opacity={legLeftE} />
+                  <path d={J3_LEG_RIGHT} fill="#fff1b4"
+                    transform={`translate(${BALL_TX + legRightTx * BALL_SCALE}, ${BALL_TY}) scale(${BALL_SCALE})`}
+                    opacity={legRightE} />
+                  <path d={J3_LEG_CENTER} fill="#fff1b4"
+                    transform={`translate(${BALL_TX}, ${BALL_TY + legCenterTy * BALL_SCALE}) scale(${BALL_SCALE})`}
+                    opacity={legCenterE} />
+                </g>
+              );
+            })()}
+
+            {/* ═══ SOLID LAYER — the actual logo pieces ═══ */}
+
+            {/* Ball outer ring — fades in at transition */}
+            <g
+              transform={`translate(${BALL_TX}, ${BALL_TY}) scale(${BALL_SCALE})`}
+              opacity={clamp((flyT - 0.89) / 0.04)}
+            >
+              <path d={J3_BALL_OUTER} fill="url(#stripe-gold)" />
+              <path d={J3_BALL_OUTER_INNER} fill="#000" />
+            </g>
+
+            {/* Interior stripes — clipped to ball */}
+            <g clipPath="url(#ball-clip)">
+              <path d={J3_BALL_STRIPE_3} fill="url(#stripe-gold)"
+                transform={`translate(${BALL_TX + s3Tx * BALL_SCALE}, ${BALL_TY}) scale(${BALL_SCALE})`}
+                opacity={s3E} />
+              <path d={J3_BALL_STRIPE_2} fill="url(#stripe-gold)"
+                transform={`translate(${BALL_TX + s2Tx * BALL_SCALE}, ${BALL_TY}) scale(${BALL_SCALE})`}
+                opacity={s2E} />
+              <path d={J3_BALL_STRIPE_1} fill="url(#stripe-gold)"
+                transform={`translate(${BALL_TX}, ${BALL_TY + s1Ty * BALL_SCALE}) scale(${BALL_SCALE})`}
+                opacity={s1E} />
+            </g>
+
+            {/* Legs */}
+            <path d={J3_LEG_LEFT} fill="url(#stripe-gold)"
+              transform={`translate(${BALL_TX + legLeftTx * BALL_SCALE}, ${BALL_TY}) scale(${BALL_SCALE})`}
+              opacity={legLeftE} />
+            <path d={J3_LEG_RIGHT} fill="url(#stripe-gold)"
+              transform={`translate(${BALL_TX + legRightTx * BALL_SCALE}, ${BALL_TY}) scale(${BALL_SCALE})`}
+              opacity={legRightE} />
+            <path d={J3_LEG_CENTER} fill="url(#stripe-gold)"
+              transform={`translate(${BALL_TX}, ${BALL_TY + legCenterTy * BALL_SCALE}) scale(${BALL_SCALE})`}
+              opacity={legCenterE} />
+          </svg>
+        </div>
+      )}
+
+      {/* Black background overlay */}
+      {showBg && (
+        <div
+          className="fixed inset-0 z-[59] pointer-events-none hidden min-[960px]:block"
+          style={{ background: "#000", opacity: bgBlackOp, willChange: "opacity" }}
+        />
+      )}
+    </>
+  );
+}
+
 export default function StoryPage() {
   const { t } = useI18n();
 
@@ -1435,22 +1889,77 @@ export default function StoryPage() {
     tag: t.story.players.sharedTags[i],
   }));
 
-  /* Hero parallax */
+  /* Hero parallax + pin for flying accent */
   const heroRef = useRef<HTMLDivElement>(null);
+  const heroAccentRef = useRef<HTMLSpanElement>(null);
+  const flyingAccentRef = useRef<HTMLDivElement>(null);
   const [heroY, setHeroY] = useState(0);
   const [heroOp, setHeroOp] = useState(1);
+  const [flyT, setFlyT] = useState(0); // 0 = at hero, 1 = logo complete
+  const [fadeOutT, setFadeOutT] = useState(0); // 0 = visible, 1 = faded out
+
+  /* Pin the hero in place while the virgulilla animation plays */
   useGSAP(() => {
-    const st = ScrollTrigger.create({
-      trigger: document.body,
-      start: "top top",
-      end: "+=600",
-      onUpdate: (self) => {
-        const y = self.progress * 600;
-        setHeroY(y * 0.4);
-        setHeroOp(Math.max(0, 1 - y / 600));
-      },
-    });
-    return () => st.kill();
+    const hero = heroRef.current;
+    if (!hero) return;
+    const isDesktop = typeof window !== "undefined" && window.innerWidth >= 960;
+
+    if (isDesktop) {
+      // Desktop: pin the hero while virgulilla → logo → black plays
+      const st = ScrollTrigger.create({
+        trigger: hero,
+        start: "top top",
+        end: "+=2200",         // 2200px — logo reveal + hold + fade out
+        pin: true,
+        pinSpacing: true,
+        onUpdate: (self) => {
+          const p = self.progress;
+          // Phase 1 (0→0.08): hero text visible
+          // Phase 2 (0.08→0.82): flyT 0→1 (video + logo assembly)
+          // Phase 3 (0.82→0.90): hold — logo complete
+          // Phase 4 (0.90→1.0): fade out — dissolves into AccentManifesto
+          if (p <= 0.08) {
+            setFlyT(0); setHeroOp(1); setHeroY(0); setFadeOutT(0);
+          } else if (p <= 0.82) {
+            const flyProgress = Math.min(1, (p - 0.08) / 0.74);
+            setFlyT(flyProgress);
+            const fadeProgress = Math.min(1, flyProgress / 0.20);
+            setHeroOp(Math.max(0, 1 - fadeProgress));
+            setHeroY(fadeProgress * 60);
+            setFadeOutT(0);
+          } else if (p <= 0.90) {
+            setFlyT(1); setHeroOp(0); setFadeOutT(0);
+          } else {
+            setFlyT(1); setHeroOp(0);
+            setFadeOutT(Math.min(1, (p - 0.90) / 0.10));
+          }
+        },
+      });
+      return () => st.kill();
+    } else {
+      // Mobile: simple parallax without pin (no flying accent on mobile)
+      const st = ScrollTrigger.create({
+        trigger: document.body,
+        start: "top top",
+        end: "+=600",
+        onUpdate: (self) => {
+          const y = self.progress * 600;
+          setHeroY(y * 0.4);
+          setHeroOp(Math.max(0, 1 - y / 600));
+        },
+      });
+      return () => st.kill();
+    }
+  }, []);
+
+  /* After hero pin is set up, sort + refresh all ScrollTriggers so AccentManifesto
+     (and others) recalculate their positions with pinSpacing accounted for. */
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      ScrollTrigger.sort();
+      ScrollTrigger.refresh();
+    }, 100);
+    return () => clearTimeout(timer);
   }, []);
 
   /* Section reveals */
@@ -1504,7 +2013,7 @@ export default function StoryPage() {
             style={{
               width: "177.78vh", minWidth: "100%",
               height: "56.25vw", minHeight: "100%",
-              opacity: 0.4,
+              opacity: 0.4 * Math.max(0, 1 - flyT * 1.8),   // video fades out during flying accent
               transform: `translateY(${heroY}px)`,
             }}
             allow="autoplay"
@@ -1512,38 +2021,26 @@ export default function StoryPage() {
             title="J3 Pádel Story video"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black" style={{ opacity: Math.max(0, 1 - flyT * 1.8) }} />
         <div
           className="relative z-10 px-12 pb-[72px] max-[960px]:px-6 max-[960px]:pb-14 w-full"
           style={{ opacity: heroOp, transform: `translateY(${-heroY * 0.2}px)` }}
         >
           <h1 className="font-bold uppercase tracking-[-3px] overflow-visible">
             <span className="text-[clamp(24px,3.5vw,48px)] max-[960px]:text-[clamp(20px,6vw,36px)] font-light text-[var(--gy2)] tracking-[1px] block mb-0 animate-[fadeInSoft_.9s_.2s_ease_both]">{t.story.hero.prefix}</span>
-            <span className="text-[clamp(60px,9vw,140px)] max-[960px]:text-[clamp(52px,15vw,110px)] j3-grad-text block animate-[clipRevealUp_.9s_.5s_cubic-bezier(.16,1,.3,1)_both] leading-[1.15] -mb-[0.08em]">{t.story.hero.years}</span>
+            <span className="text-[clamp(60px,9vw,140px)] max-[960px]:text-[clamp(52px,15vw,110px)] j3-grad-text block animate-[clipRevealUp_.9s_.5s_cubic-bezier(.16,1,.3,1)_both] leading-[1.15] -mb-[0.08em]">
+              {/* Split "20 AÑOS" — the Ñ stays, only the tilde ref marks position for the flying effect */}
+              20 A<span ref={heroAccentRef} className="relative inline-block j3-grad-text">Ñ</span>OS
+            </span>
             <span className="text-[clamp(60px,9vw,140px)] max-[960px]:text-[clamp(52px,15vw,110px)] text-[var(--wh)] block animate-[slideFromLeft_.8s_.85s_cubic-bezier(.16,1,.3,1)_both] leading-[.92]">{t.story.hero.dentro}</span>
             <span className="text-[clamp(60px,9vw,140px)] max-[960px]:text-[clamp(52px,15vw,110px)] j3-stroke-gold block animate-[slideFromRight_.8s_1.1s_cubic-bezier(.16,1,.3,1)_both] leading-[.92]">{t.story.hero.delJuego}</span>
           </h1>
-          <div className="mt-10 animate-[fadeInSoft_.8s_1.5s_ease_both] flex items-start gap-5">
-            <span className="w-px h-[72px] bg-gradient-to-b from-[var(--g1)] to-[var(--g1)]/0 mt-1 shrink-0" />
-            <div className="leading-[1.35]">
-              <span className="text-[clamp(16px,2vw,24px)] font-light text-[var(--gy2)] uppercase tracking-[1px]">{t.story.hero.sub1}</span>
-              <br />
-              <span className="text-[clamp(20px,2.5vw,32px)] font-bold text-[var(--wh)] italic tracking-[-0.5px]">{t.story.hero.sub2}</span>
-              <span className="text-[clamp(16px,2vw,24px)] font-light text-[var(--gy2)] tracking-[-0.3px] whitespace-nowrap"> {t.story.hero.sub3}</span>
-              <div className="flex items-center gap-4 mt-4">
-                <span className="text-[9px] font-bold tracking-[3px] uppercase text-[var(--g1)]/80">{t.story.hero.desde}</span>
-                <span className="w-4 h-px bg-[var(--g1)]/25" />
-                <span className="text-[9px] font-bold tracking-[3px] uppercase text-[var(--g1)]/80">{t.story.hero.location}</span>
-              </div>
-            </div>
-          </div>
+          {/* Spacer — hero breathes without subtitle */}
+          <div className="mt-10" />
         </div>
       </section>
 
-      {/* ─── STATEMENT (scroll-driven like ImpactSection) ─── */}
-      <StoryImpact />
-
-      {/* ─── ACCENT MANIFESTO ─── */}
+      {/* ─── ACCENT MANIFESTO — scroll-driven Á + tilde + slogan ─── */}
       <AccentManifesto />
 
       {/* ─── TIMELINE ─── */}
@@ -1769,6 +2266,9 @@ export default function StoryPage() {
       </section>
 
       <Footer />
+
+      {/* ─── FLYING ACCENT — transitions from hero "Á" to manifesto "Á" ─── */}
+      <FlyingAccent flyT={flyT} fadeOutT={fadeOutT} heroAccentRef={heroAccentRef} />
     </main>
   );
 }

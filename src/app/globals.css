@@ -113,6 +113,12 @@
   50%      { transform: scale(1.08); opacity: 1;    }
 }
 
+/* Bounce-x — horizontal arrow hint for scrollable areas */
+@keyframes bounce-x {
+  0%, 100% { transform: translateX(0); }
+  50%      { transform: translateX(6px); }
+}
+
 /* ─── Apple-style input design ─── */
 .j3-input {
   font-family: var(--font-display);

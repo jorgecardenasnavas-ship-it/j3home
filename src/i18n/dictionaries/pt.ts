@@ -210,10 +210,13 @@ export const pt = {
     stats: {
       header: "A nossa história em números",
       items: [
-        { val: 20, suffix: "+", lbl: "Anos no\nsetor" },
+        { val: 20, suffix: "+", lbl: "Anos de\nexperiência" },
         { prefix: "#", val: 1, lbl: "Melhor clube\ndo mundo 2018" },
-        { val: 11, lbl: "Títulos profissionais\nem 18 finais disputadas" },
         { val: 100, suffix: "+", lbl: "Coaches formados\nem Coach360" },
+        { val: 2000, suffix: "+", lbl: "Jogadores amadores\ntreinados" },
+        { val: 30, suffix: "+", lbl: "Jogadores profissionais\nformados" },
+        { label: "N.º1", val: 0, lbl: "Melhor treinador espanhol\nranking WPT 2022" },
+        { val: 11, lbl: "Títulos profissionais\nem 18 finais disputadas" },
         { label: "WPT", val: 0, lbl: "Sede oficial\nMálaga 2014" },
       ],
     },

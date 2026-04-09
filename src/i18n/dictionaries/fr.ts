@@ -210,11 +210,14 @@ export const fr = {
     stats: {
       header: "Notre histoire en chiffres",
       items: [
-        { val: 20, suffix: "+", lbl: "Ann\u00E9es dans\nle secteur" },
+        { val: 20, suffix: "+", lbl: "Ans\nd'expérience" },
         { prefix: "#", val: 1, lbl: "Meilleur club\ndu monde 2018" },
-        { val: 11, lbl: "Titres professionnels\nen 18 finales disput\u00E9es" },
-        { val: 100, suffix: "+", lbl: "Coaches form\u00E9s\nchez Coach360" },
-        { label: "WPT", val: 0, lbl: "Si\u00E8ge officiel\nM\u00E1laga 2014" },
+        { val: 100, suffix: "+", lbl: "Coaches formés\nchez Coach360" },
+        { val: 2000, suffix: "+", lbl: "Joueurs amateurs\nformés" },
+        { val: 30, suffix: "+", lbl: "Joueurs professionnels\nformés" },
+        { label: "N.º1", val: 0, lbl: "Meilleur entraîneur espagnol\nranking WPT 2022" },
+        { val: 11, lbl: "Titres professionnels\nen 18 finales disputées" },
+        { label: "WPT", val: 0, lbl: "Siège officiel\nMálaga 2014" },
       ],
     },
 

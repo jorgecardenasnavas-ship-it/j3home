@@ -210,10 +210,13 @@ export const sv = {
     stats: {
       header: "Vår historia i siffror",
       items: [
-        { val: 20, suffix: "+", lbl: "År i\nbranschen" },
+        { val: 20, suffix: "+", lbl: "Års\nerfarenhet" },
         { prefix: "#", val: 1, lbl: "Bästa klubb\ni världen 2018" },
-        { val: 11, lbl: "Professionella titlar\ni 18 spelade finaler" },
         { val: 100, suffix: "+", lbl: "Tränare utbildade\ni Coach360" },
+        { val: 2000, suffix: "+", lbl: "Amatörspelare\nutbildade" },
+        { val: 30, suffix: "+", lbl: "Professionella spelare\nutbildade" },
+        { label: "N.º1", val: 0, lbl: "Bästa spanska tränare\nWPT-ranking 2022" },
+        { val: 11, lbl: "Professionella titlar\ni 18 spelade finaler" },
         { label: "WPT", val: 0, lbl: "Officiell värd\nMálaga 2014" },
       ],
     },
