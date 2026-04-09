@@ -574,7 +574,7 @@ function AccentManifesto() {
     <div
       ref={containerRef}
       className="relative bg-[var(--bk)] overflow-clip"
-      style={{ height: "320vh", marginTop: "-100vh" }}
+      style={{ height: "320vh" }}
     >
       <div className="sticky top-0 h-screen flex items-center overflow-hidden">
         {/* DEPTH LAYER 0 — perspective floor lines (very subtle, suggests court horizon) */}
@@ -1600,8 +1600,7 @@ const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * CIRCLE_R;
 
 const TOTAL_FRAMES = 97;
 
-function FlyingAccent({ flyT, fadeOutT, bridgeT }: { flyT: number; fadeOutT: number; bridgeT: number; heroAccentRef: React.RefObject<HTMLSpanElement | null> }) {
-  const { t } = useI18n();
+function FlyingAccent({ flyT, fadeOutT }: { flyT: number; fadeOutT: number; heroAccentRef: React.RefObject<HTMLSpanElement | null> }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const framesRef = useRef<HTMLImageElement[]>([]);
   const [framesLoaded, setFramesLoaded] = useState(false);
@@ -1647,11 +1646,9 @@ function FlyingAccent({ flyT, fadeOutT, bridgeT }: { flyT: number; fadeOutT: num
 
   const clamp = (v: number) => Math.max(0, Math.min(1, v));
 
-  // ── Black bg overlay — fades in, stays during logo + bridge text, fades out with bridge ──
+  // ── Black bg overlay — fades in with video, fades out with logo ──
   const bgFadeIn = clamp((flyT - 0.01) / 0.08);
-  // Keep bg black during bridge phase (fadeOutT=1 but bridgeT>0)
-  const bgFadeOut = fadeOutT * (1 - Math.min(1, bridgeT > 0 ? 1 : 0));
-  const bgBlackOp = flyT <= 0 ? 0 : bgFadeIn * (bridgeT > 0.01 ? 1 : (1 - fadeOutT));
+  const bgBlackOp = flyT <= 0 ? 0 : bgFadeIn * (1 - fadeOutT);
 
   // ── Video canvas opacity — fades in, then fades out (canvas only) ──
   const videoFadeIn = clamp((flyT - 0.12) / 0.10);
@@ -1854,63 +1851,13 @@ function FlyingAccent({ flyT, fadeOutT, bridgeT }: { flyT: number; fadeOutT: num
         </div>
       )}
 
-      {/* Black background overlay — stays during bridge text phase */}
-      {(showBg || bridgeT > 0.01) && (
+      {/* Black background overlay */}
+      {showBg && (
         <div
           className="fixed inset-0 z-[59] pointer-events-none hidden min-[960px]:block"
-          style={{ background: "#000", opacity: bridgeT > 0.01 ? 1 : bgBlackOp, willChange: "opacity" }}
+          style={{ background: "#000", opacity: bgBlackOp, willChange: "opacity" }}
         />
       )}
-
-      {/* Bridge text — auto-animates in (CSS keyframes), scroll only fades out */}
-      {bridgeT > 0.01 && (() => {
-        const words1 = t.story.bridge.line1.split(" ");
-        const words2 = t.story.bridge.line2.split(" ");
-        // bridgeT: 1 = fully visible, fades to 0 on scroll
-        const baseDelay = 0.15; // seconds — stagger base
-        const wordStagger = 0.09; // seconds between words
-
-        return (
-          <div
-            className="fixed inset-0 z-[62] pointer-events-none hidden min-[960px]:flex items-center justify-center"
-            style={{ opacity: bridgeT, willChange: "opacity" }}
-          >
-            <div className="text-center">
-              {/* Line 1 — light weight */}
-              <p className="text-[clamp(22px,2.8vw,38px)] tracking-[0.04em] text-[var(--gy2)] font-light leading-[1.6] flex flex-wrap justify-center gap-x-[0.3em]">
-                {words1.map((word, i) => (
-                  <span key={i} className="inline-block overflow-hidden" style={{ paddingBottom: "0.08em" }}>
-                    <span
-                      className="inline-block"
-                      style={{
-                        animation: `bridgeWordReveal 0.7s cubic-bezier(.16,1,.3,1) ${baseDelay + i * wordStagger}s both`,
-                      }}
-                    >
-                      {word}
-                    </span>
-                  </span>
-                ))}
-              </p>
-
-              {/* Line 2 — bold, stagger continues */}
-              <p className="text-[clamp(26px,3.4vw,46px)] tracking-[-0.01em] text-[var(--wh)] font-bold leading-[1.4] mt-4 flex flex-wrap justify-center gap-x-[0.3em]">
-                {words2.map((word, i) => (
-                  <span key={i} className="inline-block overflow-hidden" style={{ paddingBottom: "0.08em" }}>
-                    <span
-                      className="inline-block"
-                      style={{
-                        animation: `bridgeWordReveal 0.7s cubic-bezier(.16,1,.3,1) ${baseDelay + (words1.length + i) * wordStagger + 0.15}s both`,
-                      }}
-                    >
-                      {word}
-                    </span>
-                  </span>
-                ))}
-              </p>
-            </div>
-          </div>
-        );
-      })()}
     </>
   );
 }
@@ -1950,7 +1897,6 @@ export default function StoryPage() {
   const [heroOp, setHeroOp] = useState(1);
   const [flyT, setFlyT] = useState(0); // 0 = at hero, 1 = logo complete
   const [fadeOutT, setFadeOutT] = useState(0); // 0 = visible, 1 = faded out
-  const [bridgeT, setBridgeT] = useState(0); // 0 = hidden, 1 = visible, then back to 0
 
   /* Pin the hero in place while the virgulilla animation plays */
   useGSAP(() => {
@@ -1963,39 +1909,29 @@ export default function StoryPage() {
       const st = ScrollTrigger.create({
         trigger: hero,
         start: "top top",
-        end: "+=3000",         // 3000px — logo + hold + fade + bridge dwell + bridge fade
+        end: "+=2400",         // 2400px — logo + hold + fade out (bridge auto-animates, stays)
         pin: true,
         pinSpacing: true,
         onUpdate: (self) => {
-          const scrolled = self.progress * 3000;
+          const scrolled = self.progress * 2400;
           // Phase 1 (0-176px): hero text visible
           // Phase 2 (176-1804px): flyT 0→1 (video + logo assembly)
           // Phase 3 (1804-1980px): hold — logo complete
-          // Phase 4 (1980-2200px): logo fade out
-          // Phase 5 (2200-2600px): bridge text visible (auto-animates, dwell)
-          // Phase 6 (2600-3000px): bridge text fade out
+          // Phase 4 (1980-2400px): logo fade out → bridge text auto-appears
           if (scrolled <= 176) {
-            setFlyT(0); setHeroOp(1); setHeroY(0); setFadeOutT(0); setBridgeT(0);
+            setFlyT(0); setHeroOp(1); setHeroY(0); setFadeOutT(0);
           } else if (scrolled <= 1804) {
             const flyProgress = Math.min(1, (scrolled - 176) / 1628);
             setFlyT(flyProgress);
             const fadeProgress = Math.min(1, flyProgress / 0.20);
             setHeroOp(Math.max(0, 1 - fadeProgress));
             setHeroY(fadeProgress * 60);
-            setFadeOutT(0); setBridgeT(0);
+            setFadeOutT(0);
           } else if (scrolled <= 1980) {
-            setFlyT(1); setHeroOp(0); setFadeOutT(0); setBridgeT(0);
-          } else if (scrolled <= 2200) {
+            setFlyT(1); setHeroOp(0); setFadeOutT(0);
+          } else {
             setFlyT(1); setHeroOp(0);
             setFadeOutT(Math.min(1, (scrolled - 1980) / 220));
-            setBridgeT(0);
-          } else if (scrolled <= 2600) {
-            // Bridge text visible — CSS keyframes handle entrance
-            setFlyT(1); setHeroOp(0); setFadeOutT(1); setBridgeT(1);
-          } else {
-            // Bridge fades out on scroll
-            setFlyT(1); setHeroOp(0); setFadeOutT(1);
-            setBridgeT(Math.max(0, 1 - (scrolled - 2600) / 400));
           }
         },
       });
@@ -2102,6 +2038,42 @@ export default function StoryPage() {
           {/* Spacer — hero breathes without subtitle */}
           <div className="mt-10" />
         </div>
+
+        {/* Bridge text — inside hero, appears when logo fades, scrolls away naturally */}
+        {fadeOutT >= 0.95 && (
+          <div className="absolute inset-0 z-20 bg-black flex items-center justify-center">
+            <div className="text-center">
+              <p className="text-[clamp(22px,2.8vw,38px)] tracking-[0.04em] text-[var(--gy2)] font-light leading-[1.6] flex flex-wrap justify-center gap-x-[0.3em]">
+                {t.story.bridge.line1.split(" ").map((word: string, i: number) => (
+                  <span key={i} className="inline-block overflow-hidden" style={{ paddingBottom: "0.08em" }}>
+                    <span
+                      className="inline-block"
+                      style={{
+                        animation: `bridgeWordReveal 0.7s cubic-bezier(.16,1,.3,1) ${0.15 + i * 0.09}s both`,
+                      }}
+                    >
+                      {word}
+                    </span>
+                  </span>
+                ))}
+              </p>
+              <p className="text-[clamp(26px,3.4vw,46px)] tracking-[-0.01em] text-[var(--wh)] font-bold leading-[1.4] mt-4 flex flex-wrap justify-center gap-x-[0.3em]">
+                {t.story.bridge.line2.split(" ").map((word: string, i: number) => (
+                  <span key={i} className="inline-block overflow-hidden" style={{ paddingBottom: "0.08em" }}>
+                    <span
+                      className="inline-block"
+                      style={{
+                        animation: `bridgeWordReveal 0.7s cubic-bezier(.16,1,.3,1) ${0.15 + (t.story.bridge.line1.split(" ").length + i) * 0.09 + 0.15}s both`,
+                      }}
+                    >
+                      {word}
+                    </span>
+                  </span>
+                ))}
+              </p>
+            </div>
+          </div>
+        )}
       </section>
 
       {/* ─── ACCENT MANIFESTO — scroll-driven Á + tilde + slogan ─── */}
@@ -2332,7 +2304,7 @@ export default function StoryPage() {
       <Footer />
 
       {/* ─── FLYING ACCENT — transitions from hero "Á" to manifesto "Á" ─── */}
-      <FlyingAccent flyT={flyT} fadeOutT={fadeOutT} bridgeT={bridgeT} heroAccentRef={heroAccentRef} />
+      <FlyingAccent flyT={flyT} fadeOutT={fadeOutT} heroAccentRef={heroAccentRef} />
     </main>
   );
 }
