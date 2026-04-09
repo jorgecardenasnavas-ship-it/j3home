@@ -197,6 +197,11 @@ export const sv = {
       historyLabel: "Vår historia",
     },
 
+    bridge: {
+      line1: "Vi spelar. Vi tr\u00E4nar. Vi leder.",
+      line2: "V\u00E5rt hem \u00E4r 20\u00D710.",
+    },
+
     accent: {
       eyebrow: "Vår signatur",
       slogan: ["Pádel.", "Med.", "Accent."],

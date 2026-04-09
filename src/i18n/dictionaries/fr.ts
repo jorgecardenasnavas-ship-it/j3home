@@ -197,6 +197,11 @@ export const fr = {
       historyLabel: "Notre histoire",
     },
 
+    bridge: {
+      line1: "On joue. On entra\u00EEne. On dirige.",
+      line2: "Notre maison, c\u2019est le 20\u00D710.",
+    },
+
     accent: {
       eyebrow: "Notre signature",
       slogan: ["P\u00E1del.", "Avec.", "Accent."],

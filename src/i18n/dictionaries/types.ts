@@ -123,6 +123,11 @@ export interface Dictionary {
       historyLabel: string;
     };
 
+    bridge: {
+      line1: string;
+      line2: string;
+    };
+
     accent: {
       eyebrow: string;
       slogan: readonly [string, string, string];

@@ -197,6 +197,11 @@ export const pt = {
       historyLabel: "A nossa história",
     },
 
+    bridge: {
+      line1: "Jogamos. Treinamos. Dirigimos.",
+      line2: "A nossa casa \u00E9 o 20\u00D710.",
+    },
+
     accent: {
       eyebrow: "A nossa assinatura",
       slogan: ["Pádel.", "Com.", "Acento."],

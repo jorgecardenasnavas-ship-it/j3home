@@ -197,6 +197,11 @@ export const en = {
       historyLabel: "Our history",
     },
 
+    bridge: {
+      line1: "We play. We coach. We manage.",
+      line2: "Our home is the 20\u00D710.",
+    },
+
     accent: {
       eyebrow: "Our signature",
       slogan: ["P\u00E1del.", "With.", "Accent."],

@@ -1600,7 +1600,8 @@ const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * CIRCLE_R;
 
 const TOTAL_FRAMES = 97;
 
-function FlyingAccent({ flyT, fadeOutT }: { flyT: number; fadeOutT: number; heroAccentRef: React.RefObject<HTMLSpanElement | null> }) {
+function FlyingAccent({ flyT, fadeOutT, bridgeT }: { flyT: number; fadeOutT: number; bridgeT: number; heroAccentRef: React.RefObject<HTMLSpanElement | null> }) {
+  const { t } = useI18n();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const framesRef = useRef<HTMLImageElement[]>([]);
   const [framesLoaded, setFramesLoaded] = useState(false);
@@ -1646,9 +1647,11 @@ function FlyingAccent({ flyT, fadeOutT }: { flyT: number; fadeOutT: number; hero
 
   const clamp = (v: number) => Math.max(0, Math.min(1, v));
 
-  // ── Black bg overlay — fades in, stays during logo, fades out with logo ──
+  // ── Black bg overlay — fades in, stays during logo + bridge text, fades out with bridge ──
   const bgFadeIn = clamp((flyT - 0.01) / 0.08);
-  const bgBlackOp = flyT <= 0 ? 0 : bgFadeIn * (1 - fadeOutT);
+  // Keep bg black during bridge phase (fadeOutT=1 but bridgeT>0)
+  const bgFadeOut = fadeOutT * (1 - Math.min(1, bridgeT > 0 ? 1 : 0));
+  const bgBlackOp = flyT <= 0 ? 0 : bgFadeIn * (bridgeT > 0.01 ? 1 : (1 - fadeOutT));
 
   // ── Video canvas opacity — fades in, then fades out (canvas only) ──
   const videoFadeIn = clamp((flyT - 0.12) / 0.10);
@@ -1851,12 +1854,42 @@ function FlyingAccent({ flyT, fadeOutT }: { flyT: number; fadeOutT: number; hero
         </div>
       )}
 
-      {/* Black background overlay */}
-      {showBg && (
+      {/* Black background overlay — stays during bridge text phase */}
+      {(showBg || bridgeT > 0.01) && (
         <div
           className="fixed inset-0 z-[59] pointer-events-none hidden min-[960px]:block"
-          style={{ background: "#000", opacity: bgBlackOp, willChange: "opacity" }}
+          style={{ background: "#000", opacity: bridgeT > 0.01 ? 1 : bgBlackOp, willChange: "opacity" }}
         />
+      )}
+
+      {/* Bridge text — appears after logo fades, before AccentManifesto */}
+      {bridgeT > 0.01 && (
+        <div
+          className="fixed inset-0 z-[62] pointer-events-none hidden min-[960px]:flex items-center justify-center"
+          style={{ opacity: bridgeT, willChange: "opacity" }}
+        >
+          <div className="text-center">
+            <p
+              className="text-[clamp(22px,2.8vw,38px)] tracking-[0.04em] text-[var(--gy2)] font-light leading-[1.6]"
+              style={{
+                transform: `translateY(${(1 - bridgeT) * 30}px)`,
+                transition: "none",
+              }}
+            >
+              {t.story.bridge.line1}
+            </p>
+            <p
+              className="text-[clamp(26px,3.4vw,46px)] tracking-[-0.01em] text-[var(--wh)] font-bold leading-[1.4] mt-3"
+              style={{
+                transform: `translateY(${(1 - Math.min(1, bridgeT * 1.3)) * 40}px)`,
+                opacity: clamp(bridgeT * 1.5 - 0.2),
+                transition: "none",
+              }}
+            >
+              {t.story.bridge.line2}
+            </p>
+          </div>
+        </div>
       )}
     </>
   );
@@ -1897,6 +1930,7 @@ export default function StoryPage() {
   const [heroOp, setHeroOp] = useState(1);
   const [flyT, setFlyT] = useState(0); // 0 = at hero, 1 = logo complete
   const [fadeOutT, setFadeOutT] = useState(0); // 0 = visible, 1 = faded out
+  const [bridgeT, setBridgeT] = useState(0); // 0 = hidden, 1 = visible, then back to 0
 
   /* Pin the hero in place while the virgulilla animation plays */
   useGSAP(() => {
@@ -1909,29 +1943,44 @@ export default function StoryPage() {
       const st = ScrollTrigger.create({
         trigger: hero,
         start: "top top",
-        end: "+=2200",         // 2200px — logo reveal + hold + fade out
+        end: "+=3600",         // 3600px — logo + hold + fade + bridge text + fade
         pin: true,
         pinSpacing: true,
         onUpdate: (self) => {
-          const p = self.progress;
-          // Phase 1 (0→0.08): hero text visible
-          // Phase 2 (0.08→0.82): flyT 0→1 (video + logo assembly)
-          // Phase 3 (0.82→0.90): hold — logo complete
-          // Phase 4 (0.90→1.0): fade out — dissolves into AccentManifesto
-          if (p <= 0.08) {
-            setFlyT(0); setHeroOp(1); setHeroY(0); setFadeOutT(0);
-          } else if (p <= 0.82) {
-            const flyProgress = Math.min(1, (p - 0.08) / 0.74);
+          const scrolled = self.progress * 3600;
+          // Phase 1 (0-176px): hero text visible
+          // Phase 2 (176-1804px): flyT 0→1 (video + logo assembly)
+          // Phase 3 (1804-1980px): hold — logo complete
+          // Phase 4 (1980-2200px): logo fade out
+          // Phase 5 (2200-2500px): pause (black)
+          // Phase 6 (2500-2850px): bridge text fade in
+          // Phase 7 (2850-3100px): bridge text dwell
+          // Phase 8 (3100-3600px): bridge text fade out
+          if (scrolled <= 176) {
+            setFlyT(0); setHeroOp(1); setHeroY(0); setFadeOutT(0); setBridgeT(0);
+          } else if (scrolled <= 1804) {
+            const flyProgress = Math.min(1, (scrolled - 176) / 1628);
             setFlyT(flyProgress);
             const fadeProgress = Math.min(1, flyProgress / 0.20);
             setHeroOp(Math.max(0, 1 - fadeProgress));
             setHeroY(fadeProgress * 60);
-            setFadeOutT(0);
-          } else if (p <= 0.90) {
-            setFlyT(1); setHeroOp(0); setFadeOutT(0);
-          } else {
+            setFadeOutT(0); setBridgeT(0);
+          } else if (scrolled <= 1980) {
+            setFlyT(1); setHeroOp(0); setFadeOutT(0); setBridgeT(0);
+          } else if (scrolled <= 2200) {
             setFlyT(1); setHeroOp(0);
-            setFadeOutT(Math.min(1, (p - 0.90) / 0.10));
+            setFadeOutT(Math.min(1, (scrolled - 1980) / 220));
+            setBridgeT(0);
+          } else if (scrolled <= 2500) {
+            setFlyT(1); setHeroOp(0); setFadeOutT(1); setBridgeT(0);
+          } else if (scrolled <= 2850) {
+            setFlyT(1); setHeroOp(0); setFadeOutT(1);
+            setBridgeT(Math.min(1, (scrolled - 2500) / 350));
+          } else if (scrolled <= 3100) {
+            setFlyT(1); setHeroOp(0); setFadeOutT(1); setBridgeT(1);
+          } else {
+            setFlyT(1); setHeroOp(0); setFadeOutT(1);
+            setBridgeT(Math.max(0, 1 - (scrolled - 3100) / 500));
           }
         },
       });
@@ -2268,7 +2317,7 @@ export default function StoryPage() {
       <Footer />
 
       {/* ─── FLYING ACCENT — transitions from hero "Á" to manifesto "Á" ─── */}
-      <FlyingAccent flyT={flyT} fadeOutT={fadeOutT} heroAccentRef={heroAccentRef} />
+      <FlyingAccent flyT={flyT} fadeOutT={fadeOutT} bridgeT={bridgeT} heroAccentRef={heroAccentRef} />
     </main>
   );
 }
