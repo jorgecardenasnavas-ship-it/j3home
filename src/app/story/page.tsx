@@ -420,6 +420,208 @@ function StatsSection() {
   );
 }
 
+/* ───────── COURT REVEAL — pista de pádel SVG que se dibuja (replica preloader home) ───────── */
+
+function CourtReveal() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const courtBoxRef = useRef<HTMLDivElement>(null);
+  const linesRef = useRef<(SVGElement | null)[]>([]);
+  const [phase, setPhase] = useState(0); // 0=idle, 1=expand, 2=draw, 3=fullscreen+undraw, 4=done
+  const lockRef = useRef(false);
+  const lockFiredRef = useRef(false);
+  const lockYRef = useRef(0);
+
+  /* Scroll lock: pins scrollY via rAF while animation plays */
+  useEffect(() => {
+    let rafId = 0;
+    const clamp = () => {
+      if (lockRef.current) {
+        window.scrollTo(0, lockYRef.current);
+        rafId = requestAnimationFrame(clamp);
+      }
+    };
+    const prevent = (e: Event) => {
+      if (lockRef.current) { e.preventDefault(); e.stopPropagation(); }
+    };
+    const preventKey = (e: KeyboardEvent) => {
+      if (lockRef.current && ["ArrowDown","ArrowUp","Space","PageDown","PageUp","Home","End"].includes(e.code)) {
+        e.preventDefault();
+      }
+    };
+    const opts = { passive: false } as AddEventListenerOptions;
+    window.addEventListener("wheel", prevent, opts);
+    window.addEventListener("touchmove", prevent, opts);
+    window.addEventListener("keydown", preventKey, opts);
+    const interval = setInterval(() => {
+      if (lockRef.current && !rafId) rafId = requestAnimationFrame(clamp);
+    }, 50);
+    return () => {
+      cancelAnimationFrame(rafId);
+      clearInterval(interval);
+      window.removeEventListener("wheel", prevent, opts);
+      window.removeEventListener("touchmove", prevent, opts);
+      window.removeEventListener("keydown", preventKey, opts);
+    };
+  }, []);
+
+  /* Trigger animation when section enters viewport — snap to section then lock */
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !lockFiredRef.current) {
+          lockFiredRef.current = true;
+          // Snap so the court section fills the viewport
+          const rect = el.getBoundingClientRect();
+          const snapY = window.scrollY + rect.top;
+          window.scrollTo({ top: snapY, behavior: "instant" });
+          lockYRef.current = snapY;
+          lockRef.current = true;
+          // Start the animation sequence
+          setPhase(1);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.05 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  /* Animation orchestration — mirrors j3padel.com/homej3 preloader phases */
+  useEffect(() => {
+    if (phase === 0) return;
+
+    const box = courtBoxRef.current;
+    const lines = linesRef.current.filter(Boolean) as SVGElement[];
+    if (!box) return;
+
+    const vw = window.innerWidth;
+    const isMobile = vw <= 960;
+    const courtW = isMobile ? Math.min(vw * 0.65, 300) : Math.min(vw * 0.5, 460);
+    const courtH = isMobile ? courtW * 1.8 : courtW * 0.5;
+    const sw = 200 / courtW;
+
+    lines.forEach(l => l.setAttribute("stroke-width", String(sw)));
+
+    if (phase === 1) {
+      // Phase 1: thin line appears
+      requestAnimationFrame(() => {
+        box.style.transitionDuration = "0.6s";
+        if (isMobile) {
+          box.style.height = `${courtH * 0.4}px`;
+        } else {
+          box.style.width = `${courtW * 0.6}px`;
+        }
+      });
+      setTimeout(() => setPhase(2), 700);
+    }
+
+    if (phase === 2) {
+      // Phase 2: court takes shape + lines draw in
+      box.style.transitionDuration = "1s";
+      box.style.width = `${courtW}px`;
+      box.style.height = `${courtH}px`;
+      lines.forEach(l => l.classList.add("court-draw-in"));
+      setTimeout(() => setPhase(3), 1900);
+    }
+
+    if (phase === 3) {
+      // Phase 3: court expands to fill viewport + lines undraw
+      box.style.transitionDuration = "1.8s";
+      box.style.width = `${vw}px`;
+      box.style.height = `${isMobile ? vw * 2 : vw * 0.5}px`;
+      lines.forEach(l => {
+        l.classList.remove("court-draw-in");
+        l.classList.add("court-draw-out");
+      });
+      setTimeout(() => setPhase(4), 2000);
+    }
+
+    if (phase === 4) {
+      // Phase 4: done — everything black, unlock scroll
+      box.style.display = "none";
+      lockRef.current = false;
+    }
+  }, [phase]);
+
+  return (
+    <section
+      ref={sectionRef}
+      className="relative h-screen min-h-[580px] overflow-hidden bg-black flex items-center justify-center"
+    >
+      {/* Court container — starts as 2px line, grows to full court, then viewport */}
+      <div
+        ref={courtBoxRef}
+        className="absolute flex items-center justify-center overflow-hidden"
+        style={{
+          background: "var(--bk)",
+          width: 0,
+          height: "2px",
+          transition: "width 0.6s cubic-bezier(.4,0,.2,1), height 0.6s cubic-bezier(.4,0,.2,1)",
+        }}
+      >
+        <svg
+          viewBox="0 0 200 100"
+          fill="none"
+          preserveAspectRatio="xMidYMid meet"
+          className="absolute inset-0 w-full h-full max-[960px]:rotate-90"
+        >
+          {/* Outer boundary */}
+          <rect
+            ref={el => { linesRef.current[0] = el; }}
+            className="court-line-el"
+            x="2" y="2" width="196" height="96"
+            stroke="var(--g1)" fill="none"
+            style={{ "--court-len": 584 } as React.CSSProperties}
+          />
+          {/* Net / center divider */}
+          <line
+            ref={el => { linesRef.current[1] = el; }}
+            className="court-line-el"
+            x1="100" y1="2" x2="100" y2="98"
+            stroke="var(--g1)"
+            style={{ "--court-len": 96 } as React.CSSProperties}
+          />
+          {/* Left service line */}
+          <line
+            ref={el => { linesRef.current[2] = el; }}
+            className="court-line-el"
+            x1="38" y1="2" x2="38" y2="98"
+            stroke="var(--g1)"
+            style={{ "--court-len": 96 } as React.CSSProperties}
+          />
+          {/* Right service line */}
+          <line
+            ref={el => { linesRef.current[3] = el; }}
+            className="court-line-el"
+            x1="162" y1="2" x2="162" y2="98"
+            stroke="var(--g1)"
+            style={{ "--court-len": 96 } as React.CSSProperties}
+          />
+          {/* Left horizontal mid-line */}
+          <line
+            ref={el => { linesRef.current[4] = el; }}
+            className="court-line-el"
+            x1="38" y1="50" x2="100" y2="50"
+            stroke="var(--g1)"
+            style={{ "--court-len": 62 } as React.CSSProperties}
+          />
+          {/* Right horizontal mid-line */}
+          <line
+            ref={el => { linesRef.current[5] = el; }}
+            className="court-line-el"
+            x1="100" y1="50" x2="162" y2="50"
+            stroke="var(--g1)"
+            style={{ "--court-len": 62 } as React.CSSProperties}
+          />
+        </svg>
+      </div>
+    </section>
+  );
+}
+
 /* ───────── ACCENT MANIFESTO — Á gigante con tilde que cae (scroll-driven, pinned) ───────── */
 
 function AccentManifesto() {
@@ -2128,6 +2330,9 @@ export default function StoryPage() {
           </div>
         )}
       </section>
+
+      {/* ─── COURT REVEAL — pista SVG que se dibuja entre bridge y manifesto ─── */}
+      <CourtReveal />
 
       {/* ─── ACCENT MANIFESTO — scroll-driven Á + tilde + slogan ─── */}
       <AccentManifesto />

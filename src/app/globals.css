@@ -108,6 +108,33 @@
 }
 
 /* Bridge text — word-by-word clip-reveal from below */
+/* ── Court Reveal — SVG line draw-in / draw-out animations ── */
+.court-line-el {
+  stroke-dasharray: var(--court-len);
+  stroke-dashoffset: var(--court-len);
+}
+.court-draw-in {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1);
+}
+.court-draw-in:nth-child(1) { transition-delay: .05s; }
+.court-draw-in:nth-child(2) { transition-delay: .2s;  }
+.court-draw-in:nth-child(3) { transition-delay: .35s; }
+.court-draw-in:nth-child(4) { transition-delay: .5s;  }
+.court-draw-in:nth-child(5) { transition-delay: .6s;  }
+.court-draw-in:nth-child(6) { transition-delay: .7s;  }
+
+.court-draw-out {
+  stroke-dashoffset: var(--court-len);
+  transition: stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1);
+}
+.court-draw-out:nth-child(6) { transition-delay: 0s;  }
+.court-draw-out:nth-child(5) { transition-delay: .1s; }
+.court-draw-out:nth-child(4) { transition-delay: .2s; }
+.court-draw-out:nth-child(3) { transition-delay: .3s; }
+.court-draw-out:nth-child(2) { transition-delay: .4s; }
+.court-draw-out:nth-child(1) { transition-delay: .5s; }
+
 @keyframes bridgeWordReveal {
   0%   { transform: translateY(110%); opacity: 0; }
   20%  { opacity: 1; }
