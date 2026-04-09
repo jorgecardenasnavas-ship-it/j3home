@@ -1909,15 +1909,16 @@ export default function StoryPage() {
       const st = ScrollTrigger.create({
         trigger: hero,
         start: "top top",
-        end: "+=2400",         // 2400px — logo + hold + fade out (bridge auto-animates, stays)
+        end: "+=3100",         // 3100px — logo + hold + fade + bridge animation dwell
         pin: true,
         pinSpacing: true,
         onUpdate: (self) => {
-          const scrolled = self.progress * 2400;
+          const scrolled = self.progress * 3100;
           // Phase 1 (0-176px): hero text visible
           // Phase 2 (176-1804px): flyT 0→1 (video + logo assembly)
           // Phase 3 (1804-1980px): hold — logo complete
-          // Phase 4 (1980-2400px): logo fade out → bridge text auto-appears
+          // Phase 4 (1980-2200px): logo fade out
+          // Phase 5 (2200-3100px): bridge text dwell (pinned, animation plays)
           if (scrolled <= 176) {
             setFlyT(0); setHeroOp(1); setHeroY(0); setFadeOutT(0);
           } else if (scrolled <= 1804) {
@@ -1929,9 +1930,12 @@ export default function StoryPage() {
             setFadeOutT(0);
           } else if (scrolled <= 1980) {
             setFlyT(1); setHeroOp(0); setFadeOutT(0);
-          } else {
+          } else if (scrolled <= 2200) {
             setFlyT(1); setHeroOp(0);
             setFadeOutT(Math.min(1, (scrolled - 1980) / 220));
+          } else {
+            // Bridge dwell — fadeOutT stays at 1, page pinned while text animates
+            setFlyT(1); setHeroOp(0); setFadeOutT(1);
           }
         },
       });
