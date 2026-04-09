@@ -2056,9 +2056,9 @@ export default function StoryPage() {
               const currentH = 2 + (courtH - 2) * sizeP;
               cb.style.width = `${currentW}px`;
               cb.style.height = `${currentH}px`;
-              // Gold top-edge preserved as a 2px strip that fades only when SVG strokes are visible
-              // The strip keeps the visual continuity of the gold bar from Phase 7
-              const stripFade = Math.min(1, sizeP * 1.5); // fade as box grows (strokes take over)
+              // Gold top-edge strip stays until box is big enough for SVG strokes to be visible
+              // Only starts fading when sizeP > 0.6 (box has grown 60%), then fades quickly
+              const stripFade = Math.min(1, Math.max(0, sizeP - 0.6) * 3.5);
               const stripAlpha = Math.max(0, 1 - stripFade);
               if (stripAlpha > 0.01) {
                 cb.style.background = `linear-gradient(to bottom, rgba(220,175,100,${stripAlpha}) 0px, rgba(220,175,100,${stripAlpha}) 2px, transparent 2px)`;
