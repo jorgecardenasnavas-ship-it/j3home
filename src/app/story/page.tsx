@@ -1862,68 +1862,50 @@ function FlyingAccent({ flyT, fadeOutT, bridgeT }: { flyT: number; fadeOutT: num
         />
       )}
 
-      {/* Bridge text — cinematic clip-reveal, word-by-word stagger */}
+      {/* Bridge text — auto-animates in (CSS keyframes), scroll only fades out */}
       {bridgeT > 0.01 && (() => {
-        // Split line1 into words for staggered reveal
         const words1 = t.story.bridge.line1.split(" ");
         const words2 = t.story.bridge.line2.split(" ");
-        const totalWords = words1.length + words2.length;
-        // Each word gets a slice of bridgeT with overlap for smooth stagger
-        const wordDur = 0.18; // each word takes 18% of bridgeT to fully reveal
-        const stagger = (1 - wordDur) / Math.max(1, totalWords - 1);
-
-        // Fade out uses bridgeT going back to 0
-        const fadeOutOp = bridgeT;
+        // bridgeT: 1 = fully visible, fades to 0 on scroll
+        const baseDelay = 0.15; // seconds — stagger base
+        const wordStagger = 0.09; // seconds between words
 
         return (
           <div
             className="fixed inset-0 z-[62] pointer-events-none hidden min-[960px]:flex items-center justify-center"
-            style={{ opacity: fadeOutOp, willChange: "opacity" }}
+            style={{ opacity: bridgeT, willChange: "opacity" }}
           >
             <div className="text-center">
               {/* Line 1 — light weight */}
               <p className="text-[clamp(22px,2.8vw,38px)] tracking-[0.04em] text-[var(--gy2)] font-light leading-[1.6] flex flex-wrap justify-center gap-x-[0.3em]">
-                {words1.map((word, i) => {
-                  const wordStart = i * stagger;
-                  const wp = clamp((bridgeT - wordStart) / wordDur);
-                  const ease = 1 - Math.pow(1 - wp, 3); // ease-out cubic
-                  return (
-                    <span key={i} className="inline-block overflow-hidden" style={{ paddingBottom: "0.08em" }}>
-                      <span
-                        className="inline-block"
-                        style={{
-                          transform: `translateY(${(1 - ease) * 110}%)`,
-                          opacity: wp < 0.1 ? wp * 10 : 1,
-                        }}
-                      >
-                        {word}
-                      </span>
+                {words1.map((word, i) => (
+                  <span key={i} className="inline-block overflow-hidden" style={{ paddingBottom: "0.08em" }}>
+                    <span
+                      className="inline-block"
+                      style={{
+                        animation: `bridgeWordReveal 0.7s cubic-bezier(.16,1,.3,1) ${baseDelay + i * wordStagger}s both`,
+                      }}
+                    >
+                      {word}
                     </span>
-                  );
-                })}
+                  </span>
+                ))}
               </p>
 
-              {/* Line 2 — bold, stagger continues from line 1 */}
+              {/* Line 2 — bold, stagger continues */}
               <p className="text-[clamp(26px,3.4vw,46px)] tracking-[-0.01em] text-[var(--wh)] font-bold leading-[1.4] mt-4 flex flex-wrap justify-center gap-x-[0.3em]">
-                {words2.map((word, i) => {
-                  const globalIdx = words1.length + i;
-                  const wordStart = globalIdx * stagger;
-                  const wp = clamp((bridgeT - wordStart) / wordDur);
-                  const ease = 1 - Math.pow(1 - wp, 3);
-                  return (
-                    <span key={i} className="inline-block overflow-hidden" style={{ paddingBottom: "0.08em" }}>
-                      <span
-                        className="inline-block"
-                        style={{
-                          transform: `translateY(${(1 - ease) * 110}%)`,
-                          opacity: wp < 0.1 ? wp * 10 : 1,
-                        }}
-                      >
-                        {word}
-                      </span>
+                {words2.map((word, i) => (
+                  <span key={i} className="inline-block overflow-hidden" style={{ paddingBottom: "0.08em" }}>
+                    <span
+                      className="inline-block"
+                      style={{
+                        animation: `bridgeWordReveal 0.7s cubic-bezier(.16,1,.3,1) ${baseDelay + (words1.length + i) * wordStagger + 0.15}s both`,
+                      }}
+                    >
+                      {word}
                     </span>
-                  );
-                })}
+                  </span>
+                ))}
               </p>
             </div>
           </div>
@@ -1981,19 +1963,17 @@ export default function StoryPage() {
       const st = ScrollTrigger.create({
         trigger: hero,
         start: "top top",
-        end: "+=3600",         // 3600px — logo + hold + fade + bridge text + fade
+        end: "+=3000",         // 3000px — logo + hold + fade + bridge dwell + bridge fade
         pin: true,
         pinSpacing: true,
         onUpdate: (self) => {
-          const scrolled = self.progress * 3600;
+          const scrolled = self.progress * 3000;
           // Phase 1 (0-176px): hero text visible
           // Phase 2 (176-1804px): flyT 0→1 (video + logo assembly)
           // Phase 3 (1804-1980px): hold — logo complete
           // Phase 4 (1980-2200px): logo fade out
-          // Phase 5 (2200-2500px): pause (black)
-          // Phase 6 (2500-2850px): bridge text fade in
-          // Phase 7 (2850-3100px): bridge text dwell
-          // Phase 8 (3100-3600px): bridge text fade out
+          // Phase 5 (2200-2600px): bridge text visible (auto-animates, dwell)
+          // Phase 6 (2600-3000px): bridge text fade out
           if (scrolled <= 176) {
             setFlyT(0); setHeroOp(1); setHeroY(0); setFadeOutT(0); setBridgeT(0);
           } else if (scrolled <= 1804) {
@@ -2009,16 +1989,13 @@ export default function StoryPage() {
             setFlyT(1); setHeroOp(0);
             setFadeOutT(Math.min(1, (scrolled - 1980) / 220));
             setBridgeT(0);
-          } else if (scrolled <= 2500) {
-            setFlyT(1); setHeroOp(0); setFadeOutT(1); setBridgeT(0);
-          } else if (scrolled <= 2850) {
-            setFlyT(1); setHeroOp(0); setFadeOutT(1);
-            setBridgeT(Math.min(1, (scrolled - 2500) / 350));
-          } else if (scrolled <= 3100) {
+          } else if (scrolled <= 2600) {
+            // Bridge text visible — CSS keyframes handle entrance
             setFlyT(1); setHeroOp(0); setFadeOutT(1); setBridgeT(1);
           } else {
+            // Bridge fades out on scroll
             setFlyT(1); setHeroOp(0); setFadeOutT(1);
-            setBridgeT(Math.max(0, 1 - (scrolled - 3100) / 500));
+            setBridgeT(Math.max(0, 1 - (scrolled - 2600) / 400));
           }
         },
       });
