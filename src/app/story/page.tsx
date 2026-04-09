@@ -420,13 +420,16 @@ function StatsSection() {
   );
 }
 
-/* ───────── COURT REVEAL — pista de pádel SVG que se dibuja (replica preloader home) ───────── */
+/* ───────── COURT REVEAL — bridge text + pista que lo empuja y se dibuja ───────── */
 
 function CourtReveal() {
+  const { t } = useI18n();
   const sectionRef = useRef<HTMLElement>(null);
   const courtBoxRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
   const linesRef = useRef<(SVGElement | null)[]>([]);
-  const [phase, setPhase] = useState(0); // 0=idle, 1=expand, 2=draw, 3=fullscreen+undraw, 4=done
+  const [phase, setPhase] = useState(0);
+  // 0=showing bridge text, 1=line appears+text pushed, 2=court draws, 3=expand+undraw, 4=done
   const lockRef = useRef(false);
   const lockFiredRef = useRef(false);
   const lockYRef = useRef(0);
@@ -464,7 +467,7 @@ function CourtReveal() {
     };
   }, []);
 
-  /* Trigger animation when section enters viewport — snap to section then lock */
+  /* Trigger: snap to section, lock, start court animation */
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
@@ -472,14 +475,13 @@ function CourtReveal() {
       ([entry]) => {
         if (entry.isIntersecting && !lockFiredRef.current) {
           lockFiredRef.current = true;
-          // Snap so the court section fills the viewport
           const rect = el.getBoundingClientRect();
           const snapY = window.scrollY + rect.top;
           window.scrollTo({ top: snapY, behavior: "instant" });
           lockYRef.current = snapY;
           lockRef.current = true;
-          // Start the animation sequence
-          setPhase(1);
+          // Small pause so text is visible, then start court animation
+          setTimeout(() => setPhase(1), 400);
           io.disconnect();
         }
       },
@@ -489,11 +491,12 @@ function CourtReveal() {
     return () => io.disconnect();
   }, []);
 
-  /* Animation orchestration — mirrors j3padel.com/homej3 preloader phases */
+  /* Animation orchestration */
   useEffect(() => {
     if (phase === 0) return;
 
     const box = courtBoxRef.current;
+    const text = textRef.current;
     const lines = linesRef.current.filter(Boolean) as SVGElement[];
     if (!box) return;
 
@@ -502,20 +505,24 @@ function CourtReveal() {
     const courtW = isMobile ? Math.min(vw * 0.65, 300) : Math.min(vw * 0.5, 460);
     const courtH = isMobile ? courtW * 1.8 : courtW * 0.5;
     const sw = 200 / courtW;
-
     lines.forEach(l => l.setAttribute("stroke-width", String(sw)));
 
     if (phase === 1) {
-      // Phase 1: thin line appears
+      // Phase 1: thin horizontal line appears at center → pushes text down + fades it
       requestAnimationFrame(() => {
-        box.style.transitionDuration = "0.6s";
+        box.style.transitionDuration = "0.8s";
+        box.style.width = `${courtW * 0.6}px`;
         if (isMobile) {
           box.style.height = `${courtH * 0.4}px`;
-        } else {
-          box.style.width = `${courtW * 0.6}px`;
         }
       });
-      setTimeout(() => setPhase(2), 700);
+      // Simultaneously push text down and fade
+      if (text) {
+        text.style.transition = "transform 1s cubic-bezier(.4,0,.2,1), opacity 0.8s cubic-bezier(.4,0,.2,1)";
+        text.style.transform = "translateY(40vh)";
+        text.style.opacity = "0";
+      }
+      setTimeout(() => setPhase(2), 900);
     }
 
     if (phase === 2) {
@@ -551,10 +558,29 @@ function CourtReveal() {
       ref={sectionRef}
       className="relative h-screen min-h-[580px] overflow-hidden bg-black flex items-center justify-center"
     >
-      {/* Court container — starts as 2px line, grows to full court, then viewport */}
+      {/* Bridge text — starts visible, gets pushed down by court line */}
+      <div
+        ref={textRef}
+        className="absolute inset-0 z-10 flex items-center justify-center"
+      >
+        <div className="text-center">
+          <p className="text-[clamp(22px,2.8vw,38px)] tracking-[0.04em] text-[var(--gy2)] font-light leading-[1.6] flex flex-wrap justify-center gap-x-[0.3em]">
+            {t.story.bridge.line1.split(" ").map((word: string, i: number) => (
+              <span key={i} className="inline-block">{word}</span>
+            ))}
+          </p>
+          <p className="text-[clamp(26px,3.4vw,46px)] tracking-[-0.01em] text-[var(--wh)] font-bold leading-[1.4] mt-4 flex flex-wrap justify-center gap-x-[0.3em]">
+            {t.story.bridge.line2.split(" ").map((word: string, i: number) => (
+              <span key={i} className="inline-block">{word}</span>
+            ))}
+          </p>
+        </div>
+      </div>
+
+      {/* Court container — starts as 2px line at center, grows to full court, then viewport */}
       <div
         ref={courtBoxRef}
-        className="absolute flex items-center justify-center overflow-hidden"
+        className="absolute z-20 flex items-center justify-center overflow-hidden"
         style={{
           background: "var(--bk)",
           width: 0,
@@ -568,7 +594,6 @@ function CourtReveal() {
           preserveAspectRatio="xMidYMid meet"
           className="absolute inset-0 w-full h-full max-[960px]:rotate-90"
         >
-          {/* Outer boundary */}
           <rect
             ref={el => { linesRef.current[0] = el; }}
             className="court-line-el"
@@ -576,7 +601,6 @@ function CourtReveal() {
             stroke="var(--g1)" fill="none"
             style={{ "--court-len": 584 } as React.CSSProperties}
           />
-          {/* Net / center divider */}
           <line
             ref={el => { linesRef.current[1] = el; }}
             className="court-line-el"
@@ -584,7 +608,6 @@ function CourtReveal() {
             stroke="var(--g1)"
             style={{ "--court-len": 96 } as React.CSSProperties}
           />
-          {/* Left service line */}
           <line
             ref={el => { linesRef.current[2] = el; }}
             className="court-line-el"
@@ -592,7 +615,6 @@ function CourtReveal() {
             stroke="var(--g1)"
             style={{ "--court-len": 96 } as React.CSSProperties}
           />
-          {/* Right service line */}
           <line
             ref={el => { linesRef.current[3] = el; }}
             className="court-line-el"
@@ -600,7 +622,6 @@ function CourtReveal() {
             stroke="var(--g1)"
             style={{ "--court-len": 96 } as React.CSSProperties}
           />
-          {/* Left horizontal mid-line */}
           <line
             ref={el => { linesRef.current[4] = el; }}
             className="court-line-el"
@@ -608,7 +629,6 @@ function CourtReveal() {
             stroke="var(--g1)"
             style={{ "--court-len": 62 } as React.CSSProperties}
           />
-          {/* Right horizontal mid-line */}
           <line
             ref={el => { linesRef.current[5] = el; }}
             className="court-line-el"
@@ -2331,17 +2351,17 @@ export default function StoryPage() {
         )}
       </section>
 
-      {/* ─── COURT REVEAL — pista SVG que se dibuja entre bridge y manifesto ─── */}
+      {/* ─── COURT REVEAL — bridge text + pista SVG que lo empuja ─── */}
       <CourtReveal />
+
+      {/* ─── STATS — "Nuestra historia en números" ─── */}
+      <StatsSection />
 
       {/* ─── ACCENT MANIFESTO — scroll-driven Á + tilde + slogan ─── */}
       <AccentManifesto />
 
       {/* ─── TIMELINE ─── */}
       <TimelineSection />
-
-      {/* ─── STATS ─── */}
-      <StatsSection />
 
       {/* ─── EQUIPO ─── */}
       <section className="bg-[var(--bk2)] py-[100px] px-12 max-[960px]:py-[72px] max-[960px]:px-6 max-[640px]:px-4 border-b border-white/[.07]">
