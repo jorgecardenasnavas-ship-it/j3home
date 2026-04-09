@@ -2021,8 +2021,8 @@ export default function StoryPage() {
               bt.style.filter = `blur(${p6 * 20}px)`;
               bt.style.opacity = String(Math.max(0, 1 - p6 * 2.5));
             }
-            // Court line starts appearing almost immediately (overlap at 2750)
-            const p7 = Math.max(0, (scrolled - 2750) / 150);
+            // Court line starts appearing simultaneously with convergence (at 2700)
+            const p7 = Math.max(0, (scrolled - 2700) / 200);
             if (cb) {
               const vw = window.innerWidth;
               const courtW = vw <= 960 ? Math.min(vw * 0.65, 300) : Math.min(vw * 0.5, 460);
