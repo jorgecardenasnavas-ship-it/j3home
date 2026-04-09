@@ -2032,9 +2032,12 @@ export default function StoryPage() {
               cb.style.display = "flex";
               cb.style.background = "var(--g1)"; // gold line visible
             }
-            // Reset line strokes but start outer rect early
+            // Reset line strokes but start outer rect early — thick strokes to match gold bar
+            const vw7 = window.innerWidth;
+            const finalSw7 = 200 / (vw7 <= 960 ? Math.min(vw7 * 0.65, 300) : Math.min(vw7 * 0.5, 460));
             lines.forEach((l, i) => {
               if (!l) return;
+              l.setAttribute("stroke-width", String(finalSw7 * 3.5)); // thick — matches gold bar
               l.classList.remove("court-draw-in", "court-draw-out");
               const len = parseFloat(getComputedStyle(l).getPropertyValue("--court-len")) || 96;
               l.style.transition = "none";
@@ -2075,8 +2078,13 @@ export default function StoryPage() {
             // Outer rect starts at 0.5 (where Phase 7 left off) and continues to 1.0
             const RECT_START = 0.5;
             const delays = [0.0, 0.12, 0.22, 0.32, 0.42, 0.52];
+            // Stroke starts thick (matches gold bar weight) → thins to final as court grows
+            const vwSw = window.innerWidth;
+            const finalSw = 200 / (vwSw <= 960 ? Math.min(vwSw * 0.65, 300) : Math.min(vwSw * 0.5, 460));
+            const thickFactor = Math.max(1, 3.5 - sizeP * 2.5); // 3.5x → 1x
             lines.forEach((l, i) => {
               if (!l) return;
+              l.setAttribute("stroke-width", String(finalSw * thickFactor));
               const len = parseFloat(getComputedStyle(l).getPropertyValue("--court-len")) || 96;
               const rawP = Math.max(0, Math.min(1, (p8 - delays[i]) / 0.35));
               // For outer rect (i=0), blend from RECT_START→1.0 so it continues smoothly
