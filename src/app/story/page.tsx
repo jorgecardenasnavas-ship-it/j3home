@@ -2039,9 +2039,9 @@ export default function StoryPage() {
               const len = parseFloat(getComputedStyle(l).getPropertyValue("--court-len")) || 96;
               l.style.transition = "none";
               l.style.strokeDasharray = String(len);
-              // Outer rect (i=0) starts drawing during phase 7
+              // Outer rect (i=0) starts drawing during phase 7 — up to 50%
               if (i === 0) {
-                const rectP = Math.max(0, p7 * 0.3);
+                const rectP = Math.max(0, p7 * 0.5);
                 l.style.strokeDashoffset = String(len * (1 - rectP));
               } else {
                 l.style.strokeDashoffset = String(len);
@@ -2058,15 +2058,22 @@ export default function StoryPage() {
               const courtH = isMobile ? courtW * 1.8 : courtW * 0.5;
               const sizeP = Math.min(1, p8 / 0.3);
               cb.style.transitionDuration = "0s";
-              cb.style.width = `${courtW * 0.6 + (courtW * 0.4) * sizeP}px`;
-              cb.style.height = `${2 + (courtH - 2) * sizeP}px`;
-              // Smooth gold→transparent transition over first 15% of phase 8
-              const bgFade = Math.min(1, p8 / 0.15);
-              const goldR = 220, goldG = 175, goldB = 100;
-              cb.style.background = `rgba(${goldR},${goldG},${goldB},${1 - bgFade})`;
+              const currentW = courtW * 0.6 + (courtW * 0.4) * sizeP;
+              const currentH = 2 + (courtH - 2) * sizeP;
+              cb.style.width = `${currentW}px`;
+              cb.style.height = `${currentH}px`;
+              // Gold top-edge preserved as a 2px strip that fades only when SVG strokes are visible
+              // The strip keeps the visual continuity of the gold bar from Phase 7
+              const stripFade = Math.min(1, sizeP * 1.5); // fade as box grows (strokes take over)
+              const stripAlpha = Math.max(0, 1 - stripFade);
+              if (stripAlpha > 0.01) {
+                cb.style.background = `linear-gradient(to bottom, rgba(220,175,100,${stripAlpha}) 0px, rgba(220,175,100,${stripAlpha}) 2px, transparent 2px)`;
+              } else {
+                cb.style.background = "transparent";
+              }
             }
-            // Outer rect starts at 0.3 (where Phase 7 left off) and continues to 1.0
-            const RECT_START = 0.3;
+            // Outer rect starts at 0.5 (where Phase 7 left off) and continues to 1.0
+            const RECT_START = 0.5;
             const delays = [0.0, 0.12, 0.22, 0.32, 0.42, 0.52];
             lines.forEach((l, i) => {
               if (!l) return;
