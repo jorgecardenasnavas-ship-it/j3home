@@ -2032,23 +2032,14 @@ export default function StoryPage() {
               cb.style.display = "flex";
               cb.style.background = "var(--g1)"; // gold line visible
             }
-            // Reset line strokes but start outer rect early — thick strokes to match gold bar
-            const vw7 = window.innerWidth;
-            const finalSw7 = 200 / (vw7 <= 960 ? Math.min(vw7 * 0.65, 300) : Math.min(vw7 * 0.5, 460));
-            lines.forEach((l, i) => {
+            // Reset all line strokes — gold bar background handles the visual in Phase 7
+            lines.forEach((l) => {
               if (!l) return;
-              l.setAttribute("stroke-width", String(finalSw7 * 3.5)); // thick — matches gold bar
               l.classList.remove("court-draw-in", "court-draw-out");
               const len = parseFloat(getComputedStyle(l).getPropertyValue("--court-len")) || 96;
               l.style.transition = "none";
               l.style.strokeDasharray = String(len);
-              // Outer rect (i=0) starts drawing during phase 7 — top edge only (33% of perimeter)
-              if (i === 0) {
-                const rectP = Math.max(0, p7 * 0.33);
-                l.style.strokeDashoffset = String(len * (1 - rectP));
-              } else {
-                l.style.strokeDashoffset = String(len);
-              }
+              l.style.strokeDashoffset = String(len); // fully hidden
             });
           } else if (scrolled <= 4000) {
             // Phase 8: court takes shape + lines draw in progressively
@@ -2075,8 +2066,6 @@ export default function StoryPage() {
                 cb.style.background = "transparent";
               }
             }
-            // Outer rect starts at 0.33 (where Phase 7 left off — top edge only) and continues to 1.0
-            const RECT_START = 0.33;
             const delays = [0.0, 0.12, 0.22, 0.32, 0.42, 0.52];
             // Stroke starts thick (matches gold bar weight) → thins to final as court grows
             const vwSw = window.innerWidth;
@@ -2086,9 +2075,7 @@ export default function StoryPage() {
               if (!l) return;
               l.setAttribute("stroke-width", String(finalSw * thickFactor));
               const len = parseFloat(getComputedStyle(l).getPropertyValue("--court-len")) || 96;
-              const rawP = Math.max(0, Math.min(1, (p8 - delays[i]) / 0.35));
-              // For outer rect (i=0), blend from RECT_START→1.0 so it continues smoothly
-              const lineP = i === 0 ? RECT_START + rawP * (1 - RECT_START) : rawP;
+              const lineP = Math.max(0, Math.min(1, (p8 - delays[i]) / 0.35));
               l.classList.remove("court-draw-in", "court-draw-out");
               l.style.transition = "none";
               l.style.strokeDasharray = String(len);
