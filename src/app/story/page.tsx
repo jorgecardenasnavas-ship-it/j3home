@@ -1897,6 +1897,48 @@ export default function StoryPage() {
   const [heroOp, setHeroOp] = useState(1);
   const [flyT, setFlyT] = useState(0); // 0 = at hero, 1 = logo complete
   const [fadeOutT, setFadeOutT] = useState(0); // 0 = visible, 1 = faded out
+  const bridgeLockRef = useRef(false); // true while bridge animation is playing
+  const bridgeLockFiredRef = useRef(false); // ensures lock fires only once
+  const bridgeLockY = useRef(0); // scrollY to lock to
+
+  /* Hard scroll-lock for bridge animation: pins scrollY via rAF + event suppression */
+  useEffect(() => {
+    let rafId = 0;
+    const clampScroll = () => {
+      if (bridgeLockRef.current) {
+        window.scrollTo(0, bridgeLockY.current);
+        rafId = requestAnimationFrame(clampScroll);
+      }
+    };
+    const prevent = (e: Event) => {
+      if (bridgeLockRef.current) { e.preventDefault(); e.stopPropagation(); }
+    };
+    const preventKey = (e: KeyboardEvent) => {
+      if (bridgeLockRef.current && ["ArrowDown","ArrowUp","Space","PageDown","PageUp","Home","End"].includes(e.code)) {
+        e.preventDefault();
+      }
+    };
+    const opts = { passive: false } as AddEventListenerOptions;
+    window.addEventListener("wheel", prevent, opts);
+    window.addEventListener("touchmove", prevent, opts);
+    window.addEventListener("keydown", preventKey, opts);
+
+    // Watch for lock activation
+    const checkLock = () => {
+      if (bridgeLockRef.current && !rafId) {
+        rafId = requestAnimationFrame(clampScroll);
+      }
+    };
+    const interval = setInterval(checkLock, 50);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      clearInterval(interval);
+      window.removeEventListener("wheel", prevent, opts);
+      window.removeEventListener("touchmove", prevent, opts);
+      window.removeEventListener("keydown", preventKey, opts);
+    };
+  }, []);
 
   /* Pin the hero in place while the virgulilla animation plays */
   useGSAP(() => {
@@ -1936,6 +1978,13 @@ export default function StoryPage() {
           } else {
             // Bridge dwell — fadeOutT stays at 1, page pinned while text animates
             setFlyT(1); setHeroOp(0); setFadeOutT(1);
+            // Hard-lock scroll on first entry into bridge zone (fires once)
+            if (!bridgeLockFiredRef.current) {
+              bridgeLockFiredRef.current = true;
+              bridgeLockY.current = window.scrollY;
+              bridgeLockRef.current = true;
+              setTimeout(() => { bridgeLockRef.current = false; }, 2200);
+            }
           }
         },
       });
