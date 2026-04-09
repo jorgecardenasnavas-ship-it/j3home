@@ -1953,7 +1953,7 @@ export default function StoryPage() {
 
     if (isDesktop) {
       // Desktop: pin the hero while virgulilla → logo → black plays
-      const TOTAL = 5800;
+      const TOTAL = 5200;
       const st = ScrollTrigger.create({
         trigger: hero,
         start: "top top",
@@ -1979,12 +1979,11 @@ export default function StoryPage() {
           // Phase 2 (176-1804): flyT 0→1 (video + logo)
           // Phase 3 (1804-1980): hold logo
           // Phase 4 (1980-2200): logo fade out
-          // Phase 5 (2200-3100): bridge text dwell (scroll locked 2.2s for CSS anim)
-          // Phase 6 (3100-3350): text converges to center point (sucked in)
-          // Phase 7 (3300-3500): court line appears from center (overlaps!)
-          // Phase 8 (3500-4600): court takes shape + lines draw in
-          // Phase 9 (4600-5300): court expands + lines undraw
-          // Phase 10 (5300-5800): hold black
+          // Phase 5 (2200-2650): bridge text dwell (lock 1.5s for CSS anim)
+          // Phase 6+7 (2650-2900): text converges + court line appears (overlap at 2750)
+          // Phase 8 (2900-4000): court takes shape + lines draw in
+          // Phase 9 (4000-4700): court expands + lines undraw
+          // Phase 10 (4700-5200): hold black
 
           if (scrolled <= 176) {
             setFlyT(0); setHeroOp(1); setHeroY(0); setFadeOutT(0);
@@ -2002,8 +2001,8 @@ export default function StoryPage() {
           } else if (scrolled <= 2200) {
             setFlyT(1); setHeroOp(0);
             setFadeOutT(Math.min(1, (scrolled - 1980) / 220));
-          } else if (scrolled <= 3100) {
-            // Bridge dwell — text visible, scroll locked for CSS animation
+          } else if (scrolled <= 2650) {
+            // Bridge dwell — shorter hold, lock 1.5s for CSS animation
             setFlyT(1); setHeroOp(0); setFadeOutT(1);
             if (bt) { bt.style.opacity = "1"; bt.style.transform = "scale(1)"; bt.style.filter = "blur(0px)"; }
             if (cb) { cb.style.width = "0px"; cb.style.height = "2px"; }
@@ -2011,20 +2010,19 @@ export default function StoryPage() {
               bridgeLockFiredRef.current = true;
               bridgeLockY.current = window.scrollY;
               bridgeLockRef.current = true;
-              setTimeout(() => { bridgeLockRef.current = false; }, 2200);
+              setTimeout(() => { bridgeLockRef.current = false; }, 1500);
             }
-          } else if (scrolled <= 3500) {
-            // Phase 6+7: text converges to center point + court line appears (overlap)
-            const p6 = Math.min(1, (scrolled - 3100) / 250); // text converges fast (250px)
+          } else if (scrolled <= 2900) {
+            // Phase 6+7: text converges to singularity + court line appears immediately
+            const p6 = Math.min(1, (scrolled - 2650) / 200); // text converges fast (200px)
             if (bt) {
-              // Converge to a singularity: scale to 0, heavy blur, opacity fades after shrinking
               const s = Math.max(0, 1 - p6);
               bt.style.transform = `scale(${s})`;
               bt.style.filter = `blur(${p6 * 20}px)`;
-              bt.style.opacity = String(Math.max(0, 1 - p6 * 2));
+              bt.style.opacity = String(Math.max(0, 1 - p6 * 2.5));
             }
-            // Court line starts appearing when text is almost gone (overlap at scrolled 3300+)
-            const p7 = Math.max(0, (scrolled - 3300) / 200);
+            // Court line starts appearing almost immediately (overlap at 2750)
+            const p7 = Math.max(0, (scrolled - 2750) / 150);
             if (cb) {
               const vw = window.innerWidth;
               const courtW = vw <= 960 ? Math.min(vw * 0.65, 300) : Math.min(vw * 0.5, 460);
@@ -2042,21 +2040,20 @@ export default function StoryPage() {
               l.style.strokeDasharray = String(len);
               l.style.strokeDashoffset = String(len);
             });
-          } else if (scrolled <= 4600) {
+          } else if (scrolled <= 4000) {
             // Phase 8: court takes shape + lines draw in progressively
-            const p8 = (scrolled - 3500) / 1100;
+            const p8 = (scrolled - 2900) / 1100;
             if (bt) { bt.style.opacity = "0"; }
             if (cb) {
               const vw = window.innerWidth;
               const isMobile = vw <= 960;
               const courtW = isMobile ? Math.min(vw * 0.65, 300) : Math.min(vw * 0.5, 460);
               const courtH = isMobile ? courtW * 1.8 : courtW * 0.5;
-              const sizeP = Math.min(1, p8 / 0.3); // size reaches full by 30% of phase
+              const sizeP = Math.min(1, p8 / 0.3);
               cb.style.transitionDuration = "0s";
               cb.style.width = `${courtW * 0.6 + (courtW * 0.4) * sizeP}px`;
               cb.style.height = `${2 + (courtH - 2) * sizeP}px`;
             }
-            // Draw lines in based on scroll — each line has a stagger
             const delays = [0.0, 0.12, 0.22, 0.32, 0.42, 0.52];
             lines.forEach((l, i) => {
               if (!l) return;
@@ -2067,9 +2064,9 @@ export default function StoryPage() {
               l.style.strokeDasharray = String(len);
               l.style.strokeDashoffset = String(len * (1 - lineP));
             });
-          } else if (scrolled <= 5300) {
+          } else if (scrolled <= 4700) {
             // Phase 9: court expands to viewport + lines undraw
-            const p9 = (scrolled - 4600) / 700;
+            const p9 = (scrolled - 4000) / 700;
             if (cb) {
               const vw = window.innerWidth;
               const isMobile = vw <= 960;
