@@ -420,228 +420,6 @@ function StatsSection() {
   );
 }
 
-/* ───────── COURT REVEAL — bridge text + pista que lo empuja y se dibuja ───────── */
-
-function CourtReveal() {
-  const { t } = useI18n();
-  const sectionRef = useRef<HTMLElement>(null);
-  const courtBoxRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLDivElement>(null);
-  const linesRef = useRef<(SVGElement | null)[]>([]);
-  const [phase, setPhase] = useState(0);
-  // 0=showing bridge text, 1=line appears+text pushed, 2=court draws, 3=expand+undraw, 4=done
-  const lockRef = useRef(false);
-  const lockFiredRef = useRef(false);
-  const lockYRef = useRef(0);
-
-  /* Scroll lock: pins scrollY via rAF while animation plays */
-  useEffect(() => {
-    let rafId = 0;
-    const clamp = () => {
-      if (lockRef.current) {
-        window.scrollTo(0, lockYRef.current);
-        rafId = requestAnimationFrame(clamp);
-      }
-    };
-    const prevent = (e: Event) => {
-      if (lockRef.current) { e.preventDefault(); e.stopPropagation(); }
-    };
-    const preventKey = (e: KeyboardEvent) => {
-      if (lockRef.current && ["ArrowDown","ArrowUp","Space","PageDown","PageUp","Home","End"].includes(e.code)) {
-        e.preventDefault();
-      }
-    };
-    const opts = { passive: false } as AddEventListenerOptions;
-    window.addEventListener("wheel", prevent, opts);
-    window.addEventListener("touchmove", prevent, opts);
-    window.addEventListener("keydown", preventKey, opts);
-    const interval = setInterval(() => {
-      if (lockRef.current && !rafId) rafId = requestAnimationFrame(clamp);
-    }, 50);
-    return () => {
-      cancelAnimationFrame(rafId);
-      clearInterval(interval);
-      window.removeEventListener("wheel", prevent, opts);
-      window.removeEventListener("touchmove", prevent, opts);
-      window.removeEventListener("keydown", preventKey, opts);
-    };
-  }, []);
-
-  /* Trigger: snap to section, lock, start court animation */
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !lockFiredRef.current) {
-          lockFiredRef.current = true;
-          const rect = el.getBoundingClientRect();
-          const snapY = window.scrollY + rect.top;
-          window.scrollTo({ top: snapY, behavior: "instant" });
-          lockYRef.current = snapY;
-          lockRef.current = true;
-          // Small pause so text is visible, then start court animation
-          setTimeout(() => setPhase(1), 400);
-          io.disconnect();
-        }
-      },
-      { threshold: 0.05 }
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-
-  /* Animation orchestration */
-  useEffect(() => {
-    if (phase === 0) return;
-
-    const box = courtBoxRef.current;
-    const text = textRef.current;
-    const lines = linesRef.current.filter(Boolean) as SVGElement[];
-    if (!box) return;
-
-    const vw = window.innerWidth;
-    const isMobile = vw <= 960;
-    const courtW = isMobile ? Math.min(vw * 0.65, 300) : Math.min(vw * 0.5, 460);
-    const courtH = isMobile ? courtW * 1.8 : courtW * 0.5;
-    const sw = 200 / courtW;
-    lines.forEach(l => l.setAttribute("stroke-width", String(sw)));
-
-    if (phase === 1) {
-      // Phase 1: thin horizontal line appears at center → pushes text down + fades it
-      requestAnimationFrame(() => {
-        box.style.transitionDuration = "0.8s";
-        box.style.width = `${courtW * 0.6}px`;
-        if (isMobile) {
-          box.style.height = `${courtH * 0.4}px`;
-        }
-      });
-      // Simultaneously push text down and fade
-      if (text) {
-        text.style.transition = "transform 1s cubic-bezier(.4,0,.2,1), opacity 0.8s cubic-bezier(.4,0,.2,1)";
-        text.style.transform = "translateY(40vh)";
-        text.style.opacity = "0";
-      }
-      setTimeout(() => setPhase(2), 900);
-    }
-
-    if (phase === 2) {
-      // Phase 2: court takes shape + lines draw in
-      box.style.transitionDuration = "1s";
-      box.style.width = `${courtW}px`;
-      box.style.height = `${courtH}px`;
-      lines.forEach(l => l.classList.add("court-draw-in"));
-      setTimeout(() => setPhase(3), 1900);
-    }
-
-    if (phase === 3) {
-      // Phase 3: court expands to fill viewport + lines undraw
-      box.style.transitionDuration = "1.8s";
-      box.style.width = `${vw}px`;
-      box.style.height = `${isMobile ? vw * 2 : vw * 0.5}px`;
-      lines.forEach(l => {
-        l.classList.remove("court-draw-in");
-        l.classList.add("court-draw-out");
-      });
-      setTimeout(() => setPhase(4), 2000);
-    }
-
-    if (phase === 4) {
-      // Phase 4: done — everything black, unlock scroll
-      box.style.display = "none";
-      lockRef.current = false;
-    }
-  }, [phase]);
-
-  return (
-    <section
-      ref={sectionRef}
-      className="relative h-screen min-h-[580px] overflow-hidden bg-black flex items-center justify-center"
-    >
-      {/* Bridge text — starts visible, gets pushed down by court line */}
-      <div
-        ref={textRef}
-        className="absolute inset-0 z-10 flex items-center justify-center"
-      >
-        <div className="text-center">
-          <p className="text-[clamp(22px,2.8vw,38px)] tracking-[0.04em] text-[var(--gy2)] font-light leading-[1.6] flex flex-wrap justify-center gap-x-[0.3em]">
-            {t.story.bridge.line1.split(" ").map((word: string, i: number) => (
-              <span key={i} className="inline-block">{word}</span>
-            ))}
-          </p>
-          <p className="text-[clamp(26px,3.4vw,46px)] tracking-[-0.01em] text-[var(--wh)] font-bold leading-[1.4] mt-4 flex flex-wrap justify-center gap-x-[0.3em]">
-            {t.story.bridge.line2.split(" ").map((word: string, i: number) => (
-              <span key={i} className="inline-block">{word}</span>
-            ))}
-          </p>
-        </div>
-      </div>
-
-      {/* Court container — starts as 2px line at center, grows to full court, then viewport */}
-      <div
-        ref={courtBoxRef}
-        className="absolute z-20 flex items-center justify-center overflow-hidden"
-        style={{
-          background: "var(--bk)",
-          width: 0,
-          height: "2px",
-          transition: "width 0.6s cubic-bezier(.4,0,.2,1), height 0.6s cubic-bezier(.4,0,.2,1)",
-        }}
-      >
-        <svg
-          viewBox="0 0 200 100"
-          fill="none"
-          preserveAspectRatio="xMidYMid meet"
-          className="absolute inset-0 w-full h-full max-[960px]:rotate-90"
-        >
-          <rect
-            ref={el => { linesRef.current[0] = el; }}
-            className="court-line-el"
-            x="2" y="2" width="196" height="96"
-            stroke="var(--g1)" fill="none"
-            style={{ "--court-len": 584 } as React.CSSProperties}
-          />
-          <line
-            ref={el => { linesRef.current[1] = el; }}
-            className="court-line-el"
-            x1="100" y1="2" x2="100" y2="98"
-            stroke="var(--g1)"
-            style={{ "--court-len": 96 } as React.CSSProperties}
-          />
-          <line
-            ref={el => { linesRef.current[2] = el; }}
-            className="court-line-el"
-            x1="38" y1="2" x2="38" y2="98"
-            stroke="var(--g1)"
-            style={{ "--court-len": 96 } as React.CSSProperties}
-          />
-          <line
-            ref={el => { linesRef.current[3] = el; }}
-            className="court-line-el"
-            x1="162" y1="2" x2="162" y2="98"
-            stroke="var(--g1)"
-            style={{ "--court-len": 96 } as React.CSSProperties}
-          />
-          <line
-            ref={el => { linesRef.current[4] = el; }}
-            className="court-line-el"
-            x1="38" y1="50" x2="100" y2="50"
-            stroke="var(--g1)"
-            style={{ "--court-len": 62 } as React.CSSProperties}
-          />
-          <line
-            ref={el => { linesRef.current[5] = el; }}
-            className="court-line-el"
-            x1="100" y1="50" x2="162" y2="50"
-            stroke="var(--g1)"
-            style={{ "--court-len": 62 } as React.CSSProperties}
-          />
-        </svg>
-      </div>
-    </section>
-  );
-}
-
 /* ───────── ACCENT MANIFESTO — Á gigante con tilde que cae (scroll-driven, pinned) ───────── */
 
 function AccentManifesto() {
@@ -2122,6 +1900,11 @@ export default function StoryPage() {
   const bridgeLockRef = useRef(false); // true while bridge animation is playing
   const bridgeLockFiredRef = useRef(false); // ensures lock fires only once
   const bridgeLockY = useRef(0); // scrollY to lock to
+  // Court reveal refs (inside hero pin)
+  const bridgeTextRef = useRef<HTMLDivElement>(null);
+  const courtBoxRef = useRef<HTMLDivElement>(null);
+  const courtLinesRef = useRef<(SVGElement | null)[]>([]);
+  const courtInitRef = useRef(false); // stroke-width set once
 
   /* Hard scroll-lock for bridge animation: pins scrollY via rAF + event suppression */
   useEffect(() => {
@@ -2170,21 +1953,43 @@ export default function StoryPage() {
 
     if (isDesktop) {
       // Desktop: pin the hero while virgulilla → logo → black plays
+      const TOTAL = 5800;
       const st = ScrollTrigger.create({
         trigger: hero,
         start: "top top",
-        end: "+=3100",         // 3100px — logo + hold + fade + bridge animation dwell
+        end: `+=${TOTAL}`,
         pin: true,
         pinSpacing: true,
         onUpdate: (self) => {
-          const scrolled = self.progress * 3100;
-          // Phase 1 (0-176px): hero text visible
-          // Phase 2 (176-1804px): flyT 0→1 (video + logo assembly)
-          // Phase 3 (1804-1980px): hold — logo complete
-          // Phase 4 (1980-2200px): logo fade out
-          // Phase 5 (2200-3100px): bridge text dwell (pinned, animation plays)
+          const scrolled = self.progress * TOTAL;
+          const bt = bridgeTextRef.current;
+          const cb = courtBoxRef.current;
+          const lines = courtLinesRef.current;
+
+          // Init court stroke-width once
+          if (cb && !courtInitRef.current) {
+            courtInitRef.current = true;
+            const vw = window.innerWidth;
+            const courtW = vw <= 960 ? Math.min(vw * 0.65, 300) : Math.min(vw * 0.5, 460);
+            const sw = 200 / courtW;
+            lines.forEach(l => l?.setAttribute("stroke-width", String(sw)));
+          }
+
+          // Phase 1 (0-176): hero text visible
+          // Phase 2 (176-1804): flyT 0→1 (video + logo)
+          // Phase 3 (1804-1980): hold logo
+          // Phase 4 (1980-2200): logo fade out
+          // Phase 5 (2200-3100): bridge text dwell (scroll locked 2.2s for CSS anim)
+          // Phase 6 (3100-3500): text implodes to center point
+          // Phase 7 (3500-3700): court line appears from center
+          // Phase 8 (3700-4800): court takes shape + lines draw in
+          // Phase 9 (4800-5500): court expands + lines undraw
+          // Phase 10 (5500-5800): hold black
+
           if (scrolled <= 176) {
             setFlyT(0); setHeroOp(1); setHeroY(0); setFadeOutT(0);
+            if (bt) { bt.style.opacity = "0"; bt.style.transform = "scale(1)"; }
+            if (cb) { cb.style.width = "0px"; cb.style.height = "2px"; cb.style.display = "flex"; }
           } else if (scrolled <= 1804) {
             const flyProgress = Math.min(1, (scrolled - 176) / 1628);
             setFlyT(flyProgress);
@@ -2197,16 +2002,95 @@ export default function StoryPage() {
           } else if (scrolled <= 2200) {
             setFlyT(1); setHeroOp(0);
             setFadeOutT(Math.min(1, (scrolled - 1980) / 220));
-          } else {
-            // Bridge dwell — fadeOutT stays at 1, page pinned while text animates
+          } else if (scrolled <= 3100) {
+            // Bridge dwell — text visible, scroll locked for CSS animation
             setFlyT(1); setHeroOp(0); setFadeOutT(1);
-            // Hard-lock scroll on first entry into bridge zone (fires once)
+            if (bt) { bt.style.opacity = "1"; bt.style.transform = "scale(1)"; bt.style.filter = "blur(0px)"; }
+            if (cb) { cb.style.width = "0px"; cb.style.height = "2px"; }
             if (!bridgeLockFiredRef.current) {
               bridgeLockFiredRef.current = true;
               bridgeLockY.current = window.scrollY;
               bridgeLockRef.current = true;
               setTimeout(() => { bridgeLockRef.current = false; }, 2200);
             }
+          } else if (scrolled <= 3500) {
+            // Phase 6: text implodes toward center — scale down, blur, fade
+            const p6 = (scrolled - 3100) / 400;
+            if (bt) {
+              bt.style.opacity = String(Math.max(0, 1 - p6 * 1.5));
+              bt.style.transform = `scale(${1 - p6 * 0.7})`;
+              bt.style.filter = `blur(${p6 * 12}px)`;
+            }
+            if (cb) { cb.style.width = "0px"; cb.style.height = "2px"; }
+          } else if (scrolled <= 3700) {
+            // Phase 7: court thin line appears from center
+            const p7 = (scrolled - 3500) / 200;
+            if (bt) { bt.style.opacity = "0"; }
+            if (cb) {
+              const vw = window.innerWidth;
+              const courtW = vw <= 960 ? Math.min(vw * 0.65, 300) : Math.min(vw * 0.5, 460);
+              cb.style.transitionDuration = "0s";
+              cb.style.width = `${courtW * 0.6 * p7}px`;
+              cb.style.height = "2px";
+              cb.style.display = "flex";
+            }
+            // Reset lines
+            lines.forEach(l => {
+              if (!l) return;
+              l.classList.remove("court-draw-in", "court-draw-out");
+              l.style.strokeDashoffset = String(l.style.getPropertyValue("--court-len") || getComputedStyle(l).getPropertyValue("--court-len"));
+            });
+          } else if (scrolled <= 4800) {
+            // Phase 8: court takes shape + lines draw in progressively
+            const p8 = (scrolled - 3700) / 1100;
+            if (bt) { bt.style.opacity = "0"; }
+            if (cb) {
+              const vw = window.innerWidth;
+              const isMobile = vw <= 960;
+              const courtW = isMobile ? Math.min(vw * 0.65, 300) : Math.min(vw * 0.5, 460);
+              const courtH = isMobile ? courtW * 1.8 : courtW * 0.5;
+              const sizeP = Math.min(1, p8 / 0.3); // size reaches full by 30% of phase
+              cb.style.transitionDuration = "0s";
+              cb.style.width = `${courtW * 0.6 + (courtW * 0.4) * sizeP}px`;
+              cb.style.height = `${2 + (courtH - 2) * sizeP}px`;
+            }
+            // Draw lines in based on scroll — each line has a stagger
+            const delays = [0.0, 0.12, 0.22, 0.32, 0.42, 0.52];
+            lines.forEach((l, i) => {
+              if (!l) return;
+              const len = parseFloat(getComputedStyle(l).getPropertyValue("--court-len")) || 96;
+              const lineP = Math.max(0, Math.min(1, (p8 - delays[i]) / 0.35));
+              l.classList.remove("court-draw-in", "court-draw-out");
+              l.style.transition = "none";
+              l.style.strokeDasharray = String(len);
+              l.style.strokeDashoffset = String(len * (1 - lineP));
+            });
+          } else if (scrolled <= 5500) {
+            // Phase 9: court expands to viewport + lines undraw
+            const p9 = (scrolled - 4800) / 700;
+            if (cb) {
+              const vw = window.innerWidth;
+              const isMobile = vw <= 960;
+              const courtW = isMobile ? Math.min(vw * 0.65, 300) : Math.min(vw * 0.5, 460);
+              const courtH = isMobile ? courtW * 1.8 : courtW * 0.5;
+              const expandW = courtW + (vw - courtW) * p9;
+              const expandH = courtH + ((isMobile ? vw * 2 : vw * 0.5) - courtH) * p9;
+              cb.style.transitionDuration = "0s";
+              cb.style.width = `${expandW}px`;
+              cb.style.height = `${expandH}px`;
+            }
+            // Undraw lines in reverse
+            const delays = [0.5, 0.4, 0.3, 0.2, 0.1, 0.0];
+            lines.forEach((l, i) => {
+              if (!l) return;
+              const len = parseFloat(getComputedStyle(l).getPropertyValue("--court-len")) || 96;
+              const lineP = Math.max(0, Math.min(1, (p9 - delays[i]) / 0.35));
+              l.style.strokeDashoffset = String(len * lineP);
+            });
+          } else {
+            // Phase 10: hold black
+            if (cb) { cb.style.display = "none"; }
+            if (bt) { bt.style.opacity = "0"; }
           }
         },
       });
@@ -2314,9 +2198,9 @@ export default function StoryPage() {
           <div className="mt-10" />
         </div>
 
-        {/* Bridge text — inside hero, appears when logo fades, scrolls away naturally */}
+        {/* Bridge text — appears when logo fades, implodes when court starts */}
         {fadeOutT >= 0.95 && (
-          <div className="absolute inset-0 z-20 bg-black flex items-center justify-center">
+          <div ref={bridgeTextRef} className="absolute inset-0 z-20 bg-black flex items-center justify-center" style={{ opacity: 1 }}>
             <div className="text-center">
               <p className="text-[clamp(22px,2.8vw,38px)] tracking-[0.04em] text-[var(--gy2)] font-light leading-[1.6] flex flex-wrap justify-center gap-x-[0.3em]">
                 {t.story.bridge.line1.split(" ").map((word: string, i: number) => (
@@ -2349,10 +2233,32 @@ export default function StoryPage() {
             </div>
           </div>
         )}
-      </section>
 
-      {/* ─── COURT REVEAL — bridge text + pista SVG que lo empuja ─── */}
-      <CourtReveal />
+        {/* Court SVG — lives inside hero pin, controlled by scroll phases 6-10 */}
+        <div
+          ref={courtBoxRef}
+          className="absolute z-30 flex items-center justify-center overflow-hidden"
+          style={{
+            top: "50%", left: "50%", transform: "translate(-50%,-50%)",
+            background: "var(--bk)",
+            width: 0, height: "2px",
+          }}
+        >
+          <svg
+            viewBox="0 0 200 100"
+            fill="none"
+            preserveAspectRatio="xMidYMid meet"
+            className="absolute inset-0 w-full h-full max-[960px]:rotate-90"
+          >
+            <rect ref={el => { courtLinesRef.current[0] = el; }} className="court-line-el" x="2" y="2" width="196" height="96" stroke="var(--g1)" fill="none" style={{ "--court-len": 584 } as React.CSSProperties} />
+            <line ref={el => { courtLinesRef.current[1] = el; }} className="court-line-el" x1="100" y1="2" x2="100" y2="98" stroke="var(--g1)" style={{ "--court-len": 96 } as React.CSSProperties} />
+            <line ref={el => { courtLinesRef.current[2] = el; }} className="court-line-el" x1="38" y1="2" x2="38" y2="98" stroke="var(--g1)" style={{ "--court-len": 96 } as React.CSSProperties} />
+            <line ref={el => { courtLinesRef.current[3] = el; }} className="court-line-el" x1="162" y1="2" x2="162" y2="98" stroke="var(--g1)" style={{ "--court-len": 96 } as React.CSSProperties} />
+            <line ref={el => { courtLinesRef.current[4] = el; }} className="court-line-el" x1="38" y1="50" x2="100" y2="50" stroke="var(--g1)" style={{ "--court-len": 62 } as React.CSSProperties} />
+            <line ref={el => { courtLinesRef.current[5] = el; }} className="court-line-el" x1="100" y1="50" x2="162" y2="50" stroke="var(--g1)" style={{ "--court-len": 62 } as React.CSSProperties} />
+          </svg>
+        </div>
+      </section>
 
       {/* ─── STATS — "Nuestra historia en números" ─── */}
       <StatsSection />
