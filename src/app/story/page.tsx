@@ -1980,11 +1980,11 @@ export default function StoryPage() {
           // Phase 3 (1804-1980): hold logo
           // Phase 4 (1980-2200): logo fade out
           // Phase 5 (2200-3100): bridge text dwell (scroll locked 2.2s for CSS anim)
-          // Phase 6 (3100-3500): text implodes to center point
-          // Phase 7 (3500-3700): court line appears from center
-          // Phase 8 (3700-4800): court takes shape + lines draw in
-          // Phase 9 (4800-5500): court expands + lines undraw
-          // Phase 10 (5500-5800): hold black
+          // Phase 6 (3100-3350): text converges to center point (sucked in)
+          // Phase 7 (3300-3500): court line appears from center (overlaps!)
+          // Phase 8 (3500-4600): court takes shape + lines draw in
+          // Phase 9 (4600-5300): court expands + lines undraw
+          // Phase 10 (5300-5800): hold black
 
           if (scrolled <= 176) {
             setFlyT(0); setHeroOp(1); setHeroY(0); setFadeOutT(0);
@@ -2014,18 +2014,17 @@ export default function StoryPage() {
               setTimeout(() => { bridgeLockRef.current = false; }, 2200);
             }
           } else if (scrolled <= 3500) {
-            // Phase 6: text implodes toward center — scale down, blur, fade
-            const p6 = (scrolled - 3100) / 400;
+            // Phase 6+7: text converges to center point + court line appears (overlap)
+            const p6 = Math.min(1, (scrolled - 3100) / 250); // text converges fast (250px)
             if (bt) {
-              bt.style.opacity = String(Math.max(0, 1 - p6 * 1.5));
-              bt.style.transform = `scale(${1 - p6 * 0.7})`;
-              bt.style.filter = `blur(${p6 * 12}px)`;
+              // Converge to a singularity: scale to 0, heavy blur, opacity fades after shrinking
+              const s = Math.max(0, 1 - p6);
+              bt.style.transform = `scale(${s})`;
+              bt.style.filter = `blur(${p6 * 20}px)`;
+              bt.style.opacity = String(Math.max(0, 1 - p6 * 2));
             }
-            if (cb) { cb.style.width = "0px"; cb.style.height = "2px"; }
-          } else if (scrolled <= 3700) {
-            // Phase 7: court thin line appears from center
-            const p7 = (scrolled - 3500) / 200;
-            if (bt) { bt.style.opacity = "0"; }
+            // Court line starts appearing when text is almost gone (overlap at scrolled 3300+)
+            const p7 = Math.max(0, (scrolled - 3300) / 200);
             if (cb) {
               const vw = window.innerWidth;
               const courtW = vw <= 960 ? Math.min(vw * 0.65, 300) : Math.min(vw * 0.5, 460);
@@ -2034,15 +2033,18 @@ export default function StoryPage() {
               cb.style.height = "2px";
               cb.style.display = "flex";
             }
-            // Reset lines
+            // Reset line strokes
             lines.forEach(l => {
               if (!l) return;
               l.classList.remove("court-draw-in", "court-draw-out");
-              l.style.strokeDashoffset = String(l.style.getPropertyValue("--court-len") || getComputedStyle(l).getPropertyValue("--court-len"));
+              const len = parseFloat(getComputedStyle(l).getPropertyValue("--court-len")) || 96;
+              l.style.transition = "none";
+              l.style.strokeDasharray = String(len);
+              l.style.strokeDashoffset = String(len);
             });
-          } else if (scrolled <= 4800) {
+          } else if (scrolled <= 4600) {
             // Phase 8: court takes shape + lines draw in progressively
-            const p8 = (scrolled - 3700) / 1100;
+            const p8 = (scrolled - 3500) / 1100;
             if (bt) { bt.style.opacity = "0"; }
             if (cb) {
               const vw = window.innerWidth;
@@ -2065,9 +2067,9 @@ export default function StoryPage() {
               l.style.strokeDasharray = String(len);
               l.style.strokeDashoffset = String(len * (1 - lineP));
             });
-          } else if (scrolled <= 5500) {
+          } else if (scrolled <= 5300) {
             // Phase 9: court expands to viewport + lines undraw
-            const p9 = (scrolled - 4800) / 700;
+            const p9 = (scrolled - 4600) / 700;
             if (cb) {
               const vw = window.innerWidth;
               const isMobile = vw <= 960;
@@ -2200,7 +2202,7 @@ export default function StoryPage() {
 
         {/* Bridge text — appears when logo fades, implodes when court starts */}
         {fadeOutT >= 0.95 && (
-          <div ref={bridgeTextRef} className="absolute inset-0 z-20 bg-black flex items-center justify-center" style={{ opacity: 1 }}>
+          <div ref={bridgeTextRef} className="absolute inset-0 z-20 bg-black flex items-center justify-center" style={{ opacity: 1, transformOrigin: "center center", willChange: "transform, opacity, filter" }}>
             <div className="text-center">
               <p className="text-[clamp(22px,2.8vw,38px)] tracking-[0.04em] text-[var(--gy2)] font-light leading-[1.6] flex flex-wrap justify-center gap-x-[0.3em]">
                 {t.story.bridge.line1.split(" ").map((word: string, i: number) => (
