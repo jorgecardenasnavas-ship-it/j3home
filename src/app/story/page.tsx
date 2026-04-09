@@ -1862,35 +1862,73 @@ function FlyingAccent({ flyT, fadeOutT, bridgeT }: { flyT: number; fadeOutT: num
         />
       )}
 
-      {/* Bridge text — appears after logo fades, before AccentManifesto */}
-      {bridgeT > 0.01 && (
-        <div
-          className="fixed inset-0 z-[62] pointer-events-none hidden min-[960px]:flex items-center justify-center"
-          style={{ opacity: bridgeT, willChange: "opacity" }}
-        >
-          <div className="text-center">
-            <p
-              className="text-[clamp(22px,2.8vw,38px)] tracking-[0.04em] text-[var(--gy2)] font-light leading-[1.6]"
-              style={{
-                transform: `translateY(${(1 - bridgeT) * 30}px)`,
-                transition: "none",
-              }}
-            >
-              {t.story.bridge.line1}
-            </p>
-            <p
-              className="text-[clamp(26px,3.4vw,46px)] tracking-[-0.01em] text-[var(--wh)] font-bold leading-[1.4] mt-3"
-              style={{
-                transform: `translateY(${(1 - Math.min(1, bridgeT * 1.3)) * 40}px)`,
-                opacity: clamp(bridgeT * 1.5 - 0.2),
-                transition: "none",
-              }}
-            >
-              {t.story.bridge.line2}
-            </p>
+      {/* Bridge text — cinematic clip-reveal, word-by-word stagger */}
+      {bridgeT > 0.01 && (() => {
+        // Split line1 into words for staggered reveal
+        const words1 = t.story.bridge.line1.split(" ");
+        const words2 = t.story.bridge.line2.split(" ");
+        const totalWords = words1.length + words2.length;
+        // Each word gets a slice of bridgeT with overlap for smooth stagger
+        const wordDur = 0.18; // each word takes 18% of bridgeT to fully reveal
+        const stagger = (1 - wordDur) / Math.max(1, totalWords - 1);
+
+        // Fade out uses bridgeT going back to 0
+        const fadeOutOp = bridgeT;
+
+        return (
+          <div
+            className="fixed inset-0 z-[62] pointer-events-none hidden min-[960px]:flex items-center justify-center"
+            style={{ opacity: fadeOutOp, willChange: "opacity" }}
+          >
+            <div className="text-center">
+              {/* Line 1 — light weight */}
+              <p className="text-[clamp(22px,2.8vw,38px)] tracking-[0.04em] text-[var(--gy2)] font-light leading-[1.6] flex flex-wrap justify-center gap-x-[0.3em]">
+                {words1.map((word, i) => {
+                  const wordStart = i * stagger;
+                  const wp = clamp((bridgeT - wordStart) / wordDur);
+                  const ease = 1 - Math.pow(1 - wp, 3); // ease-out cubic
+                  return (
+                    <span key={i} className="inline-block overflow-hidden" style={{ paddingBottom: "0.08em" }}>
+                      <span
+                        className="inline-block"
+                        style={{
+                          transform: `translateY(${(1 - ease) * 110}%)`,
+                          opacity: wp < 0.1 ? wp * 10 : 1,
+                        }}
+                      >
+                        {word}
+                      </span>
+                    </span>
+                  );
+                })}
+              </p>
+
+              {/* Line 2 — bold, stagger continues from line 1 */}
+              <p className="text-[clamp(26px,3.4vw,46px)] tracking-[-0.01em] text-[var(--wh)] font-bold leading-[1.4] mt-4 flex flex-wrap justify-center gap-x-[0.3em]">
+                {words2.map((word, i) => {
+                  const globalIdx = words1.length + i;
+                  const wordStart = globalIdx * stagger;
+                  const wp = clamp((bridgeT - wordStart) / wordDur);
+                  const ease = 1 - Math.pow(1 - wp, 3);
+                  return (
+                    <span key={i} className="inline-block overflow-hidden" style={{ paddingBottom: "0.08em" }}>
+                      <span
+                        className="inline-block"
+                        style={{
+                          transform: `translateY(${(1 - ease) * 110}%)`,
+                          opacity: wp < 0.1 ? wp * 10 : 1,
+                        }}
+                      >
+                        {word}
+                      </span>
+                    </span>
+                  );
+                })}
+              </p>
+            </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
     </>
   );
 }
