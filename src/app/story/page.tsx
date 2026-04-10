@@ -912,7 +912,7 @@ function TimelineSection() {
     <section
       ref={sectionRef}
       className="relative px-4 sm:px-6 md:px-12 pb-[72px] md:pb-[100px] overflow-visible z-10"
-      style={{ marginTop: "-60vh" }}
+      style={{ marginTop: "-20vh" }}
     >
       {/* Mini-map — desktop only */}
       <div
