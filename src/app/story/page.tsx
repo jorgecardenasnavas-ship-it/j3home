@@ -1726,20 +1726,28 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
               className="w-full h-full"
               preserveAspectRatio="xMidYMid meet"
             >
+              <defs>
+                {/* Gold gradient matching the logo — lighter top-left to deeper gold bottom-right */}
+                <linearGradient id="logo-gold" x1="0%" y1="0%" x2="30%" y2="100%">
+                  <stop offset="0%" stopColor="#E8D48A" />
+                  <stop offset="40%" stopColor="#D4B95C" />
+                  <stop offset="100%" stopColor="#C8A84E" />
+                </linearGradient>
+              </defs>
               <g transform={`translate(${LOGO_TX}, ${LOGO_TY}) scale(${LOGO_SCALE})`}>
-                {/* Ball — outer ring + inner fill + 3 stripes */}
+                {/* Ball — outer ring + inner fill + 3 dark stripes */}
                 <g opacity={ballOpacity}>
-                  <path d={J3_BALL_OUTER} fill="#C8A84E" />
-                  <path d={J3_BALL_OUTER_INNER} fill="#C8A84E" />
-                  <path d={J3_BALL_STRIPE_1} fill="#1a1a1a" />
-                  <path d={J3_BALL_STRIPE_2} fill="#1a1a1a" />
-                  <path d={J3_BALL_STRIPE_3} fill="#1a1a1a" />
+                  <path d={J3_BALL_OUTER} fill="url(#logo-gold)" />
+                  <path d={J3_BALL_OUTER_INNER} fill="url(#logo-gold)" />
+                  <path d={J3_BALL_STRIPE_1} fill="#111" />
+                  <path d={J3_BALL_STRIPE_2} fill="#111" />
+                  <path d={J3_BALL_STRIPE_3} fill="#111" />
                 </g>
 
                 {/* Left leg — slides in from left */}
                 <path
                   d={J3_LEG_LEFT}
-                  fill="#C8A84E"
+                  fill="url(#logo-gold)"
                   opacity={leftP > 0 ? Math.min(1, leftP * 3) : 0}
                   transform={`translate(${-slideDistance * (1 - easeOut(leftP))}, 0)`}
                 />
@@ -1747,7 +1755,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
                 {/* Center leg — slides in from below */}
                 <path
                   d={J3_LEG_CENTER}
-                  fill="#C8A84E"
+                  fill="url(#logo-gold)"
                   opacity={centerP > 0 ? Math.min(1, centerP * 3) : 0}
                   transform={`translate(0, ${slideDistance * (1 - easeOut(centerP))})`}
                 />
@@ -1755,7 +1763,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
                 {/* Right leg — slides in from right */}
                 <path
                   d={J3_LEG_RIGHT}
-                  fill="#C8A84E"
+                  fill="url(#logo-gold)"
                   opacity={rightP > 0 ? Math.min(1, rightP * 3) : 0}
                   transform={`translate(${slideDistance * (1 - easeOut(rightP))}, 0)`}
                 />
