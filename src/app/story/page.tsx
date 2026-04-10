@@ -465,26 +465,28 @@ function AccentManifesto() {
       // Del 96% al 100% → fade progresivo.
       // ═══════════════════════════════════════════════════════════════
 
-      // pA 0.00→0.12 — Á + eyebrow appear
+      // ── SEQUENCE: A appears → tilde drops → bounces → text builds ──
+
+      // Step 1 (0.00→0.08): Á + eyebrow appear FAST
       tl.to(
         aRef.current,
-        { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.12 },
+        { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.08 },
         0
       ).to(
         eyebrowRef.current,
-        { opacity: 1, y: 0, duration: 0.12 },
+        { opacity: 1, y: 0, duration: 0.08 },
         0
       ).to(
         [glow1Ref.current, glow2Ref.current, cordRef.current],
-        { opacity: 1, duration: 0.12 },
+        { opacity: 1, duration: 0.08 },
         0
       );
 
-      // Tilde — drops like a golden droplet from the section above
+      // Step 2 (0.03→0.19): Tilde drops from section above as golden droplet
       if (tildeRef.current) {
         const tilde = tildeRef.current;
         const tildeTL = gsap.timeline({ defaults: { ease: "none" } });
-        // 0% → 40%: fall from far above (like from previous card), growing from tiny to full size
+        // 0% → 40%: fall from far above, growing from tiny to full size
         tildeTL.fromTo(tilde,
           { x: "-50%", y: "-60vh", rotation: -60, opacity: 0, scale: 0.15 },
           { opacity: 1, scale: 0.6, duration: 0.15 },
@@ -499,7 +501,7 @@ function AccentManifesto() {
           { x: "-50%", y: "-150%", rotation: -26, scale: 1, duration: 0.15, ease: "power2.out" },
           0.40
         );
-        // 55% → 70%: drops back down — hits the A again
+        // 55% → 70%: drops back down
         tildeTL.to(tilde,
           { x: "-50%", y: "10%", rotation: -17, duration: 0.15, ease: "power2.in" },
           0.55
@@ -514,31 +516,27 @@ function AccentManifesto() {
           { x: "-50%", y: "-35%", rotation: -20, duration: 0.15, ease: "power2.inOut" },
           0.85
         );
-        // Nest tilde timeline into master at 0.04→0.22
-        // A appears 0→0.12, tilde starts falling at 0.04 (while A fades in)
-        // First impact at ~0.04+0.40*0.18=0.112, bounce starts ~0.112
-        // Slogan text starts at 0.19 = during/after the bouncing phase
-        tl.add(tildeTL, 0.04);
-        tl.to({}, { duration: 0 }, 0.22);
+        // Compress full tilde timeline (1.0s internal) into 0.16s of master time
+        // Placed at 0.03 → runs 0.03→0.19. Impact at 0.03+0.4*0.16=0.094
+        // Bouncing 0.094→0.19. Text starts at 0.20 = after first bounce
+        tl.add(tildeTL.duration(0.16), 0.03);
       }
 
-      // pC 0.19→0.30 — slogan line 1 PÁDEL
+      // Step 3 (0.20+): Slogan text builds AFTER tilde has landed and bounced
       tl.to(
         slogan1Ref.current,
         { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.11 },
-        0.19
+        0.20
       );
-      // pD 0.24→0.35 — slogan line 2 CON
       tl.to(
         slogan2Ref.current,
         { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.11 },
-        0.24
+        0.26
       );
-      // pE 0.30→0.41 — slogan line 3 Acento
       tl.to(
         slogan3Ref.current,
         { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.11 },
-        0.30
+        0.32
       );
 
       // pF 0.37→0.46 — gold hairline width grows
