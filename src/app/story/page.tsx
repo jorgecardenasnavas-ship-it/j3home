@@ -502,10 +502,10 @@ function AccentManifesto() {
         0.55
       );
 
-      // pG 0.42→0.66 — manifesto lines staggered (earlier = more hold time for last line)
+      // pG 0.65→0.83 — manifesto lines after slogan + hairline are done
       manifestoRefs.current.forEach((el, i) => {
         if (!el) return;
-        const start = 0.35 + i * 0.06;
+        const start = 0.65 + i * 0.06;
         tl.to(el, { opacity: 1, y: 0, duration: 0.12 }, start);
       });
 
