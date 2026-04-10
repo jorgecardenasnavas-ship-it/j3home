@@ -1646,8 +1646,8 @@ function FlyingAccent({ flyT, fadeOutT }: { flyT: number; fadeOutT: number; hero
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Map flyT 0.12→0.92 to frames — video runs to completion before fade
-    const videoProgress = Math.max(0, Math.min(1, (flyT - 0.12) / 0.80));
+    // Map flyT 0.12→1.0 to all 97 frames — video runs to full completion
+    const videoProgress = Math.max(0, Math.min(1, (flyT - 0.12) / 0.88));
     const frameIndex = Math.min(TOTAL_FRAMES - 1, Math.floor(videoProgress * (TOTAL_FRAMES - 1)));
     const img = framesRef.current[frameIndex];
     if (!img) return;
@@ -1661,209 +1661,33 @@ function FlyingAccent({ flyT, fadeOutT }: { flyT: number; fadeOutT: number; hero
 
   const clamp = (v: number) => Math.max(0, Math.min(1, v));
 
-  // ── Black bg overlay — fades in with video, fades out with logo ──
+  // ── Black bg overlay — fades in with video, fades out with fadeOutT ──
   const bgFadeIn = clamp((flyT - 0.01) / 0.08);
   const bgBlackOp = flyT <= 0 ? 0 : bgFadeIn * (1 - fadeOutT);
 
-  // ── Video canvas opacity — fades in, holds complete logo, then fades out ──
+  // ── Video canvas opacity — fades in, runs full video, fades out with fadeOutT ──
   const videoFadeIn = clamp((flyT - 0.12) / 0.10);
-  const videoFadeOut = clamp((flyT - 0.96) / 0.04);
-  const videoOp = flyT <= 0 ? 0 : videoFadeIn * (1 - videoFadeOut);
-
-  // ── SVG overlay opacity — fades in with video but STAYS visible ──
-  const svgOp = flyT <= 0 ? 0 : videoFadeIn;
+  const videoOp = flyT <= 0 ? 0 : videoFadeIn * (1 - fadeOutT);
 
   const showBg = bgBlackOp > 0.01;
   const showVideo = videoOp > 0.01;
 
-  /* ── SVG stripe animation ──
-     Ball position in 1920×1080 frame coords: center (958, 532), radius ~246
-     SVG path coords: ball center ~(74, 75), radius 72
-     Scale: 246/72 ≈ 3.417
-     Translate: (958 - 74*3.417, 532 - 75*3.417) ≈ (705.1, 275.7)
-  */
-  const BALL_SCALE = 3.417;
-  const BALL_TX = 705.1;
-  const BALL_TY = 275.7;
-
-  /* ── Interior stripes — appear instantly after video fades (flyT 0.97+) ── */
-  // No slide animation — stripes pop in fully formed (video already showed them building)
-  const stripesOn = flyT >= 0.97 ? 1 : 0;
-  const s3P = stripesOn;
-  const s2P = stripesOn;
-  const s1P = stripesOn;
-
-  const s3E = stripesOn;
-  const s2E = stripesOn;
-  const s1E = stripesOn;
-
-  const s3Tx = 0;
-  const s2Tx = 0;
-  const s1Ty = 0;
-
-  const showStripes = svgOp > 0.01 && stripesOn > 0;
-
-  /* ── 3 vertical legs — appear with stripes (flyT 0.97+) ── */
-  const legProgress = stripesOn;
-
-  const legLeftP   = stripesOn;
-  const legRightP  = stripesOn;
-  const legCenterP = stripesOn;
-
-  const legLeftE   = stripesOn;
-  const legRightE  = stripesOn;
-  const legCenterE = stripesOn;
-
-  const legLeftTx   = 0;
-  const legRightTx  = 0;
-  const legCenterTy = 0;
-
-  const showLegs = svgOp > 0.01 && legProgress > 0.01;
-
-  // ── SVG logo fade out via fadeOutT ──
-  const logoFinalOp = 1 - fadeOutT;
-
   return (
     <>
       {/* Scroll-driven frame sequence — canvas renders preloaded images */}
-      <div
-        className="fixed inset-0 z-[60] pointer-events-none hidden min-[960px]:flex items-center justify-center"
-        style={{
-          opacity: showVideo ? videoOp : 0,
-          willChange: "opacity",
-        }}
-      >
-        <canvas
-          ref={canvasRef}
-          className="w-full h-full object-contain"
-          style={{ background: "#000" }}
-        />
-      </div>
-
-      {/* SVG logo assembly — stripes, ring, legs + contour glow */}
-      {(showStripes || showLegs) && (
+      {showVideo && (
         <div
-          className="fixed inset-0 z-[61] pointer-events-none hidden min-[960px]:flex items-center justify-center"
+          className="fixed inset-0 z-[60] pointer-events-none hidden min-[960px]:flex items-center justify-center"
           style={{
-            opacity: svgOp * logoFinalOp,
+            opacity: videoOp,
             willChange: "opacity",
           }}
         >
-          <svg
-            viewBox="0 0 1920 1080"
-            preserveAspectRatio="xMidYMid meet"
-            className="w-full h-full"
-            style={{ position: "absolute", inset: 0 }}
-          >
-            <defs>
-              <linearGradient id="stripe-gold" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#eddb7e" />
-                <stop offset="30%" stopColor="#fff1b4" />
-                <stop offset="60%" stopColor="#eede80" />
-                <stop offset="100%" stopColor="#dcaf64" />
-              </linearGradient>
-              {/* Soft glow for contour */}
-              <filter id="glow-soft" x="-40%" y="-40%" width="180%" height="180%">
-                <feGaussianBlur stdDeviation="12" result="blur1" />
-                <feGaussianBlur stdDeviation="28" result="blur2" />
-                <feMerge>
-                  <feMergeNode in="blur2" />
-                  <feMergeNode in="blur1" />
-                </feMerge>
-              </filter>
-              {/* Clip to ball circle */}
-              <clipPath id="ball-clip">
-                <circle cx={74} cy={75} r={72} transform={`translate(${BALL_TX}, ${BALL_TY}) scale(${BALL_SCALE})`} />
-              </clipPath>
-            </defs>
-
-            {/* ═══ GLOW LAYER — traces every contour of the logo ═══ */}
-            {(() => {
-              // Glow appears as pieces assemble, peaks during transition, fades when complete
-              const glowIn = flyT >= 0.97 ? 1 : 0;
-              const glowPeak = flyT >= 0.97 ? 1 : 0;
-              const glowOut = clamp((flyT - 0.99) / 0.01);    // fades quickly
-              const glowOp = glowIn * (1 - glowOut) * (0.3 + glowPeak * 0.4);
-              if (glowOp < 0.01) return null;
-              return (
-                <g filter="url(#glow-soft)" opacity={glowOp}>
-                  {/* Glow: Ball outer ring */}
-                  <path
-                    d={J3_BALL_OUTER}
-                    fill="none"
-                    stroke="#fff1b4"
-                    strokeWidth={2.5}
-                    transform={`translate(${BALL_TX}, ${BALL_TY}) scale(${BALL_SCALE})`}
-                  />
-                  {/* Glow: Inner circle */}
-                  <path
-                    d={J3_BALL_OUTER_INNER}
-                    fill="none"
-                    stroke="#fff1b4"
-                    strokeWidth={2}
-                    transform={`translate(${BALL_TX}, ${BALL_TY}) scale(${BALL_SCALE})`}
-                  />
-                  {/* Glow: Interior stripes */}
-                  <g clipPath="url(#ball-clip)">
-                    <path d={J3_BALL_STRIPE_3} fill="#fff1b4"
-                      transform={`translate(${BALL_TX + s3Tx * BALL_SCALE}, ${BALL_TY}) scale(${BALL_SCALE})`}
-                      opacity={s3E} />
-                    <path d={J3_BALL_STRIPE_2} fill="#fff1b4"
-                      transform={`translate(${BALL_TX + s2Tx * BALL_SCALE}, ${BALL_TY}) scale(${BALL_SCALE})`}
-                      opacity={s2E} />
-                    <path d={J3_BALL_STRIPE_1} fill="#fff1b4"
-                      transform={`translate(${BALL_TX}, ${BALL_TY + s1Ty * BALL_SCALE}) scale(${BALL_SCALE})`}
-                      opacity={s1E} />
-                  </g>
-                  {/* Glow: Legs */}
-                  <path d={J3_LEG_LEFT} fill="#fff1b4"
-                    transform={`translate(${BALL_TX + legLeftTx * BALL_SCALE}, ${BALL_TY}) scale(${BALL_SCALE})`}
-                    opacity={legLeftE} />
-                  <path d={J3_LEG_RIGHT} fill="#fff1b4"
-                    transform={`translate(${BALL_TX + legRightTx * BALL_SCALE}, ${BALL_TY}) scale(${BALL_SCALE})`}
-                    opacity={legRightE} />
-                  <path d={J3_LEG_CENTER} fill="#fff1b4"
-                    transform={`translate(${BALL_TX}, ${BALL_TY + legCenterTy * BALL_SCALE}) scale(${BALL_SCALE})`}
-                    opacity={legCenterE} />
-                </g>
-              );
-            })()}
-
-            {/* ═══ SOLID LAYER — the actual logo pieces ═══ */}
-
-            {/* Ball outer ring — fades in at transition */}
-            <g
-              transform={`translate(${BALL_TX}, ${BALL_TY}) scale(${BALL_SCALE})`}
-              opacity={flyT >= 0.97 ? 1 : 0}
-            >
-              <path d={J3_BALL_OUTER} fill="url(#stripe-gold)" />
-              <path d={J3_BALL_OUTER_INNER} fill="#000" />
-            </g>
-
-            {/* Interior stripes — clipped to ball */}
-            <g clipPath="url(#ball-clip)">
-              <path d={J3_BALL_STRIPE_3} fill="url(#stripe-gold)"
-                transform={`translate(${BALL_TX + s3Tx * BALL_SCALE}, ${BALL_TY}) scale(${BALL_SCALE})`}
-                opacity={s3E} />
-              <path d={J3_BALL_STRIPE_2} fill="url(#stripe-gold)"
-                transform={`translate(${BALL_TX + s2Tx * BALL_SCALE}, ${BALL_TY}) scale(${BALL_SCALE})`}
-                opacity={s2E} />
-              <path d={J3_BALL_STRIPE_1} fill="url(#stripe-gold)"
-                transform={`translate(${BALL_TX}, ${BALL_TY + s1Ty * BALL_SCALE}) scale(${BALL_SCALE})`}
-                opacity={s1E} />
-            </g>
-
-            {/* Legs */}
-            <path d={J3_LEG_LEFT} fill="url(#stripe-gold)"
-              transform={`translate(${BALL_TX + legLeftTx * BALL_SCALE}, ${BALL_TY}) scale(${BALL_SCALE})`}
-              opacity={legLeftE} />
-            <path d={J3_LEG_RIGHT} fill="url(#stripe-gold)"
-              transform={`translate(${BALL_TX + legRightTx * BALL_SCALE}, ${BALL_TY}) scale(${BALL_SCALE})`}
-              opacity={legRightE} />
-            <path d={J3_LEG_CENTER} fill="url(#stripe-gold)"
-              transform={`translate(${BALL_TX}, ${BALL_TY + legCenterTy * BALL_SCALE}) scale(${BALL_SCALE})`}
-              opacity={legCenterE} />
-          </svg>
+          <canvas
+            ref={canvasRef}
+            className="w-full h-full object-contain"
+            style={{ background: "#000" }}
+          />
         </div>
       )}
 
