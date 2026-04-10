@@ -491,24 +491,24 @@ function AccentManifesto() {
           { opacity: 1, duration: 0.12 },
           0
         );
-        // 0% → 35%: fall to impact (moderate speed)
+        // 0% → 35%: fall to impact — hits the A
         tildeTL.to(tilde,
-          { x: "-50%", y: "10%", rotation: -16, duration: 0.35, ease: "power2.in" },
+          { x: "-50%", y: "25%", rotation: -14, duration: 0.35, ease: "power2.in" },
           0
         );
-        // 35% → 50%: bounce up (smaller)
+        // 35% → 50%: big bounce up
         tildeTL.to(tilde,
-          { x: "-50%", y: "-80%", rotation: -24, duration: 0.15, ease: "power2.out" },
+          { x: "-50%", y: "-150%", rotation: -26, duration: 0.15, ease: "power2.out" },
           0.35
         );
-        // 50% → 66%: settle down closer
+        // 50% → 66%: drops back down — hits the A again
         tildeTL.to(tilde,
-          { x: "-50%", y: "-20%", rotation: -19, duration: 0.16, ease: "power2.inOut" },
+          { x: "-50%", y: "10%", rotation: -17, duration: 0.16, ease: "power2.in" },
           0.50
         );
-        // 66% → 82%: tiny second bounce
+        // 66% → 82%: second bounce — smaller but visible
         tildeTL.to(tilde,
-          { x: "-50%", y: "-50%", rotation: -22, duration: 0.16, ease: "power2.out" },
+          { x: "-50%", y: "-70%", rotation: -22, duration: 0.16, ease: "power2.out" },
           0.66
         );
         // 82% → 100%: final rest — close to A
