@@ -2508,6 +2508,9 @@ export default function StoryPage() {
             <svg width="16" height="9" viewBox="0 0 16 9" fill="none" className="scroll-arrow scroll-arrow-2">
               <path d="M1 1l7 7 7-7" stroke="var(--g1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
+            <svg width="16" height="9" viewBox="0 0 16 9" fill="none" className="scroll-arrow scroll-arrow-3">
+              <path d="M1 1l7 7 7-7" stroke="var(--g1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           </div>
         </div>
         )}

@@ -162,6 +162,10 @@
   animation: scrollArrowPulse 2.2s ease-in-out infinite 0.18s;
   opacity: 0.2;
 }
+.scroll-arrow-3 {
+  animation: scrollArrowPulse 2.2s ease-in-out infinite 0.36s;
+  opacity: 0.12;
+}
 @keyframes scrollArrowPulse {
   0%, 100% { transform: translateY(0); opacity: 0.3; }
   50% { transform: translateY(5px); opacity: 1; }
