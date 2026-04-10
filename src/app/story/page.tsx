@@ -2303,7 +2303,7 @@ export default function StoryPage() {
       <Navbar />
 
       {/* ─── HERO ─── */}
-      <section ref={heroRef} className="relative h-screen min-h-[580px] flex items-end overflow-hidden bg-black animate-[heroFadeIn_.4s_.05s_ease_both]">
+      <section ref={heroRef} className="relative h-screen min-h-[580px] flex items-end overflow-hidden bg-black">
         {/* Background — negro puro (placeholder para futuro contenido) */}
         <div
           className="relative z-10 px-12 pb-[120px] max-[960px]:px-6 max-[960px]:pb-[100px] w-full"
