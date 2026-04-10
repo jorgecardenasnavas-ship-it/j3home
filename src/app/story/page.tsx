@@ -1694,10 +1694,10 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
 
       {/* ── LOGO BUILD — completes BY the flash, elements arrive as light trails ── */}
       {showVideo && (() => {
-        // buildT 0→1 completes BEFORE flash. Flash is the climax seal.
-        // Video ring forms ~flyT 0.55, flash at ~0.88. Build during 0.55→0.88.
+        // buildT 0→1 completes just before flash. Flash is the climax seal.
+        // Ring mostly formed by ~0.78, flash at ~0.88. Build compressed into 0.78→0.88.
         // holdT: logo stays built (buildT=1)
-        const BUILD_START = 0.55;
+        const BUILD_START = 0.78;
         const BUILD_END = 0.88; // flash frame
         let buildT = 0;
         if (holdT > 0) {
@@ -1719,17 +1719,18 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
         const TY = 532 - 75 * S;
 
         // ── Stripes (GOLD) — fly from outside as light trails, fuse into ball ──
+        // Start at buildT 0.05 with tight stagger — arrive just before climax
         const stripeData = [
-          { d: J3_BALL_STRIPE_1, fromX: 70, fromY: -60, delay: 0 },
-          { d: J3_BALL_STRIPE_2, fromX: 55, fromY: -45, delay: 0.06 },
-          { d: J3_BALL_STRIPE_3, fromX: -55, fromY: 50, delay: 0.12 },
+          { d: J3_BALL_STRIPE_1, fromX: 70, fromY: -60, delay: 0.05 },
+          { d: J3_BALL_STRIPE_2, fromX: 55, fromY: -45, delay: 0.12 },
+          { d: J3_BALL_STRIPE_3, fromX: -55, fromY: 50, delay: 0.19 },
         ];
 
-        // ── Legs (GOLD) — slide from sides/below as light trails ──
+        // ── Legs (GOLD) — slide from sides/below, start later, arrive right at flash ──
         const legData = [
-          { d: J3_LEG_LEFT,   fromX: -90, fromY: 0,  delay: 0.20 },
-          { d: J3_LEG_RIGHT,  fromX: 90,  fromY: 0,  delay: 0.28 },
-          { d: J3_LEG_CENTER, fromX: 0,   fromY: 80, delay: 0.36 },
+          { d: J3_LEG_LEFT,   fromX: -90, fromY: 0,  delay: 0.35 },
+          { d: J3_LEG_RIGHT,  fromX: 90,  fromY: 0,  delay: 0.42 },
+          { d: J3_LEG_CENTER, fromX: 0,   fromY: 80, delay: 0.48 },
         ];
 
         return (
