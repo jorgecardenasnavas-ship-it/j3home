@@ -90,8 +90,8 @@ export function Navbar() {
     setMobileLangOpen(false);
   }
 
-  // All visible links for mobile
-  const mobileLinks = allNavLinks.filter((l) => l.href !== pathname);
+  // All links for mobile (show all, highlight active)
+  const mobileLinks = allNavLinks;
 
   return (
     <>
@@ -290,25 +290,27 @@ export function Navbar() {
             : "opacity-0 pointer-events-none"
         }`}
       >
-        {/* Home link — only on subpages */}
-        {!isHome && (
-          <Link
-            href="/"
-            onClick={() => setMenuOpen(false)}
-            className="text-[18px] font-bold tracking-[3px] uppercase text-[var(--wh)] no-underline hover:text-[var(--g1)] transition-colors duration-300 flex items-center gap-3"
-          >
-            <HomeIcon size={18} />
-            {t.nav.inicio}
-          </Link>
-        )}
+        {/* Home link — always visible, gold when active */}
+        <Link
+          href="/"
+          onClick={() => setMenuOpen(false)}
+          className={`text-[18px] font-bold tracking-[3px] uppercase no-underline transition-colors duration-300 flex items-center gap-3 ${
+            isHome ? "text-[var(--g1)]" : "text-[var(--wh)] hover:text-[var(--g1)]"
+          }`}
+        >
+          <HomeIcon size={18} />
+          {t.nav.inicio}
+        </Link>
 
-        {/* Main links */}
+        {/* Main links — gold when active */}
         {mobileLinks.map((link) => (
           <Link
             key={link.href}
             href={link.href}
             onClick={() => setMenuOpen(false)}
-            className="text-[18px] font-bold tracking-[3px] uppercase text-[var(--wh)] no-underline hover:text-[var(--g1)] transition-colors duration-300"
+            className={`text-[18px] font-bold tracking-[3px] uppercase no-underline transition-colors duration-300 ${
+              pathname === link.href ? "text-[var(--g1)]" : "text-[var(--wh)] hover:text-[var(--g1)]"
+            }`}
           >
             {link.label}
           </Link>
