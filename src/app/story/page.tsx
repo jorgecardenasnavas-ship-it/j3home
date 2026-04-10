@@ -1719,11 +1719,11 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
         const TY = 532 - 75 * S;
 
         // ── Stripes (GOLD) — fly from outside as light trails, fuse into ball ──
-        // Start at buildT 0.05 with tight stagger — arrive just before climax
+        // Late start — arrive just before the flash climax
         const stripeData = [
-          { d: J3_BALL_STRIPE_1, fromX: 70, fromY: -60, delay: 0.05 },
-          { d: J3_BALL_STRIPE_2, fromX: 55, fromY: -45, delay: 0.12 },
-          { d: J3_BALL_STRIPE_3, fromX: -55, fromY: 50, delay: 0.19 },
+          { d: J3_BALL_STRIPE_1, fromX: 65, fromY: -55, delay: 0.40 },   // from right
+          { d: J3_BALL_STRIPE_2, fromX: 0,  fromY: -65, delay: 0.48 },   // from top (middle)
+          { d: J3_BALL_STRIPE_3, fromX: -60, fromY: 50, delay: 0.45 },   // from left
         ];
 
         // ── Legs (GOLD) — slide from sides/below, start later, arrive right at flash ──
@@ -1780,28 +1780,27 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
                     const e = easeOutBack(p);
                     const dx = fromX * (1 - e);
                     const dy = fromY * (1 - e);
-                    // Glow intensity: strong while traveling, fades when settled
-                    const glowAmount = p > 0 && p < 0.85 ? 1 : 0;
-                    const settled = p >= 0.85;
+                    // Iridescent gold glow the entire time — only solidifies at flash (buildT=1)
+                    const settled = buildT >= 0.98;
                     return (
                       <g key={`s${i}`}>
-                        {/* Energy trail — bright glow copy behind */}
-                        {glowAmount > 0 && (
+                        {/* Energy trail — iridescent glow behind */}
+                        {p > 0 && !settled && (
                           <path
                             d={d}
                             fill="#FFF0C0"
                             filter="url(#trail-glow)"
-                            opacity={clamp(p * 3) * (1 - clamp((p - 0.5) / 0.35))}
+                            opacity={clamp(p * 2.5) * (1 - clamp((p - 0.7) / 0.3))}
                             transform={`translate(${dx}, ${dy}) scale(${0.5 + 0.5 * e})`}
                             style={{ transformOrigin: "74px 75px" }}
                           />
                         )}
-                        {/* Solid stripe — arrives and solidifies */}
+                        {/* Stripe — stays iridescent gold until flash solidifies it */}
                         <path
                           d={d}
                           fill={settled ? "url(#j3gold)" : "#FFEDB3"}
                           filter={settled ? undefined : "url(#energy-glow)"}
-                          opacity={p > 0 ? clamp(p * 3.5) : 0}
+                          opacity={p > 0 ? clamp(p * 3) : 0}
                           transform={`translate(${dx}, ${dy}) scale(${0.5 + 0.5 * e})`}
                           style={{ transformOrigin: "74px 75px" }}
                         />
