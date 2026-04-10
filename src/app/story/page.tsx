@@ -1622,7 +1622,7 @@ const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * CIRCLE_R;
 const TOTAL_FRAMES = 193;
 const LAST_VIDEO_FRAME = 175; // Video runs through the flash — we overlay legs/stripes synced to it
 
-function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: number; holdT: number; heroAccentRef: React.RefObject<HTMLSpanElement | null> }) {
+function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; fadeOutT: number; holdT: number; heroAccentRef: React.RefObject<HTMLSpanElement | null>; scrollDirRef: React.RefObject<number> }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const framesRef = useRef<HTMLImageElement[]>([]);
   const [framesLoaded, setFramesLoaded] = useState(false);
@@ -1789,8 +1789,8 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
               </defs>
 
               <g transform={`translate(${TX}, ${TY}) scale(${S})`}>
-                {/* ── Ball ring — gold solid + blur shadow behind for fusion ── */}
-                {buildT >= 0.98 && (() => {
+                {/* ── Ball ring — only on backward scroll (forward: video shows it naturally) ── */}
+                {buildT >= 0.98 && scrollDirRef.current === -1 && (() => {
                   const ringPath = `${J3_BALL_OUTER} ${J3_BALL_OUTER_INNER}`;
                   return (
                     <g>
@@ -1932,6 +1932,7 @@ export default function StoryPage() {
   const [fadeOutT, setFadeOutT] = useState(0); // 0 = visible, 1 = faded out
   const [holdT, setHoldT] = useState(0); // 0→1 during logo hold (legs build)
   const [pinReady, setPinReady] = useState(false); // true after GSAP pin is set up
+  const scrollDirRef = useRef(1); // 1 = forward, -1 = backward
   const bridgeLockRef = useRef(false); // true while bridge animation is playing
   const bridgeLockFiredRef = useRef(false); // ensures lock fires only once
   const bridgeLockY = useRef(0); // scrollY to lock to
@@ -2005,6 +2006,7 @@ export default function StoryPage() {
         pin: true,
         pinSpacing: true,
         onUpdate: (self) => {
+          scrollDirRef.current = self.direction; // 1 forward, -1 backward
           const scrolled = self.progress * PHASE_RANGE;
           const bt = bridgeTextRef.current;
           const cb = courtBoxRef.current;
@@ -2792,7 +2794,7 @@ export default function StoryPage() {
       <Footer />
 
       {/* ─── FLYING ACCENT — transitions from hero "Á" to manifesto "Á" ─── */}
-      <FlyingAccent flyT={flyT} fadeOutT={fadeOutT} holdT={holdT} heroAccentRef={heroAccentRef} />
+      <FlyingAccent flyT={flyT} fadeOutT={fadeOutT} holdT={holdT} heroAccentRef={heroAccentRef} scrollDirRef={scrollDirRef} />
     </main>
   );
 }
