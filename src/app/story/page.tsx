@@ -1613,7 +1613,7 @@ const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * CIRCLE_R;
 
 /* ───────── FLYING ACCENT ───────── */
 
-const TOTAL_FRAMES = 97;
+const TOTAL_FRAMES = 193;
 
 function FlyingAccent({ flyT, fadeOutT }: { flyT: number; fadeOutT: number; heroAccentRef: React.RefObject<HTMLSpanElement | null> }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
