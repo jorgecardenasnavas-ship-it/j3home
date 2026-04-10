@@ -1410,7 +1410,7 @@ function StoryImpact() {
   const canteraDelays = [0.25, 0.30, 0.35, 0.40];
 
   return (
-    <div ref={containerRef} className="relative bg-[var(--bk)] -mt-[12vh]" style={{ height: "200vh" }}>
+    <div ref={containerRef} className="relative bg-[var(--bk)] -mt-[12vh]" style={{ height: "260vh" }}>
       <div className="sticky top-0 h-screen flex items-center justify-center pt-[52px] max-[960px]:pt-[52px]">
         {/* Subtle radial glow */}
         <div
@@ -1968,15 +1968,16 @@ export default function StoryPage() {
 
     if (isDesktop) {
       // Desktop: pin the hero while virgulilla → logo → black plays
-      const TOTAL = 5600;
+      const SCROLL_DISTANCE = 7200;  // total scroll px (más lento = más alto)
+      const PHASE_RANGE = 5600;     // rango de fases original (no tocar)
       const st = ScrollTrigger.create({
         trigger: hero,
         start: "top top",
-        end: `+=${TOTAL}`,
+        end: `+=${SCROLL_DISTANCE}`,
         pin: true,
         pinSpacing: true,
         onUpdate: (self) => {
-          const scrolled = self.progress * TOTAL;
+          const scrolled = self.progress * PHASE_RANGE;
           const bt = bridgeTextRef.current;
           const cb = courtBoxRef.current;
           const lines = courtLinesRef.current;
