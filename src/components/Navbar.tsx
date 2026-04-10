@@ -207,16 +207,16 @@ export function Navbar() {
           {/* Divider */}
           <span className="w-px h-4 bg-white/10" />
 
-          {/* Auth CTA */}
+          {/* Auth CTA — icon only */}
           <Link
             href="/login"
-            className="flex items-center gap-2 text-[12px] font-bold tracking-[2px] uppercase text-[var(--g1)] no-underline hover:text-[var(--g2)] transition-colors duration-300"
+            className="flex items-center text-[var(--g1)] no-underline hover:text-[var(--g2)] transition-colors duration-300"
+            aria-label={t.nav.acceder}
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
               <circle cx="12" cy="7" r="4" />
             </svg>
-            {t.nav.acceder}
           </Link>
         </div>
 
@@ -314,18 +314,18 @@ export function Navbar() {
           </Link>
         ))}
 
-        {/* Auth CTA mobile */}
+        {/* Auth CTA mobile — icon only */}
         <Link
           href="/login"
           onClick={() => setMenuOpen(false)}
-          className="text-[12px] font-bold tracking-[2px] uppercase py-[11px] px-[26px] rounded-[980px] no-underline cursor-pointer mt-3 flex items-center gap-2"
+          className="flex items-center justify-center w-11 h-11 rounded-full no-underline cursor-pointer mt-3"
           style={{ background: "var(--j3-grad)", color: "#000" }}
+          aria-label={t.nav.acceder}
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
             <circle cx="12" cy="7" r="4" />
           </svg>
-          {t.nav.acceder}
         </Link>
       </div>
     </>
