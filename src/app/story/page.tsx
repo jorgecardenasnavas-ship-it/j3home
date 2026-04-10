@@ -2169,11 +2169,10 @@ export default function StoryPage() {
             const p10 = (scrolled - 4300) / 900;
             if (so) {
               so.style.opacity = "1";
-              // Header
+              // Header (already revealed in Phase 9)
               if (sh) {
-                const hP = Math.min(1, p10 / 0.08);
-                sh.style.opacity = String(hP);
-                sh.style.transform = hP < 1 ? `translateY(${(1 - hP) * 20}px)` : "none";
+                sh.style.opacity = "1";
+                sh.style.transform = "none";
               }
               // Items stagger in with counter animation
               const statItems = t.story.stats.items;
