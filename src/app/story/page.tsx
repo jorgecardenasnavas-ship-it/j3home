@@ -560,7 +560,7 @@ function AccentManifesto() {
           cord.style.clipPath = `inset(0 0 ${(1 - p) * 100}% 0)`;
           // Outro fade: 0.97→1.0 — overlay fades to black (very late, lets content breathe)
           if (fadeOverlay) {
-            const fadeP = p <= 0.975 ? 0 : Math.min(1, (p - 0.975) / 0.025);
+            const fadeP = p <= 0.96 ? 0 : Math.min(1, (p - 0.96) / 0.04);
             fadeOverlay.style.opacity = String(fadeP);
           }
         },
@@ -574,7 +574,7 @@ function AccentManifesto() {
     <div
       ref={containerRef}
       className="relative bg-[var(--bk)] overflow-clip z-10"
-      style={{ height: "560vh" }}
+      style={{ height: "680vh" }}
     >
       <div className="sticky top-0 h-screen flex items-center overflow-hidden">
         {/* DEPTH LAYER 0 — perspective floor lines (very subtle, suggests court horizon) */}
