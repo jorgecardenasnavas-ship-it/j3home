@@ -2326,10 +2326,10 @@ export default function StoryPage() {
           </h1>
         </div>
 
-        {/* Scroll indicator — "Más de" + animated chevrons */}
+        {/* Scroll indicator — "Más de" + animated chevrons (hidden once scroll starts) */}
+        {flyT < 0.08 && (
         <div
           className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 animate-[fadeInSoft_1s_1.8s_ease_both]"
-          style={{ opacity: Math.max(0, heroOp - 0.2) }}
         >
           <span className="text-[10px] font-bold tracking-[4px] uppercase text-[var(--gy2)]">{t.story.hero.prefix}</span>
           <div className="scroll-arrows">
@@ -2341,6 +2341,7 @@ export default function StoryPage() {
             </svg>
           </div>
         </div>
+        )}
 
         {/* Bridge text — WHITE bg, dark text (inverted). Appears when logo fades. */}
         {fadeOutT >= 0.95 && (
