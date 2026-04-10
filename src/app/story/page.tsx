@@ -1736,7 +1736,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
         return (
           <div
             className="fixed inset-0 z-[61] pointer-events-none hidden min-[960px]:flex items-center justify-center"
-            style={{ opacity: videoOp, willChange: "opacity" }}
+            style={{ opacity: videoOp, mixBlendMode: "lighten", willChange: "opacity" }}
           >
             <svg viewBox="0 0 1920 1080" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
               <defs>
