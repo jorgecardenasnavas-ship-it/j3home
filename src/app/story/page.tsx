@@ -514,9 +514,12 @@ function AccentManifesto() {
           { x: "-50%", y: "-35%", rotation: -20, duration: 0.15, ease: "power2.inOut" },
           0.85
         );
-        // Nest tilde timeline into master at 0.10→0.28
-        tl.add(tildeTL, 0.10);
-        tl.to({}, { duration: 0 }, 0.28);
+        // Nest tilde timeline into master at 0.04→0.22
+        // A appears 0→0.12, tilde starts falling at 0.04 (while A fades in)
+        // First impact at ~0.04+0.40*0.18=0.112, bounce starts ~0.112
+        // Slogan text starts at 0.19 = during/after the bouncing phase
+        tl.add(tildeTL, 0.04);
+        tl.to({}, { duration: 0 }, 0.22);
       }
 
       // pC 0.19→0.30 — slogan line 1 PÁDEL
