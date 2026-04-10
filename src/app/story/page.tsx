@@ -2304,23 +2304,7 @@ export default function StoryPage() {
 
       {/* ─── HERO ─── */}
       <section ref={heroRef} className="relative h-screen min-h-[580px] flex items-end overflow-hidden bg-black animate-[heroFadeIn_.4s_.05s_ease_both]">
-        {/* Video background */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <iframe
-            src="https://iframe.mediadelivery.net/embed/553002/e3949095-f75b-4c0b-9490-e3b17294ab31?autoplay=true&loop=true&muted=true&controls=false&responsive=false"
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-0"
-            style={{
-              width: "177.78vh", minWidth: "100%",
-              height: "56.25vw", minHeight: "100%",
-              opacity: 0.4 * Math.max(0, 1 - flyT * 1.8),   // video fades out during flying accent
-              transform: `translateY(${heroY}px)`,
-            }}
-            allow="autoplay"
-            loading="lazy"
-            title="J3 Pádel Story video"
-          />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black" style={{ opacity: Math.max(0, 1 - flyT * 1.8) }} />
+        {/* Background — negro puro (placeholder para futuro contenido) */}
         <div
           className="relative z-10 px-12 pb-[120px] max-[960px]:px-6 max-[960px]:pb-[100px] w-full"
           style={{ opacity: heroOp, transform: `translateY(${-heroY * 0.2}px)` }}
