@@ -1738,6 +1738,9 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
     ? Math.sin(clamp(fadeOutT / 0.2) * Math.PI) * 0.7  // sine pulse: 0 → 0.7 → 0
     : 0;
 
+  // ── Ball spin — accelerating rotation during zoom ──
+  const spinDeg = Math.pow(zoomT, 2) * 180; // 0° → 180°, exponential acceleration
+
   // ── Tunnel vignette — dark radial edges during zoom ──
   const vignetteOp = clamp(zoomT * 0.8); // fades in with zoom
 
@@ -1753,7 +1756,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
           style={{
             opacity: fadeOutT >= 1 ? 0 : 1,
             willChange: "opacity, transform, filter",
-            transform: `scale(${tunnelScale})`,
+            transform: `scale(${tunnelScale}) rotate(${spinDeg}deg)`,
             filter: motionBlur > 0.1 ? `blur(${motionBlur}px)` : "none",
           }}
         >
@@ -1852,7 +1855,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
         return (
           <div
             className="fixed inset-0 z-[61] pointer-events-none flex items-center justify-center"
-            style={{ opacity: fadeOutT >= 1 ? 0 : videoOp, mixBlendMode: "lighten", willChange: "opacity, transform, filter", transform: `scale(${tunnelScale})`, filter: motionBlur > 0.1 ? `blur(${motionBlur}px)` : "none" }}
+            style={{ opacity: fadeOutT >= 1 ? 0 : videoOp, mixBlendMode: "lighten", willChange: "opacity, transform, filter", transform: `scale(${tunnelScale}) rotate(${spinDeg}deg)`, filter: motionBlur > 0.1 ? `blur(${motionBlur}px)` : "none" }}
           >
             <svg viewBox={svgViewBox} className="w-full h-full" preserveAspectRatio="xMidYMid meet">
               <defs>
