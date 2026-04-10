@@ -733,10 +733,15 @@ function AccentManifesto() {
             <h2 className="font-bold uppercase tracking-[-3px] leading-[0.92] mb-10 max-[960px]:mb-6">
               <span
                 ref={slogan1Ref}
-                className="j3-grad-text block text-[clamp(48px,7vw,110px)]"
+                className="block"
                 style={{ opacity: 0, transform: "translateY(60px)", filter: "blur(8px)" }}
               >
-                {slogan[0]}
+                <img
+                  src="/images/padel-text.svg"
+                  alt={slogan[0]}
+                  className="h-[clamp(48px,7vw,110px)] w-auto select-none"
+                  draggable={false}
+                />
               </span>
               <span
                 ref={slogan2Ref}
