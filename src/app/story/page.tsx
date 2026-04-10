@@ -1657,8 +1657,8 @@ const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * CIRCLE_R;
 
 const TOTAL_FRAMES_DESKTOP = 193;
 const LAST_VIDEO_FRAME_DESKTOP = 175; // Video runs through the flash — we overlay legs/stripes synced to it
-const TOTAL_FRAMES_MOBILE = 146;
-const LAST_VIDEO_FRAME_MOBILE = 146; // Mobile Kling video: no flash, runs full length
+const TOTAL_FRAMES_MOBILE = 169;
+const LAST_VIDEO_FRAME_MOBILE = 169; // Mobile Kling video: full 7s including flash
 
 function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; fadeOutT: number; holdT: number; heroAccentRef: React.RefObject<HTMLSpanElement | null>; scrollDirRef: React.RefObject<number> }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
