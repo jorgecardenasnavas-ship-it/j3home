@@ -2027,86 +2027,113 @@ export default function StoryPage() {
               bt.style.opacity = String(Math.max(0, 1 - p6 * 2.5));
             }
             if (cb) { cb.style.display = "none"; }
-          } else {
-            // Phase 7+: EXACT CLONE of j3padel.com/homej3 preloader
-            // Time-based animation triggered once, scroll locked during playback
+          } else if (scrolled <= 3100) {
+            // Phase 7: Thin line grows from center (scroll-driven)
             if (bt) { bt.style.opacity = "0"; bt.style.transform = "scale(0)"; }
-            if (wbg) { wbg.style.opacity = "1"; }
-
-            if (!courtAnimFiredRef.current && cb) {
-              courtAnimFiredRef.current = true;
-
-              // Lock scroll for animation duration
-              bridgeLockY.current = window.scrollY;
-              bridgeLockRef.current = true;
-
-              const vw = window.innerWidth;
-              const isMobile = vw <= 960;
-              const courtW = isMobile ? Math.min(vw * 0.65, 300) : Math.min(vw * 0.5, 460);
-              const courtH = isMobile ? courtW * 1.8 : courtW * 0.5;
-              const fullW = vw;
-              const fullH = isMobile ? vw * 2 : vw * 0.5;
-              const sw = 200 / courtW;
-              lines.forEach(l => l?.setAttribute("stroke-width", String(sw)));
-
-              // ── PHASE 1 (0ms): Thin line grows from center ──
-              cb.style.display = "flex";
-              cb.style.background = "var(--bk)";
-              cb.style.width = "0px";
-              cb.style.height = "2px";
-              cb.style.transition = "width .6s cubic-bezier(.4,0,.2,1), height .6s cubic-bezier(.4,0,.2,1)";
-              // Reset all line classes
+            if (wbg) { wbg.style.opacity = "1"; wbg.style.transition = "none"; wbg.style.background = "#fff"; }
+            const p7 = (scrolled - 2900) / 200;
+            const vw7 = window.innerWidth;
+            const isMob7 = vw7 <= 960;
+            const cW7 = isMob7 ? Math.min(vw7 * 0.65, 300) : Math.min(vw7 * 0.5, 460);
+            const cH7 = isMob7 ? cW7 * 1.8 : cW7 * 0.5;
+            // Init stroke-width once
+            if (!courtInitRef.current) {
+              courtInitRef.current = true;
+              const sw = 200 / cW7;
               lines.forEach(l => {
                 if (!l) return;
-                l.style.transition = "";
-                l.style.strokeDashoffset = "";
+                l.setAttribute("stroke-width", String(sw));
                 l.classList.remove("court-draw-in", "court-draw-out");
+                l.style.transition = "none";
+                const len = parseFloat(getComputedStyle(l).getPropertyValue("--court-len")) || 96;
+                l.style.strokeDasharray = String(len);
+                l.style.strokeDashoffset = String(len);
               });
-
-              requestAnimationFrame(() => {
-                if (!cb) return;
-                if (isMobile) {
-                  cb.style.height = `${courtH * 0.4}px`;
-                } else {
-                  cb.style.width = `${courtW * 0.6}px`;
-                }
-              });
-
-              // ── PHASE 2 (700ms): Expand to full court + draw lines ──
-              setTimeout(() => {
-                if (!cb) return;
-                cb.style.transitionDuration = "1s";
-                cb.style.width = `${courtW}px`;
-                cb.style.height = `${courtH}px`;
-                lines.forEach(l => {
-                  if (!l) return;
-                  l.classList.remove("court-draw-out");
-                  l.classList.add("court-draw-in");
-                });
-              }, 700);
-
-              // ── PHASE 3 (2600ms): Grow to viewport + white→black + undraw ──
-              setTimeout(() => {
-                if (!cb || !wbg) return;
-                cb.style.transitionDuration = "1.8s";
-                cb.style.width = `${fullW}px`;
-                cb.style.height = `${fullH}px`;
-                wbg.style.transition = "background 1.2s ease";
-                wbg.style.background = "var(--bk)";
-                lines.forEach(l => {
-                  if (!l) return;
-                  l.classList.remove("court-draw-in");
-                  l.classList.add("court-draw-out");
-                });
-              }, 2600);
-
-              // ── PHASE 4 (4200ms): Hide court, release scroll ──
-              setTimeout(() => {
-                if (cb) { cb.style.display = "none"; }
-                if (wbg) { wbg.style.opacity = "0"; }
-                bridgeLockRef.current = false;
-              }, 4200);
             }
+            if (cb) {
+              cb.style.display = "flex";
+              cb.style.transition = "none";
+              cb.style.background = "var(--bk)";
+              if (isMob7) {
+                cb.style.width = `${cW7 * 0.5}px`;
+                cb.style.height = `${Math.max(2, cH7 * 0.4 * p7)}px`;
+              } else {
+                cb.style.width = `${cW7 * 0.6 * p7}px`;
+                cb.style.height = "2px";
+              }
+            }
+          } else if (scrolled <= 3700) {
+            // Phase 8: Court expands to full size + lines draw in (scroll-driven)
+            if (bt) { bt.style.opacity = "0"; }
+            if (wbg) { wbg.style.opacity = "1"; wbg.style.background = "#fff"; }
+            const p8 = (scrolled - 3100) / 600;
+            const vw8 = window.innerWidth;
+            const isMob8 = vw8 <= 960;
+            const cW8 = isMob8 ? Math.min(vw8 * 0.65, 300) : Math.min(vw8 * 0.5, 460);
+            const cH8 = isMob8 ? cW8 * 1.8 : cW8 * 0.5;
+            if (cb) {
+              cb.style.display = "flex";
+              cb.style.transition = "none";
+              cb.style.background = "var(--bk)";
+              // Width: from 60% → 100% of courtW
+              const wP = isMob8 ? 0.5 + 0.5 * p8 : 0.6 + 0.4 * p8;
+              cb.style.width = `${cW8 * wP}px`;
+              // Height: from 2px (or 40%) → full courtH
+              const startH = isMob8 ? cH8 * 0.4 : 2;
+              cb.style.height = `${startH + (cH8 - startH) * p8}px`;
+            }
+            // Lines draw in progressively with scroll
+            const delays8 = [0.0, 0.08, 0.18, 0.28, 0.40, 0.50];
+            lines.forEach((l, i) => {
+              if (!l) return;
+              l.classList.remove("court-draw-in", "court-draw-out");
+              l.style.transition = "none";
+              const len = parseFloat(getComputedStyle(l).getPropertyValue("--court-len")) || 96;
+              l.style.strokeDasharray = String(len);
+              const lineP = Math.max(0, Math.min(1, (p8 - delays8[i]) / 0.35));
+              l.style.strokeDashoffset = String(len * (1 - lineP));
+            });
+          } else if (scrolled <= 4400) {
+            // Phase 9: Court expands to viewport + lines undraw + white→black
+            if (bt) { bt.style.opacity = "0"; }
+            const p9 = (scrolled - 3700) / 700;
+            const vw9 = window.innerWidth;
+            const vh9 = window.innerHeight;
+            const isMob9 = vw9 <= 960;
+            const cW9 = isMob9 ? Math.min(vw9 * 0.65, 300) : Math.min(vw9 * 0.5, 460);
+            const cH9 = isMob9 ? cW9 * 1.8 : cW9 * 0.5;
+            const fullW = vw9;
+            const fullH = isMob9 ? vw9 * 2 : vh9;
+            if (cb) {
+              cb.style.display = "flex";
+              cb.style.transition = "none";
+              cb.style.background = "var(--bk)";
+              cb.style.width = `${cW9 + (fullW - cW9) * p9}px`;
+              cb.style.height = `${cH9 + (fullH - cH9) * p9}px`;
+            }
+            // White bg → black
+            if (wbg) {
+              wbg.style.transition = "none";
+              const c = Math.round(255 * (1 - Math.min(1, p9 * 1.5)));
+              wbg.style.background = `rgb(${c},${c},${c})`;
+              wbg.style.opacity = "1";
+            }
+            // Lines undraw in reverse order
+            const delays9 = [0.50, 0.40, 0.30, 0.20, 0.10, 0.0];
+            lines.forEach((l, i) => {
+              if (!l) return;
+              l.classList.remove("court-draw-in", "court-draw-out");
+              l.style.transition = "none";
+              const len = parseFloat(getComputedStyle(l).getPropertyValue("--court-len")) || 96;
+              l.style.strokeDasharray = String(len);
+              const lineP = Math.max(0, Math.min(1, (p9 - delays9[i]) / 0.35));
+              l.style.strokeDashoffset = String(len * lineP);
+            });
+          } else {
+            // Phase 10: hold black
+            if (cb) { cb.style.display = "none"; }
+            if (bt) { bt.style.opacity = "0"; }
+            if (wbg) { wbg.style.opacity = "0"; }
           }
         },
       });
