@@ -1723,8 +1723,14 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
   const videoFadeIn = clamp((flyT - 0.12) / 0.10);
   const videoOp = flyT <= 0 ? 0 : videoFadeIn * (1 - fadeOutT);
 
+  // ── Tunnel zoom — exponential scale during fadeOut for "absorption" effect ──
+  // fadeOutT 0→0.7: zoom accelerates (1× → 12×), fadeOutT 0.7→1: whiteout
+  const zoomT = clamp(fadeOutT / 0.7);
+  const tunnelScale = 1 + (Math.pow(zoomT, 2.5) * 11); // exponential ramp: 1× → 12×
+  const whiteoutOp = clamp((fadeOutT - 0.6) / 0.4); // white flash starts at 60%, full at 100%
+
   const showBg = bgBlackOp > 0.01;
-  const showVideo = videoOp > 0.01;
+  const showVideo = videoOp > 0.01 || fadeOutT > 0;
 
   return (
     <>
@@ -1733,16 +1739,25 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
         <div
           className="fixed inset-0 z-[60] pointer-events-none flex items-center justify-center"
           style={{
-            opacity: videoOp,
-            willChange: "opacity",
+            opacity: fadeOutT >= 1 ? 0 : 1,
+            willChange: "opacity, transform",
+            transform: `scale(${tunnelScale})`,
           }}
         >
           <canvas
             ref={canvasRef}
             className="w-full h-full object-contain"
-            style={{ background: "#000" }}
+            style={{ background: "#000", opacity: videoOp }}
           />
         </div>
+      )}
+
+      {/* White flash overlay — fills screen as tunnel zoom peaks */}
+      {whiteoutOp > 0.01 && (
+        <div
+          className="fixed inset-0 z-[62] pointer-events-none"
+          style={{ background: "#fff", opacity: whiteoutOp }}
+        />
       )}
 
       {/* ── LOGO BUILD — completes BY the flash, elements arrive as light trails ── */}
@@ -1802,7 +1817,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
         return (
           <div
             className="fixed inset-0 z-[61] pointer-events-none flex items-center justify-center"
-            style={{ opacity: videoOp, mixBlendMode: "lighten", willChange: "opacity" }}
+            style={{ opacity: fadeOutT >= 1 ? 0 : videoOp, mixBlendMode: "lighten", willChange: "opacity, transform", transform: `scale(${tunnelScale})` }}
           >
             <svg viewBox={svgViewBox} className="w-full h-full" preserveAspectRatio="xMidYMid meet">
               <defs>
