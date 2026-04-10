@@ -485,36 +485,36 @@ function AccentManifesto() {
         const tilde = tildeRef.current;
         // Fall from above → impact → bounce → settle (matches old CSS keyframe timing)
         const tildeTL = gsap.timeline({ defaults: { ease: "none" } });
-        // 0% → 10%: fade in while falling
+        // 0% → 12%: fade in while falling
         tildeTL.fromTo(tilde,
           { x: "-50%", y: "-700%", rotation: -60, opacity: 0 },
-          { opacity: 1, duration: 0.10 },
+          { opacity: 1, duration: 0.12 },
           0
         );
-        // 0% → 28%: fast fall to impact
+        // 0% → 35%: fall to impact (moderate speed)
         tildeTL.to(tilde,
-          { x: "-50%", y: "10%", rotation: -16, duration: 0.28, ease: "power3.in" },
+          { x: "-50%", y: "10%", rotation: -16, duration: 0.35, ease: "power2.in" },
           0
         );
-        // 28% → 46%: bounce up (smaller)
+        // 35% → 50%: bounce up (smaller)
         tildeTL.to(tilde,
-          { x: "-50%", y: "-80%", rotation: -24, duration: 0.18, ease: "power2.out" },
-          0.28
+          { x: "-50%", y: "-80%", rotation: -24, duration: 0.15, ease: "power2.out" },
+          0.35
         );
-        // 46% → 64%: settle down closer
+        // 50% → 66%: settle down closer
         tildeTL.to(tilde,
-          { x: "-50%", y: "-20%", rotation: -19, duration: 0.18, ease: "power2.inOut" },
-          0.46
+          { x: "-50%", y: "-20%", rotation: -19, duration: 0.16, ease: "power2.inOut" },
+          0.50
         );
-        // 64% → 80%: tiny second bounce
+        // 66% → 82%: tiny second bounce
         tildeTL.to(tilde,
           { x: "-50%", y: "-50%", rotation: -22, duration: 0.16, ease: "power2.out" },
-          0.64
+          0.66
         );
-        // 80% → 100%: final rest — close to A
+        // 82% → 100%: final rest — close to A
         tildeTL.to(tilde,
-          { x: "-50%", y: "-35%", rotation: -20, duration: 0.20, ease: "power2.inOut" },
-          0.80
+          { x: "-50%", y: "-35%", rotation: -20, duration: 0.18, ease: "power2.inOut" },
+          0.82
         );
         // Nest tilde timeline into master at 0.12→0.28 (same window as old CSS anim)
         tl.add(tildeTL, 0.12);
