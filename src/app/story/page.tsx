@@ -1952,12 +1952,12 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
         />
       )}
 
-      {/* Mobile: full-viewport flash glow — renders AFTER black bg so it shows on top */}
+      {/* Mobile: full-viewport flash glow — synced to actual video destello (flyT 0.91→0.98) */}
       {showVideo && typeof window !== "undefined" && window.innerWidth < 960 && (() => {
-        // Flash peaks at flyT ~0.88 (BUILD_END). Glow in 0.83→0.88, out 0.88→0.94
-        const flashIn = flyT < 0.83 ? 0 : flyT <= 0.88 ? (flyT - 0.83) / 0.05 : 1;
-        const flashOut = flyT <= 0.88 ? 0 : flyT >= 0.94 ? 1 : (flyT - 0.88) / 0.06;
-        const flashOp = Math.max(0, flashIn * (1 - flashOut)) * 0.4;
+        // Video flash: starts flyT≈0.91, peaks 0.94, fades by 0.98
+        const flashIn = flyT < 0.91 ? 0 : flyT <= 0.94 ? (flyT - 0.91) / 0.03 : 1;
+        const flashOut = flyT <= 0.94 ? 0 : flyT >= 0.98 ? 1 : (flyT - 0.94) / 0.04;
+        const flashOp = Math.max(0, flashIn * (1 - flashOut)) * 0.45;
         if (flashOp < 0.01) return null;
         return (
           <div
