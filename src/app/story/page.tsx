@@ -440,7 +440,7 @@ function AccentManifesto() {
   const vignetteRef = useRef<HTMLDivElement>(null);
   const perspectiveRef = useRef<HTMLDivElement>(null);
   const fadeOverlayRef = useRef<HTMLDivElement>(null);
-  const [accentTriggered, setAccentTriggered] = useState(false);
+  const tildeRef = useRef<HTMLSpanElement>(null);
 
   useGSAP(
     () => {
@@ -480,9 +480,47 @@ function AccentManifesto() {
         0
       );
 
-      // Tilde trigger flag — fires at 0.14, resets when scrolling back before it
-      tl.call(() => setAccentTriggered(true), [], 0.14);
-      tl.call(() => setAccentTriggered(false), [], 0.001);
+      // Tilde — GSAP keyframes so it reverses on backward scroll
+      if (tildeRef.current) {
+        const tilde = tildeRef.current;
+        // Fall from above → impact → bounce → settle (matches old CSS keyframe timing)
+        const tildeTL = gsap.timeline({ defaults: { ease: "none" } });
+        // 0% → 15%: fade in while falling
+        tildeTL.fromTo(tilde,
+          { x: "-50%", y: "-700%", rotation: -60, opacity: 0 },
+          { opacity: 1, duration: 0.15 },
+          0
+        );
+        // 0% → 42%: fall to impact
+        tildeTL.to(tilde,
+          { x: "-50%", y: "20%", rotation: -18, duration: 0.42, ease: "power2.in" },
+          0
+        );
+        // 42% → 56%: bounce up
+        tildeTL.to(tilde,
+          { x: "-50%", y: "-180%", rotation: -26, duration: 0.14, ease: "power2.out" },
+          0.42
+        );
+        // 56% → 72%: settle down
+        tildeTL.to(tilde,
+          { x: "-50%", y: "-90%", rotation: -20, duration: 0.16, ease: "power2.inOut" },
+          0.56
+        );
+        // 72% → 86%: tiny second bounce
+        tildeTL.to(tilde,
+          { x: "-50%", y: "-150%", rotation: -24, duration: 0.14, ease: "power2.out" },
+          0.72
+        );
+        // 86% → 100%: final rest
+        tildeTL.to(tilde,
+          { x: "-50%", y: "-120%", rotation: -22, duration: 0.14, ease: "power2.inOut" },
+          0.86
+        );
+        // Nest tilde timeline into master at 0.12→0.28 (same window as old CSS anim)
+        tl.add(tildeTL, 0.12);
+        // Scale tildeTL to occupy 0.16 of master timeline
+        tl.to({}, { duration: 0 }, 0.28); // ensure timeline extends
+      }
 
       // pC 0.19→0.30 — slogan line 1 PÁDEL
       tl.to(
@@ -696,8 +734,9 @@ function AccentManifesto() {
                 A
               </span>
 
-              {/* The acute accent — CSS-keyframe fall + bounce + settle */}
+              {/* The acute accent — GSAP-driven fall + bounce + settle (reverses on scroll-up) */}
               <span
+                ref={tildeRef}
                 aria-hidden
                 className="absolute pointer-events-none"
                 style={{
@@ -711,9 +750,6 @@ function AccentManifesto() {
                   transformOrigin: "center center",
                   transform: "translate(-50%, -700%) rotate(-60deg)",
                   opacity: 0,
-                  animation: accentTriggered
-                    ? "accentFallBounce 1.7s cubic-bezier(.32,.72,.38,1) 0.15s both"
-                    : "none",
                 }}
               />
             </div>
