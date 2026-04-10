@@ -1692,17 +1692,18 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
         </div>
       )}
 
-      {/* ── LOGO BUILD — synced with video flash, stripes fuse in, legs slide ── */}
+      {/* ── LOGO BUILD — completes BY the flash, elements arrive as light trails ── */}
       {showVideo && (() => {
-        // buildT: unified 0→1 that STARTS during the video flash and completes during hold
-        // Flash starts ~frame 155 of 175 → flyT ≈ 0.88
-        // flyT 0.88→1.0 maps to buildT 0→0.25, holdT 0→1 maps to buildT 0.25→1.0
-        const flashFlyStart = 0.88;
+        // buildT 0→1 completes BEFORE flash. Flash is the climax seal.
+        // Video ring forms ~flyT 0.55, flash at ~0.88. Build during 0.55→0.88.
+        // holdT: logo stays built (buildT=1)
+        const BUILD_START = 0.55;
+        const BUILD_END = 0.88; // flash frame
         let buildT = 0;
         if (holdT > 0) {
-          buildT = 0.25 + holdT * 0.75;
-        } else if (flyT > flashFlyStart) {
-          buildT = ((flyT - flashFlyStart) / (1 - flashFlyStart)) * 0.25;
+          buildT = 1;
+        } else if (flyT > BUILD_START) {
+          buildT = clamp((flyT - BUILD_START) / (BUILD_END - BUILD_START));
         }
         if (buildT <= 0) return null;
 
@@ -1717,18 +1718,18 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
         const TX = 957 - 74 * S;
         const TY = 532 - 75 * S;
 
-        // ── Stripes (GOLD) fly in from outside & fuse into ball (buildT 0→0.55) ──
+        // ── Stripes (GOLD) — fly from outside as light trails, fuse into ball ──
         const stripeData = [
-          { d: J3_BALL_STRIPE_1, fromX: 60, fromY: -50, delay: 0 },
-          { d: J3_BALL_STRIPE_2, fromX: 50, fromY: -40, delay: 0.05 },
-          { d: J3_BALL_STRIPE_3, fromX: -50, fromY: 45, delay: 0.10 },
+          { d: J3_BALL_STRIPE_1, fromX: 70, fromY: -60, delay: 0 },
+          { d: J3_BALL_STRIPE_2, fromX: 55, fromY: -45, delay: 0.06 },
+          { d: J3_BALL_STRIPE_3, fromX: -55, fromY: 50, delay: 0.12 },
         ];
 
-        // ── Legs (GOLD) slide in from sides/below (buildT 0.30→0.85) ──
+        // ── Legs (GOLD) — slide from sides/below as light trails ──
         const legData = [
-          { d: J3_LEG_LEFT,   fromX: -80, fromY: 0,  delay: 0 },
-          { d: J3_LEG_RIGHT,  fromX: 80,  fromY: 0,  delay: 0.06 },
-          { d: J3_LEG_CENTER, fromX: 0,   fromY: 70, delay: 0.12 },
+          { d: J3_LEG_LEFT,   fromX: -90, fromY: 0,  delay: 0.20 },
+          { d: J3_LEG_RIGHT,  fromX: 90,  fromY: 0,  delay: 0.28 },
+          { d: J3_LEG_CENTER, fromX: 0,   fromY: 80, delay: 0.36 },
         ];
 
         return (
@@ -1746,43 +1747,97 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
                 <clipPath id="ball-inner-clip">
                   <circle cx="74" cy="75" r="58" />
                 </clipPath>
+                {/* Glow filter for energy trail effect */}
+                <filter id="energy-glow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+                  <feColorMatrix in="blur" type="matrix"
+                    values="1.5 0 0 0 0.2  0 1.2 0 0 0.1  0 0 0.5 0 0  0 0 0 1 0"
+                    result="glow" />
+                  <feMerge>
+                    <feMergeNode in="glow" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+                {/* Stronger glow for arriving elements */}
+                <filter id="trail-glow" x="-80%" y="-80%" width="260%" height="260%">
+                  <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" />
+                  <feColorMatrix in="blur" type="matrix"
+                    values="2 0 0 0 0.4  0 1.5 0 0 0.3  0 0 0.3 0 0  0 0 0 0.8 0"
+                    result="glow" />
+                  <feMerge>
+                    <feMergeNode in="glow" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
               </defs>
 
               <g transform={`translate(${TX}, ${TY}) scale(${S})`}>
-                {/* ── 3 Stripes — GOLD, fly from outside & clip into ball ── */}
+                {/* ── 3 Stripes — GOLD light trails that fuse into ball ── */}
                 <g clipPath="url(#ball-inner-clip)">
                   {stripeData.map(({ d, fromX, fromY, delay }, i) => {
-                    const p = clamp((buildT - 0.02 - delay) / 0.40);
+                    const p = clamp((buildT - delay) / 0.45);
                     const e = easeOutBack(p);
                     const dx = fromX * (1 - e);
                     const dy = fromY * (1 - e);
+                    // Glow intensity: strong while traveling, fades when settled
+                    const glowAmount = p > 0 && p < 0.85 ? 1 : 0;
+                    const settled = p >= 0.85;
                     return (
-                      <path
-                        key={`s${i}`}
-                        d={d}
-                        fill="url(#j3gold)"
-                        opacity={p > 0 ? clamp(p * 4) : 0}
-                        transform={`translate(${dx}, ${dy}) scale(${0.6 + 0.4 * e})`}
-                        style={{ transformOrigin: "74px 75px" }}
-                      />
+                      <g key={`s${i}`}>
+                        {/* Energy trail — bright glow copy behind */}
+                        {glowAmount > 0 && (
+                          <path
+                            d={d}
+                            fill="#FFF0C0"
+                            filter="url(#trail-glow)"
+                            opacity={clamp(p * 3) * (1 - clamp((p - 0.5) / 0.35))}
+                            transform={`translate(${dx}, ${dy}) scale(${0.5 + 0.5 * e})`}
+                            style={{ transformOrigin: "74px 75px" }}
+                          />
+                        )}
+                        {/* Solid stripe — arrives and solidifies */}
+                        <path
+                          d={d}
+                          fill={settled ? "url(#j3gold)" : "#FFEDB3"}
+                          filter={settled ? undefined : "url(#energy-glow)"}
+                          opacity={p > 0 ? clamp(p * 3.5) : 0}
+                          transform={`translate(${dx}, ${dy}) scale(${0.5 + 0.5 * e})`}
+                          style={{ transformOrigin: "74px 75px" }}
+                        />
+                      </g>
                     );
                   })}
                 </g>
 
-                {/* ── 3 Legs — GOLD, slide from left/right/below ── */}
+                {/* ── 3 Legs — GOLD, arrive as light trails from sides/below ── */}
                 {legData.map(({ d, fromX, fromY, delay }, i) => {
-                  const p = clamp((buildT - 0.30 - delay) / 0.45);
+                  const p = clamp((buildT - delay) / 0.45);
                   const e = easeOutBack(p);
                   const dx = fromX * (1 - e);
                   const dy = fromY * (1 - e);
+                  const glowAmount = p > 0 && p < 0.85 ? 1 : 0;
+                  const settled = p >= 0.85;
                   return (
-                    <path
-                      key={`l${i}`}
-                      d={d}
-                      fill="url(#j3gold)"
-                      opacity={p > 0 ? clamp(p * 3) : 0}
-                      transform={`translate(${dx}, ${dy})`}
-                    />
+                    <g key={`l${i}`}>
+                      {/* Energy trail — bright glow behind */}
+                      {glowAmount > 0 && (
+                        <path
+                          d={d}
+                          fill="#FFF0C0"
+                          filter="url(#trail-glow)"
+                          opacity={clamp(p * 2.5) * (1 - clamp((p - 0.5) / 0.35))}
+                          transform={`translate(${dx}, ${dy})`}
+                        />
+                      )}
+                      {/* Solid leg */}
+                      <path
+                        d={d}
+                        fill={settled ? "url(#j3gold)" : "#FFEDB3"}
+                        filter={settled ? undefined : "url(#energy-glow)"}
+                        opacity={p > 0 ? clamp(p * 3) : 0}
+                        transform={`translate(${dx}, ${dy})`}
+                      />
+                    </g>
                   );
                 })}
               </g>
