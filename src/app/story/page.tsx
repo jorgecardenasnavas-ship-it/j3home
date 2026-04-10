@@ -1700,7 +1700,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
     ctx.drawImage(img, 0, 0);
   }, [flyT, framesLoaded]);
 
-  if (typeof window !== "undefined" && window.innerWidth < 960) return null;
+  // Renders on all viewports — mobile gets the same logo build experience
 
   const clamp = (v: number) => Math.max(0, Math.min(1, v));
 
@@ -1720,7 +1720,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
       {/* Scroll-driven frame sequence — canvas renders preloaded images */}
       {showVideo && (
         <div
-          className="fixed inset-0 z-[60] pointer-events-none hidden min-[960px]:flex items-center justify-center"
+          className="fixed inset-0 z-[60] pointer-events-none flex items-center justify-center"
           style={{
             opacity: videoOp,
             willChange: "opacity",
@@ -1786,7 +1786,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
 
         return (
           <div
-            className="fixed inset-0 z-[61] pointer-events-none hidden min-[960px]:flex items-center justify-center"
+            className="fixed inset-0 z-[61] pointer-events-none flex items-center justify-center"
             style={{ opacity: videoOp, mixBlendMode: "lighten", willChange: "opacity" }}
           >
             <svg viewBox="0 0 1920 1080" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
@@ -1923,7 +1923,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
       {/* Black background overlay */}
       {showBg && (
         <div
-          className="fixed inset-0 z-[59] pointer-events-none hidden min-[960px]:block"
+          className="fixed inset-0 z-[59] pointer-events-none"
           style={{ background: "#000", opacity: bgBlackOp, willChange: "opacity" }}
         />
       )}
@@ -2031,9 +2031,10 @@ export default function StoryPage() {
     if (!hero) return;
     const isDesktop = typeof window !== "undefined" && window.innerWidth >= 960;
 
-    if (isDesktop) {
-      // Desktop: pin the hero while virgulilla → logo → black plays
-      const SCROLL_DISTANCE = 7200;  // total scroll px (más lento = más alto)
+    {
+      // Pin the hero while virgulilla → logo → black plays
+      // Mobile: shorter scroll distance for faster thumb scrolling
+      const SCROLL_DISTANCE = isDesktop ? 7200 : 5000;
       const PHASE_RANGE = 6020;     // rango de fases (expandido para hold de logo)
       const st = ScrollTrigger.create({
         trigger: hero,
@@ -2326,20 +2327,6 @@ export default function StoryPage() {
               if (sdv) { sdv.style.opacity = "1"; }
             }
           }
-        },
-      });
-      setPinReady(true);
-      return () => st.kill();
-    } else {
-      // Mobile: simple parallax without pin (no flying accent on mobile)
-      const st = ScrollTrigger.create({
-        trigger: document.body,
-        start: "top top",
-        end: "+=600",
-        onUpdate: (self) => {
-          const y = self.progress * 600;
-          setHeroY(y * 0.4);
-          setHeroOp(Math.max(0, 1 - y / 600));
         },
       });
       setPinReady(true);
