@@ -1614,6 +1614,7 @@ const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * CIRCLE_R;
 /* ───────── FLYING ACCENT ───────── */
 
 const TOTAL_FRAMES = 193;
+const LAST_VIDEO_FRAME = 175; // Frame where ball is complete, post-flash — freeze here
 
 function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: number; holdT: number; heroAccentRef: React.RefObject<HTMLSpanElement | null> }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -1646,9 +1647,9 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Map flyT 0.12→1.0 to all 97 frames — video runs to full completion
+    // Map flyT 0.12→1.0 to frames 1→175 — video freezes at ball-complete post-flash
     const videoProgress = Math.max(0, Math.min(1, (flyT - 0.12) / 0.88));
-    const frameIndex = Math.min(TOTAL_FRAMES - 1, Math.floor(videoProgress * (TOTAL_FRAMES - 1)));
+    const frameIndex = Math.min(LAST_VIDEO_FRAME - 1, Math.floor(videoProgress * (LAST_VIDEO_FRAME - 1)));
     const img = framesRef.current[frameIndex];
     if (!img) return;
 
