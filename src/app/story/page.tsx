@@ -1819,36 +1819,64 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
                   })}
                 </g>
 
-                {/* ── 3 Legs — GOLD, arrive during/after flash, top→bottom flow ── */}
-                {legData.map(({ d, fromX, fromY, delay }, i) => {
-                  const p = clamp((legT - delay) / 0.55);
-                  const e = easeOutBack(p);
-                  const dx = fromX * (1 - e);
-                  const dy = fromY * (1 - e);
-                  const settled = legT >= 0.92;
-                  return (
-                    <g key={`l${i}`}>
-                      {/* Energy trail — iridescent glow while traveling */}
-                      {p > 0 && !settled && (
-                        <path
-                          d={d}
-                          fill="#FFF0C0"
-                          filter="url(#trail-glow)"
-                          opacity={clamp(p * 2.5) * (1 - clamp((p - 0.6) / 0.4))}
-                          transform={`translate(${dx}, ${dy})`}
-                        />
-                      )}
-                      {/* Solid leg — iridescent until settled */}
-                      <path
-                        d={d}
-                        fill={settled ? "url(#j3gold)" : "#FFEDB3"}
-                        filter={settled ? undefined : "url(#energy-glow)"}
-                        opacity={p > 0 ? clamp(p * 3) : 0}
-                        transform={`translate(${dx}, ${dy})`}
-                      />
-                    </g>
-                  );
-                })}
+                {/* ── 3 Legs — arrive iridescent, sweep transforms to gold top→bottom ── */}
+                {(() => {
+                  // Sweep: during holdT 0→0.35, a clip reveals gold from top to bottom
+                  const sweepT = clamp(holdT / 0.35);
+                  const sweepEased = easeOut(sweepT);
+                  // Legs span y≈148 to y≈201 (53 units)
+                  const sweepY = 145;
+                  const sweepH = 60 * sweepEased;
+
+                  return legData.map(({ d, fromX, fromY, delay }, i) => {
+                    const p = clamp((legT - delay) / 0.55);
+                    const e = easeOutBack(p);
+                    const dx = fromX * (1 - e);
+                    const dy = fromY * (1 - e);
+                    const legOp = p > 0 ? clamp(p * 3) : 0;
+                    const fullySwept = sweepT >= 1;
+
+                    return (
+                      <g key={`l${i}`}>
+                        {/* Energy trail — iridescent glow while traveling */}
+                        {p > 0 && !fullySwept && (
+                          <path
+                            d={d}
+                            fill="#FFF0C0"
+                            filter="url(#trail-glow)"
+                            opacity={clamp(p * 2.5) * (1 - clamp((p - 0.6) / 0.4))}
+                            transform={`translate(${dx}, ${dy})`}
+                          />
+                        )}
+                        {/* Iridescent layer — visible until sweep covers it */}
+                        {!fullySwept && (
+                          <path
+                            d={d}
+                            fill="#FFEDB3"
+                            filter={legT < 0.92 ? "url(#energy-glow)" : undefined}
+                            opacity={legOp}
+                            transform={`translate(${dx}, ${dy})`}
+                          />
+                        )}
+                        {/* Gold gradient layer — revealed by sweep clip top→bottom */}
+                        {sweepT > 0 && (
+                          <g>
+                            <clipPath id={`leg-sweep-${i}`}>
+                              <rect x="-10" y={sweepY} width="180" height={sweepH} />
+                            </clipPath>
+                            <path
+                              d={d}
+                              fill="url(#j3gold)"
+                              opacity={legOp}
+                              clipPath={`url(#leg-sweep-${i})`}
+                              transform={`translate(${dx}, ${dy})`}
+                            />
+                          </g>
+                        )}
+                      </g>
+                    );
+                  });
+                })()}
               </g>
             </svg>
           </div>
