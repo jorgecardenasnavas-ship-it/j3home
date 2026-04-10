@@ -480,46 +480,43 @@ function AccentManifesto() {
         0
       );
 
-      // Tilde — GSAP keyframes so it reverses on backward scroll
+      // Tilde — drops like a golden droplet from the section above
       if (tildeRef.current) {
         const tilde = tildeRef.current;
-        // Fall from above → impact → bounce → settle (matches old CSS keyframe timing)
         const tildeTL = gsap.timeline({ defaults: { ease: "none" } });
-        // 0% → 12%: fade in while falling
+        // 0% → 40%: fall from far above (like from previous card), growing from tiny to full size
         tildeTL.fromTo(tilde,
-          { x: "-50%", y: "-700%", rotation: -60, opacity: 0 },
-          { opacity: 1, duration: 0.12 },
+          { x: "-50%", y: "-60vh", rotation: -60, opacity: 0, scale: 0.15 },
+          { opacity: 1, scale: 0.6, duration: 0.15 },
           0
         );
-        // 0% → 35%: fall to impact — hits the A
         tildeTL.to(tilde,
-          { x: "-50%", y: "25%", rotation: -14, duration: 0.35, ease: "power2.in" },
+          { x: "-50%", y: "25%", rotation: -14, scale: 1, duration: 0.40, ease: "power2.in" },
           0
         );
-        // 35% → 50%: big bounce up
+        // 40% → 55%: big bounce up
         tildeTL.to(tilde,
-          { x: "-50%", y: "-150%", rotation: -26, duration: 0.15, ease: "power2.out" },
-          0.35
+          { x: "-50%", y: "-150%", rotation: -26, scale: 1, duration: 0.15, ease: "power2.out" },
+          0.40
         );
-        // 50% → 66%: drops back down — hits the A again
+        // 55% → 70%: drops back down — hits the A again
         tildeTL.to(tilde,
-          { x: "-50%", y: "10%", rotation: -17, duration: 0.16, ease: "power2.in" },
-          0.50
+          { x: "-50%", y: "10%", rotation: -17, duration: 0.15, ease: "power2.in" },
+          0.55
         );
-        // 66% → 82%: second bounce — smaller but visible
+        // 70% → 85%: second bounce — smaller
         tildeTL.to(tilde,
-          { x: "-50%", y: "-70%", rotation: -22, duration: 0.16, ease: "power2.out" },
-          0.66
+          { x: "-50%", y: "-70%", rotation: -22, duration: 0.15, ease: "power2.out" },
+          0.70
         );
-        // 82% → 100%: final rest — close to A
+        // 85% → 100%: final rest
         tildeTL.to(tilde,
-          { x: "-50%", y: "-35%", rotation: -20, duration: 0.18, ease: "power2.inOut" },
-          0.82
+          { x: "-50%", y: "-35%", rotation: -20, duration: 0.15, ease: "power2.inOut" },
+          0.85
         );
-        // Nest tilde timeline into master at 0.12→0.28 (same window as old CSS anim)
-        tl.add(tildeTL, 0.12);
-        // Scale tildeTL to occupy 0.16 of master timeline
-        tl.to({}, { duration: 0 }, 0.28); // ensure timeline extends
+        // Nest tilde timeline into master at 0.10→0.28
+        tl.add(tildeTL, 0.10);
+        tl.to({}, { duration: 0 }, 0.28);
       }
 
       // pC 0.19→0.30 — slogan line 1 PÁDEL
@@ -748,7 +745,7 @@ function AccentManifesto() {
                     "linear-gradient(135deg, #dcaf64 0%, #fff1b4 50%, #dcaf64 100%)",
                   borderRadius: "0.015em",
                   transformOrigin: "center center",
-                  transform: "translate(-50%, -700%) rotate(-60deg)",
+                  transform: "translate(-50%, -60vh) rotate(-60deg) scale(0.15)",
                   opacity: 0,
                 }}
               />
