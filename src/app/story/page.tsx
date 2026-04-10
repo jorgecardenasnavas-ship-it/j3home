@@ -1729,6 +1729,18 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
   const tunnelScale = 1 + (Math.pow(zoomT, 2.5) * 11); // exponential ramp: 1× → 12×
   const whiteoutOp = clamp((fadeOutT - 0.6) / 0.4); // white flash starts at 60%, full at 100%
 
+  // ── Motion blur — increases with zoom speed for velocity feel ──
+  const motionBlur = Math.pow(zoomT, 3) * 12; // 0px → 12px, heavy at the end
+
+  // ── Gold pulse — brief glow right before zoom starts ──
+  // Triggers at fadeOutT 0→0.15 (first 15% of fadeOut), then fades
+  const pulseOp = fadeOutT > 0 && fadeOutT < 0.2
+    ? Math.sin(clamp(fadeOutT / 0.2) * Math.PI) * 0.7  // sine pulse: 0 → 0.7 → 0
+    : 0;
+
+  // ── Tunnel vignette — dark radial edges during zoom ──
+  const vignetteOp = clamp(zoomT * 0.8); // fades in with zoom
+
   const showBg = bgBlackOp > 0.01;
   const showVideo = videoOp > 0.01 || fadeOutT > 0;
 
@@ -1740,8 +1752,9 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
           className="fixed inset-0 z-[60] pointer-events-none flex items-center justify-center"
           style={{
             opacity: fadeOutT >= 1 ? 0 : 1,
-            willChange: "opacity, transform",
+            willChange: "opacity, transform, filter",
             transform: `scale(${tunnelScale})`,
+            filter: motionBlur > 0.1 ? `blur(${motionBlur}px)` : "none",
           }}
         >
           <canvas
@@ -1750,6 +1763,28 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
             style={{ background: "#000", opacity: videoOp }}
           />
         </div>
+      )}
+
+      {/* Gold pulse — brief golden glow at center before zoom kicks in */}
+      {pulseOp > 0.01 && (
+        <div
+          className="fixed inset-0 z-[61] pointer-events-none"
+          style={{
+            background: "radial-gradient(circle at 50% 50%, rgba(220,175,100,0.6) 0%, rgba(220,175,100,0) 55%)",
+            opacity: pulseOp,
+          }}
+        />
+      )}
+
+      {/* Tunnel vignette — dark edges reinforce speed tunnel feel */}
+      {vignetteOp > 0.01 && (
+        <div
+          className="fixed inset-0 z-[61] pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse 50% 50% at 50% 50%, transparent 20%, rgba(0,0,0,0.85) 100%)",
+            opacity: vignetteOp,
+          }}
+        />
       )}
 
       {/* White flash overlay — fills screen as tunnel zoom peaks */}
@@ -1817,7 +1852,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
         return (
           <div
             className="fixed inset-0 z-[61] pointer-events-none flex items-center justify-center"
-            style={{ opacity: fadeOutT >= 1 ? 0 : videoOp, mixBlendMode: "lighten", willChange: "opacity, transform", transform: `scale(${tunnelScale})` }}
+            style={{ opacity: fadeOutT >= 1 ? 0 : videoOp, mixBlendMode: "lighten", willChange: "opacity, transform, filter", transform: `scale(${tunnelScale})`, filter: motionBlur > 0.1 ? `blur(${motionBlur}px)` : "none" }}
           >
             <svg viewBox={svgViewBox} className="w-full h-full" preserveAspectRatio="xMidYMid meet">
               <defs>
