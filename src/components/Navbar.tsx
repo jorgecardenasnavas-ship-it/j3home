@@ -6,23 +6,19 @@ import Link from "next/link";
 import { useI18n, type Locale } from "@/i18n/context";
 
 
-/* Primary nav links (flat) */
-const primaryLinks = [
+/* Nav links — split around center home icon */
+const leftLinks = [
   { label: "Coach360", href: "/coach360" },
   { label: "Academy", href: "/academy" },
-  { label: "J3PTV", href: "/j3ptv" },
+] as const;
+
+const rightLinks = [
   { label: "Story", href: "/story" },
-] as const;
-
-/* Grouped under "Soluciones" dropdown */
-const solucionesLinks = [
-  { label: "Business", href: "/business" },
+  { label: "J3PTV", href: "/j3ptv" },
   { label: "Experience", href: "/experience" },
-  { label: "Partner", href: "/partner" },
 ] as const;
 
-/* All links combined (for mobile) */
-const allLinks = [...primaryLinks.slice(0, 2), ...solucionesLinks, ...primaryLinks.slice(2)] as const;
+const allNavLinks = [...leftLinks, ...rightLinks] as const;
 
 /* Languages */
 const languages = [
@@ -60,11 +56,6 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Soluciones dropdown
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const dropdownTimeout = useRef<ReturnType<typeof setTimeout>>(null);
-  const dropdownRef = useRef<HTMLLIElement>(null);
-
   // Language — connected to i18n context
   const { locale, setLocale, t } = useI18n();
   const [langOpen, setLangOpen] = useState(false);
@@ -82,20 +73,8 @@ export function Navbar() {
   }, []);
 
   // Filter out link for current page
-  const visiblePrimary = primaryLinks.filter((l) => l.href !== pathname);
-  const visibleSoluciones = solucionesLinks.filter((l) => l.href !== pathname);
-  const isOnSolucionesPage = solucionesLinks.some((l) => l.href === pathname);
-
-  // Desktop: split primary links around center (home icon)
-  const half = Math.ceil(visiblePrimary.length / 2);
-
-  function openDropdown() {
-    if (dropdownTimeout.current) clearTimeout(dropdownTimeout.current);
-    setDropdownOpen(true);
-  }
-  function closeDropdown() {
-    dropdownTimeout.current = setTimeout(() => setDropdownOpen(false), 150);
-  }
+  const visibleLeft = leftLinks.filter((l) => l.href !== pathname);
+  const visibleRight = rightLinks.filter((l) => l.href !== pathname);
 
   function openLang() {
     if (langTimeout.current) clearTimeout(langTimeout.current);
@@ -112,7 +91,7 @@ export function Navbar() {
   }
 
   // All visible links for mobile
-  const mobileLinks = allLinks.filter((l) => l.href !== pathname);
+  const mobileLinks = allNavLinks.filter((l) => l.href !== pathname);
 
   return (
     <>
@@ -135,7 +114,7 @@ export function Navbar() {
 
         {/* Desktop Nav Links */}
         <ul className="hidden min-[961px]:flex gap-8 list-none items-center">
-          {visiblePrimary.slice(0, half).map((link) => (
+          {visibleLeft.map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
@@ -146,56 +125,12 @@ export function Navbar() {
             </li>
           ))}
 
-          {/* Soluciones dropdown */}
-          {visibleSoluciones.length > 0 && (
-            <li
-              ref={dropdownRef}
-              className="relative"
-              onMouseEnter={openDropdown}
-              onMouseLeave={closeDropdown}
-            >
-              <button
-                className={`group/prem relative flex items-center gap-[6px] text-[12px] font-medium tracking-[1.5px] uppercase no-underline transition-all duration-300 bg-transparent border-none cursor-pointer ${
-                  isOnSolucionesPage || dropdownOpen ? "text-[var(--g1)]" : "text-[var(--gy2)] hover:text-[var(--g1)]"
-                }`}
-              >
-                {/* Subtle glow behind on hover */}
-                <span className="absolute inset-0 -inset-x-3 -inset-y-1 rounded-full bg-[var(--g1)]/0 group-hover/prem:bg-[var(--g1)]/[.06] transition-all duration-300" />
-                {/* Star/diamond icon */}
-                <svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor" className="relative opacity-60 group-hover/prem:opacity-100 transition-opacity duration-300">
-                  <path d="M8 0l2.2 5.5L16 6.3l-4 3.7 1 5.5L8 12.8 2.9 15.5l1-5.5-4-3.7 5.9-.8z" />
-                </svg>
-                <span className="relative">{t.nav.soluciones}</span>
-                <ChevronDown />
-              </button>
-
-              {/* Dropdown panel */}
-              <div
-                className={`absolute top-full left-1/2 -translate-x-1/2 mt-[10px] min-w-[160px] py-3 px-1 rounded-lg bg-black/90 backdrop-blur-[20px] border border-white/[.08] shadow-[0_8px_32px_rgba(0,0,0,.6)] transition-all duration-200 ${
-                  dropdownOpen
-                    ? "opacity-100 translate-y-0 pointer-events-auto"
-                    : "opacity-0 -translate-y-1 pointer-events-none"
-                }`}
-              >
-                {visibleSoluciones.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="block px-4 py-[9px] text-[11px] font-normal tracking-[1px] uppercase text-[var(--gy2)] no-underline hover:text-[var(--wh)] hover:bg-white/[.04] rounded-md transition-all duration-200"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
-            </li>
-          )}
-
-          {/* Home icon — only on subpages */}
+          {/* Home icon — gold, hidden on home page */}
           {!isHome && (
             <li>
               <Link
                 href="/"
-                className="text-[var(--gy2)] hover:text-[var(--wh)] transition-colors duration-300"
+                className="text-[var(--g1)] hover:text-[var(--g2)] transition-colors duration-300"
                 aria-label="Inicio"
               >
                 <HomeIcon />
@@ -203,7 +138,7 @@ export function Navbar() {
             </li>
           )}
 
-          {visiblePrimary.slice(half).map((link) => (
+          {visibleRight.map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
@@ -360,7 +295,7 @@ export function Navbar() {
         )}
 
         {/* Main links */}
-        {mobileLinks.filter(l => !solucionesLinks.some(s => s.href === l.href)).map((link) => (
+        {mobileLinks.map((link) => (
           <Link
             key={link.href}
             href={link.href}
@@ -370,28 +305,6 @@ export function Navbar() {
             {link.label}
           </Link>
         ))}
-
-        {/* Soluciones group */}
-        {visibleSoluciones.length > 0 && (
-          <>
-            <span className="flex items-center gap-2 text-[9px] font-medium tracking-[3px] uppercase text-[var(--g1)] mt-2">
-              <svg width="8" height="8" viewBox="0 0 16 16" fill="currentColor" className="opacity-60">
-                <path d="M8 0l2.2 5.5L16 6.3l-4 3.7 1 5.5L8 12.8 2.9 15.5l1-5.5-4-3.7 5.9-.8z" />
-              </svg>
-              {t.nav.soluciones}
-            </span>
-            {visibleSoluciones.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                className="text-[16px] font-bold tracking-[3px] uppercase text-[var(--gy2)] no-underline hover:text-[var(--g1)] transition-colors duration-300"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </>
-        )}
 
         {/* Auth CTA mobile */}
         <Link
