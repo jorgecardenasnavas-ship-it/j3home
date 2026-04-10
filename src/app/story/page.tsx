@@ -505,8 +505,8 @@ function AccentManifesto() {
       // pG 0.42→0.66 — manifesto lines staggered (earlier = more hold time for last line)
       manifestoRefs.current.forEach((el, i) => {
         if (!el) return;
-        const start = 0.42 + i * 0.07;
-        tl.to(el, { opacity: 1, y: 0, duration: 0.14 }, start);
+        const start = 0.35 + i * 0.06;
+        tl.to(el, { opacity: 1, y: 0, duration: 0.12 }, start);
       });
 
       // Dwell 0.66→0.95 — todo visible, sin animaciones, solo lectura
