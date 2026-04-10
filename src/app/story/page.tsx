@@ -2148,11 +2148,11 @@ export default function StoryPage() {
               l.style.strokeDashoffset = String(len * lineP);
             });
             // Stats start appearing earlier as court fades
-            const statsP = Math.max(0, (p9 - 0.25) / 0.75);
+            const statsP = Math.max(0, (p9 - 0.4) / 0.6);
             if (so) {
               so.style.opacity = String(statsP);
               // Header starts during Phase 9
-              const hP9 = Math.max(0, (p9 - 0.45) / 0.55);
+              const hP9 = Math.max(0, (p9 - 0.55) / 0.45);
               if (sh) {
                 sh.style.opacity = String(hP9);
                 sh.style.transform = hP9 < 1 ? `translateY(${(1 - hP9) * 20}px)` : "none";
