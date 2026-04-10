@@ -1906,6 +1906,7 @@ export default function StoryPage() {
   const whiteBgRef = useRef<HTMLDivElement>(null);
   const courtLinesRef = useRef<(SVGElement | null)[]>([]);
   const courtInitRef = useRef(false); // stroke-width set once
+  const courtAnimFiredRef = useRef(false); // court reveal animation triggered (one-shot)
 
   /* Hard scroll-lock for bridge animation: pins scrollY via rAF + event suppression */
   useEffect(() => {
@@ -2004,9 +2005,11 @@ export default function StoryPage() {
             if (bt) { bt.style.opacity = "1"; bt.style.transform = "scale(1)"; bt.style.filter = "blur(0px)"; }
             if (cb) { cb.style.display = "none"; }
             if (wbg) { wbg.style.opacity = "1"; }
-            // Reset court for re-trigger if user scrolls back up
+            // Reset court animation for re-trigger if user scrolls back up
+            courtAnimFiredRef.current = false;
             courtInitRef.current = false;
             lines.forEach(l => { if (l) { l.classList.remove("court-draw-in", "court-draw-out"); } });
+            if (wbg) { wbg.style.transition = "none"; wbg.style.background = "#fff"; wbg.style.opacity = "1"; }
             if (!bridgeLockFiredRef.current) {
               bridgeLockFiredRef.current = true;
               bridgeLockY.current = window.scrollY;
@@ -2023,105 +2026,87 @@ export default function StoryPage() {
               bt.style.filter = `blur(${p6 * 20}px)`;
               bt.style.opacity = String(Math.max(0, 1 - p6 * 2.5));
             }
-            // Court line starts appearing as text converges (overlap at p6 > 0.6)
-            if (cb) {
-              const courtStart = Math.max(0, (p6 - 0.6) / 0.4);
-              if (courtStart > 0) {
-                const vw = window.innerWidth;
-                const isMobile = vw <= 960;
-                const courtW = isMobile ? Math.min(vw * 0.65, 300) : Math.min(vw * 0.5, 460);
-                cb.style.display = "flex";
-                cb.style.transitionDuration = "0s";
-                cb.style.background = "#fff";
-                cb.style.width = `${courtW * 0.5 * courtStart}px`;
-                cb.style.height = "2px";
-              } else {
-                cb.style.display = "none";
-              }
-            }
-          } else if (scrolled <= 3200) {
-            // Phase 7: Court grows from line → full box, CSS draw-in triggers
-            if (wbg) { wbg.style.opacity = "1"; }
+            if (cb) { cb.style.display = "none"; }
+          } else {
+            // Phase 7+: EXACT CLONE of j3padel.com/homej3 preloader
+            // Time-based animation triggered once, scroll locked during playback
             if (bt) { bt.style.opacity = "0"; bt.style.transform = "scale(0)"; }
-            const p7 = (scrolled - 2900) / 300;
-            if (cb) {
+            if (wbg) { wbg.style.opacity = "1"; }
+
+            if (!courtAnimFiredRef.current && cb) {
+              courtAnimFiredRef.current = true;
+
+              // Lock scroll for animation duration
+              bridgeLockY.current = window.scrollY;
+              bridgeLockRef.current = true;
+
               const vw = window.innerWidth;
               const isMobile = vw <= 960;
               const courtW = isMobile ? Math.min(vw * 0.65, 300) : Math.min(vw * 0.5, 460);
               const courtH = isMobile ? courtW * 1.8 : courtW * 0.5;
-              cb.style.display = "flex";
-              cb.style.transitionDuration = "0s";
-              cb.style.background = "#fff";
-              // Width: from 50% courtW → full courtW
-              const wP = 0.5 + 0.5 * Math.min(1, p7 / 0.5);
-              // Height: from 2px → full courtH
-              const hP = Math.min(1, p7 / 0.6);
-              cb.style.width = `${courtW * wP}px`;
-              cb.style.height = `${Math.max(2, courtH * hP)}px`;
-            }
-            // Trigger CSS court-draw-in (one-shot)
-            if (!courtInitRef.current) {
-              courtInitRef.current = true;
-              const vw = window.innerWidth;
-              const courtW = vw <= 960 ? Math.min(vw * 0.65, 300) : Math.min(vw * 0.5, 460);
+              const fullW = vw;
+              const fullH = isMobile ? vw * 2 : vw * 0.5;
               const sw = 200 / courtW;
+              lines.forEach(l => l?.setAttribute("stroke-width", String(sw)));
+
+              // ── PHASE 1 (0ms): Thin line grows from center ──
+              cb.style.display = "flex";
+              cb.style.background = "var(--bk)";
+              cb.style.width = "0px";
+              cb.style.height = "2px";
+              cb.style.transition = "width .6s cubic-bezier(.4,0,.2,1), height .6s cubic-bezier(.4,0,.2,1)";
+              // Reset all line classes
               lines.forEach(l => {
                 if (!l) return;
-                l.setAttribute("stroke-width", String(sw));
                 l.style.transition = "";
                 l.style.strokeDashoffset = "";
-                l.classList.remove("court-draw-out");
-                l.classList.add("court-draw-in");
+                l.classList.remove("court-draw-in", "court-draw-out");
               });
-            }
-          } else if (scrolled <= 3800) {
-            // Phase 8: Court fully drawn, hold on white bg
-            if (wbg) { wbg.style.opacity = "1"; }
-            if (bt) { bt.style.opacity = "0"; }
-            if (cb) {
-              const vw = window.innerWidth;
-              const isMobile = vw <= 960;
-              const courtW = isMobile ? Math.min(vw * 0.65, 300) : Math.min(vw * 0.5, 460);
-              const courtH = isMobile ? courtW * 1.8 : courtW * 0.5;
-              cb.style.display = "flex";
-              cb.style.width = `${courtW}px`;
-              cb.style.height = `${courtH}px`;
-              cb.style.background = "#fff";
-            }
-          } else if (scrolled <= 4400) {
-            // Phase 9: Court expands + lines undraw + white→black transition
-            const p9 = (scrolled - 3800) / 600;
-            // White bg fades to black
-            if (wbg) {
-              const bgFade = Math.min(1, p9 * 1.5);
-              wbg.style.opacity = String(1 - bgFade);
-            }
-            if (cb) {
-              const vw = window.innerWidth;
-              const vh = window.innerHeight;
-              const isMobile = vw <= 960;
-              const courtW = isMobile ? Math.min(vw * 0.65, 300) : Math.min(vw * 0.5, 460);
-              const courtH = isMobile ? courtW * 1.8 : courtW * 0.5;
-              const expandW = courtW + (vw * 1.5 - courtW) * p9;
-              const expandH = courtH + (vh * 1.2 - courtH) * p9;
-              cb.style.transitionDuration = "0s";
-              cb.style.width = `${expandW}px`;
-              cb.style.height = `${expandH}px`;
-              cb.style.background = "transparent";
-            }
-            // Undraw lines in reverse (CSS class)
-            if (p9 > 0.1 && lines[0] && !lines[0].classList.contains("court-draw-out")) {
-              lines.forEach(l => {
-                if (!l) return;
-                l.classList.remove("court-draw-in");
-                l.classList.add("court-draw-out");
+
+              requestAnimationFrame(() => {
+                if (!cb) return;
+                if (isMobile) {
+                  cb.style.height = `${courtH * 0.4}px`;
+                } else {
+                  cb.style.width = `${courtW * 0.6}px`;
+                }
               });
+
+              // ── PHASE 2 (700ms): Expand to full court + draw lines ──
+              setTimeout(() => {
+                if (!cb) return;
+                cb.style.transitionDuration = "1s";
+                cb.style.width = `${courtW}px`;
+                cb.style.height = `${courtH}px`;
+                lines.forEach(l => {
+                  if (!l) return;
+                  l.classList.remove("court-draw-out");
+                  l.classList.add("court-draw-in");
+                });
+              }, 700);
+
+              // ── PHASE 3 (2600ms): Grow to viewport + white→black + undraw ──
+              setTimeout(() => {
+                if (!cb || !wbg) return;
+                cb.style.transitionDuration = "1.8s";
+                cb.style.width = `${fullW}px`;
+                cb.style.height = `${fullH}px`;
+                wbg.style.transition = "background 1.2s ease";
+                wbg.style.background = "var(--bk)";
+                lines.forEach(l => {
+                  if (!l) return;
+                  l.classList.remove("court-draw-in");
+                  l.classList.add("court-draw-out");
+                });
+              }, 2600);
+
+              // ── PHASE 4 (4200ms): Hide court, release scroll ──
+              setTimeout(() => {
+                if (cb) { cb.style.display = "none"; }
+                if (wbg) { wbg.style.opacity = "0"; }
+                bridgeLockRef.current = false;
+              }, 4200);
             }
-          } else {
-            // Phase 10: hold black
-            if (cb) { cb.style.display = "none"; }
-            if (bt) { bt.style.opacity = "0"; }
-            if (wbg) { wbg.style.opacity = "0"; }
           }
         },
       });
@@ -2272,13 +2257,14 @@ export default function StoryPage() {
           style={{ background: "#fff", opacity: 0, zIndex: 15 }}
         />
 
-        {/* Court SVG — WHITE bg like original j3padel preloader */}
+        {/* Court SVG — exact clone of j3padel.com/homej3 preloader courtBox */}
         <div
           ref={courtBoxRef}
           className="absolute z-30 flex items-center justify-center overflow-hidden"
           style={{
             top: "50%", left: "50%", transform: "translate(-50%,-50%)",
-            background: "#fff",
+            background: "var(--bk)",
+            width: 0, height: "2px",
             display: "none",
           }}
         >
