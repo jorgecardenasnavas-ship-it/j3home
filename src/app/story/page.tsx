@@ -1695,9 +1695,19 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
     const img = framesRef.current[frameIndex];
     if (!img) return;
 
-    if (canvas.width !== img.naturalWidth) canvas.width = img.naturalWidth;
-    if (canvas.height !== img.naturalHeight) canvas.height = img.naturalHeight;
-    ctx.drawImage(img, 0, 0);
+    // Mobile: crop to center 810px for portrait-friendly framing (ball stays centered)
+    const isMobile = window.innerWidth < 960;
+    if (isMobile) {
+      const CROP_W = 810;
+      const CROP_X = (1920 - CROP_W) / 2; // 555
+      if (canvas.width !== CROP_W) canvas.width = CROP_W;
+      if (canvas.height !== 1080) canvas.height = 1080;
+      ctx.drawImage(img, CROP_X, 0, CROP_W, 1080, 0, 0, CROP_W, 1080);
+    } else {
+      if (canvas.width !== img.naturalWidth) canvas.width = img.naturalWidth;
+      if (canvas.height !== img.naturalHeight) canvas.height = img.naturalHeight;
+      ctx.drawImage(img, 0, 0);
+    }
   }, [flyT, framesLoaded]);
 
   // Renders on all viewports — mobile gets the same logo build experience
@@ -1784,12 +1794,16 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
           { d: J3_LEG_RIGHT,  fromX: 80,  fromY: 0,  delay: 0.18 },
         ];
 
+        // Mobile: match canvas crop so SVG overlay aligns with cropped video
+        const isMobileSvg = typeof window !== "undefined" && window.innerWidth < 960;
+        const svgViewBox = isMobileSvg ? "555 0 810 1080" : "0 0 1920 1080";
+
         return (
           <div
             className="fixed inset-0 z-[61] pointer-events-none flex items-center justify-center"
             style={{ opacity: videoOp, mixBlendMode: "lighten", willChange: "opacity" }}
           >
-            <svg viewBox="0 0 1920 1080" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
+            <svg viewBox={svgViewBox} className="w-full h-full" preserveAspectRatio="xMidYMid meet">
               <defs>
                 <linearGradient id="j3gold" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stopColor="#F0DC82" />
