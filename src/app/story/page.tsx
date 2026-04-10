@@ -2147,12 +2147,17 @@ export default function StoryPage() {
               const lineP = Math.max(0, Math.min(1, (p9 - delays9[i]) / 0.35));
               l.style.strokeDashoffset = String(len * lineP);
             });
-            // Stats start appearing as court fades
-            const statsP = Math.max(0, (p9 - 0.6) / 0.4);
+            // Stats start appearing earlier as court fades
+            const statsP = Math.max(0, (p9 - 0.25) / 0.75);
             if (so) {
               so.style.opacity = String(statsP);
-              // Reset item states for scroll-back from Phase 10
-              if (sh) { sh.style.opacity = "0"; sh.style.transform = "translateY(20px)"; }
+              // Header starts during Phase 9
+              const hP9 = Math.max(0, (p9 - 0.45) / 0.55);
+              if (sh) {
+                sh.style.opacity = String(hP9);
+                sh.style.transform = hP9 < 1 ? `translateY(${(1 - hP9) * 20}px)` : "none";
+              }
+              // Reset items for scroll-back from Phase 10
               if (sdv) { sdv.style.opacity = "0"; }
               statsItemRefs.current.forEach(el => { if (el) { el.style.opacity = "0"; el.style.transform = "translateY(24px)"; } });
             }
