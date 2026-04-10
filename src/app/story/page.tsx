@@ -2016,9 +2016,9 @@ export default function StoryPage() {
               bridgeLockRef.current = true;
               setTimeout(() => { bridgeLockRef.current = false; }, 1500);
             }
-          } else if (scrolled <= 2900) {
-            // Phase 6: Text converges to singularity on WHITE bg
-            if (wbg) { wbg.style.opacity = "1"; }
+          } else if (scrolled <= 3000) {
+            // Phase 6+7: Text converges + court line starts SIMULTANEOUSLY
+            if (wbg) { wbg.style.opacity = "1"; wbg.style.transition = "none"; wbg.style.background = "#fff"; }
             const p6 = Math.min(1, (scrolled - 2650) / 200);
             if (bt) {
               const s = Math.max(0, 1 - p6);
@@ -2026,18 +2026,16 @@ export default function StoryPage() {
               bt.style.filter = `blur(${p6 * 20}px)`;
               bt.style.opacity = String(Math.max(0, 1 - p6 * 2.5));
             }
-            if (cb) { cb.style.display = "none"; }
-          } else if (scrolled <= 3100) {
-            // Phase 7: Thin line grows from center (scroll-driven)
-            if (bt) { bt.style.opacity = "0"; bt.style.transform = "scale(0)"; }
-            if (wbg) { wbg.style.opacity = "1"; wbg.style.transition = "none"; wbg.style.background = "#fff"; }
-            const p7 = (scrolled - 2900) / 200;
+            // Court line starts when text is ~50% converged
+            const courtP = Math.max(0, (p6 - 0.5) / 0.5); // 0→1 in last 50% of convergence
+            const p7 = Math.max(0, (scrolled - 2850) / 150); // also grows after 2850
+            const lineGrow = Math.max(courtP, p7); // combined progress for court line
             const vw7 = window.innerWidth;
             const isMob7 = vw7 <= 960;
             const cW7 = isMob7 ? Math.min(vw7 * 0.65, 300) : Math.min(vw7 * 0.5, 460);
             const cH7 = isMob7 ? cW7 * 1.8 : cW7 * 0.5;
             // Init stroke-width once
-            if (!courtInitRef.current) {
+            if (!courtInitRef.current && lineGrow > 0) {
               courtInitRef.current = true;
               const sw = 200 / cW7;
               lines.forEach(l => {
@@ -2051,22 +2049,26 @@ export default function StoryPage() {
               });
             }
             if (cb) {
-              cb.style.display = "flex";
-              cb.style.transition = "none";
-              cb.style.background = "var(--bk)";
-              if (isMob7) {
-                cb.style.width = `${cW7 * 0.5}px`;
-                cb.style.height = `${Math.max(2, cH7 * 0.4 * p7)}px`;
+              if (lineGrow > 0) {
+                cb.style.display = "flex";
+                cb.style.transition = "none";
+                cb.style.background = "var(--bk)";
+                if (isMob7) {
+                  cb.style.width = `${cW7 * 0.5}px`;
+                  cb.style.height = `${Math.max(2, cH7 * 0.4 * lineGrow)}px`;
+                } else {
+                  cb.style.width = `${cW7 * 0.6 * lineGrow}px`;
+                  cb.style.height = "2px";
+                }
               } else {
-                cb.style.width = `${cW7 * 0.6 * p7}px`;
-                cb.style.height = "2px";
+                cb.style.display = "none";
               }
             }
-          } else if (scrolled <= 3700) {
+          } else if (scrolled <= 3600) {
             // Phase 8: Court expands to full size + lines draw in (scroll-driven)
             if (bt) { bt.style.opacity = "0"; }
             if (wbg) { wbg.style.opacity = "1"; wbg.style.background = "#fff"; }
-            const p8 = (scrolled - 3100) / 600;
+            const p8 = (scrolled - 3000) / 600;
             const vw8 = window.innerWidth;
             const isMob8 = vw8 <= 960;
             const cW8 = isMob8 ? Math.min(vw8 * 0.65, 300) : Math.min(vw8 * 0.5, 460);
@@ -2093,10 +2095,10 @@ export default function StoryPage() {
               const lineP = Math.max(0, Math.min(1, (p8 - delays8[i]) / 0.35));
               l.style.strokeDashoffset = String(len * (1 - lineP));
             });
-          } else if (scrolled <= 4400) {
+          } else if (scrolled <= 4300) {
             // Phase 9: Court expands to viewport + lines undraw + white→black
             if (bt) { bt.style.opacity = "0"; }
-            const p9 = (scrolled - 3700) / 700;
+            const p9 = (scrolled - 3600) / 700;
             const vw9 = window.innerWidth;
             const vh9 = window.innerHeight;
             const isMob9 = vw9 <= 960;
