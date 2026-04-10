@@ -1904,6 +1904,7 @@ export default function StoryPage() {
   const [heroOp, setHeroOp] = useState(1);
   const [flyT, setFlyT] = useState(0); // 0 = at hero, 1 = logo complete
   const [fadeOutT, setFadeOutT] = useState(0); // 0 = visible, 1 = faded out
+  const [pinReady, setPinReady] = useState(false); // true after GSAP pin is set up
   const bridgeLockRef = useRef(false); // true while bridge animation is playing
   const bridgeLockFiredRef = useRef(false); // ensures lock fires only once
   const bridgeLockY = useRef(0); // scrollY to lock to
@@ -2234,6 +2235,7 @@ export default function StoryPage() {
           }
         },
       });
+      setPinReady(true);
       return () => st.kill();
     } else {
       // Mobile: simple parallax without pin (no flying accent on mobile)
@@ -2247,6 +2249,7 @@ export default function StoryPage() {
           setHeroOp(Math.max(0, 1 - y / 600));
         },
       });
+      setPinReady(true);
       return () => st.kill();
     }
   }, []);
@@ -2310,9 +2313,28 @@ export default function StoryPage() {
           style={{ opacity: heroOp, transform: `translateY(${-heroY * 0.2}px)` }}
         >
           <h1 className="font-bold uppercase tracking-[-3px] overflow-visible">
-            <span className="text-[clamp(64px,11vw,170px)] max-[960px]:text-[clamp(52px,16vw,120px)] text-[var(--wh)] block animate-[clipRevealUp_.9s_.3s_cubic-bezier(.16,1,.3,1)_both] leading-[.90]">WE</span>
-            <span className="text-[clamp(64px,11vw,170px)] max-[960px]:text-[clamp(52px,16vw,120px)] text-[var(--wh)] block animate-[slideFromLeft_.8s_.6s_cubic-bezier(.16,1,.3,1)_both] leading-[.90]">ARE</span>
-            <span ref={heroAccentRef} className="block animate-[slideFromRight_.8s_.9s_cubic-bezier(.16,1,.3,1)_both] leading-[.90]">
+            <span
+              className="text-[clamp(64px,11vw,170px)] max-[960px]:text-[clamp(52px,16vw,120px)] text-[var(--wh)] block leading-[.90]"
+              style={{
+                opacity: pinReady ? undefined : 0,
+                animation: pinReady ? "clipRevealUp .9s .3s cubic-bezier(.16,1,.3,1) both" : "none",
+              }}
+            >WE</span>
+            <span
+              className="text-[clamp(64px,11vw,170px)] max-[960px]:text-[clamp(52px,16vw,120px)] text-[var(--wh)] block leading-[.90]"
+              style={{
+                opacity: pinReady ? undefined : 0,
+                animation: pinReady ? "slideFromLeft .8s .6s cubic-bezier(.16,1,.3,1) both" : "none",
+              }}
+            >ARE</span>
+            <span
+              ref={heroAccentRef}
+              className="block leading-[.90]"
+              style={{
+                opacity: pinReady ? undefined : 0,
+                animation: pinReady ? "slideFromRight .8s .9s cubic-bezier(.16,1,.3,1) both" : "none",
+              }}
+            >
               <img
                 src="/images/padel-text.svg"
                 alt="PÁDEL"
@@ -2324,7 +2346,7 @@ export default function StoryPage() {
         </div>
 
         {/* Scroll indicator — "Más de" + animated chevrons (hidden once scroll starts) */}
-        {flyT < 0.08 && (
+        {flyT < 0.08 && pinReady && (
         <div
           className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 animate-[fadeInSoft_1s_1.8s_ease_both]"
         >
