@@ -393,24 +393,6 @@ export function Navbar() {
           </>
         )}
 
-        {/* Language selector mobile */}
-        <div className="flex items-center gap-4 mt-3">
-          {languages.map((lang) => (
-            <button
-              key={lang.code}
-              onClick={() => selectLang(lang)}
-              className={`text-[12px] font-bold tracking-[1px] uppercase transition-all duration-200 bg-transparent border-none cursor-pointer ${
-                currentLang.code === lang.code
-                  ? "text-[var(--g1)]"
-                  : "text-[var(--gy)] hover:text-[var(--gy2)]"
-              }`}
-              aria-label={lang.label}
-            >
-              {lang.code}
-            </button>
-          ))}
-        </div>
-
         {/* Auth CTA mobile */}
         <Link
           href="/login"
