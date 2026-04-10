@@ -1726,11 +1726,21 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
           { d: J3_BALL_STRIPE_3, fromX: -60, fromY: 50, delay: 0.45 },   // from left
         ];
 
-        // ── Legs (GOLD) — slide from sides/below, start later, arrive right at flash ──
+        // ── legT: separate timeline that extends into holdT ──
+        // Legs start during flash (flyT 0.86) and finish in early hold (holdT 0.20)
+        // This creates the top→bottom cascading flow AFTER the ball is done
+        let legT = 0;
+        if (holdT > 0) {
+          legT = 0.40 + holdT * 0.60;  // holdT 0→1 maps to legT 0.40→1.0
+        } else if (flyT > 0.86) {
+          legT = ((flyT - 0.86) / (BUILD_END - 0.86)) * 0.40; // flyT 0.86→0.88 → legT 0→0.40
+        }
+
+        // ── Legs (GOLD) — cascade down from ball, staggered top→bottom ──
         const legData = [
-          { d: J3_LEG_LEFT,   fromX: -90, fromY: 0,  delay: 0.35 },
-          { d: J3_LEG_RIGHT,  fromX: 90,  fromY: 0,  delay: 0.42 },
-          { d: J3_LEG_CENTER, fromX: 0,   fromY: 80, delay: 0.48 },
+          { d: J3_LEG_LEFT,   fromX: -70, fromY: -20, delay: 0 },      // starts first
+          { d: J3_LEG_CENTER, fromX: 0,   fromY: -25, delay: 0.08 },   // slightly after
+          { d: J3_LEG_RIGHT,  fromX: 70,  fromY: -20, delay: 0.16 },   // last
         ];
 
         return (
@@ -1810,27 +1820,38 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
                   })}
                 </g>
 
-                {/* ── 3 Legs — GOLD, arrive as light trails from sides/below ── */}
+                {/* ── Golden sweep — light band cascading from ball downward ── */}
+                {legT > 0 && legT < 0.95 && (
+                  <rect
+                    x="-10" y={148 + easeOut(clamp(legT / 0.80)) * 55 - 12}
+                    width="170" height="24"
+                    fill="url(#j3gold)"
+                    filter="url(#trail-glow)"
+                    opacity={clamp(legT * 5) * (1 - clamp((legT - 0.6) / 0.35))}
+                    rx="4"
+                  />
+                )}
+
+                {/* ── 3 Legs — cascade down from ball with flow effect ── */}
                 {legData.map(({ d, fromX, fromY, delay }, i) => {
-                  const p = clamp((buildT - delay) / 0.45);
+                  const p = clamp((legT - delay) / 0.55);
                   const e = easeOutBack(p);
                   const dx = fromX * (1 - e);
                   const dy = fromY * (1 - e);
-                  const glowAmount = p > 0 && p < 0.85 ? 1 : 0;
-                  const settled = p >= 0.85;
+                  const settled = legT >= 0.90;
                   return (
                     <g key={`l${i}`}>
-                      {/* Energy trail — bright glow behind */}
-                      {glowAmount > 0 && (
+                      {/* Energy trail — iridescent glow while traveling */}
+                      {p > 0 && !settled && (
                         <path
                           d={d}
                           fill="#FFF0C0"
                           filter="url(#trail-glow)"
-                          opacity={clamp(p * 2.5) * (1 - clamp((p - 0.5) / 0.35))}
+                          opacity={clamp(p * 2.5) * (1 - clamp((p - 0.6) / 0.4))}
                           transform={`translate(${dx}, ${dy})`}
                         />
                       )}
-                      {/* Solid leg */}
+                      {/* Solid leg — iridescent gold until settled */}
                       <path
                         d={d}
                         fill={settled ? "url(#j3gold)" : "#FFEDB3"}
