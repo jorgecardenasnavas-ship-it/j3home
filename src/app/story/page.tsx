@@ -457,60 +457,67 @@ function AccentManifesto() {
         },
       });
 
-      // pA 0.00→0.10 — Á + eyebrow appear
+      // ═══════════════════════════════════════════════════════════════
+      // Animaciones comprimidas al 60% del recorrido, manteniendo la
+      // misma velocidad visual que el diseño original (440vh).
+      // Del 60% al 96% → HOLD puro: la card está clavada al 100%.
+      // Del 96% al 100% → fade progresivo.
+      // ═══════════════════════════════════════════════════════════════
+
+      // pA 0.00→0.12 — Á + eyebrow appear
       tl.to(
         aRef.current,
-        { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.10 },
+        { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.12 },
         0
       ).to(
         eyebrowRef.current,
-        { opacity: 1, y: 0, duration: 0.10 },
+        { opacity: 1, y: 0, duration: 0.12 },
         0
       ).to(
         [glow1Ref.current, glow2Ref.current, cordRef.current],
-        { opacity: 1, duration: 0.10 },
+        { opacity: 1, duration: 0.12 },
         0
       );
 
-      // Tilde trigger flag at progress 0.10 (one-shot CSS keyframe)
-      tl.call(() => setAccentTriggered(true), [], 0.10);
+      // Tilde trigger flag at progress 0.14 (one-shot CSS keyframe)
+      tl.call(() => setAccentTriggered(true), [], 0.14);
 
-      // pC 0.12→0.22 — slogan line 1 PÁDEL
+      // pC 0.19→0.30 — slogan line 1 PÁDEL
       tl.to(
         slogan1Ref.current,
-        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.10 },
-        0.12
+        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.11 },
+        0.19
       );
-      // pD 0.20→0.30 — slogan line 2 CON
+      // pD 0.24→0.35 — slogan line 2 CON
       tl.to(
         slogan2Ref.current,
-        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.10 },
-        0.20
+        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.11 },
+        0.24
       );
-      // pE 0.28→0.38 — slogan line 3 Acento
+      // pE 0.30→0.41 — slogan line 3 Acento
       tl.to(
         slogan3Ref.current,
-        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.10 },
-        0.28
+        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.11 },
+        0.30
       );
 
-      // pF 0.34→0.42 — gold hairline width grows
+      // pF 0.37→0.46 — gold hairline width grows
       tl.fromTo(
         hairlineRef.current,
         { width: 0 },
-        { width: 240, duration: 0.08 },
-        0.34
+        { width: 240, duration: 0.09 },
+        0.37
       );
 
-      // pG 0.40→0.58 — manifesto lines after slogan + hairline are done
+      // pG 0.44→0.60 — manifesto lines after slogan + hairline are done
       manifestoRefs.current.forEach((el, i) => {
         if (!el) return;
-        const start = 0.40 + i * 0.06;
+        const start = 0.44 + i * 0.04;
         tl.to(el, { opacity: 1, y: 0, duration: 0.08 }, start);
       });
 
-      // HOLD 0.58→0.96 — todo visible, card "clavada", scroll no hace nada
-      // Fade 0.96→1.00 — desvanecimiento progresivo
+      // HOLD 0.60→0.96 — todo visible, card clavada, scroll no hace nada
+      // FADE 0.96→1.00 — desvanecimiento progresivo
 
       // ── Parallax depth layers (independent ScrollTriggers, run constantly) ──
       gsap.to(glow1Ref.current, {
@@ -554,7 +561,9 @@ function AccentManifesto() {
         end: "bottom bottom",
         onUpdate: (self) => {
           const p = self.progress;
-          cord.style.clipPath = `inset(0 0 ${(1 - p) * 100}% 0)`;
+          // Cord termina de revelarse a 0.60 y se queda al 100% durante el hold
+          const cordP = Math.min(1, p / 0.60);
+          cord.style.clipPath = `inset(0 0 ${(1 - cordP) * 100}% 0)`;
           // Outro fade: 0.97→1.0 — overlay fades to black (very late, lets content breathe)
           if (fadeOverlay) {
             const fadeP = p <= 0.96 ? 0 : Math.min(1, (p - 0.96) / 0.04);
@@ -571,7 +580,7 @@ function AccentManifesto() {
     <div
       ref={containerRef}
       className="relative bg-[var(--bk)] overflow-clip z-10"
-      style={{ height: "550vh" }}
+      style={{ height: "600vh" }}
     >
       <div className="sticky top-0 h-screen flex items-center overflow-hidden">
         {/* DEPTH LAYER 0 — perspective floor lines (very subtle, suggests court horizon) */}
