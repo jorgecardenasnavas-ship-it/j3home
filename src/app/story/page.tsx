@@ -2314,20 +2314,32 @@ export default function StoryPage() {
         </div>
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black" style={{ opacity: Math.max(0, 1 - flyT * 1.8) }} />
         <div
-          className="relative z-10 px-12 pb-[72px] max-[960px]:px-6 max-[960px]:pb-14 w-full"
+          className="relative z-10 px-12 pb-[120px] max-[960px]:px-6 max-[960px]:pb-[100px] w-full"
           style={{ opacity: heroOp, transform: `translateY(${-heroY * 0.2}px)` }}
         >
           <h1 className="font-bold uppercase tracking-[-3px] overflow-visible">
-            <span className="text-[clamp(24px,3.5vw,48px)] max-[960px]:text-[clamp(20px,6vw,36px)] font-light text-[var(--gy2)] tracking-[1px] block mb-0 animate-[fadeInSoft_.9s_.2s_ease_both]">{t.story.hero.prefix}</span>
-            <span className="text-[clamp(60px,9vw,140px)] max-[960px]:text-[clamp(52px,15vw,110px)] j3-grad-text block animate-[clipRevealUp_.9s_.5s_cubic-bezier(.16,1,.3,1)_both] leading-[1.15] -mb-[0.08em]">
-              {/* Split "20 AÑOS" — the Ñ stays, only the tilde ref marks position for the flying effect */}
-              20 A<span ref={heroAccentRef} className="relative inline-block j3-grad-text">Ñ</span>OS
+            <span className="text-[clamp(64px,11vw,170px)] max-[960px]:text-[clamp(52px,16vw,120px)] text-[var(--wh)] block animate-[clipRevealUp_.9s_.3s_cubic-bezier(.16,1,.3,1)_both] leading-[.90]">WE</span>
+            <span className="text-[clamp(64px,11vw,170px)] max-[960px]:text-[clamp(52px,16vw,120px)] text-[var(--wh)] block animate-[slideFromLeft_.8s_.6s_cubic-bezier(.16,1,.3,1)_both] leading-[.90]">ARE</span>
+            <span className="text-[clamp(64px,11vw,170px)] max-[960px]:text-[clamp(52px,16vw,120px)] j3-grad-text block animate-[slideFromRight_.8s_.9s_cubic-bezier(.16,1,.3,1)_both] leading-[.90]">
+              P<span ref={heroAccentRef} className="relative inline-block j3-grad-text">Á</span>DEL.
             </span>
-            <span className="text-[clamp(60px,9vw,140px)] max-[960px]:text-[clamp(52px,15vw,110px)] text-[var(--wh)] block animate-[slideFromLeft_.8s_.85s_cubic-bezier(.16,1,.3,1)_both] leading-[.92]">{t.story.hero.dentro}</span>
-            <span className="text-[clamp(60px,9vw,140px)] max-[960px]:text-[clamp(52px,15vw,110px)] j3-stroke-gold block animate-[slideFromRight_.8s_1.1s_cubic-bezier(.16,1,.3,1)_both] leading-[.92]">{t.story.hero.delJuego}</span>
           </h1>
-          {/* Spacer — hero breathes without subtitle */}
-          <div className="mt-10" />
+        </div>
+
+        {/* Scroll indicator — "Más de" + animated chevrons */}
+        <div
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 animate-[fadeInSoft_1s_1.8s_ease_both]"
+          style={{ opacity: Math.max(0, heroOp - 0.2) }}
+        >
+          <span className="text-[10px] font-bold tracking-[4px] uppercase text-[var(--gy2)]">{t.story.hero.prefix}</span>
+          <div className="scroll-arrows">
+            <svg width="16" height="9" viewBox="0 0 16 9" fill="none" className="scroll-arrow scroll-arrow-1">
+              <path d="M1 1l7 7 7-7" stroke="var(--g1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <svg width="16" height="9" viewBox="0 0 16 9" fill="none" className="scroll-arrow scroll-arrow-2">
+              <path d="M1 1l7 7 7-7" stroke="var(--g1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
         </div>
 
         {/* Bridge text — WHITE bg, dark text (inverted). Appears when logo fades. */}

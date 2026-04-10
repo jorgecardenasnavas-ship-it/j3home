@@ -141,6 +141,28 @@
   100% { transform: translateY(0%); opacity: 1; }
 }
 
+/* Scroll indicator arrows — staggered bounce */
+.scroll-arrows {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+.scroll-arrow {
+  opacity: 0.4;
+}
+.scroll-arrow-1 {
+  animation: scrollArrowPulse 2.2s ease-in-out infinite;
+}
+.scroll-arrow-2 {
+  animation: scrollArrowPulse 2.2s ease-in-out infinite 0.18s;
+  opacity: 0.2;
+}
+@keyframes scrollArrowPulse {
+  0%, 100% { transform: translateY(0); opacity: 0.3; }
+  50% { transform: translateY(5px); opacity: 1; }
+}
+
 /* Ambient breathing — slow pulse for background glows during sticky scenes */
 @keyframes ambientPulse {
   0%, 100% { transform: scale(1);   opacity: 0.85; }
