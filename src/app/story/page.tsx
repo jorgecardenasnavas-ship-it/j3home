@@ -517,9 +517,9 @@ function AccentManifesto() {
           0.85
         );
         // Compress full tilde timeline (1.0s internal) into 0.16s of master time
-        // Placed at 0.03 → runs 0.03→0.19. Impact at 0.03+0.4*0.16=0.094
-        // Bouncing 0.094→0.19. Text starts at 0.20 = after first bounce
-        tl.add(tildeTL.duration(0.16), 0.03);
+        // Placed at 0.20 — synced with "Pádel." text appearing
+        // Impact at 0.20+0.4*0.16=0.264, bouncing 0.264→0.36
+        tl.add(tildeTL.duration(0.16), 0.20);
       }
 
       // Step 3 (0.20+): Slogan text builds AFTER tilde has landed and bounced
