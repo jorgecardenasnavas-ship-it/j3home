@@ -1903,6 +1903,7 @@ export default function StoryPage() {
   // Court reveal refs (inside hero pin)
   const bridgeTextRef = useRef<HTMLDivElement>(null);
   const courtBoxRef = useRef<HTMLDivElement>(null);
+  const whiteBgRef = useRef<HTMLDivElement>(null);
   const courtLinesRef = useRef<(SVGElement | null)[]>([]);
   const courtInitRef = useRef(false); // stroke-width set once
 
@@ -1965,30 +1966,23 @@ export default function StoryPage() {
           const bt = bridgeTextRef.current;
           const cb = courtBoxRef.current;
           const lines = courtLinesRef.current;
+          const wbg = whiteBgRef.current;
 
-          // Init court stroke-width once
-          if (cb && !courtInitRef.current) {
-            courtInitRef.current = true;
-            const vw = window.innerWidth;
-            const courtW = vw <= 960 ? Math.min(vw * 0.65, 300) : Math.min(vw * 0.5, 460);
-            const sw = 200 / courtW;
-            lines.forEach(l => l?.setAttribute("stroke-width", String(sw)));
-          }
-
-          // Phase 1 (0-176): hero text visible
-          // Phase 2 (176-1804): flyT 0→1 (video + logo)
-          // Phase 3 (1804-1980): hold logo
-          // Phase 4 (1980-2200): logo fade out
-          // Phase 5 (2200-2650): bridge text dwell (lock 1.5s for CSS anim)
-          // Phase 6+7 (2650-2900): text converges + court line appears (overlap at 2750)
-          // Phase 8 (2900-4000): court takes shape + lines draw in
-          // Phase 9 (4000-4700): court expands + lines undraw
-          // Phase 10 (4700-5200): hold black
+          // Phase guide:
+          // 1 (0-176): hero text | 2 (176-1804): flying accent
+          // 3 (1804-1980): hold logo | 4 (1980-2200): logo fade
+          // 5 (2200-2650): bridge dwell (white bg, lock)
+          // 6 (2650-2900): text converges → court line appears
+          // 7 (2900-3200): court grows + lines draw in (CSS)
+          // 8 (3200-3800): hold court on white
+          // 9 (3800-4400): expand + undraw + white→black
+          // 10 (4400-4800): hold black
 
           if (scrolled <= 176) {
             setFlyT(0); setHeroOp(1); setHeroY(0); setFadeOutT(0);
             if (bt) { bt.style.opacity = "0"; bt.style.transform = "scale(1)"; }
             if (cb) { cb.style.display = "none"; }
+            if (wbg) { wbg.style.opacity = "0"; }
           } else if (scrolled <= 1804) {
             const flyProgress = Math.min(1, (scrolled - 176) / 1628);
             setFlyT(flyProgress);
@@ -2000,12 +1994,16 @@ export default function StoryPage() {
             setFlyT(1); setHeroOp(0); setFadeOutT(0);
           } else if (scrolled <= 2200) {
             setFlyT(1); setHeroOp(0);
-            setFadeOutT(Math.min(1, (scrolled - 1980) / 220));
+            const ft = Math.min(1, (scrolled - 1980) / 220);
+            setFadeOutT(ft);
+            // White bg fades in as logo fades out
+            if (wbg) { wbg.style.opacity = String(ft); }
           } else if (scrolled <= 2650) {
             // Phase 5: Bridge dwell — WHITE bg, dark text. Lock scroll for CSS word anim.
             setFlyT(1); setHeroOp(0); setFadeOutT(1);
             if (bt) { bt.style.opacity = "1"; bt.style.transform = "scale(1)"; bt.style.filter = "blur(0px)"; }
             if (cb) { cb.style.display = "none"; }
+            if (wbg) { wbg.style.opacity = "1"; }
             // Reset court for re-trigger if user scrolls back up
             courtInitRef.current = false;
             lines.forEach(l => { if (l) { l.classList.remove("court-draw-in", "court-draw-out"); } });
@@ -2016,19 +2014,36 @@ export default function StoryPage() {
               setTimeout(() => { bridgeLockRef.current = false; }, 1500);
             }
           } else if (scrolled <= 2900) {
-            // Phase 6: Bridge text fades out (on white bg)
-            const p6 = Math.min(1, (scrolled - 2650) / 250);
+            // Phase 6: Text converges to singularity on WHITE bg
+            if (wbg) { wbg.style.opacity = "1"; }
+            const p6 = Math.min(1, (scrolled - 2650) / 200);
             if (bt) {
-              bt.style.opacity = String(Math.max(0, 1 - p6 * 1.8));
-              bt.style.filter = `blur(${p6 * 12}px)`;
+              const s = Math.max(0, 1 - p6);
+              bt.style.transform = `scale(${s})`;
+              bt.style.filter = `blur(${p6 * 20}px)`;
+              bt.style.opacity = String(Math.max(0, 1 - p6 * 2.5));
             }
-            // Court box hidden until bridge fades
-            if (cb) { cb.style.display = "none"; }
-          } else if (scrolled <= 3100) {
-            // Phase 7: Court reveal — WHITE bg, auto-play CSS animation
-            // Bridge text hidden, court box grows from center line
-            if (bt) { bt.style.opacity = "0"; }
-            const p7 = (scrolled - 2900) / 200;
+            // Court line starts appearing as text converges (overlap at p6 > 0.6)
+            if (cb) {
+              const courtStart = Math.max(0, (p6 - 0.6) / 0.4);
+              if (courtStart > 0) {
+                const vw = window.innerWidth;
+                const isMobile = vw <= 960;
+                const courtW = isMobile ? Math.min(vw * 0.65, 300) : Math.min(vw * 0.5, 460);
+                cb.style.display = "flex";
+                cb.style.transitionDuration = "0s";
+                cb.style.background = "#fff";
+                cb.style.width = `${courtW * 0.5 * courtStart}px`;
+                cb.style.height = "2px";
+              } else {
+                cb.style.display = "none";
+              }
+            }
+          } else if (scrolled <= 3200) {
+            // Phase 7: Court grows from line → full box, CSS draw-in triggers
+            if (wbg) { wbg.style.opacity = "1"; }
+            if (bt) { bt.style.opacity = "0"; bt.style.transform = "scale(0)"; }
+            const p7 = (scrolled - 2900) / 300;
             if (cb) {
               const vw = window.innerWidth;
               const isMobile = vw <= 960;
@@ -2037,12 +2052,14 @@ export default function StoryPage() {
               cb.style.display = "flex";
               cb.style.transitionDuration = "0s";
               cb.style.background = "#fff";
-              // Grow from thin line to full court box
-              const sizeP = Math.min(1, p7 / 0.6);
-              cb.style.width = `${courtW * sizeP}px`;
-              cb.style.height = `${Math.max(2, courtH * sizeP)}px`;
+              // Width: from 50% courtW → full courtW
+              const wP = 0.5 + 0.5 * Math.min(1, p7 / 0.5);
+              // Height: from 2px → full courtH
+              const hP = Math.min(1, p7 / 0.6);
+              cb.style.width = `${courtW * wP}px`;
+              cb.style.height = `${Math.max(2, courtH * hP)}px`;
             }
-            // Trigger CSS court-draw-in if not already (one-shot)
+            // Trigger CSS court-draw-in (one-shot)
             if (!courtInitRef.current) {
               courtInitRef.current = true;
               const vw = window.innerWidth;
@@ -2059,6 +2076,7 @@ export default function StoryPage() {
             }
           } else if (scrolled <= 3800) {
             // Phase 8: Court fully drawn, hold on white bg
+            if (wbg) { wbg.style.opacity = "1"; }
             if (bt) { bt.style.opacity = "0"; }
             if (cb) {
               const vw = window.innerWidth;
@@ -2073,6 +2091,11 @@ export default function StoryPage() {
           } else if (scrolled <= 4400) {
             // Phase 9: Court expands + lines undraw + white→black transition
             const p9 = (scrolled - 3800) / 600;
+            // White bg fades to black
+            if (wbg) {
+              const bgFade = Math.min(1, p9 * 1.5);
+              wbg.style.opacity = String(1 - bgFade);
+            }
             if (cb) {
               const vw = window.innerWidth;
               const vh = window.innerHeight;
@@ -2084,10 +2107,7 @@ export default function StoryPage() {
               cb.style.transitionDuration = "0s";
               cb.style.width = `${expandW}px`;
               cb.style.height = `${expandH}px`;
-              // White → black bg transition during expand
-              const bgFade = Math.min(1, p9 * 1.5);
-              const c = Math.round(255 * (1 - bgFade));
-              cb.style.background = `rgb(${c},${c},${c})`;
+              cb.style.background = "transparent";
             }
             // Undraw lines in reverse (CSS class)
             if (p9 > 0.1 && lines[0] && !lines[0].classList.contains("court-draw-out")) {
@@ -2101,6 +2121,7 @@ export default function StoryPage() {
             // Phase 10: hold black
             if (cb) { cb.style.display = "none"; }
             if (bt) { bt.style.opacity = "0"; }
+            if (wbg) { wbg.style.opacity = "0"; }
           }
         },
       });
@@ -2243,6 +2264,13 @@ export default function StoryPage() {
             </div>
           </div>
         )}
+
+        {/* White backdrop — covers hero during bridge+court phases */}
+        <div
+          ref={whiteBgRef}
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: "#fff", opacity: 0, zIndex: 15 }}
+        />
 
         {/* Court SVG — WHITE bg like original j3padel preloader */}
         <div
