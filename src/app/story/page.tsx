@@ -2026,9 +2026,9 @@ export default function StoryPage() {
               bt.style.filter = `blur(${p6 * 20}px)`;
               bt.style.opacity = String(Math.max(0, 1 - p6 * 2.5));
             }
-            // Court line starts when text is ~50% converged
-            const courtP = Math.max(0, (p6 - 0.5) / 0.5); // 0→1 in last 50% of convergence
-            const p7 = Math.max(0, (scrolled - 2850) / 150); // also grows after 2850
+            // Court line starts when text is ~30% converged — almost immediate
+            const courtP = Math.max(0, (p6 - 0.3) / 0.7); // 0→1 in last 70% of convergence
+            const p7 = Math.max(0, (scrolled - 2710) / 150); // also grows after 2710
             const lineGrow = Math.max(courtP, p7); // combined progress for court line
             const vw7 = window.innerWidth;
             const isMob7 = vw7 <= 960;
