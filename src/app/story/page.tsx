@@ -574,7 +574,7 @@ function AccentManifesto() {
     <div
       ref={containerRef}
       className="relative bg-[var(--bk)] overflow-clip z-10"
-      style={{ height: "550vh" }}
+      style={{ height: "800vh" }}
     >
       <div className="sticky top-0 h-screen flex items-center overflow-hidden">
         {/* DEPTH LAYER 0 — perspective floor lines (very subtle, suggests court horizon) */}
