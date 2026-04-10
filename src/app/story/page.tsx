@@ -2320,8 +2320,13 @@ export default function StoryPage() {
           <h1 className="font-bold uppercase tracking-[-3px] overflow-visible">
             <span className="text-[clamp(64px,11vw,170px)] max-[960px]:text-[clamp(52px,16vw,120px)] text-[var(--wh)] block animate-[clipRevealUp_.9s_.3s_cubic-bezier(.16,1,.3,1)_both] leading-[.90]">WE</span>
             <span className="text-[clamp(64px,11vw,170px)] max-[960px]:text-[clamp(52px,16vw,120px)] text-[var(--wh)] block animate-[slideFromLeft_.8s_.6s_cubic-bezier(.16,1,.3,1)_both] leading-[.90]">ARE</span>
-            <span className="text-[clamp(64px,11vw,170px)] max-[960px]:text-[clamp(52px,16vw,120px)] j3-grad-text block animate-[slideFromRight_.8s_.9s_cubic-bezier(.16,1,.3,1)_both] leading-[.90]">
-              P<span ref={heroAccentRef} className="relative inline-block j3-grad-text">Á</span>DEL.
+            <span ref={heroAccentRef} className="block animate-[slideFromRight_.8s_.9s_cubic-bezier(.16,1,.3,1)_both] leading-[.90]">
+              <img
+                src="/images/padel-text.svg"
+                alt="PÁDEL"
+                className="h-[clamp(64px,11vw,170px)] max-[960px]:h-[clamp(52px,16vw,120px)] w-auto select-none"
+                draggable={false}
+              />
             </span>
           </h1>
         </div>
