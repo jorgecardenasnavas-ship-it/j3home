@@ -2336,7 +2336,7 @@ export default function StoryPage() {
         <div
           className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 animate-[fadeInSoft_1s_1.8s_ease_both]"
         >
-          <span className="text-[10px] font-bold tracking-[4px] uppercase text-[var(--gy2)]">{t.story.hero.prefix}</span>
+          <span className="text-[13px] font-bold tracking-[4px] uppercase text-[var(--gy2)/90]">{t.story.hero.prefix}</span>
           <div className="scroll-arrows">
             <svg width="16" height="9" viewBox="0 0 16 9" fill="none" className="scroll-arrow scroll-arrow-1">
               <path d="M1 1l7 7 7-7" stroke="var(--g1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
