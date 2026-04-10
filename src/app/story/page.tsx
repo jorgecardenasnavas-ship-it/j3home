@@ -1614,7 +1614,7 @@ const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * CIRCLE_R;
 /* ───────── FLYING ACCENT ───────── */
 
 const TOTAL_FRAMES = 193;
-const LAST_VIDEO_FRAME = 150; // Frame where gold ring is complete — we animate the rest
+const LAST_VIDEO_FRAME = 175; // Video runs through the flash — we overlay legs/stripes synced to it
 
 function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: number; holdT: number; heroAccentRef: React.RefObject<HTMLSpanElement | null> }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -1692,40 +1692,43 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
         </div>
       )}
 
-      {/* ── CREATIVE LOGO BUILD — after video ring, flash + stripes fuse in + legs slide ── */}
-      {showVideo && holdT > 0 && (() => {
+      {/* ── LOGO BUILD — synced with video flash, stripes fuse in, legs slide ── */}
+      {showVideo && (() => {
+        // buildT: unified 0→1 that STARTS during the video flash and completes during hold
+        // Flash starts ~frame 155 of 175 → flyT ≈ 0.88
+        // flyT 0.88→1.0 maps to buildT 0→0.25, holdT 0→1 maps to buildT 0.25→1.0
+        const flashFlyStart = 0.88;
+        let buildT = 0;
+        if (holdT > 0) {
+          buildT = 0.25 + holdT * 0.75;
+        } else if (flyT > flashFlyStart) {
+          buildT = ((flyT - flashFlyStart) / (1 - flashFlyStart)) * 0.25;
+        }
+        if (buildT <= 0) return null;
+
         const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
         const easeOutBack = (t: number) => {
           const c = 1.7;
           return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2);
         };
 
-        // ── Position constants — align SVG ball to video ring ──
-        const S = 3.31;   // scale: video ring ~490px / SVG ball ~148 units
+        // ── Position: align SVG to video ball ──
+        const S = 3.31;
         const TX = 957 - 74 * S;
         const TY = 532 - 75 * S;
 
-        // ── Phase 1: FLASH (holdT 0→0.25) — radial glow burst ──
-        const flashT = clamp(holdT / 0.25);
-        // Flash peaks at 0.5 then fades
-        const flashIntensity = flashT < 0.5
-          ? easeOut(flashT * 2)
-          : 1 - easeOut((flashT - 0.5) * 2);
-        const flashScale = 1 + flashT * 2; // glow expands
-
-        // ── Phase 2: STRIPES fly in from outside & fuse (holdT 0.10→0.55) ──
-        // Each stripe approaches from a different angle
+        // ── Stripes (GOLD) fly in from outside & fuse into ball (buildT 0→0.55) ──
         const stripeData = [
-          { d: J3_BALL_STRIPE_1, fromX: 60, fromY: -50, delay: 0 },     // top-right
-          { d: J3_BALL_STRIPE_2, fromX: 50, fromY: -40, delay: 0.06 },  // top
-          { d: J3_BALL_STRIPE_3, fromX: -50, fromY: 45, delay: 0.12 },  // bottom-left
+          { d: J3_BALL_STRIPE_1, fromX: 60, fromY: -50, delay: 0 },
+          { d: J3_BALL_STRIPE_2, fromX: 50, fromY: -40, delay: 0.05 },
+          { d: J3_BALL_STRIPE_3, fromX: -50, fromY: 45, delay: 0.10 },
         ];
 
-        // ── Phase 3: LEGS slide in (holdT 0.30→0.80) ──
+        // ── Legs (GOLD) slide in from sides/below (buildT 0.30→0.85) ──
         const legData = [
-          { d: J3_LEG_LEFT,   fromX: -80, fromY: 0,  delay: 0 },      // from left
-          { d: J3_LEG_RIGHT,  fromX: 80,  fromY: 0,  delay: 0.06 },   // from right
-          { d: J3_LEG_CENTER, fromX: 0,   fromY: 70, delay: 0.12 },   // from below
+          { d: J3_LEG_LEFT,   fromX: -80, fromY: 0,  delay: 0 },
+          { d: J3_LEG_RIGHT,  fromX: 80,  fromY: 0,  delay: 0.06 },
+          { d: J3_LEG_CENTER, fromX: 0,   fromY: 70, delay: 0.12 },
         ];
 
         return (
@@ -1735,46 +1738,21 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
           >
             <svg viewBox="0 0 1920 1080" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
               <defs>
-                {/* Gold gradient */}
                 <linearGradient id="j3gold" x1="0%" y1="0%" x2="30%" y2="100%">
                   <stop offset="0%" stopColor="#E8D48A" />
                   <stop offset="45%" stopColor="#D4B95C" />
                   <stop offset="100%" stopColor="#C8A84E" />
                 </linearGradient>
-                {/* Flash glow */}
-                <radialGradient id="j3flash" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#FFF8E1" />
-                  <stop offset="30%" stopColor="#F5D67B" />
-                  <stop offset="100%" stopColor="#C8A84E" stopOpacity="0" />
-                </radialGradient>
-                {/* Clip stripes to inner ball area only */}
                 <clipPath id="ball-inner-clip">
                   <circle cx="74" cy="75" r="58" />
                 </clipPath>
               </defs>
 
               <g transform={`translate(${TX}, ${TY}) scale(${S})`}>
-                {/* ── Flash burst — radial glow that expands and fades ── */}
-                {flashIntensity > 0.01 && (
-                  <circle
-                    cx="74" cy="75"
-                    r={75 * flashScale}
-                    fill="url(#j3flash)"
-                    opacity={flashIntensity * 0.85}
-                  />
-                )}
-
-                {/* ── Inner ball fill (gold) — fades in with flash ── */}
-                <path
-                  d={J3_BALL_OUTER_INNER}
-                  fill="url(#j3gold)"
-                  opacity={clamp(holdT / 0.20)}
-                />
-
-                {/* ── 3 Stripes — fly in from outside, clipped to ball interior ── */}
+                {/* ── 3 Stripes — GOLD, fly from outside & clip into ball ── */}
                 <g clipPath="url(#ball-inner-clip)">
                   {stripeData.map(({ d, fromX, fromY, delay }, i) => {
-                    const p = clamp((holdT - 0.10 - delay) / 0.35);
+                    const p = clamp((buildT - 0.02 - delay) / 0.40);
                     const e = easeOutBack(p);
                     const dx = fromX * (1 - e);
                     const dy = fromY * (1 - e);
@@ -1782,7 +1760,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
                       <path
                         key={`s${i}`}
                         d={d}
-                        fill="#111"
+                        fill="url(#j3gold)"
                         opacity={p > 0 ? clamp(p * 4) : 0}
                         transform={`translate(${dx}, ${dy}) scale(${0.6 + 0.4 * e})`}
                         style={{ transformOrigin: "74px 75px" }}
@@ -1791,9 +1769,9 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
                   })}
                 </g>
 
-                {/* ── 3 Legs — slide in from sides/below with overshoot ── */}
+                {/* ── 3 Legs — GOLD, slide from left/right/below ── */}
                 {legData.map(({ d, fromX, fromY, delay }, i) => {
-                  const p = clamp((holdT - 0.35 - delay) / 0.40);
+                  const p = clamp((buildT - 0.30 - delay) / 0.45);
                   const e = easeOutBack(p);
                   const dx = fromX * (1 - e);
                   const dy = fromY * (1 - e);
