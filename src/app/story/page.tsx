@@ -1747,7 +1747,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
   const vignetteOp = clamp(zoomT * 0.8); // fades in with zoom
 
   const showBg = bgBlackOp > 0.01;
-  const showVideo = videoOp > 0.01 || fadeOutT > 0;
+  const showVideo = (videoOp > 0.01 || fadeOutT > 0) && fadeOutT < 1;
 
   return (
     <>
@@ -1781,8 +1781,8 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
         />
       )}
 
-      {/* Tunnel vignette — dark edges reinforce speed tunnel feel */}
-      {vignetteOp > 0.01 && (
+      {/* Tunnel vignette — dark edges reinforce speed tunnel feel, unmount when bridge takes over */}
+      {vignetteOp > 0.01 && fadeOutT < 1 && (
         <div
           className="fixed inset-0 z-[61] pointer-events-none"
           style={{
