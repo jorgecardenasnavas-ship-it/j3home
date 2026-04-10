@@ -1148,7 +1148,7 @@ function TimelineSection() {
           aria-modal="true"
           aria-label={lightbox.alt}
         >
-          <div className="relative max-w-full max-h-full w-[90vw] h-[80vh]" onClick={(e) => e.stopPropagation()}>
+          <div className="relative max-w-full max-h-full w-[90vw] h-[80vh] cursor-zoom-out" onClick={() => setLightbox(null)}>
             <NextImage
               src={lightbox.src}
               alt={lightbox.alt}
@@ -1162,7 +1162,7 @@ function TimelineSection() {
           <button
             type="button"
             onClick={() => setLightbox(null)}
-            className="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md flex items-center justify-center text-white text-xl transition-colors"
+            className="absolute top-16 right-5 max-[960px]:top-20 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md flex items-center justify-center text-white text-xl transition-colors z-[201]"
             aria-label="Cerrar"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>

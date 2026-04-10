@@ -282,7 +282,7 @@ export function Navbar() {
           {/* Mobile lang selector with dropdown */}
           <div className="relative">
             <button
-              onClick={() => setMobileLangOpen(!mobileLangOpen)}
+              onClick={() => { setMobileLangOpen(!mobileLangOpen); setMenuOpen(false); }}
               className="flex items-center gap-[4px] text-[11px] font-normal tracking-[1px] uppercase text-[var(--gy2)] bg-transparent border-none cursor-pointer"
               aria-label="Cambiar idioma"
             >
@@ -323,7 +323,7 @@ export function Navbar() {
           {/* Hamburger */}
           <button
             className="flex flex-col justify-center items-center gap-[5px] w-8 h-8 cursor-pointer bg-transparent border-none"
-            onClick={() => setMenuOpen(!menuOpen)}
+            onClick={() => { setMenuOpen(!menuOpen); setLangOpen(false); setMobileLangOpen(false); }}
             aria-label="Menu"
           >
           <span
