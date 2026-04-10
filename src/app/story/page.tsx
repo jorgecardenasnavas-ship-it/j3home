@@ -1792,8 +1792,8 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
         />
       )}
 
-      {/* White flash overlay — fills screen as tunnel zoom peaks */}
-      {whiteoutOp > 0.01 && (
+      {/* White flash overlay — fills screen as tunnel zoom peaks, fades once bridge takes over */}
+      {whiteoutOp > 0.01 && fadeOutT < 1 && (
         <div
           className="fixed inset-0 z-[62] pointer-events-none"
           style={{ background: "#fff", opacity: whiteoutOp }}
