@@ -1756,7 +1756,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
           style={{
             opacity: fadeOutT >= 1 ? 0 : 1,
             willChange: "opacity, transform, filter",
-            transform: `scale(${tunnelScale}) rotate(${spinDeg}deg)`,
+            transform: `scale(${tunnelScale})`,
             filter: motionBlur > 0.1 ? `blur(${motionBlur}px)` : "none",
           }}
         >
@@ -1855,7 +1855,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
         return (
           <div
             className="fixed inset-0 z-[61] pointer-events-none flex items-center justify-center"
-            style={{ opacity: fadeOutT >= 1 ? 0 : videoOp, mixBlendMode: "lighten", willChange: "opacity, transform, filter", transform: `scale(${tunnelScale}) rotate(${spinDeg}deg)`, filter: motionBlur > 0.1 ? `blur(${motionBlur}px)` : "none" }}
+            style={{ opacity: fadeOutT >= 1 ? 0 : videoOp, mixBlendMode: "lighten", willChange: "opacity, transform, filter", transform: `scale(${tunnelScale})`, filter: motionBlur > 0.1 ? `blur(${motionBlur}px)` : "none" }}
           >
             <svg viewBox={svgViewBox} className="w-full h-full" preserveAspectRatio="xMidYMid meet">
               <defs>
@@ -1893,6 +1893,8 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
               </defs>
 
               <g transform={`translate(${TX}, ${TY}) scale(${S})`}>
+                {/* ── Ball group (ring + stripes) — rotates during tunnel zoom, patas stay still ── */}
+                <g style={{ transformOrigin: "74px 75px", transform: `rotate(${spinDeg}deg)` }}>
                 {/* ── Ball ring — only on backward scroll (forward: video shows it naturally) ── */}
                 {buildT >= 0.98 && scrollDirRef.current === -1 && (() => {
                   const ringPath = `${J3_BALL_OUTER} ${J3_BALL_OUTER_INNER}`;
@@ -1951,6 +1953,8 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
                     );
                   })}
                 </g>
+
+                </g>{/* end ball rotation group */}
 
                 {/* ── 3 Legs — GOLD, arrive during/after flash, top→bottom flow ── */}
                 {legData.map(({ d, fromX, fromY, delay }, i) => {
