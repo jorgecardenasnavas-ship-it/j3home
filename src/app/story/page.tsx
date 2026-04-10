@@ -2303,7 +2303,7 @@ export default function StoryPage() {
       <Navbar />
 
       {/* ─── HERO ─── */}
-      <section ref={heroRef} className="relative h-screen min-h-[580px] flex items-end overflow-hidden bg-black">
+      <section ref={heroRef} className="relative h-screen min-h-[580px] flex items-end overflow-hidden bg-black animate-[heroFadeIn_.4s_.05s_ease_both]">
         {/* Video background */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <iframe
