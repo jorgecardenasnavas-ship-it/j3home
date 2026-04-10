@@ -1907,6 +1907,12 @@ export default function StoryPage() {
   const courtLinesRef = useRef<(SVGElement | null)[]>([]);
   const courtInitRef = useRef(false); // stroke-width set once
   const courtAnimFiredRef = useRef(false); // court reveal animation triggered (one-shot)
+  // Stats overlay refs (inside hero pin — scroll-driven)
+  const statsOverlayRef = useRef<HTMLDivElement>(null);
+  const statsHeaderRef = useRef<HTMLSpanElement>(null);
+  const statsDividerRef = useRef<HTMLDivElement>(null);
+  const statsItemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const statsValRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
   /* Hard scroll-lock for bridge animation: pins scrollY via rAF + event suppression */
   useEffect(() => {
@@ -1955,7 +1961,7 @@ export default function StoryPage() {
 
     if (isDesktop) {
       // Desktop: pin the hero while virgulilla → logo → black plays
-      const TOTAL = 4800;
+      const TOTAL = 5600;
       const st = ScrollTrigger.create({
         trigger: hero,
         start: "top top",
@@ -1968,6 +1974,9 @@ export default function StoryPage() {
           const cb = courtBoxRef.current;
           const lines = courtLinesRef.current;
           const wbg = whiteBgRef.current;
+          const so = statsOverlayRef.current;
+          const sh = statsHeaderRef.current;
+          const sdv = statsDividerRef.current;
 
           // Phase guide:
           // 1 (0-176): hero text | 2 (176-1804): flying accent
@@ -1984,6 +1993,7 @@ export default function StoryPage() {
             if (bt) { bt.style.opacity = "0"; bt.style.transform = "scale(1)"; }
             if (cb) { cb.style.display = "none"; }
             if (wbg) { wbg.style.opacity = "0"; }
+            if (so) { so.style.opacity = "0"; }
           } else if (scrolled <= 1804) {
             const flyProgress = Math.min(1, (scrolled - 176) / 1628);
             setFlyT(flyProgress);
@@ -2010,6 +2020,11 @@ export default function StoryPage() {
             courtInitRef.current = false;
             lines.forEach(l => { if (l) { l.classList.remove("court-draw-in", "court-draw-out"); } });
             if (wbg) { wbg.style.transition = "none"; wbg.style.background = "#fff"; wbg.style.opacity = "1"; }
+            // Reset stats for scroll-back
+            if (so) { so.style.opacity = "0"; }
+            if (sh) { sh.style.opacity = "0"; sh.style.transform = "translateY(20px)"; }
+            if (sdv) { sdv.style.opacity = "0"; }
+            statsItemRefs.current.forEach(el => { if (el) { el.style.opacity = "0"; el.style.transform = "translateY(24px)"; } });
             if (!bridgeLockFiredRef.current) {
               bridgeLockFiredRef.current = true;
               bridgeLockY.current = window.scrollY;
@@ -2095,6 +2110,7 @@ export default function StoryPage() {
               const lineP = Math.max(0, Math.min(1, (p8 - delays8[i]) / 0.35));
               l.style.strokeDashoffset = String(len * (1 - lineP));
             });
+            if (so) { so.style.opacity = "0"; }
           } else if (scrolled <= 4300) {
             // Phase 9: Court expands to viewport + lines undraw + white→black
             if (bt) { bt.style.opacity = "0"; }
@@ -2131,11 +2147,78 @@ export default function StoryPage() {
               const lineP = Math.max(0, Math.min(1, (p9 - delays9[i]) / 0.35));
               l.style.strokeDashoffset = String(len * lineP);
             });
-          } else {
-            // Phase 10: hold black
+            // Stats start appearing as court fades
+            const statsP = Math.max(0, (p9 - 0.6) / 0.4);
+            if (so) {
+              so.style.opacity = String(statsP);
+              // Reset item states for scroll-back from Phase 10
+              if (sh) { sh.style.opacity = "0"; sh.style.transform = "translateY(20px)"; }
+              if (sdv) { sdv.style.opacity = "0"; }
+              statsItemRefs.current.forEach(el => { if (el) { el.style.opacity = "0"; el.style.transform = "translateY(24px)"; } });
+            }
+          } else if (scrolled <= 5200) {
+            // Phase 10: Stats build on black bg
             if (cb) { cb.style.display = "none"; }
             if (bt) { bt.style.opacity = "0"; }
             if (wbg) { wbg.style.opacity = "0"; }
+            const p10 = (scrolled - 4300) / 900;
+            if (so) {
+              so.style.opacity = "1";
+              // Header
+              if (sh) {
+                const hP = Math.min(1, p10 / 0.08);
+                sh.style.opacity = String(hP);
+                sh.style.transform = hP < 1 ? `translateY(${(1 - hP) * 20}px)` : "none";
+              }
+              // Items stagger in with counter animation
+              const statItems = t.story.stats.items;
+              statsItemRefs.current.forEach((el, idx) => {
+                if (!el) return;
+                const delay = 0.06 + idx * 0.07;
+                const iP = Math.max(0, Math.min(1, (p10 - delay) / 0.12));
+                el.style.opacity = String(iP);
+                el.style.transform = iP < 1 ? `translateY(${(1 - iP) * 24}px) scale(${0.97 + 0.03 * iP})` : "none";
+                const valEl = statsValRefs.current[idx];
+                const item = statItems[idx];
+                if (valEl && item) {
+                  if (item.label) {
+                    valEl.textContent = iP > 0.3 ? item.label : "";
+                  } else {
+                    const countP = Math.max(0, Math.min(1, (p10 - delay) / 0.25));
+                    const v = typeof item.val === "number" ? item.val : 0;
+                    const count = Math.round(v * countP);
+                    valEl.textContent = `${item.prefix || ""}${count}${item.suffix || ""}`;
+                  }
+                }
+              });
+              // Divider
+              if (sdv) {
+                const dP = Math.max(0, Math.min(1, (p10 - 0.40) / 0.08));
+                sdv.style.opacity = String(dP);
+              }
+            }
+          } else {
+            // Phase 11: hold stats
+            if (cb) { cb.style.display = "none"; }
+            if (bt) { bt.style.opacity = "0"; }
+            if (wbg) { wbg.style.opacity = "0"; }
+            if (so) {
+              so.style.opacity = "1";
+              if (sh) { sh.style.opacity = "1"; sh.style.transform = "none"; }
+              const statItems = t.story.stats.items;
+              statsItemRefs.current.forEach((el, idx) => {
+                if (!el) return;
+                el.style.opacity = "1";
+                el.style.transform = "none";
+                const valEl = statsValRefs.current[idx];
+                const item = statItems[idx];
+                if (valEl && item) {
+                  const v = typeof item.val === "number" ? item.val : 0;
+                  valEl.textContent = item.label || `${item.prefix || ""}${v}${item.suffix || ""}`;
+                }
+              });
+              if (sdv) { sdv.style.opacity = "1"; }
+            }
           }
         },
       });
@@ -2311,10 +2394,87 @@ export default function StoryPage() {
             <line ref={el => { courtLinesRef.current[5] = el; }} className="court-line-el" x1="100" y1="50" x2="162" y2="50" stroke="var(--g1)" style={{ "--court-len": 62 } as React.CSSProperties} />
           </svg>
         </div>
-      </section>
 
-      {/* ─── STATS — "Nuestra historia en números" ─── */}
-      <StatsSection />
+        {/* Stats overlay — appears during court disappearance, scroll-driven */}
+        <div
+          ref={statsOverlayRef}
+          className="absolute inset-0 z-[45] flex items-center justify-center pointer-events-none"
+          style={{ opacity: 0 }}
+        >
+          {/* Subtle radial glow */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{ background: "radial-gradient(ellipse 70% 50% at 50% 40%, rgba(220,175,100,.06) 0%, transparent 70%)" }}
+          />
+          <div className="text-center w-full max-w-[1000px] px-6 md:px-12">
+            {/* Header */}
+            <span
+              ref={statsHeaderRef}
+              className="text-[9px] font-bold tracking-[4px] uppercase text-[var(--g1)] block mb-14 md:mb-16"
+              style={{ opacity: 0, transform: "translateY(20px)" }}
+            >
+              {t.story.stats.header}
+            </span>
+            {/* Row 1 — first 4 stats */}
+            <div className="grid grid-cols-2 min-[960px]:grid-cols-4 gap-y-10 gap-x-4">
+              {t.story.stats.items.slice(0, 4).map((s, i) => {
+                const isHero = i === 0;
+                return (
+                  <div
+                    key={i}
+                    ref={el => { statsItemRefs.current[i] = el; }}
+                    className="text-center"
+                    style={{ opacity: 0, transform: "translateY(24px) scale(0.97)" }}
+                  >
+                    <div className={`relative inline-block ${isHero ? "mb-3" : ""}`}>
+                      <span
+                        ref={el => { statsValRefs.current[i] = el; }}
+                        className={`font-bold j3-grad-text leading-[1] block mb-2 ${
+                          isHero ? "text-[clamp(52px,6vw,80px)]" : "text-[clamp(36px,4vw,56px)]"
+                        }`}
+                      >
+                        {s.label || "0"}
+                      </span>
+                      {isHero && (
+                        <div className="absolute -inset-8 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(220,175,100,.06) 0%, transparent 70%)" }} />
+                      )}
+                    </div>
+                    <span className="text-[10px] max-[960px]:text-[11px] font-light tracking-[2px] uppercase leading-[1.6] whitespace-pre-line block text-[var(--gy2)]">{s.lbl}</span>
+                  </div>
+                );
+              })}
+            </div>
+            {/* Divider */}
+            <div ref={statsDividerRef} className="flex items-center justify-center gap-3 my-10 md:my-12" style={{ opacity: 0 }}>
+              <span className="h-px w-12 bg-[var(--g1)]/20" />
+              <span className="w-1 h-1 rounded-full bg-[var(--g1)]/30" />
+              <span className="h-px w-12 bg-[var(--g1)]/20" />
+            </div>
+            {/* Row 2 — remaining 4 stats */}
+            <div className="grid grid-cols-2 min-[960px]:grid-cols-4 gap-y-10 gap-x-4">
+              {t.story.stats.items.slice(4).map((s, i) => {
+                const idx = i + 4;
+                return (
+                  <div
+                    key={idx}
+                    ref={el => { statsItemRefs.current[idx] = el; }}
+                    className={`text-center ${i === 2 ? "col-span-2 min-[960px]:col-span-1" : ""}`}
+                    style={{ opacity: 0, transform: "translateY(24px)" }}
+                  >
+                    <span
+                      ref={el => { statsValRefs.current[idx] = el; }}
+                      className="font-bold j3-grad-text/70 leading-[1] block mb-2 text-[clamp(28px,3.5vw,46px)]"
+                    >
+                      {s.label || "0"}
+                    </span>
+                    <span className="text-[10px] max-[960px]:text-[11px] font-light text-[var(--gy2)] tracking-[2px] uppercase leading-[1.6] whitespace-pre-line block">{s.lbl}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* ─── ACCENT MANIFESTO — scroll-driven Á + tilde + slogan ─── */}
       <AccentManifesto />
