@@ -1614,7 +1614,7 @@ const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * CIRCLE_R;
 /* ───────── FLYING ACCENT ───────── */
 
 const TOTAL_FRAMES = 193;
-const LAST_VIDEO_FRAME = 175; // Frame where ball is complete, post-flash — freeze here
+const LAST_VIDEO_FRAME = 150; // Frame where gold ring is complete — we animate the rest
 
 function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: number; holdT: number; heroAccentRef: React.RefObject<HTMLSpanElement | null> }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -1692,7 +1692,126 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
         </div>
       )}
 
-      {/* Logo SVG overlay removed — video freezes at frame 175 (ball complete post-flash) */}
+      {/* ── CREATIVE LOGO BUILD — after video ring, flash + stripes fuse in + legs slide ── */}
+      {showVideo && holdT > 0 && (() => {
+        const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
+        const easeOutBack = (t: number) => {
+          const c = 1.7;
+          return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2);
+        };
+
+        // ── Position constants — align SVG ball to video ring ──
+        const S = 3.31;   // scale: video ring ~490px / SVG ball ~148 units
+        const TX = 957 - 74 * S;
+        const TY = 532 - 75 * S;
+
+        // ── Phase 1: FLASH (holdT 0→0.25) — radial glow burst ──
+        const flashT = clamp(holdT / 0.25);
+        // Flash peaks at 0.5 then fades
+        const flashIntensity = flashT < 0.5
+          ? easeOut(flashT * 2)
+          : 1 - easeOut((flashT - 0.5) * 2);
+        const flashScale = 1 + flashT * 2; // glow expands
+
+        // ── Phase 2: STRIPES fly in from outside & fuse (holdT 0.10→0.55) ──
+        // Each stripe approaches from a different angle
+        const stripeData = [
+          { d: J3_BALL_STRIPE_1, fromX: 60, fromY: -50, delay: 0 },     // top-right
+          { d: J3_BALL_STRIPE_2, fromX: 50, fromY: -40, delay: 0.06 },  // top
+          { d: J3_BALL_STRIPE_3, fromX: -50, fromY: 45, delay: 0.12 },  // bottom-left
+        ];
+
+        // ── Phase 3: LEGS slide in (holdT 0.30→0.80) ──
+        const legData = [
+          { d: J3_LEG_LEFT,   fromX: -80, fromY: 0,  delay: 0 },      // from left
+          { d: J3_LEG_RIGHT,  fromX: 80,  fromY: 0,  delay: 0.06 },   // from right
+          { d: J3_LEG_CENTER, fromX: 0,   fromY: 70, delay: 0.12 },   // from below
+        ];
+
+        return (
+          <div
+            className="fixed inset-0 z-[61] pointer-events-none hidden min-[960px]:flex items-center justify-center"
+            style={{ opacity: videoOp, willChange: "opacity" }}
+          >
+            <svg viewBox="0 0 1920 1080" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
+              <defs>
+                {/* Gold gradient */}
+                <linearGradient id="j3gold" x1="0%" y1="0%" x2="30%" y2="100%">
+                  <stop offset="0%" stopColor="#E8D48A" />
+                  <stop offset="45%" stopColor="#D4B95C" />
+                  <stop offset="100%" stopColor="#C8A84E" />
+                </linearGradient>
+                {/* Flash glow */}
+                <radialGradient id="j3flash" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#FFF8E1" />
+                  <stop offset="30%" stopColor="#F5D67B" />
+                  <stop offset="100%" stopColor="#C8A84E" stopOpacity="0" />
+                </radialGradient>
+                {/* Clip stripes to inner ball area only */}
+                <clipPath id="ball-inner-clip">
+                  <circle cx="74" cy="75" r="58" />
+                </clipPath>
+              </defs>
+
+              <g transform={`translate(${TX}, ${TY}) scale(${S})`}>
+                {/* ── Flash burst — radial glow that expands and fades ── */}
+                {flashIntensity > 0.01 && (
+                  <circle
+                    cx="74" cy="75"
+                    r={75 * flashScale}
+                    fill="url(#j3flash)"
+                    opacity={flashIntensity * 0.85}
+                  />
+                )}
+
+                {/* ── Inner ball fill (gold) — fades in with flash ── */}
+                <path
+                  d={J3_BALL_OUTER_INNER}
+                  fill="url(#j3gold)"
+                  opacity={clamp(holdT / 0.20)}
+                />
+
+                {/* ── 3 Stripes — fly in from outside, clipped to ball interior ── */}
+                <g clipPath="url(#ball-inner-clip)">
+                  {stripeData.map(({ d, fromX, fromY, delay }, i) => {
+                    const p = clamp((holdT - 0.10 - delay) / 0.35);
+                    const e = easeOutBack(p);
+                    const dx = fromX * (1 - e);
+                    const dy = fromY * (1 - e);
+                    return (
+                      <path
+                        key={`s${i}`}
+                        d={d}
+                        fill="#111"
+                        opacity={p > 0 ? clamp(p * 4) : 0}
+                        transform={`translate(${dx}, ${dy}) scale(${0.6 + 0.4 * e})`}
+                        style={{ transformOrigin: "74px 75px" }}
+                      />
+                    );
+                  })}
+                </g>
+
+                {/* ── 3 Legs — slide in from sides/below with overshoot ── */}
+                {legData.map(({ d, fromX, fromY, delay }, i) => {
+                  const p = clamp((holdT - 0.35 - delay) / 0.40);
+                  const e = easeOutBack(p);
+                  const dx = fromX * (1 - e);
+                  const dy = fromY * (1 - e);
+                  return (
+                    <path
+                      key={`l${i}`}
+                      d={d}
+                      fill="url(#j3gold)"
+                      opacity={p > 0 ? clamp(p * 3) : 0}
+                      transform={`translate(${dx}, ${dy})`}
+                    />
+                  );
+                })}
+              </g>
+            </svg>
+          </div>
+        );
+      })()}
 
       {/* Black background overlay */}
       {showBg && (
