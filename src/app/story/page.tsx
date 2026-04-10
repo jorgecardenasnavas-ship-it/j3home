@@ -1686,11 +1686,11 @@ function FlyingAccent({ flyT, fadeOutT }: { flyT: number; fadeOutT: number; hero
   const BALL_TX = 705.1;
   const BALL_TY = 275.7;
 
-  /* ── Interior stripes — assemble BEFORE the flash (flyT 0.62 → 0.74) ── */
+  /* ── Interior stripes — appear once circle is fully drawn (flyT 0.82 → 0.92) ── */
   // Stripe 3 (bottom-left) from left, stripe 2 (top-right) from right, stripe 1 (big cross) from bottom
-  const s3P = clamp((flyT - 0.62) / 0.10);  // starts first
-  const s2P = clamp((flyT - 0.64) / 0.10);  // starts second
-  const s1P = clamp((flyT - 0.66) / 0.10);  // starts last (biggest)
+  const s3P = clamp((flyT - 0.82) / 0.08);  // starts first
+  const s2P = clamp((flyT - 0.84) / 0.08);  // starts second
+  const s1P = clamp((flyT - 0.86) / 0.08);  // starts last (biggest)
 
   const s3E = 1 - Math.pow(1 - s3P, 3);
   const s2E = 1 - Math.pow(1 - s2P, 3);
@@ -1702,12 +1702,12 @@ function FlyingAccent({ flyT, fadeOutT }: { flyT: number; fadeOutT: number; hero
 
   const showStripes = svgOp > 0.01 && s3P > 0.01;
 
-  /* ── 3 vertical legs — animate AFTER the flash (flyT 0.78 → 0.92) ── */
-  const legProgress = clamp((flyT - 0.78) / 0.14);
+  /* ── 3 vertical legs — appear after stripes (flyT 0.90 → 1.0) ── */
+  const legProgress = clamp((flyT - 0.90) / 0.10);
 
-  const legLeftP   = clamp((flyT - 0.78) / 0.11);
-  const legRightP  = clamp((flyT - 0.80) / 0.11);
-  const legCenterP = clamp((flyT - 0.82) / 0.11);
+  const legLeftP   = clamp((flyT - 0.90) / 0.08);
+  const legRightP  = clamp((flyT - 0.92) / 0.08);
+  const legCenterP = clamp((flyT - 0.94) / 0.08);
 
   const legLeftE   = 1 - Math.pow(1 - legLeftP, 3);
   const legRightE  = 1 - Math.pow(1 - legRightP, 3);
@@ -1779,9 +1779,9 @@ function FlyingAccent({ flyT, fadeOutT }: { flyT: number; fadeOutT: number; hero
             {/* ═══ GLOW LAYER — traces every contour of the logo ═══ */}
             {(() => {
               // Glow appears as pieces assemble, peaks during transition, fades when complete
-              const glowIn = clamp((flyT - 0.62) / 0.08);     // starts with first stripe
-              const glowPeak = clamp((flyT - 0.88) / 0.03);   // peaks at ring transition
-              const glowOut = clamp((flyT - 0.94) / 0.04);    // fades after everything settles
+              const glowIn = clamp((flyT - 0.82) / 0.06);     // starts with first stripe
+              const glowPeak = clamp((flyT - 0.92) / 0.03);   // peaks at ring transition
+              const glowOut = clamp((flyT - 0.97) / 0.03);    // fades after everything settles
               const glowOp = glowIn * (1 - glowOut) * (0.3 + glowPeak * 0.4);
               if (glowOp < 0.01) return null;
               return (
@@ -1833,7 +1833,7 @@ function FlyingAccent({ flyT, fadeOutT }: { flyT: number; fadeOutT: number; hero
             {/* Ball outer ring — fades in at transition */}
             <g
               transform={`translate(${BALL_TX}, ${BALL_TY}) scale(${BALL_SCALE})`}
-              opacity={clamp((flyT - 0.89) / 0.04)}
+              opacity={clamp((flyT - 0.93) / 0.04)}
             >
               <path d={J3_BALL_OUTER} fill="url(#stripe-gold)" />
               <path d={J3_BALL_OUTER_INNER} fill="#000" />
