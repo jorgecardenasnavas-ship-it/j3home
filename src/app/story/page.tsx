@@ -1726,13 +1726,13 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
           { d: J3_BALL_STRIPE_3, fromX: -60, fromY: 50, delay: 0.45 },   // from left
         ];
 
-        // ── legT: separate timeline — legs start at flash, finish shortly after ──
-        // flyT 0.86→0.88 → legT 0→0.20, holdT 0→0.25 → legT 0.20→1.0
+        // ── legT: legs start at flash, complete by end of video (flyT=1) ──
+        // flyT 0.86→1.0 → legT 0→1.0, holdT: stays at 1 (done)
         let legT = 0;
         if (holdT > 0) {
-          legT = 0.20 + Math.min(holdT / 0.25, 1) * 0.80;
+          legT = 1;
         } else if (flyT > 0.86) {
-          legT = ((flyT - 0.86) / (BUILD_END - 0.86)) * 0.20;
+          legT = (flyT - 0.86) / (1 - 0.86);  // 0→1 over flyT 0.86→1.0
         }
 
         // ── Legs (GOLD) — slide from sides, staggered top→bottom flow ──
