@@ -1692,71 +1692,83 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
         </div>
       )}
 
-      {/* SVG logo overlay — legs & stripes appear during holdT */}
-      {showVideo && holdT > 0 && (
-        <div
-          className="fixed inset-0 z-[61] pointer-events-none hidden min-[960px]:flex items-center justify-center"
-          style={{ opacity: videoOp, willChange: "opacity" }}
-        >
-          <svg
-            viewBox="0 0 1920 1080"
-            className="w-full h-full"
-            preserveAspectRatio="xMidYMid meet"
-          >
-            <g transform={`translate(${705.1}, ${275.7}) scale(${3.417})`}>
-              {/* 3 interior stripes — stagger in at holdT 0→0.4 */}
-              {(() => {
-                const stripes = [J3_BALL_STRIPE_1, J3_BALL_STRIPE_2, J3_BALL_STRIPE_3];
-                return stripes.map((d, i) => {
-                  const start = i * 0.08;           // 0, 0.08, 0.16
-                  const end = start + 0.25;          // 0.25, 0.33, 0.41
-                  const progress = clamp((holdT - start) / (end - start));
-                  const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
-                  return (
-                    <path
-                      key={`stripe-${i}`}
-                      d={d}
-                      fill="#C8A84E"
-                      opacity={eased}
-                      style={{ willChange: "opacity" }}
-                    />
-                  );
-                });
-              })()}
+      {/* SVG logo overlay — 3 legs slide in during holdT after video freezes */}
+      {showVideo && holdT > 0 && (() => {
+        // Each leg slides in from a different direction
+        // Left leg: enters from the left (translateX negative → 0)
+        // Center leg: enters from below (translateY positive → 0)
+        // Right leg: enters from the right (translateX positive → 0)
+        const legStart = 0.05;  // start shortly after hold begins
+        const legDur = 0.55;    // each leg takes 55% of holdT to fully arrive
 
-              {/* 3 legs — stagger in at holdT 0.3→0.8, grow from top to bottom */}
-              {(() => {
-                const legs = [J3_LEG_LEFT, J3_LEG_CENTER, J3_LEG_RIGHT];
-                return legs.map((d, i) => {
-                  const start = 0.3 + i * 0.1;      // 0.3, 0.4, 0.5
-                  const end = start + 0.35;           // 0.65, 0.75, 0.85
-                  const progress = clamp((holdT - start) / (end - start));
-                  const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
-                  return (
-                    <g key={`leg-${i}`}>
-                      <clipPath id={`leg-clip-${i}`}>
-                        <rect
-                          x="-10"
-                          y="148"
-                          width="180"
-                          height={60 * eased}
-                        />
-                      </clipPath>
-                      <path
-                        d={d}
-                        fill="#C8A84E"
-                        clipPath={`url(#leg-clip-${i})`}
-                        opacity={Math.min(1, progress * 3)}
-                        style={{ willChange: "opacity" }}
-                      />
-                    </g>
-                  );
-                });
-              })()}
-            </g>
-          </svg>
-        </div>
-      )}
+        const leftP = clamp((holdT - legStart) / legDur);
+        const centerP = clamp((holdT - legStart - 0.10) / legDur);
+        const rightP = clamp((holdT - legStart - 0.05) / legDur);
+
+        // easeOutCubic for smooth deceleration
+        const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
+
+        const leftEased = easeOut(leftP);
+        const centerEased = easeOut(centerP);
+        const rightEased = easeOut(rightP);
+
+        // Slide distances (in SVG viewBox units, pre-scale)
+        const slideDistance = 80;
+
+        return (
+          <div
+            className="fixed inset-0 z-[61] pointer-events-none hidden min-[960px]:flex items-center justify-center"
+            style={{ opacity: videoOp, willChange: "opacity" }}
+          >
+            <svg
+              viewBox="0 0 1920 1080"
+              className="w-full h-full"
+              preserveAspectRatio="xMidYMid meet"
+            >
+              <defs>
+                {/* Clip to only show legs below the ball area */}
+                <clipPath id="legs-clip">
+                  <rect x="-20" y="148" width="200" height="60" />
+                </clipPath>
+              </defs>
+              <g transform={`translate(${705.1}, ${275.7}) scale(${3.417})`}>
+                {/* Left leg — slides in from left */}
+                <g clipPath="url(#legs-clip)">
+                  <path
+                    d={J3_LEG_LEFT}
+                    fill="#C8A84E"
+                    opacity={leftP > 0 ? Math.min(1, leftP * 4) : 0}
+                    transform={`translate(${-slideDistance * (1 - leftEased)}, 0)`}
+                    style={{ willChange: "transform, opacity" }}
+                  />
+                </g>
+
+                {/* Center leg — slides in from below */}
+                <g clipPath="url(#legs-clip)">
+                  <path
+                    d={J3_LEG_CENTER}
+                    fill="#C8A84E"
+                    opacity={centerP > 0 ? Math.min(1, centerP * 4) : 0}
+                    transform={`translate(0, ${slideDistance * (1 - centerEased)})`}
+                    style={{ willChange: "transform, opacity" }}
+                  />
+                </g>
+
+                {/* Right leg — slides in from right */}
+                <g clipPath="url(#legs-clip)">
+                  <path
+                    d={J3_LEG_RIGHT}
+                    fill="#C8A84E"
+                    opacity={rightP > 0 ? Math.min(1, rightP * 4) : 0}
+                    transform={`translate(${slideDistance * (1 - rightEased)}, 0)`}
+                    style={{ willChange: "transform, opacity" }}
+                  />
+                </g>
+              </g>
+            </svg>
+          </div>
+        );
+      })()}
 
       {/* Black background overlay */}
       {showBg && (
