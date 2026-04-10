@@ -457,63 +457,60 @@ function AccentManifesto() {
         },
       });
 
-      // pA 0.00→0.18 — Á + eyebrow appear
+      // pA 0.00→0.10 — Á + eyebrow appear
       tl.to(
         aRef.current,
-        { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.18 },
+        { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.10 },
         0
       ).to(
         eyebrowRef.current,
-        { opacity: 1, y: 0, duration: 0.18 },
+        { opacity: 1, y: 0, duration: 0.10 },
         0
       ).to(
         [glow1Ref.current, glow2Ref.current, cordRef.current],
-        { opacity: 1, duration: 0.18 },
+        { opacity: 1, duration: 0.10 },
         0
       );
 
-      // Tilde trigger flag at progress 0.20 (one-shot CSS keyframe)
-      tl.call(() => setAccentTriggered(true), [], 0.20);
+      // Tilde trigger flag at progress 0.10 (one-shot CSS keyframe)
+      tl.call(() => setAccentTriggered(true), [], 0.10);
 
-      // pC 0.28→0.44 — slogan line 1 PÁDEL
+      // pC 0.12→0.22 — slogan line 1 PÁDEL
       tl.to(
         slogan1Ref.current,
-        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.16 },
-        0.28
+        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.10 },
+        0.12
       );
-      // pD 0.36→0.52 — slogan line 2 CON
+      // pD 0.20→0.30 — slogan line 2 CON
       tl.to(
         slogan2Ref.current,
-        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.16 },
-        0.36
+        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.10 },
+        0.20
       );
-      // pE 0.44→0.60 — slogan line 3 Acento
+      // pE 0.28→0.38 — slogan line 3 Acento
       tl.to(
         slogan3Ref.current,
-        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.16 },
-        0.44
+        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.10 },
+        0.28
       );
 
-      // pF 0.55→0.68 — gold hairline width grows
+      // pF 0.34→0.42 — gold hairline width grows
       tl.fromTo(
         hairlineRef.current,
         { width: 0 },
-        { width: 240, duration: 0.13 },
-        0.55
+        { width: 240, duration: 0.08 },
+        0.34
       );
 
-      // pG 0.65→0.83 — manifesto lines after slogan + hairline are done
+      // pG 0.40→0.58 — manifesto lines after slogan + hairline are done
       manifestoRefs.current.forEach((el, i) => {
         if (!el) return;
-        const start = 0.65 + i * 0.06;
-        tl.to(el, { opacity: 1, y: 0, duration: 0.12 }, start);
+        const start = 0.40 + i * 0.06;
+        tl.to(el, { opacity: 1, y: 0, duration: 0.08 }, start);
       });
 
-      // Dwell 0.66→0.95 — todo visible, sin animaciones, solo lectura
-      // pOutro 0.86→1.00 — el manifesto NO se mueve, sólo va perdiendo peso
-      // (opacity baja gradualmente). La siguiente sección, solapada por margen
-      // negativo, gana peso al mismo tiempo. No hay velo ni wipe.
-      // Outro fade is handled imperatively in the cord ScrollTrigger below
+      // HOLD 0.58→0.96 — todo visible, card "clavada", scroll no hace nada
+      // Fade 0.96→1.00 — desvanecimiento progresivo
 
       // ── Parallax depth layers (independent ScrollTriggers, run constantly) ──
       gsap.to(glow1Ref.current, {
@@ -574,7 +571,7 @@ function AccentManifesto() {
     <div
       ref={containerRef}
       className="relative bg-[var(--bk)] overflow-clip z-10"
-      style={{ height: "800vh" }}
+      style={{ height: "550vh" }}
     >
       <div className="sticky top-0 h-screen flex items-center overflow-hidden">
         {/* DEPTH LAYER 0 — perspective floor lines (very subtle, suggests court horizon) */}
