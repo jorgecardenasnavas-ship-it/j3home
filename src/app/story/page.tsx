@@ -560,7 +560,7 @@ function AccentManifesto() {
           cord.style.clipPath = `inset(0 0 ${(1 - p) * 100}% 0)`;
           // Outro fade: 0.97→1.0 — overlay fades to black (very late, lets content breathe)
           if (fadeOverlay) {
-            const fadeP = p <= 0.97 ? 0 : Math.min(1, (p - 0.97) / 0.03);
+            const fadeP = p <= 0.93 ? 0 : Math.min(1, (p - 0.93) / 0.055);
             fadeOverlay.style.opacity = String(fadeP);
           }
         },
@@ -573,8 +573,8 @@ function AccentManifesto() {
   return (
     <div
       ref={containerRef}
-      className="relative bg-[var(--bk)] overflow-clip z-20"
-      style={{ height: "440vh" }}
+      className="relative bg-[var(--bk)] overflow-clip z-10"
+      style={{ height: "500vh" }}
     >
       <div className="sticky top-0 h-screen flex items-center overflow-hidden">
         {/* DEPTH LAYER 0 — perspective floor lines (very subtle, suggests court horizon) */}
@@ -911,8 +911,8 @@ function TimelineSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative px-4 sm:px-6 md:px-12 pb-[72px] md:pb-[100px] overflow-visible z-10"
-      style={{ marginTop: "-25vh" }}
+      className="relative px-4 sm:px-6 md:px-12 pb-[72px] md:pb-[100px] overflow-visible z-20"
+      style={{ marginTop: "-45vh" }}
     >
       {/* Mini-map — desktop only */}
       <div
