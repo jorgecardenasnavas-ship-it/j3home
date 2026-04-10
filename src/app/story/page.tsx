@@ -573,7 +573,7 @@ function AccentManifesto() {
   return (
     <div
       ref={containerRef}
-      className="relative bg-[var(--bk)] overflow-clip"
+      className="relative bg-[var(--bk)] overflow-clip z-20"
       style={{ height: "440vh" }}
     >
       <div className="sticky top-0 h-screen flex items-center overflow-hidden">
