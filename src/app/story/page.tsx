@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import NextImage from "next/image";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useI18n } from "@/i18n/context";
@@ -1077,12 +1078,14 @@ function TimelineSection() {
                       onClick={() => setLightbox({ src: item.image!, alt: item.title })}
                       className="relative mt-4 min-[960px]:mt-0 min-[960px]:flex-shrink-0 w-full max-w-[420px] min-[960px]:w-[340px] min-[1280px]:w-[400px] max-[640px]:max-w-full overflow-hidden rounded-sm border border-white/[.08] aspect-[16/9] cursor-zoom-in group/img block"
                     >
-                      <img
+                      <NextImage
                         src={item.image}
                         alt={item.title}
-                        className="w-full h-full object-cover opacity-80 group-hover/img:opacity-100 group-hover/img:scale-[1.03] transition-all duration-500"
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 960px) 420px, (max-width: 1280px) 340px, 400px"
+                        quality={85}
+                        className="object-cover opacity-80 group-hover/img:opacity-100 group-hover/img:scale-[1.03] transition-all duration-500"
                         style={item.imagePosition ? { objectPosition: item.imagePosition } : undefined}
-                        loading="lazy"
                       />
                       <span className="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/60 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white/90 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300" aria-hidden="true">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
@@ -1105,12 +1108,17 @@ function TimelineSection() {
           aria-modal="true"
           aria-label={lightbox.alt}
         >
-          <img
-            src={lightbox.src}
-            alt={lightbox.alt}
-            className="max-w-full max-h-full object-contain shadow-[0_30px_80px_rgba(0,0,0,.6)]"
-            onClick={(e) => e.stopPropagation()}
-          />
+          <div className="relative max-w-full max-h-full w-[90vw] h-[80vh]" onClick={(e) => e.stopPropagation()}>
+            <NextImage
+              src={lightbox.src}
+              alt={lightbox.alt}
+              fill
+              sizes="90vw"
+              quality={90}
+              className="object-contain shadow-[0_30px_80px_rgba(0,0,0,.6)]"
+              priority
+            />
+          </div>
           <button
             type="button"
             onClick={() => setLightbox(null)}
