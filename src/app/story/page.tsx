@@ -1825,7 +1825,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
                   const e = easeOutBack(p);
                   const dx = fromX * (1 - e);
                   const dy = fromY * (1 - e);
-                  const settled = legT >= 0.92;
+                  const settled = holdT > 0; // BOOM — instant switch when flash ends
                   return (
                     <g key={`l${i}`}>
                       {/* Energy trail — iridescent glow while traveling */}
