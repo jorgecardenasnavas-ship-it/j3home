@@ -1726,11 +1726,20 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
           { d: J3_BALL_STRIPE_3, fromX: -60, fromY: 50, delay: 0.45 },   // from left
         ];
 
-        // ── Legs (GOLD) — slide from sides/below, start later, arrive right at flash ──
+        // ── legT: separate timeline — legs start at flash, finish shortly after ──
+        // flyT 0.86→0.88 → legT 0→0.20, holdT 0→0.25 → legT 0.20→1.0
+        let legT = 0;
+        if (holdT > 0) {
+          legT = 0.20 + Math.min(holdT / 0.25, 1) * 0.80;
+        } else if (flyT > 0.86) {
+          legT = ((flyT - 0.86) / (BUILD_END - 0.86)) * 0.20;
+        }
+
+        // ── Legs (GOLD) — slide from sides, staggered top→bottom flow ──
         const legData = [
-          { d: J3_LEG_LEFT,   fromX: -90, fromY: 0,  delay: 0.35 },
-          { d: J3_LEG_RIGHT,  fromX: 90,  fromY: 0,  delay: 0.42 },
-          { d: J3_LEG_CENTER, fromX: 0,   fromY: 80, delay: 0.48 },
+          { d: J3_LEG_LEFT,   fromX: -80, fromY: 0,  delay: 0 },
+          { d: J3_LEG_CENTER, fromX: 0,   fromY: 60, delay: 0.10 },
+          { d: J3_LEG_RIGHT,  fromX: 80,  fromY: 0,  delay: 0.18 },
         ];
 
         return (
@@ -1810,27 +1819,26 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
                   })}
                 </g>
 
-                {/* ── 3 Legs — GOLD, arrive as light trails from sides/below ── */}
+                {/* ── 3 Legs — GOLD, arrive during/after flash, top→bottom flow ── */}
                 {legData.map(({ d, fromX, fromY, delay }, i) => {
-                  const p = clamp((buildT - delay) / 0.45);
+                  const p = clamp((legT - delay) / 0.55);
                   const e = easeOutBack(p);
                   const dx = fromX * (1 - e);
                   const dy = fromY * (1 - e);
-                  const glowAmount = p > 0 && p < 0.85 ? 1 : 0;
-                  const settled = p >= 0.85;
+                  const settled = legT >= 0.92;
                   return (
                     <g key={`l${i}`}>
-                      {/* Energy trail — bright glow behind */}
-                      {glowAmount > 0 && (
+                      {/* Energy trail — iridescent glow while traveling */}
+                      {p > 0 && !settled && (
                         <path
                           d={d}
                           fill="#FFF0C0"
                           filter="url(#trail-glow)"
-                          opacity={clamp(p * 2.5) * (1 - clamp((p - 0.5) / 0.35))}
+                          opacity={clamp(p * 2.5) * (1 - clamp((p - 0.6) / 0.4))}
                           transform={`translate(${dx}, ${dy})`}
                         />
                       )}
-                      {/* Solid leg */}
+                      {/* Solid leg — iridescent until settled */}
                       <path
                         d={d}
                         fill={settled ? "url(#j3gold)" : "#FFEDB3"}
