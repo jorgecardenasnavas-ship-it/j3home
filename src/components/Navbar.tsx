@@ -72,9 +72,9 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Filter out link for current page
-  const visibleLeft = leftLinks.filter((l) => l.href !== pathname);
-  const visibleRight = rightLinks.filter((l) => l.href !== pathname);
+  // Mobile: filter out current page; Desktop: show all (highlight active)
+  const visibleLeft = leftLinks;
+  const visibleRight = rightLinks;
 
   function openLang() {
     if (langTimeout.current) clearTimeout(langTimeout.current);
@@ -118,14 +118,18 @@ export function Navbar() {
             <li key={link.href}>
               <Link
                 href={link.href}
-                className="text-[12px] font-normal tracking-[1px] text-[var(--gy2)] no-underline uppercase hover:text-[var(--wh)] transition-colors duration-300"
+                className={`text-[12px] font-normal tracking-[1px] no-underline uppercase transition-colors duration-300 ${
+                  pathname === link.href
+                    ? "text-[var(--g1)]"
+                    : "text-[var(--gy2)] hover:text-[var(--wh)]"
+                }`}
               >
                 {link.label}
               </Link>
             </li>
           ))}
 
-          {/* Home icon — gold, hidden on home page */}
+          {/* Home icon — gold, always centered, hidden on home page */}
           {!isHome && (
             <li>
               <Link
@@ -142,7 +146,11 @@ export function Navbar() {
             <li key={link.href}>
               <Link
                 href={link.href}
-                className="text-[12px] font-normal tracking-[1px] text-[var(--gy2)] no-underline uppercase hover:text-[var(--wh)] transition-colors duration-300"
+                className={`text-[12px] font-normal tracking-[1px] no-underline uppercase transition-colors duration-300 ${
+                  pathname === link.href
+                    ? "text-[var(--g1)]"
+                    : "text-[var(--gy2)] hover:text-[var(--wh)]"
+                }`}
               >
                 {link.label}
               </Link>
