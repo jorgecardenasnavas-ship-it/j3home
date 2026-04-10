@@ -1740,10 +1740,11 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
           >
             <svg viewBox="0 0 1920 1080" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
               <defs>
-                <linearGradient id="j3gold" x1="0%" y1="0%" x2="30%" y2="100%">
-                  <stop offset="0%" stopColor="#E8D48A" />
-                  <stop offset="45%" stopColor="#D4B95C" />
-                  <stop offset="100%" stopColor="#C8A84E" />
+                <linearGradient id="j3gold" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#F0DC82" />
+                  <stop offset="35%" stopColor="#EDDA8A" />
+                  <stop offset="65%" stopColor="#E4C46C" />
+                  <stop offset="100%" stopColor="#DBA55A" />
                 </linearGradient>
                 <clipPath id="ball-inner-clip">
                   <circle cx="74" cy="75" r="58" />
