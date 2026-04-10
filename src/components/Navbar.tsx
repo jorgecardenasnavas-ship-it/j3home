@@ -129,18 +129,18 @@ export function Navbar() {
             </li>
           ))}
 
-          {/* Home icon — gold, always centered, hidden on home page */}
-          {!isHome && (
-            <li>
-              <Link
-                href="/"
-                className="text-[var(--g1)] hover:text-[var(--g2)] transition-colors duration-300"
-                aria-label="Inicio"
-              >
-                <HomeIcon />
-              </Link>
-            </li>
-          )}
+          {/* Home icon — gold, always centered */}
+          <li>
+            <Link
+              href="/"
+              className={`transition-colors duration-300 ${
+                isHome ? "text-[var(--g1)]" : "text-[var(--g1)] hover:text-[var(--g2)]"
+              }`}
+              aria-label="Inicio"
+            >
+              <HomeIcon />
+            </Link>
+          </li>
 
           {visibleRight.map((link) => (
             <li key={link.href}>
