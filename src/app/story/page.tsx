@@ -558,9 +558,9 @@ function AccentManifesto() {
         onUpdate: (self) => {
           const p = self.progress;
           cord.style.clipPath = `inset(0 0 ${(1 - p) * 100}% 0)`;
-          // Outro fade: 0.86→1.0 — overlay fades to black
+          // Outro fade: 0.92→1.0 — overlay fades to black (late, lets content breathe)
           if (fadeOverlay) {
-            const fadeP = p <= 0.86 ? 0 : Math.min(1, (p - 0.86) / 0.14);
+            const fadeP = p <= 0.92 ? 0 : Math.min(1, (p - 0.92) / 0.08);
             fadeOverlay.style.opacity = String(fadeP);
           }
         },
