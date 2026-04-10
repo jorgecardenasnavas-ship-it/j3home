@@ -574,7 +574,7 @@ function AccentManifesto() {
     <div
       ref={containerRef}
       className="relative bg-[var(--bk)] overflow-clip"
-      style={{ height: "320vh" }}
+      style={{ height: "380vh" }}
     >
       <div className="sticky top-0 h-screen flex items-center overflow-hidden">
         {/* DEPTH LAYER 0 — perspective floor lines (very subtle, suggests court horizon) */}
@@ -761,7 +761,7 @@ function AccentManifesto() {
                     ? "text-[clamp(15px,1.4vw,19px)] text-[var(--gy2)] leading-[1.55] font-light"
                     : i === 1
                     ? "text-[clamp(18px,1.7vw,24px)] text-[var(--wh)] leading-[1.35] font-medium tracking-[-0.2px]"
-                    : "text-[clamp(15px,1.4vw,19px)] italic text-[var(--g1)]/85 leading-[1.5] font-light";
+                    : "text-[clamp(17px,1.6vw,22px)] italic text-[var(--g1)] leading-[1.45] font-normal tracking-[-0.2px]";
                 return (
                   <p
                     key={i}
