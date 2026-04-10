@@ -1655,24 +1655,31 @@ const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * CIRCLE_R;
 
 /* ───────── FLYING ACCENT ───────── */
 
-const TOTAL_FRAMES = 193;
-const LAST_VIDEO_FRAME = 175; // Video runs through the flash — we overlay legs/stripes synced to it
+const TOTAL_FRAMES_DESKTOP = 193;
+const LAST_VIDEO_FRAME_DESKTOP = 175; // Video runs through the flash — we overlay legs/stripes synced to it
+const TOTAL_FRAMES_MOBILE = 146;
+const LAST_VIDEO_FRAME_MOBILE = 146; // Mobile Kling video: no flash, runs full length
 
 function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; fadeOutT: number; holdT: number; heroAccentRef: React.RefObject<HTMLSpanElement | null>; scrollDirRef: React.RefObject<number> }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const framesRef = useRef<HTMLImageElement[]>([]);
   const [framesLoaded, setFramesLoaded] = useState(false);
+  const isMobileRef = useRef(typeof window !== "undefined" && window.innerWidth < 960);
 
-  // Preload all frame images on mount
+  // Preload all frame images on mount — mobile gets native 9:16 frames
   useEffect(() => {
+    const isMobile = isMobileRef.current;
+    const totalFrames = isMobile ? TOTAL_FRAMES_MOBILE : TOTAL_FRAMES_DESKTOP;
     let loaded = 0;
     const images: HTMLImageElement[] = [];
-    for (let i = 1; i <= TOTAL_FRAMES; i++) {
+    for (let i = 1; i <= totalFrames; i++) {
       const img = new Image();
-      img.src = `/videos/frames/f${String(i).padStart(3, "0")}.jpg`;
+      img.src = isMobile
+        ? `/videos/frames-mobile/frame_${String(i).padStart(4, "0")}.jpg`
+        : `/videos/frames/f${String(i).padStart(3, "0")}.jpg`;
       img.onload = () => {
         loaded++;
-        if (loaded === TOTAL_FRAMES) {
+        if (loaded === totalFrames) {
           framesRef.current = images;
           setFramesLoaded(true);
         }
@@ -1689,25 +1696,19 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Map flyT 0.12→1.0 to frames 1→175 — video freezes at ball-complete post-flash
+    // Map flyT 0.12→1.0 to video frames
+    const isMobile = isMobileRef.current;
+    const lastFrame = isMobile ? LAST_VIDEO_FRAME_MOBILE : LAST_VIDEO_FRAME_DESKTOP;
     const videoProgress = Math.max(0, Math.min(1, (flyT - 0.12) / 0.88));
-    const frameIndex = Math.min(LAST_VIDEO_FRAME - 1, Math.floor(videoProgress * (LAST_VIDEO_FRAME - 1)));
+    const frameIndex = Math.min(lastFrame - 1, Math.floor(videoProgress * (lastFrame - 1)));
     const img = framesRef.current[frameIndex];
     if (!img) return;
 
-    // Mobile: crop to center 810px for portrait-friendly framing (ball stays centered)
-    const isMobile = window.innerWidth < 960;
-    if (isMobile) {
-      const CROP_W = 810;
-      const CROP_X = (1920 - CROP_W) / 2; // 555
-      if (canvas.width !== CROP_W) canvas.width = CROP_W;
-      if (canvas.height !== 1080) canvas.height = 1080;
-      ctx.drawImage(img, CROP_X, 0, CROP_W, 1080, 0, 0, CROP_W, 1080);
-    } else {
-      if (canvas.width !== img.naturalWidth) canvas.width = img.naturalWidth;
-      if (canvas.height !== img.naturalHeight) canvas.height = img.naturalHeight;
-      ctx.drawImage(img, 0, 0);
-    }
+    // Mobile: native 9:16 frames (540×960), no cropping needed
+    // Desktop: full 1920×1080 landscape frames
+    if (canvas.width !== img.naturalWidth) canvas.width = img.naturalWidth;
+    if (canvas.height !== img.naturalHeight) canvas.height = img.naturalHeight;
+    ctx.drawImage(img, 0, 0);
   }, [flyT, framesLoaded]);
 
   // Renders on all viewports — mobile gets the same logo build experience
@@ -1745,7 +1746,8 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
       )}
 
       {/* ── LOGO BUILD — completes BY the flash, elements arrive as light trails ── */}
-      {showVideo && (() => {
+      {/* Mobile: Kling 9:16 video already shows complete logo — skip SVG overlay */}
+      {showVideo && !isMobileRef.current && (() => {
         // buildT 0→1 completes just before flash. Flash is the climax seal.
         // Ring mostly formed by ~0.78, flash at ~0.88. Build compressed into 0.78→0.88.
         // holdT: logo stays built (buildT=1)
@@ -1794,9 +1796,8 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
           { d: J3_LEG_RIGHT,  fromX: 80,  fromY: 0,  delay: 0.18 },
         ];
 
-        // Mobile: match canvas crop so SVG overlay aligns with cropped video
-        const isMobileSvg = typeof window !== "undefined" && window.innerWidth < 960;
-        const svgViewBox = isMobileSvg ? "555 0 810 1080" : "0 0 1920 1080";
+        // Desktop-only SVG overlay (mobile uses native Kling video)
+        const svgViewBox = "0 0 1920 1080";
 
         return (
           <div
