@@ -1719,8 +1719,8 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
           return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2);
         };
 
-        // ── Position: align SVG to video ball (measured: center 957,532 ~488×494px) ──
-        const S = 3.30;
+        // ── Position: align SVG to video ball ──
+        const S = 3.31;
         const TX = 957 - 74 * S;
         const TY = 532 - 75 * S;
 
@@ -1789,32 +1789,13 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
               </defs>
 
               <g transform={`translate(${TX}, ${TY}) scale(${S})`}>
-                {/* ── Ball ring — compound path (evenodd), glow blur fuses with video ── */}
-                {buildT >= 0.98 && (() => {
-                  const ringSettled = flyT > 0.96;
-                  const ringPath = `${J3_BALL_OUTER} ${J3_BALL_OUTER_INNER}`;
-                  return (
-                    <g>
-                      {/* Energy trail glow — blends SVG ring into video ball */}
-                      {!ringSettled && (
-                        <path
-                          d={ringPath}
-                          fillRule="evenodd"
-                          fill="#FFF0C0"
-                          filter="url(#trail-glow)"
-                          opacity={0.7}
-                        />
-                      )}
-                      {/* Solid ring — iridescent until BOOM */}
-                      <path
-                        d={ringPath}
-                        fillRule="evenodd"
-                        fill={ringSettled ? "url(#j3gold)" : "#FFEDB3"}
-                        filter={ringSettled ? undefined : "url(#energy-glow)"}
-                      />
-                    </g>
-                  );
-                })()}
+                {/* ── Ball outline — appears at flash moment (buildT >= 0.98) ── */}
+                {buildT >= 0.98 && (
+                  <g>
+                    <path d={J3_BALL_OUTER} fill="url(#j3gold)" />
+                    <path d={J3_BALL_OUTER_INNER} fill="#000" />
+                  </g>
+                )}
 
                 {/* ── 3 Stripes — GOLD light trails that fuse into ball ── */}
                 <g clipPath="url(#ball-inner-clip)">
