@@ -1615,7 +1615,7 @@ const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * CIRCLE_R;
 
 const TOTAL_FRAMES = 193;
 
-function FlyingAccent({ flyT, fadeOutT }: { flyT: number; fadeOutT: number; heroAccentRef: React.RefObject<HTMLSpanElement | null> }) {
+function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: number; holdT: number; heroAccentRef: React.RefObject<HTMLSpanElement | null> }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const framesRef = useRef<HTMLImageElement[]>([]);
   const [framesLoaded, setFramesLoaded] = useState(false);
@@ -1691,6 +1691,72 @@ function FlyingAccent({ flyT, fadeOutT }: { flyT: number; fadeOutT: number; hero
         </div>
       )}
 
+      {/* SVG logo overlay — legs & stripes appear during holdT */}
+      {showVideo && holdT > 0 && (
+        <div
+          className="fixed inset-0 z-[61] pointer-events-none hidden min-[960px]:flex items-center justify-center"
+          style={{ opacity: videoOp, willChange: "opacity" }}
+        >
+          <svg
+            viewBox="0 0 1920 1080"
+            className="w-full h-full"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            <g transform={`translate(${705.1}, ${275.7}) scale(${3.417})`}>
+              {/* 3 interior stripes — stagger in at holdT 0→0.4 */}
+              {(() => {
+                const stripes = [J3_BALL_STRIPE_1, J3_BALL_STRIPE_2, J3_BALL_STRIPE_3];
+                return stripes.map((d, i) => {
+                  const start = i * 0.08;           // 0, 0.08, 0.16
+                  const end = start + 0.25;          // 0.25, 0.33, 0.41
+                  const progress = clamp((holdT - start) / (end - start));
+                  const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+                  return (
+                    <path
+                      key={`stripe-${i}`}
+                      d={d}
+                      fill="#C8A84E"
+                      opacity={eased}
+                      style={{ willChange: "opacity" }}
+                    />
+                  );
+                });
+              })()}
+
+              {/* 3 legs — stagger in at holdT 0.3→0.8, grow from top to bottom */}
+              {(() => {
+                const legs = [J3_LEG_LEFT, J3_LEG_CENTER, J3_LEG_RIGHT];
+                return legs.map((d, i) => {
+                  const start = 0.3 + i * 0.1;      // 0.3, 0.4, 0.5
+                  const end = start + 0.35;           // 0.65, 0.75, 0.85
+                  const progress = clamp((holdT - start) / (end - start));
+                  const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+                  return (
+                    <g key={`leg-${i}`}>
+                      <clipPath id={`leg-clip-${i}`}>
+                        <rect
+                          x="-10"
+                          y="148"
+                          width="180"
+                          height={60 * eased}
+                        />
+                      </clipPath>
+                      <path
+                        d={d}
+                        fill="#C8A84E"
+                        clipPath={`url(#leg-clip-${i})`}
+                        opacity={Math.min(1, progress * 3)}
+                        style={{ willChange: "opacity" }}
+                      />
+                    </g>
+                  );
+                });
+              })()}
+            </g>
+          </svg>
+        </div>
+      )}
+
       {/* Black background overlay */}
       {showBg && (
         <div
@@ -1737,6 +1803,7 @@ export default function StoryPage() {
   const [heroOp, setHeroOp] = useState(1);
   const [flyT, setFlyT] = useState(0); // 0 = at hero, 1 = logo complete
   const [fadeOutT, setFadeOutT] = useState(0); // 0 = visible, 1 = faded out
+  const [holdT, setHoldT] = useState(0); // 0→1 during logo hold (legs build)
   const [pinReady, setPinReady] = useState(false); // true after GSAP pin is set up
   const bridgeLockRef = useRef(false); // true while bridge animation is playing
   const bridgeLockFiredRef = useRef(false); // ensures lock fires only once
@@ -1844,11 +1911,13 @@ export default function StoryPage() {
             setHeroOp(Math.max(0, 1 - fadeProgress));
             setHeroY(fadeProgress * 60);
             setFadeOutT(0);
+            setHoldT(0);
           } else if (scrolled <= 2400) {
-            // Phase 3: HOLD — video last frame stays visible
+            // Phase 3: HOLD — video last frame stays visible, legs build
             setFlyT(1); setHeroOp(0); setFadeOutT(0);
+            setHoldT(Math.min(1, (scrolled - 1804) / 596));
           } else if (scrolled <= 2620) {
-            setFlyT(1); setHeroOp(0);
+            setFlyT(1); setHeroOp(0); setHoldT(1);
             const ft = Math.min(1, (scrolled - 2400) / 220);
             setFadeOutT(ft);
             // White bg fades in as logo fades out
@@ -2572,7 +2641,7 @@ export default function StoryPage() {
       <Footer />
 
       {/* ─── FLYING ACCENT — transitions from hero "Á" to manifesto "Á" ─── */}
-      <FlyingAccent flyT={flyT} fadeOutT={fadeOutT} heroAccentRef={heroAccentRef} />
+      <FlyingAccent flyT={flyT} fadeOutT={fadeOutT} holdT={holdT} heroAccentRef={heroAccentRef} />
     </main>
   );
 }
