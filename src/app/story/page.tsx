@@ -709,7 +709,7 @@ function AccentManifesto() {
             <div
               className="relative inline-block"
               style={{
-                fontSize: "clamp(190px, 28vw, 380px)",
+                fontSize: "clamp(130px, 28vw, 380px)",
                 lineHeight: 1,
               }}
             >
@@ -2389,7 +2389,7 @@ export default function StoryPage() {
       <section ref={heroRef} className="relative h-screen min-h-[580px] flex items-end overflow-hidden bg-black">
         {/* Background — negro puro (placeholder para futuro contenido) */}
         <div
-          className="relative z-10 px-12 pb-[120px] max-[960px]:px-6 max-[960px]:pb-[100px] w-full"
+          className="relative z-10 px-12 pb-[120px] max-[960px]:px-6 max-[960px]:pb-[80px] w-full"
           style={{ opacity: heroOp, transform: `translateY(${-heroY * 0.2}px)` }}
         >
           <h1 className="font-bold uppercase tracking-[-3px] overflow-visible">
@@ -2444,7 +2444,7 @@ export default function StoryPage() {
 
         {/* Bridge text — WHITE bg, dark text (inverted). Appears when logo fades. */}
         {fadeOutT >= 0.95 && (
-          <div ref={bridgeTextRef} className="absolute inset-0 z-20 bg-white flex items-center justify-center" style={{ opacity: 1, willChange: "opacity, filter" }}>
+          <div ref={bridgeTextRef} className="absolute inset-0 z-20 bg-white flex items-center justify-center px-6" style={{ opacity: 1, willChange: "opacity, filter" }}>
             <div className="text-center">
               <p className="text-[clamp(22px,2.8vw,38px)] tracking-[0.04em] text-[#6e6e73] font-light leading-[1.6] flex flex-wrap justify-center gap-x-[0.3em]">
                 {t.story.bridge.line1.split(" ").map((word: string, i: number) => (
