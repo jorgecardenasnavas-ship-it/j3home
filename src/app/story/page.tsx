@@ -1954,7 +1954,8 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
                   })}
                 </g>
 
-                </g>{/* end ball rotation group */}
+                {/* end ball rotation group */}
+                </g>
 
                 {/* ── 3 Legs — GOLD, arrive during/after flash, top→bottom flow ── */}
                 {legData.map(({ d, fromX, fromY, delay }, i) => {
