@@ -1677,14 +1677,14 @@ function FlyingAccent({ flyT, fadeOutT }: { flyT: number; fadeOutT: number; hero
   const showVideo = videoOp > 0.01;
 
   /* ── SVG stripe animation ──
-     Ball position in 960×540 frame coords: center (479, 266), radius ~123
+     Ball position in 1920×1080 frame coords: center (958, 532), radius ~246
      SVG path coords: ball center ~(74, 75), radius 72
-     Scale: 123/72 ≈ 1.708
-     Translate: (479 - 74*1.708, 266 - 75*1.708) ≈ (352.6, 137.9)
+     Scale: 246/72 ≈ 3.417
+     Translate: (958 - 74*3.417, 532 - 75*3.417) ≈ (705.1, 275.7)
   */
-  const BALL_SCALE = 1.708;
-  const BALL_TX = 352.6;
-  const BALL_TY = 137.9;
+  const BALL_SCALE = 3.417;
+  const BALL_TX = 705.1;
+  const BALL_TY = 275.7;
 
   /* ── Interior stripes — assemble BEFORE the flash (flyT 0.62 → 0.74) ── */
   // Stripe 3 (bottom-left) from left, stripe 2 (top-right) from right, stripe 1 (big cross) from bottom
@@ -1749,7 +1749,7 @@ function FlyingAccent({ flyT, fadeOutT }: { flyT: number; fadeOutT: number; hero
           }}
         >
           <svg
-            viewBox="0 0 960 540"
+            viewBox="0 0 1920 1080"
             preserveAspectRatio="xMidYMid meet"
             className="w-full h-full"
             style={{ position: "absolute", inset: 0 }}
@@ -1763,8 +1763,8 @@ function FlyingAccent({ flyT, fadeOutT }: { flyT: number; fadeOutT: number; hero
               </linearGradient>
               {/* Soft glow for contour */}
               <filter id="glow-soft" x="-40%" y="-40%" width="180%" height="180%">
-                <feGaussianBlur stdDeviation="6" result="blur1" />
-                <feGaussianBlur stdDeviation="14" result="blur2" />
+                <feGaussianBlur stdDeviation="12" result="blur1" />
+                <feGaussianBlur stdDeviation="28" result="blur2" />
                 <feMerge>
                   <feMergeNode in="blur2" />
                   <feMergeNode in="blur1" />
@@ -1791,7 +1791,7 @@ function FlyingAccent({ flyT, fadeOutT }: { flyT: number; fadeOutT: number; hero
                     d={J3_BALL_OUTER}
                     fill="none"
                     stroke="#fff1b4"
-                    strokeWidth={4}
+                    strokeWidth={2.5}
                     transform={`translate(${BALL_TX}, ${BALL_TY}) scale(${BALL_SCALE})`}
                   />
                   {/* Glow: Inner circle */}
@@ -1799,7 +1799,7 @@ function FlyingAccent({ flyT, fadeOutT }: { flyT: number; fadeOutT: number; hero
                     d={J3_BALL_OUTER_INNER}
                     fill="none"
                     stroke="#fff1b4"
-                    strokeWidth={3}
+                    strokeWidth={2}
                     transform={`translate(${BALL_TX}, ${BALL_TY}) scale(${BALL_SCALE})`}
                   />
                   {/* Glow: Interior stripes */}
