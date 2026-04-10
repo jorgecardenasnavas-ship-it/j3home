@@ -519,21 +519,22 @@ function AccentManifesto() {
       // HOLD 0.60→0.96 — todo visible, card clavada, scroll no hace nada
       // FADE 0.96→1.00 — desvanecimiento progresivo
 
-      // ── Parallax depth layers (independent ScrollTriggers, run constantly) ──
+      // ── Parallax depth layers — se detienen al 60% junto con todo ──
+      const parallaxEnd = `${Math.round(container.offsetHeight * 0.6)}px top`;
       gsap.to(glow1Ref.current, {
         yPercent: -18,
         ease: "none",
-        scrollTrigger: { trigger: container, start: "top top", end: "bottom top", scrub: true },
+        scrollTrigger: { trigger: container, start: "top top", end: parallaxEnd, scrub: true },
       });
       gsap.to(glow2Ref.current, {
         yPercent: 22,
         ease: "none",
-        scrollTrigger: { trigger: container, start: "top top", end: "bottom top", scrub: true },
+        scrollTrigger: { trigger: container, start: "top top", end: parallaxEnd, scrub: true },
       });
       gsap.to(perspectiveRef.current, {
         yPercent: -10,
         ease: "none",
-        scrollTrigger: { trigger: container, start: "top top", end: "bottom top", scrub: true },
+        scrollTrigger: { trigger: container, start: "top top", end: parallaxEnd, scrub: true },
       });
       gsap.fromTo(
         vignetteRef.current,
@@ -541,7 +542,7 @@ function AccentManifesto() {
         {
           opacity: 0.65,
           ease: "none",
-          scrollTrigger: { trigger: container, start: "top top", end: "bottom top", scrub: true },
+          scrollTrigger: { trigger: container, start: "top top", end: parallaxEnd, scrub: true },
         }
       );
     },
