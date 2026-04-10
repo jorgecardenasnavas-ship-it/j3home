@@ -1692,28 +1692,29 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
         </div>
       )}
 
-      {/* SVG logo overlay — 3 legs slide in during holdT after video freezes */}
+      {/* SVG complete logo overlay — fades in over video ball, legs slide in */}
       {showVideo && holdT > 0 && (() => {
-        // Each leg slides in from a different direction
-        // Left leg: enters from the left (translateX negative → 0)
-        // Center leg: enters from below (translateY positive → 0)
-        // Right leg: enters from the right (translateX positive → 0)
-        const legStart = 0.05;  // start shortly after hold begins
-        const legDur = 0.55;    // each leg takes 55% of holdT to fully arrive
+        const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
+
+        // Ball SVG is ~148 wide, video ball is ~490px in 1920 canvas → scale = 490/148 ≈ 3.31
+        // Ball SVG center ~(74, 75), video ball center (957, 532)
+        // translate = center - svgCenter * scale
+        const LOGO_SCALE = 3.31;
+        const LOGO_TX = 957 - 74 * LOGO_SCALE;  // ~712
+        const LOGO_TY = 532 - 75 * LOGO_SCALE;  // ~284
+
+        // Ball parts fade in quickly at start of hold (crossfade over video)
+        const ballOpacity = clamp(holdT / 0.15);
+
+        // Legs slide in from their directions
+        const legStart = 0.12;
+        const legDur = 0.50;
 
         const leftP = clamp((holdT - legStart) / legDur);
         const centerP = clamp((holdT - legStart - 0.10) / legDur);
         const rightP = clamp((holdT - legStart - 0.05) / legDur);
 
-        // easeOutCubic for smooth deceleration
-        const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
-
-        const leftEased = easeOut(leftP);
-        const centerEased = easeOut(centerP);
-        const rightEased = easeOut(rightP);
-
-        // Slide distances (in SVG viewBox units, pre-scale)
-        const slideDistance = 80;
+        const slideDistance = 70;
 
         return (
           <div
@@ -1725,45 +1726,39 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
               className="w-full h-full"
               preserveAspectRatio="xMidYMid meet"
             >
-              <defs>
-                {/* Clip to only show legs below the ball area */}
-                <clipPath id="legs-clip">
-                  <rect x="-20" y="148" width="200" height="60" />
-                </clipPath>
-              </defs>
-              <g transform={`translate(${705.1}, ${275.7}) scale(${3.417})`}>
-                {/* Left leg — slides in from left */}
-                <g clipPath="url(#legs-clip)">
-                  <path
-                    d={J3_LEG_LEFT}
-                    fill="#C8A84E"
-                    opacity={leftP > 0 ? Math.min(1, leftP * 4) : 0}
-                    transform={`translate(${-slideDistance * (1 - leftEased)}, 0)`}
-                    style={{ willChange: "transform, opacity" }}
-                  />
+              <g transform={`translate(${LOGO_TX}, ${LOGO_TY}) scale(${LOGO_SCALE})`}>
+                {/* Ball — outer ring + inner fill + 3 stripes */}
+                <g opacity={ballOpacity}>
+                  <path d={J3_BALL_OUTER} fill="#C8A84E" />
+                  <path d={J3_BALL_OUTER_INNER} fill="#C8A84E" />
+                  <path d={J3_BALL_STRIPE_1} fill="#1a1a1a" />
+                  <path d={J3_BALL_STRIPE_2} fill="#1a1a1a" />
+                  <path d={J3_BALL_STRIPE_3} fill="#1a1a1a" />
                 </g>
+
+                {/* Left leg — slides in from left */}
+                <path
+                  d={J3_LEG_LEFT}
+                  fill="#C8A84E"
+                  opacity={leftP > 0 ? Math.min(1, leftP * 3) : 0}
+                  transform={`translate(${-slideDistance * (1 - easeOut(leftP))}, 0)`}
+                />
 
                 {/* Center leg — slides in from below */}
-                <g clipPath="url(#legs-clip)">
-                  <path
-                    d={J3_LEG_CENTER}
-                    fill="#C8A84E"
-                    opacity={centerP > 0 ? Math.min(1, centerP * 4) : 0}
-                    transform={`translate(0, ${slideDistance * (1 - centerEased)})`}
-                    style={{ willChange: "transform, opacity" }}
-                  />
-                </g>
+                <path
+                  d={J3_LEG_CENTER}
+                  fill="#C8A84E"
+                  opacity={centerP > 0 ? Math.min(1, centerP * 3) : 0}
+                  transform={`translate(0, ${slideDistance * (1 - easeOut(centerP))})`}
+                />
 
                 {/* Right leg — slides in from right */}
-                <g clipPath="url(#legs-clip)">
-                  <path
-                    d={J3_LEG_RIGHT}
-                    fill="#C8A84E"
-                    opacity={rightP > 0 ? Math.min(1, rightP * 4) : 0}
-                    transform={`translate(${slideDistance * (1 - rightEased)}, 0)`}
-                    style={{ willChange: "transform, opacity" }}
-                  />
-                </g>
+                <path
+                  d={J3_LEG_RIGHT}
+                  fill="#C8A84E"
+                  opacity={rightP > 0 ? Math.min(1, rightP * 3) : 0}
+                  transform={`translate(${slideDistance * (1 - easeOut(rightP))}, 0)`}
+                />
               </g>
             </svg>
           </div>
