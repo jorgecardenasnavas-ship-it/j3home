@@ -1721,7 +1721,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
         // ── Stripes (GOLD) — fly from outside as light trails, fuse into ball ──
         // Late start — arrive just before the flash climax
         const stripeData = [
-          { d: J3_BALL_STRIPE_1, fromX: 5,  fromY: -65, delay: 0.40 },   // from top
+          { d: J3_BALL_STRIPE_1, fromX: -50, fromY: -55, delay: 0.40 },   // from upper-left diagonal
           { d: J3_BALL_STRIPE_2, fromX: 60, fromY: -35, delay: 0.48 },   // from right
           { d: J3_BALL_STRIPE_3, fromX: -60, fromY: 50, delay: 0.45 },   // from left
         ];
