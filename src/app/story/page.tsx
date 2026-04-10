@@ -1803,7 +1803,7 @@ export default function StoryPage() {
     if (isDesktop) {
       // Desktop: pin the hero while virgulilla → logo → black plays
       const SCROLL_DISTANCE = 7200;  // total scroll px (más lento = más alto)
-      const PHASE_RANGE = 5600;     // rango de fases original (no tocar)
+      const PHASE_RANGE = 6020;     // rango de fases (expandido para hold de logo)
       const st = ScrollTrigger.create({
         trigger: hero,
         start: "top top",
@@ -1820,15 +1820,16 @@ export default function StoryPage() {
           const sh = statsHeaderRef.current;
           const sdv = statsDividerRef.current;
 
-          // Phase guide:
-          // 1 (0-176): hero text | 2 (176-1804): flying accent
-          // 3 (1804-1980): hold logo | 4 (1980-2200): logo fade
-          // 5 (2200-2650): bridge dwell (white bg, lock)
-          // 6 (2650-2900): text converges → court line appears
-          // 7 (2900-3200): court grows + lines draw in (CSS)
-          // 8 (3200-3800): hold court on white
-          // 9 (3800-4400): expand + undraw + white→black
-          // 10 (4400-4800): hold black
+          // Phase guide (expanded — +420 hold after logo):
+          // 1 (0-176): hero text | 2 (176-1804): flying accent / video
+          // 3 (1804-2400): HOLD logo completo (vídeo frame 97)
+          // 4 (2400-2620): logo fade
+          // 5 (2620-3070): bridge dwell (white bg, lock)
+          // 6+7 (3070-3420): text converges → court line appears
+          // 8 (3420-4020): court grows + lines draw in
+          // 9 (4020-4720): expand + undraw + white→black
+          // 10 (4720-5620): stats build
+          // 11 (>5620): hold stats
 
           if (scrolled <= 176) {
             setFlyT(0); setHeroOp(1); setHeroY(0); setFadeOutT(0);
@@ -1843,15 +1844,16 @@ export default function StoryPage() {
             setHeroOp(Math.max(0, 1 - fadeProgress));
             setHeroY(fadeProgress * 60);
             setFadeOutT(0);
-          } else if (scrolled <= 1980) {
+          } else if (scrolled <= 2400) {
+            // Phase 3: HOLD — video last frame stays visible
             setFlyT(1); setHeroOp(0); setFadeOutT(0);
-          } else if (scrolled <= 2200) {
+          } else if (scrolled <= 2620) {
             setFlyT(1); setHeroOp(0);
-            const ft = Math.min(1, (scrolled - 1980) / 220);
+            const ft = Math.min(1, (scrolled - 2400) / 220);
             setFadeOutT(ft);
             // White bg fades in as logo fades out
             if (wbg) { wbg.style.opacity = String(ft); }
-          } else if (scrolled <= 2650) {
+          } else if (scrolled <= 3070) {
             // Phase 5: Bridge dwell — WHITE bg, dark text. Lock scroll for CSS word anim.
             setFlyT(1); setHeroOp(0); setFadeOutT(1);
             if (bt) { bt.style.opacity = "1"; bt.style.transform = "scale(1)"; bt.style.filter = "blur(0px)"; }
@@ -1873,10 +1875,10 @@ export default function StoryPage() {
               bridgeLockRef.current = true;
               setTimeout(() => { bridgeLockRef.current = false; }, 1500);
             }
-          } else if (scrolled <= 3000) {
+          } else if (scrolled <= 3420) {
             // Phase 6+7: Text converges + court line starts SIMULTANEOUSLY
             if (wbg) { wbg.style.opacity = "1"; wbg.style.transition = "none"; wbg.style.background = "#fff"; }
-            const p6 = Math.min(1, (scrolled - 2650) / 200);
+            const p6 = Math.min(1, (scrolled - 3070) / 200);
             if (bt) {
               const s = Math.max(0, 1 - p6);
               bt.style.transform = `scale(${s})`;
@@ -1885,7 +1887,7 @@ export default function StoryPage() {
             }
             // Court line starts when text is ~30% converged — almost immediate
             const courtP = Math.max(0, (p6 - 0.3) / 0.7); // 0→1 in last 70% of convergence
-            const p7 = Math.max(0, (scrolled - 2710) / 150); // also grows after 2710
+            const p7 = Math.max(0, (scrolled - 3130) / 150); // also grows after 3130
             const lineGrow = Math.max(courtP, p7); // combined progress for court line
             const vw7 = window.innerWidth;
             const isMob7 = vw7 <= 960;
@@ -1921,11 +1923,11 @@ export default function StoryPage() {
                 cb.style.display = "none";
               }
             }
-          } else if (scrolled <= 3600) {
+          } else if (scrolled <= 4020) {
             // Phase 8: Court expands to full size + lines draw in (scroll-driven)
             if (bt) { bt.style.opacity = "0"; }
             if (wbg) { wbg.style.opacity = "1"; wbg.style.background = "#fff"; }
-            const p8 = (scrolled - 3000) / 600;
+            const p8 = (scrolled - 3420) / 600;
             const vw8 = window.innerWidth;
             const isMob8 = vw8 <= 960;
             const cW8 = isMob8 ? Math.min(vw8 * 0.65, 300) : Math.min(vw8 * 0.5, 460);
@@ -1953,10 +1955,10 @@ export default function StoryPage() {
               l.style.strokeDashoffset = String(len * (1 - lineP));
             });
             if (so) { so.style.opacity = "0"; }
-          } else if (scrolled <= 4300) {
+          } else if (scrolled <= 4720) {
             // Phase 9: Court expands to viewport + lines undraw + white→black
             if (bt) { bt.style.opacity = "0"; }
-            const p9 = (scrolled - 3600) / 700;
+            const p9 = (scrolled - 4020) / 700;
             const vw9 = window.innerWidth;
             const vh9 = window.innerHeight;
             const isMob9 = vw9 <= 960;
@@ -2003,12 +2005,12 @@ export default function StoryPage() {
               if (sdv) { sdv.style.opacity = "0"; }
               statsItemRefs.current.forEach(el => { if (el) { el.style.opacity = "0"; el.style.transform = "translateY(24px)"; } });
             }
-          } else if (scrolled <= 5200) {
+          } else if (scrolled <= 5620) {
             // Phase 10: Stats build on black bg
             if (cb) { cb.style.display = "none"; }
             if (bt) { bt.style.opacity = "0"; }
             if (wbg) { wbg.style.opacity = "0"; }
-            const p10 = (scrolled - 4300) / 900;
+            const p10 = (scrolled - 4720) / 900;
             if (so) {
               so.style.opacity = "1";
               // Header (already revealed in Phase 9)
