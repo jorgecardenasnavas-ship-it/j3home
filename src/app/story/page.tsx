@@ -2001,13 +2001,35 @@ export default function StoryPage() {
           // 10 (4720-5620): stats build
           // 11 (>5620): hold stats
 
-          if (scrolled <= 176) {
-            setFlyT(0); setHeroOp(1); setHeroY(0); setFadeOutT(0);
-            if (bt) { bt.style.opacity = "0"; bt.style.transform = "scale(1)"; }
+          // ── Helper: reset all overlay elements to hidden (safe for backward scroll) ──
+          const resetBridge = () => {
+            if (bt) { bt.style.opacity = "0"; bt.style.transform = "scale(1)"; bt.style.filter = "blur(0px)"; }
+          };
+          const resetCourt = () => {
             if (cb) { cb.style.display = "none"; }
-            if (wbg) { wbg.style.opacity = "0"; }
+          };
+          const resetWhiteBg = () => {
+            if (wbg) { wbg.style.opacity = "0"; wbg.style.transition = "none"; wbg.style.background = "#fff"; }
+          };
+          const resetStats = () => {
             if (so) { so.style.opacity = "0"; }
+            if (sh) { sh.style.opacity = "0"; sh.style.transform = "translateY(20px)"; }
+            if (sdv) { sdv.style.opacity = "0"; }
+            statsItemRefs.current.forEach(el => { if (el) { el.style.opacity = "0"; el.style.transform = "translateY(24px)"; } });
+          };
+          const resetCourtAnim = () => {
+            courtAnimFiredRef.current = false;
+            courtInitRef.current = false;
+            lines.forEach(l => { if (l) { l.classList.remove("court-draw-in", "court-draw-out"); } });
+          };
+
+          if (scrolled <= 176) {
+            // Phase 1: Hero text visible, everything else hidden
+            setFlyT(0); setHeroOp(1); setHeroY(0); setFadeOutT(0); setHoldT(0);
+            resetBridge(); resetCourt(); resetWhiteBg(); resetStats(); resetCourtAnim();
+            bridgeLockFiredRef.current = false;
           } else if (scrolled <= 1804) {
+            // Phase 2: Flying accent / video
             const flyProgress = Math.min(1, (scrolled - 176) / 1628);
             setFlyT(flyProgress);
             const fadeProgress = Math.min(1, flyProgress / 0.20);
@@ -2015,32 +2037,33 @@ export default function StoryPage() {
             setHeroY(fadeProgress * 60);
             setFadeOutT(0);
             setHoldT(0);
+            resetBridge(); resetCourt(); resetWhiteBg(); resetStats(); resetCourtAnim();
+            bridgeLockFiredRef.current = false;
           } else if (scrolled <= 2400) {
             // Phase 3: HOLD — video last frame stays visible, legs build
             setFlyT(1); setHeroOp(0); setFadeOutT(0);
             setHoldT(Math.min(1, (scrolled - 1804) / 596));
+            resetBridge(); resetCourt(); resetWhiteBg(); resetStats(); resetCourtAnim();
+            bridgeLockFiredRef.current = false;
           } else if (scrolled <= 2620) {
+            // Phase 4: Logo fade out, white bg fades in
             setFlyT(1); setHeroOp(0); setHoldT(1);
             const ft = Math.min(1, (scrolled - 2400) / 220);
             setFadeOutT(ft);
+            resetBridge(); resetCourt(); resetStats(); resetCourtAnim();
             // White bg fades in as logo fades out
-            if (wbg) { wbg.style.opacity = String(ft); }
+            if (wbg) { wbg.style.opacity = String(ft); wbg.style.transition = "none"; wbg.style.background = "#fff"; }
+            bridgeLockFiredRef.current = false;
           } else if (scrolled <= 3070) {
             // Phase 5: Bridge dwell — WHITE bg, dark text. Lock scroll for CSS word anim.
             setFlyT(1); setHeroOp(0); setFadeOutT(1);
             if (bt) { bt.style.opacity = "1"; bt.style.transform = "scale(1)"; bt.style.filter = "blur(0px)"; }
-            if (cb) { cb.style.display = "none"; }
-            if (wbg) { wbg.style.opacity = "1"; }
-            // Reset court animation for re-trigger if user scrolls back up
-            courtAnimFiredRef.current = false;
-            courtInitRef.current = false;
-            lines.forEach(l => { if (l) { l.classList.remove("court-draw-in", "court-draw-out"); } });
+            resetCourt();
             if (wbg) { wbg.style.transition = "none"; wbg.style.background = "#fff"; wbg.style.opacity = "1"; }
+            // Reset court animation for re-trigger if user scrolls back up
+            resetCourtAnim();
             // Reset stats for scroll-back
-            if (so) { so.style.opacity = "0"; }
-            if (sh) { sh.style.opacity = "0"; sh.style.transform = "translateY(20px)"; }
-            if (sdv) { sdv.style.opacity = "0"; }
-            statsItemRefs.current.forEach(el => { if (el) { el.style.opacity = "0"; el.style.transform = "translateY(24px)"; } });
+            resetStats();
             if (!bridgeLockFiredRef.current) {
               bridgeLockFiredRef.current = true;
               bridgeLockY.current = window.scrollY;
@@ -2049,6 +2072,7 @@ export default function StoryPage() {
             }
           } else if (scrolled <= 3420) {
             // Phase 6+7: Text converges + court line starts SIMULTANEOUSLY
+            resetStats();
             if (wbg) { wbg.style.opacity = "1"; wbg.style.transition = "none"; wbg.style.background = "#fff"; }
             const p6 = Math.min(1, (scrolled - 3070) / 200);
             if (bt) {
@@ -2126,7 +2150,7 @@ export default function StoryPage() {
               const lineP = Math.max(0, Math.min(1, (p8 - delays8[i]) / 0.35));
               l.style.strokeDashoffset = String(len * (1 - lineP));
             });
-            if (so) { so.style.opacity = "0"; }
+            resetStats();
           } else if (scrolled <= 4720) {
             // Phase 9: Court expands to viewport + lines undraw + white→black
             if (bt) { bt.style.opacity = "0"; }
