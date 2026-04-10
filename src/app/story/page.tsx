@@ -502,14 +502,14 @@ function AccentManifesto() {
         0.55
       );
 
-      // pG 0.50→0.76 — manifesto lines staggered (3 lines, dejando margen para leer)
+      // pG 0.42→0.66 — manifesto lines staggered (earlier = more hold time for last line)
       manifestoRefs.current.forEach((el, i) => {
         if (!el) return;
-        const start = 0.50 + i * 0.07;
+        const start = 0.42 + i * 0.07;
         tl.to(el, { opacity: 1, y: 0, duration: 0.14 }, start);
       });
 
-      // Dwell 0.76→0.86 — todo visible, sin animaciones, solo lectura
+      // Dwell 0.66→0.95 — todo visible, sin animaciones, solo lectura
       // pOutro 0.86→1.00 — el manifesto NO se mueve, sólo va perdiendo peso
       // (opacity baja gradualmente). La siguiente sección, solapada por margen
       // negativo, gana peso al mismo tiempo. No hay velo ni wipe.
