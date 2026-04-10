@@ -1739,20 +1739,10 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
           <canvas
             ref={canvasRef}
             className="w-full h-full object-contain"
-            style={{
-              // Mobile: no bg — black bg overlay behind handles it; canvas letterbox stays transparent
-              // so the flash glow can bleed through. Mask fades the video content edges softly.
-              ...(typeof window !== "undefined" && window.innerWidth < 960
-                ? {
-                    maskImage: "linear-gradient(to bottom, transparent 0%, transparent 16%, black 23%, black 77%, transparent 84%, transparent 100%)",
-                    WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, transparent 16%, black 23%, black 77%, transparent 84%, transparent 100%)",
-                  }
-                : { background: "#000" }),
-            }}
+            style={{ background: "#000" }}
           />
         </div>
       )}
-
 
       {/* ── LOGO BUILD — completes BY the flash, elements arrive as light trails ── */}
       {showVideo && (() => {
@@ -1951,25 +1941,6 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
           style={{ background: "#000", opacity: bgBlackOp, willChange: "opacity" }}
         />
       )}
-
-      {/* Mobile: full-viewport flash glow — renders AFTER black bg so it shows on top */}
-      {showVideo && typeof window !== "undefined" && window.innerWidth < 960 && (() => {
-        // Flash peaks at flyT ~0.88 (BUILD_END). Glow in 0.83→0.88, out 0.88→0.94
-        const flashIn = flyT < 0.83 ? 0 : flyT <= 0.88 ? (flyT - 0.83) / 0.05 : 1;
-        const flashOut = flyT <= 0.88 ? 0 : flyT >= 0.94 ? 1 : (flyT - 0.88) / 0.06;
-        const flashOp = Math.max(0, flashIn * (1 - flashOut)) * 0.4;
-        if (flashOp < 0.01) return null;
-        return (
-          <div
-            className="fixed inset-0 z-[59] pointer-events-none"
-            style={{
-              opacity: flashOp * videoOp,
-              background: "radial-gradient(ellipse 130% 80% at 50% 50%, rgba(240,220,130,0.9) 0%, rgba(219,165,90,0.5) 35%, transparent 65%)",
-              willChange: "opacity",
-            }}
-          />
-        );
-      })()}
     </>
   );
 }
