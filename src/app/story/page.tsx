@@ -1789,13 +1789,28 @@ function FlyingAccent({ flyT, fadeOutT, holdT }: { flyT: number; fadeOutT: numbe
               </defs>
 
               <g transform={`translate(${TX}, ${TY}) scale(${S})`}>
-                {/* ── Ball outline — appears at flash moment (buildT >= 0.98) ── */}
-                {buildT >= 0.98 && (
-                  <g>
-                    <path d={J3_BALL_OUTER} fill="url(#j3gold)" />
-                    <path d={J3_BALL_OUTER_INNER} fill="#000" />
-                  </g>
-                )}
+                {/* ── Ball ring — gold solid + blur shadow behind for fusion ── */}
+                {buildT >= 0.98 && (() => {
+                  const ringPath = `${J3_BALL_OUTER} ${J3_BALL_OUTER_INNER}`;
+                  return (
+                    <g>
+                      {/* Shadow/glow layer — blurred, blends ring into video ball */}
+                      <path
+                        d={ringPath}
+                        fillRule="evenodd"
+                        fill="#FFF0C0"
+                        filter="url(#trail-glow)"
+                        opacity={0.6}
+                      />
+                      {/* Solid gold ring — always clean, no iridescence */}
+                      <path
+                        d={ringPath}
+                        fillRule="evenodd"
+                        fill="url(#j3gold)"
+                      />
+                    </g>
+                  );
+                })()}
 
                 {/* ── 3 Stripes — GOLD light trails that fuse into ball ── */}
                 <g clipPath="url(#ball-inner-clip)">
