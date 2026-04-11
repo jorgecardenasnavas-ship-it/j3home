@@ -349,7 +349,7 @@ export const es = {
     },
 
     team: {
-      label: "El equipo",
+      label: "El ADN",
       heading1: "Dos personas.",
       heading2: "Un mismo",
       heading2Accent: "criterio.",

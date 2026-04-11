@@ -348,7 +348,7 @@ export const en = {
     },
 
     team: {
-      label: "The team",
+      label: "The DNA",
       heading1: "Two people.",
       heading2: "One shared",
       heading2Accent: "vision.",
