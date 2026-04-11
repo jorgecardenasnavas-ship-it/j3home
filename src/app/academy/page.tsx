@@ -129,27 +129,7 @@ function HeroSection() {
 
   return (
     <section className="relative h-screen min-h-[580px] flex items-end overflow-hidden bg-black">
-      {/* Video background */}
-      {ready && (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <iframe
-            src="https://iframe.mediadelivery.net/embed/553002/087de751-9d65-48f2-8b33-27b73ea3d3a3?autoplay=true&loop=true&muted=true&controls=false&responsive=false"
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-0"
-            style={{
-              width: "177.78vh", minWidth: "100%",
-              height: "56.25vw", minHeight: "100%",
-              opacity: 0.35,
-              transition: "opacity 1.4s ease",
-            }}
-            allow="autoplay"
-            loading="lazy"
-            title="J3 Academy video"
-          />
-        </div>
-      )}
-
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/30 z-[1]" />
+      {/* Background — negro puro (placeholder para futuro contenido) */}
 
       {/* Content */}
       <div className="relative z-10 px-12 pb-[120px] max-[960px]:px-6 max-[960px]:pb-[80px] w-full">
@@ -176,7 +156,7 @@ function HeroSection() {
           </span>
           {/* Line 3 — Avanzar. — slide from right */}
           <span
-            className="j3-grad-text font-[var(--font-serif)] italic normal-case block text-[clamp(74px,13vw,196px)] max-[960px]:text-[clamp(60px,18vw,140px)] leading-[.90]"
+            className="j3-grad-text font-[var(--font-serif)] italic block text-[clamp(74px,13vw,196px)] max-[960px]:text-[clamp(60px,18vw,140px)] leading-[.90]"
             style={{
               opacity: ready ? undefined : 0,
               animation: ready ? "slideFromRight .8s .9s cubic-bezier(.16,1,.3,1) both" : "none",
