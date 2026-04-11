@@ -174,20 +174,15 @@ function HeroSection() {
           >
             {t.academy.hero.titleLine2}
           </span>
-          {/* Line 3 — Y avanzar. — slide from right */}
+          {/* Line 3 — Avanzar. — slide from right */}
           <span
-            className="block leading-[.90]"
+            className="j3-grad-text font-[var(--font-serif)] italic normal-case block text-[clamp(64px,11vw,170px)] max-[960px]:text-[clamp(52px,16vw,120px)] leading-[.90]"
             style={{
               opacity: ready ? undefined : 0,
               animation: ready ? "slideFromRight .8s .9s cubic-bezier(.16,1,.3,1) both" : "none",
             }}
           >
-            <span className="text-[var(--wh)] text-[clamp(64px,11vw,170px)] max-[960px]:text-[clamp(52px,16vw,120px)]">
-              {t.academy.hero.titleLine3a}
-            </span>
-            <span className="j3-grad-text font-[var(--font-serif)] italic normal-case text-[clamp(64px,11vw,170px)] max-[960px]:text-[clamp(52px,16vw,120px)]">
-              {" "}{t.academy.hero.titleLine3b}
-            </span>
+            {t.academy.hero.titleLine3b}
           </span>
         </h1>
       </div>
