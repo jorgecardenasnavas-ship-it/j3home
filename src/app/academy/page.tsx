@@ -156,33 +156,8 @@ function HeroSection() {
 
       {/* Content */}
       <div className="relative z-10 px-12 pb-[120px] max-[960px]:px-6 max-[960px]:pb-[80px] w-full max-w-[1200px]">
-        {/* Gold accent line */}
-        <div
-          className="w-[40px] h-[2px] bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] mb-5"
-          style={{
-            opacity: ready ? 0.7 : 0,
-            transform: ready ? "scaleX(1)" : "scaleX(0)",
-            transformOrigin: "left",
-            transition: "all 0.8s cubic-bezier(0.16,1,0.3,1) 0.3s",
-          }}
-        />
-
-        {/* Location label */}
-        <span
-          className="text-[10px] font-bold tracking-[5px] uppercase block mb-6"
-          style={{
-            color: "var(--g1)",
-            opacity: ready ? 1 : 0,
-            transform: ready ? "none" : "translateY(12px)",
-            filter: ready ? "blur(0px)" : "blur(8px)",
-            transition: "all 0.8s cubic-bezier(0.16,1,0.3,1) 0.4s",
-          }}
-        >
-          {t.academy.hero.locationLabel}
-        </span>
-
         {/* Title */}
-        <h1 className="font-bold uppercase tracking-[-3px] leading-[0.88] mb-8">
+        <h1 className="font-bold uppercase tracking-[-3px] leading-[0.88]">
           {/* Line 1 — REPEAT. gold */}
           <span
             className="j3-grad-text block text-[clamp(72px,12vw,168px)]"
@@ -195,7 +170,7 @@ function HeroSection() {
           >
             {t.academy.hero.titleLine1}
           </span>
-          {/* Line 2 — REPEAT. stroke */}
+          {/* Line 2 — ADJUST. stroke */}
           <span
             className="j3-stroke block text-[clamp(72px,12vw,168px)]"
             style={{
@@ -207,7 +182,7 @@ function HeroSection() {
           >
             {t.academy.hero.titleLine2}
           </span>
-          {/* Line 3 — AND white + repeat gold cursive */}
+          {/* Line 3 — AND white + avanzar gold cursive */}
           <span className="block text-[clamp(72px,12vw,168px)]">
             <span
               className="text-[var(--wh)] inline-block"
@@ -233,27 +208,69 @@ function HeroSection() {
             </span>
           </span>
         </h1>
+      </div>
 
-        {/* Subtitle — brushstroke layout */}
-        <div
-          className="flex items-start gap-5 max-w-[760px]"
-          style={{
-            opacity: ready ? 1 : 0,
-            transform: ready ? "none" : "translateY(16px)",
-            filter: ready ? "blur(0px)" : "blur(6px)",
-            transition: "all 0.9s cubic-bezier(0.16,1,0.3,1) 1.2s",
-          }}
-        >
+      {/* Chevron animado — triple stagger */}
+      <div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
+        style={{
+          opacity: ready ? 1 : 0,
+          transition: "opacity 1s ease 2s",
+        }}
+      >
+        <div className="scroll-arrows">
+          <svg width="16" height="9" viewBox="0 0 16 9" fill="none" className="scroll-arrow scroll-arrow-1">
+            <path d="M1 1l7 7 7-7" stroke="var(--g1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          <svg width="16" height="9" viewBox="0 0 16 9" fill="none" className="scroll-arrow scroll-arrow-2">
+            <path d="M1 1l7 7 7-7" stroke="var(--g1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          <svg width="16" height="9" viewBox="0 0 16 9" fill="none" className="scroll-arrow scroll-arrow-3">
+            <path d="M1 1l7 7 7-7" stroke="var(--g1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   S1b — SUBTITLE (hero claim — own section)
+   ═══════════════════════════════════════════════════════ */
+
+function SubtitleSection() {
+  const { t } = useI18n();
+  const { ref, visible } = useReveal(0.15);
+
+  return (
+    <section className="relative bg-[var(--bk)] py-[100px] max-[960px]:py-[72px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-b border-white/[.07] overflow-hidden">
+      {/* Subtle radial glow */}
+      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 60% 50% at 50% 40%, rgba(220,175,100,.04) 0%, transparent 70%)" }} />
+
+      <div
+        ref={ref}
+        className="relative z-10 max-w-[760px]"
+        style={{
+          opacity: visible ? 1 : 0,
+          transform: visible ? "none" : "translateY(30px)",
+          transition: "all .9s cubic-bezier(.16,1,.3,1)",
+        }}
+      >
+        {/* Location eyebrow */}
+        <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] block mb-6 max-[960px]:text-[12px] max-[960px]:tracking-[3px]">
+          {t.academy.hero.locationLabel}
+        </span>
+
+        {/* Claim */}
+        <div className="flex items-start gap-5">
           {/* Vertical gold hairline */}
           <span className="w-px h-[68px] max-[960px]:h-[60px] mt-1 shrink-0 bg-gradient-to-b from-[var(--g1)] via-[var(--g1)]/40 to-transparent" />
 
           <div className="leading-[1.35]">
-            {/* Top line — small uppercase */}
             <span className="block text-[clamp(13px,1.4vw,18px)] font-light tracking-[1px] uppercase text-[var(--gy3)]">
               {t.academy.hero.subtitleBefore}
             </span>
 
-            {/* Big italic gold word + rest of phrase */}
             <p className="text-[clamp(16px,1.8vw,22px)] font-light text-[var(--gy3)] leading-[1.25] mt-[2px]">
               <span className="text-[clamp(26px,3.2vw,42px)] font-bold italic tracking-[-0.5px] j3-grad-text inline-block pr-[0.1em] align-baseline">
                 {t.academy.hero.subtitleAccent}
@@ -289,27 +306,6 @@ function HeroSection() {
               {t.academy.hero.subtitleLine2}
             </span>
           </div>
-        </div>
-      </div>
-
-      {/* Chevron animado — triple stagger */}
-      <div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
-        style={{
-          opacity: ready ? 1 : 0,
-          transition: "opacity 1s ease 2s",
-        }}
-      >
-        <div className="scroll-arrows">
-          <svg width="16" height="9" viewBox="0 0 16 9" fill="none" className="scroll-arrow scroll-arrow-1">
-            <path d="M1 1l7 7 7-7" stroke="var(--g1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-          <svg width="16" height="9" viewBox="0 0 16 9" fill="none" className="scroll-arrow scroll-arrow-2">
-            <path d="M1 1l7 7 7-7" stroke="var(--g1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-          <svg width="16" height="9" viewBox="0 0 16 9" fill="none" className="scroll-arrow scroll-arrow-3">
-            <path d="M1 1l7 7 7-7" stroke="var(--g1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
         </div>
       </div>
     </section>
@@ -1078,6 +1074,9 @@ export default function AcademyPage() {
 
       {/* S1 — Hero */}
       <HeroSection />
+
+      {/* S1b — Subtitle claim */}
+      <SubtitleSection />
 
       {/* S2 — Statement */}
       <StatementSection />
