@@ -156,7 +156,7 @@ function HeroSection() {
         <h1 className="font-bold uppercase tracking-[-3px] overflow-visible">
           {/* Line 1 — REPETIR. gold — clip reveal up */}
           <span
-            className="j3-grad-text block text-[clamp(64px,11vw,170px)] max-[960px]:text-[clamp(52px,16vw,120px)] leading-[.90]"
+            className="text-[var(--wh)] block text-[clamp(64px,11vw,170px)] max-[960px]:text-[clamp(52px,16vw,120px)] leading-[.90]"
             style={{
               opacity: ready ? undefined : 0,
               animation: ready ? "clipRevealUp .9s .3s cubic-bezier(.16,1,.3,1) both" : "none",
