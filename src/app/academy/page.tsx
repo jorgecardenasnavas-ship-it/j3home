@@ -128,11 +128,8 @@ function HeroSection() {
   }, []);
 
   return (
-    <section className="relative h-screen min-h-[600px] flex items-end overflow-hidden bg-black">
-      {/* Atmospheric fallback gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[rgba(220,175,100,0.06)] via-transparent to-[rgba(220,175,100,0.03)]" />
-
-      {/* Video background — oversized iframe trick for object-fit:cover behavior */}
+    <section className="relative h-screen min-h-[580px] flex items-end overflow-hidden bg-black">
+      {/* Video background */}
       {ready && (
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <iframe
@@ -141,7 +138,7 @@ function HeroSection() {
             style={{
               width: "177.78vh", minWidth: "100%",
               height: "56.25vw", minHeight: "100%",
-              opacity: 0.45,
+              opacity: 0.35,
               transition: "opacity 1.4s ease",
             }}
             allow="autoplay"
@@ -152,84 +149,65 @@ function HeroSection() {
       )}
 
       {/* Dark overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/55 to-black/30 z-[1]" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/30 z-[1]" />
 
       {/* Content */}
-      <div className="relative z-10 px-12 pb-[120px] max-[960px]:px-6 max-[960px]:pb-[80px] w-full max-w-[1200px]">
-        {/* Title */}
-        <h1 className="font-bold uppercase tracking-[-3px] leading-[0.88]">
-          {/* Line 1 — REPEAT. gold */}
+      <div className="relative z-10 px-12 pb-[120px] max-[960px]:px-6 max-[960px]:pb-[80px] w-full">
+        <h1 className="font-bold uppercase tracking-[-3px] overflow-visible">
+          {/* Line 1 — REPETIR. gold — clip reveal up */}
           <span
-            className="j3-grad-text block text-[clamp(72px,12vw,168px)]"
+            className="j3-grad-text block text-[clamp(64px,11vw,170px)] max-[960px]:text-[clamp(52px,16vw,120px)] leading-[.90]"
             style={{
-              opacity: ready ? 1 : 0,
-              transform: ready ? "none" : "translateY(120%) scale(1.05)",
-              filter: ready ? "blur(0px)" : "blur(8px)",
-              transition: "all 1.1s cubic-bezier(0.16,1,0.3,1) 0.6s",
+              opacity: ready ? undefined : 0,
+              animation: ready ? "clipRevealUp .9s .3s cubic-bezier(.16,1,.3,1) both" : "none",
             }}
           >
             {t.academy.hero.titleLine1}
           </span>
-          {/* Line 2 — ADJUST. stroke */}
+          {/* Line 2 — AJUSTAR. stroke — slide from left */}
           <span
-            className="j3-stroke block text-[clamp(72px,12vw,168px)]"
+            className="j3-stroke block text-[clamp(64px,11vw,170px)] max-[960px]:text-[clamp(52px,16vw,120px)] leading-[.90]"
             style={{
-              opacity: ready ? 1 : 0,
-              transform: ready ? "none" : "translateY(120%) scale(1.05)",
-              filter: ready ? "blur(0px)" : "blur(8px)",
-              transition: "all 1.1s cubic-bezier(0.16,1,0.3,1) 0.75s",
+              opacity: ready ? undefined : 0,
+              animation: ready ? "slideFromLeft .8s .6s cubic-bezier(.16,1,.3,1) both" : "none",
             }}
           >
             {t.academy.hero.titleLine2}
           </span>
-          {/* Line 3 — AND white + avanzar gold cursive */}
-          <span className="block text-[clamp(72px,12vw,168px)]">
-            <span
-              className="text-[var(--wh)] inline-block"
-              style={{
-                opacity: ready ? 1 : 0,
-                transform: ready ? "none" : "translateY(120%) scale(1.05)",
-                filter: ready ? "blur(0px)" : "blur(8px)",
-                transition: "all 1.1s cubic-bezier(0.16,1,0.3,1) 0.9s",
-              }}
-            >
+          {/* Line 3 — Y avanzar. — slide from right */}
+          <span
+            className="block leading-[.90]"
+            style={{
+              opacity: ready ? undefined : 0,
+              animation: ready ? "slideFromRight .8s .9s cubic-bezier(.16,1,.3,1) both" : "none",
+            }}
+          >
+            <span className="text-[var(--wh)] text-[clamp(64px,11vw,170px)] max-[960px]:text-[clamp(52px,16vw,120px)]">
               {t.academy.hero.titleLine3a}
             </span>
-            <span
-              className="j3-grad-text inline-block font-[var(--font-serif)] italic normal-case"
-              style={{
-                opacity: ready ? 1 : 0,
-                transform: ready ? "none" : "translateY(120%) scale(1.05)",
-                filter: ready ? "blur(0px)" : "blur(8px)",
-                transition: "all 1.1s cubic-bezier(0.16,1,0.3,1) 1.05s",
-              }}
-            >
+            <span className="j3-grad-text font-[var(--font-serif)] italic normal-case text-[clamp(64px,11vw,170px)] max-[960px]:text-[clamp(52px,16vw,120px)]">
               {" "}{t.academy.hero.titleLine3b}
             </span>
           </span>
         </h1>
       </div>
 
-      {/* Chevron animado — triple stagger */}
-      <div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
-        style={{
-          opacity: ready ? 1 : 0,
-          transition: "opacity 1s ease 2s",
-        }}
-      >
-        <div className="scroll-arrows">
-          <svg width="16" height="9" viewBox="0 0 16 9" fill="none" className="scroll-arrow scroll-arrow-1">
-            <path d="M1 1l7 7 7-7" stroke="var(--g1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-          <svg width="16" height="9" viewBox="0 0 16 9" fill="none" className="scroll-arrow scroll-arrow-2">
-            <path d="M1 1l7 7 7-7" stroke="var(--g1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-          <svg width="16" height="9" viewBox="0 0 16 9" fill="none" className="scroll-arrow scroll-arrow-3">
-            <path d="M1 1l7 7 7-7" stroke="var(--g1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
+      {/* Chevron — fade in after title */}
+      {ready && (
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 animate-[fadeInSoft_1s_1.8s_ease_both]">
+          <div className="scroll-arrows">
+            <svg width="16" height="9" viewBox="0 0 16 9" fill="none" className="scroll-arrow scroll-arrow-1">
+              <path d="M1 1l7 7 7-7" stroke="var(--g1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <svg width="16" height="9" viewBox="0 0 16 9" fill="none" className="scroll-arrow scroll-arrow-2">
+              <path d="M1 1l7 7 7-7" stroke="var(--g1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <svg width="16" height="9" viewBox="0 0 16 9" fill="none" className="scroll-arrow scroll-arrow-3">
+              <path d="M1 1l7 7 7-7" stroke="var(--g1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }
