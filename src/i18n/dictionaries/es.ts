@@ -385,7 +385,7 @@ export const es = {
       nextGenLabel: "De la cantera al circuito profesional",
       nextGenProLabel: "Llegaron como promesa \u00B7 Consolidados en el circuito",
       featuredLabel: "Colaboraciones profesionales destacadas",
-      sharedLabel: "Tambi\u00E9n han compartido equipo con J3",
+      sharedLabel: "También hemos compartido pista con",
       heroPlayers: [
         { info: "Formado desde joven en Ocean Padel. Alcanz\u00F3 el top 4 mundial.", tag: "Top 4 Mundial" },
         { info: "Cantera Ocean Padel / J3. 100 % malague\u00F1o. Top 5 mundial.", tag: "Top 5 Mundial" },

@@ -384,7 +384,7 @@ export const en = {
       nextGenLabel: "From the youth academy to the professional circuit",
       nextGenProLabel: "Arrived as prospects \u00B7 Established on the circuit",
       featuredLabel: "Notable professional collaborations",
-      sharedLabel: "Have also been part of the J3 team",
+      sharedLabel: "We\u2019ve also shared the court with",
       heroPlayers: [
         { info: "Trained from a young age at Ocean Padel. Reached world #4.", tag: "World Top 4" },
         { info: "Ocean Padel / J3 youth academy. 100% from M\u00E1laga. World top 5.", tag: "World Top 5" },
