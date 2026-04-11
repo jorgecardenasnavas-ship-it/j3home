@@ -2247,10 +2247,9 @@ export default function StoryPage() {
               bt.style.filter = `blur(${p6 * 20}px)`;
               bt.style.opacity = String(Math.max(0, 1 - p6 * 2.5));
             }
-            // Court line starts when text is ~30% converged — almost immediate
-            const courtP = Math.max(0, (p6 - 0.3) / 0.7); // 0→1 in last 70% of convergence
-            const p7 = Math.max(0, (scrolled - 2810) / 150); // also grows after 2810
-            const lineGrow = Math.min(1, Math.max(courtP, p7)); // combined progress for court line, clamped to 1
+            // Court grows continuously from first appearance to Phase 8 boundary (3100)
+            // Starts at ~30% of p6 (scrolled ~2810), reaches 1 at scrolled=3100
+            const lineGrow = Math.min(1, Math.max(0, (scrolled - 2810) / (3100 - 2810))); // 0→1 over 290px
             const vw7 = window.innerWidth;
             const isMob7 = vw7 <= 960;
             const cW7 = isMob7 ? Math.min(vw7 * 0.65, 300) : Math.min(vw7 * 0.5, 460);
