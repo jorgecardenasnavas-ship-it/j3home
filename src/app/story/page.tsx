@@ -2250,7 +2250,7 @@ export default function StoryPage() {
             // Court line starts when text is ~30% converged — almost immediate
             const courtP = Math.max(0, (p6 - 0.3) / 0.7); // 0→1 in last 70% of convergence
             const p7 = Math.max(0, (scrolled - 2810) / 150); // also grows after 2810
-            const lineGrow = Math.max(courtP, p7); // combined progress for court line
+            const lineGrow = Math.min(1, Math.max(courtP, p7)); // combined progress for court line, clamped to 1
             const vw7 = window.innerWidth;
             const isMob7 = vw7 <= 960;
             const cW7 = isMob7 ? Math.min(vw7 * 0.65, 300) : Math.min(vw7 * 0.5, 460);
@@ -2298,10 +2298,11 @@ export default function StoryPage() {
               cb.style.display = "flex";
               cb.style.transition = "none";
               cb.style.background = "var(--bk)";
-              // Width: from 60% → 100% of courtW
-              const wP = isMob8 ? 0.5 + 0.5 * p8 : 0.6 + 0.4 * p8;
+              // Width: continuous from Phase 6+7 end values
+              const startW = isMob8 ? 0.5 : 0.6;
+              const wP = startW + (1 - startW) * p8;
               cb.style.width = `${cW8 * wP}px`;
-              // Height: from 2px (or 40%) → full courtH
+              // Height: continuous from Phase 6+7 end values
               const startH = isMob8 ? cH8 * 0.4 : 2;
               cb.style.height = `${startH + (cH8 - startH) * p8}px`;
             }
