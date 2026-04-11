@@ -1756,7 +1756,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
           style={{
             opacity: fadeOutT >= 1 ? 0 : 1,
             willChange: "opacity, transform, filter",
-            transform: `scale(${tunnelScale})${isMobileRef.current && mobileSpinDeg > 0 ? ` rotate(${mobileSpinDeg}deg)` : ""}`,
+            transform: `scale(${tunnelScale})`,
             filter: motionBlur > 0.1 ? `blur(${motionBlur}px)` : "none",
           }}
         >
