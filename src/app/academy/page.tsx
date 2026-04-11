@@ -332,7 +332,7 @@ function StatementSection() {
   const { itemRefs, visibleItems } = useStaggerReveal(lines.length, 0.2);
 
   return (
-    <section className="relative bg-[var(--bk2)] py-32 max-[960px]:py-24 px-12 max-[960px]:px-6 border-b border-[var(--g1)]/15 overflow-hidden">
+    <section className="relative bg-[var(--bk2)] py-[100px] max-[960px]:py-[72px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-b border-white/[.07] overflow-hidden">
       {/* Subtle radial glow */}
       <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 70% 60% at 50% 40%, rgba(220,175,100,.04) 0%, transparent 70%)" }} />
 
@@ -344,10 +344,10 @@ function StatementSection() {
           style={{
             opacity: visible ? 1 : 0,
             transform: visible ? "none" : "translateY(16px)",
-            transition: "all 0.8s var(--ease-out)",
+            transition: "all 0.8s cubic-bezier(.16,1,.3,1)",
           }}
         >
-          <span className="text-[10px] font-bold tracking-[5px] uppercase text-[var(--g1)]">
+          <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] max-[960px]:text-[12px] max-[960px]:tracking-[3px]">
             {t.academy.statement.eyebrow}
           </span>
         </div>
@@ -361,7 +361,7 @@ function StatementSection() {
                 opacity: visibleItems[i] ? 1 : 0,
                 transform: visibleItems[i] ? "none" : "translateY(40px)",
                 filter: visibleItems[i] ? "blur(0px)" : "blur(8px)",
-                transition: `all 1s var(--ease-out) ${i * 0.25}s`,
+                transition: `all 1s cubic-bezier(.16,1,.3,1) ${i * 0.25}s`,
               }}
             >
               <span className={`${line.style} font-bold text-[clamp(44px,8vw,120px)] uppercase tracking-[-2px] leading-[1.05] inline-block`}>
@@ -408,7 +408,7 @@ function ProofSection() {
   const { itemRefs, visibleItems } = useStaggerReveal(players.length, 0.2);
 
   return (
-    <section ref={ref} className="relative bg-[var(--bk)] py-28 max-[960px]:py-20 px-12 max-[960px]:px-6 overflow-hidden">
+    <section ref={ref} className="relative bg-[var(--bk)] py-[100px] max-[960px]:py-[72px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-b border-white/[.07] overflow-hidden">
       <div className="max-w-[1200px] mx-auto grid grid-cols-2 max-[960px]:grid-cols-1 gap-16 max-[960px]:gap-10 items-center">
         {/* Left — image placeholder */}
         <div
@@ -416,7 +416,7 @@ function ProofSection() {
           style={{
             opacity: visible ? 1 : 0,
             transform: visible ? "none" : "translateX(-40px)",
-            transition: "all 1s var(--ease-out)",
+            transition: "all 1s cubic-bezier(.16,1,.3,1)",
           }}
         >
           <img
@@ -432,11 +432,11 @@ function ProofSection() {
           style={{
             opacity: visible ? 1 : 0,
             transform: visible ? "none" : "translateX(40px)",
-            transition: "all 1s var(--ease-out) 0.15s",
+            transition: "all 1s cubic-bezier(.16,1,.3,1) 0.15s",
           }}
         >
           {/* Eyebrow */}
-          <span className="text-[10px] font-bold tracking-[4px] uppercase text-[var(--g1)] block mb-6">
+          <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] block mb-6 max-[960px]:text-[12px] max-[960px]:tracking-[3px]">
             {t.academy.proof.eyebrow}
           </span>
 
@@ -457,7 +457,7 @@ function ProofSection() {
                 style={{
                   opacity: visibleItems[i] ? 1 : 0,
                   transform: visibleItems[i] ? "none" : "translateY(8px)",
-                  transition: `all 0.7s var(--ease-out) ${i * 0.1}s`,
+                  transition: `all 0.7s cubic-bezier(.16,1,.3,1) ${i * 0.1}s`,
                 }}
               >
                 {p.name}{i < players.length - 1 && <span className="text-[var(--g1)]/30 ml-5">{"\u00B7"}</span>}
@@ -502,13 +502,13 @@ function ProgramCard({
               : "bg-[#f0f0f0] border border-black/[.06]"
             : featured
               ? "bg-[var(--bk2)] border border-[var(--g1)]/20"
-              : "bg-[var(--bk3)] border border-white/[.06]"
-          : "border border-white/[.06]"
+              : "bg-[var(--bk)] border border-white/[.07]"
+          : "border border-white/[.07]"
       }`}
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "none" : "translateY(30px)",
-        transition: `all 0.8s var(--ease-out) ${index * 0.12}s`,
+        transition: `all 0.8s cubic-bezier(.16,1,.3,1) ${index * 0.12}s`,
       }}
     >
       {/* Background image */}
@@ -605,30 +605,30 @@ function PerfilesSection() {
   const itReveal = useReveal(0.15);
 
   return (
-    <section className="relative bg-[var(--bk)] py-28 max-[960px]:py-20 overflow-hidden">
+    <section className="relative bg-[var(--bk)] py-[100px] max-[960px]:py-[72px] overflow-hidden">
       {/* Section header */}
       <div
         ref={ref}
-        className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto mb-16"
+        className="px-12 max-[960px]:px-6 max-[640px]:px-4 max-w-[1200px] mx-auto mb-16"
         style={{
           opacity: visible ? 1 : 0,
           transform: visible ? "none" : "translateY(24px)",
-          transition: "all 0.9s var(--ease-out)",
+          transition: "all 0.9s cubic-bezier(.16,1,.3,1)",
         }}
       >
-        <span className="text-[10px] font-bold tracking-[4px] uppercase text-[var(--g1)] block mb-4">
+        <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] block mb-3 max-[960px]:text-[12px] max-[960px]:tracking-[3px]">
           {t.academy.programs.eyebrow}
         </span>
-        <h2 className="font-bold text-[clamp(36px,5vw,72px)] uppercase tracking-[-2px] leading-[1]">
+        <h2 className="font-bold text-[clamp(32px,4vw,52px)] uppercase tracking-[-1px] leading-[1]">
           <span className="text-[var(--wh)]">{t.academy.programs.headingPre}</span>
           <span className="j3-grad-text">{t.academy.programs.headingAccent}</span>
         </h2>
       </div>
 
       {/* Block 1: Juniors — dark */}
-      <div className="bg-[var(--bk)] border-t border-white/[.06]">
+      <div className="bg-[var(--bk)] border-t border-white/[.07]">
         {/* Block label */}
-        <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b border-white/[.06]">
+        <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b border-white/[.07]">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] j3-grad-text tracking-[-1px]">01</span>
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.juniorsLabel}</span>
         </div>
@@ -643,9 +643,9 @@ function PerfilesSection() {
       </div>
 
       {/* Block 2: Adultos */}
-      <div className="bg-[var(--bk)] border-t border-white/[.06]">
+      <div className="bg-[var(--bk)] border-t border-white/[.07]">
         {/* Block label */}
-        <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b border-white/[.06]">
+        <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b border-white/[.07]">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] j3-grad-text tracking-[-1px]">02</span>
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.adultosLabel}</span>
         </div>
@@ -660,8 +660,8 @@ function PerfilesSection() {
       </div>
 
       {/* Block 3: Intensive Training — hero-style standalone */}
-      <div className="bg-[var(--bk)] border-t border-white/[.06]">
-        <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b border-white/[.06]">
+      <div className="bg-[var(--bk)] border-t border-white/[.07]">
+        <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b border-white/[.07]">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] j3-grad-text tracking-[-1px]">03</span>
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.intensiveLabel}</span>
         </div>
@@ -672,7 +672,7 @@ function PerfilesSection() {
           style={{
             opacity: itReveal.visible ? 1 : 0,
             transform: itReveal.visible ? "none" : "translateY(30px)",
-            transition: "all 1s var(--ease-out)",
+            transition: "all 1s cubic-bezier(.16,1,.3,1)",
           }}
         >
           <div className="relative overflow-hidden p-12 max-[960px]:p-6 border border-[var(--g1)]/20 min-h-[650px] max-[960px]:min-h-[600px] flex flex-col justify-end">
@@ -690,11 +690,11 @@ function PerfilesSection() {
             <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] opacity-60 z-10" />
 
             <div className="relative z-10 text-center">
-              <span className="text-[10px] font-bold tracking-[4px] uppercase text-[var(--g1)] block mb-3">
+              <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] block mb-3 max-[960px]:text-[12px] max-[960px]:tracking-[3px]">
                 {t.academy.programs.intensiveEyebrow}
               </span>
 
-              <h3 className="font-bold text-[clamp(32px,5vw,72px)] uppercase tracking-[-2px] leading-[1] mb-3">
+              <h3 className="font-bold text-[clamp(32px,4vw,52px)] uppercase tracking-[-1px] leading-[1] mb-3">
                 <span className="text-[var(--wh)]">{t.academy.programs.intensiveTitlePre}</span>
                 <br />
                 <span className="j3-grad-text font-[var(--font-serif)] italic normal-case">{t.academy.programs.intensiveTitleAccent}</span>
@@ -767,7 +767,7 @@ function SedeCard({
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "none" : "translateY(40px)",
-        transition: `all 1s var(--ease-out) ${index * 0.2}s`,
+        transition: `all 1s cubic-bezier(.16,1,.3,1) ${index * 0.2}s`,
       }}
     >
       {/* Background */}
@@ -830,21 +830,21 @@ function SedesSection() {
   const { ref, visible } = useReveal(0.15);
 
   return (
-    <section className="relative bg-[var(--bk)] overflow-hidden">
+    <section className="relative bg-[var(--bk2)] overflow-hidden border-b border-white/[.07]">
       {/* Section header */}
       <div
         ref={ref}
-        className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto pt-28 pb-14 max-[960px]:pt-20 max-[960px]:pb-10"
+        className="px-12 max-[960px]:px-6 max-[640px]:px-4 max-w-[1200px] mx-auto pt-[100px] pb-14 max-[960px]:pt-[72px] max-[960px]:pb-10"
         style={{
           opacity: visible ? 1 : 0,
           transform: visible ? "none" : "translateY(24px)",
-          transition: "all 0.9s var(--ease-out)",
+          transition: "all .8s cubic-bezier(.16,1,.3,1)",
         }}
       >
-        <span className="text-[10px] font-bold tracking-[4px] uppercase text-[var(--g1)] block mb-4">
+        <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] block mb-3 max-[960px]:text-[12px] max-[960px]:tracking-[3px]">
           {t.academy.headquarters.eyebrow}
         </span>
-        <h2 className="font-bold text-[clamp(36px,5vw,72px)] uppercase tracking-[-2px] leading-[1]">
+        <h2 className="font-bold text-[clamp(32px,4vw,52px)] uppercase tracking-[-1px] leading-[1]">
           <span className="text-[var(--wh)]">{t.academy.headquarters.headingPre}</span>
           <span className="j3-grad-text">{t.academy.headquarters.headingAccent}</span>
         </h2>
@@ -888,7 +888,7 @@ function MetodoSection() {
   const { itemRefs, visibleItems } = useStaggerReveal(steps.length, 0.2);
 
   return (
-    <section className="relative bg-[var(--bk3)] py-28 max-[960px]:py-20 px-12 max-[960px]:px-6 overflow-hidden">
+    <section className="relative bg-[var(--bk)] py-[100px] max-[960px]:py-[72px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-b border-white/[.07] overflow-hidden">
       <div className="max-w-[1200px] mx-auto grid grid-cols-[1fr_1.5fr] max-[960px]:grid-cols-1 gap-16 max-[960px]:gap-10">
         {/* Left — header */}
         <div
@@ -896,13 +896,13 @@ function MetodoSection() {
           style={{
             opacity: visible ? 1 : 0,
             transform: visible ? "none" : "translateY(24px)",
-            transition: "all 0.9s var(--ease-out)",
+            transition: "all .8s cubic-bezier(.16,1,.3,1)",
           }}
         >
-          <span className="text-[10px] font-bold tracking-[4px] uppercase text-[var(--g1)] block mb-4">
+          <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] block mb-3 max-[960px]:text-[12px] max-[960px]:tracking-[3px]">
             {t.academy.method.eyebrow}
           </span>
-          <h2 className="font-bold text-[clamp(36px,5vw,72px)] uppercase tracking-[-2px] leading-[1]">
+          <h2 className="font-bold text-[clamp(32px,4vw,52px)] uppercase tracking-[-1px] leading-[1]">
             <span className="text-[var(--wh)]">{t.academy.method.headingPre}</span>
             <span className="j3-grad-text">{t.academy.method.headingAccent}</span>
           </h2>
@@ -922,11 +922,11 @@ function MetodoSection() {
                 style={{
                   opacity: visibleItems[i] ? 1 : 0,
                   transform: visibleItems[i] ? "none" : "translateY(24px)",
-                  transition: `all 0.8s var(--ease-out) ${i * 0.15}s`,
+                  transition: `all 0.8s cubic-bezier(.16,1,.3,1) ${i * 0.15}s`,
                 }}
               >
                 {/* Numbered dot */}
-                <div className="shrink-0 w-[23px] h-[23px] rounded-full border-2 border-[var(--g1)]/40 flex items-center justify-center relative z-10 bg-[var(--bk3)]">
+                <div className="shrink-0 w-[23px] h-[23px] rounded-full border-2 border-[var(--g1)]/40 flex items-center justify-center relative z-10 bg-[var(--bk)]">
                   <span className="j3-grad-text text-[10px] font-bold">{i + 1}</span>
                 </div>
 
@@ -963,7 +963,7 @@ function StatsSection() {
   const { itemRefs, visibleItems } = useStaggerReveal(stats.length, 0.3);
 
   return (
-    <section className="relative bg-[var(--bk)] py-24 max-[960px]:py-16 px-12 max-[960px]:px-6 border-t border-white/[.06] border-b border-b-white/[.06] overflow-hidden">
+    <section className="relative bg-[var(--bk2)] py-[100px] max-[960px]:py-[72px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-b border-white/[.07] overflow-hidden">
       {/* Subtle glow */}
       <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(220,175,100,.03) 0%, transparent 70%)" }} />
 
@@ -973,12 +973,12 @@ function StatsSection() {
             key={i}
             ref={el => { itemRefs.current[i] = el; }}
             className={`text-center ${
-              i < stats.length - 1 ? "border-r border-white/[.06]" : ""
+              i < stats.length - 1 ? "border-r border-white/[.07]" : ""
             } ${i === 1 || i === 3 ? "max-[960px]:border-r-0" : ""}`}
             style={{
               opacity: visibleItems[i] ? 1 : 0,
               transform: visibleItems[i] ? "none" : "translateY(24px) scale(0.95)",
-              transition: `all 0.8s var(--ease-out) ${i * 0.12}s`,
+              transition: `all 0.8s cubic-bezier(.16,1,.3,1) ${i * 0.12}s`,
             }}
           >
             <Counter
@@ -1007,7 +1007,7 @@ function CtaFinalSection() {
   return (
     <section
       ref={ref}
-      className="relative bg-[var(--bk2)] py-32 max-[960px]:py-24 px-12 max-[960px]:px-6 overflow-hidden text-center"
+      className="relative bg-[var(--bk)] py-[100px] max-[960px]:py-[72px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden text-center"
     >
       {/* Gold accent line top */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[120px] h-px bg-gradient-to-r from-transparent via-[var(--g1)]/40 to-transparent" />
@@ -1023,16 +1023,16 @@ function CtaFinalSection() {
         style={{
           opacity: visible ? 1 : 0,
           transform: visible ? "none" : "translateY(30px)",
-          transition: "all 1s var(--ease-out)",
+          transition: "all 1s cubic-bezier(.16,1,.3,1)",
         }}
       >
         {/* Eyebrow */}
-        <span className="text-[10px] font-bold tracking-[4px] uppercase text-[var(--g1)] block mb-6">
+        <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] block mb-6 max-[960px]:text-[12px] max-[960px]:tracking-[3px]">
           {t.academy.cta.eyebrow}
         </span>
 
         {/* Title */}
-        <h2 className="font-bold text-[clamp(48px,7vw,96px)] uppercase tracking-[-3px] leading-[0.95] mb-6">
+        <h2 className="font-bold text-[clamp(40px,6vw,72px)] uppercase tracking-[-2px] leading-[0.95] mb-6">
           <span className="j3-stroke">{t.academy.cta.titlePre}</span>{" "}
           <span className="j3-grad-text font-[var(--font-serif)] italic normal-case">{t.academy.cta.titleAccent}</span>
         </h2>
