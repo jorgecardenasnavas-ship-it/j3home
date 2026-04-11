@@ -1736,22 +1736,10 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
     ? Math.sin(clamp(fadeOutT / 0.2) * Math.PI) * 0.7  // sine pulse: 0 → 0.7 → 0
     : 0;
 
-  // ── Ball spin — pre-spin wobble during hold, then full spin during zoom ──
-  // Pre-spin: starts as wobble during holdT, builds to slow rotation
-  const preSpinT = clamp(holdT / 1); // 0→1 over the hold phase
-  const wobble = preSpinT > 0 && fadeOutT === 0
-    ? Math.sin(preSpinT * Math.PI * 6) * (2 + preSpinT * 8) // wobble grows from ±2° to ±10°
-    : 0;
-  const preSpin = preSpinT > 0.3 && fadeOutT === 0
-    ? Math.pow((preSpinT - 0.3) / 0.7, 2) * 45 // slow rotation up to 45°
-    : 0;
-  // Main spin during tunnel zoom
-  const zoomSpin = Math.pow(zoomT, 2) * 540; // 0° → 540°
-  const spinDeg = preSpin + wobble + zoomSpin;
-  // Mobile: pre-spin always visible, zoom spin only when legs are off-screen
-  const mobilePreSpin = preSpin + wobble;
-  const mobileZoomSpin = zoomT > 0.3 ? Math.pow((zoomT - 0.3) / 0.7, 2) * 540 : 0;
-  const mobileSpinDeg = mobilePreSpin + mobileZoomSpin;
+  // ── Ball spin — accelerating rotation during zoom ──
+  const spinDeg = Math.pow(zoomT, 2) * 540; // 0° → 540° (1.5 full rotations)
+  // Mobile: only spin once zoomed enough that legs are off-screen (~3x+, zoomT>0.3)
+  const mobileSpinDeg = zoomT > 0.3 ? Math.pow((zoomT - 0.3) / 0.7, 2) * 540 : 0;
 
   // ── Tunnel vignette — dark radial edges during zoom ──
   const vignetteOp = clamp(zoomT * 0.8); // fades in with zoom
@@ -1803,7 +1791,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
       )}
 
       {/* Mobile ball spin overlay — SVG ball rotates on top of static canvas */}
-      {showVideo && isMobileRef.current && (mobileSpinDeg > 0.5 || Math.abs(wobble) > 0.5) && fadeOutT < 1 && (
+      {showVideo && isMobileRef.current && mobileSpinDeg > 0 && fadeOutT < 1 && (
         <div
           className="fixed inset-0 z-[61] pointer-events-none flex items-center justify-center"
           style={{
