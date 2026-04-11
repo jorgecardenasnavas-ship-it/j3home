@@ -1790,6 +1790,41 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
         />
       )}
 
+      {/* Mobile ball spin overlay — SVG ball rotates on top of static canvas */}
+      {showVideo && isMobileRef.current && mobileSpinDeg > 0 && fadeOutT < 1 && (
+        <div
+          className="fixed inset-0 z-[61] pointer-events-none flex items-center justify-center"
+          style={{
+            transform: `scale(${tunnelScale})`,
+            filter: motionBlur > 0.1 ? `blur(${motionBlur}px)` : "none",
+          }}
+        >
+          <svg viewBox="0 0 150 150" style={{ width: "28vw", height: "28vw", overflow: "visible" }}>
+            <defs>
+              <linearGradient id="j3goldMob" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#DCAF64" />
+                <stop offset="20%" stopColor="#EDDB7E" />
+                <stop offset="40%" stopColor="#FFF1B4" />
+                <stop offset="60%" stopColor="#EEDE80" />
+                <stop offset="80%" stopColor="#E6C772" />
+                <stop offset="100%" stopColor="#DCAF64" />
+              </linearGradient>
+              <clipPath id="ball-clip-mob">
+                <circle cx="74" cy="75" r="58" />
+              </clipPath>
+            </defs>
+            <g style={{ transformOrigin: "74px 75px", transform: `rotate(${mobileSpinDeg}deg)` }}>
+              <path d={`${J3_BALL_OUTER} ${J3_BALL_OUTER_INNER}`} fillRule="evenodd" fill="url(#j3goldMob)" />
+              <g clipPath="url(#ball-clip-mob)">
+                <path d={J3_BALL_STRIPE_1} fill="url(#j3goldMob)" />
+                <path d={J3_BALL_STRIPE_2} fill="url(#j3goldMob)" />
+                <path d={J3_BALL_STRIPE_3} fill="url(#j3goldMob)" />
+              </g>
+            </g>
+          </svg>
+        </div>
+      )}
+
       {/* White flash overlay — fills screen as tunnel zoom peaks, fades once bridge takes over */}
       {whiteoutOp > 0.01 && fadeOutT < 1 && (
         <div
