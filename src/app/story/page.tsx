@@ -1737,9 +1737,9 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
     : 0;
 
   // ── Ball spin — accelerating rotation during zoom ──
-  const spinDeg = Math.pow(zoomT, 2) * 180; // 0° → 180°, exponential acceleration
-  // Mobile: only spin once zoomed enough that legs are off-screen (~4x+, zoomT>0.4)
-  const mobileSpinDeg = zoomT > 0.4 ? Math.pow((zoomT - 0.4) / 0.6, 2) * 180 : 0;
+  const spinDeg = Math.pow(zoomT, 2) * 540; // 0° → 540° (1.5 full rotations)
+  // Mobile: only spin once zoomed enough that legs are off-screen (~3x+, zoomT>0.3)
+  const mobileSpinDeg = zoomT > 0.3 ? Math.pow((zoomT - 0.3) / 0.7, 2) * 540 : 0;
 
   // ── Tunnel vignette — dark radial edges during zoom ──
   const vignetteOp = clamp(zoomT * 0.8); // fades in with zoom
@@ -1756,7 +1756,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
           style={{
             opacity: fadeOutT >= 1 ? 0 : 1,
             willChange: "opacity, transform, filter",
-            transform: `scale(${tunnelScale})`,
+            transform: `scale(${tunnelScale})${isMobileRef.current && mobileSpinDeg > 0 ? ` rotate(${mobileSpinDeg}deg)` : ""}`,
             filter: motionBlur > 0.1 ? `blur(${motionBlur}px)` : "none",
           }}
         >
