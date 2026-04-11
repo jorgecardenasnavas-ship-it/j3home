@@ -176,7 +176,7 @@ function HeroSection() {
           </span>
           {/* Line 3 — Avanzar. — slide from right */}
           <span
-            className="j3-grad-text font-[var(--font-serif)] italic normal-case block text-[clamp(64px,11vw,170px)] max-[960px]:text-[clamp(52px,16vw,120px)] leading-[.90]"
+            className="j3-grad-text font-[var(--font-serif)] italic normal-case block text-[clamp(74px,13vw,196px)] max-[960px]:text-[clamp(60px,18vw,140px)] leading-[.90]"
             style={{
               opacity: ready ? undefined : 0,
               animation: ready ? "slideFromRight .8s .9s cubic-bezier(.16,1,.3,1) both" : "none",
