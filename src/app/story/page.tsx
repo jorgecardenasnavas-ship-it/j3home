@@ -1179,25 +1179,30 @@ function TimelineSection() {
 /* ── Hero player card — large, prominent ── */
 function HeroPlayerCard({ p, index }: { p: { first: string; last: string; info: string; tag: string }; index: number }) {
   const { ref, visible } = useReveal(0.1);
+  const num = String(index + 1).padStart(2, "0");
   return (
     <div
       ref={ref}
-      className="relative p-8 max-[640px]:p-5 border border-white/[.07] bg-gradient-to-br from-[var(--bk2)] to-[var(--bk)] group/hero overflow-hidden"
+      className="relative p-8 max-[640px]:p-5 border border-white/[.07] bg-gradient-to-br from-[var(--bk2)] to-[var(--bk)] group/hero overflow-hidden cursor-default transition-transform duration-500 hover:scale-[1.02] hover:border-[var(--g1)]/20"
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "none" : "translateY(30px)",
         transition: `all .7s cubic-bezier(.16,1,.3,1) ${index * 0.12}s`,
       }}
     >
-      {/* subtle gold accent line at top */}
-      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[var(--g1)] via-[var(--g2)] to-transparent opacity-40 group-hover/hero:opacity-70 transition-opacity" />
+      {/* Large decorative number */}
+      <span className="absolute top-3 right-4 text-[80px] max-[640px]:text-[60px] font-black leading-[1] text-white/[.03] group-hover/hero:text-[var(--g1)]/[.08] transition-colors duration-700 select-none pointer-events-none">{num}</span>
+      {/* Animated gold accent line at top */}
+      <div className="absolute top-0 left-0 h-[2px] bg-gradient-to-r from-[var(--g1)] via-[var(--g2)] to-[var(--g1)] w-0 group-hover/hero:w-full transition-all duration-700 ease-out" />
+      {/* Glow on hover */}
+      <div className="absolute -inset-px rounded-sm opacity-0 group-hover/hero:opacity-100 transition-opacity duration-700 pointer-events-none" style={{ background: "radial-gradient(ellipse at 30% 0%, rgba(220,175,100,0.06) 0%, transparent 70%)" }} />
       <span className="text-[9px] font-bold tracking-[3px] uppercase text-[var(--g1)]/70 block mb-4">{p.tag}</span>
       <h4 className="font-bold text-[clamp(28px,3.5vw,42px)] uppercase tracking-[-1px] leading-[1] mb-3">
         <span className="j3-grad-text">{p.first}</span>
         <br />
-        <span className="text-[var(--wh)]">{p.last}</span>
+        <span className="text-[var(--wh)] group-hover/hero:text-[var(--wh)] transition-colors">{p.last}</span>
       </h4>
-      <p className="text-[13px] font-light text-[var(--gy2)] leading-[1.7] max-w-[320px]">{p.info}</p>
+      <p className="text-[13px] font-light text-[var(--gy2)] leading-[1.7] max-w-[320px] group-hover/hero:text-[var(--gy)] transition-colors duration-500">{p.info}</p>
     </div>
   );
 }
@@ -1208,19 +1213,23 @@ function NextGenRow({ p, index }: { p: { first: string; last: string; tag: strin
   return (
     <div
       ref={ref}
-      className="flex items-center justify-between py-[14px] border-b border-white/[.06] group/ng"
+      className="relative flex items-center justify-between py-[14px] border-b border-white/[.06] group/ng cursor-default"
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "none" : "translateX(-15px)",
         transition: `all .5s cubic-bezier(.16,1,.3,1) ${index * 0.04}s`,
       }}
     >
+      {/* Gold progress bar on hover */}
+      <div className="absolute bottom-0 left-0 h-[1px] bg-gradient-to-r from-[var(--g1)] to-transparent w-0 group-hover/ng:w-full transition-all duration-500 ease-out" />
       <div className="flex items-baseline gap-3 min-w-0">
-        <h4 className="font-bold text-[16px] max-[640px]:text-[14px] uppercase tracking-[-0.3px] leading-[1] whitespace-nowrap">
+        {/* Pulsing dot */}
+        <span className="w-[5px] h-[5px] rounded-full bg-[var(--gy)]/30 group-hover/ng:bg-[var(--g1)] transition-colors duration-300 flex-shrink-0 group-hover/ng:shadow-[0_0_6px_rgba(220,175,100,0.5)]" />
+        <h4 className="font-bold text-[16px] max-[640px]:text-[14px] uppercase tracking-[-0.3px] leading-[1] whitespace-nowrap group-hover/ng:translate-x-1 transition-transform duration-300">
           <span className="j3-grad-text">{p.first}</span> <span className="text-[var(--wh)]/80">{p.last}</span>
         </h4>
       </div>
-      <span className="text-[8px] max-[960px]:text-[10px] font-bold tracking-[2px] max-[960px]:tracking-[1px] uppercase text-[var(--gy)] whitespace-nowrap ml-4 group-hover/ng:text-[var(--g1)]/80 transition-colors">
+      <span className="text-[8px] max-[960px]:text-[10px] font-bold tracking-[2px] max-[960px]:tracking-[1px] uppercase text-[var(--gy)] whitespace-nowrap ml-4 group-hover/ng:text-[var(--g1)]/80 transition-colors duration-300">
         {p.tag}
       </span>
     </div>
@@ -1233,18 +1242,21 @@ function FeaturedCollab({ p, index }: { p: { first: string; last: string; info: 
   return (
     <div
       ref={ref}
-      className="p-5 max-[640px]:p-4 border border-white/[.05] bg-[var(--bk2)] group/fc"
+      className="relative p-5 max-[640px]:p-4 border border-white/[.05] bg-[var(--bk2)] group/fc overflow-hidden cursor-default hover:border-[var(--g1)]/15 transition-colors duration-500"
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "none" : "translateY(16px)",
         transition: `all .5s cubic-bezier(.16,1,.3,1) ${index * 0.08}s`,
       }}
     >
+      {/* Animated corner accent */}
+      <div className="absolute top-0 left-0 w-0 h-[1px] bg-[var(--g1)] group-hover/fc:w-8 transition-all duration-500" />
+      <div className="absolute top-0 left-0 w-[1px] h-0 bg-[var(--g1)] group-hover/fc:h-8 transition-all duration-500" />
       <h4 className="font-bold text-[18px] max-[640px]:text-[16px] uppercase tracking-[-0.3px] leading-[1.1] mb-2">
         <span className="j3-grad-text">{p.first}</span> <span className="text-[var(--wh)]/80">{p.last}</span>
       </h4>
-      <p className="text-[11px] font-light text-[var(--gy2)] leading-[1.6] mb-3">{p.info}</p>
-      <span className="text-[8px] max-[960px]:text-[10px] font-bold tracking-[2px] uppercase text-[var(--g1)]/70">{p.tag}</span>
+      <p className="text-[11px] font-light text-[var(--gy2)] leading-[1.6] mb-3 group-hover/fc:text-[var(--gy)] transition-colors duration-500">{p.info}</p>
+      <span className="text-[8px] max-[960px]:text-[10px] font-bold tracking-[2px] uppercase text-[var(--g1)]/70 group-hover/fc:text-[var(--g1)] transition-colors duration-300">{p.tag}</span>
     </div>
   );
 }
@@ -1255,17 +1267,19 @@ function SharedPlayerTag({ p, index }: { p: { first: string; last: string; tag: 
   return (
     <span
       ref={ref}
-      className="inline-flex items-baseline gap-2 group/sh"
+      className="inline-flex items-center gap-2 group/sh cursor-default py-[6px] px-[10px] rounded-sm hover:bg-white/[.03] transition-all duration-300"
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "none" : "translateY(8px)",
         transition: `all .4s cubic-bezier(.16,1,.3,1) ${index * 0.03}s`,
       }}
     >
-      <span className="font-bold text-[14px] max-[640px]:text-[12px] uppercase tracking-[-0.3px] text-[var(--wh)]/70 group-hover/sh:text-[var(--wh)]/80 transition-colors">
+      {/* Gold diamond separator */}
+      <span className="w-[4px] h-[4px] rotate-45 bg-[var(--g1)]/30 group-hover/sh:bg-[var(--g1)] transition-colors duration-300 flex-shrink-0" />
+      <span className="font-bold text-[14px] max-[640px]:text-[12px] uppercase tracking-[-0.3px] text-[var(--wh)]/50 group-hover/sh:text-[var(--wh)]/90 transition-colors duration-300">
         {p.first} {p.last}
       </span>
-      <span className="text-[8px] max-[960px]:text-[10px] font-bold tracking-[1.5px] uppercase text-[var(--gy)]/70">{p.tag}</span>
+      <span className="text-[8px] max-[960px]:text-[10px] font-bold tracking-[1.5px] uppercase text-[var(--gy)]/50 group-hover/sh:text-[var(--g1)]/70 transition-colors duration-300">{p.tag}</span>
     </span>
   );
 }
