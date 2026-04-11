@@ -155,7 +155,7 @@ function HeroSection() {
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/55 to-black/30 z-[1]" />
 
       {/* Content */}
-      <div className="relative z-10 px-12 pb-[72px] max-[960px]:px-6 max-[960px]:pb-14 w-full max-w-[1200px]">
+      <div className="relative z-10 px-12 pb-[120px] max-[960px]:px-6 max-[960px]:pb-[80px] w-full max-w-[1200px]">
         {/* Gold accent line */}
         <div
           className="w-[40px] h-[2px] bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] mb-5"
@@ -292,21 +292,25 @@ function HeroSection() {
         </div>
       </div>
 
-      {/* Chevron animado */}
+      {/* Chevron animado — triple stagger */}
       <div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
         style={{
-          opacity: ready ? 0.5 : 0,
+          opacity: ready ? 1 : 0,
           transition: "opacity 1s ease 2s",
         }}
       >
-        <svg
-          width="20" height="10" viewBox="0 0 20 10"
-          className="animate-[heroChevronBounce_2s_ease-in-out_infinite]"
-          fill="none" stroke="var(--g1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
-        >
-          <polyline points="2,2 10,8 18,2" />
-        </svg>
+        <div className="scroll-arrows">
+          <svg width="16" height="9" viewBox="0 0 16 9" fill="none" className="scroll-arrow scroll-arrow-1">
+            <path d="M1 1l7 7 7-7" stroke="var(--g1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          <svg width="16" height="9" viewBox="0 0 16 9" fill="none" className="scroll-arrow scroll-arrow-2">
+            <path d="M1 1l7 7 7-7" stroke="var(--g1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          <svg width="16" height="9" viewBox="0 0 16 9" fill="none" className="scroll-arrow scroll-arrow-3">
+            <path d="M1 1l7 7 7-7" stroke="var(--g1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </div>
       </div>
     </section>
   );
