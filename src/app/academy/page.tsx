@@ -1561,12 +1561,13 @@ function useScrollBg(markerRefs: React.RefObject<(HTMLDivElement | null)[]>) {
       const scrollMid = window.scrollY + window.innerHeight * 0.5;
       const FADE_PX = 250; // scroll distance for full transition
 
-      // Build sorted list of transitions
+      // Build sorted list of transitions using absolute page position
       const transitions: { y: number; toDark: boolean }[] = [];
       for (const m of markers) {
         if (!m) continue;
+        const rect = m.getBoundingClientRect();
         transitions.push({
-          y: m.offsetTop,
+          y: rect.top + window.scrollY,
           toDark: m.dataset.to === "dark",
         });
       }
