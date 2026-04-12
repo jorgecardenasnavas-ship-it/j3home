@@ -556,17 +556,18 @@ function HeroSection() {
         {/* ── Bottom banner — "repetir · ajustar · avanzar" ── */}
         <div className="absolute bottom-0 left-0 w-full z-20 border-t border-white/[.06]" style={{ background: "linear-gradient(to top, rgba(0,0,0,.6) 0%, transparent 100%)" }}>
           <div className="flex items-center justify-center gap-8 max-[640px]:gap-5 py-5 max-[960px]:py-4">
-            <span className="text-[13px] max-[640px]:text-[11px] font-semibold tracking-[6px] max-[640px]:tracking-[3px] uppercase text-white/75">
-              {t.academy.hero.titleLine1.replace(".", "")}
-            </span>
-            <span className="text-[var(--g1)]/40 text-[8px]">·</span>
-            <span className="text-[13px] max-[640px]:text-[11px] font-semibold tracking-[6px] max-[640px]:tracking-[3px] uppercase text-white/75">
-              {t.academy.hero.titleLine2.replace(".", "")}
-            </span>
-            <span className="text-[var(--g1)]/40 text-[8px]">·</span>
-            <span className="text-[13px] max-[640px]:text-[11px] font-semibold tracking-[6px] max-[640px]:tracking-[3px] uppercase j3-grad-text">
-              {t.academy.hero.titleLine3b.replace(".", "")}
-            </span>
+            {([t.academy.hero.titleLine1, t.academy.hero.titleLine2, t.academy.hero.titleLine3b] as string[]).map((word, i) => (
+              <span key={i} className="flex items-center gap-8 max-[640px]:gap-5">
+                {i > 0 && <span className="text-[var(--g1)]/40 text-[8px]">·</span>}
+                <span
+                  className={`text-[13px] max-[640px]:text-[11px] font-semibold tracking-[6px] max-[640px]:tracking-[3px] uppercase transition-all duration-700 ${
+                    active === i ? "j3-grad-text opacity-100" : "text-white/40"
+                  }`}
+                >
+                  {word.replace(".", "")}
+                </span>
+              </span>
+            ))}
           </div>
         </div>
       </div>
