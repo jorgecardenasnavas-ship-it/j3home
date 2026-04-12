@@ -705,12 +705,12 @@ function ClaimSection() {
             transition: "all 1.2s cubic-bezier(.16,1,.3,1)",
           }}
         >
-          {/* Claim — "referencia" larger as focal point */}
-          <h2 className="font-bold uppercase tracking-[-2px] leading-[1.05] text-[var(--wh)] px-4 overflow-visible">
-            <span className="text-[clamp(32px,5vw,60px)]">La academia de</span>{" "}
-            <span className="j3-grad-text font-[var(--font-serif)] italic normal-case tracking-[-0.5px] inline-block text-[clamp(44px,7.5vw,96px)]" style={{ paddingRight: "0.2em", paddingBottom: "0.05em" }}>referencia</span>
+          {/* Claim — elegant, same size, understated */}
+          <h2 className="font-light text-[clamp(28px,4.5vw,52px)] uppercase tracking-[2px] leading-[1.3] text-white/90 px-4 overflow-visible">
+            La academia de{" "}
+            <span className="j3-grad-text font-[var(--font-serif)] italic normal-case tracking-[-0.5px] inline-block" style={{ paddingRight: "0.15em" }}>referencia</span>
             <br />
-            <span className="text-[clamp(32px,5vw,60px)]">en la Costa del Sol.</span>
+            en la Costa del Sol.
           </h2>
 
           {/* Gold divider */}
