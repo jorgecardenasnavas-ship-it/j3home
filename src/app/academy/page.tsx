@@ -326,6 +326,7 @@ function HeroSection() {
                 className="object-cover transition-transform duration-[7000ms] ease-out"
                 style={{
                   opacity: 0.7,
+                  filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)",
                   transform: active === i ? "scale(1.08)" : "scale(1)",
                   objectPosition: (isMobile && slide.images[imgIndex[i]].mobilePos) || slide.images[imgIndex[i]].pos,
                 }}
