@@ -667,7 +667,7 @@ function ClaimSection() {
 
   const stats: { num: number; suffix: string; label: string }[] = [
     { num: 20, suffix: "+", label: "años" },
-    { num: 6, suffix: "", label: "jugadores en circuito" },
+    { num: 2000, suffix: "+", label: "jugadores formados" },
     { num: 2, suffix: "", label: "sedes" },
   ];
 
