@@ -299,6 +299,21 @@ function HeroSection() {
     }, AUTO_ADVANCE_MS);
   };
 
+  /* Touch swipe support */
+  const touchRef = useRef<{ x: number; y: number } | null>(null);
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  };
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (!touchRef.current) return;
+    const dx = e.changedTouches[0].clientX - touchRef.current.x;
+    const dy = e.changedTouches[0].clientY - touchRef.current.y;
+    touchRef.current = null;
+    if (Math.abs(dx) < 50 || Math.abs(dy) > Math.abs(dx)) return; /* too short or vertical */
+    if (dx < 0) goTo((active + 1) % HERO_SLIDES.length); /* swipe left → next */
+    else goTo((active - 1 + HERO_SLIDES.length) % HERO_SLIDES.length); /* swipe right → prev */
+  };
+
   const labels: Record<string, string> = {
     juniorsLabel: t.academy.programs.juniorsLabel,
     adultosLabel: t.academy.programs.adultosLabel,
@@ -306,7 +321,11 @@ function HeroSection() {
   };
 
   return (
-    <section className="relative h-screen min-h-[580px] overflow-hidden bg-black">
+    <section
+      className="relative h-screen min-h-[580px] overflow-hidden bg-black"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       {/* ── Slides — crossfade stack ── */}
       {HERO_SLIDES.map((slide, i) => (
         <div
@@ -497,11 +516,11 @@ function HeroSection() {
         {/* ── Bottom banner — "repetir · ajustar · avanzar" ── */}
         <div className="absolute bottom-0 left-0 w-full z-20 border-t border-white/[.06]" style={{ background: "linear-gradient(to top, rgba(0,0,0,.6) 0%, transparent 100%)" }}>
           <div className="flex items-center justify-center gap-8 max-[640px]:gap-5 py-5 max-[960px]:py-4">
-            <span className="text-[13px] max-[640px]:text-[11px] font-semibold tracking-[6px] max-[640px]:tracking-[3px] uppercase text-white/60">
+            <span className="text-[13px] max-[640px]:text-[11px] font-semibold tracking-[6px] max-[640px]:tracking-[3px] uppercase text-white/75">
               {t.academy.hero.titleLine1.replace(".", "")}
             </span>
             <span className="text-[var(--g1)]/40 text-[8px]">·</span>
-            <span className="text-[13px] max-[640px]:text-[11px] font-semibold tracking-[6px] max-[640px]:tracking-[3px] uppercase text-white/60">
+            <span className="text-[13px] max-[640px]:text-[11px] font-semibold tracking-[6px] max-[640px]:tracking-[3px] uppercase text-white/75">
               {t.academy.hero.titleLine2.replace(".", "")}
             </span>
             <span className="text-[var(--g1)]/40 text-[8px]">·</span>
