@@ -384,11 +384,9 @@ function HeroSection() {
             ))}
           </div>
 
-          {/* CTA — fixed, same for all slides */}
+          {/* CTA — scroll to programs section */}
           <a
-            href={waLink(HERO_SLIDES[active].waMsg)}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#programas"
             className="group/cta inline-flex items-center gap-3 cursor-pointer w-fit mx-auto mt-4"
           >
             <span className="relative text-[13px] font-semibold tracking-[3px] uppercase text-[var(--g1)]">
