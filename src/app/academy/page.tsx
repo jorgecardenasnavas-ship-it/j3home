@@ -185,7 +185,7 @@ const HERO_SLIDES: {
   {
     key: "adultos",
     images: [
-      { src: "/images/academy/amateur.jpeg", pos: "center 20%" },
+      { src: "/images/academy/amateur.jpeg", pos: "center 12%" },
       { src: "/images/academy/pro.jpeg", pos: "center" },
       { src: "/images/academy/elena.jpeg", pos: "center 30%" },
     ],
