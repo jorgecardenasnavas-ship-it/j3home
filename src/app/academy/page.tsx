@@ -390,14 +390,29 @@ function HeroSection() {
             onClick={(e) => {
               const btn = e.currentTarget;
               const legs = btn.querySelectorAll<HTMLElement>(".j3-ball-legs");
+              const line = btn.querySelector(".j3-cta-line") as HTMLElement;
+              const ballSvgs = btn.querySelectorAll<SVGElement>(".j3-ball-wrap svg");
+
               /* If animation already played (hover complete), scroll immediately */
               const alreadyAnimated = legs.length > 0 && getComputedStyle(legs[0]).opacity === "1";
               if (alreadyAnimated) {
                 document.getElementById("programas")?.scrollIntoView({ behavior: "smooth" });
                 return;
               }
-              const line = btn.querySelector(".j3-cta-line") as HTMLElement;
-              const ballSvgs = btn.querySelectorAll<SVGElement>(".j3-ball-wrap svg");
+
+              /* If mid-animation (second click), fast-forward everything and scroll */
+              const animating = btn.dataset.animating === "1";
+              if (animating) {
+                if (line) { line.style.scale = "1 1"; line.style.transition = "scale .12s ease-out"; }
+                legs.forEach((leg) => { leg.style.opacity = "1"; leg.style.transform = "translateY(0)"; leg.style.transition = "all .12s ease-out"; });
+                ballSvgs.forEach((svg) => { svg.style.filter = "brightness(1.6) saturate(0.2)"; svg.style.transition = "filter .12s ease-out"; });
+                setTimeout(() => {
+                  document.getElementById("programas")?.scrollIntoView({ behavior: "smooth" });
+                }, 150);
+                return;
+              }
+
+              btn.dataset.animating = "1";
               /* Phase 1: line expands (600ms) */
               if (line) {
                 line.style.scale = "1 1";
@@ -421,19 +436,10 @@ function HeroSection() {
               }, 920);
               /* Cleanup */
               setTimeout(() => {
-                legs.forEach((leg) => {
-                  leg.style.opacity = "";
-                  leg.style.transform = "";
-                  leg.style.transition = "";
-                });
-                ballSvgs.forEach((svg) => {
-                  svg.style.filter = "";
-                  svg.style.transition = "";
-                });
-                if (line) {
-                  line.style.scale = "";
-                  line.style.transition = "";
-                }
+                btn.dataset.animating = "";
+                legs.forEach((leg) => { leg.style.opacity = ""; leg.style.transform = ""; leg.style.transition = ""; });
+                ballSvgs.forEach((svg) => { svg.style.filter = ""; svg.style.transition = ""; });
+                if (line) { line.style.scale = ""; line.style.transition = ""; }
               }, 2000);
             }}
             className="group/cta inline-flex items-center gap-3 cursor-pointer w-fit mx-auto mt-4"
