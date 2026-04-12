@@ -389,13 +389,46 @@ function HeroSection() {
             type="button"
             onClick={(e) => {
               const btn = e.currentTarget;
-              btn.classList.add("j3-cta-active");
+              const line = btn.querySelector(".j3-cta-line") as HTMLElement;
+              const legs = btn.querySelectorAll<HTMLElement>(".j3-ball-legs");
+              const ballSvgs = btn.querySelectorAll<SVGElement>(".j3-ball-wrap svg");
+              /* Phase 1: line expands to ball (700ms) */
+              if (line) {
+                line.style.scale = "1 1";
+                line.style.transition = "scale .7s cubic-bezier(.16,1,.3,1)";
+              }
+              /* Phase 2: line reaches ball → logo completes (inline styles) */
+              setTimeout(() => {
+                legs.forEach((leg) => {
+                  leg.style.opacity = "1";
+                  leg.style.transform = "translateY(0)";
+                  leg.style.transition = "all .5s cubic-bezier(.16,1,.3,1)";
+                });
+                ballSvgs.forEach((svg) => {
+                  svg.style.filter = "brightness(1.6) saturate(0.2)";
+                  svg.style.transition = "filter .5s ease";
+                });
+              }, 700);
+              /* Phase 3: scroll after full animation */
               setTimeout(() => {
                 document.getElementById("programas")?.scrollIntoView({ behavior: "smooth" });
-              }, 1200);
+              }, 1600);
+              /* Cleanup */
               setTimeout(() => {
-                btn.classList.remove("j3-cta-active");
-              }, 2000);
+                legs.forEach((leg) => {
+                  leg.style.opacity = "";
+                  leg.style.transform = "";
+                  leg.style.transition = "";
+                });
+                ballSvgs.forEach((svg) => {
+                  svg.style.filter = "";
+                  svg.style.transition = "";
+                });
+                if (line) {
+                  line.style.scale = "";
+                  line.style.transition = "";
+                }
+              }, 2500);
             }}
             className="group/cta inline-flex items-center gap-3 cursor-pointer w-fit mx-auto mt-4"
           >
