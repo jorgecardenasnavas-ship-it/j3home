@@ -221,21 +221,19 @@ function HeroSection() {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const progressRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  /* Rotate image each time a slide leaves — delayed until swipe finishes */
+  /* Rotate image when leaving a slide — advance so next visit shows a new photo */
   const [imgIndex, setImgIndex] = useState<number[]>(HERO_SLIDES.map(() => 0));
   const prevActive = useRef(0);
   useEffect(() => {
     const leaving = prevActive.current;
     prevActive.current = active;
     if (leaving !== active && HERO_SLIDES[leaving].images.length > 1) {
-      const id = setTimeout(() => {
-        setImgIndex(prev => {
-          const next = [...prev];
-          next[leaving] = (next[leaving] + 1) % HERO_SLIDES[leaving].images.length;
-          return next;
-        });
-      }, 1100); /* after swipe animation (1000ms) completes */
-      return () => clearTimeout(id);
+      /* Advance immediately — crossfade hides the swap while slide is fading out */
+      setImgIndex(prev => {
+        const next = [...prev];
+        next[leaving] = (next[leaving] + 1) % HERO_SLIDES[leaving].images.length;
+        return next;
+      });
     }
   }, [active]);
 
