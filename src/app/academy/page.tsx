@@ -384,19 +384,27 @@ function HeroSection() {
             ))}
           </div>
 
-          {/* CTA — scroll to programs section */}
-          <a
-            href="#programas"
+          {/* CTA — animate then scroll to programs */}
+          <button
+            type="button"
+            onClick={(e) => {
+              const btn = e.currentTarget;
+              btn.classList.add("j3-cta-active");
+              setTimeout(() => {
+                btn.classList.remove("j3-cta-active");
+                document.getElementById("programas")?.scrollIntoView({ behavior: "smooth" });
+              }, 600);
+            }}
             className="group/cta inline-flex items-center gap-3 cursor-pointer w-fit mx-auto mt-4"
           >
             <span className="relative text-[13px] font-semibold tracking-[3px] uppercase text-[var(--g1)]">
               {t.academy.hero.ctaLabel}
-              <span className="absolute left-0 -bottom-[5px] h-[1.5px] w-full bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] origin-left scale-x-[0.4] group-hover/cta:scale-x-100 transition-transform duration-700 ease-out" />
+              <span className="j3-cta-line absolute left-0 -bottom-[5px] h-[1.5px] w-full bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] origin-left scale-x-[0.4] group-hover/cta:scale-x-100 transition-transform duration-700 ease-out" />
             </span>
             <span className="j3-ball-wrap w-[22px] h-[22px] group-hover/cta:w-[28px] group-hover/cta:h-[28px] transition-all duration-500 ease-out">
               <J3Ball className="w-full h-full" />
             </span>
-          </a>
+          </button>
 
           {/* ── Leg navigation (3 patas del logo — progress fill) ── */}
           <div className="flex items-end justify-center gap-[4px] mt-8 min-[961px]:scale-[1.3] min-[961px]:mt-10">

@@ -75,7 +75,8 @@
   transform: translateY(-8px);
   transition: all .5s cubic-bezier(.16, 1, .3, 1);
 }
-.group\/cta:hover .j3-ball-legs {
+.group\/cta:hover .j3-ball-legs,
+.j3-cta-active .j3-ball-legs {
   opacity: 1;
   transform: translateY(0);
 }
@@ -83,8 +84,12 @@
   filter: brightness(1) saturate(1);
   transition: filter .5s ease;
 }
-.group\/cta:hover .j3-ball-wrap svg {
+.group\/cta:hover .j3-ball-wrap svg,
+.j3-cta-active .j3-ball-wrap svg {
   filter: brightness(1.6) saturate(0.2);
+}
+.j3-cta-active .j3-cta-line {
+  transform: scaleX(1) !important;
 }
 
 /* ─── Animations ─── */
