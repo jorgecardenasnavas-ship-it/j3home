@@ -5,7 +5,7 @@ import { useI18n } from "@/i18n/context";
 
 export function ChatBubble() {
   const [hovered, setHovered] = useState(false);
-  const [bottomOffset, setBottomOffset] = useState(24); // 24px = bottom-6
+  const [bottomOffset, setBottomOffset] = useState(24);
   const { t } = useI18n();
   const rafRef = useRef(0);
 
@@ -20,7 +20,7 @@ export function ChatBubble() {
         const overlap = viewH - rect.top;
         setBottomOffset(overlap + 16); // 16px gap above footer
       } else {
-        setBottomOffset(24);
+        setBottomOffset(window.innerWidth < 961 ? 56 : 24);
       }
     }
 

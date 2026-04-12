@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import Image from "next/image";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useI18n } from "@/i18n/context";
@@ -115,169 +116,374 @@ function Counter({ val, prefix, suffix, label }: { val: number; prefix?: string;
 }
 
 /* ═══════════════════════════════════════════════════════
-   S1 — HERO
+   S1 — HERO CAROUSEL (3 slides: Juniors · Adultos · Intensive)
    ═══════════════════════════════════════════════════════ */
+
+/* ── J3 Ball icon — extracted from logo-gold.svg ── */
+function J3Ball({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 -5 155 215"
+      className={className}
+      aria-hidden="true"
+    >
+      <defs>
+        <linearGradient id="j3bg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#dcaf64" />
+          <stop offset=".23" stopColor="#eddb7e" />
+          <stop offset=".29" stopColor="#fff1b4" />
+          <stop offset=".59" stopColor="#eede80" />
+          <stop offset=".78" stopColor="#deb065" />
+          <stop offset="1" stopColor="#dcaf64" />
+        </linearGradient>
+      </defs>
+
+      {/* ── Ball (always visible) ── */}
+      <g>
+        {/* Outer ring + seams */}
+        <path fill="url(#j3bg)" d="M74.13,0c-99.18,1.72-98.49,148.91-.03,150.44,99.53-2.75,98.92-148.04.03-150.44ZM131.88,86.77c-14.47,68.36-115.43,59.57-116.69-11.57C17.88-9.88,145.93,2.79,131.88,86.77Z" />
+        {/* Quadrant fills */}
+        <path fill="url(#j3bg)" d="M68.83,30.97c-19.79,1.66-37.93,20.27-39.09,40.06,25.38-.94,49.5,23.19,48.56,48.56,19.79-1.16,38.4-19.3,40.06-39.09-12.75.21-25.57-4.53-35.29-14.25-9.71-9.71-14.45-22.54-14.25-35.29Z" />
+        <path fill="url(#j3bg)" d="M77.28,30.77c-1.47,21.83,19.47,42.76,41.29,41.29-.69-20.97-20.33-40.6-41.29-41.29Z" />
+        <path fill="url(#j3bg)" d="M29.75,79.48c1.21,20.15,19.96,38.91,40.12,40.11.75-20.96-19.16-40.87-40.12-40.11Z" />
+        {/* Inner cutouts (background holes) */}
+        <path fill="var(--bk, #000)" d="M15.19,75.2c1.26,71.14,102.22,79.93,116.69,11.57C145.93,2.79,17.88-9.88,15.19,75.2ZM69.87,119.59c-20.15-1.21-38.9-19.97-40.12-40.11,20.96-.76,40.87,19.15,40.12,40.11ZM78.31,119.59c.93-25.37-23.19-49.5-48.56-48.56,1.16-19.79,19.29-38.4,39.09-40.06-.21,12.75,4.53,25.58,14.25,35.29,9.71,9.71,22.53,14.45,35.29,14.25-1.65,19.79-20.27,37.93-40.06,39.09ZM77.28,30.77c20.97.7,40.6,20.32,41.29,41.29-21.82,1.47-42.76-19.47-41.29-41.29Z" />
+      </g>
+
+      {/* ── Legs (hidden by default, visible on hover) ── */}
+      <g className="j3-ball-legs">
+        <path fill="url(#j3bg)" d="M24.26,200.51h25.34l9.18-43.08c-8.22-1.53-16.18-4.32-23.59-8.23l-10.93,51.31Z" />
+        <path fill="url(#j3bg)" d="M70.55,158.77l-8.88,41.75h25.33l9.52-44.72c-7.26,2.02-14.8,3.09-22.42,3.09-1.18,0-2.37-.07-3.55-.12Z" />
+        <path fill="url(#j3bg)" d="M127.02,140.02c-5.36,4.38-11.23,8.04-17.44,10.95l-10.53,49.56,25.35-.02,15.69-73.91c-3.83,4.92-8.2,9.44-13.07,13.42Z" />
+      </g>
+    </svg>
+  );
+}
+
+const HERO_SLIDES = [
+  {
+    key: "juniors",
+    images: [
+      { src: "/images/academy/kinder.jpeg", pos: "center", mobilePos: "70% center" },
+      { src: "/images/academy/kids.jpeg", pos: "center" },
+      { src: "/images/academy/nextgen.jpeg", pos: "center" },
+      { src: "/images/academy/nextgen-pro.jpeg", pos: "center" },
+      { src: "/images/academy/gemita.jpeg", pos: "center" },
+    ],
+    labelKey: "juniorsLabel" as const,
+    tagline: "4 – 16+ años",
+    waMsg: "Hola, quiero info sobre los programas Juniors",
+  },
+  {
+    key: "adultos",
+    images: [
+      { src: "/images/academy/amateur.jpeg", pos: "center 20%" },
+      { src: "/images/academy/pro.jpeg", pos: "center" },
+      { src: "/images/academy/elena.jpeg", pos: "center 30%" },
+    ],
+    labelKey: "adultosLabel" as const,
+    tagline: "Amateur · Pro",
+    waMsg: "Hola, quiero info sobre los programas Adultos",
+  },
+  {
+    key: "intensive",
+    images: [
+      { src: "/images/academy/stage-group.jpeg", pos: "center 38%", mobilePos: "center 65%" },
+    ],
+    labelKey: "intensiveLabel" as const,
+    tagline: "Camps · Stages · A medida",
+    waMsg: "Hola, quiero info sobre Intensive Training",
+  },
+];
+
+const AUTO_ADVANCE_MS = 3500;
 
 function HeroSection() {
   const { t } = useI18n();
+  const [active, setActive] = useState(0);
   const [ready, setReady] = useState(false);
-
+  const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
-    const t = setTimeout(() => setReady(true), 200);
-    return () => clearTimeout(t);
+    const check = () => setIsMobile(window.innerWidth < 961);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+  const [progress, setProgress] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const progressRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  /* Rotate image each time a slide leaves — delayed until swipe finishes */
+  const [imgIndex, setImgIndex] = useState<number[]>(HERO_SLIDES.map(() => 0));
+  const prevActive = useRef(0);
+  useEffect(() => {
+    const leaving = prevActive.current;
+    prevActive.current = active;
+    if (leaving !== active && HERO_SLIDES[leaving].images.length > 1) {
+      const id = setTimeout(() => {
+        setImgIndex(prev => {
+          const next = [...prev];
+          next[leaving] = (next[leaving] + 1) % HERO_SLIDES[leaving].images.length;
+          return next;
+        });
+      }, 1100); /* after swipe animation (1000ms) completes */
+      return () => clearTimeout(id);
+    }
+  }, [active]);
+
+  /* Boot animation delay */
+  useEffect(() => {
+    const id = setTimeout(() => setReady(true), 200);
+    return () => clearTimeout(id);
   }, []);
 
+  /* Start progress + auto-advance */
+  const startAutoPlay = () => {
+    if (progressRef.current) clearInterval(progressRef.current);
+    if (timerRef.current) clearInterval(timerRef.current);
+    setProgress(0);
+    const step = 50; /* update every 50ms */
+    const steps = AUTO_ADVANCE_MS / step;
+    let tick = 0;
+    progressRef.current = setInterval(() => {
+      tick++;
+      setProgress(tick / steps);
+      if (tick >= steps) {
+        if (progressRef.current) clearInterval(progressRef.current);
+      }
+    }, step);
+    timerRef.current = setInterval(() => {
+      setActive(prev => (prev + 1) % HERO_SLIDES.length);
+    }, AUTO_ADVANCE_MS);
+  };
+
+  useEffect(() => {
+    startAutoPlay();
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+      if (progressRef.current) clearInterval(progressRef.current);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  /* Restart progress bar on slide change */
+  useEffect(() => {
+    setProgress(0);
+    if (progressRef.current) clearInterval(progressRef.current);
+    const step = 50;
+    const steps = AUTO_ADVANCE_MS / step;
+    let tick = 0;
+    progressRef.current = setInterval(() => {
+      tick++;
+      setProgress(tick / steps);
+      if (tick >= steps) {
+        if (progressRef.current) clearInterval(progressRef.current);
+      }
+    }, step);
+    return () => { if (progressRef.current) clearInterval(progressRef.current); };
+  }, [active]);
+
+  const goTo = (i: number) => {
+    setActive(i);
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => {
+      setActive(prev => (prev + 1) % HERO_SLIDES.length);
+    }, AUTO_ADVANCE_MS);
+  };
+
+  const labels: Record<string, string> = {
+    juniorsLabel: t.academy.programs.juniorsLabel,
+    adultosLabel: t.academy.programs.adultosLabel,
+    intensiveLabel: t.academy.programs.intensiveLabel,
+  };
+
   return (
-    <section className="relative h-screen min-h-[580px] flex items-end overflow-hidden bg-black">
-      {/* Background — negro puro (placeholder para futuro contenido) */}
-
-      {/* Content */}
-      <div className="relative z-10 px-12 pb-[120px] max-[960px]:px-6 max-[960px]:pb-[80px] w-full">
-        <h1 className="font-bold uppercase tracking-[-3px] overflow-visible">
-          {/* Line 1 — REPETIR. gold — clip reveal up */}
-          <span
-            className="text-[var(--wh)] block text-[clamp(64px,11vw,170px)] max-[960px]:text-[clamp(52px,16vw,120px)] leading-[.90]"
-            style={{
-              opacity: ready ? undefined : 0,
-              animation: ready ? "clipRevealUp .9s .3s cubic-bezier(.16,1,.3,1) both" : "none",
-            }}
-          >
-            {t.academy.hero.titleLine1}
-          </span>
-          {/* Line 2 — AJUSTAR. stroke — slide from left */}
-          <span
-            className="j3-stroke block text-[clamp(64px,11vw,170px)] max-[960px]:text-[clamp(52px,16vw,120px)] leading-[.90]"
-            style={{
-              opacity: ready ? undefined : 0,
-              animation: ready ? "slideFromLeft .8s .6s cubic-bezier(.16,1,.3,1) both" : "none",
-            }}
-          >
-            {t.academy.hero.titleLine2}
-          </span>
-          {/* Line 3 — Avanzar. — slide from right */}
-          <span
-            className="j3-grad-text font-[var(--font-serif)] italic block text-[clamp(74px,13vw,196px)] max-[960px]:text-[clamp(60px,18vw,140px)] leading-[.90]"
-            style={{
-              opacity: ready ? undefined : 0,
-              animation: ready ? "slideFromRight .8s .9s cubic-bezier(.16,1,.3,1) both" : "none",
-            }}
-          >
-            {t.academy.hero.titleLine3b}
-          </span>
-        </h1>
-
-        {/* CTA — gold line draw */}
-        <a
-          href="#programas"
-          onClick={(e) => { e.preventDefault(); document.getElementById("programas")?.scrollIntoView({ behavior: "smooth" }); }}
-          className="group/cta inline-flex items-center gap-3 mt-10 max-[960px]:mt-8 cursor-pointer"
-          style={{
-            opacity: ready ? undefined : 0,
-            animation: ready ? "fadeInSoft 1s 1.3s ease both" : "none",
-          }}
+    <section className="relative h-screen min-h-[580px] overflow-hidden bg-black">
+      {/* ── Slides — horizontal swipe ── */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div
+          className="flex h-full transition-transform duration-[1000ms] ease-[cubic-bezier(.77,0,.175,1)]"
+          style={{ width: `${HERO_SLIDES.length * 100}%`, transform: `translateX(-${active * (100 / HERO_SLIDES.length)}%)` }}
         >
-          <span className="relative text-[13px] font-semibold tracking-[3px] uppercase text-[var(--g1)]">
-            {t.academy.hero.ctaLabel}
-            {/* Gold underline — draws on reveal, expands on hover */}
-            <span className="absolute left-0 -bottom-[5px] h-[1.5px] w-full bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] origin-left scale-x-[0.4] group-hover/cta:scale-x-100 transition-transform duration-700 ease-out" />
-          </span>
-          <span className="text-[var(--g1)] transition-transform duration-500 ease-out group-hover/cta:translate-x-1.5">→</span>
-        </a>
+          {HERO_SLIDES.map((slide, i) => (
+            <div key={slide.key} className="relative h-full shrink-0 overflow-hidden bg-black" style={{ width: `${100 / HERO_SLIDES.length}%` }}>
+              {/* Background image — rotates between visits */}
+              <Image
+                src={slide.images[imgIndex[i]].src}
+                alt={labels[slide.labelKey]}
+                fill
+                sizes="100vw"
+                quality={90}
+                priority={i === 0}
+                className="object-cover transition-transform duration-[7000ms] ease-out"
+                style={{
+                  opacity: 0.7,
+                  transform: active === i ? "scale(1.08)" : "scale(1)",
+                  objectPosition: (isMobile && slide.images[imgIndex[i]].mobilePos) || slide.images[imgIndex[i]].pos,
+                }}
+              />
+              {/* Gradient overlay — shorter for intensive to keep faces visible */}
+              <div
+                className="absolute inset-0"
+                style={{
+                  background: slide.key === "intensive"
+                    ? "linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.45) 35%, rgba(0,0,0,.08) 55%, rgba(0,0,0,.10) 100%)"
+                    : "linear-gradient(to top, rgba(0,0,0,.90) 0%, rgba(0,0,0,.40) 40%, rgba(0,0,0,.15) 100%)",
+                }}
+              />
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Chevron — fade in after title */}
-      {ready && (
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 animate-[fadeInSoft_1s_1.8s_ease_both]">
-          <div className="scroll-arrows">
-            <svg width="16" height="9" viewBox="0 0 16 9" fill="none" className="scroll-arrow scroll-arrow-1">
-              <path d="M1 1l7 7 7-7" stroke="var(--g1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            <svg width="16" height="9" viewBox="0 0 16 9" fill="none" className="scroll-arrow scroll-arrow-2">
-              <path d="M1 1l7 7 7-7" stroke="var(--g1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            <svg width="16" height="9" viewBox="0 0 16 9" fill="none" className="scroll-arrow scroll-arrow-3">
-              <path d="M1 1l7 7 7-7" stroke="var(--g1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+      {/* ── Content — lower center ── */}
+      <div
+        className="absolute inset-0 z-10 flex flex-col justify-end"
+        style={{
+          opacity: ready ? 1 : 0,
+          transition: "opacity .8s ease .3s",
+        }}
+      >
+        <div className="px-12 max-[960px]:px-6 pb-[120px] min-[961px]:pb-[100px] w-full max-w-[1200px] mx-auto text-center">
+          {/* Slide content — crossfade */}
+          <div className="relative min-h-[180px] max-[960px]:min-h-[160px]">
+            {HERO_SLIDES.map((slide, i) => (
+              <div
+                key={slide.key}
+                className="absolute inset-0 flex flex-col justify-end items-center"
+                style={{
+                  opacity: active === i ? 1 : 0,
+                  transform: active === i ? "translateY(0) scale(1)" : "translateY(24px) scale(0.97)",
+                  filter: active === i ? "blur(0px)" : "blur(6px)",
+                  transition: active === i
+                    ? "opacity .8s ease, transform .9s cubic-bezier(.16,1,.3,1), filter .8s ease"
+                    : "opacity .5s ease, transform .5s ease, filter .5s ease",
+                  pointerEvents: active === i ? "auto" : "none",
+                  visibility: active === i ? "visible" : "hidden",
+                }}
+              >
+                {/* Tag */}
+                <span className="text-[12px] font-medium tracking-[5px] uppercase text-[var(--g1)] block mb-3 max-[960px]:text-[11px] max-[960px]:tracking-[3px]">
+                  {slide.tagline}
+                </span>
+
+                {/* Title */}
+                <h1 className="font-bold text-[clamp(56px,10vw,140px)] max-[960px]:text-[clamp(44px,14vw,100px)] uppercase tracking-[-3px] leading-[.90] text-[var(--wh)]">
+                  {labels[slide.labelKey]}
+                </h1>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA — fixed, same for all slides */}
+          <a
+            href={waLink(HERO_SLIDES[active].waMsg)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group/cta inline-flex items-center gap-3 cursor-pointer w-fit mx-auto mt-4"
+          >
+            <span className="relative text-[13px] font-semibold tracking-[3px] uppercase text-[var(--g1)]">
+              {t.academy.hero.ctaLabel}
+              <span className="absolute left-0 -bottom-[5px] h-[1.5px] w-full bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] origin-left scale-x-[0.4] group-hover/cta:scale-x-100 transition-transform duration-700 ease-out" />
+            </span>
+            <span className="j3-ball-wrap w-[22px] h-[22px] group-hover/cta:w-[28px] group-hover/cta:h-[28px] transition-all duration-500 ease-out">
+              <J3Ball className="w-full h-full" />
+            </span>
+          </a>
+
+          {/* ── Leg navigation (3 patas del logo — progress fill) ── */}
+          <div className="flex items-end justify-center gap-[4px] mt-8 min-[961px]:scale-[1.3] min-[961px]:mt-10">
+            {HERO_SLIDES.map((_, i) => {
+              const isActive = active === i;
+              const isPast = i < active;
+              const paths = [
+                "M8 0 L0 36 L10 36 L14 0 Z",
+                "M3 0 L0 42 L12 42 L9 0 Z",
+                "M0 0 L4 36 L14 36 L6 0 Z",
+              ];
+              const widths = [14, 12, 14];
+              const heights = [36, 42, 36];
+              /* Fill from bottom: clipPath reveals gold as progress advances */
+              const fillPct = isActive ? progress : isPast ? 1 : 0;
+              return (
+                <button
+                  key={i}
+                  aria-label={`Slide ${i + 1}`}
+                  onClick={() => goTo(i)}
+                  className="transition-all duration-500 ease-out"
+                  style={{
+                    opacity: isActive || isPast ? 1 : 0.4,
+                    transform: isActive ? "scaleY(1.1)" : "scaleY(1)",
+                    transformOrigin: "bottom",
+                  }}
+                >
+                  <svg width={widths[i]} height={heights[i]} viewBox={`0 0 ${widths[i]} ${heights[i]}`}>
+                    <defs>
+                      <linearGradient id={`legGold${i}`} x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0" stopColor="#dcaf64" />
+                        <stop offset=".5" stopColor="#fff1b4" />
+                        <stop offset="1" stopColor="#dcaf64" />
+                      </linearGradient>
+                      <clipPath id={`legClip${i}`}>
+                        <rect x="0" y={heights[i] * (1 - fillPct)} width={widths[i]} height={heights[i] * fillPct} />
+                      </clipPath>
+                    </defs>
+                    {/* Base — white subtle */}
+                    <path d={paths[i]} fill="rgba(255,255,255,0.25)" />
+                    {/* Gold fill — clipped by progress */}
+                    <path d={paths[i]} fill={`url(#legGold${i})`} clipPath={`url(#legClip${i})`} />
+                  </svg>
+                </button>
+              );
+            })}
           </div>
         </div>
-      )}
+
+        {/* ── Bottom banner — "repetir · ajustar · avanzar" ── */}
+        <div className="absolute bottom-0 left-0 w-full z-20 border-t border-white/[.06]" style={{ background: "linear-gradient(to top, rgba(0,0,0,.6) 0%, transparent 100%)" }}>
+          <div className="flex items-center justify-center gap-8 max-[640px]:gap-5 py-5 max-[960px]:py-4">
+            <span className="text-[13px] max-[640px]:text-[11px] font-semibold tracking-[6px] max-[640px]:tracking-[3px] uppercase text-white/60">
+              {t.academy.hero.titleLine1.replace(".", "")}
+            </span>
+            <span className="text-[var(--g1)]/40 text-[8px]">·</span>
+            <span className="text-[13px] max-[640px]:text-[11px] font-semibold tracking-[6px] max-[640px]:tracking-[3px] uppercase text-white/60">
+              {t.academy.hero.titleLine2.replace(".", "")}
+            </span>
+            <span className="text-[var(--g1)]/40 text-[8px]">·</span>
+            <span className="text-[13px] max-[640px]:text-[11px] font-semibold tracking-[6px] max-[640px]:tracking-[3px] uppercase j3-grad-text">
+              {t.academy.hero.titleLine3b.replace(".", "")}
+            </span>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
 
 /* ═══════════════════════════════════════════════════════
-   S1b — SUBTITLE (hero claim — own section)
+   S1b — CLAIM (white band)
    ═══════════════════════════════════════════════════════ */
 
-function SubtitleSection() {
-  const { t } = useI18n();
+function ClaimSection() {
   const { ref, visible } = useReveal(0.15);
 
   return (
-    <section className="relative bg-[var(--bk)] py-[100px] max-[960px]:py-[72px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-b border-white/[.07] overflow-hidden">
-      {/* Subtle radial glow */}
-      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 60% 50% at 50% 40%, rgba(220,175,100,.04) 0%, transparent 70%)" }} />
-
+    <section className="bg-white py-[80px] max-[960px]:py-[56px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-b border-black/[.06] overflow-hidden">
       <div
         ref={ref}
-        className="relative z-10 max-w-[760px]"
+        className="max-w-[900px] mx-auto text-center"
         style={{
           opacity: visible ? 1 : 0,
-          transform: visible ? "none" : "translateY(30px)",
-          transition: "all .9s cubic-bezier(.16,1,.3,1)",
+          transform: visible ? "none" : "translateY(24px)",
+          transition: "all 1s cubic-bezier(.16,1,.3,1)",
         }}
       >
-        {/* Location eyebrow */}
-        <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] block mb-6 max-[960px]:text-[12px] max-[960px]:tracking-[3px]">
-          {t.academy.hero.locationLabel}
-        </span>
-
-        {/* Claim */}
-        <div className="flex items-start gap-5">
-          {/* Vertical gold hairline */}
-          <span className="w-px h-[68px] max-[960px]:h-[60px] mt-1 shrink-0 bg-gradient-to-b from-[var(--g1)] via-[var(--g1)]/40 to-transparent" />
-
-          <div className="leading-[1.35]">
-            <span className="block text-[clamp(13px,1.4vw,18px)] font-light tracking-[1px] uppercase text-[var(--gy3)]">
-              {t.academy.hero.subtitleBefore}
-            </span>
-
-            <p className="text-[clamp(16px,1.8vw,22px)] font-light text-[var(--gy3)] leading-[1.25] mt-[2px]">
-              <span className="text-[clamp(26px,3.2vw,42px)] font-bold italic tracking-[-0.5px] j3-grad-text inline-block pr-[0.1em] align-baseline">
-                {t.academy.hero.subtitleAccent}
-              </span>
-              {t.academy.hero.subtitleAfter}
-              {" "}
-              <span className="relative inline-block italic font-medium j3-grad-text pr-[0.12em]">
-                {t.academy.hero.subtitleLocation}
-                <svg
-                  aria-hidden="true"
-                  className="absolute left-0 right-0 -bottom-[7px] w-full h-[12px] pointer-events-none overflow-visible"
-                  viewBox="0 0 200 12"
-                  preserveAspectRatio="none"
-                >
-                  <defs>
-                    <linearGradient id="brushULAcademy" x1="0" x2="1" y1="0" y2="0">
-                      <stop offset="0" stopColor="rgb(220,175,100)" stopOpacity="0.1" />
-                      <stop offset="0.18" stopColor="rgb(220,175,100)" stopOpacity="0.95" />
-                      <stop offset="0.82" stopColor="rgb(220,175,100)" stopOpacity="0.95" />
-                      <stop offset="1" stopColor="rgb(220,175,100)" stopOpacity="0.1" />
-                    </linearGradient>
-                  </defs>
-                  <path
-                    d="M 2 5 Q 100 0 198 4 Q 100 11 2 6 Z"
-                    fill="url(#brushULAcademy)"
-                  />
-                </svg>
-              </span>
-              <span className="text-[var(--gy3)]">.</span>
-            </p>
-
-            <span className="block text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)]/75 mt-4">
-              {t.academy.hero.subtitleLine2}
-            </span>
-          </div>
-        </div>
+        <h2 className="font-bold text-[clamp(32px,5vw,64px)] uppercase tracking-[-2px] leading-[1.05] text-black">
+          La academia de{" "}
+          <span className="j3-grad-text font-[var(--font-serif)] italic normal-case tracking-[-0.5px]">referencia</span>
+          <br />
+          en la Costa del Sol.
+        </h2>
       </div>
     </section>
   );
@@ -1038,16 +1244,16 @@ function CtaFinalSection() {
    PAGE EXPORT
    ═══════════════════════════════════════════════════════ */
 
-export default function AcademyPage() {
+export default function AcademyV2Page() {
   return (
     <main className="bg-[var(--bk)] text-[var(--wh)] font-sans w-full">
       <Navbar />
 
-      {/* S1 — Hero */}
+      {/* S1 — Hero Carousel */}
       <HeroSection />
 
-      {/* S1b — Subtitle claim */}
-      <SubtitleSection />
+      {/* S1b — Claim */}
+      <ClaimSection />
 
       {/* S2 — Statement */}
       <StatementSection />

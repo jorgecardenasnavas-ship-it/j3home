@@ -102,12 +102,12 @@ export function Navbar() {
             : "bg-black/60 border-white/[.04]"
         }`}
       >
-        {/* Logo */}
+        {/* Logo — solo tipografía */}
         <Link href="/" className="flex items-center no-underline" aria-label="J3Pádel — Inicio">
           <img
-            src="/images/j3padel-logo.svg"
+            src="/images/j3padel-text-gold.svg"
             alt="J3Pádel"
-            className="h-[40px] w-auto select-none"
+            className="h-[22px] w-auto select-none"
             draggable={false}
           />
         </Link>
@@ -129,16 +129,19 @@ export function Navbar() {
             </li>
           ))}
 
-          {/* Home icon — gold, always centered */}
+          {/* Home — J3 ball logo, always centered */}
           <li>
             <Link
               href="/"
-              className={`transition-colors duration-300 ${
-                isHome ? "text-[var(--g1)]" : "text-[var(--g1)] hover:text-[var(--g2)]"
-              }`}
+              className="transition-opacity duration-300 hover:opacity-80"
               aria-label="Inicio"
             >
-              <HomeIcon />
+              <img
+                src="/images/j3-ball-gold.svg"
+                alt="J3"
+                className="h-[20px] w-auto select-none"
+                draggable={false}
+              />
             </Link>
           </li>
 
@@ -298,7 +301,7 @@ export function Navbar() {
             isHome ? "text-[var(--g1)]" : "text-[var(--wh)] hover:text-[var(--g1)]"
           }`}
         >
-          <HomeIcon size={18} />
+          <img src="/images/j3-ball-gold.svg" alt="J3" className="h-[18px] w-auto select-none" draggable={false} />
           {t.nav.inicio}
         </Link>
 
