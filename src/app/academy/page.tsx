@@ -393,19 +393,40 @@ function HeroSection() {
               const line = btn.querySelector(".j3-cta-line") as HTMLElement;
               const ballSvgs = btn.querySelectorAll<SVGElement>(".j3-ball-wrap svg");
 
-              /* Quick flash animation → scroll */
-              if (line) { line.style.scale = "1 1"; line.style.transition = "scale .15s ease-out"; }
-              legs.forEach((leg) => { leg.style.opacity = "1"; leg.style.transform = "translateY(0)"; leg.style.transition = "all .15s ease-out"; });
-              ballSvgs.forEach((svg) => { svg.style.filter = "brightness(1.6) saturate(0.2)"; svg.style.transition = "filter .15s ease-out"; });
-              setTimeout(() => {
-                document.getElementById("programas")?.scrollIntoView({ behavior: "smooth" });
-              }, 180);
-              /* Cleanup */
-              setTimeout(() => {
-                legs.forEach((leg) => { leg.style.opacity = ""; leg.style.transform = ""; leg.style.transition = ""; });
-                ballSvgs.forEach((svg) => { svg.style.filter = ""; svg.style.transition = ""; });
-                if (line) { line.style.scale = ""; line.style.transition = ""; }
-              }, 1500);
+              const isDesktop = window.matchMedia("(hover: hover)").matches;
+
+              if (isDesktop) {
+                /* Desktop: quick flash → instant scroll */
+                if (line) { line.style.scale = "1 1"; line.style.transition = "scale .15s ease-out"; }
+                legs.forEach((leg) => { leg.style.opacity = "1"; leg.style.transform = "translateY(0)"; leg.style.transition = "all .15s ease-out"; });
+                ballSvgs.forEach((svg) => { svg.style.filter = "brightness(1.6) saturate(0.2)"; svg.style.transition = "filter .15s ease-out"; });
+                setTimeout(() => {
+                  document.getElementById("programas")?.scrollIntoView({ behavior: "smooth" });
+                }, 180);
+                setTimeout(() => {
+                  legs.forEach((leg) => { leg.style.opacity = ""; leg.style.transform = ""; leg.style.transition = ""; });
+                  ballSvgs.forEach((svg) => { svg.style.filter = ""; svg.style.transition = ""; });
+                  if (line) { line.style.scale = ""; line.style.transition = ""; }
+                }, 1500);
+              } else {
+                /* Mobile: sequential animation → scroll */
+                if (line) {
+                  line.style.scale = "1 1";
+                  line.style.transition = "scale .6s cubic-bezier(.22,1,.36,1)";
+                }
+                setTimeout(() => {
+                  legs.forEach((leg) => { leg.style.opacity = "1"; leg.style.transform = "translateY(0)"; leg.style.transition = "all .45s cubic-bezier(.22,1,.36,1)"; });
+                  ballSvgs.forEach((svg) => { svg.style.filter = "brightness(1.6) saturate(0.2)"; svg.style.transition = "filter .45s ease"; });
+                }, 540);
+                setTimeout(() => {
+                  document.getElementById("programas")?.scrollIntoView({ behavior: "smooth" });
+                }, 920);
+                setTimeout(() => {
+                  legs.forEach((leg) => { leg.style.opacity = ""; leg.style.transform = ""; leg.style.transition = ""; });
+                  ballSvgs.forEach((svg) => { svg.style.filter = ""; svg.style.transition = ""; });
+                  if (line) { line.style.scale = ""; line.style.transition = ""; }
+                }, 2000);
+              }
             }}
             className="group/cta inline-flex items-center gap-3 cursor-pointer w-fit mx-auto mt-4"
           >
