@@ -397,7 +397,7 @@ function HeroSection() {
                 line.style.scale = "1 1";
                 line.style.transition = "scale .6s cubic-bezier(.22,1,.36,1)";
               }
-              /* Phase 2: overlap — logo starts while line finishes last 15% */
+              /* Phase 2: logo starts when line is ~90% done */
               setTimeout(() => {
                 legs.forEach((leg) => {
                   leg.style.opacity = "1";
@@ -408,11 +408,11 @@ function HeroSection() {
                   svg.style.filter = "brightness(1.6) saturate(0.2)";
                   svg.style.transition = "filter .45s ease";
                 });
-              }, 480);
+              }, 540);
               /* Phase 3: scroll starts while logo settles */
               setTimeout(() => {
                 document.getElementById("programas")?.scrollIntoView({ behavior: "smooth" });
-              }, 850);
+              }, 920);
               /* Cleanup */
               setTimeout(() => {
                 legs.forEach((leg) => {
