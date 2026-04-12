@@ -607,7 +607,11 @@ function AcademyBand() {
   const { ref, visible } = useReveal(0.2);
 
   return (
-    <section className="bg-white py-[64px] max-[960px]:py-[48px] overflow-hidden">
+    <section className="overflow-hidden">
+      {/* Porsche-style gradient: black → white */}
+      <div className="h-[100px] max-[960px]:h-[70px]" style={{ background: "linear-gradient(to bottom, #000, #fff)" }} />
+
+      <div className="bg-white py-[64px] max-[960px]:py-[48px]">
       <div
         ref={ref}
         className="flex flex-col items-center gap-5"
@@ -653,6 +657,10 @@ function AcademyBand() {
           }}
         />
       </div>
+      </div>
+
+      {/* Porsche-style gradient: white → black */}
+      <div className="h-[100px] max-[960px]:h-[70px]" style={{ background: "linear-gradient(to bottom, #fff, #000)" }} />
     </section>
   );
 }
@@ -688,9 +696,6 @@ function ClaimSection() {
 
   return (
     <section className="relative overflow-hidden">
-      {/* Top separator — gold accent line */}
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[var(--g1)]/40 to-transparent z-20" />
-      <div className="absolute top-[1px] left-0 w-full h-[6px] bg-gradient-to-b from-[var(--g1)]/[.06] to-transparent z-20" />
 
       {/* Video background with parallax */}
       <video
@@ -772,8 +777,15 @@ function ClaimSection() {
 
 function TransitionBand() {
   return (
-    <div className="bg-white py-[24px] max-[960px]:py-[18px] flex justify-center">
-      <div className="w-[60px] h-px bg-gradient-to-r from-transparent via-black/15 to-transparent" />
+    <div>
+      {/* Porsche-style gradient: black → white */}
+      <div className="h-[100px] max-[960px]:h-[70px]" style={{ background: "linear-gradient(to bottom, #000, #fff)" }} />
+      {/* White breather with subtle line */}
+      <div className="bg-white py-[24px] max-[960px]:py-[18px] flex justify-center">
+        <div className="w-[60px] h-px bg-gradient-to-r from-transparent via-black/15 to-transparent" />
+      </div>
+      {/* Porsche-style gradient: white → black */}
+      <div className="h-[100px] max-[960px]:h-[70px]" style={{ background: "linear-gradient(to bottom, #fff, #000)" }} />
     </div>
   );
 }
