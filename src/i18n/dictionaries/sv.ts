@@ -527,6 +527,7 @@ export const sv = {
       titleLine2: "Finjustera.",
       titleLine3a: "OCH",
       titleLine3b: "g\u00E5 fram\u00E5t.",
+      ctaLabel: "Utforska program",
       subtitleBefore: "Den b\u00E4sta",
       subtitleAccent: "padelakademin",
       subtitleAfter: "",

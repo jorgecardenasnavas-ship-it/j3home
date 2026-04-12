@@ -165,6 +165,24 @@ function HeroSection() {
             {t.academy.hero.titleLine3b}
           </span>
         </h1>
+
+        {/* CTA — gold line draw */}
+        <a
+          href="#programas"
+          onClick={(e) => { e.preventDefault(); document.getElementById("programas")?.scrollIntoView({ behavior: "smooth" }); }}
+          className="group/cta inline-flex items-center gap-3 mt-10 max-[960px]:mt-8 cursor-pointer"
+          style={{
+            opacity: ready ? undefined : 0,
+            animation: ready ? "fadeInSoft 1s 1.3s ease both" : "none",
+          }}
+        >
+          <span className="relative text-[13px] font-semibold tracking-[3px] uppercase text-[var(--g1)]">
+            {t.academy.hero.ctaLabel}
+            {/* Gold underline — draws on reveal, expands on hover */}
+            <span className="absolute left-0 -bottom-[5px] h-[1.5px] w-full bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] origin-left scale-x-[0.4] group-hover/cta:scale-x-100 transition-transform duration-700 ease-out" />
+          </span>
+          <span className="text-[var(--g1)] transition-transform duration-500 ease-out group-hover/cta:translate-x-1.5">→</span>
+        </a>
       </div>
 
       {/* Chevron — fade in after title */}
@@ -558,7 +576,7 @@ function PerfilesSection() {
   const itReveal = useReveal(0.15);
 
   return (
-    <section className="relative bg-[var(--bk)] py-[100px] max-[960px]:py-[72px] overflow-hidden">
+    <section id="programas" className="relative bg-[var(--bk)] py-[100px] max-[960px]:py-[72px] overflow-hidden">
       {/* Section header */}
       <div
         ref={ref}

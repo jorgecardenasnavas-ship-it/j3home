@@ -527,6 +527,7 @@ export const en = {
       titleLine2: "Refine.",
       titleLine3a: "",
       titleLine3b: "Advance.",
+      ctaLabel: "Explore programs",
       subtitleBefore: "The best p\u00E1del",
       subtitleAccent: "academy",
       subtitleAfter: "",

@@ -265,6 +265,7 @@ export interface Dictionary {
       readonly titleLine2: string;
       readonly titleLine3a: string;
       readonly titleLine3b: string;
+      readonly ctaLabel: string;
       readonly subtitleBefore: string;
       readonly subtitleAccent: string;
       readonly subtitleAfter: string;

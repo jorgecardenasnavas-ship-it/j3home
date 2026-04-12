@@ -527,6 +527,7 @@ export const pt = {
       titleLine2: "Aperfei\u00E7oar.",
       titleLine3a: "E",
       titleLine3b: "avan\u00E7ar.",
+      ctaLabel: "Explorar programas",
       subtitleBefore: "A melhor",
       subtitleAccent: "academia",
       subtitleAfter: "de p\u00E1del",

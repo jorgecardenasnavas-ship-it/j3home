@@ -527,6 +527,7 @@ export const fr = {
       titleLine2: "Affiner.",
       titleLine3a: "ET",
       titleLine3b: "avancer.",
+      ctaLabel: "Explorer les programmes",
       subtitleBefore: "La meilleure",
       subtitleAccent: "acad\u00E9mie",
       subtitleAfter: "de padel",
