@@ -75,20 +75,22 @@
   transform: translateY(-8px);
   transition: all .5s cubic-bezier(.16, 1, .3, 1);
 }
-.group\/cta:hover .j3-ball-legs {
-  opacity: 1;
-  transform: translateY(0);
-}
 .j3-ball-wrap svg {
   filter: brightness(1) saturate(1);
   transition: filter .5s ease;
 }
-.group\/cta:hover .j3-ball-wrap svg {
-  filter: brightness(1.6) saturate(0.2);
-}
-/* Hover: line expands */
-.group\/cta:hover .j3-cta-line {
-  scale: 1 1 !important;
+/* Desktop hover only — on touch devices the JS handles the sequence */
+@media (hover: hover) {
+  .group\/cta:hover .j3-ball-legs {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .group\/cta:hover .j3-ball-wrap svg {
+    filter: brightness(1.6) saturate(0.2);
+  }
+  .group\/cta:hover .j3-cta-line {
+    scale: 1 1 !important;
+  }
 }
 
 /* ─── Animations ─── */

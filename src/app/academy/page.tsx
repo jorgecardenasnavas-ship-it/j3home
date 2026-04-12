@@ -409,10 +409,10 @@ function HeroSection() {
                   svg.style.transition = "filter .5s ease";
                 });
               }, 700);
-              /* Phase 3: scroll after full animation */
+              /* Phase 3: scroll right after logo completes (700 line + 500 legs) */
               setTimeout(() => {
                 document.getElementById("programas")?.scrollIntoView({ behavior: "smooth" });
-              }, 1600);
+              }, 1200);
               /* Cleanup */
               setTimeout(() => {
                 legs.forEach((leg) => {
