@@ -1538,37 +1538,101 @@ function CtaFinalSection() {
    PAGE EXPORT
    ═══════════════════════════════════════════════════════ */
 
+/**
+ * Scroll-linked background color transition (Porsche style).
+ * Defines color "zones" — as the user scrolls into a zone,
+ * the entire page background smoothly transitions to that zone's color.
+ * The previous section still visible also changes color.
+ */
+function useScrollBg(zoneRefs: React.RefObject<(HTMLDivElement | null)[]>) {
+  useEffect(() => {
+    function onScroll() {
+      const zones = zoneRefs.current;
+      if (!zones) return;
+
+      const vh = window.innerHeight;
+      const scrollY = window.scrollY;
+      const triggerPoint = scrollY + vh * 0.45; // transition triggers at 45% of viewport
+
+      // Find which zone we're in
+      let bgColor = "#000"; // default dark (hero)
+      for (let i = zones.length - 1; i >= 0; i--) {
+        const el = zones[i];
+        if (!el) continue;
+        const top = el.offsetTop;
+        if (triggerPoint >= top) {
+          const isDark = el.dataset.bg === "dark";
+          bgColor = isDark ? "#000" : "#fff";
+
+          // Calculate transition progress within a 300px window
+          const progress = Math.min(1, Math.max(0, (triggerPoint - top) / 300));
+          const prevIsDark = i > 0 ? zones[i - 1]?.dataset.bg === "dark" : true;
+
+          if (prevIsDark !== isDark) {
+            // Interpolate between colors
+            const t = progress;
+            const fromVal = prevIsDark ? 0 : 255;
+            const toVal = isDark ? 0 : 255;
+            const val = Math.round(fromVal + (toVal - fromVal) * t);
+            bgColor = `rgb(${val},${val},${val})`;
+          }
+          break;
+        }
+      }
+
+      document.body.style.backgroundColor = bgColor;
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      document.body.style.backgroundColor = "";
+    };
+  }, [zoneRefs]);
+}
+
 export default function AcademyV2Page() {
+  const zoneRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const setZoneRef = (i: number) => (el: HTMLDivElement | null) => {
+    if (zoneRefs.current) zoneRefs.current[i] = el;
+  };
+
+  useScrollBg(zoneRefs);
+
   return (
-    <main className="bg-white font-sans w-full">
+    <main className="font-sans w-full">
       <Navbar />
 
-      {/* S1 — Hero Carousel */}
-      <div className="mx-3 max-[960px]:mx-2 rounded-b-xl overflow-hidden">
+      {/* Zone 0: Hero (dark) */}
+      <div ref={setZoneRef(0)} data-bg="dark">
         <HeroSection />
       </div>
 
-      {/* ── WHITE BLOCK: Academy band ── */}
-      <AcademyBand />
+      {/* Zone 1: Academy band (white) */}
+      <div ref={setZoneRef(1)} data-bg="light">
+        <AcademyBand />
+      </div>
 
-      {/* ── DARK BLOCK: Claim + Statement + Proof ── */}
-      <div className="mx-3 max-[960px]:mx-2 rounded-xl overflow-hidden">
+      {/* Zone 2: Claim + Statement + Proof (dark) */}
+      <div ref={setZoneRef(2)} data-bg="dark">
         <ClaimSection />
         <StatementSection />
         <ProofSection />
       </div>
 
-      {/* ── WHITE BLOCK: Programs grid ── */}
-      <PerfilesSection />
+      {/* Zone 3: Programs grid (white) */}
+      <div ref={setZoneRef(3)} data-bg="light">
+        <PerfilesSection />
+      </div>
 
-      {/* ── DARK BLOCK: Sedes ── */}
-      <div className="mx-3 max-[960px]:mx-2 rounded-xl overflow-hidden">
+      {/* Zone 4: Sedes (dark) */}
+      <div ref={setZoneRef(4)} data-bg="dark">
         <SedesSection />
       </div>
 
-      {/* S6 — Método */}
-      {/* ── DARK BLOCK: Método + Stats + CTA ── */}
-      <div className="mx-3 max-[960px]:mx-2 rounded-xl overflow-hidden">
+      {/* Zone 5: Método + Stats + CTA (dark — same as prev, no transition) */}
+      <div ref={setZoneRef(5)} data-bg="dark">
         <MetodoSection />
         <StatsSection />
         <CtaFinalSection />
