@@ -160,7 +160,15 @@ function J3Ball({ className = "" }: { className?: string }) {
   );
 }
 
-const HERO_SLIDES = [
+type SlideImage = { src: string; pos: string; mobilePos?: string };
+
+const HERO_SLIDES: {
+  key: string;
+  images: SlideImage[];
+  labelKey: "juniorsLabel" | "adultosLabel" | "intensiveLabel";
+  tagline: string;
+  waMsg: string;
+}[] = [
   {
     key: "juniors",
     images: [
@@ -170,7 +178,7 @@ const HERO_SLIDES = [
       { src: "/images/academy/nextgen-pro.jpeg", pos: "center" },
       { src: "/images/academy/gemita.jpeg", pos: "center" },
     ],
-    labelKey: "juniorsLabel" as const,
+    labelKey: "juniorsLabel" ,
     tagline: "4 – 16+ años",
     waMsg: "Hola, quiero info sobre los programas Juniors",
   },
@@ -181,7 +189,7 @@ const HERO_SLIDES = [
       { src: "/images/academy/pro.jpeg", pos: "center" },
       { src: "/images/academy/elena.jpeg", pos: "center 30%" },
     ],
-    labelKey: "adultosLabel" as const,
+    labelKey: "adultosLabel" ,
     tagline: "Amateur · Pro",
     waMsg: "Hola, quiero info sobre los programas Adultos",
   },
@@ -190,7 +198,7 @@ const HERO_SLIDES = [
     images: [
       { src: "/images/academy/stage-group.jpeg", pos: "center 38%", mobilePos: "center 65%" },
     ],
-    labelKey: "intensiveLabel" as const,
+    labelKey: "intensiveLabel" ,
     tagline: "Camps · Stages · A medida",
     waMsg: "Hola, quiero info sobre Intensive Training",
   },
