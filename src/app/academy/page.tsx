@@ -786,7 +786,7 @@ function ProofSection() {
 
 /* Program card component */
 function ProgramCard({
-  tag, title, sub, featured, ctas, index, visible, light, image,
+  tag, title, sub, featured, ctas, index, visible, light, image, isMobile,
 }: {
   tag: string;
   title: string;
@@ -797,6 +797,7 @@ function ProgramCard({
   visible: boolean;
   light?: boolean;
   image?: string;
+  isMobile?: boolean;
 }) {
   return (
     <div
@@ -821,13 +822,16 @@ function ProgramCard({
         transition: `all 0.8s cubic-bezier(.16,1,.3,1) ${index * 0.12}s`,
       }}
     >
-      {/* Background image */}
+      {/* Background image — normalized like hero */}
       {image && (
         <>
           <img
             src={image}
             alt={title}
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            style={{
+              filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)",
+            }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/20" />
         </>
@@ -848,9 +852,9 @@ function ProgramCard({
       )}
 
       <div className={`relative z-10 ${image ? "p-8 max-[960px]:p-6 mt-auto" : "p-8 max-[960px]:p-6"}`}>
-        <span className="text-[9px] font-bold tracking-[3px] uppercase text-[var(--g1)] block mb-2">{tag}</span>
-        <h4 className={`font-bold text-[clamp(28px,4vw,44px)] uppercase tracking-[-1.5px] leading-[1] mb-2 ${light && !image ? "text-[var(--bk)]" : "text-[var(--wh)]"}`}>{title}</h4>
-        <p className={`text-[13px] tracking-[0.5px] mb-8 ${light && !image ? "text-[var(--gy)]" : "text-[var(--gy2)]"}`}>{sub}</p>
+        <span className="text-[9px] font-bold tracking-[3px] uppercase text-[var(--g1)] block mb-2" style={isMobile && image ? { textShadow: "0 1px 6px rgba(0,0,0,.6)" } : undefined}>{tag}</span>
+        <h4 className={`font-bold text-[clamp(28px,4vw,44px)] uppercase tracking-[-1.5px] leading-[1] mb-2 ${light && !image ? "text-[var(--bk)]" : "text-[var(--wh)]"}`} style={isMobile && image ? { textShadow: "0 2px 12px rgba(0,0,0,.7)" } : undefined}>{title}</h4>
+        <p className={`text-[13px] tracking-[0.5px] mb-8 ${light && !image ? "text-[var(--gy)]" : "text-[var(--gy2)]"}`} style={isMobile && image ? { textShadow: "0 1px 6px rgba(0,0,0,.5)" } : undefined}>{sub}</p>
 
         <div className="flex flex-wrap gap-3">
           {ctas.map((cta, ci) => (
@@ -879,6 +883,13 @@ function ProgramCard({
 function PerfilesSection() {
   const { t } = useI18n();
   const { ref, visible } = useReveal(0.1);
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 961);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   /* Juniors cards — visual data merged with i18n strings */
   const juniorsImages = [
@@ -946,7 +957,7 @@ function PerfilesSection() {
         <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-10 grid grid-cols-2 max-[960px]:grid-cols-1 gap-5">
           {juniorsCards.map((c, i) => (
             <div key={i} ref={el => { jRefs.current[i] = el; }}>
-              <ProgramCard {...c} index={i} visible={jVis[i]} />
+              <ProgramCard {...c} index={i} visible={jVis[i]} isMobile={isMobile} />
             </div>
           ))}
         </div>
@@ -963,7 +974,7 @@ function PerfilesSection() {
         <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-10 grid grid-cols-2 max-[960px]:grid-cols-1 gap-5">
           {adultosCards.map((c, i) => (
             <div key={i} ref={el => { aRefs.current[i] = el; }}>
-              <ProgramCard {...c} index={i} visible={aVis[i]} />
+              <ProgramCard {...c} index={i} visible={aVis[i]} isMobile={isMobile} />
             </div>
           ))}
         </div>
@@ -991,7 +1002,10 @@ function PerfilesSection() {
               src="/images/academy/stage-group.jpeg"
               alt={t.academy.programs.intensiveImageAlt}
               className="absolute inset-0 w-full h-full object-cover object-[center_25%]"
-              style={{ opacity: 0.45 }}
+              style={{
+                opacity: 0.45,
+                filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)",
+              }}
             />
             {/* Dark overlay — lighter at top to show photo, darker at bottom for text */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/10" />
@@ -1000,17 +1014,17 @@ function PerfilesSection() {
             <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] opacity-60 z-10" />
 
             <div className="relative z-10 text-center">
-              <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] block mb-3 max-[960px]:text-[12px] max-[960px]:tracking-[3px]">
+              <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] block mb-3 max-[960px]:text-[12px] max-[960px]:tracking-[3px]" style={isMobile ? { textShadow: "0 1px 6px rgba(0,0,0,.6)" } : undefined}>
                 {t.academy.programs.intensiveEyebrow}
               </span>
 
-              <h3 className="font-bold text-[clamp(32px,4vw,52px)] uppercase tracking-[-1px] leading-[1] mb-3">
+              <h3 className="font-bold text-[clamp(32px,4vw,52px)] uppercase tracking-[-1px] leading-[1] mb-3" style={isMobile ? { textShadow: "0 2px 12px rgba(0,0,0,.7)" } : undefined}>
                 <span className="text-[var(--wh)]">{t.academy.programs.intensiveTitlePre}</span>
                 <br />
                 <span className="j3-grad-text font-[var(--font-serif)] italic normal-case">{t.academy.programs.intensiveTitleAccent}</span>
               </h3>
 
-              <p className="text-[clamp(14px,1.5vw,17px)] text-[var(--gy2)] leading-[1.5] font-light mb-6">
+              <p className="text-[clamp(14px,1.5vw,17px)] text-[var(--gy2)] leading-[1.5] font-light mb-6" style={isMobile ? { textShadow: "0 1px 6px rgba(0,0,0,.5)" } : undefined}>
                 {t.academy.programs.intensiveDesc}
               </p>
 
