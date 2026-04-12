@@ -389,8 +389,14 @@ function HeroSection() {
             type="button"
             onClick={(e) => {
               const btn = e.currentTarget;
-              const line = btn.querySelector(".j3-cta-line") as HTMLElement;
               const legs = btn.querySelectorAll<HTMLElement>(".j3-ball-legs");
+              /* If animation already played (hover complete), scroll immediately */
+              const alreadyAnimated = legs.length > 0 && getComputedStyle(legs[0]).opacity === "1";
+              if (alreadyAnimated) {
+                document.getElementById("programas")?.scrollIntoView({ behavior: "smooth" });
+                return;
+              }
+              const line = btn.querySelector(".j3-cta-line") as HTMLElement;
               const ballSvgs = btn.querySelectorAll<SVGElement>(".j3-ball-wrap svg");
               /* Phase 1: line expands (600ms) */
               if (line) {
