@@ -405,13 +405,14 @@ function HeroSection() {
             {HERO_SLIDES.map((_, i) => {
               const isActive = active === i;
               const isPast = i < active;
+              /* Real leg paths from the J3 logo, translated to own viewBox */
               const paths = [
-                "M8 0 L0 36 L10 36 L14 0 Z",
-                "M3 0 L0 42 L12 42 L9 0 Z",
-                "M0 0 L4 36 L14 36 L6 0 Z",
+                "M0,51.31h25.34l9.18-43.08c-8.22-1.53-16.18-4.32-23.59-8.23L0,51.31Z",
+                "M8.88,2.97l-8.88,41.75h25.33l9.52-44.72c-7.26,2.02-14.8,3.09-22.42,3.09-1.18,0-2.37-.07-3.55-.12Z",
+                "M27.97,13.42c-5.36,4.38-11.23,8.04-17.44,10.95L0,73.93l25.35-.02L41.04,0c-3.83,4.92-8.2,9.44-13.07,13.42Z",
               ];
-              const widths = [14, 12, 14];
-              const heights = [36, 42, 36];
+              const widths = [35, 35, 42];
+              const heights = [52, 45, 74];
               /* Fill from bottom: clipPath reveals gold as progress advances */
               const fillPct = isActive ? progress : isPast ? 1 : 0;
               return (
@@ -426,7 +427,7 @@ function HeroSection() {
                     transformOrigin: "bottom",
                   }}
                 >
-                  <svg width={widths[i]} height={heights[i]} viewBox={`0 0 ${widths[i]} ${heights[i]}`}>
+                  <svg width={14} height={Math.round(heights[i] * 14 / widths[i])} viewBox={`0 0 ${widths[i]} ${heights[i]}`}>
                     <defs>
                       <linearGradient id={`legGold${i}`} x1="0" y1="0" x2="0" y2="1">
                         <stop offset="0" stopColor="#dcaf64" />
