@@ -690,10 +690,12 @@ function ClaimSection() {
       />
       {/* Overlay — lighter to show more video */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/50" />
+      {/* Cinematic vignette */}
+      <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: "inset 0 0 120px 40px rgba(0,0,0,.5)" }} />
 
       <div
         ref={ref}
-        className="relative z-10 py-[120px] max-[960px]:py-[80px] px-12 max-[960px]:px-6 max-[640px]:px-4"
+        className="relative z-10 py-[130px] max-[960px]:py-[88px] px-12 max-[960px]:px-6 max-[640px]:px-4"
       >
         <div
           className="max-w-[1000px] mx-auto text-center"
@@ -703,12 +705,12 @@ function ClaimSection() {
             transition: "all 1.2s cubic-bezier(.16,1,.3,1)",
           }}
         >
-          {/* Claim — extra padding to prevent italic clipping */}
-          <h2 className="font-bold text-[clamp(36px,6vw,72px)] uppercase tracking-[-2px] leading-[1.05] text-[var(--wh)] px-4 overflow-visible">
-            La academia de{" "}
-            <span className="j3-grad-text font-[var(--font-serif)] italic normal-case tracking-[-0.5px] inline-block" style={{ paddingRight: "0.2em", paddingBottom: "0.05em" }}>referencia</span>
+          {/* Claim — "referencia" larger as focal point */}
+          <h2 className="font-bold uppercase tracking-[-2px] leading-[1.05] text-[var(--wh)] px-4 overflow-visible">
+            <span className="text-[clamp(32px,5vw,60px)]">La academia de</span>{" "}
+            <span className="j3-grad-text font-[var(--font-serif)] italic normal-case tracking-[-0.5px] inline-block text-[clamp(44px,7.5vw,96px)]" style={{ paddingRight: "0.2em", paddingBottom: "0.05em" }}>referencia</span>
             <br />
-            en la Costa del Sol.
+            <span className="text-[clamp(32px,5vw,60px)]">en la Costa del Sol.</span>
           </h2>
 
           {/* Gold divider */}
@@ -720,28 +722,44 @@ function ClaimSection() {
             }}
           />
 
-          {/* Animated stats */}
-          <div className="flex items-center justify-center gap-12 max-[640px]:gap-6 flex-wrap">
+          {/* Animated stats with gold dividers */}
+          <div className="flex items-center justify-center max-[640px]:gap-4 flex-wrap">
             {stats.map((stat, i) => (
-              <div
-                key={i}
-                className="text-center"
-                style={{
-                  opacity: visible ? 1 : 0,
-                  transform: visible ? "none" : "translateY(16px)",
-                  transition: `all 0.8s cubic-bezier(.16,1,.3,1) ${0.4 + i * 0.15}s`,
-                }}
-              >
-                <Counter val={stat.num} suffix={stat.suffix} className="block j3-grad-text font-bold text-[clamp(28px,4vw,48px)] tracking-[-1px] leading-[1]" />
-                <span className="block text-[11px] font-medium tracking-[3px] uppercase text-white/50 mt-1">
-                  {stat.label}
-                </span>
+              <div key={i} className="flex items-center">
+                {i > 0 && (
+                  <div className="w-px h-[40px] max-[640px]:h-[32px] bg-gradient-to-b from-transparent via-[var(--g1)]/30 to-transparent mx-8 max-[640px]:mx-4" />
+                )}
+                <div
+                  className="text-center"
+                  style={{
+                    opacity: visible ? 1 : 0,
+                    transform: visible ? "none" : "translateY(16px)",
+                    transition: `all 0.8s cubic-bezier(.16,1,.3,1) ${0.4 + i * 0.15}s`,
+                  }}
+                >
+                  <Counter val={stat.num} suffix={stat.suffix} className="block j3-grad-text font-bold text-[clamp(28px,4vw,48px)] tracking-[-1px] leading-[1]" />
+                  <span className="block text-[11px] font-medium tracking-[3px] uppercase text-white/50 mt-1">
+                    {stat.label}
+                  </span>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </div>
     </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   S1c — TRANSITION BAND (white breather below claim)
+   ═══════════════════════════════════════════════════════ */
+
+function TransitionBand() {
+  return (
+    <div className="bg-white py-[24px] max-[960px]:py-[18px] flex justify-center">
+      <div className="w-[60px] h-px bg-gradient-to-r from-transparent via-black/15 to-transparent" />
+    </div>
   );
 }
 
@@ -1528,6 +1546,9 @@ export default function AcademyV2Page() {
 
       {/* S1b — Claim */}
       <ClaimSection />
+
+      {/* S1c — White transition band */}
+      <TransitionBand />
 
       {/* S2 — Statement */}
       <StatementSection />
