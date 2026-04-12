@@ -221,19 +221,22 @@ function HeroSection() {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const progressRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  /* Rotate image when leaving a slide — advance so next visit shows a new photo */
+  /* Rotate image when leaving a slide — wait for crossfade to finish */
   const [imgIndex, setImgIndex] = useState<number[]>(HERO_SLIDES.map(() => 0));
   const prevActive = useRef(0);
   useEffect(() => {
     const leaving = prevActive.current;
     prevActive.current = active;
     if (leaving !== active && HERO_SLIDES[leaving].images.length > 1) {
-      /* Advance immediately — crossfade hides the swap while slide is fading out */
-      setImgIndex(prev => {
-        const next = [...prev];
-        next[leaving] = (next[leaving] + 1) % HERO_SLIDES[leaving].images.length;
-        return next;
-      });
+      /* Wait until crossfade (1.2s) fully hides the old slide */
+      const id = setTimeout(() => {
+        setImgIndex(prev => {
+          const next = [...prev];
+          next[leaving] = (next[leaving] + 1) % HERO_SLIDES[leaving].images.length;
+          return next;
+        });
+      }, 1300);
+      return () => clearTimeout(id);
     }
   }, [active]);
 
