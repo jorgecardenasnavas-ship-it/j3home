@@ -88,11 +88,11 @@
   .group\/cta:hover .j3-ball-legs {
     opacity: 1;
     transform: translateY(0);
-    transition-delay: .54s;
+    transition-delay: .38s;
   }
   .group\/cta:hover .j3-ball-wrap svg {
     filter: brightness(1.6) saturate(0.2);
-    transition-delay: .54s;
+    transition-delay: .38s;
   }
 }
 
