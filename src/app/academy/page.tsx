@@ -174,9 +174,9 @@ const HERO_SLIDES: {
     images: [
       { src: "/images/academy/kinder.jpeg", pos: "center", mobilePos: "70% center" },
       { src: "/images/academy/kids.jpeg", pos: "center" },
+      { src: "/images/academy/gemita.jpeg", pos: "center 25%" },
       { src: "/images/academy/nextgen.jpeg", pos: "center" },
       { src: "/images/academy/nextgen-pro.jpeg", pos: "center" },
-      { src: "/images/academy/gemita.jpeg", pos: "center 25%" },
     ],
     labelKey: "juniorsLabel" ,
     tagline: "4 – 16+ años",
