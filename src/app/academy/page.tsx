@@ -224,11 +224,12 @@ function HeroSection() {
   /* Rotate image when leaving a slide — wait for crossfade to finish */
   const [imgIndex, setImgIndex] = useState<number[]>(HERO_SLIDES.map(() => 0));
   const prevActive = useRef(0);
+  const rotateTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
   useEffect(() => {
     const leaving = prevActive.current;
     prevActive.current = active;
     if (leaving !== active && HERO_SLIDES[leaving].images.length > 1) {
-      /* Wait until crossfade (1.2s) fully hides the old slide */
+      /* Fire-and-forget: don't cancel on next active change */
       const id = setTimeout(() => {
         setImgIndex(prev => {
           const next = [...prev];
@@ -236,9 +237,15 @@ function HeroSection() {
           return next;
         });
       }, 1300);
-      return () => clearTimeout(id);
+      rotateTimers.current.push(id);
     }
+    /* Cleanup only on unmount */
+    return undefined;
   }, [active]);
+  /* Clear all timers on unmount */
+  useEffect(() => {
+    return () => { rotateTimers.current.forEach(clearTimeout); };
+  }, []);
 
   /* Boot animation delay */
   useEffect(() => {
