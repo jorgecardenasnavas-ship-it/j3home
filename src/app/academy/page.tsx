@@ -367,19 +367,25 @@ function HeroSection() {
             priority={i === 0}
             className={`object-cover ${prefersReducedMotion ? "" : "transition-transform duration-[7000ms] ease-out"}`}
             style={{
-              opacity: 0.7,
-              filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)",
+              opacity: isMobile ? 0.6 : 0.7,
+              filter: isMobile
+                ? "contrast(1.12) saturate(0.75) brightness(0.95) sepia(0.12)"
+                : "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)",
               transform: !prefersReducedMotion && active === i ? "scale(1.08)" : "scale(1)",
               objectPosition: (isMobile && slide.images[imgIndex[i]].mobilePos) || slide.images[imgIndex[i]].pos,
             }}
           />
-          {/* Gradient overlay */}
+          {/* Gradient overlay — stronger on mobile for outdoor readability */}
           <div
             className="absolute inset-0"
             style={{
-              background: slide.key === "intensive"
-                ? "linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.45) 35%, rgba(0,0,0,.08) 55%, rgba(0,0,0,.10) 100%)"
-                : "linear-gradient(to top, rgba(0,0,0,.90) 0%, rgba(0,0,0,.40) 40%, rgba(0,0,0,.15) 100%)",
+              background: isMobile
+                ? slide.key === "intensive"
+                  ? "linear-gradient(to top, rgba(0,0,0,.95) 0%, rgba(0,0,0,.55) 35%, rgba(0,0,0,.18) 55%, rgba(0,0,0,.20) 100%)"
+                  : "linear-gradient(to top, rgba(0,0,0,.95) 0%, rgba(0,0,0,.50) 40%, rgba(0,0,0,.25) 100%)"
+                : slide.key === "intensive"
+                  ? "linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.45) 35%, rgba(0,0,0,.08) 55%, rgba(0,0,0,.10) 100%)"
+                  : "linear-gradient(to top, rgba(0,0,0,.90) 0%, rgba(0,0,0,.40) 40%, rgba(0,0,0,.15) 100%)",
             }}
           />
         </div>
@@ -418,7 +424,10 @@ function HeroSection() {
                 }}
               >
                 {/* Tag */}
-                <span className="text-[12px] font-medium tracking-[5px] uppercase text-[var(--g1)] block mb-3 max-[960px]:text-[11px] max-[960px]:tracking-[3px]">
+                <span
+                  className="text-[12px] font-medium tracking-[5px] uppercase text-[var(--g1)] block mb-3 max-[960px]:text-[11px] max-[960px]:tracking-[3px]"
+                  style={isMobile ? { textShadow: "0 1px 8px rgba(0,0,0,.7)" } : undefined}
+                >
                   {slide.tagline}
                 </span>
 
@@ -430,6 +439,7 @@ function HeroSection() {
                         ? "text-[clamp(40px,8vw,100px)] max-[960px]:text-[clamp(36px,11vw,72px)]"
                         : "text-[clamp(56px,10vw,140px)] max-[960px]:text-[clamp(44px,14vw,100px)]"
                     }`}
+                    style={isMobile ? { textShadow: "0 2px 16px rgba(0,0,0,.8), 0 0 40px rgba(0,0,0,.4)" } : undefined}
                   >
                     {labels[slide.labelKey]}
                   </h1>
@@ -441,6 +451,7 @@ function HeroSection() {
                         ? "text-[clamp(40px,8vw,100px)] max-[960px]:text-[clamp(36px,11vw,72px)]"
                         : "text-[clamp(56px,10vw,140px)] max-[960px]:text-[clamp(44px,14vw,100px)]"
                     }`}
+                    style={isMobile ? { textShadow: "0 2px 16px rgba(0,0,0,.8), 0 0 40px rgba(0,0,0,.4)" } : undefined}
                   >
                     {labels[slide.labelKey]}
                   </span>
@@ -495,7 +506,10 @@ function HeroSection() {
             }}
             className="group/cta inline-flex items-center gap-3 cursor-pointer w-fit mx-auto mt-4"
           >
-            <span className="relative text-[13px] font-semibold tracking-[3px] uppercase text-[var(--g1)]">
+            <span
+              className="relative text-[13px] font-semibold tracking-[3px] uppercase text-[var(--g1)]"
+              style={isMobile ? { textShadow: "0 1px 8px rgba(0,0,0,.6)" } : undefined}
+            >
               {t.academy.hero.ctaLabel}
               <span className="j3-cta-line absolute left-0 -bottom-[5px] h-[1.5px] w-full bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] origin-left scale-x-[0.4] group-hover/cta:scale-x-100 transition-transform duration-700 ease-out" />
             </span>
@@ -554,7 +568,7 @@ function HeroSection() {
         </div>
 
         {/* ── Bottom banner — "repetir · ajustar · avanzar" ── */}
-        <div className="absolute bottom-0 left-0 w-full z-20 border-t border-white/[.06]" style={{ background: "linear-gradient(to top, rgba(0,0,0,.6) 0%, transparent 100%)" }}>
+        <div className="absolute bottom-0 left-0 w-full z-20 border-t border-white/[.06]" style={{ background: isMobile ? "linear-gradient(to top, rgba(0,0,0,.75) 0%, rgba(0,0,0,.3) 100%)" : "linear-gradient(to top, rgba(0,0,0,.6) 0%, transparent 100%)" }}>
           <div className="flex items-center justify-center gap-8 max-[640px]:gap-5 py-5 max-[960px]:py-4">
             {([t.academy.hero.titleLine1, t.academy.hero.titleLine2, t.academy.hero.titleLine3b] as string[]).map((word, i) => (
               <span key={i} className="flex items-center gap-8 max-[640px]:gap-5">
@@ -563,8 +577,9 @@ function HeroSection() {
                   type="button"
                   onClick={() => goTo(i)}
                   className={`text-[13px] max-[640px]:text-[11px] font-semibold tracking-[6px] max-[640px]:tracking-[3px] uppercase transition-all duration-700 cursor-pointer bg-transparent border-none p-0 ${
-                    active === i ? "j3-grad-text opacity-100" : "text-white/40 hover:text-white/70"
+                    active === i ? "j3-grad-text opacity-100" : isMobile ? "text-white/50 hover:text-white/70" : "text-white/40 hover:text-white/70"
                   }`}
+                  style={isMobile ? { textShadow: "0 1px 6px rgba(0,0,0,.5)" } : undefined}
                 >
                   {word.replace(".", "")}
                 </button>
