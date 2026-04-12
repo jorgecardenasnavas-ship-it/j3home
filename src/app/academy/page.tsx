@@ -307,43 +307,43 @@ function HeroSection() {
 
   return (
     <section className="relative h-screen min-h-[580px] overflow-hidden bg-black">
-      {/* ── Slides — horizontal swipe ── */}
-      <div className="absolute inset-0 overflow-hidden">
+      {/* ── Slides — crossfade stack ── */}
+      {HERO_SLIDES.map((slide, i) => (
         <div
-          className="flex h-full transition-transform duration-[1000ms] ease-[cubic-bezier(.77,0,.175,1)]"
-          style={{ width: `${HERO_SLIDES.length * 100}%`, transform: `translateX(-${active * (100 / HERO_SLIDES.length)}%)` }}
+          key={slide.key}
+          className="absolute inset-0 overflow-hidden"
+          style={{
+            opacity: active === i ? 1 : 0,
+            transition: "opacity 1.2s ease",
+            zIndex: active === i ? 1 : 0,
+          }}
         >
-          {HERO_SLIDES.map((slide, i) => (
-            <div key={slide.key} className="relative h-full shrink-0 overflow-hidden bg-black" style={{ width: `${100 / HERO_SLIDES.length}%` }}>
-              {/* Background image — rotates between visits */}
-              <Image
-                src={slide.images[imgIndex[i]].src}
-                alt={labels[slide.labelKey]}
-                fill
-                sizes="100vw"
-                quality={90}
-                priority={i === 0}
-                className="object-cover transition-transform duration-[7000ms] ease-out"
-                style={{
-                  opacity: 0.7,
-                  filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)",
-                  transform: active === i ? "scale(1.08)" : "scale(1)",
-                  objectPosition: (isMobile && slide.images[imgIndex[i]].mobilePos) || slide.images[imgIndex[i]].pos,
-                }}
-              />
-              {/* Gradient overlay — shorter for intensive to keep faces visible */}
-              <div
-                className="absolute inset-0"
-                style={{
-                  background: slide.key === "intensive"
-                    ? "linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.45) 35%, rgba(0,0,0,.08) 55%, rgba(0,0,0,.10) 100%)"
-                    : "linear-gradient(to top, rgba(0,0,0,.90) 0%, rgba(0,0,0,.40) 40%, rgba(0,0,0,.15) 100%)",
-                }}
-              />
-            </div>
-          ))}
+          <Image
+            src={slide.images[imgIndex[i]].src}
+            alt={labels[slide.labelKey]}
+            fill
+            sizes="100vw"
+            quality={90}
+            priority={i === 0}
+            className="object-cover transition-transform duration-[7000ms] ease-out"
+            style={{
+              opacity: 0.7,
+              filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)",
+              transform: active === i ? "scale(1.08)" : "scale(1)",
+              objectPosition: (isMobile && slide.images[imgIndex[i]].mobilePos) || slide.images[imgIndex[i]].pos,
+            }}
+          />
+          {/* Gradient overlay */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background: slide.key === "intensive"
+                ? "linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.45) 35%, rgba(0,0,0,.08) 55%, rgba(0,0,0,.10) 100%)"
+                : "linear-gradient(to top, rgba(0,0,0,.90) 0%, rgba(0,0,0,.40) 40%, rgba(0,0,0,.15) 100%)",
+            }}
+          />
         </div>
-      </div>
+      ))}
 
       {/* ── Content — lower center ── */}
       <div
@@ -377,7 +377,13 @@ function HeroSection() {
                 </span>
 
                 {/* Title */}
-                <h1 className="font-bold text-[clamp(56px,10vw,140px)] max-[960px]:text-[clamp(44px,14vw,100px)] uppercase tracking-[-3px] leading-[.90] text-[var(--wh)]">
+                <h1
+                  className={`font-bold uppercase tracking-[-3px] leading-[.90] text-[var(--wh)] ${
+                    slide.key === "intensive"
+                      ? "text-[clamp(40px,8vw,100px)] max-[960px]:text-[clamp(36px,11vw,72px)]"
+                      : "text-[clamp(56px,10vw,140px)] max-[960px]:text-[clamp(44px,14vw,100px)]"
+                  }`}
+                >
                   {labels[slide.labelKey]}
                 </h1>
               </div>
