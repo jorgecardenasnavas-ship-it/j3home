@@ -559,13 +559,15 @@ function HeroSection() {
             {([t.academy.hero.titleLine1, t.academy.hero.titleLine2, t.academy.hero.titleLine3b] as string[]).map((word, i) => (
               <span key={i} className="flex items-center gap-8 max-[640px]:gap-5">
                 {i > 0 && <span className="text-[var(--g1)]/40 text-[8px]">·</span>}
-                <span
-                  className={`text-[13px] max-[640px]:text-[11px] font-semibold tracking-[6px] max-[640px]:tracking-[3px] uppercase transition-all duration-700 ${
-                    active === i ? "j3-grad-text opacity-100" : "text-white/40"
+                <button
+                  type="button"
+                  onClick={() => goTo(i)}
+                  className={`text-[13px] max-[640px]:text-[11px] font-semibold tracking-[6px] max-[640px]:tracking-[3px] uppercase transition-all duration-700 cursor-pointer bg-transparent border-none p-0 ${
+                    active === i ? "j3-grad-text opacity-100" : "text-white/40 hover:text-white/70"
                   }`}
                 >
                   {word.replace(".", "")}
-                </span>
+                </button>
               </span>
             ))}
           </div>
