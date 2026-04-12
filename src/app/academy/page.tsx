@@ -440,7 +440,7 @@ function HeroSection() {
           </button>
 
           {/* ── Leg navigation (3 patas del logo — progress fill) ── */}
-          <div className="flex items-end justify-center gap-[2px] mt-8 min-[961px]:scale-[1.3] min-[961px]:mt-10">
+          <div className="flex items-end justify-center gap-[4px] mt-8 min-[961px]:scale-[1.3] min-[961px]:mt-10">
             {HERO_SLIDES.map((_, i) => {
               const isActive = active === i;
               const isPast = i < active;
@@ -459,7 +459,7 @@ function HeroSection() {
                   key={i}
                   aria-label={`Slide ${i + 1}`}
                   onClick={() => goTo(i)}
-                  className="transition-all duration-500 ease-out px-3 py-2 -mx-1"
+                  className="transition-all duration-500 ease-out"
                   style={{
                     opacity: isActive || isPast ? 1 : 0.4,
                     transform: isActive ? "scaleY(1.1)" : "scaleY(1)",
