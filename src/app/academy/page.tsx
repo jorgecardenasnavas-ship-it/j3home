@@ -704,9 +704,9 @@ function ClaimSection() {
           }}
         >
           {/* Claim — extra padding to prevent italic clipping */}
-          <h2 className="font-bold text-[clamp(36px,6vw,72px)] uppercase tracking-[-2px] leading-[1.05] text-[var(--wh)] px-2">
+          <h2 className="font-bold text-[clamp(36px,6vw,72px)] uppercase tracking-[-2px] leading-[1.05] text-[var(--wh)] px-4 overflow-visible">
             La academia de{" "}
-            <span className="j3-grad-text font-[var(--font-serif)] italic normal-case tracking-[-0.5px] inline-block pr-[0.05em]">referencia</span>
+            <span className="j3-grad-text font-[var(--font-serif)] italic normal-case tracking-[-0.5px] inline-block" style={{ paddingRight: "0.2em", paddingBottom: "0.05em" }}>referencia</span>
             <br />
             en la Costa del Sol.
           </h2>
