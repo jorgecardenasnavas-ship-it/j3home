@@ -574,9 +574,6 @@ function HeroSection() {
           </div>
         </div>
 
-        {/* ── Fade-to-white at very bottom of hero ── */}
-        <div className="absolute bottom-0 left-0 w-full h-[60px] max-[960px]:h-[40px] z-10 pointer-events-none" style={{ background: "linear-gradient(to bottom, transparent, rgba(255,255,255,.08) 60%, rgba(255,255,255,.18))" }} />
-
         {/* ── Bottom banner — "repetir · ajustar · avanzar" ── */}
         <div className="absolute bottom-0 left-0 w-full z-20 border-t border-white/[.06]" style={{ background: isMobile ? "linear-gradient(to top, rgba(0,0,0,.75) 0%, rgba(0,0,0,.3) 100%)" : "linear-gradient(to top, rgba(0,0,0,.6) 0%, transparent 100%)" }}>
           <div className="flex items-center justify-center gap-8 max-[640px]:gap-5 py-5 max-[960px]:py-4">
@@ -691,10 +688,9 @@ function ClaimSection() {
 
   return (
     <section className="relative overflow-hidden">
-      {/* Soft white-to-dark fade at top — smooth entry from white band */}
-      <div className="absolute top-0 left-0 w-full h-[80px] max-[960px]:h-[50px] z-20 pointer-events-none" style={{ background: "linear-gradient(to bottom, rgba(255,255,255,.12), transparent)" }} />
-      {/* Subtle gold accent at entry */}
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[var(--g1)]/20 to-transparent z-20" />
+      {/* Top separator — gold accent line */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[var(--g1)]/40 to-transparent z-20" />
+      <div className="absolute top-[1px] left-0 w-full h-[6px] bg-gradient-to-b from-[var(--g1)]/[.06] to-transparent z-20" />
 
       {/* Video background with parallax */}
       <video
@@ -776,9 +772,7 @@ function ClaimSection() {
 
 function TransitionBand() {
   return (
-    <div className="relative bg-white py-[28px] max-[960px]:py-[20px] flex justify-center">
-      {/* Soft dark-to-white fade at top — smooth exit from claim */}
-      <div className="absolute top-0 left-0 w-full h-[40px] max-[960px]:h-[24px] pointer-events-none" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,.04), transparent)" }} />
+    <div className="bg-white py-[24px] max-[960px]:py-[18px] flex justify-center">
       <div className="w-[60px] h-px bg-gradient-to-r from-transparent via-black/15 to-transparent" />
     </div>
   );
