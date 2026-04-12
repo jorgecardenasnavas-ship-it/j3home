@@ -574,6 +574,9 @@ function HeroSection() {
           </div>
         </div>
 
+        {/* ── Fade-to-white at very bottom of hero ── */}
+        <div className="absolute bottom-0 left-0 w-full h-[60px] max-[960px]:h-[40px] z-10 pointer-events-none" style={{ background: "linear-gradient(to bottom, transparent, rgba(255,255,255,.08) 60%, rgba(255,255,255,.18))" }} />
+
         {/* ── Bottom banner — "repetir · ajustar · avanzar" ── */}
         <div className="absolute bottom-0 left-0 w-full z-20 border-t border-white/[.06]" style={{ background: isMobile ? "linear-gradient(to top, rgba(0,0,0,.75) 0%, rgba(0,0,0,.3) 100%)" : "linear-gradient(to top, rgba(0,0,0,.6) 0%, transparent 100%)" }}>
           <div className="flex items-center justify-center gap-8 max-[640px]:gap-5 py-5 max-[960px]:py-4">
@@ -607,10 +610,10 @@ function AcademyBand() {
   const { ref, visible } = useReveal(0.2);
 
   return (
-    <section className="bg-white py-[48px] max-[960px]:py-[36px] overflow-hidden">
+    <section className="bg-white py-[64px] max-[960px]:py-[48px] overflow-hidden">
       <div
         ref={ref}
-        className="flex flex-col items-center gap-4"
+        className="flex flex-col items-center gap-5"
         style={{
           opacity: visible ? 1 : 0,
           transform: visible ? "none" : "translateY(16px) scale(0.97)",
@@ -621,20 +624,35 @@ function AcademyBand() {
         <img
           src="/images/j3padel-academy-horizontal.svg"
           alt="J3Pádel Academy"
-          className="w-[280px] max-[960px]:w-[220px] h-auto"
+          className="w-[300px] max-[960px]:w-[240px] h-auto"
+        />
+
+        {/* Gold decorative line above subtitle */}
+        <div
+          className="h-px bg-gradient-to-r from-transparent via-[var(--g1)]/40 to-transparent"
+          style={{
+            width: visible ? "100px" : "0px",
+            transition: "width 1.2s cubic-bezier(.16,1,.3,1) 0.3s",
+          }}
         />
 
         {/* Desde 2004 · Málaga */}
-        <span className="text-[10px] font-medium tracking-[4px] uppercase text-black/40">
+        <span
+          className="text-[10px] font-medium tracking-[5px] uppercase text-black/35"
+          style={{
+            opacity: visible ? 1 : 0,
+            transition: "opacity 0.8s ease 0.5s",
+          }}
+        >
           Desde 2004 · Málaga
         </span>
 
         {/* Gold closing line */}
         <div
-          className="h-px bg-gradient-to-r from-transparent via-[var(--g1)]/30 to-transparent mt-1"
+          className="h-px bg-gradient-to-r from-transparent via-[var(--g1)]/40 to-transparent"
           style={{
-            width: visible ? "80px" : "0px",
-            transition: "width 1s cubic-bezier(.16,1,.3,1) 0.4s",
+            width: visible ? "100px" : "0px",
+            transition: "width 1.2s cubic-bezier(.16,1,.3,1) 0.3s",
           }}
         />
       </div>
@@ -673,9 +691,10 @@ function ClaimSection() {
 
   return (
     <section className="relative overflow-hidden">
-      {/* Top separator — gold accent line */}
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[var(--g1)]/40 to-transparent z-20" />
-      <div className="absolute top-[1px] left-0 w-full h-[6px] bg-gradient-to-b from-[var(--g1)]/[.06] to-transparent z-20" />
+      {/* Soft white-to-dark fade at top — smooth entry from white band */}
+      <div className="absolute top-0 left-0 w-full h-[80px] max-[960px]:h-[50px] z-20 pointer-events-none" style={{ background: "linear-gradient(to bottom, rgba(255,255,255,.12), transparent)" }} />
+      {/* Subtle gold accent at entry */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[var(--g1)]/20 to-transparent z-20" />
 
       {/* Video background with parallax */}
       <video
@@ -722,23 +741,23 @@ function ClaimSection() {
             }}
           />
 
-          {/* Animated stats with gold dividers */}
-          <div className="flex items-center justify-center max-[640px]:gap-4 flex-wrap">
+          {/* Animated stats — always 3 in a row */}
+          <div className="flex items-start justify-center">
             {stats.map((stat, i) => (
               <div key={i} className="flex items-center">
                 {i > 0 && (
-                  <div className="w-px h-[40px] max-[640px]:h-[32px] bg-gradient-to-b from-transparent via-[var(--g1)]/30 to-transparent mx-8 max-[640px]:mx-4" />
+                  <div className="w-px h-[44px] max-[640px]:h-[36px] bg-gradient-to-b from-transparent via-[var(--g1)]/30 to-transparent mx-10 max-[960px]:mx-6 max-[640px]:mx-4" />
                 )}
                 <div
-                  className="text-center"
+                  className="text-center min-w-[80px] max-[640px]:min-w-[60px]"
                   style={{
                     opacity: visible ? 1 : 0,
                     transform: visible ? "none" : "translateY(16px)",
                     transition: `all 0.8s cubic-bezier(.16,1,.3,1) ${0.4 + i * 0.15}s`,
                   }}
                 >
-                  <Counter val={stat.num} suffix={stat.suffix} className="block j3-grad-text font-bold text-[clamp(28px,4vw,48px)] tracking-[-1px] leading-[1]" />
-                  <span className="block text-[11px] font-medium tracking-[3px] uppercase text-white/50 mt-1">
+                  <Counter val={stat.num} suffix={stat.suffix} className="block j3-grad-text font-bold text-[clamp(26px,3.5vw,44px)] tracking-[-1px] leading-[1]" />
+                  <span className="block text-[10px] max-[640px]:text-[9px] font-medium tracking-[2px] max-[640px]:tracking-[1.5px] uppercase text-white/50 mt-2">
                     {stat.label}
                   </span>
                 </div>
@@ -757,7 +776,9 @@ function ClaimSection() {
 
 function TransitionBand() {
   return (
-    <div className="bg-white py-[24px] max-[960px]:py-[18px] flex justify-center">
+    <div className="relative bg-white py-[28px] max-[960px]:py-[20px] flex justify-center">
+      {/* Soft dark-to-white fade at top — smooth exit from claim */}
+      <div className="absolute top-0 left-0 w-full h-[40px] max-[960px]:h-[24px] pointer-events-none" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,.04), transparent)" }} />
       <div className="w-[60px] h-px bg-gradient-to-r from-transparent via-black/15 to-transparent" />
     </div>
   );
