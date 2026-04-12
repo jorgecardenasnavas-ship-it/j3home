@@ -391,9 +391,11 @@ function HeroSection() {
               const btn = e.currentTarget;
               btn.classList.add("j3-cta-active");
               setTimeout(() => {
-                btn.classList.remove("j3-cta-active");
                 document.getElementById("programas")?.scrollIntoView({ behavior: "smooth" });
-              }, 600);
+              }, 1200);
+              setTimeout(() => {
+                btn.classList.remove("j3-cta-active");
+              }, 2000);
             }}
             className="group/cta inline-flex items-center gap-3 cursor-pointer w-fit mx-auto mt-4"
           >

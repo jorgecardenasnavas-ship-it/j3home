@@ -89,7 +89,7 @@
   filter: brightness(1.6) saturate(0.2);
 }
 .j3-cta-active .j3-cta-line {
-  transform: scaleX(1) !important;
+  scale: 1 1 !important;
 }
 
 /* ─── Animations ─── */
