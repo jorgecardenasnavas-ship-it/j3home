@@ -176,7 +176,7 @@ const HERO_SLIDES: {
       { src: "/images/academy/kids.jpeg", pos: "center" },
       { src: "/images/academy/nextgen.jpeg", pos: "center" },
       { src: "/images/academy/nextgen-pro.jpeg", pos: "center" },
-      { src: "/images/academy/gemita.jpeg", pos: "center" },
+      { src: "/images/academy/gemita.jpeg", pos: "center 25%" },
     ],
     labelKey: "juniorsLabel" ,
     tagline: "4 – 16+ años",
@@ -187,7 +187,7 @@ const HERO_SLIDES: {
     images: [
       { src: "/images/academy/amateur.jpeg", pos: "center 12%" },
       { src: "/images/academy/pro.jpeg", pos: "center" },
-      { src: "/images/academy/elena.jpeg", pos: "center 30%" },
+      { src: "/images/academy/elena.jpeg", pos: "center 40%" },
     ],
     labelKey: "adultosLabel" ,
     tagline: "Amateur · Pro",
