@@ -687,7 +687,7 @@ function ClaimSection() {
   ];
 
   return (
-    <section className="relative overflow-hidden">
+    <section className="relative overflow-hidden bg-[var(--bk)]">
 
       {/* Video background with parallax */}
       <video
@@ -767,28 +767,6 @@ function ClaimSection() {
    S1c — TRANSITION BAND (white breather below claim)
    ═══════════════════════════════════════════════════════ */
 
-function TransitionBand() {
-  return (
-    <div className="bg-white py-[24px] max-[960px]:py-[18px] flex justify-center">
-      <div className="w-[60px] h-px bg-gradient-to-r from-transparent via-black/15 to-transparent" />
-    </div>
-  );
-}
-
-/** Porsche-style background gradient transition — fast through midtones */
-function PorscheGradient({ from, to }: { from: string; to: string }) {
-  const isToBlack = to === "#000";
-  return (
-    <div
-      className="h-[120px] max-[960px]:h-[80px]"
-      style={{
-        background: isToBlack
-          ? `linear-gradient(180deg, ${from} 0%, #e8e8e8 12%, #888 28%, #333 45%, #111 65%, ${to} 100%)`
-          : `linear-gradient(180deg, ${from} 0%, #111 35%, #333 55%, #888 72%, #e8e8e8 88%, ${to} 100%)`,
-      }}
-    />
-  );
-}
 
 /* ═══════════════════════════════════════════════════════
    S2 — STATEMENT (scroll-triggered typography)
@@ -1562,43 +1540,39 @@ function CtaFinalSection() {
 
 export default function AcademyV2Page() {
   return (
-    <main className="bg-[var(--bk)] text-[var(--wh)] font-sans w-full">
+    <main className="bg-white font-sans w-full">
       <Navbar />
 
       {/* S1 — Hero Carousel */}
-      <HeroSection />
+      <div className="mx-3 max-[960px]:mx-2 rounded-b-xl overflow-hidden">
+        <HeroSection />
+      </div>
 
       {/* ── WHITE BLOCK: Academy band ── */}
       <AcademyBand />
 
-      {/* Porsche transition: white → black */}
-      <PorscheGradient from="#fff" to="#000" />
-
       {/* ── DARK BLOCK: Claim + Statement + Proof ── */}
-      <ClaimSection />
-      <StatementSection />
-      <ProofSection />
-
-      {/* Porsche transition: black → white */}
-      <PorscheGradient from="#000" to="#fff" />
+      <div className="mx-3 max-[960px]:mx-2 rounded-xl overflow-hidden">
+        <ClaimSection />
+        <StatementSection />
+        <ProofSection />
+      </div>
 
       {/* ── WHITE BLOCK: Programs grid ── */}
       <PerfilesSection />
 
-      {/* Porsche transition: white → black */}
-      <PorscheGradient from="#fff" to="#000" />
-
-      {/* S5 — Sedes */}
-      <SedesSection />
+      {/* ── DARK BLOCK: Sedes ── */}
+      <div className="mx-3 max-[960px]:mx-2 rounded-xl overflow-hidden">
+        <SedesSection />
+      </div>
 
       {/* S6 — Método */}
-      <MetodoSection />
-
-      {/* S7 — Stats */}
-      <StatsSection />
-
-      {/* S8 — CTA Final */}
-      <CtaFinalSection />
+      {/* ── DARK BLOCK: Método + Stats + CTA ── */}
+      <div className="mx-3 max-[960px]:mx-2 rounded-xl overflow-hidden">
+        <MetodoSection />
+        <StatsSection />
+        <CtaFinalSection />
+      </div>
 
       <Footer />
     </main>

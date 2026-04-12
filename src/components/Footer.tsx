@@ -18,7 +18,7 @@ export function Footer() {
   const { t } = useI18n();
 
   return (
-    <footer className="relative border-t border-white/[.06] overflow-hidden">
+    <footer className="relative border-t border-white/[.06] overflow-hidden bg-[var(--bk)]">
       {/* Subtle radial glow at top */}
       <div
         className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[1px] pointer-events-none"
