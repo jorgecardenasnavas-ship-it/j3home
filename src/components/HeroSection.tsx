@@ -48,25 +48,8 @@ export function HeroSection() {
         ref={heroRef}
         className="h-[92vh] min-h-[640px] relative overflow-hidden flex flex-col justify-end"
       >
-        {/* Background Video */}
-        <video
-          className="hero-video absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-[2000ms] ease-out"
-          src="/videos/play_1080.webm"
-          autoPlay
-          loop
-          muted
-          playsInline
-          style={{ transitionTimingFunction: "cubic-bezier(0.25, 0.46, 0.45, 0.94)" }}
-        />
-
-        {/* Dramatic fade overlay */}
-        <div
-          className="absolute inset-0 z-[1]"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(0,0,0,.3) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,.55) 60%, #000 100%)",
-          }}
-        />
+        {/* Background — solid black (video removed) */}
+        <div className="absolute inset-0 bg-black" />
 
         {/* Black curtain */}
         <div className="hero-curtain absolute inset-0 z-[4] bg-black pointer-events-none" />

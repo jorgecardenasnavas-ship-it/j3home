@@ -600,29 +600,84 @@ function HeroSection() {
 }
 
 /* ═══════════════════════════════════════════════════════
-   S1b — CLAIM (white band)
+   S1b — CLAIM (video background + stats — Ferrari style)
    ═══════════════════════════════════════════════════════ */
 
 function ClaimSection() {
-  const { ref, visible } = useReveal(0.15);
+  const { ref, visible } = useReveal(0.1);
+
+  const stats = [
+    { value: "20+", label: "años" },
+    { value: "6", label: "jugadores en circuito" },
+    { value: "2", label: "sedes" },
+  ];
 
   return (
-    <section className="bg-white py-[80px] max-[960px]:py-[56px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-b border-black/[.06] overflow-hidden">
+    <section className="relative overflow-hidden border-b border-white/[.06]">
+      {/* Video background */}
+      <video
+        className="absolute inset-0 w-full h-full object-cover"
+        src="/videos/play_1080.webm"
+        autoPlay
+        loop
+        muted
+        playsInline
+        style={{ opacity: 0.3, filter: "contrast(1.08) saturate(0.7) brightness(0.9) sepia(0.15)" }}
+      />
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
+
       <div
         ref={ref}
-        className="max-w-[900px] mx-auto text-center"
-        style={{
-          opacity: visible ? 1 : 0,
-          transform: visible ? "none" : "translateY(24px)",
-          transition: "all 1s cubic-bezier(.16,1,.3,1)",
-        }}
+        className="relative z-10 py-[120px] max-[960px]:py-[80px] px-12 max-[960px]:px-6 max-[640px]:px-4"
       >
-        <h2 className="font-bold text-[clamp(32px,5vw,64px)] uppercase tracking-[-2px] leading-[1.05] text-black">
-          La academia de{" "}
-          <span className="j3-grad-text font-[var(--font-serif)] italic normal-case tracking-[-0.5px]">referencia</span>
-          <br />
-          en la Costa del Sol.
-        </h2>
+        <div
+          className="max-w-[1000px] mx-auto text-center"
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? "none" : "translateY(30px)",
+            transition: "all 1.2s cubic-bezier(.16,1,.3,1)",
+          }}
+        >
+          {/* Claim */}
+          <h2 className="font-bold text-[clamp(36px,6vw,72px)] uppercase tracking-[-2px] leading-[1.05] text-[var(--wh)]">
+            La academia de{" "}
+            <span className="j3-grad-text font-[var(--font-serif)] italic normal-case tracking-[-0.5px]">referencia</span>
+            <br />
+            en la Costa del Sol.
+          </h2>
+
+          {/* Gold divider */}
+          <div
+            className="mx-auto mt-8 mb-8 h-px bg-gradient-to-r from-transparent via-[var(--g1)] to-transparent"
+            style={{
+              width: visible ? "120px" : "0px",
+              transition: "width 1.2s cubic-bezier(.16,1,.3,1) 0.3s",
+            }}
+          />
+
+          {/* Stats */}
+          <div className="flex items-center justify-center gap-12 max-[640px]:gap-6 flex-wrap">
+            {stats.map((stat, i) => (
+              <div
+                key={i}
+                className="text-center"
+                style={{
+                  opacity: visible ? 1 : 0,
+                  transform: visible ? "none" : "translateY(16px)",
+                  transition: `all 0.8s cubic-bezier(.16,1,.3,1) ${0.4 + i * 0.15}s`,
+                }}
+              >
+                <span className="block j3-grad-text font-bold text-[clamp(28px,4vw,48px)] tracking-[-1px] leading-[1]">
+                  {stat.value}
+                </span>
+                <span className="block text-[11px] font-medium tracking-[3px] uppercase text-white/50 mt-1">
+                  {stat.label}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
