@@ -367,9 +367,9 @@ function HeroSection() {
             priority={i === 0}
             className={`object-cover ${prefersReducedMotion ? "" : "transition-transform duration-[7000ms] ease-out"}`}
             style={{
-              opacity: isMobile ? 0.6 : 0.7,
+              opacity: 0.7,
               filter: isMobile
-                ? "contrast(1.12) saturate(0.75) brightness(0.95) sepia(0.12)"
+                ? "contrast(1.10) saturate(0.80) brightness(1.0) sepia(0.12)"
                 : "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)",
               transform: !prefersReducedMotion && active === i ? "scale(1.08)" : "scale(1)",
               objectPosition: (isMobile && slide.images[imgIndex[i]].mobilePos) || slide.images[imgIndex[i]].pos,
@@ -381,8 +381,8 @@ function HeroSection() {
             style={{
               background: isMobile
                 ? slide.key === "intensive"
-                  ? "linear-gradient(to top, rgba(0,0,0,.95) 0%, rgba(0,0,0,.55) 35%, rgba(0,0,0,.18) 55%, rgba(0,0,0,.20) 100%)"
-                  : "linear-gradient(to top, rgba(0,0,0,.95) 0%, rgba(0,0,0,.50) 40%, rgba(0,0,0,.25) 100%)"
+                  ? "linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.45) 35%, rgba(0,0,0,.12) 55%, rgba(0,0,0,.12) 100%)"
+                  : "linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.38) 40%, rgba(0,0,0,.12) 100%)"
                 : slide.key === "intensive"
                   ? "linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.45) 35%, rgba(0,0,0,.08) 55%, rgba(0,0,0,.10) 100%)"
                   : "linear-gradient(to top, rgba(0,0,0,.90) 0%, rgba(0,0,0,.40) 40%, rgba(0,0,0,.15) 100%)",
