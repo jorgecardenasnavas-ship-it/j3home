@@ -395,16 +395,29 @@ function HeroSection() {
                   {slide.tagline}
                 </span>
 
-                {/* Title */}
-                <h1
-                  className={`font-bold uppercase tracking-[-3px] leading-[.90] text-[var(--wh)] ${
-                    slide.key === "intensive"
-                      ? "text-[clamp(40px,8vw,100px)] max-[960px]:text-[clamp(36px,11vw,72px)]"
-                      : "text-[clamp(56px,10vw,140px)] max-[960px]:text-[clamp(44px,14vw,100px)]"
-                  }`}
-                >
-                  {labels[slide.labelKey]}
-                </h1>
+                {/* Title — only active slide is h1 for SEO */}
+                {active === i ? (
+                  <h1
+                    className={`font-bold uppercase tracking-[-3px] leading-[.90] text-[var(--wh)] ${
+                      slide.key === "intensive"
+                        ? "text-[clamp(40px,8vw,100px)] max-[960px]:text-[clamp(36px,11vw,72px)]"
+                        : "text-[clamp(56px,10vw,140px)] max-[960px]:text-[clamp(44px,14vw,100px)]"
+                    }`}
+                  >
+                    {labels[slide.labelKey]}
+                  </h1>
+                ) : (
+                  <span
+                    aria-hidden="true"
+                    className={`block font-bold uppercase tracking-[-3px] leading-[.90] text-[var(--wh)] ${
+                      slide.key === "intensive"
+                        ? "text-[clamp(40px,8vw,100px)] max-[960px]:text-[clamp(36px,11vw,72px)]"
+                        : "text-[clamp(56px,10vw,140px)] max-[960px]:text-[clamp(44px,14vw,100px)]"
+                    }`}
+                  >
+                    {labels[slide.labelKey]}
+                  </span>
+                )}
               </div>
             ))}
           </div>
@@ -673,6 +686,7 @@ function ProofSection() {
           <img
             src="/images/proof-players.jpg"
             alt={t.academy.proof.imageAlt}
+            loading="lazy"
             className="w-full h-full object-cover object-[center_20%]"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-black/80 max-[960px]:bg-gradient-to-b max-[960px]:from-transparent max-[960px]:via-transparent max-[960px]:to-black/70" />
