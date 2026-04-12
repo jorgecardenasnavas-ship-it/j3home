@@ -772,7 +772,7 @@ function ClaimSection() {
    S2 — STATEMENT (scroll-triggered typography)
    ═══════════════════════════════════════════════════════ */
 
-function StatementSection() {
+function StatementSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const { t } = useI18n();
   const { ref, visible } = useReveal(0.15);
 
@@ -788,9 +788,7 @@ function StatementSection() {
   const { itemRefs, visibleItems } = useStaggerReveal(lines.length, 0.2);
 
   return (
-    <section className="relative bg-[var(--bk2)] py-[100px] max-[960px]:py-[72px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-b border-white/[.07] overflow-hidden">
-      {/* Subtle radial glow */}
-      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 70% 60% at 50% 40%, rgba(220,175,100,.04) 0%, transparent 70%)" }} />
+    <section className="relative py-[100px] max-[960px]:py-[72px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden text-[var(--wh)]">
 
       <div className="max-w-[1200px] mx-auto relative z-10">
         {/* Eyebrow */}
@@ -807,6 +805,9 @@ function StatementSection() {
             {t.academy.statement.eyebrow}
           </span>
         </div>
+
+        {/* Scroll marker: white→dark transition triggers here */}
+        {markerSlot}
 
         {lines.map((line, i) => (
           <div key={i}>
@@ -864,7 +865,7 @@ function ProofSection() {
   const { itemRefs, visibleItems } = useStaggerReveal(players.length, 0.2);
 
   return (
-    <section ref={ref} className="relative bg-[var(--bk)] py-[100px] max-[960px]:py-[72px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-b border-white/[.07] overflow-hidden">
+    <section ref={ref} className="relative py-[100px] max-[960px]:py-[72px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden text-[var(--wh)]">
       <div className="max-w-[1200px] mx-auto grid grid-cols-2 max-[960px]:grid-cols-1 gap-16 max-[960px]:gap-10 items-center">
         {/* Left — image placeholder */}
         <div
@@ -1027,7 +1028,7 @@ function ProgramCard({
   );
 }
 
-function PerfilesSection() {
+function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const { t } = useI18n();
   const { ref, visible } = useReveal(0.1);
   const [isMobile, setIsMobile] = useState(false);
@@ -1073,7 +1074,7 @@ function PerfilesSection() {
   const itReveal = useReveal(0.15);
 
   return (
-    <section id="programas" className="relative bg-white py-[100px] max-[960px]:py-[72px] overflow-hidden">
+    <section id="programas" className="relative py-[100px] max-[960px]:py-[72px] overflow-hidden">
       {/* Section header */}
       <div
         ref={ref}
@@ -1093,8 +1094,11 @@ function PerfilesSection() {
         </h2>
       </div>
 
+      {/* Scroll marker: dark→white transition triggers here */}
+      {markerSlot}
+
       {/* Block 1: Juniors */}
-      <div className="bg-white border-t border-black/[.07]">
+      <div className="border-t border-black/[.07]">
         {/* Block label */}
         <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b border-black/[.07]">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] j3-grad-text tracking-[-1px]">01</span>
@@ -1111,7 +1115,7 @@ function PerfilesSection() {
       </div>
 
       {/* Block 2: Adultos */}
-      <div className="bg-white border-t border-black/[.07]">
+      <div className="border-t border-black/[.07]">
         {/* Block label */}
         <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b border-black/[.07]">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] j3-grad-text tracking-[-1px]">02</span>
@@ -1128,7 +1132,7 @@ function PerfilesSection() {
       </div>
 
       {/* Block 3: Intensive Training — hero-style standalone */}
-      <div className="bg-white border-t border-black/[.07]">
+      <div className="border-t border-black/[.07]">
         <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b border-black/[.07]">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] j3-grad-text tracking-[-1px]">03</span>
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.intensiveLabel}</span>
@@ -1540,47 +1544,53 @@ function CtaFinalSection() {
 
 /**
  * Scroll-linked background color transition (Porsche style).
- * Defines color "zones" — as the user scrolls into a zone,
- * the entire page background smoothly transitions to that zone's color.
- * The previous section still visible also changes color.
+ *
+ * Markers are placed INSIDE sections at the exact scroll position
+ * where the transition should begin. When the viewport crosses a marker,
+ * the ENTIRE page background (body) smoothly transitions over ~250px
+ * of scroll to the target color. This affects everything visible on screen.
+ *
+ * Each marker has data-to="dark"|"light" indicating the target color.
  */
-function useScrollBg(zoneRefs: React.RefObject<(HTMLDivElement | null)[]>) {
+function useScrollBg(markerRefs: React.RefObject<(HTMLDivElement | null)[]>) {
   useEffect(() => {
     function onScroll() {
-      const zones = zoneRefs.current;
-      if (!zones) return;
+      const markers = markerRefs.current;
+      if (!markers) return;
 
-      const vh = window.innerHeight;
-      const scrollY = window.scrollY;
-      const triggerPoint = scrollY + vh * 0.45; // transition triggers at 45% of viewport
+      const scrollMid = window.scrollY + window.innerHeight * 0.5;
+      const FADE_PX = 250; // scroll distance for full transition
 
-      // Find which zone we're in
-      let bgColor = "#000"; // default dark (hero)
-      for (let i = zones.length - 1; i >= 0; i--) {
-        const el = zones[i];
-        if (!el) continue;
-        const top = el.offsetTop;
-        if (triggerPoint >= top) {
-          const isDark = el.dataset.bg === "dark";
-          bgColor = isDark ? "#000" : "#fff";
+      // Build sorted list of transitions
+      const transitions: { y: number; toDark: boolean }[] = [];
+      for (const m of markers) {
+        if (!m) continue;
+        transitions.push({
+          y: m.offsetTop,
+          toDark: m.dataset.to === "dark",
+        });
+      }
+      transitions.sort((a, b) => a.y - b.y);
 
-          // Calculate transition progress within a 300px window
-          const progress = Math.min(1, Math.max(0, (triggerPoint - top) / 300));
-          const prevIsDark = i > 0 ? zones[i - 1]?.dataset.bg === "dark" : true;
-
-          if (prevIsDark !== isDark) {
-            // Interpolate between colors
-            const t = progress;
-            const fromVal = prevIsDark ? 0 : 255;
-            const toVal = isDark ? 0 : 255;
-            const val = Math.round(fromVal + (toVal - fromVal) * t);
-            bgColor = `rgb(${val},${val},${val})`;
-          }
+      // Walk through transitions to determine current color
+      let val = 0; // 0 = black, 255 = white — start dark (hero)
+      for (const tr of transitions) {
+        const target = tr.toDark ? 0 : 255;
+        if (scrollMid < tr.y) {
+          // Haven't reached this transition yet
           break;
+        } else if (scrollMid >= tr.y + FADE_PX) {
+          // Fully past this transition
+          val = target;
+        } else {
+          // In the middle of this transition
+          const progress = (scrollMid - tr.y) / FADE_PX;
+          const from = val;
+          val = Math.round(from + (target - from) * progress);
         }
       }
 
-      document.body.style.backgroundColor = bgColor;
+      document.body.style.backgroundColor = `rgb(${val},${val},${val})`;
     }
 
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -1589,54 +1599,63 @@ function useScrollBg(zoneRefs: React.RefObject<(HTMLDivElement | null)[]>) {
       window.removeEventListener("scroll", onScroll);
       document.body.style.backgroundColor = "";
     };
-  }, [zoneRefs]);
+  }, [markerRefs]);
+}
+
+/** Invisible scroll marker — place inside a section where transition should trigger */
+function ScrollMarker({ index, to, refs }: { index: number; to: "dark" | "light"; refs: React.RefObject<(HTMLDivElement | null)[]> }) {
+  return (
+    <div
+      ref={(el) => { if (refs.current) refs.current[index] = el; }}
+      data-to={to}
+      className="h-0 w-0 pointer-events-none"
+      aria-hidden="true"
+    />
+  );
 }
 
 export default function AcademyV2Page() {
-  const zoneRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const setZoneRef = (i: number) => (el: HTMLDivElement | null) => {
-    if (zoneRefs.current) zoneRefs.current[i] = el;
-  };
+  const markerRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  useScrollBg(zoneRefs);
+  useScrollBg(markerRefs);
 
   return (
     <main className="font-sans w-full">
       <Navbar />
 
-      {/* Zone 0: Hero (dark) */}
-      <div ref={setZoneRef(0)} data-bg="dark">
-        <HeroSection />
-      </div>
+      {/* Hero (starts dark — body default) */}
+      <HeroSection />
 
-      {/* Zone 1: Academy band (white) */}
-      <div ref={setZoneRef(1)} data-bg="light">
-        <AcademyBand />
-      </div>
+      {/* Marker 0: hero→white — triggers at top of AcademyBand */}
+      <ScrollMarker index={0} to="light" refs={markerRefs} />
 
-      {/* Zone 2: Claim + Statement + Proof (dark) */}
-      <div ref={setZoneRef(2)} data-bg="dark">
-        <ClaimSection />
-        <StatementSection />
-        <ProofSection />
-      </div>
+      {/* White zone: AcademyBand + Claim (claim has own dark bg, page stays white) */}
+      <AcademyBand />
+      <ClaimSection />
 
-      {/* Zone 3: Programs grid (white) */}
-      <div ref={setZoneRef(3)} data-bg="light">
-        <PerfilesSection />
-      </div>
+      {/* Statement section — enters while page is still white */}
+      <StatementSection markerSlot={
+        /* Marker 1: white→dark — placed AFTER the eyebrow "NUESTRA MISIÓN",
+           triggers when "FORMAMOS jugadores" starts being visible */
+        <ScrollMarker index={1} to="dark" refs={markerRefs} />
+      } />
 
-      {/* Zone 4: Sedes (dark) */}
-      <div ref={setZoneRef(4)} data-bg="dark">
-        <SedesSection />
-      </div>
+      <ProofSection />
 
-      {/* Zone 5: Método + Stats + CTA (dark — same as prev, no transition) */}
-      <div ref={setZoneRef(5)} data-bg="dark">
-        <MetodoSection />
-        <StatsSection />
-        <CtaFinalSection />
-      </div>
+      {/* Programs section — enters while page is still dark */}
+      <PerfilesSection markerSlot={
+        /* Marker 2: dark→white — placed AFTER the heading "ENCUENTRA TU PROGRAMA",
+           triggers when "01 JUNIORS" starts being visible */
+        <ScrollMarker index={2} to="light" refs={markerRefs} />
+      } />
+
+      {/* Marker 3: white→dark — triggers entering Sedes */}
+      <ScrollMarker index={3} to="dark" refs={markerRefs} />
+      <SedesSection />
+
+      <MetodoSection />
+      <StatsSection />
+      <CtaFinalSection />
 
       <Footer />
     </main>
