@@ -69,27 +69,30 @@
   color: transparent;
 }
 
-/* J3 Ball — legs hidden by default, shown on hover; color shift */
+/* J3 Ball — legs hidden by default; sequential reveal */
 .j3-ball-legs {
   opacity: 0;
   transform: translateY(-8px);
-  transition: all .5s cubic-bezier(.16, 1, .3, 1);
+  transition: all .45s cubic-bezier(.22, 1, .36, 1);
 }
 .j3-ball-wrap svg {
   filter: brightness(1) saturate(1);
-  transition: filter .5s ease;
+  transition: filter .45s ease;
 }
-/* Desktop hover only — on touch devices the JS handles the sequence */
+/* Desktop hover — sequential: line first, then logo */
 @media (hover: hover) {
+  .group\/cta:hover .j3-cta-line {
+    scale: 1 1 !important;
+    transition: scale .6s cubic-bezier(.22,1,.36,1) !important;
+  }
   .group\/cta:hover .j3-ball-legs {
     opacity: 1;
     transform: translateY(0);
+    transition-delay: .54s;
   }
   .group\/cta:hover .j3-ball-wrap svg {
     filter: brightness(1.6) saturate(0.2);
-  }
-  .group\/cta:hover .j3-cta-line {
-    scale: 1 1 !important;
+    transition-delay: .54s;
   }
 }
 
