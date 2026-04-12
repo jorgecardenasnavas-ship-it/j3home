@@ -610,47 +610,22 @@ function AcademyBand() {
     <section className="bg-white py-[48px] max-[960px]:py-[36px] overflow-hidden">
       <div
         ref={ref}
-        className="flex flex-col items-center gap-1"
+        className="flex flex-col items-center gap-4"
         style={{
           opacity: visible ? 1 : 0,
           transform: visible ? "none" : "translateY(16px)",
           transition: "all 1s cubic-bezier(.16,1,.3,1)",
         }}
       >
-        {/* Logo horizontal: ball + J3PÁDEL */}
-        <div className="flex items-center gap-2.5">
-          {/* Ball icon — gold on white, no legs */}
-          <svg viewBox="0 -5 155 155" className="w-[28px] h-[28px] max-[960px]:w-[24px] max-[960px]:h-[24px]" aria-hidden="true">
-            <defs>
-              <linearGradient id="j3bw" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stopColor="#dcaf64" />
-                <stop offset=".29" stopColor="#fff1b4" />
-                <stop offset=".59" stopColor="#eede80" />
-                <stop offset="1" stopColor="#dcaf64" />
-              </linearGradient>
-            </defs>
-            <path fill="url(#j3bw)" d="M74.13,0c-99.18,1.72-98.49,148.91-.03,150.44,99.53-2.75,98.92-148.04.03-150.44ZM131.88,86.77c-14.47,68.36-115.43,59.57-116.69-11.57C17.88-9.88,145.93,2.79,131.88,86.77Z" />
-            <path fill="url(#j3bw)" d="M68.83,30.97c-19.79,1.66-37.93,20.27-39.09,40.06,25.38-.94,49.5,23.19,48.56,48.56,19.79-1.16,38.4-19.3,40.06-39.09-12.75.21-25.57-4.53-35.29-14.25-9.71-9.71-14.45-22.54-14.25-35.29Z" />
-            <path fill="url(#j3bw)" d="M77.28,30.77c-1.47,21.83,19.47,42.76,41.29,41.29-.69-20.97-20.33-40.6-41.29-41.29Z" />
-            <path fill="url(#j3bw)" d="M29.75,79.48c1.21,20.15,19.96,38.91,40.12,40.11.75-20.96-19.16-40.87-40.12-40.11Z" />
-            <path fill="#fff" d="M15.19,75.2c1.26,71.14,102.22,79.93,116.69,11.57C145.93,2.79,17.88-9.88,15.19,75.2ZM69.87,119.59c-20.15-1.21-38.9-19.97-40.12-40.11,20.96-.76,40.87,19.15,40.12,40.11ZM78.31,119.59c.93-25.37-23.19-49.5-48.56-48.56,1.16-19.79,19.29-38.4,39.09-40.06-.21,12.75,4.53,25.58,14.25,35.29,9.71,9.71,22.53,14.45,35.29,14.25-1.65,19.79-20.27,37.93-40.06,39.09ZM77.28,30.77c20.97.7,40.6,20.32,41.29,41.29-21.82,1.47-42.76-19.47-41.29-41.29Z" />
-            {/* Mini legs */}
-            <path fill="url(#j3bw)" d="M24.26,200.51h25.34l9.18-43.08c-8.22-1.53-16.18-4.32-23.59-8.23l-10.93,51.31Z" opacity="0.7" />
-            <path fill="url(#j3bw)" d="M70.55,158.77l-8.88,41.75h25.33l9.52-44.72c-7.26,2.02-14.8,3.09-22.42,3.09-1.18,0-2.37-.07-3.55-.12Z" opacity="0.7" />
-            <path fill="url(#j3bw)" d="M127.02,140.02c-5.36,4.38-11.23,8.04-17.44,10.95l-10.53,49.56,25.35-.02,15.69-73.91c-3.83,4.92-8.2,9.44-13.07,13.42Z" opacity="0.7" />
-          </svg>
-          <span className="font-bold text-[22px] max-[960px]:text-[18px] uppercase tracking-[-0.5px] text-black leading-none">
-            J3PÁDEL
-          </span>
-        </div>
-
-        {/* · Academy · */}
-        <span className="font-[var(--font-serif)] italic text-[18px] max-[960px]:text-[15px] tracking-[1px] leading-none" style={{ color: "#c9a04e" }}>
-          · Academy ·
-        </span>
+        {/* Official J3Pádel Academy logo — horizontal SVG */}
+        <img
+          src="/images/j3padel-academy-horizontal.svg"
+          alt="J3Pádel Academy"
+          className="w-[280px] max-[960px]:w-[220px] h-auto"
+        />
 
         {/* Desde 2004 · Málaga */}
-        <span className="text-[10px] font-medium tracking-[4px] uppercase text-black/40 mt-3">
+        <span className="text-[10px] font-medium tracking-[4px] uppercase text-black/40">
           Desde 2004 · Málaga
         </span>
       </div>
