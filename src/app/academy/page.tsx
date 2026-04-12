@@ -607,11 +607,7 @@ function AcademyBand() {
   const { ref, visible } = useReveal(0.2);
 
   return (
-    <section className="overflow-hidden">
-      {/* Porsche-style gradient: black → white */}
-      <div className="h-[100px] max-[960px]:h-[70px]" style={{ background: "linear-gradient(to bottom, #000, #fff)" }} />
-
-      <div className="bg-white py-[64px] max-[960px]:py-[48px]">
+    <section className="bg-white py-[64px] max-[960px]:py-[48px] overflow-hidden">
       <div
         ref={ref}
         className="flex flex-col items-center gap-5"
@@ -657,10 +653,6 @@ function AcademyBand() {
           }}
         />
       </div>
-      </div>
-
-      {/* Porsche-style gradient: white → black */}
-      <div className="h-[100px] max-[960px]:h-[70px]" style={{ background: "linear-gradient(to bottom, #fff, #000)" }} />
     </section>
   );
 }
@@ -777,16 +769,24 @@ function ClaimSection() {
 
 function TransitionBand() {
   return (
-    <div>
-      {/* Porsche-style gradient: black → white */}
-      <div className="h-[100px] max-[960px]:h-[70px]" style={{ background: "linear-gradient(to bottom, #000, #fff)" }} />
-      {/* White breather with subtle line */}
-      <div className="bg-white py-[24px] max-[960px]:py-[18px] flex justify-center">
-        <div className="w-[60px] h-px bg-gradient-to-r from-transparent via-black/15 to-transparent" />
-      </div>
-      {/* Porsche-style gradient: white → black */}
-      <div className="h-[100px] max-[960px]:h-[70px]" style={{ background: "linear-gradient(to bottom, #fff, #000)" }} />
+    <div className="bg-white py-[24px] max-[960px]:py-[18px] flex justify-center">
+      <div className="w-[60px] h-px bg-gradient-to-r from-transparent via-black/15 to-transparent" />
     </div>
+  );
+}
+
+/** Porsche-style background gradient transition — fast through midtones */
+function PorscheGradient({ from, to }: { from: string; to: string }) {
+  const isToBlack = to === "#000";
+  return (
+    <div
+      className="h-[120px] max-[960px]:h-[80px]"
+      style={{
+        background: isToBlack
+          ? `linear-gradient(180deg, ${from} 0%, #e8e8e8 12%, #888 28%, #333 45%, #111 65%, ${to} 100%)`
+          : `linear-gradient(180deg, ${from} 0%, #111 35%, #333 55%, #888 72%, #e8e8e8 88%, ${to} 100%)`,
+      }}
+    />
   );
 }
 
@@ -1095,7 +1095,7 @@ function PerfilesSection() {
   const itReveal = useReveal(0.15);
 
   return (
-    <section id="programas" className="relative bg-[var(--bk)] py-[100px] max-[960px]:py-[72px] overflow-hidden">
+    <section id="programas" className="relative bg-white py-[100px] max-[960px]:py-[72px] overflow-hidden">
       {/* Section header */}
       <div
         ref={ref}
@@ -1110,15 +1110,15 @@ function PerfilesSection() {
           {t.academy.programs.eyebrow}
         </span>
         <h2 className="font-bold text-[clamp(32px,4vw,52px)] uppercase tracking-[-1px] leading-[1]">
-          <span className="text-[var(--wh)]">{t.academy.programs.headingPre}</span>
+          <span className="text-black">{t.academy.programs.headingPre}</span>
           <span className="j3-grad-text">{t.academy.programs.headingAccent}</span>
         </h2>
       </div>
 
-      {/* Block 1: Juniors — dark */}
-      <div className="bg-[var(--bk)] border-t border-white/[.07]">
+      {/* Block 1: Juniors */}
+      <div className="bg-white border-t border-black/[.07]">
         {/* Block label */}
-        <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b border-white/[.07]">
+        <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b border-black/[.07]">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] j3-grad-text tracking-[-1px]">01</span>
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.juniorsLabel}</span>
         </div>
@@ -1133,9 +1133,9 @@ function PerfilesSection() {
       </div>
 
       {/* Block 2: Adultos */}
-      <div className="bg-[var(--bk)] border-t border-white/[.07]">
+      <div className="bg-white border-t border-black/[.07]">
         {/* Block label */}
-        <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b border-white/[.07]">
+        <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b border-black/[.07]">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] j3-grad-text tracking-[-1px]">02</span>
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.adultosLabel}</span>
         </div>
@@ -1150,8 +1150,8 @@ function PerfilesSection() {
       </div>
 
       {/* Block 3: Intensive Training — hero-style standalone */}
-      <div className="bg-[var(--bk)] border-t border-white/[.07]">
-        <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b border-white/[.07]">
+      <div className="bg-white border-t border-black/[.07]">
+        <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b border-black/[.07]">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] j3-grad-text tracking-[-1px]">03</span>
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.intensiveLabel}</span>
         </div>
@@ -1568,23 +1568,25 @@ export default function AcademyV2Page() {
       {/* S1 — Hero Carousel */}
       <HeroSection />
 
-      {/* S1a — Academy logo band (white breather) */}
+      {/* ── WHITE BLOCK: Academy band ── */}
       <AcademyBand />
 
-      {/* S1b — Claim */}
+      {/* Porsche transition: white → black */}
+      <PorscheGradient from="#fff" to="#000" />
+
+      {/* ── DARK BLOCK: Claim + Statement + Proof ── */}
       <ClaimSection />
-
-      {/* S1c — White transition band */}
-      <TransitionBand />
-
-      {/* S2 — Statement */}
       <StatementSection />
-
-      {/* S3 — Proof */}
       <ProofSection />
 
-      {/* S4 — Perfiles */}
+      {/* Porsche transition: black → white */}
+      <PorscheGradient from="#000" to="#fff" />
+
+      {/* ── WHITE BLOCK: Programs grid ── */}
       <PerfilesSection />
+
+      {/* Porsche transition: white → black */}
+      <PorscheGradient from="#fff" to="#000" />
 
       {/* S5 — Sedes */}
       <SedesSection />
