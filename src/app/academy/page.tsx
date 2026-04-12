@@ -196,7 +196,7 @@ const HERO_SLIDES: {
   {
     key: "intensive",
     images: [
-      { src: "/images/academy/stage-group.jpeg", pos: "center 28%", mobilePos: "center 65%" },
+      { src: "/images/academy/stage-group.jpeg", pos: "center 28%", mobilePos: "55% 78%" },
     ],
     labelKey: "intensiveLabel" ,
     tagline: "Camps · Stages · A medida",
