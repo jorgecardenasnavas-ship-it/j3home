@@ -204,7 +204,7 @@ const HERO_SLIDES: {
   },
 ];
 
-const AUTO_ADVANCE_MS = 3500;
+const AUTO_ADVANCE_MS = 5000;
 
 function HeroSection() {
   const { t } = useI18n();
@@ -320,11 +320,31 @@ function HeroSection() {
     intensiveLabel: t.academy.programs.intensiveLabel,
   };
 
+  /* Keyboard navigation */
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowRight") goTo((active + 1) % HERO_SLIDES.length);
+    else if (e.key === "ArrowLeft") goTo((active - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
+  };
+
+  /* Reduced motion preference */
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
   return (
     <section
       className="relative h-screen min-h-[580px] overflow-hidden bg-black"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+      role="region"
+      aria-label="Hero carousel"
     >
       {/* ── Slides — crossfade stack ── */}
       {HERO_SLIDES.map((slide, i) => (
@@ -333,7 +353,7 @@ function HeroSection() {
           className="absolute inset-0 overflow-hidden"
           style={{
             opacity: active === i ? 1 : 0,
-            transition: "opacity 1.2s ease",
+            transition: prefersReducedMotion ? "opacity 0.01s" : "opacity 1.2s ease",
             zIndex: active === i ? 1 : 0,
           }}
         >
@@ -344,11 +364,11 @@ function HeroSection() {
             sizes="100vw"
             quality={90}
             priority={i === 0}
-            className="object-cover transition-transform duration-[7000ms] ease-out"
+            className={`object-cover ${prefersReducedMotion ? "" : "transition-transform duration-[7000ms] ease-out"}`}
             style={{
               opacity: 0.7,
               filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)",
-              transform: active === i ? "scale(1.08)" : "scale(1)",
+              transform: !prefersReducedMotion && active === i ? "scale(1.08)" : "scale(1)",
               objectPosition: (isMobile && slide.images[imgIndex[i]].mobilePos) || slide.images[imgIndex[i]].pos,
             }}
           />
@@ -381,11 +401,17 @@ function HeroSection() {
                 className="absolute inset-0 flex flex-col justify-end items-center"
                 style={{
                   opacity: active === i ? 1 : 0,
-                  transform: active === i ? "translateY(0) scale(1)" : "translateY(24px) scale(0.97)",
-                  filter: active === i ? "blur(0px)" : "blur(6px)",
-                  transition: active === i
-                    ? "opacity .8s ease, transform .9s cubic-bezier(.16,1,.3,1), filter .8s ease"
-                    : "opacity .5s ease, transform .5s ease, filter .5s ease",
+                  transform: prefersReducedMotion
+                    ? undefined
+                    : active === i ? "translateY(0) scale(1)" : "translateY(24px) scale(0.97)",
+                  filter: prefersReducedMotion
+                    ? undefined
+                    : active === i ? "blur(0px)" : "blur(6px)",
+                  transition: prefersReducedMotion
+                    ? "opacity 0.01s"
+                    : active === i
+                      ? "opacity .8s ease, transform .9s cubic-bezier(.16,1,.3,1), filter .8s ease"
+                      : "opacity .5s ease, transform .5s ease, filter .5s ease",
                   pointerEvents: active === i ? "auto" : "none",
                   visibility: active === i ? "visible" : "hidden",
                 }}
