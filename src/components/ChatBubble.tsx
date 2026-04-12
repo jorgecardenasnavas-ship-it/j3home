@@ -20,7 +20,7 @@ export function ChatBubble() {
         const overlap = viewH - rect.top;
         setBottomOffset(overlap + 16); // 16px gap above footer
       } else {
-        setBottomOffset(window.innerWidth < 961 ? 56 : 24);
+        setBottomOffset(window.innerWidth < 961 ? 80 : 24);
       }
     }
 
@@ -43,7 +43,7 @@ export function ChatBubble() {
       aria-label="Iniciar conversación"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="fixed right-6 z-100 flex items-center gap-3 no-underline group cursor-pointer"
+      className="fixed right-4 max-[960px]:right-3 z-100 flex items-center gap-3 no-underline group cursor-pointer"
       style={{
         bottom: `${bottomOffset}px`,
         transition: "bottom .25s ease-out",
@@ -51,7 +51,7 @@ export function ChatBubble() {
     >
       {/* Tooltip label */}
       <span
-        className={`text-[11px] font-medium tracking-[1px] uppercase text-[var(--wh)] bg-black/80 backdrop-blur-[12px] border border-white/[.08] rounded-full py-2 px-4 shadow-[0_4px_20px_rgba(0,0,0,.4)] transition-all duration-300 whitespace-nowrap ${
+        className={`text-[11px] font-medium tracking-[1px] uppercase text-[var(--wh)] bg-black/80 backdrop-blur-[12px] border border-white/[.08] rounded-full py-2 px-4 shadow-[0_4px_20px_rgba(0,0,0,.4)] transition-all duration-300 whitespace-nowrap max-[960px]:hidden ${
           hovered
             ? "opacity-100 translate-x-0"
             : "opacity-0 translate-x-2 pointer-events-none"
@@ -62,7 +62,7 @@ export function ChatBubble() {
 
       {/* Button */}
       <div
-        className="relative w-[52px] h-[52px] rounded-full flex items-center justify-center shadow-[0_4px_24px_rgba(220,175,100,.3)] transition-[transform,box-shadow] duration-300 ease-[var(--ease-out)] group-hover:shadow-[0_4px_32px_rgba(220,175,100,.45)] group-hover:scale-105 group-active:scale-95"
+        className="relative w-[52px] h-[52px] max-[960px]:w-[44px] max-[960px]:h-[44px] rounded-full flex items-center justify-center shadow-[0_4px_24px_rgba(220,175,100,.3)] transition-[transform,box-shadow] duration-300 ease-[var(--ease-out)] group-hover:shadow-[0_4px_32px_rgba(220,175,100,.45)] group-hover:scale-105 group-active:scale-95"
         style={{ background: "var(--j3-grad)" }}
       >
         {/* Chat icon */}
