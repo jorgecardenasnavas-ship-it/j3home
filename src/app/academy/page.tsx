@@ -613,7 +613,11 @@ function ClaimSection() {
   ];
 
   return (
-    <section className="relative overflow-hidden border-b border-white/[.06]">
+    <section className="relative overflow-hidden">
+      {/* Top separator — gold accent line */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[var(--g1)]/40 to-transparent z-20" />
+      <div className="absolute top-[1px] left-0 w-full h-[6px] bg-gradient-to-b from-[var(--g1)]/[.06] to-transparent z-20" />
+
       {/* Video background */}
       <video
         className="absolute inset-0 w-full h-full object-cover"
@@ -622,10 +626,10 @@ function ClaimSection() {
         loop
         muted
         playsInline
-        style={{ opacity: 0.3, filter: "contrast(1.08) saturate(0.7) brightness(0.9) sepia(0.15)" }}
+        style={{ opacity: 0.45, filter: "contrast(1.08) saturate(0.7) brightness(1.0) sepia(0.15)" }}
       />
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
+      {/* Overlay — lighter to show more video */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/50" />
 
       <div
         ref={ref}
