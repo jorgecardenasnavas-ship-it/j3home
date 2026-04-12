@@ -173,10 +173,10 @@ const HERO_SLIDES: {
     key: "juniors",
     images: [
       { src: "/images/academy/kinder.jpeg", pos: "center", mobilePos: "70% center" },
-      { src: "/images/academy/kids.jpeg", pos: "center" },
-      { src: "/images/academy/gemita.jpeg", pos: "center 25%" },
-      { src: "/images/academy/nextgen.jpeg", pos: "center" },
-      { src: "/images/academy/nextgen-pro.jpeg", pos: "center" },
+      { src: "/images/academy/kids.jpeg", pos: "center", mobilePos: "center 35%" },
+      { src: "/images/academy/gemita.jpeg", pos: "center 25%", mobilePos: "center 30%" },
+      { src: "/images/academy/nextgen.jpeg", pos: "center", mobilePos: "center 30%" },
+      { src: "/images/academy/nextgen-pro.jpeg", pos: "center", mobilePos: "center 25%" },
     ],
     labelKey: "juniorsLabel" ,
     tagline: "4 – 16+ años",
@@ -185,9 +185,9 @@ const HERO_SLIDES: {
   {
     key: "adultos",
     images: [
-      { src: "/images/academy/amateur.jpeg", pos: "center 5%" },
-      { src: "/images/academy/pro.jpeg", pos: "center" },
-      { src: "/images/academy/elena.jpeg", pos: "center 40%" },
+      { src: "/images/academy/amateur.jpeg", pos: "center 5%", mobilePos: "center 20%" },
+      { src: "/images/academy/pro.jpeg", pos: "center", mobilePos: "center 25%" },
+      { src: "/images/academy/elena.jpeg", pos: "center 40%", mobilePos: "center 35%" },
     ],
     labelKey: "adultosLabel" ,
     tagline: "Amateur · Pro",
