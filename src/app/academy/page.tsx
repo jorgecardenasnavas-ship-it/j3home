@@ -79,7 +79,7 @@ function WaIcon({ size = 14, className = "" }: { size?: number; className?: stri
    ANIMATED COUNTER
    ═══════════════════════════════════════════════════════ */
 
-function Counter({ val, prefix, suffix, label }: { val: number; prefix?: string; suffix?: string; label?: string }) {
+function Counter({ val, prefix, suffix, label, className }: { val: number; prefix?: string; suffix?: string; label?: string; className?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   const [count, setCount] = useState(0);
   const [started, setStarted] = useState(false);
@@ -109,7 +109,7 @@ function Counter({ val, prefix, suffix, label }: { val: number; prefix?: string;
   }, [started, val, label]);
 
   return (
-    <span ref={ref} className="font-bold text-[clamp(36px,6vw,72px)] j3-grad-text leading-[1] block">
+    <span ref={ref} className={className || "font-bold text-[clamp(36px,6vw,72px)] j3-grad-text leading-[1] block"}>
       {label || `${prefix || ""}${count}${suffix || ""}`}
     </span>
   );
@@ -613,8 +613,8 @@ function AcademyBand() {
         className="flex flex-col items-center gap-4"
         style={{
           opacity: visible ? 1 : 0,
-          transform: visible ? "none" : "translateY(16px)",
-          transition: "all 1s cubic-bezier(.16,1,.3,1)",
+          transform: visible ? "none" : "translateY(16px) scale(0.97)",
+          transition: "all 1.2s cubic-bezier(.16,1,.3,1)",
         }}
       >
         {/* Official J3Pádel Academy logo — horizontal SVG */}
@@ -628,6 +628,15 @@ function AcademyBand() {
         <span className="text-[10px] font-medium tracking-[4px] uppercase text-black/40">
           Desde 2004 · Málaga
         </span>
+
+        {/* Gold closing line */}
+        <div
+          className="h-px bg-gradient-to-r from-transparent via-[var(--g1)]/30 to-transparent mt-1"
+          style={{
+            width: visible ? "80px" : "0px",
+            transition: "width 1s cubic-bezier(.16,1,.3,1) 0.4s",
+          }}
+        />
       </div>
     </section>
   );
@@ -639,11 +648,27 @@ function AcademyBand() {
 
 function ClaimSection() {
   const { ref, visible } = useReveal(0.1);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-  const stats = [
-    { value: "20+", label: "años" },
-    { value: "6", label: "jugadores en circuito" },
-    { value: "2", label: "sedes" },
+  /* Parallax — subtle scroll-based offset on video */
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    function onScroll() {
+      const rect = video.parentElement?.getBoundingClientRect();
+      if (!rect) return;
+      const progress = 1 - rect.bottom / (window.innerHeight + rect.height);
+      video.style.transform = `scale(1.15) translateY(${progress * -30}px)`;
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const stats: { num: number; suffix: string; label: string }[] = [
+    { num: 20, suffix: "+", label: "años" },
+    { num: 6, suffix: "", label: "jugadores en circuito" },
+    { num: 2, suffix: "", label: "sedes" },
   ];
 
   return (
@@ -652,15 +677,16 @@ function ClaimSection() {
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[var(--g1)]/40 to-transparent z-20" />
       <div className="absolute top-[1px] left-0 w-full h-[6px] bg-gradient-to-b from-[var(--g1)]/[.06] to-transparent z-20" />
 
-      {/* Video background */}
+      {/* Video background with parallax */}
       <video
-        className="absolute inset-0 w-full h-full object-cover"
+        ref={videoRef}
+        className="absolute inset-0 w-full h-full object-cover will-change-transform"
         src="/videos/play_1080.webm"
         autoPlay
         loop
         muted
         playsInline
-        style={{ opacity: 0.45, filter: "contrast(1.08) saturate(0.7) brightness(1.0) sepia(0.15)" }}
+        style={{ opacity: 0.45, filter: "contrast(1.08) saturate(0.7) brightness(1.0) sepia(0.15)", transform: "scale(1.15)" }}
       />
       {/* Overlay — lighter to show more video */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/50" />
@@ -677,10 +703,10 @@ function ClaimSection() {
             transition: "all 1.2s cubic-bezier(.16,1,.3,1)",
           }}
         >
-          {/* Claim */}
-          <h2 className="font-bold text-[clamp(36px,6vw,72px)] uppercase tracking-[-2px] leading-[1.05] text-[var(--wh)]">
+          {/* Claim — extra padding to prevent italic clipping */}
+          <h2 className="font-bold text-[clamp(36px,6vw,72px)] uppercase tracking-[-2px] leading-[1.05] text-[var(--wh)] px-2">
             La academia de{" "}
-            <span className="j3-grad-text font-[var(--font-serif)] italic normal-case tracking-[-0.5px]">referencia</span>
+            <span className="j3-grad-text font-[var(--font-serif)] italic normal-case tracking-[-0.5px] inline-block pr-[0.05em]">referencia</span>
             <br />
             en la Costa del Sol.
           </h2>
@@ -694,7 +720,7 @@ function ClaimSection() {
             }}
           />
 
-          {/* Stats */}
+          {/* Animated stats */}
           <div className="flex items-center justify-center gap-12 max-[640px]:gap-6 flex-wrap">
             {stats.map((stat, i) => (
               <div
@@ -706,9 +732,7 @@ function ClaimSection() {
                   transition: `all 0.8s cubic-bezier(.16,1,.3,1) ${0.4 + i * 0.15}s`,
                 }}
               >
-                <span className="block j3-grad-text font-bold text-[clamp(28px,4vw,48px)] tracking-[-1px] leading-[1]">
-                  {stat.value}
-                </span>
+                <Counter val={stat.num} suffix={stat.suffix} className="block j3-grad-text font-bold text-[clamp(28px,4vw,48px)] tracking-[-1px] leading-[1]" />
                 <span className="block text-[11px] font-medium tracking-[3px] uppercase text-white/50 mt-1">
                   {stat.label}
                 </span>
