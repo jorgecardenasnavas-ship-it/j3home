@@ -617,12 +617,18 @@ function AcademyBand() {
           transition: "all 1.2s cubic-bezier(.16,1,.3,1)",
         }}
       >
-        {/* Official J3Pádel Academy logo — horizontal SVG */}
-        <img
-          src="/images/j3padel-academy-horizontal.svg"
-          alt="J3Pádel Academy"
-          className="w-[300px] max-[960px]:w-[240px] h-auto"
-        />
+        {/* J3Pádel logo (clean vector) + ACADEMY text */}
+        <div className="flex flex-col items-center gap-1">
+          <img
+            src="/images/logo-gold.svg"
+            alt="J3Pádel"
+            className="w-[280px] max-[960px]:w-[220px] h-auto"
+            draggable={false}
+          />
+          <span className="text-[clamp(18px,3vw,26px)] font-bold tracking-[0.35em] uppercase text-black/70">
+            Academy
+          </span>
+        </div>
 
         {/* Gold decorative line above subtitle */}
         <div
