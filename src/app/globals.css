@@ -88,6 +88,26 @@ html[data-theme="light"] .theme-text-muted { color: var(--gy); }
 html[data-theme="dark"] .theme-border { border-color: rgba(255,255,255,0.07); }
 html[data-theme="light"] .theme-border { border-color: rgba(0,0,0,0.07); }
 
+/* ─── Sedes section: dark bg by default, white when theme=light ─── */
+.sedes-section {
+  background: var(--bk2);
+  transition: background-color 1.4s cubic-bezier(.16,1,.3,1);
+}
+html[data-theme="light"] .sedes-section {
+  background: #fff;
+}
+
+/* sedes-heading: white on dark, black on light */
+.sedes-heading {
+  color: var(--wh);
+  -webkit-text-fill-color: var(--wh);
+  transition: color 1.4s cubic-bezier(.16,1,.3,1), -webkit-text-fill-color 1.4s cubic-bezier(.16,1,.3,1);
+}
+html[data-theme="light"] .sedes-heading {
+  color: #000;
+  -webkit-text-fill-color: #000;
+}
+
 /* ─── Statement section: dark bg by default, white when theme=light ─── */
 .stmt-section {
   background: var(--bk);

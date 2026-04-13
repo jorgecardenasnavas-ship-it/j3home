@@ -1376,8 +1376,7 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const { ref, visible } = useReveal(0.15);
 
   return (
-    <section className="relative bg-[var(--bk2)] overflow-hidden border-b border-white/[.07]">
-      {markerSlot}
+    <section className="sedes-section relative overflow-hidden border-b border-white/[.07]">
       {/* Section header */}
       <div
         ref={ref}
@@ -1392,10 +1391,14 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
           {t.academy.headquarters.eyebrow}
         </span>
         <h2 className="font-bold text-[clamp(32px,4vw,52px)] uppercase tracking-[-1px] leading-[1]">
-          <span className="text-[var(--wh)]">{t.academy.headquarters.headingPre}</span>
+          <span className="sedes-heading">{t.academy.headquarters.headingPre}</span>
           <span className="j3-grad-text">{t.academy.headquarters.headingAccent}</span>
         </h2>
       </div>
+
+      {/* Dark marker — placed after header so section enters white,
+           then transitions to dark as user scrolls into the cards */}
+      {markerSlot}
 
       {/* Sede 1 */}
       <SedeCard
