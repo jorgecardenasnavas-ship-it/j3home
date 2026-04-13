@@ -18,6 +18,9 @@ function useReveal(threshold = 0.15) {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    // If we already scrolled past this element (e.g. page reload mid-page), show immediately
+    const rect = el.getBoundingClientRect();
+    if (rect.bottom < window.innerHeight) { setVisible(true); return; }
     const io = new IntersectionObserver(
       ([e]) => { if (e.isIntersecting) { setVisible(true); io.disconnect(); } },
       { threshold }
@@ -36,8 +39,12 @@ function useStaggerReveal(count: number, threshold = 0.2) {
 
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
+    const alreadyVisible: number[] = [];
     itemRefs.current.forEach((el, i) => {
       if (!el) return;
+      // If already scrolled past, reveal immediately
+      const rect = el.getBoundingClientRect();
+      if (rect.bottom < window.innerHeight) { alreadyVisible.push(i); return; }
       const io = new IntersectionObserver(
         ([e]) => {
           if (e.isIntersecting) {
@@ -50,6 +57,9 @@ function useStaggerReveal(count: number, threshold = 0.2) {
       io.observe(el);
       observers.push(io);
     });
+    if (alreadyVisible.length > 0) {
+      setVisibleItems(prev => { const n = [...prev]; alreadyVisible.forEach(i => { n[i] = true; }); return n; });
+    }
     return () => observers.forEach(io => io.disconnect());
   }, [count, threshold]);
 
@@ -87,6 +97,9 @@ function Counter({ val, prefix, suffix, label, className }: { val: number; prefi
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    // If already scrolled past, start counting immediately
+    const rect = el.getBoundingClientRect();
+    if (rect.bottom < window.innerHeight) { setStarted(true); return; }
     const io = new IntersectionObserver(([e]) => {
       if (e.isIntersecting) { setStarted(true); io.disconnect(); }
     }, { threshold: 0.5 });
