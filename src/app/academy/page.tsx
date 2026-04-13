@@ -1612,8 +1612,6 @@ export default function AcademyV2Page() {
         <ScrollMarker index={1} to="dark" refs={markerRefs} />
       } />
 
-      <ProofSection />
-
       {/* Programs section — enters while page is still dark */}
       <PerfilesSection markerSlot={
         /* Marker 2: dark→white — placed AFTER the heading "ENCUENTRA TU PROGRAMA",
