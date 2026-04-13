@@ -11,6 +11,83 @@ import { useI18n } from "@/i18n/context";
    HOOKS
    ═══════════════════════════════════════════════════════ */
 
+/** Drag-to-scroll + active slide tracking for horizontal carousels */
+function useDragScroll(totalSlides: number = 0) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [progress, setProgress] = useState(0);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragState = useRef({ startX: 0, scrollLeft: 0, active: false, moved: false });
+
+  /* Track scroll position → progress 0-1 + active slide index */
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      const max = el.scrollWidth - el.clientWidth;
+      const p = max > 0 ? el.scrollLeft / max : 0;
+      setProgress(p);
+      if (totalSlides > 0) {
+        setActiveSlide(Math.round(p * (totalSlides - 1)));
+      }
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => el.removeEventListener("scroll", onScroll);
+  }, [totalSlides]);
+
+  /* Mouse drag (desktop) */
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const onDown = (e: MouseEvent) => {
+      dragState.current = { startX: e.pageX - el.offsetLeft, scrollLeft: el.scrollLeft, active: true, moved: false };
+      setIsDragging(true);
+      el.style.cursor = "grabbing";
+      el.style.userSelect = "none";
+    };
+    const onMove = (e: MouseEvent) => {
+      if (!dragState.current.active) return;
+      e.preventDefault();
+      const x = e.pageX - el.offsetLeft;
+      const walk = (x - dragState.current.startX) * 1.5;
+      if (Math.abs(walk) > 3) dragState.current.moved = true;
+      el.scrollLeft = dragState.current.scrollLeft - walk;
+    };
+    const onUp = () => {
+      if (!dragState.current.active) return;
+      dragState.current.active = false;
+      setIsDragging(false);
+      el.style.cursor = "grab";
+      el.style.userSelect = "";
+      /* Block click if we dragged */
+      if (dragState.current.moved) {
+        const block = (ev: Event) => { ev.preventDefault(); ev.stopPropagation(); };
+        el.addEventListener("click", block, { capture: true, once: true });
+      }
+    };
+    el.addEventListener("mousedown", onDown);
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+    el.style.cursor = "grab";
+    return () => {
+      el.removeEventListener("mousedown", onDown);
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+    };
+  }, []);
+
+  /* Navigate to a specific slide */
+  const goTo = (index: number) => {
+    const el = scrollRef.current;
+    if (!el || !el.children[index]) return;
+    const child = el.children[index] as HTMLElement;
+    el.scrollTo({ left: child.offsetLeft - 16, behavior: "smooth" });
+  };
+
+  return { scrollRef, progress, activeSlide, isDragging, goTo };
+}
+
 /** Scroll-triggered reveal — fires once */
 function useReveal(threshold = 0.15) {
   const ref = useRef<HTMLDivElement>(null);
@@ -1137,22 +1214,73 @@ function ProgramTile({
 }
 
 /** Porsche-style flex row: 2 cards that expand/shrink on hover */
-function PorscheRow({ children, hoveredIdx }: { children: React.ReactNode[]; hoveredIdx: number | null }) {
+/** Porsche-style scroll progress bar */
+/** Porsche-style pill dots — active dot stretches to pill, others stay circular */
+function PorscheDots({ total, active, onDotClick }: { total: number; active: number; onDotClick: (i: number) => void }) {
   return (
-    <div className="flex gap-[clamp(16px,1.25vw+12px,36px)] max-[960px]:flex-col">
-      {children.map((child, i) => (
-        <div
+    <div className="flex items-center justify-center gap-[6px] mt-6">
+      {Array.from({ length: total }).map((_, i) => (
+        <button
           key={i}
+          onClick={() => onDotClick(i)}
+          className="relative rounded-full overflow-hidden"
           style={{
-            flex: hoveredIdx === null ? "1 1 50%" : hoveredIdx === i ? "1 1 55%" : "1 1 45%",
-            height: "clamp(320px, calc(7vh + 30vw), 540px)",
-            transition: "flex 0.6s cubic-bezier(0, 0, 0.2, 1)",
+            width: active === i ? "32px" : "10px",
+            height: "10px",
+            background: "rgba(215,215,218,0.25)",
+            transition: "width 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)",
+            cursor: "pointer",
+            border: "none",
+            padding: 0,
           }}
-          className="max-[960px]:!flex-none max-[960px]:!h-[360px]"
+          aria-label={`Slide ${i + 1}`}
         >
-          {child}
-        </div>
+          {active === i && (
+            <div
+              className="absolute inset-0 rounded-full"
+              style={{ background: "var(--j3-grad)" }}
+            />
+          )}
+        </button>
       ))}
+    </div>
+  );
+}
+
+/** Horizontal scroll carousel with drag, snap, and Porsche-style dots */
+function ScrollCarousel({
+  children,
+  cardWidth = "clamp(280px, 38vw, 520px)",
+  cardHeight = "clamp(320px, calc(7vh + 30vw), 540px)",
+}: {
+  children: React.ReactNode[];
+  cardWidth?: string;
+  cardHeight?: string;
+}) {
+  const { scrollRef, activeSlide, goTo } = useDragScroll(children.length);
+
+  return (
+    <div>
+      <div
+        ref={scrollRef}
+        className="flex gap-[18px] overflow-x-auto snap-x snap-mandatory scrollbar-hide -mx-4 px-4 max-[960px]:-mx-3 max-[960px]:px-3"
+        style={{ cursor: "grab" }}
+      >
+        {children.map((child, i) => (
+          <div
+            key={i}
+            className="snap-start shrink-0"
+            style={{ width: cardWidth, height: cardHeight }}
+          >
+            {child}
+          </div>
+        ))}
+        {/* End spacer so last card can snap flush */}
+        <div className="shrink-0 w-1" aria-hidden />
+      </div>
+      <div className="px-4 max-[960px]:px-3">
+        <PorscheDots total={children.length} active={activeSlide} onDotClick={goTo} />
+      </div>
     </div>
   );
 }
@@ -1161,10 +1289,9 @@ function PerfilesSection() {
   const { t } = useI18n();
   const { ref, visible } = useReveal(0.1);
 
-  /* Hover state per row: juniors row 0 (cards 0-1), juniors row 1 (cards 2-3), adultos row 0 (cards 0-1) */
-  const [jRow0Hover, setJRow0Hover] = useState<number | null>(null);
-  const [jRow1Hover, setJRow1Hover] = useState<number | null>(null);
-  const [aRow0Hover, setARow0Hover] = useState<number | null>(null);
+  /* Hover state per card in each carousel */
+  const [jHover, setJHover] = useState<number | null>(null);
+  const [aHover, setAHover] = useState<number | null>(null);
 
   /* Juniors cards — visual data merged with i18n strings */
   const juniorsImages = [
@@ -1180,7 +1307,7 @@ function PerfilesSection() {
     image: juniorsImages[i],
     cta: { label: c.ctaLabel, href: waLink(c.waMsg) },
   }));
-  const { itemRefs: jRefs, visibleItems: jVis } = useStaggerReveal(2, 0.15); // 2 rows
+  const jReveal = useReveal(0.15);
 
   /* Adultos cards */
   const adultosImages = ["/images/academy/amateur.jpeg", "/images/academy/stage-group.jpeg"];
@@ -1191,7 +1318,7 @@ function PerfilesSection() {
     image: adultosImages[i],
     cta: { label: c.ctaLabel, href: waLink(c.waMsg) },
   }));
-  const { itemRefs: aRefs, visibleItems: aVis } = useStaggerReveal(1, 0.15); // 1 row
+  const aReveal = useReveal(0.15);
 
   /* Empresas — standalone reveal */
   const empReveal = useReveal(0.15);
@@ -1217,87 +1344,77 @@ function PerfilesSection() {
         </h2>
       </div>
 
-      {/* Block 1: Juniors */}
+      {/* Block 1: Juniors — horizontal scroll carousel */}
       <div className="border-t theme-border">
         <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] theme-text tracking-[-1px]">01</span>
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.juniorsLabel}</span>
           <span className="ml-auto text-[16px] theme-text opacity-70 italic tracking-normal normal-case hidden min-[961px]:inline">De los 4 a los 16+. Cada etapa, un objetivo.</span>
         </div>
-        <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-10 flex flex-col gap-[clamp(16px,1.25vw+12px,36px)]">
-          {/* Row 1: cards 0-1 */}
-          <div ref={el => { jRefs.current[0] = el as HTMLDivElement | null; }}>
-            <PorscheRow hoveredIdx={jRow0Hover}>
-              {juniorsCards.slice(0, 2).map((c, i) => (
-                <ProgramTile
-                  key={i}
-                  tag={c.tag}
-                  title={c.title}
-                  sub={c.sub}
-                  cta={c.cta}
-                  image={c.image}
-                  href={c.cta.href}
-                  isHovered={jRow0Hover === i}
-                  onHover={() => setJRow0Hover(i)}
-                  onLeave={() => setJRow0Hover(null)}
-                  index={i}
-                  visible={jVis[0]}
-                />
-              ))}
-            </PorscheRow>
-          </div>
-          {/* Row 2: cards 2-3 */}
-          <div ref={el => { jRefs.current[1] = el as HTMLDivElement | null; }}>
-            <PorscheRow hoveredIdx={jRow1Hover}>
-              {juniorsCards.slice(2, 4).map((c, i) => (
-                <ProgramTile
-                  key={i}
-                  tag={c.tag}
-                  title={c.title}
-                  sub={c.sub}
-                  cta={c.cta}
-                  image={c.image}
-                  href={c.cta.href}
-                  isHovered={jRow1Hover === i}
-                  onHover={() => setJRow1Hover(i)}
-                  onLeave={() => setJRow1Hover(null)}
-                  index={i}
-                  visible={jVis[1]}
-                />
-              ))}
-            </PorscheRow>
-          </div>
+        <div
+          ref={jReveal.ref}
+          className="max-w-[1600px] mx-auto py-10"
+          style={{
+            opacity: jReveal.visible ? 1 : 0,
+            transform: jReveal.visible ? "none" : "translateY(24px)",
+            transition: "all 0.9s cubic-bezier(.16,1,.3,1)",
+          }}
+        >
+          <ScrollCarousel>
+            {juniorsCards.map((c, i) => (
+              <ProgramTile
+                key={i}
+                tag={c.tag}
+                title={c.title}
+                sub={c.sub}
+                cta={c.cta}
+                image={c.image}
+                href={c.cta.href}
+                isHovered={jHover === i}
+                onHover={() => setJHover(i)}
+                onLeave={() => setJHover(null)}
+                index={i}
+                visible={jReveal.visible}
+              />
+            ))}
+          </ScrollCarousel>
         </div>
       </div>
 
-      {/* Block 2: Adultos */}
+      {/* Block 2: Adultos — horizontal scroll carousel */}
       <div className="border-t theme-border">
         <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] theme-text tracking-[-1px]">02</span>
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.adultosLabel}</span>
           <span className="ml-auto text-[16px] theme-text opacity-70 italic tracking-normal normal-case hidden min-[961px]:inline">Cada jugador tiene su momento y evolución.</span>
         </div>
-        <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-10">
-          <div ref={el => { aRefs.current[0] = el as HTMLDivElement | null; }}>
-            <PorscheRow hoveredIdx={aRow0Hover}>
-              {adultosCards.map((c, i) => (
-                <ProgramTile
-                  key={i}
-                  tag={c.tag}
-                  title={c.title}
-                  sub={c.sub}
-                  cta={c.cta}
-                  image={c.image}
-                  href={c.cta.href}
-                  isHovered={aRow0Hover === i}
-                  onHover={() => setARow0Hover(i)}
-                  onLeave={() => setARow0Hover(null)}
-                  index={i}
-                  visible={aVis[0]}
-                />
-              ))}
-            </PorscheRow>
-          </div>
+        <div
+          ref={aReveal.ref}
+          className="max-w-[1600px] mx-auto py-10"
+          style={{
+            opacity: aReveal.visible ? 1 : 0,
+            transform: aReveal.visible ? "none" : "translateY(24px)",
+            transition: "all 0.9s cubic-bezier(.16,1,.3,1)",
+          }}
+        >
+          <ScrollCarousel>
+            {adultosCards.map((c, i) => (
+              <ProgramTile
+                key={i}
+                tag={c.tag}
+                title={c.title}
+                sub={c.sub}
+                cta={c.cta}
+                image={c.image}
+                href={c.cta.href}
+                isHovered={aHover === i}
+                onHover={() => setAHover(i)}
+                onLeave={() => setAHover(null)}
+                index={i}
+                visible={aReveal.visible}
+              />
+            ))}
+          </ScrollCarousel>
         </div>
       </div>
 
@@ -1563,14 +1680,14 @@ function ProgramasGridSection() {
     { name: "Intensive Training", tag: "Camps · Stages", img: "/images/academy/stage-group.jpeg", href: "#programas" },
   ];
 
-  const { itemRefs, visibleItems } = useStaggerReveal(programs.length, 0.15);
+  const { scrollRef: gridScrollRef, activeSlide: gridActive, goTo: gridGoTo } = useDragScroll(programs.length);
 
   return (
-    <section className="relative bg-[var(--bk)] py-[80px] max-[960px]:py-[60px] px-4 max-[960px]:px-3 border-b border-white/[.07]">
+    <section className="relative bg-[var(--bk)] py-[80px] max-[960px]:py-[60px] border-b border-white/[.07]">
       <div className="max-w-[1600px] mx-auto">
         <div
           ref={ref}
-          className="mb-10"
+          className="mb-10 px-4 max-[960px]:px-3"
           style={{
             opacity: visible ? 1 : 0,
             transform: visible ? "none" : "translateY(20px)",
@@ -1586,17 +1703,19 @@ function ProgramasGridSection() {
           </h2>
         </div>
 
-        <div className="flex gap-3 max-[960px]:overflow-x-auto max-[960px]:snap-x max-[960px]:snap-mandatory max-[960px]:-mx-3 max-[960px]:px-3 max-[960px]:scrollbar-hide">
+        <div
+          ref={gridScrollRef}
+          className="flex gap-[18px] overflow-x-auto snap-x snap-mandatory scrollbar-hide px-4 max-[960px]:px-3"
+          style={{ cursor: "grab" }}
+        >
           {programs.map((p, i) => (
             <a
               key={p.name}
               href={p.href}
-              ref={el => { itemRefs.current[i] = el as HTMLDivElement | null; }}
-              className="group relative border border-white/[.07] hover:border-[var(--g1)]/30 overflow-hidden min-h-[180px] max-[960px]:min-h-[160px] max-[960px]:min-w-[200px] max-[960px]:snap-start flex-1 max-[960px]:flex-none max-[960px]:w-[42vw] flex flex-col justify-end"
+              className="group relative border border-white/[.07] hover:border-[var(--g1)]/30 overflow-hidden snap-start shrink-0 flex flex-col justify-end rounded-xl"
               style={{
-                opacity: visibleItems[i] ? 1 : 0,
-                transform: visibleItems[i] ? "none" : "translateY(16px)",
-                transition: `all 0.6s cubic-bezier(.16,1,.3,1) ${i * 0.08}s`,
+                width: "clamp(160px, 15vw, 220px)",
+                height: "clamp(160px, 15vw, 220px)",
               }}
             >
               <img
@@ -1612,6 +1731,10 @@ function ProgramasGridSection() {
               </div>
             </a>
           ))}
+          <div className="shrink-0 w-1" aria-hidden />
+        </div>
+        <div className="px-4 max-[960px]:px-3">
+          <PorscheDots total={programs.length} active={gridActive} onDotClick={gridGoTo} />
         </div>
 
         {/* CTA block below grid */}
