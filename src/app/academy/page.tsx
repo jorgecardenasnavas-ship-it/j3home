@@ -689,7 +689,7 @@ function AcademyBand() {
    S1b — CLAIM (video background + stats — Ferrari style)
    ═══════════════════════════════════════════════════════ */
 
-function ClaimSection() {
+function ClaimSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const { t } = useI18n();
   const { ref, visible } = useReveal(0.1);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -714,6 +714,10 @@ function ClaimSection() {
 
   return (
     <section className="relative overflow-hidden bg-[var(--bk)]">
+
+      {/* Dark marker — placed at top of ClaimSection so theme=dark fires
+           while this section (with its own dark bg) is still covering the viewport */}
+      {markerSlot}
 
       {/* Video background with parallax */}
       <video
@@ -752,6 +756,7 @@ function ClaimSection() {
           </cite>
         </blockquote>
       </div>
+
     </section>
   );
 }
@@ -798,7 +803,7 @@ function BannerSection() {
    S2 — STATEMENT (scroll-triggered typography)
    ═══════════════════════════════════════════════════════ */
 
-function StatementSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
+function StatementSection() {
   const { t } = useI18n();
   const { ref, visible } = useReveal(0.15);
 
@@ -815,7 +820,6 @@ function StatementSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
 
   return (
     <section className="stmt-section relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden min-h-[60vh] flex items-center">
-      {markerSlot && <div className="absolute top-0 left-0 w-full">{markerSlot}</div>}
       <div ref={ref} className="absolute top-0 left-0" />
 
       <div className="max-w-[1400px] mx-auto relative z-10 flex flex-col items-center gap-10 max-[960px]:gap-6 w-full">
@@ -1698,17 +1702,18 @@ export default function AcademyV2Page() {
       {/* Marker 0: hero→white — triggers at top of AcademyBand */}
       <ScrollMarker index={0} to="light" refs={markerRefs} />
 
-      {/* White zone: AcademyBand + Claim (claim has own dark bg, page stays white) */}
+      {/* White zone: AcademyBand + Claim */}
       <AcademyBand />
-      <ClaimSection />
-      <BannerSection />
-
-      {/* Statement section — own dark bg on entry, transitions to white via marker 2 */}
-      <StatementSection markerSlot={
-        /* Marker 1: white→dark — inside section top so theme=dark
-           fires the instant the section enters the viewport */
+      <ClaimSection markerSlot={
+        /* Marker 1: white→dark — placed at bottom of ClaimSection (which has
+           its own dark bg) so body goes dark invisibly, well before
+           StatementSection enters the viewport */
         <ScrollMarker index={1} to="dark" refs={markerRefs} />
       } />
+      <BannerSection />
+
+      {/* Statement section — theme already dark when this enters viewport */}
+      <StatementSection />
 
       {/* Programs section — enters while page is still dark */}
       <PerfilesSection markerSlot={
