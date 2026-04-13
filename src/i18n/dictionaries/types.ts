@@ -277,6 +277,11 @@ export interface Dictionary {
       readonly description: string;
     };
 
+    claim: {
+      readonly quote: string;
+      readonly author: string;
+    };
+
     statement: {
       readonly eyebrow: string;
       readonly lines: readonly { readonly before: string; readonly accent?: string }[];

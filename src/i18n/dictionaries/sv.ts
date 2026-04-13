@@ -539,6 +539,11 @@ export const sv = {
       description: "J3P\u00E1del Academy har varit en referens inom padeltr\u00E4ning sedan starten 2004 och har utbildat \u00F6ver 2\u00A0000 spelare p\u00E5 alla niv\u00E5er. Bel\u00E4gen i M\u00E1laga, i hj\u00E4rtat av Costa del Sol, kombinerar akademin topprestanda, en egen metodik och ett tr\u00E4narteam med erfarenhet fr\u00E5n den professionella touren.",
     },
 
+    claim: {
+      quote: "Vissa vill att det ska hända, andra önskar att det ska hända, resten ser till att det händer.",
+      author: "Michael Jordan",
+    },
+
     statement: {
       eyebrow: "V\u00E5rt uppdrag",
       lines: [

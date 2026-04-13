@@ -607,67 +607,79 @@ function HeroSection() {
 
 function AcademyBand() {
   const { t } = useI18n();
-  const { ref, visible } = useReveal(0.2);
+  const { ref, visible } = useReveal(0.05);
 
   return (
-    <section className="bg-white py-[64px] max-[960px]:py-[48px] overflow-hidden">
+    <section className="bg-white py-[80px] max-[960px]:py-[56px] overflow-hidden">
       <div
         ref={ref}
-        className="flex flex-col items-center gap-5"
+        className="relative max-w-[1200px] mx-auto px-12 max-[960px]:px-6 max-[640px]:px-4"
         style={{
           opacity: visible ? 1 : 0,
-          transform: visible ? "none" : "translateY(16px) scale(0.97)",
+          transform: visible ? "none" : "translateY(20px)",
           transition: "all 1.2s cubic-bezier(.16,1,.3,1)",
         }}
       >
-        {/* J3Pádel logo — clean gold vector */}
+        {/* Left — text block */}
+        <div className="max-w-[560px]">
+          {/* Eyebrow */}
+          <span
+            className="text-[10px] font-medium tracking-[5px] uppercase text-[var(--g1)] block mb-5"
+            style={{
+              opacity: visible ? 1 : 0,
+              transition: "opacity 0.8s ease 0.3s",
+            }}
+          >
+            Pádel Academy · Costa del Sol
+          </span>
+
+          {/* Heading */}
+          <h2
+            className="text-[clamp(28px,3.5vw,42px)] font-bold uppercase tracking-[-0.5px] leading-[1.1] text-black mb-6"
+            style={{
+              opacity: visible ? 1 : 0,
+              transform: visible ? "none" : "translateY(12px)",
+              transition: "all 1s cubic-bezier(.16,1,.3,1) 0.4s",
+            }}
+          >
+            Desde 2004.
+            <br />
+            <span className="text-black/25">Málaga, España.</span>
+          </h2>
+
+          {/* Gold divider */}
+          <div
+            className="h-[2px] bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] mb-6"
+            style={{
+              width: visible ? "60px" : "0px",
+              transition: "width 1s cubic-bezier(.16,1,.3,1) 0.5s",
+            }}
+          />
+
+          {/* Description */}
+          <p
+            className="text-[clamp(15px,1.4vw,17px)] leading-[1.75] text-black/50 font-light"
+            style={{
+              opacity: visible ? 1 : 0,
+              transform: visible ? "none" : "translateY(12px)",
+              transition: "all 1s cubic-bezier(.16,1,.3,1) 0.6s",
+            }}
+          >
+            {t.academy.band.description}
+          </p>
+        </div>
+
+        {/* Imagotipo — absolute positioned, vertically centered */}
         <img
-          src="/images/logo-gold.svg"
-          alt="J3Pádel"
-          className="w-[280px] max-[960px]:w-[220px] h-auto select-none"
+          src="/images/imagotipo-black.svg"
+          alt=""
+          className="absolute right-12 top-1/2 -translate-y-1/2 w-[180px] h-auto select-none max-[960px]:hidden"
           draggable={false}
-        />
-
-        {/* Gold decorative line above subtitle */}
-        <div
-          className="h-px bg-gradient-to-r from-transparent via-[var(--g1)]/40 to-transparent"
           style={{
-            width: visible ? "100px" : "0px",
-            transition: "width 1.2s cubic-bezier(.16,1,.3,1) 0.3s",
+            opacity: visible ? 0.06 : 0,
+            transition: "opacity 1.5s ease 0.8s",
           }}
         />
-
-        {/* Desde 2004 · Málaga */}
-        <span
-          className="text-[10px] font-medium tracking-[5px] uppercase text-black/35"
-          style={{
-            opacity: visible ? 1 : 0,
-            transition: "opacity 0.8s ease 0.5s",
-          }}
-        >
-          Desde 2004 · Málaga
-        </span>
-
-        {/* Gold closing line */}
-        <div
-          className="h-px bg-gradient-to-r from-transparent via-[var(--g1)]/40 to-transparent"
-          style={{
-            width: visible ? "100px" : "0px",
-            transition: "width 1.2s cubic-bezier(.16,1,.3,1) 0.3s",
-          }}
-        />
-
-        {/* Descriptive paragraph — Mouratoglou style */}
-        <p
-          className="max-w-[640px] text-center text-[clamp(15px,1.4vw,17px)] leading-[1.7] text-black/55 font-light px-6"
-          style={{
-            opacity: visible ? 1 : 0,
-            transform: visible ? "none" : "translateY(12px)",
-            transition: "all 1s cubic-bezier(.16,1,.3,1) 0.6s",
-          }}
-        >
-          {t.academy.band.description}
-        </p>
       </div>
     </section>
   );
@@ -678,6 +690,7 @@ function AcademyBand() {
    ═══════════════════════════════════════════════════════ */
 
 function ClaimSection() {
+  const { t } = useI18n();
   const { ref, visible } = useReveal(0.1);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -711,44 +724,75 @@ function ClaimSection() {
         loop
         muted
         playsInline
-        style={{ opacity: 0.45, filter: "contrast(1.08) saturate(0.7) brightness(1.0) sepia(0.15)", transform: "scale(1.15)" }}
+        style={{ opacity: 0.55, filter: "contrast(1.08) saturate(0.7) brightness(1.0) sepia(0.15)", transform: "scale(1.15)" }}
       />
-      {/* Overlay — lighter to show more video */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/50" />
+      {/* Overlay — subtle, let the video breathe */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/15 to-black/30" />
       {/* Cinematic vignette */}
       <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: "inset 0 0 120px 40px rgba(0,0,0,.5)" }} />
 
+      {/* Cinematic with iconic quote */}
       <div
         ref={ref}
-        className="relative z-10 py-[130px] max-[960px]:py-[88px] px-12 max-[960px]:px-6 max-[640px]:px-4"
+        className="relative z-10 py-[220px] max-[960px]:py-[140px] flex items-center justify-center px-12 max-[960px]:px-6"
       >
-        <div
-          className="max-w-[1000px] mx-auto text-center"
+        <blockquote
+          className="max-w-[700px] text-center"
           style={{
             opacity: visible ? 1 : 0,
-            transform: visible ? "none" : "translateY(30px)",
-            transition: "all 1.2s cubic-bezier(.16,1,.3,1)",
+            transform: visible ? "none" : "translateY(20px)",
+            transition: "all 1.4s cubic-bezier(.16,1,.3,1) 0.3s",
           }}
         >
-          {/* Claim — elegant, same size, understated */}
-          <h2 className="font-light text-[clamp(28px,4.5vw,52px)] uppercase tracking-[2px] leading-[1.3] text-white/90 px-4 overflow-visible">
-            La academia de{" "}
-            <span className="j3-grad-text font-[var(--font-serif)] italic normal-case tracking-[-0.5px] inline-block" style={{ paddingRight: "0.15em" }}>referencia</span>
-            <br />
-            en la Costa del Sol.
-          </h2>
-
-          {/* Stats moved to after StatementSection */}
-        </div>
+          <p className="text-[clamp(20px,2.5vw,32px)] font-[var(--font-serif)] italic text-white/80 leading-[1.5] mb-4">
+            &ldquo;{t.academy.claim.quote}&rdquo;
+          </p>
+          <cite className="text-[11px] font-medium tracking-[4px] uppercase text-[var(--g1)] not-italic">
+            {t.academy.claim.author}
+          </cite>
+        </blockquote>
       </div>
     </section>
   );
 }
 
 /* ═══════════════════════════════════════════════════════
-   S1c — TRANSITION BAND (white breather below claim)
+   S1c — BANNER (bold typographic statement on white)
    ═══════════════════════════════════════════════════════ */
 
+function BannerSection() {
+  const { ref, visible } = useReveal(0.05);
+
+  return (
+    <section className="bg-white py-[80px] max-[960px]:py-[56px] overflow-hidden">
+      <div
+        ref={ref}
+        className="max-w-[1200px] mx-auto px-12 max-[960px]:px-6 max-[640px]:px-4 text-center flex flex-col items-center gap-6"
+        style={{
+          opacity: visible ? 1 : 0,
+          transform: visible ? "none" : "translateY(16px)",
+          transition: "all 1.2s cubic-bezier(.16,1,.3,1)",
+        }}
+      >
+        {/* Main claim */}
+        <h2 className="text-[clamp(28px,4vw,48px)] font-light uppercase tracking-[3px] max-[640px]:tracking-[1.5px] leading-[1.3] text-black">
+          La academia de{" "}
+          <span className="font-[var(--font-serif)] italic normal-case tracking-[0px] text-[var(--g1)]">referencia</span>
+          <br />
+          en la Costa del Sol.
+        </h2>
+
+        {/* Gold accent line */}
+        <div className="w-[50px] h-[1px] bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] opacity-50" />
+
+        {/* Tagline */}
+        <p className="text-[clamp(13px,1.4vw,16px)] font-light uppercase tracking-[4px] max-[640px]:tracking-[2px] leading-[2] text-black/35">
+          Todas las edades · Todos los niveles · Todo el año
+        </p>
+      </div>
+    </section>
+  );
+}
 
 /* ═══════════════════════════════════════════════════════
    S2 — STATEMENT (scroll-triggered typography)
@@ -1655,6 +1699,7 @@ export default function AcademyV2Page() {
       {/* White zone: AcademyBand + Claim (claim has own dark bg, page stays white) */}
       <AcademyBand />
       <ClaimSection />
+      <BannerSection />
 
       {/* Statement section — enters while page is still white */}
       <StatementSection markerSlot={
