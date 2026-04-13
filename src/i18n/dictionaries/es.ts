@@ -598,11 +598,18 @@ export const es = {
       adultosLabel: "Adultos",
       adultosCards: [
         {
-          tag: "Road to 4+",
-          title: "Amateur",
-          sub: "Iniciaci\u00F3n \u00B7 Intermedio \u00B7 Avanzado \u00B7 Competici\u00F3n",
+          tag: "Programa mensual",
+          title: "Tu club",
+          sub: "Vives aqu\u00ED, entrenas con nosotros",
           ctaLabel: "Apuntarme",
-          waMsg: "Hola, quiero info sobre programa Amateur",
+          waMsg: "Hola, quiero info sobre el programa mensual de adultos",
+        },
+        {
+          tag: "Stages \u00B7 Semanas",
+          title: "Training Camp",
+          sub: "Ven unos d\u00EDas, ll\u00E9vate el m\u00E9todo",
+          ctaLabel: "Reservar",
+          waMsg: "Hola, quiero info sobre training camp para adultos",
         },
       ],
       intensiveLabel: "Intensive Training",
