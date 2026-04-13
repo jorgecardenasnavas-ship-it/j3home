@@ -1377,6 +1377,9 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
 
   return (
     <section className="sedes-section relative overflow-hidden border-b border-white/[.07]">
+      {/* Dark marker — at top of section so transition starts earlier */}
+      {markerSlot}
+
       {/* Section header */}
       <div
         ref={ref}
@@ -1395,10 +1398,6 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
           <span className="j3-grad-text">{t.academy.headquarters.headingAccent}</span>
         </h2>
       </div>
-
-      {/* Dark marker — placed after header so section enters white,
-           then transitions to dark as user scrolls into the cards */}
-      {markerSlot}
 
       {/* Sede 1 */}
       <SedeCard
