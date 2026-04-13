@@ -1699,6 +1699,9 @@ export default function AcademyV2Page() {
       <ClaimSection />
       <BannerSection />
 
+      {/* Marker 1: white→dark — body catches up to StatementSection's own dark bg */}
+      <ScrollMarker index={1} to="dark" refs={markerRefs} />
+
       {/* Statement section — fixed dark background */}
       <StatementSection />
 
