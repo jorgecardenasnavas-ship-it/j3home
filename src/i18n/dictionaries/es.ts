@@ -539,8 +539,8 @@ export const es = {
     statement: {
       eyebrow: "Nuestra misi\u00F3n",
       lines: [
-        { before: "Formamos", accent: "jugadores." },
-        { before: "Desarrollamos", accent: "personas." },
+        { before: "Entrenamos", accent: "jugadores." },
+        { before: "Formamos", accent: "personas." },
         { before: "Forjamos", accent: "campeones." },
       ],
     },
