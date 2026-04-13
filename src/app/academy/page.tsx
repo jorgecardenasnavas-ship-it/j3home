@@ -780,7 +780,7 @@ function StatementSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const lineStyles: { style: string; accentStyle?: string; align: string }[] = [
     { style: "j3-grad-text", accentStyle: "font-[var(--font-serif)] italic normal-case", align: "text-left" },
     { style: "j3-stroke", accentStyle: "font-[var(--font-serif)] italic normal-case j3-stroke", align: "text-right" },
-    { style: "text-[var(--wh)]", accentStyle: "font-[var(--font-serif)] italic normal-case j3-grad-text", align: "text-left pl-[8%] max-[960px]:pl-0" },
+    { style: "theme-text", accentStyle: "font-[var(--font-serif)] italic normal-case j3-grad-text", align: "text-left pl-[8%] max-[960px]:pl-0" },
   ];
 
   const lines = t.academy.statement.lines.map((l, i) => ({ ...l, ...lineStyles[i] }));
@@ -1089,7 +1089,7 @@ function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
           {t.academy.programs.eyebrow}
         </span>
         <h2 className="font-bold text-[clamp(32px,4vw,52px)] uppercase tracking-[-1px] leading-[1]">
-          <span className="text-black">{t.academy.programs.headingPre}</span>
+          <span className="theme-text">{t.academy.programs.headingPre}</span>
           <span className="j3-grad-text">{t.academy.programs.headingAccent}</span>
         </h2>
       </div>
@@ -1098,9 +1098,9 @@ function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
       {markerSlot}
 
       {/* Block 1: Juniors */}
-      <div className="border-t border-black/[.07]">
+      <div className="border-t theme-border">
         {/* Block label */}
-        <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b border-black/[.07]">
+        <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] j3-grad-text tracking-[-1px]">01</span>
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.juniorsLabel}</span>
         </div>
@@ -1115,9 +1115,9 @@ function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
       </div>
 
       {/* Block 2: Adultos */}
-      <div className="border-t border-black/[.07]">
+      <div className="border-t theme-border">
         {/* Block label */}
-        <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b border-black/[.07]">
+        <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] j3-grad-text tracking-[-1px]">02</span>
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.adultosLabel}</span>
         </div>
@@ -1132,8 +1132,8 @@ function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
       </div>
 
       {/* Block 3: Intensive Training — hero-style standalone */}
-      <div className="border-t border-black/[.07]">
-        <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b border-black/[.07]">
+      <div className="border-t theme-border">
+        <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] j3-grad-text tracking-[-1px]">03</span>
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.intensiveLabel}</span>
         </div>
@@ -1586,6 +1586,7 @@ function useScrollBg(markerRefs: React.RefObject<(HTMLDivElement | null)[]>) {
       }
 
       document.body.style.backgroundColor = color;
+      document.documentElement.dataset.theme = color === "#000" ? "dark" : "light";
     }
 
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -1594,6 +1595,7 @@ function useScrollBg(markerRefs: React.RefObject<(HTMLDivElement | null)[]>) {
       window.removeEventListener("scroll", onScroll);
       document.body.style.transition = "";
       document.body.style.backgroundColor = "";
+      delete document.documentElement.dataset.theme;
     };
   }, [markerRefs]);
 }
