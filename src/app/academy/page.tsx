@@ -1501,7 +1501,7 @@ function ProgramasGridSection() {
             <a
               key={p.name}
               href={p.href}
-              ref={el => { itemRefs.current[i] = el; }}
+              ref={el => { itemRefs.current[i] = el as HTMLDivElement | null; }}
               className="group relative border border-white/[.07] hover:border-[var(--g1)]/30 overflow-hidden min-h-[140px] max-[640px]:min-h-[120px] flex flex-col justify-end"
               style={{
                 opacity: visibleItems[i] ? 1 : 0,
