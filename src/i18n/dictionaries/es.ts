@@ -561,9 +561,9 @@ export const es = {
     },
 
     programs: {
-      eyebrow: "Academia \u00B7 Entrenamientos",
-      headingPre: "Encuentra tu ",
-      headingAccent: "programa.",
+      eyebrow: "Juniors \u00B7 Adultos",
+      headingPre: "\u00BFHasta d\u00F3nde quieres ",
+      headingAccent: "llegar?",
       juniorsLabel: "Juniors",
       juniorsCards: [
         {
