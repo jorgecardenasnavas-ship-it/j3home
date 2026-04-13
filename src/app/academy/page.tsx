@@ -790,49 +790,35 @@ function StatementSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const { itemRefs, visibleItems } = useStaggerReveal(lines.length, 0.2);
 
   return (
-    <section className="relative py-[100px] max-[960px]:py-[72px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden">
+    <section className="relative py-[160px] max-[960px]:py-[100px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden">
 
-      <div className="max-w-[1200px] mx-auto relative z-10">
+      <div className="max-w-[1400px] mx-auto relative z-10 flex flex-col items-center gap-10 max-[960px]:gap-6">
         {/* Scroll marker: white→dark transition triggers here */}
         <div ref={ref} />
         {markerSlot}
 
         {lines.map((line, i) => (
-          <div key={i}>
-            <div
-              ref={el => { itemRefs.current[i] = el; }}
-              className={`${line.align} mb-6 max-[960px]:mb-4 last:mb-0`}
-              style={{
-                opacity: visibleItems[i] ? 1 : 0,
-                transform: visibleItems[i] ? "none" : "translateY(40px)",
-                filter: visibleItems[i] ? "blur(0px)" : "blur(8px)",
-                transition: `all 1s cubic-bezier(.16,1,.3,1) ${i * 0.25}s`,
-              }}
-            >
-              <span className={`${line.style} font-bold text-[clamp(44px,8vw,120px)] uppercase tracking-[-2px] leading-[1.05] inline-block`}>
-                {line.before}
-              </span>
-              {line.accent && (
-                <>
-                  <span className="inline-block w-[0.25em]" />
-                  <span className={`${line.accentStyle || line.style} font-bold text-[clamp(44px,8vw,120px)] tracking-[-1px] leading-[1.05] inline-block`}>
-                    {line.accent}
-                  </span>
-                </>
-              )}
-            </div>
-
-            {/* Gold divider between lines */}
-            {i < lines.length - 1 && (
-              <div
-                className="flex justify-center my-4 max-[960px]:my-2"
-                style={{
-                  opacity: visibleItems[i] ? 0.25 : 0,
-                  transition: `opacity 0.8s ease ${i * 0.25 + 0.5}s`,
-                }}
-              >
-                <div className="w-[60px] h-px bg-gradient-to-r from-transparent via-[var(--g1)] to-transparent" />
-              </div>
+          <div
+            key={i}
+            ref={el => { itemRefs.current[i] = el; }}
+            className="text-center"
+            style={{
+              opacity: visibleItems[i] ? 1 : 0,
+              transform: visibleItems[i] ? "none" : "translateY(40px)",
+              filter: visibleItems[i] ? "blur(0px)" : "blur(8px)",
+              transition: `all 1s cubic-bezier(.16,1,.3,1) ${i * 0.3}s`,
+            }}
+          >
+            <span className={`${line.style} font-bold text-[clamp(48px,9vw,140px)] uppercase tracking-[-3px] leading-[1] inline-block`}>
+              {line.before}
+            </span>
+            {line.accent && (
+              <>
+                <span className="inline-block w-[0.2em]" />
+                <span className={`${line.accentStyle || line.style} font-bold text-[clamp(48px,9vw,140px)] tracking-[-2px] leading-[1] inline-block`}>
+                  {line.accent}
+                </span>
+              </>
             )}
           </div>
         ))}
