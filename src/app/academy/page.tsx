@@ -793,22 +793,8 @@ function StatementSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
     <section className="relative py-[100px] max-[960px]:py-[72px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden">
 
       <div className="max-w-[1200px] mx-auto relative z-10">
-        {/* Eyebrow */}
-        <div
-          ref={ref}
-          className="mb-14 max-[960px]:mb-10"
-          style={{
-            opacity: visible ? 1 : 0,
-            transform: visible ? "none" : "translateY(16px)",
-            transition: "all 0.8s cubic-bezier(.16,1,.3,1)",
-          }}
-        >
-          <span className="theme-eyebrow text-[10px] font-normal tracking-[5px] uppercase max-[960px]:text-[12px] max-[960px]:tracking-[3px]">
-            {t.academy.statement.eyebrow}
-          </span>
-        </div>
-
         {/* Scroll marker: white→dark transition triggers here */}
+        <div ref={ref} />
         {markerSlot}
 
         {lines.map((line, i) => (
