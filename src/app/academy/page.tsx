@@ -787,6 +787,43 @@ function StatementSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
             )}
           </div>
         ))}
+
+        {/* Gold divider */}
+        <div
+          className="mx-auto mt-14 mb-10 max-[960px]:mt-10 max-[960px]:mb-8 h-px bg-gradient-to-r from-transparent via-[var(--g1)] to-transparent"
+          style={{
+            width: visible ? "100px" : "0px",
+            transition: "width 1.2s cubic-bezier(.16,1,.3,1) 0.6s",
+          }}
+        />
+
+        {/* Stats — silent authority */}
+        <div className="flex items-start justify-center">
+          {[
+            { num: 20, suffix: "+", label: "años" },
+            { num: 2000, suffix: "+", label: "jugadores formados" },
+            { num: 18, suffix: "", label: "títulos profesionales" },
+          ].map((stat, i) => (
+            <div key={i} className="flex items-center">
+              {i > 0 && (
+                <div className="w-px h-[44px] max-[640px]:h-[36px] bg-gradient-to-b from-transparent via-[var(--g1)]/30 to-transparent mx-10 max-[960px]:mx-6 max-[640px]:mx-4" />
+              )}
+              <div
+                className="text-center min-w-[80px] max-[640px]:min-w-[60px]"
+                style={{
+                  opacity: visible ? 1 : 0,
+                  transform: visible ? "none" : "translateY(16px)",
+                  transition: `all 0.8s cubic-bezier(.16,1,.3,1) ${0.7 + i * 0.15}s`,
+                }}
+              >
+                <Counter val={stat.num} suffix={stat.suffix} className="block j3-grad-text font-bold text-[clamp(26px,3.5vw,44px)] tracking-[-1px] leading-[1]" />
+                <span className="block text-[10px] max-[640px]:text-[9px] font-medium tracking-[2px] max-[640px]:tracking-[1.5px] uppercase text-white/50 mt-2">
+                  {stat.label}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -1620,9 +1657,6 @@ export default function AcademyV2Page() {
            triggers when "FORMAMOS jugadores" starts being visible */
         <ScrollMarker index={1} to="dark" refs={markerRefs} />
       } />
-
-      {/* Authority stats — silent proof after the philosophy */}
-      <StatementStats />
 
       {/* Programs section — enters while page is still dark */}
       <PerfilesSection markerSlot={
