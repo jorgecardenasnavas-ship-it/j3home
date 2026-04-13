@@ -99,27 +99,22 @@ html[data-theme="light"] .stmt-section {
 
 /* ─── Statement section: theme-adaptive text ─── */
 
-/* stmt-before: gold gradient on dark, black on light */
+/* stmt-before: solid gold on dark, black on light (no gradient = smooth transition) */
 .stmt-before {
-  background: var(--j3-grad);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  transition: all 0.8s ease;
+  color: var(--g1);
+  -webkit-text-fill-color: var(--g1);
+  transition: color 0.8s ease, -webkit-text-fill-color 0.8s ease;
 }
 html[data-theme="light"] .stmt-before {
-  background: none;
-  -webkit-background-clip: unset;
-  -webkit-text-fill-color: #000;
-  background-clip: unset;
   color: #000;
+  -webkit-text-fill-color: #000;
 }
 
 /* stmt-accent: white on dark, gold on light */
 .stmt-accent {
   color: var(--wh);
   -webkit-text-fill-color: var(--wh);
-  transition: all 0.8s ease;
+  transition: color 0.8s ease, -webkit-text-fill-color 0.8s ease;
 }
 html[data-theme="light"] .stmt-accent {
   color: var(--g1);
@@ -131,7 +126,7 @@ html[data-theme="light"] .stmt-accent {
   -webkit-text-stroke: 1.75px rgba(255, 255, 255, 0.32);
   color: transparent;
   -webkit-text-fill-color: transparent;
-  transition: all 0.8s ease;
+  transition: -webkit-text-stroke-color 0.8s ease;
 }
 html[data-theme="light"] .stmt-stroke {
   -webkit-text-stroke: 1.75px rgba(0, 0, 0, 0.2);
@@ -142,7 +137,7 @@ html[data-theme="light"] .stmt-stroke {
   -webkit-text-stroke: 1.75px rgba(220, 175, 100, 0.6);
   color: transparent;
   -webkit-text-fill-color: transparent;
-  transition: all 0.8s ease;
+  transition: -webkit-text-stroke-color 0.8s ease;
 }
 html[data-theme="light"] .stmt-stroke-gold {
   -webkit-text-stroke: 1.75px rgba(0, 0, 0, 0.2);
