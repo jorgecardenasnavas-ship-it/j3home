@@ -782,7 +782,7 @@ function StatementSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
      Dark: gold/stroke/grad  |  Light: black text + gold accents */
   const lineStyles: { style: string; accentStyle?: string; align: string }[] = [
     { style: "stmt-before", accentStyle: "font-[var(--font-serif)] italic normal-case stmt-accent", align: "text-left" },
-    { style: "stmt-before", accentStyle: "font-[var(--font-serif)] italic normal-case stmt-stroke", align: "text-right" },
+    { style: "stmt-accent", accentStyle: "font-[var(--font-serif)] italic normal-case stmt-stroke-gold", align: "text-right" },
   ];
 
   const lines = t.academy.statement.lines.map((l, i) => ({ ...l, ...lineStyles[i] }));
