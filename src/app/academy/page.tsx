@@ -1027,98 +1027,130 @@ function ProofSection() {
    S4 — PERFILES (Apple-style program grid)
    ═══════════════════════════════════════════════════════ */
 
-/* Program card component */
-function ProgramCard({
-  tag, title, sub, featured, ctas, index, visible, light, image, isMobile,
+/* Porsche-style program tile — full-bleed image, info overlay at bottom */
+function ProgramTile({
+  tag, title, sub, cta, image, href, isHovered, onHover, onLeave, index, visible,
 }: {
   tag: string;
   title: string;
   sub: string;
-  featured?: boolean;
-  ctas: { label: string; href: string; ghost?: boolean }[];
+  cta: { label: string; href: string };
+  image: string;
+  href: string;
+  isHovered: boolean;
+  onHover: () => void;
+  onLeave: () => void;
   index: number;
   visible: boolean;
-  light?: boolean;
-  image?: string;
-  isMobile?: boolean;
 }) {
   return (
-    <div
-      className={`relative group overflow-hidden ${
-        image
-          ? "min-h-[380px] max-[960px]:min-h-[320px] flex flex-col justify-end"
-          : ""
-      } ${
-        !image
-          ? light
-            ? featured
-              ? "bg-white border border-[var(--g1)]/20 shadow-[0_2px_20px_rgba(0,0,0,.06)]"
-              : "bg-[#f0f0f0] border border-black/[.06]"
-            : featured
-              ? "bg-[var(--bk2)] border border-[var(--g1)]/20"
-              : "bg-[var(--bk)] border border-white/[.07]"
-          : "border border-white/[.07]"
-      }`}
+    <a
+      href={cta.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="relative overflow-hidden rounded-lg cursor-pointer block h-full"
       style={{
+        background: "#000",
         opacity: visible ? 1 : 0,
-        transform: visible ? "none" : "translateY(30px)",
-        transition: `all 0.8s cubic-bezier(.16,1,.3,1) ${index * 0.12}s`,
+        transform: visible ? "none" : "translateY(24px)",
+        transition: "opacity 0.7s cubic-bezier(.16,1,.3,1), transform 0.7s cubic-bezier(.16,1,.3,1)",
+        transitionDelay: `${index * 0.1}s`,
       }}
+      onMouseEnter={onHover}
+      onMouseLeave={onLeave}
     >
-      {/* Background image — normalized like hero */}
-      {image && (
-        <>
-          <img
-            src={image}
-            alt={title}
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-            style={{
-              filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)",
-            }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/20" />
-        </>
-      )}
-
-      {/* Gold accent line — top */}
-      <div
-        className={`absolute top-0 left-0 h-[2px] bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] transition-all duration-700 ease-out z-10 ${
-          featured ? "w-full opacity-50 group-hover:opacity-80" : ""
-        }`}
-        style={featured ? {} : { width: "40px" }}
+      {/* Image — full cover with Porsche zoom */}
+      <img
+        src={image}
+        alt={title}
+        loading="lazy"
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{
+          transform: isHovered ? "scale3d(1.05,1.05,1.05)" : "scale3d(1,1,1)",
+          transition: "transform 0.6s cubic-bezier(0, 0, 0.2, 1)",
+        }}
       />
-      {/* Hover glow (desktop) */}
-      {!image && (
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-500"
-          style={{ background: `radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(220,175,100,${light ? "0.06" : "0.04"}), transparent 40%)` }}
-        />
-      )}
 
-      <div className={`relative z-10 ${image ? "p-8 max-[960px]:p-6 mt-auto" : "p-8 max-[960px]:p-6"}`}>
-        <span className="text-[9px] font-bold tracking-[3px] uppercase text-[var(--g1)] block mb-2" style={isMobile && image ? { textShadow: "0 1px 6px rgba(0,0,0,.6)" } : undefined}>{tag}</span>
-        <h4 className={`font-bold text-[clamp(28px,4vw,44px)] uppercase tracking-[-1.5px] leading-[1] mb-2 ${light && !image ? "text-[var(--bk)]" : "text-[var(--wh)]"}`} style={isMobile && image ? { textShadow: "0 2px 12px rgba(0,0,0,.7)" } : undefined}>{title}</h4>
-        <p className={`text-[13px] tracking-[0.5px] mb-8 ${light && !image ? "text-[var(--gy)]" : "text-[var(--gy2)]"}`} style={isMobile && image ? { textShadow: "0 1px 6px rgba(0,0,0,.5)" } : undefined}>{sub}</p>
+      {/* Top gradient */}
+      <div
+        className="absolute top-0 left-0 w-full z-[5] pointer-events-none"
+        style={{
+          height: "25%",
+          background: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.45) 30%, rgba(0,0,0,0.15) 60%, transparent 100%)",
+        }}
+      />
 
-        <div className="flex flex-wrap gap-3">
-          {ctas.map((cta, ci) => (
-            <a
-              key={ci}
-              href={cta.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`j3-press inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-[12px] font-semibold tracking-[0.5px] ${
-                cta.ghost
-                  ? "btn-ghost border border-white/15 text-[var(--wh)] hover:border-[var(--g1)]/40 hover:text-[var(--g1)]"
-                  : "btn-glow text-black"
-              }`}
-              style={cta.ghost ? {} : { background: "var(--j3-grad)" }}
-            >
-              {!cta.ghost && <WaIcon size={12} />}
-              {cta.label}
-            </a>
-          ))}
+      {/* Bottom gradient */}
+      <div
+        className="absolute bottom-0 left-0 w-full z-[5] pointer-events-none"
+        style={{
+          height: "45%",
+          background: "linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.55) 30%, rgba(0,0,0,0.2) 60%, transparent 100%)",
+        }}
+      />
+
+      {/* Title — top center (Porsche model signature style) */}
+      <div className="absolute top-0 left-0 right-0 z-[6] flex justify-center pt-7 max-[640px]:pt-5">
+        <h4 className="font-bold text-[clamp(26px,3.5vw,48px)] uppercase tracking-[-1.5px] leading-[1] text-white/90">
+          {title}
+        </h4>
+      </div>
+
+      {/* Bottom content — tag + sub left, CTA right */}
+      <div className="absolute bottom-0 left-0 right-0 z-[13] flex items-end justify-between p-[clamp(16px,1.25vw+12px,36px)]">
+        {/* Left: frosted tag + description */}
+        <div className="flex flex-col gap-1.5">
+          <span
+            className="inline-block w-fit text-[12px] max-[640px]:text-[11px] font-normal leading-[1.5] px-2 py-0.5 rounded"
+            style={{ background: "rgba(215,215,218,0.25)", backdropFilter: "blur(12px)", color: "rgba(255,255,255,0.85)" }}
+          >
+            {tag}
+          </span>
+          <p className="text-[14px] max-[640px]:text-[13px] text-white/80 leading-[1.5]">
+            {sub}
+          </p>
+        </div>
+
+        {/* Right: CTA — arrow only, label expands on card hover */}
+        <div className="flex items-center gap-1 shrink-0">
+          <span
+            className="text-[13px] font-normal text-white/90 whitespace-nowrap overflow-hidden"
+            style={{
+              maxWidth: isHovered ? "160px" : "0px",
+              opacity: isHovered ? 1 : 0,
+              transition: isHovered
+                ? "max-width 1.2s cubic-bezier(0, 0, 0.2, 1), opacity 0.6s cubic-bezier(0, 0, 0.2, 1)"
+                : "max-width 0.4s cubic-bezier(0, 0, 0.2, 1), opacity 0.25s cubic-bezier(0, 0, 0.2, 1)",
+            }}
+          >
+            {cta.label}
+          </span>
+          <svg className="w-6 h-6 max-[640px]:w-5 max-[640px]:h-5 text-white/90 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+            <path d="m13.75 6.14 4.52 5.36H4v1h14.27l-4.52 5.36.77.64 5.47-6.5H20l-5.48-6.5z" />
+          </svg>
         </div>
       </div>
+    </a>
+  );
+}
+
+/** Porsche-style flex row: 2 cards that expand/shrink on hover */
+function PorscheRow({ children, hoveredIdx }: { children: React.ReactNode[]; hoveredIdx: number | null }) {
+  return (
+    <div className="flex gap-[clamp(16px,1.25vw+12px,36px)] max-[960px]:flex-col">
+      {children.map((child, i) => (
+        <div
+          key={i}
+          style={{
+            flex: hoveredIdx === null ? "1 1 50%" : hoveredIdx === i ? "1 1 55%" : "1 1 45%",
+            height: "clamp(320px, calc(7vh + 30vw), 540px)",
+            transition: "flex 0.6s cubic-bezier(0, 0, 0.2, 1)",
+          }}
+          className="max-[960px]:!flex-none max-[960px]:!h-[360px]"
+        >
+          {child}
+        </div>
+      ))}
     </div>
   );
 }
@@ -1126,13 +1158,11 @@ function ProgramCard({
 function PerfilesSection() {
   const { t } = useI18n();
   const { ref, visible } = useReveal(0.1);
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 961);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
+
+  /* Hover state per row: juniors row 0 (cards 0-1), juniors row 1 (cards 2-3), adultos row 0 (cards 0-1) */
+  const [jRow0Hover, setJRow0Hover] = useState<number | null>(null);
+  const [jRow1Hover, setJRow1Hover] = useState<number | null>(null);
+  const [aRow0Hover, setARow0Hover] = useState<number | null>(null);
 
   /* Juniors cards — visual data merged with i18n strings */
   const juniorsImages = [
@@ -1141,29 +1171,25 @@ function PerfilesSection() {
     "/images/academy/nextgen.jpeg",
     "/images/academy/nextgen-pro.jpeg",
   ];
-  const juniorsFeatured = [false, false, true, false];
   const juniorsCards = t.academy.programs.juniorsCards.map((c, i) => ({
     tag: c.tag,
     title: c.title,
     sub: c.sub,
-    featured: juniorsFeatured[i],
     image: juniorsImages[i],
-    ctas: [{ label: c.ctaLabel, href: waLink(c.waMsg) }],
+    cta: { label: c.ctaLabel, href: waLink(c.waMsg) },
   }));
-  const { itemRefs: jRefs, visibleItems: jVis } = useStaggerReveal(juniorsCards.length, 0.15);
+  const { itemRefs: jRefs, visibleItems: jVis } = useStaggerReveal(2, 0.15); // 2 rows
 
   /* Adultos cards */
   const adultosImages = ["/images/academy/amateur.jpeg", "/images/academy/stage-group.jpeg"];
-  const adultosFeatured = [false, false];
   const adultosCards = t.academy.programs.adultosCards.map((c, i) => ({
     tag: c.tag,
     title: c.title,
     sub: c.sub,
-    featured: adultosFeatured[i],
     image: adultosImages[i],
-    ctas: [{ label: c.ctaLabel, href: waLink(c.waMsg) }],
+    cta: { label: c.ctaLabel, href: waLink(c.waMsg) },
   }));
-  const { itemRefs: aRefs, visibleItems: aVis } = useStaggerReveal(adultosCards.length, 0.15);
+  const { itemRefs: aRefs, visibleItems: aVis } = useStaggerReveal(1, 0.15); // 1 row
 
   /* Empresas — standalone reveal */
   const empReveal = useReveal(0.15);
@@ -1189,38 +1215,85 @@ function PerfilesSection() {
         </h2>
       </div>
 
-
       {/* Block 1: Juniors */}
       <div className="border-t theme-border">
-        {/* Block label */}
         <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] theme-text tracking-[-1px]">01</span>
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.juniorsLabel}</span>
         </div>
-        {/* Cards grid */}
-        <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-10 grid grid-cols-2 max-[960px]:grid-cols-1 gap-5">
-          {juniorsCards.map((c, i) => (
-            <div key={i} ref={el => { jRefs.current[i] = el; }}>
-              <ProgramCard {...c} index={i} visible={jVis[i]} isMobile={isMobile} />
-            </div>
-          ))}
+        <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-10 flex flex-col gap-[clamp(16px,1.25vw+12px,36px)]">
+          {/* Row 1: cards 0-1 */}
+          <div ref={el => { jRefs.current[0] = el as HTMLDivElement | null; }}>
+            <PorscheRow hoveredIdx={jRow0Hover}>
+              {juniorsCards.slice(0, 2).map((c, i) => (
+                <ProgramTile
+                  key={i}
+                  tag={c.tag}
+                  title={c.title}
+                  sub={c.sub}
+                  cta={c.cta}
+                  image={c.image}
+                  href={c.cta.href}
+                  isHovered={jRow0Hover === i}
+                  onHover={() => setJRow0Hover(i)}
+                  onLeave={() => setJRow0Hover(null)}
+                  index={i}
+                  visible={jVis[0]}
+                />
+              ))}
+            </PorscheRow>
+          </div>
+          {/* Row 2: cards 2-3 */}
+          <div ref={el => { jRefs.current[1] = el as HTMLDivElement | null; }}>
+            <PorscheRow hoveredIdx={jRow1Hover}>
+              {juniorsCards.slice(2, 4).map((c, i) => (
+                <ProgramTile
+                  key={i}
+                  tag={c.tag}
+                  title={c.title}
+                  sub={c.sub}
+                  cta={c.cta}
+                  image={c.image}
+                  href={c.cta.href}
+                  isHovered={jRow1Hover === i}
+                  onHover={() => setJRow1Hover(i)}
+                  onLeave={() => setJRow1Hover(null)}
+                  index={i}
+                  visible={jVis[1]}
+                />
+              ))}
+            </PorscheRow>
+          </div>
         </div>
       </div>
 
       {/* Block 2: Adultos */}
       <div className="border-t theme-border">
-        {/* Block label */}
         <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] theme-text tracking-[-1px]">02</span>
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.adultosLabel}</span>
         </div>
-        {/* Cards grid */}
-        <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-10 grid grid-cols-2 max-[960px]:grid-cols-1 gap-5">
-          {adultosCards.map((c, i) => (
-            <div key={i} ref={el => { aRefs.current[i] = el; }}>
-              <ProgramCard {...c} index={i} visible={aVis[i]} isMobile={isMobile} />
-            </div>
-          ))}
+        <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-10">
+          <div ref={el => { aRefs.current[0] = el as HTMLDivElement | null; }}>
+            <PorscheRow hoveredIdx={aRow0Hover}>
+              {adultosCards.map((c, i) => (
+                <ProgramTile
+                  key={i}
+                  tag={c.tag}
+                  title={c.title}
+                  sub={c.sub}
+                  cta={c.cta}
+                  image={c.image}
+                  href={c.cta.href}
+                  isHovered={aRow0Hover === i}
+                  onHover={() => setARow0Hover(i)}
+                  onLeave={() => setARow0Hover(null)}
+                  index={i}
+                  visible={aVis[0]}
+                />
+              ))}
+            </PorscheRow>
+          </div>
         </div>
       </div>
 
@@ -1477,22 +1550,22 @@ function ProgramasGridSection() {
   const { ref, visible } = useReveal(0.1);
 
   const programs = [
-    { name: "Kinder", tag: "Iniciación", sub: "4 – 10 años", img: "/images/academy/kinder.jpeg", href: "#programas" },
-    { name: "Kids", tag: "Tecnificación", sub: "10+", img: "/images/academy/kids.jpeg", href: "#programas" },
-    { name: "Next Gen", tag: "Kids to Pro", sub: "14+ · Competición", img: "/images/academy/nextgen.jpeg", href: "#programas" },
-    { name: "Next Gen Pro", tag: "Alto rendimiento", sub: "16+ · Circuito", img: "/images/academy/nextgen-pro.jpeg", href: "#programas" },
-    { name: "Tu Club", tag: "Programa mensual", sub: "Adultos", img: "/images/academy/amateur.jpeg", href: "#programas" },
-    { name: "Intensive Training", tag: "Camps · Stages", sub: "Ven a entrenar con nosotros", img: "/images/academy/stage-group.jpeg", href: "#programas" },
+    { name: "Kinder", tag: "4 – 10 años", img: "/images/academy/kinder.jpeg", href: "#programas" },
+    { name: "Kids", tag: "10+", img: "/images/academy/kids.jpeg", href: "#programas" },
+    { name: "Next Gen", tag: "14+ · Competición", img: "/images/academy/nextgen.jpeg", href: "#programas" },
+    { name: "Next Gen Pro", tag: "16+ · Circuito", img: "/images/academy/nextgen-pro.jpeg", href: "#programas" },
+    { name: "Tu Club", tag: "Adultos", img: "/images/academy/amateur.jpeg", href: "#programas" },
+    { name: "Intensive Training", tag: "Camps · Stages", img: "/images/academy/stage-group.jpeg", href: "#programas" },
   ];
 
   const { itemRefs, visibleItems } = useStaggerReveal(programs.length, 0.15);
 
   return (
-    <section className="relative bg-[var(--bk)] py-[100px] max-[960px]:py-[72px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-b border-white/[.07]">
+    <section className="relative bg-[var(--bk)] py-[80px] max-[960px]:py-[60px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-b border-white/[.07]">
       <div className="max-w-[1200px] mx-auto">
         <div
           ref={ref}
-          className="mb-14 max-[960px]:mb-10"
+          className="mb-10"
           style={{
             opacity: visible ? 1 : 0,
             transform: visible ? "none" : "translateY(20px)",
@@ -1508,55 +1581,29 @@ function ProgramasGridSection() {
           </h2>
         </div>
 
-        {/* Porsche-style grid: 2 cols desktop, 2 cols mobile */}
-        <div className="grid grid-cols-2 gap-x-8 gap-y-14 max-[960px]:gap-x-6 max-[960px]:gap-y-10 max-[640px]:gap-x-4 max-[640px]:gap-y-8">
+        <div className="grid grid-cols-3 max-[960px]:grid-cols-3 max-[640px]:grid-cols-2 gap-3">
           {programs.map((p, i) => (
             <a
               key={p.name}
               href={p.href}
               ref={el => { itemRefs.current[i] = el as HTMLDivElement | null; }}
-              className="group block"
+              className="group relative border border-white/[.07] hover:border-[var(--g1)]/30 overflow-hidden min-h-[140px] max-[640px]:min-h-[120px] flex flex-col justify-end"
               style={{
                 opacity: visibleItems[i] ? 1 : 0,
-                transform: visibleItems[i] ? "none" : "translateY(24px)",
-                transition: `all 0.7s cubic-bezier(.16,1,.3,1) ${i * 0.1}s`,
+                transform: visibleItems[i] ? "none" : "translateY(16px)",
+                transition: `all 0.6s cubic-bezier(.16,1,.3,1) ${i * 0.08}s`,
               }}
             >
-              {/* Image container with overflow hidden for zoom */}
-              <div className="relative overflow-hidden aspect-[16/10] max-[640px]:aspect-[4/3] mb-5 max-[640px]:mb-3">
-                <img
-                  src={p.img}
-                  alt={p.name}
-                  loading="lazy"
-                  className="w-full h-full object-cover transition-transform duration-[600ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:scale-105"
-                />
-              </div>
-
-              {/* Info below image */}
-              <div className="flex flex-col gap-1">
-                <span className="text-[10px] max-[640px]:text-[9px] font-medium tracking-[3px] max-[640px]:tracking-[2px] uppercase text-white/40">
-                  {p.tag}
-                </span>
-                <h3 className="font-bold text-[clamp(18px,2vw,26px)] uppercase tracking-[-0.5px] leading-[1.1] text-[var(--wh)]">
-                  {p.name}
-                </h3>
-                <p className="text-[13px] max-[640px]:text-[12px] text-white/50 mt-0.5">
-                  {p.sub}
-                </p>
-
-                {/* CTA with animated arrow — Porsche style */}
-                <span className="inline-flex items-center gap-2 mt-3 text-[12px] font-medium tracking-[2px] uppercase text-[var(--g1)] transition-colors duration-300 group-hover:text-white">
-                  Descubrir
-                  <svg
-                    className="w-4 h-4 transition-transform duration-300 ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-x-1.5"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                  >
-                    <path d="M3 8h10M9 4l4 4-4 4" />
-                  </svg>
-                </span>
+              <img
+                src={p.img}
+                alt={p.name}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                style={{ filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)" }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
+              <div className="relative z-10 p-4 max-[640px]:p-3">
+                <span className="text-[9px] font-bold tracking-[2px] uppercase text-[var(--g1)] block mb-1">{p.tag}</span>
+                <span className="font-bold text-[15px] max-[640px]:text-[13px] uppercase tracking-[-0.5px] text-[var(--wh)] leading-[1.1]">{p.name}</span>
               </div>
             </a>
           ))}
