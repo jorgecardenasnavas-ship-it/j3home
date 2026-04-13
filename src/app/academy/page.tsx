@@ -1282,7 +1282,7 @@ function PerfilesSection() {
    ═══════════════════════════════════════════════════════ */
 
 function SedeCard({
-  video, images, tag, name, detail, href, ctaLabel, features, badge, index,
+  video, images, tag, name, detail, href, ctaLabel, features, badge, videoStart, index,
 }: {
   video?: string;
   images?: string[];
@@ -1293,9 +1293,11 @@ function SedeCard({
   ctaLabel: string;
   features?: readonly string[];
   badge?: string;
+  videoStart?: number;
   index: number;
 }) {
   const { ref, visible } = useReveal(0.15);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [currentImg, setCurrentImg] = useState(0);
 
   // Auto-rotate images every 4s
@@ -1322,6 +1324,7 @@ function SedeCard({
         <div className="relative w-[45%] max-[768px]:w-full min-h-[320px] max-[768px]:min-h-[240px] overflow-hidden">
           {video ? (
             <video
+              ref={videoRef}
               src={video}
               autoPlay
               loop
@@ -1330,6 +1333,8 @@ function SedeCard({
               preload="none"
               className="absolute inset-0 w-full h-full object-cover"
               style={{ filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)" }}
+              onLoadedMetadata={() => { if (videoStart && videoRef.current) videoRef.current.currentTime = videoStart; }}
+              onSeeking={() => { if (videoStart && videoRef.current && videoRef.current.currentTime < videoStart) videoRef.current.currentTime = videoStart; }}
             />
           ) : images && images.length > 0 ? (
             <>
@@ -1424,6 +1429,7 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
       {/* Sede 1 */}
       <SedeCard
         video="https://finurapadelgym.com/wp-content/uploads/2025/10/home-2.webm"
+        videoStart={5}
         tag={t.academy.headquarters.sedes[0].tag}
         name={t.academy.headquarters.sedes[0].name}
         detail={t.academy.headquarters.sedes[0].detail}
