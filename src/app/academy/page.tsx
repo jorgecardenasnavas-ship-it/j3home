@@ -798,7 +798,7 @@ function BannerSection() {
    S2 — STATEMENT (scroll-triggered typography)
    ═══════════════════════════════════════════════════════ */
 
-function StatementSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
+function StatementSection() {
   const { t } = useI18n();
   const { ref, visible } = useReveal(0.15);
 
@@ -814,10 +814,8 @@ function StatementSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const { itemRefs, visibleItems } = useStaggerReveal(lines.length, 0.2);
 
   return (
-    <section className="relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden min-h-[60vh] flex items-center">
-      {/* Scroll marker: white→dark transition triggers here */}
+    <section className="relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden min-h-[60vh] flex items-center bg-[var(--bk)]">
       <div ref={ref} className="absolute top-0 left-0" />
-      {markerSlot && <div className="absolute top-0 left-0">{markerSlot}</div>}
 
       <div className="max-w-[1400px] mx-auto relative z-10 flex flex-col items-center gap-10 max-[960px]:gap-6 w-full">
 
@@ -1701,12 +1699,8 @@ export default function AcademyV2Page() {
       <ClaimSection />
       <BannerSection />
 
-      {/* Statement section — enters while page is still white */}
-      <StatementSection markerSlot={
-        /* Marker 1: white→dark — placed AFTER the eyebrow "NUESTRA MISIÓN",
-           triggers when "FORMAMOS jugadores" starts being visible */
-        <ScrollMarker index={1} to="dark" refs={markerRefs} />
-      } />
+      {/* Statement section — fixed dark background */}
+      <StatementSection />
 
       {/* Programs section — enters while page is still dark */}
       <PerfilesSection markerSlot={
