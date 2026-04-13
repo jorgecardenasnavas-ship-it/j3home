@@ -541,7 +541,7 @@ export const es = {
       lines: [
         { before: "Formamos", accent: "jugadores." },
         { before: "Desarrollamos", accent: "personas." },
-        { before: "Construimos", accent: "carreras." },
+        { before: "Forjamos", accent: "campeones." },
       ],
     },
 
