@@ -537,7 +537,7 @@ export const es = {
     },
 
     band: {
-      description: "Referencia en la formaci\u00F3n de p\u00E1del desde su creaci\u00F3n en 2004, J3P\u00E1del Academy ha formado a m\u00E1s de 2\u00A0000 jugadores de todos los niveles. Ubicada en M\u00E1laga, en el coraz\u00F3n de la Costa del Sol, combina alto rendimiento, metodolog\u00EDa propia y un equipo t\u00E9cnico con experiencia en el circuito profesional.",
+      description: "Ubicada en el coraz\u00F3n de la Costa del Sol, combina alto rendimiento, metodolog\u00EDa propia y un equipo t\u00E9cnico con experiencia en el circuito profesional.",
     },
 
     claim: {

@@ -536,7 +536,7 @@ export const pt = {
     },
 
     band: {
-      description: "Refer\u00EAncia na forma\u00E7\u00E3o de padel desde a sua cria\u00E7\u00E3o em 2004, a J3P\u00E1del Academy j\u00E1 formou mais de 2\u00A0000 jogadores de todos os n\u00EDveis. Situada em M\u00E1laga, no cora\u00E7\u00E3o da Costa del Sol, combina alto rendimento, metodologia pr\u00F3pria e uma equipa t\u00E9cnica com experi\u00EAncia no circuito profissional.",
+      description: "Situada no coração da Costa del Sol, combina alto rendimento, metodologia própria e uma equipa técnica com experiência no circuito profissional.",
     },
 
     claim: {

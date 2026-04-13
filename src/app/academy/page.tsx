@@ -782,7 +782,7 @@ function BannerSection() {
   const { ref, visible } = useReveal(0.05);
 
   return (
-    <section className="bg-white py-[80px] max-[960px]:py-[56px] overflow-hidden">
+    <section className="bg-white py-[56px] max-[960px]:py-[40px] overflow-hidden">
       <div
         ref={ref}
         className="max-w-[1200px] mx-auto px-12 max-[960px]:px-6 max-[640px]:px-4 text-center flex flex-col items-center gap-6"
@@ -832,7 +832,7 @@ function StatementSection() {
   const { itemRefs, visibleItems } = useStaggerReveal(lines.length, 0.2);
 
   return (
-    <section className="stmt-section relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden min-h-[60vh] flex items-center">
+    <section className="stmt-section relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden flex items-center">
       <div ref={ref} className="absolute top-0 left-0" />
 
       <div className="max-w-[1400px] mx-auto relative z-10 flex flex-col items-center gap-10 max-[960px]:gap-6 w-full">
@@ -849,13 +849,13 @@ function StatementSection() {
               transition: `all 1s cubic-bezier(.16,1,.3,1) ${i * 0.3}s`,
             }}
           >
-            <span className={`${line.style} font-bold text-[clamp(48px,9vw,140px)] uppercase tracking-[-3px] leading-[1] inline-block`}>
+            <span className={`${line.style} font-bold text-[clamp(48px,7vw,100px)] uppercase tracking-[-3px] leading-[1] inline-block`}>
               {line.before}
             </span>
             {line.accent && (
               <>
                 <span className="inline-block w-[0.2em]" />
-                <span className={`${line.accentStyle || line.style} font-bold text-[clamp(48px,9vw,140px)] tracking-[-2px] leading-[1] inline-block`}>
+                <span className={`${line.accentStyle || line.style} font-bold text-[clamp(48px,7vw,100px)] tracking-[-2px] leading-[1] inline-block`}>
                   {line.accent}
                 </span>
               </>
@@ -1169,7 +1169,7 @@ function PerfilesSection() {
   const empReveal = useReveal(0.15);
 
   return (
-    <section id="programas" className="relative py-[100px] max-[960px]:py-[72px] overflow-hidden">
+    <section id="programas" className="relative pt-[100px] pb-[60px] max-[960px]:pt-[72px] max-[960px]:pb-[48px] overflow-hidden">
       {/* Section header */}
       <div
         ref={ref}
@@ -1423,7 +1423,7 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
       {/* Section header */}
       <div
         ref={ref}
-        className="px-12 max-[960px]:px-6 max-[640px]:px-4 max-w-[1200px] mx-auto pt-[100px] pb-14 max-[960px]:pt-[72px] max-[960px]:pb-10"
+        className="px-12 max-[960px]:px-6 max-[640px]:px-4 max-w-[1200px] mx-auto pt-[72px] pb-14 max-[960px]:pt-[56px] max-[960px]:pb-10"
         style={{
           opacity: visible ? 1 : 0,
           transform: visible ? "none" : "translateY(24px)",
@@ -1477,23 +1477,22 @@ function ProgramasGridSection() {
   const { ref, visible } = useReveal(0.1);
 
   const programs = [
-    { name: "Kinder", tag: "4 – 10 años", img: "/images/academy/kinder.jpeg", href: "#programas" },
-    { name: "Kids", tag: "10+", img: "/images/academy/kids.jpeg", href: "#programas" },
-    { name: "Next Gen", tag: "14+ · Competición", img: "/images/academy/nextgen.jpeg", href: "#programas" },
-    { name: "Next Gen Pro", tag: "16+ · Circuito", img: "/images/academy/nextgen-pro.jpeg", href: "#programas" },
-    { name: "Tu Club", tag: "Adultos", img: "/images/academy/amateur.jpeg", href: "#programas" },
-    { name: "Intensive Training", tag: "Camps · Stages", img: "/images/academy/stage-group.jpeg", href: "#programas" },
-    { name: "Empresas", tag: "B2B", img: "/images/academy/stage-group.jpeg", href: "#programas" },
+    { name: "Kinder", tag: "Iniciación", sub: "4 – 10 años", img: "/images/academy/kinder.jpeg", href: "#programas" },
+    { name: "Kids", tag: "Tecnificación", sub: "10+", img: "/images/academy/kids.jpeg", href: "#programas" },
+    { name: "Next Gen", tag: "Kids to Pro", sub: "14+ · Competición", img: "/images/academy/nextgen.jpeg", href: "#programas" },
+    { name: "Next Gen Pro", tag: "Alto rendimiento", sub: "16+ · Circuito", img: "/images/academy/nextgen-pro.jpeg", href: "#programas" },
+    { name: "Tu Club", tag: "Programa mensual", sub: "Adultos", img: "/images/academy/amateur.jpeg", href: "#programas" },
+    { name: "Intensive Training", tag: "Camps · Stages", sub: "Ven a entrenar con nosotros", img: "/images/academy/stage-group.jpeg", href: "#programas" },
   ];
 
   const { itemRefs, visibleItems } = useStaggerReveal(programs.length, 0.15);
 
   return (
-    <section className="relative bg-[var(--bk)] py-[80px] max-[960px]:py-[60px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-b border-white/[.07]">
+    <section className="relative bg-[var(--bk)] py-[100px] max-[960px]:py-[72px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-b border-white/[.07]">
       <div className="max-w-[1200px] mx-auto">
         <div
           ref={ref}
-          className="mb-10"
+          className="mb-14 max-[960px]:mb-10"
           style={{
             opacity: visible ? 1 : 0,
             transform: visible ? "none" : "translateY(20px)",
@@ -1509,29 +1508,55 @@ function ProgramasGridSection() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-4 max-[960px]:grid-cols-3 max-[640px]:grid-cols-2 gap-3">
+        {/* Porsche-style grid: 2 cols desktop, 2 cols mobile */}
+        <div className="grid grid-cols-2 gap-x-8 gap-y-14 max-[960px]:gap-x-6 max-[960px]:gap-y-10 max-[640px]:gap-x-4 max-[640px]:gap-y-8">
           {programs.map((p, i) => (
             <a
               key={p.name}
               href={p.href}
               ref={el => { itemRefs.current[i] = el as HTMLDivElement | null; }}
-              className="group relative border border-white/[.07] hover:border-[var(--g1)]/30 overflow-hidden min-h-[140px] max-[640px]:min-h-[120px] flex flex-col justify-end"
+              className="group block"
               style={{
                 opacity: visibleItems[i] ? 1 : 0,
-                transform: visibleItems[i] ? "none" : "translateY(16px)",
-                transition: `all 0.6s cubic-bezier(.16,1,.3,1) ${i * 0.08}s`,
+                transform: visibleItems[i] ? "none" : "translateY(24px)",
+                transition: `all 0.7s cubic-bezier(.16,1,.3,1) ${i * 0.1}s`,
               }}
             >
-              <img
-                src={p.img}
-                alt={p.name}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                style={{ filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)" }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
-              <div className="relative z-10 p-4 max-[640px]:p-3">
-                <span className="text-[9px] font-bold tracking-[2px] uppercase text-[var(--g1)] block mb-1">{p.tag}</span>
-                <span className="font-bold text-[15px] max-[640px]:text-[13px] uppercase tracking-[-0.5px] text-[var(--wh)] leading-[1.1]">{p.name}</span>
+              {/* Image container with overflow hidden for zoom */}
+              <div className="relative overflow-hidden aspect-[16/10] max-[640px]:aspect-[4/3] mb-5 max-[640px]:mb-3">
+                <img
+                  src={p.img}
+                  alt={p.name}
+                  loading="lazy"
+                  className="w-full h-full object-cover transition-transform duration-[600ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:scale-105"
+                />
+              </div>
+
+              {/* Info below image */}
+              <div className="flex flex-col gap-1">
+                <span className="text-[10px] max-[640px]:text-[9px] font-medium tracking-[3px] max-[640px]:tracking-[2px] uppercase text-white/40">
+                  {p.tag}
+                </span>
+                <h3 className="font-bold text-[clamp(18px,2vw,26px)] uppercase tracking-[-0.5px] leading-[1.1] text-[var(--wh)]">
+                  {p.name}
+                </h3>
+                <p className="text-[13px] max-[640px]:text-[12px] text-white/50 mt-0.5">
+                  {p.sub}
+                </p>
+
+                {/* CTA with animated arrow — Porsche style */}
+                <span className="inline-flex items-center gap-2 mt-3 text-[12px] font-medium tracking-[2px] uppercase text-[var(--g1)] transition-colors duration-300 group-hover:text-white">
+                  Descubrir
+                  <svg
+                    className="w-4 h-4 transition-transform duration-300 ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-x-1.5"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                  >
+                    <path d="M3 8h10M9 4l4 4-4 4" />
+                  </svg>
+                </span>
               </div>
             </a>
           ))}
