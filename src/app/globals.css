@@ -94,7 +94,7 @@ html[data-theme="light"] .theme-border { border-color: rgba(0,0,0,0.07); }
   transition: background-color 0.8s ease;
 }
 html[data-theme="light"] .stmt-section {
-  background: var(--wh);
+  background: #fff;
 }
 
 /* ─── Statement section: theme-adaptive text ─── */
@@ -141,6 +141,17 @@ html[data-theme="light"] .stmt-stroke {
 }
 html[data-theme="light"] .stmt-stroke-gold {
   -webkit-text-stroke: 1.75px rgba(0, 0, 0, 0.2);
+}
+
+/* stmt-stat: gold on dark, black on light */
+.stmt-stat {
+  color: var(--g1);
+  -webkit-text-fill-color: var(--g1);
+  transition: color 0.8s ease, -webkit-text-fill-color 0.8s ease;
+}
+html[data-theme="light"] .stmt-stat {
+  color: #000;
+  -webkit-text-fill-color: #000;
 }
 
 /* Muted text: white/50 on dark, black/40 on light */

@@ -878,7 +878,7 @@ function StatementSection() {
                   transition: `all 0.8s cubic-bezier(.16,1,.3,1) ${0.7 + i * 0.15}s`,
                 }}
               >
-                <Counter val={stat.num} suffix={stat.suffix} className="block j3-grad-text font-bold text-[clamp(26px,3.5vw,44px)] tracking-[-1px] leading-[1]" />
+                <Counter val={stat.num} suffix={stat.suffix} className="block stmt-stat font-bold text-[clamp(26px,3.5vw,44px)] tracking-[-1px] leading-[1]" />
                 <span className="block text-[10px] max-[640px]:text-[9px] font-medium tracking-[2px] max-[640px]:tracking-[1.5px] uppercase theme-muted mt-2">
                   {stat.label}
                 </span>
