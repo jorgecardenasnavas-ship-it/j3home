@@ -1464,13 +1464,13 @@ function ProgramasGridSection() {
   const { ref, visible } = useReveal(0.1);
 
   const programs = [
-    { name: "Kinder", tag: "4–7", href: "#programas" },
-    { name: "Kids", tag: "8–12", href: "#programas" },
-    { name: "Next Gen", tag: "13–17", href: "#programas" },
-    { name: "Next Gen Pro", tag: "Pro", href: "#programas" },
-    { name: "Tu Club", tag: "Adultos", href: "#programas" },
-    { name: "Intensive Training", tag: "Camps", href: "#programas" },
-    { name: "Empresas", tag: "B2B", href: "#programas" },
+    { name: "Kinder", tag: "4 – 10 años", img: "/images/academy/kinder.jpeg", href: "#programas" },
+    { name: "Kids", tag: "10+", img: "/images/academy/kids.jpeg", href: "#programas" },
+    { name: "Next Gen", tag: "14+ · Competición", img: "/images/academy/nextgen.jpeg", href: "#programas" },
+    { name: "Next Gen Pro", tag: "16+ · Circuito", img: "/images/academy/nextgen-pro.jpeg", href: "#programas" },
+    { name: "Tu Club", tag: "Adultos", img: "/images/academy/amateur.jpeg", href: "#programas" },
+    { name: "Intensive Training", tag: "Camps · Stages", img: "/images/academy/stage-group.jpeg", href: "#programas" },
+    { name: "Empresas", tag: "B2B", img: "/images/academy/stage-group.jpeg", href: "#programas" },
   ];
 
   const { itemRefs, visibleItems } = useStaggerReveal(programs.length, 0.15);
@@ -1502,16 +1502,24 @@ function ProgramasGridSection() {
               key={p.name}
               href={p.href}
               ref={el => { itemRefs.current[i] = el; }}
-              className="group relative border border-white/[.07] hover:border-[var(--g1)]/30 bg-[var(--bk2)] p-5 max-[640px]:p-4 transition-all duration-300 overflow-hidden"
+              className="group relative border border-white/[.07] hover:border-[var(--g1)]/30 overflow-hidden min-h-[140px] max-[640px]:min-h-[120px] flex flex-col justify-end"
               style={{
                 opacity: visibleItems[i] ? 1 : 0,
                 transform: visibleItems[i] ? "none" : "translateY(16px)",
                 transition: `all 0.6s cubic-bezier(.16,1,.3,1) ${i * 0.08}s`,
               }}
             >
-              <div className="absolute top-0 left-0 w-full h-[1.5px] bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] opacity-0 group-hover:opacity-60 transition-opacity duration-300" />
-              <span className="text-[9px] font-bold tracking-[2px] uppercase text-[var(--g1)] block mb-2">{p.tag}</span>
-              <span className="font-bold text-[16px] max-[640px]:text-[14px] uppercase tracking-[-0.5px] text-[var(--wh)] group-hover:text-[var(--g1)] transition-colors duration-300">{p.name}</span>
+              <img
+                src={p.img}
+                alt={p.name}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                style={{ filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)" }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
+              <div className="relative z-10 p-4 max-[640px]:p-3">
+                <span className="text-[9px] font-bold tracking-[2px] uppercase text-[var(--g1)] block mb-1">{p.tag}</span>
+                <span className="font-bold text-[15px] max-[640px]:text-[13px] uppercase tracking-[-0.5px] text-[var(--wh)] leading-[1.1]">{p.name}</span>
+              </div>
             </a>
           ))}
         </div>
