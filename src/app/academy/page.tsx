@@ -1110,7 +1110,7 @@ function ProgramCard({
   );
 }
 
-function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
+function PerfilesSection() {
   const { t } = useI18n();
   const { ref, visible } = useReveal(0.1);
   const [isMobile, setIsMobile] = useState(false);
@@ -1176,8 +1176,6 @@ function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
         </h2>
       </div>
 
-      {/* Scroll marker: dark→white transition triggers here */}
-      {markerSlot}
 
       {/* Block 1: Juniors */}
       <div className="border-t theme-border">
@@ -1715,12 +1713,11 @@ export default function AcademyV2Page() {
       {/* Statement section — theme already dark when this enters viewport */}
       <StatementSection />
 
-      {/* Programs section — enters while page is still dark */}
-      <PerfilesSection markerSlot={
-        /* Marker 2: dark→white — placed AFTER the heading "ENCUENTRA TU PROGRAMA",
-           triggers when "01 JUNIORS" starts being visible */
-        <ScrollMarker index={2} to="light" refs={markerRefs} />
-      } />
+      {/* Marker 2: dark→white — triggers between Statement and Programs */}
+      <ScrollMarker index={2} to="light" refs={markerRefs} />
+
+      {/* Programs section */}
+      <PerfilesSection />
 
       {/* Marker 3: white→dark — triggers entering Sedes */}
       <ScrollMarker index={3} to="dark" refs={markerRefs} />
