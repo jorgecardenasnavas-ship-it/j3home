@@ -1068,6 +1068,7 @@ function ProgramTile({
         style={{
           transform: isHovered ? "scale3d(1.05,1.05,1.05)" : "scale3d(1,1,1)",
           transition: "transform 0.6s cubic-bezier(0, 0, 0.2, 1)",
+          filter: "contrast(1.08) saturate(0.85) brightness(1.02) sepia(0.08)",
         }}
       />
 
