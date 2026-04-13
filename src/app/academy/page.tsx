@@ -622,7 +622,7 @@ function AcademyBand() {
           src="/images/j3padel-academy-horizontal.svg"
           alt="J3Pádel Academy"
           className="w-[300px] max-[960px]:w-[240px] h-auto select-none"
-          style={{ filter: "brightness(0)" }}
+          style={{ filter: "brightness(0)", mixBlendMode: "multiply" }}
           draggable={false}
         />
 
