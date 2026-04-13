@@ -1199,7 +1199,7 @@ function PerfilesSection() {
       {/* Section header */}
       <div
         ref={ref}
-        className="px-6 max-[960px]:px-4 max-w-[1440px] mx-auto mb-16"
+        className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto mb-16"
         style={{
           opacity: visible ? 1 : 0,
           transform: visible ? "none" : "translateY(24px)",
@@ -1217,11 +1217,11 @@ function PerfilesSection() {
 
       {/* Block 1: Juniors */}
       <div className="border-t theme-border">
-        <div className="px-6 max-[960px]:px-4 max-w-[1440px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
+        <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] theme-text tracking-[-1px]">01</span>
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.juniorsLabel}</span>
         </div>
-        <div className="px-6 max-[960px]:px-4 max-w-[1440px] mx-auto py-10 flex flex-col gap-[clamp(16px,1.25vw+12px,36px)]">
+        <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-10 flex flex-col gap-[clamp(16px,1.25vw+12px,36px)]">
           {/* Row 1: cards 0-1 */}
           <div ref={el => { jRefs.current[0] = el as HTMLDivElement | null; }}>
             <PorscheRow hoveredIdx={jRow0Hover}>
@@ -1269,11 +1269,11 @@ function PerfilesSection() {
 
       {/* Block 2: Adultos */}
       <div className="border-t theme-border">
-        <div className="px-6 max-[960px]:px-4 max-w-[1440px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
+        <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] theme-text tracking-[-1px]">02</span>
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.adultosLabel}</span>
         </div>
-        <div className="px-6 max-[960px]:px-4 max-w-[1440px] mx-auto py-10">
+        <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-10">
           <div ref={el => { aRefs.current[0] = el as HTMLDivElement | null; }}>
             <PorscheRow hoveredIdx={aRow0Hover}>
               {adultosCards.map((c, i) => (
@@ -1299,14 +1299,14 @@ function PerfilesSection() {
 
       {/* Block 3: Empresas — Team Building */}
       <div className="border-t theme-border">
-        <div className="px-6 max-[960px]:px-4 max-w-[1440px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
+        <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] theme-text tracking-[-1px]">03</span>
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.experience.empresas.heading}</span>
         </div>
 
         <div
           ref={empReveal.ref}
-          className="px-6 max-[960px]:px-4 max-w-[1440px] mx-auto py-16 max-[960px]:py-12"
+          className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-16 max-[960px]:py-12"
           style={{
             opacity: empReveal.visible ? 1 : 0,
             transform: empReveal.visible ? "none" : "translateY(30px)",
@@ -1398,7 +1398,7 @@ function SedeCard({
   return (
     <div
       ref={ref}
-      className="mx-6 max-[960px]:mx-4 max-w-[1440px] xl:mx-auto mb-10 last:mb-0 border border-white/[.07] overflow-hidden rounded-sm"
+      className="mx-4 max-[960px]:mx-3 max-w-[1600px] xl:mx-auto mb-10 last:mb-0 border border-white/[.07] overflow-hidden rounded-sm"
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "none" : "translateY(30px)",
@@ -1496,7 +1496,7 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
       {/* Section header */}
       <div
         ref={ref}
-        className="px-6 max-[960px]:px-4 max-w-[1440px] mx-auto pt-[72px] pb-14 max-[960px]:pt-[56px] max-[960px]:pb-10"
+        className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto pt-[72px] pb-14 max-[960px]:pt-[56px] max-[960px]:pb-10"
         style={{
           opacity: visible ? 1 : 0,
           transform: visible ? "none" : "translateY(24px)",
@@ -1561,8 +1561,8 @@ function ProgramasGridSection() {
   const { itemRefs, visibleItems } = useStaggerReveal(programs.length, 0.15);
 
   return (
-    <section className="relative bg-[var(--bk)] py-[80px] max-[960px]:py-[60px] px-6 max-[960px]:px-4 border-b border-white/[.07]">
-      <div className="max-w-[1440px] mx-auto">
+    <section className="relative bg-[var(--bk)] py-[80px] max-[960px]:py-[60px] px-4 max-[960px]:px-3 border-b border-white/[.07]">
+      <div className="max-w-[1600px] mx-auto">
         <div
           ref={ref}
           className="mb-10"
