@@ -1087,7 +1087,7 @@ function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
           transition: "all 0.9s cubic-bezier(.16,1,.3,1)",
         }}
       >
-        <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] block mb-3 max-[960px]:text-[12px] max-[960px]:tracking-[3px]">
+        <span className="theme-eyebrow text-[10px] font-normal tracking-[5px] uppercase block mb-3 max-[960px]:text-[12px] max-[960px]:tracking-[3px]">
           {t.academy.programs.eyebrow}
         </span>
         <h2 className="font-bold text-[clamp(32px,4vw,52px)] uppercase tracking-[-1px] leading-[1]">
@@ -1103,8 +1103,8 @@ function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
       <div className="border-t theme-border">
         {/* Block label */}
         <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
-          <span className="font-bold text-[clamp(20px,2.5vw,32px)] j3-grad-text tracking-[-1px]">01</span>
-          <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.juniorsLabel}</span>
+          <span className="font-bold text-[clamp(20px,2.5vw,32px)] theme-text tracking-[-1px]">01</span>
+          <span className="theme-eyebrow text-[11px] font-bold tracking-[3px] uppercase">{t.academy.programs.juniorsLabel}</span>
         </div>
         {/* Cards grid */}
         <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-10 grid grid-cols-2 max-[960px]:grid-cols-1 gap-5">
@@ -1120,8 +1120,8 @@ function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
       <div className="border-t theme-border">
         {/* Block label */}
         <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
-          <span className="font-bold text-[clamp(20px,2.5vw,32px)] j3-grad-text tracking-[-1px]">02</span>
-          <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.adultosLabel}</span>
+          <span className="font-bold text-[clamp(20px,2.5vw,32px)] theme-text tracking-[-1px]">02</span>
+          <span className="theme-eyebrow text-[11px] font-bold tracking-[3px] uppercase">{t.academy.programs.adultosLabel}</span>
         </div>
         {/* Cards grid */}
         <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-10 grid grid-cols-2 max-[960px]:grid-cols-1 gap-5">
@@ -1136,8 +1136,8 @@ function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
       {/* Block 3: Intensive Training — hero-style standalone */}
       <div className="border-t theme-border">
         <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
-          <span className="font-bold text-[clamp(20px,2.5vw,32px)] j3-grad-text tracking-[-1px]">03</span>
-          <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.intensiveLabel}</span>
+          <span className="font-bold text-[clamp(20px,2.5vw,32px)] theme-text tracking-[-1px]">03</span>
+          <span className="theme-eyebrow text-[11px] font-bold tracking-[3px] uppercase">{t.academy.programs.intensiveLabel}</span>
         </div>
 
         <div
