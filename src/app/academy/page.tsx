@@ -1220,7 +1220,7 @@ function PerfilesSection() {
         <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] theme-text tracking-[-1px]">01</span>
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.juniorsLabel}</span>
-          <span className="ml-auto text-[13px] text-white/40 italic tracking-normal normal-case hidden min-[961px]:inline">De los 4 a los 16+. Cada etapa, un objetivo.</span>
+          <span className="ml-auto text-[13px] theme-text opacity-50 italic tracking-normal normal-case hidden min-[961px]:inline">De los 4 a los 16+. Cada etapa, un objetivo.</span>
         </div>
         <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-10 flex flex-col gap-[clamp(16px,1.25vw+12px,36px)]">
           {/* Row 1: cards 0-1 */}
@@ -1273,7 +1273,7 @@ function PerfilesSection() {
         <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] theme-text tracking-[-1px]">02</span>
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.adultosLabel}</span>
-          <span className="ml-auto text-[13px] text-white/40 italic tracking-normal normal-case hidden min-[961px]:inline">Cada jugador tiene su momento y evolución.</span>
+          <span className="ml-auto text-[13px] theme-text opacity-50 italic tracking-normal normal-case hidden min-[961px]:inline">Cada jugador tiene su momento y evolución.</span>
         </div>
         <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-10">
           <div ref={el => { aRefs.current[0] = el as HTMLDivElement | null; }}>
@@ -1304,7 +1304,7 @@ function PerfilesSection() {
         <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] theme-text tracking-[-1px]">03</span>
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.experience.empresas.heading}</span>
-          <span className="ml-auto text-[13px] text-white/40 italic tracking-normal normal-case hidden min-[961px]:inline">El pádel como herramienta de equipo.</span>
+          <span className="ml-auto text-[13px] theme-text opacity-50 italic tracking-normal normal-case hidden min-[961px]:inline">El pádel como herramienta de equipo.</span>
         </div>
 
         <div
