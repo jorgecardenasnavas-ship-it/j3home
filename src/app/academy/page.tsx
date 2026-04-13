@@ -583,8 +583,10 @@ function HeroSection() {
                 <button
                   type="button"
                   onClick={() => goTo(i)}
-                  className={`text-[13px] max-[640px]:text-[11px] font-semibold tracking-[6px] max-[640px]:tracking-[3px] uppercase transition-all duration-700 cursor-pointer bg-transparent border-none p-0 ${
-                    active === i ? "j3-grad-text opacity-100" : isMobile ? "text-white/50 hover:text-white/70" : "text-white/40 hover:text-white/70"
+                  className={`text-[13px] max-[640px]:text-[11px] tracking-[6px] max-[640px]:tracking-[3px] uppercase transition-all duration-700 cursor-pointer bg-transparent border-none p-0 ${
+                    i === 2
+                      ? `j3-grad-text font-[var(--font-serif)] italic normal-case tracking-[3px] max-[640px]:tracking-[1px] text-[15px] max-[640px]:text-[13px] ${active === i ? "opacity-100" : "opacity-60"}`
+                      : `font-semibold ${active === i ? "text-white opacity-100" : isMobile ? "text-white/50 hover:text-white/70" : "text-white/40 hover:text-white/70"}`
                   }`}
                   style={isMobile ? { textShadow: "0 1px 6px rgba(0,0,0,.5)" } : undefined}
                 >
