@@ -1670,7 +1670,6 @@ export default function AcademyV2Page() {
       <SedesSection />
 
       <MetodoSection />
-      <StatsSection />
       <CtaFinalSection />
 
       <Footer />
