@@ -790,12 +790,12 @@ function StatementSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const { itemRefs, visibleItems } = useStaggerReveal(lines.length, 0.2);
 
   return (
-    <section className="relative py-[160px] max-[960px]:py-[100px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden">
+    <section className="relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden min-h-[60vh] flex items-center">
+      {/* Scroll marker: white→dark transition triggers here */}
+      <div ref={ref} className="absolute top-0 left-0" />
+      {markerSlot && <div className="absolute top-0 left-0">{markerSlot}</div>}
 
-      <div className="max-w-[1400px] mx-auto relative z-10 flex flex-col items-center gap-10 max-[960px]:gap-6">
-        {/* Scroll marker: white→dark transition triggers here */}
-        <div ref={ref} />
-        {markerSlot}
+      <div className="max-w-[1400px] mx-auto relative z-10 flex flex-col items-center gap-10 max-[960px]:gap-6 w-full">
 
         {lines.map((line, i) => (
           <div
