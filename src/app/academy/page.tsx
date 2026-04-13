@@ -669,11 +669,12 @@ function ClaimSection() {
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
+    const el = video;
     function onScroll() {
-      const rect = video.parentElement?.getBoundingClientRect();
+      const rect = el.parentElement?.getBoundingClientRect();
       if (!rect) return;
       const progress = 1 - rect.bottom / (window.innerHeight + rect.height);
-      video.style.transform = `scale(1.15) translateY(${progress * -30}px)`;
+      el.style.transform = `scale(1.15) translateY(${progress * -30}px)`;
     }
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
@@ -776,10 +777,11 @@ function StatementSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const { t } = useI18n();
   const { ref, visible } = useReveal(0.15);
 
-  /* Visual styles per line — kept in component since they're presentation, not copy */
+  /* Visual styles per line — adapt to scroll theme
+     Dark: gold/stroke/grad  |  Light: black text + gold accents */
   const lineStyles: { style: string; accentStyle?: string; align: string }[] = [
-    { style: "j3-grad-text", accentStyle: "font-[var(--font-serif)] italic normal-case", align: "text-left" },
-    { style: "j3-stroke", accentStyle: "font-[var(--font-serif)] italic normal-case j3-stroke", align: "text-right" },
+    { style: "stmt-before", accentStyle: "font-[var(--font-serif)] italic normal-case stmt-accent", align: "text-left" },
+    { style: "stmt-stroke", accentStyle: "font-[var(--font-serif)] italic normal-case stmt-stroke", align: "text-right" },
     { style: "theme-text", accentStyle: "font-[var(--font-serif)] italic normal-case j3-grad-text", align: "text-left pl-[8%] max-[960px]:pl-0" },
   ];
 
@@ -788,7 +790,7 @@ function StatementSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const { itemRefs, visibleItems } = useStaggerReveal(lines.length, 0.2);
 
   return (
-    <section className="relative py-[100px] max-[960px]:py-[72px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden text-[var(--wh)]">
+    <section className="relative py-[100px] max-[960px]:py-[72px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden">
 
       <div className="max-w-[1200px] mx-auto relative z-10">
         {/* Eyebrow */}
@@ -801,7 +803,7 @@ function StatementSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
             transition: "all 0.8s cubic-bezier(.16,1,.3,1)",
           }}
         >
-          <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] max-[960px]:text-[12px] max-[960px]:tracking-[3px]">
+          <span className="theme-eyebrow text-[10px] font-normal tracking-[5px] uppercase max-[960px]:text-[12px] max-[960px]:tracking-[3px]">
             {t.academy.statement.eyebrow}
           </span>
         </div>
