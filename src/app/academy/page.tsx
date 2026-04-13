@@ -1577,11 +1577,11 @@ function ProgramasGridSection() {
           }}
         >
           <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] block mb-3 max-[960px]:text-[12px] max-[960px]:tracking-[3px]">
-            Academy
+            {t.academy.cta.eyebrow}
           </span>
           <h2 className="font-bold text-[clamp(28px,3.5vw,44px)] uppercase tracking-[-1px] leading-[1]">
-            <span className="text-[var(--wh)]">Nuestros </span>
-            <span className="j3-grad-text">programas.</span>
+            <span className="j3-stroke">{t.academy.cta.titlePre}</span>{" "}
+            <span className="j3-grad-text font-[var(--font-serif)] italic normal-case">{t.academy.cta.titleAccent}</span>
           </h2>
         </div>
 
@@ -1611,6 +1611,26 @@ function ProgramasGridSection() {
               </div>
             </a>
           ))}
+        </div>
+
+        {/* CTA block below grid */}
+        <div className="text-center mt-14 max-[960px]:mt-10">
+          <p className="text-[clamp(14px,1.5vw,18px)] text-[var(--gy2)] leading-[1.6] font-light mb-8 max-w-[560px] mx-auto">
+            Cuéntanos tu nivel, tus objetivos y tu disponibilidad. Del resto nos encargamos nosotros.
+          </p>
+          <a
+            href={waLink("Hola J3Pádel, me gustaría información sobre vuestros programas.")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="j3-press btn-glow inline-flex items-center gap-2.5 px-8 py-4 rounded-full font-semibold text-[15px] tracking-[0.5px] text-black"
+            style={{ background: "var(--j3-grad)" }}
+          >
+            <WaIcon size={15} />
+            Escribir por WhatsApp
+          </a>
+          <p className="text-[11px] text-[var(--gy)] tracking-[2px] uppercase mt-8">
+            Sin compromiso · Sin formularios · Respuesta directa
+          </p>
         </div>
       </div>
     </section>
@@ -1851,7 +1871,6 @@ export default function AcademyV2Page() {
       } />
 
       <ProgramasGridSection />
-      <CtaFinalSection />
 
       <Footer />
     </main>
