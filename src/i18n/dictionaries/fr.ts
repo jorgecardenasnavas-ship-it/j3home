@@ -535,6 +535,10 @@ export const fr = {
       subtitleLine2: "Depuis 2004, nous formons des joueurs de tous niveaux.",
     },
 
+    band: {
+      description: "Référence dans la formation de padel depuis sa création en 2004, J3Pádel Academy a formé plus de 2\u00A0000 joueurs de tous niveaux. Située à Málaga, au cœur de la Costa del Sol, elle allie haut niveau, méthodologie propre et une équipe technique forte d'une expérience sur le circuit professionnel.",
+    },
+
     statement: {
       eyebrow: "Notre mission",
       lines: [

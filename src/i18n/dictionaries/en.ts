@@ -535,6 +535,10 @@ export const en = {
       subtitleLine2: "Training players of all levels since 2004.",
     },
 
+    band: {
+      description: "A benchmark in padel training since its founding in 2004, J3Pádel Academy has trained over 2\u00A0000 players of all levels. Located in Málaga, in the heart of the Costa del Sol, it combines high performance, a proprietary methodology, and a coaching team with professional-circuit experience.",
+    },
+
     statement: {
       eyebrow: "Our mission",
       lines: [

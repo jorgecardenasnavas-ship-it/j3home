@@ -273,6 +273,10 @@ export interface Dictionary {
       readonly subtitleLine2: string;
     };
 
+    band: {
+      readonly description: string;
+    };
+
     statement: {
       readonly eyebrow: string;
       readonly lines: readonly { readonly before: string; readonly accent?: string }[];

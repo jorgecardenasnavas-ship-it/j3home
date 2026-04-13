@@ -606,6 +606,7 @@ function HeroSection() {
    ═══════════════════════════════════════════════════════ */
 
 function AcademyBand() {
+  const { t } = useI18n();
   const { ref, visible } = useReveal(0.2);
 
   return (
@@ -655,6 +656,18 @@ function AcademyBand() {
             transition: "width 1.2s cubic-bezier(.16,1,.3,1) 0.3s",
           }}
         />
+
+        {/* Descriptive paragraph — Mouratoglou style */}
+        <p
+          className="max-w-[640px] text-center text-[clamp(15px,1.4vw,17px)] leading-[1.7] text-black/55 font-light px-6"
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? "none" : "translateY(12px)",
+            transition: "all 1s cubic-bezier(.16,1,.3,1) 0.6s",
+          }}
+        >
+          {t.academy.band.description}
+        </p>
       </div>
     </section>
   );
@@ -1176,7 +1189,7 @@ function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
               muted
               loop
               playsInline
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover object-[center_30%]"
               style={{
                 opacity: 0.45,
                 filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)",
