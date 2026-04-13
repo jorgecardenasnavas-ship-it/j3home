@@ -1586,13 +1586,13 @@ function ProgramasGridSection() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-3 max-[960px]:grid-cols-3 max-[640px]:grid-cols-2 gap-3">
+        <div className="flex gap-3 max-[960px]:overflow-x-auto max-[960px]:snap-x max-[960px]:snap-mandatory max-[960px]:-mx-3 max-[960px]:px-3 max-[960px]:scrollbar-hide">
           {programs.map((p, i) => (
             <a
               key={p.name}
               href={p.href}
               ref={el => { itemRefs.current[i] = el as HTMLDivElement | null; }}
-              className="group relative border border-white/[.07] hover:border-[var(--g1)]/30 overflow-hidden min-h-[140px] max-[640px]:min-h-[120px] flex flex-col justify-end"
+              className="group relative border border-white/[.07] hover:border-[var(--g1)]/30 overflow-hidden min-h-[180px] max-[960px]:min-h-[160px] max-[960px]:min-w-[200px] max-[960px]:snap-start flex-1 max-[960px]:flex-none max-[960px]:w-[42vw] flex flex-col justify-end"
               style={{
                 opacity: visibleItems[i] ? 1 : 0,
                 transform: visibleItems[i] ? "none" : "translateY(16px)",
