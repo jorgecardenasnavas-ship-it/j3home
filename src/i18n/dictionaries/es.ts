@@ -598,7 +598,7 @@ export const es = {
       adultosLabel: "Adultos",
       adultosCards: [
         {
-          tag: "Todos los niveles",
+          tag: "Road to 4+",
           title: "Amateur",
           sub: "Iniciaci\u00F3n \u00B7 Intermedio \u00B7 Avanzado \u00B7 Competici\u00F3n",
           ctaLabel: "Apuntarme",
