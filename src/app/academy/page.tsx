@@ -1236,13 +1236,12 @@ function PerfilesSection() {
               playsInline
               className="absolute inset-0 w-full h-full object-cover object-[center_30%]"
               style={{
-                opacity: 0.55,
-                filter: "contrast(1.08) saturate(0.9) brightness(1.05)",
+                filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)",
               }}
             >
               <source src="/videos/empresas-bg.mp4" type="video/mp4" />
             </video>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/20" />
             <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] opacity-60 z-10" />
 
             <div className="relative z-10 text-center">
@@ -1326,7 +1325,7 @@ function SedeCard({
           playsInline
           preload="none"
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ opacity: 0.45 }}
+          style={{ filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)" }}
         />
       ) : images && images.length > 0 ? (
         <>
@@ -1337,8 +1336,9 @@ function SedeCard({
               alt={`${name} ${i + 1}`}
               className="absolute inset-0 w-full h-full object-cover"
               style={{
-                opacity: currentImg === i ? 0.5 : 0,
+                opacity: currentImg === i ? 1 : 0,
                 transition: "opacity 1.2s ease",
+                filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)",
               }}
             />
           ))}
@@ -1351,7 +1351,7 @@ function SedeCard({
       )}
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/20" />
 
       {/* Content */}
       <div className="relative z-10 px-12 max-[960px]:px-6 pb-14 w-full max-w-[1200px] mx-auto">
