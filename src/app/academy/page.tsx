@@ -1110,7 +1110,7 @@ function ProgramCard({
   );
 }
 
-function PerfilesSection() {
+function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const { t } = useI18n();
   const { ref, visible } = useReveal(0.1);
   const [isMobile, setIsMobile] = useState(false);
@@ -1213,6 +1213,9 @@ function PerfilesSection() {
 
       {/* Block 3: Empresas — Team Building */}
       <div className="border-t theme-border">
+        {/* Dark marker for SedesSection — placed here so body goes dark
+            while Empresas (with dark video bg) covers the viewport */}
+        {markerSlot}
         <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] theme-text tracking-[-1px]">03</span>
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.experience.empresas.heading}</span>
@@ -1713,10 +1716,12 @@ export default function AcademyV2Page() {
       <ScrollMarker index={2} to="light" refs={markerRefs} />
 
       {/* Programs section */}
-      <PerfilesSection />
+      <PerfilesSection markerSlot={
+        /* Marker 3: white→dark — inside Empresas block (dark video bg)
+           so body goes dark invisibly before SedesSection is visible */
+        <ScrollMarker index={3} to="dark" refs={markerRefs} />
+      } />
 
-      {/* Marker 3: white→dark — triggers entering Sedes */}
-      <ScrollMarker index={3} to="dark" refs={markerRefs} />
       <SedesSection />
 
       <MetodoSection />
