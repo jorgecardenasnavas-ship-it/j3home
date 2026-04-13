@@ -626,7 +626,7 @@ function AcademyBand() {
     <section className="bg-white py-[80px] max-[960px]:py-[56px] overflow-hidden">
       <div
         ref={ref}
-        className="relative max-w-[1200px] mx-auto px-12 max-[960px]:px-6 max-[640px]:px-4"
+        className="relative max-w-[1600px] mx-auto px-4 max-[960px]:px-3"
         style={{
           opacity: visible ? 1 : 0,
           transform: visible ? "none" : "translateY(20px)",
