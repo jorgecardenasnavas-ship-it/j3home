@@ -1459,64 +1459,61 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
    S6 — MÉTODO (timeline methodology)
    ═══════════════════════════════════════════════════════ */
 
-function MetodoSection() {
+function ProgramasGridSection() {
   const { t } = useI18n();
   const { ref, visible } = useReveal(0.1);
 
-  const steps = t.academy.method.steps;
+  const programs = [
+    { name: "Kinder", tag: "4–7", href: "#programas" },
+    { name: "Kids", tag: "8–12", href: "#programas" },
+    { name: "Next Gen", tag: "13–17", href: "#programas" },
+    { name: "Next Gen Pro", tag: "Pro", href: "#programas" },
+    { name: "Tu Club", tag: "Adultos", href: "#programas" },
+    { name: "Intensive Training", tag: "Camps", href: "#programas" },
+    { name: "Empresas", tag: "B2B", href: "#programas" },
+  ];
 
-  const { itemRefs, visibleItems } = useStaggerReveal(steps.length, 0.2);
+  const { itemRefs, visibleItems } = useStaggerReveal(programs.length, 0.15);
 
   return (
-    <section className="relative bg-[var(--bk)] py-[100px] max-[960px]:py-[72px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-b border-white/[.07] overflow-hidden">
-      <div className="max-w-[1200px] mx-auto grid grid-cols-[1fr_1.5fr] max-[960px]:grid-cols-1 gap-16 max-[960px]:gap-10">
-        {/* Left — header */}
+    <section className="relative bg-[var(--bk)] py-[80px] max-[960px]:py-[60px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-b border-white/[.07]">
+      <div className="max-w-[1200px] mx-auto">
         <div
           ref={ref}
+          className="mb-10"
           style={{
             opacity: visible ? 1 : 0,
-            transform: visible ? "none" : "translateY(24px)",
+            transform: visible ? "none" : "translateY(20px)",
             transition: "all .8s cubic-bezier(.16,1,.3,1)",
           }}
         >
           <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] block mb-3 max-[960px]:text-[12px] max-[960px]:tracking-[3px]">
-            {t.academy.method.eyebrow}
+            Academy
           </span>
-          <h2 className="font-bold text-[clamp(32px,4vw,52px)] uppercase tracking-[-1px] leading-[1]">
-            <span className="text-[var(--wh)]">{t.academy.method.headingPre}</span>
-            <span className="j3-grad-text">{t.academy.method.headingAccent}</span>
+          <h2 className="font-bold text-[clamp(28px,3.5vw,44px)] uppercase tracking-[-1px] leading-[1]">
+            <span className="text-[var(--wh)]">Nuestros </span>
+            <span className="j3-grad-text">programas.</span>
           </h2>
         </div>
 
-        {/* Right — timeline */}
-        <div className="relative">
-          {/* Connecting gold line */}
-          <div className="absolute left-[11px] top-3 bottom-3 w-px bg-gradient-to-b from-[var(--g1)]/40 via-[var(--g1)]/20 to-transparent max-[960px]:left-[11px]" />
-
-          <div className="space-y-10">
-            {steps.map((step, i) => (
-              <div
-                key={i}
-                ref={el => { itemRefs.current[i] = el; }}
-                className="flex gap-6 items-start"
-                style={{
-                  opacity: visibleItems[i] ? 1 : 0,
-                  transform: visibleItems[i] ? "none" : "translateY(24px)",
-                  transition: `all 0.8s cubic-bezier(.16,1,.3,1) ${i * 0.15}s`,
-                }}
-              >
-                {/* Numbered dot */}
-                <div className="shrink-0 w-[23px] h-[23px] rounded-full border-2 border-[var(--g1)]/40 flex items-center justify-center relative z-10 bg-[var(--bk)]">
-                  <span className="j3-grad-text text-[10px] font-bold">{i + 1}</span>
-                </div>
-
-                <div>
-                  <h4 className="font-bold text-[18px] max-[960px]:text-[16px] uppercase tracking-[-0.5px] text-[var(--wh)] mb-2">{step.title}</h4>
-                  <p className="text-[14px] max-[960px]:text-[13px] text-[var(--gy2)] leading-[1.6] font-light">{step.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+        <div className="grid grid-cols-4 max-[960px]:grid-cols-3 max-[640px]:grid-cols-2 gap-3">
+          {programs.map((p, i) => (
+            <a
+              key={p.name}
+              href={p.href}
+              ref={el => { itemRefs.current[i] = el; }}
+              className="group relative border border-white/[.07] hover:border-[var(--g1)]/30 bg-[var(--bk2)] p-5 max-[640px]:p-4 transition-all duration-300 overflow-hidden"
+              style={{
+                opacity: visibleItems[i] ? 1 : 0,
+                transform: visibleItems[i] ? "none" : "translateY(16px)",
+                transition: `all 0.6s cubic-bezier(.16,1,.3,1) ${i * 0.08}s`,
+              }}
+            >
+              <div className="absolute top-0 left-0 w-full h-[1.5px] bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] opacity-0 group-hover:opacity-60 transition-opacity duration-300" />
+              <span className="text-[9px] font-bold tracking-[2px] uppercase text-[var(--g1)] block mb-2">{p.tag}</span>
+              <span className="font-bold text-[16px] max-[640px]:text-[14px] uppercase tracking-[-0.5px] text-[var(--wh)] group-hover:text-[var(--g1)] transition-colors duration-300">{p.name}</span>
+            </a>
+          ))}
         </div>
       </div>
     </section>
@@ -1756,7 +1753,7 @@ export default function AcademyV2Page() {
         <ScrollMarker index={3} to="dark" refs={markerRefs} />
       } />
 
-      <MetodoSection />
+      <ProgramasGridSection />
       <CtaFinalSection />
 
       <Footer />
