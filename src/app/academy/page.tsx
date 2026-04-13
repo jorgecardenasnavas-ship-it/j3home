@@ -1104,7 +1104,7 @@ function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
         {/* Block label */}
         <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] theme-text tracking-[-1px]">01</span>
-          <span className="theme-eyebrow text-[11px] font-bold tracking-[3px] uppercase">{t.academy.programs.juniorsLabel}</span>
+          <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.juniorsLabel}</span>
         </div>
         {/* Cards grid */}
         <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-10 grid grid-cols-2 max-[960px]:grid-cols-1 gap-5">
@@ -1121,7 +1121,7 @@ function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
         {/* Block label */}
         <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] theme-text tracking-[-1px]">02</span>
-          <span className="theme-eyebrow text-[11px] font-bold tracking-[3px] uppercase">{t.academy.programs.adultosLabel}</span>
+          <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.adultosLabel}</span>
         </div>
         {/* Cards grid */}
         <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-10 grid grid-cols-2 max-[960px]:grid-cols-1 gap-5">
@@ -1137,7 +1137,7 @@ function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
       <div className="border-t theme-border">
         <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] theme-text tracking-[-1px]">03</span>
-          <span className="theme-eyebrow text-[11px] font-bold tracking-[3px] uppercase">{t.academy.programs.intensiveLabel}</span>
+          <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.intensiveLabel}</span>
         </div>
 
         <div
