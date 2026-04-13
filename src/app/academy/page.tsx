@@ -1624,7 +1624,7 @@ function CtaFinalSection() {
  */
 function useScrollBg(markerRefs: React.RefObject<(HTMLDivElement | null)[]>) {
   useEffect(() => {
-    document.body.style.transition = "background-color 0.8s ease";
+    document.body.style.transition = "background-color 1.4s cubic-bezier(.16,1,.3,1)";
 
     function onScroll() {
       const markers = markerRefs.current;
