@@ -1554,12 +1554,14 @@ function CtaFinalSection() {
  */
 function useScrollBg(markerRefs: React.RefObject<(HTMLDivElement | null)[]>) {
   useEffect(() => {
+    // Set up CSS transition on body — the animation completes on its own
+    document.body.style.transition = "background-color 0.8s ease";
+
     function onScroll() {
       const markers = markerRefs.current;
       if (!markers) return;
 
       const scrollMid = window.scrollY + window.innerHeight * 0.5;
-      const FADE_PX = 250; // scroll distance for full transition
 
       // Build sorted list of transitions using absolute page position
       const transitions: { y: number; toDark: boolean }[] = [];
@@ -1573,31 +1575,24 @@ function useScrollBg(markerRefs: React.RefObject<(HTMLDivElement | null)[]>) {
       }
       transitions.sort((a, b) => a.y - b.y);
 
-      // Walk through transitions to determine current color
-      let val = 0; // 0 = black, 255 = white — start dark (hero)
+      // Find which color we should be in — just check which markers we've passed
+      let color = "#000"; // start dark (hero)
       for (const tr of transitions) {
-        const target = tr.toDark ? 0 : 255;
-        if (scrollMid < tr.y) {
-          // Haven't reached this transition yet
-          break;
-        } else if (scrollMid >= tr.y + FADE_PX) {
-          // Fully past this transition
-          val = target;
+        if (scrollMid >= tr.y) {
+          color = tr.toDark ? "#000" : "#fff";
         } else {
-          // In the middle of this transition
-          const progress = (scrollMid - tr.y) / FADE_PX;
-          const from = val;
-          val = Math.round(from + (target - from) * progress);
+          break;
         }
       }
 
-      document.body.style.backgroundColor = `rgb(${val},${val},${val})`;
+      document.body.style.backgroundColor = color;
     }
 
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => {
       window.removeEventListener("scroll", onScroll);
+      document.body.style.transition = "";
       document.body.style.backgroundColor = "";
     };
   }, [markerRefs]);
