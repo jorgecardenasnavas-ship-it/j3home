@@ -617,12 +617,11 @@ function AcademyBand() {
           transition: "all 1.2s cubic-bezier(.16,1,.3,1)",
         }}
       >
-        {/* J3Pádel Academy logo — original SVG forced to black */}
+        {/* J3Pádel logo — clean gold vector */}
         <img
-          src="/images/j3padel-academy-horizontal.svg"
-          alt="J3Pádel Academy"
-          className="w-[300px] max-[960px]:w-[240px] h-auto select-none"
-          style={{ filter: "brightness(0)", mixBlendMode: "multiply" }}
+          src="/images/logo-gold.svg"
+          alt="J3Pádel"
+          className="w-[280px] max-[960px]:w-[220px] h-auto select-none"
           draggable={false}
         />
 
