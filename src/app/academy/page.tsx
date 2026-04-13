@@ -673,6 +673,7 @@ function AcademyBand() {
           <p
             className="text-[clamp(15px,1.4vw,17px)] leading-[1.75] text-black/50 font-light"
             style={{
+              textWrap: "balance",
               opacity: visible ? 1 : 0,
               transform: visible ? "none" : "translateY(12px)",
               transition: "all 1s cubic-bezier(.16,1,.3,1) 0.6s",
@@ -761,7 +762,7 @@ function ClaimSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
             transition: "all 1.4s cubic-bezier(.16,1,.3,1) 0.3s",
           }}
         >
-          <p className="text-[clamp(20px,2.5vw,32px)] font-[var(--font-serif)] italic text-white/80 leading-[1.5] mb-4">
+          <p className="text-[clamp(20px,2.5vw,32px)] font-[var(--font-serif)] italic text-white/80 leading-[1.5] mb-4" style={{ textWrap: "balance" }}>
             &ldquo;{t.academy.claim.quote}&rdquo;
           </p>
           <cite className="text-[11px] font-medium tracking-[4px] uppercase text-[var(--g1)] not-italic">
@@ -804,7 +805,7 @@ function BannerSection() {
         <div className="w-[50px] h-[1px] bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] opacity-50" />
 
         {/* Tagline */}
-        <p className="text-[clamp(13px,1.4vw,16px)] font-light uppercase tracking-[4px] max-[640px]:tracking-[2px] leading-[2] text-black/35">
+        <p className="text-[clamp(13px,1.4vw,16px)] font-light uppercase tracking-[4px] max-[640px]:tracking-[2px] leading-[2] text-black/35" style={{ textWrap: "balance" }}>
           Todas las edades · Todos los niveles · Todo el año
         </p>
       </div>
@@ -1615,7 +1616,7 @@ function ProgramasGridSection() {
 
         {/* CTA block below grid */}
         <div className="text-center mt-14 max-[960px]:mt-10">
-          <p className="text-[clamp(14px,1.5vw,18px)] text-[var(--gy2)] leading-[1.6] font-light mb-8 max-w-[560px] mx-auto">
+          <p className="text-[clamp(14px,1.5vw,18px)] text-[var(--gy2)] leading-[1.6] font-light mb-8 max-w-[560px] mx-auto" style={{ textWrap: "balance" }}>
             Cuéntanos tu nivel, tus objetivos y tu disponibilidad. Del resto nos encargamos nosotros.
           </p>
           <a
@@ -1628,7 +1629,7 @@ function ProgramasGridSection() {
             <WaIcon size={15} />
             Escribir por WhatsApp
           </a>
-          <p className="text-[11px] text-[var(--gy)] tracking-[2px] uppercase mt-8">
+          <p className="text-[11px] text-[var(--gy)] tracking-[2px] uppercase mt-8" style={{ textWrap: "balance" }}>
             Sin compromiso · Sin formularios · Respuesta directa
           </p>
         </div>
