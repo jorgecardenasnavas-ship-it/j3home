@@ -867,7 +867,7 @@ function ProofSection() {
   const { itemRefs, visibleItems } = useStaggerReveal(players.length, 0.2);
 
   return (
-    <section ref={ref} className="relative py-[100px] max-[960px]:py-[72px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden text-[var(--wh)]">
+    <section ref={ref} className="relative py-[100px] max-[960px]:py-[72px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden text-[var(--wh)] bg-white/[.03]">
       <div className="max-w-[1200px] mx-auto grid grid-cols-2 max-[960px]:grid-cols-1 gap-16 max-[960px]:gap-10 items-center">
         {/* Left — image placeholder */}
         <div
