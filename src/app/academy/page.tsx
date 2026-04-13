@@ -814,7 +814,7 @@ function StatementSection() {
   const { itemRefs, visibleItems } = useStaggerReveal(lines.length, 0.2);
 
   return (
-    <section className="relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden min-h-[60vh] flex items-center bg-[var(--bk)]">
+    <section className="relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden min-h-[60vh] flex items-center">
       <div ref={ref} className="absolute top-0 left-0" />
 
       <div className="max-w-[1400px] mx-auto relative z-10 flex flex-col items-center gap-10 max-[960px]:gap-6 w-full">
@@ -874,7 +874,7 @@ function StatementSection() {
                 }}
               >
                 <Counter val={stat.num} suffix={stat.suffix} className="block j3-grad-text font-bold text-[clamp(26px,3.5vw,44px)] tracking-[-1px] leading-[1]" />
-                <span className="block text-[10px] max-[640px]:text-[9px] font-medium tracking-[2px] max-[640px]:tracking-[1.5px] uppercase text-white/50 mt-2">
+                <span className="block text-[10px] max-[640px]:text-[9px] font-medium tracking-[2px] max-[640px]:tracking-[1.5px] uppercase theme-muted mt-2">
                   {stat.label}
                 </span>
               </div>
@@ -1697,12 +1697,14 @@ export default function AcademyV2Page() {
       {/* White zone: AcademyBand + Claim (claim has own dark bg, page stays white) */}
       <AcademyBand />
       <ClaimSection />
-      <BannerSection />
 
-      {/* Marker 1: white→dark — body catches up to StatementSection's own dark bg */}
+      {/* Marker 1: white→dark — triggers early so body is already dark
+           by the time StatementSection scrolls into view */}
       <ScrollMarker index={1} to="dark" refs={markerRefs} />
 
-      {/* Statement section — fixed dark background */}
+      <BannerSection />
+
+      {/* Statement section — follows body theme (dark→white via marker 2) */}
       <StatementSection />
 
       {/* Programs section — enters while page is still dark */}
