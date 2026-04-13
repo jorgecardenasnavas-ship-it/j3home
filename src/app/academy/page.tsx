@@ -798,7 +798,7 @@ function BannerSection() {
    S2 — STATEMENT (scroll-triggered typography)
    ═══════════════════════════════════════════════════════ */
 
-function StatementSection() {
+function StatementSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const { t } = useI18n();
   const { ref, visible } = useReveal(0.15);
 
@@ -814,7 +814,8 @@ function StatementSection() {
   const { itemRefs, visibleItems } = useStaggerReveal(lines.length, 0.2);
 
   return (
-    <section className="relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden min-h-[60vh] flex items-center">
+    <section className="stmt-section relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden min-h-[60vh] flex items-center">
+      {markerSlot && <div className="absolute top-0 left-0 w-full">{markerSlot}</div>}
       <div ref={ref} className="absolute top-0 left-0" />
 
       <div className="max-w-[1400px] mx-auto relative z-10 flex flex-col items-center gap-10 max-[960px]:gap-6 w-full">
@@ -1697,15 +1698,14 @@ export default function AcademyV2Page() {
       {/* White zone: AcademyBand + Claim (claim has own dark bg, page stays white) */}
       <AcademyBand />
       <ClaimSection />
-
-      {/* Marker 1: white→dark — triggers early so body is already dark
-           by the time StatementSection scrolls into view */}
-      <ScrollMarker index={1} to="dark" refs={markerRefs} />
-
       <BannerSection />
 
-      {/* Statement section — follows body theme (dark→white via marker 2) */}
-      <StatementSection />
+      {/* Statement section — own dark bg on entry, transitions to white via marker 2 */}
+      <StatementSection markerSlot={
+        /* Marker 1: white→dark — inside section top so theme=dark
+           fires the instant the section enters the viewport */
+        <ScrollMarker index={1} to="dark" refs={markerRefs} />
+      } />
 
       {/* Programs section — enters while page is still dark */}
       <PerfilesSection markerSlot={
