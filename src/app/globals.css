@@ -91,11 +91,10 @@ html[data-theme="light"] .theme-border { border-color: rgba(0,0,0,0.07); }
 /* ─── Statement section: dark bg by default, white when theme=light ─── */
 .stmt-section {
   background: var(--bk);
-  transition: background-color 0s; /* instant dark on entry */
+  transition: background-color 0.8s ease;
 }
 html[data-theme="light"] .stmt-section {
   background: var(--wh);
-  transition: background-color 0.8s ease; /* smooth fade to white on exit */
 }
 
 /* ─── Statement section: theme-adaptive text ─── */
@@ -106,7 +105,7 @@ html[data-theme="light"] .stmt-section {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  transition: all 0s; /* instant to dark */
+  transition: all 0.8s ease;
 }
 html[data-theme="light"] .stmt-before {
   background: none;
@@ -114,19 +113,17 @@ html[data-theme="light"] .stmt-before {
   -webkit-text-fill-color: #000;
   background-clip: unset;
   color: #000;
-  transition: all 0.8s ease; /* smooth to light */
 }
 
 /* stmt-accent: white on dark, gold on light */
 .stmt-accent {
   color: var(--wh);
   -webkit-text-fill-color: var(--wh);
-  transition: all 0s;
+  transition: all 0.8s ease;
 }
 html[data-theme="light"] .stmt-accent {
   color: var(--g1);
   -webkit-text-fill-color: var(--g1);
-  transition: all 0.8s ease;
 }
 
 /* stmt-stroke: white stroke on dark, black stroke on light */
@@ -134,11 +131,10 @@ html[data-theme="light"] .stmt-accent {
   -webkit-text-stroke: 1.75px rgba(255, 255, 255, 0.32);
   color: transparent;
   -webkit-text-fill-color: transparent;
-  transition: all 0s;
+  transition: all 0.8s ease;
 }
 html[data-theme="light"] .stmt-stroke {
   -webkit-text-stroke: 1.75px rgba(0, 0, 0, 0.2);
-  transition: all 0.8s ease;
 }
 
 /* stmt-stroke-gold: gold stroke on dark, black stroke on light */
@@ -146,11 +142,10 @@ html[data-theme="light"] .stmt-stroke {
   -webkit-text-stroke: 1.75px rgba(220, 175, 100, 0.6);
   color: transparent;
   -webkit-text-fill-color: transparent;
-  transition: all 0s;
+  transition: all 0.8s ease;
 }
 html[data-theme="light"] .stmt-stroke-gold {
   -webkit-text-stroke: 1.75px rgba(0, 0, 0, 0.2);
-  transition: all 0.8s ease;
 }
 
 /* Muted text: white/50 on dark, black/40 on light */

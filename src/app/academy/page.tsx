@@ -1624,7 +1624,7 @@ function CtaFinalSection() {
  */
 function useScrollBg(markerRefs: React.RefObject<(HTMLDivElement | null)[]>) {
   useEffect(() => {
-    // Transition is set dynamically per direction in onScroll
+    document.body.style.transition = "background-color 0.8s ease";
 
     function onScroll() {
       const markers = markerRefs.current;
@@ -1654,10 +1654,6 @@ function useScrollBg(markerRefs: React.RefObject<(HTMLDivElement | null)[]>) {
         }
       }
 
-      // Instant snap to dark, smooth fade to light
-      document.body.style.transition = color === "#000"
-        ? "background-color 0s"
-        : "background-color 0.8s ease";
       document.body.style.backgroundColor = color;
       document.documentElement.dataset.theme = color === "#000" ? "dark" : "light";
     }
