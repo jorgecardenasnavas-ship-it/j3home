@@ -113,16 +113,8 @@ html[data-theme="light"] .stmt-before {
   transition: all 0.8s ease;
 }
 html[data-theme="light"] .stmt-accent {
-  background: var(--j3-grad);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
   color: var(--g1);
-  padding-bottom: 0.25em;
-  margin-bottom: -0.25em;
-  overflow: visible;
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
+  -webkit-text-fill-color: var(--g1);
 }
 
 /* stmt-stroke: white stroke on dark, black stroke on light */
