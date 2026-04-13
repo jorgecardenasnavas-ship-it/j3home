@@ -1169,17 +1169,21 @@ function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
             transition: "all 1s cubic-bezier(.16,1,.3,1)",
           }}
         >
-          <div className="relative overflow-hidden p-12 max-[960px]:p-6 border border-[var(--g1)]/20 min-h-[500px] max-[960px]:min-h-[450px] flex flex-col justify-end">
-            {/* Background image */}
-            <img
-              src="/images/academy/stage-group.jpeg"
-              alt="Evento de empresa en pista de pádel"
-              className="absolute inset-0 w-full h-full object-cover object-[center_25%]"
+          <div className="relative overflow-hidden p-12 max-[960px]:p-6 border border-[var(--g1)]/20 min-h-[400px] max-[960px]:min-h-[400px] flex flex-col justify-end">
+            {/* Background video */}
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover"
               style={{
-                opacity: 0.4,
+                opacity: 0.45,
                 filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)",
               }}
-            />
+            >
+              <source src="/videos/empresas-bg.mp4" type="video/mp4" />
+            </video>
             <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-black/15" />
             <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] opacity-60 z-10" />
 
