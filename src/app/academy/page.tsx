@@ -1080,8 +1080,8 @@ function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const { itemRefs: jRefs, visibleItems: jVis } = useStaggerReveal(juniorsCards.length, 0.15);
 
   /* Adultos cards */
-  const adultosImages = ["/images/academy/amateur.jpeg", "/images/academy/pro.jpeg"];
-  const adultosFeatured = [false, true];
+  const adultosImages = ["/images/academy/amateur.jpeg"];
+  const adultosFeatured = [false];
   const adultosCards = t.academy.programs.adultosCards.map((c, i) => ({
     tag: c.tag,
     title: c.title,

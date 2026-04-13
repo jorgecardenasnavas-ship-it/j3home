@@ -604,13 +604,6 @@ export const es = {
           ctaLabel: "Apuntarme",
           waMsg: "Hola, quiero info sobre programa Amateur",
         },
-        {
-          tag: "Circuito profesional",
-          title: "Pro",
-          sub: "Entrenamiento de \u00E9lite",
-          ctaLabel: "Solicitar info",
-          waMsg: "Hola, quiero info sobre programa Pro",
-        },
       ],
       intensiveLabel: "Intensive Training",
       intensiveEyebrow: "Camps \u00B7 Stages \u00B7 Programas personalizados",
