@@ -1092,8 +1092,8 @@ function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   }));
   const { itemRefs: aRefs, visibleItems: aVis } = useStaggerReveal(adultosCards.length, 0.15);
 
-  /* Intensive Training — standalone reveal */
-  const itReveal = useReveal(0.15);
+  /* Empresas — standalone reveal */
+  const empReveal = useReveal(0.15);
 
   return (
     <section id="programas" className="relative py-[100px] max-[960px]:py-[72px] overflow-hidden">
@@ -1153,74 +1153,60 @@ function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
         </div>
       </div>
 
-      {/* Block 3: Intensive Training — hero-style standalone */}
+      {/* Block 3: Empresas — Team Building */}
       <div className="border-t theme-border">
         <div className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] theme-text tracking-[-1px]">03</span>
-          <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.intensiveLabel}</span>
+          <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.experience.empresas.heading}</span>
         </div>
 
         <div
-          ref={itReveal.ref}
+          ref={empReveal.ref}
           className="px-12 max-[960px]:px-6 max-w-[1200px] mx-auto py-16 max-[960px]:py-12"
           style={{
-            opacity: itReveal.visible ? 1 : 0,
-            transform: itReveal.visible ? "none" : "translateY(30px)",
+            opacity: empReveal.visible ? 1 : 0,
+            transform: empReveal.visible ? "none" : "translateY(30px)",
             transition: "all 1s cubic-bezier(.16,1,.3,1)",
           }}
         >
-          <div className="relative overflow-hidden p-12 max-[960px]:p-6 border border-[var(--g1)]/20 min-h-[650px] max-[960px]:min-h-[600px] flex flex-col justify-end">
+          <div className="relative overflow-hidden p-12 max-[960px]:p-6 border border-[var(--g1)]/20 min-h-[500px] max-[960px]:min-h-[450px] flex flex-col justify-end">
             {/* Background image */}
             <img
               src="/images/academy/stage-group.jpeg"
-              alt={t.academy.programs.intensiveImageAlt}
+              alt="Evento de empresa en pista de pádel"
               className="absolute inset-0 w-full h-full object-cover object-[center_25%]"
               style={{
-                opacity: 0.45,
+                opacity: 0.4,
                 filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)",
               }}
             />
-            {/* Dark overlay — lighter at top to show photo, darker at bottom for text */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/10" />
-
-            {/* Full-width gold accent */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-black/15" />
             <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] opacity-60 z-10" />
 
             <div className="relative z-10 text-center">
-              <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] block mb-3 max-[960px]:text-[12px] max-[960px]:tracking-[3px]" style={isMobile ? { textShadow: "0 1px 6px rgba(0,0,0,.6)" } : undefined}>
-                {t.academy.programs.intensiveEyebrow}
+              <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] block mb-3 max-[960px]:text-[12px] max-[960px]:tracking-[3px]">
+                {t.experience.empresas.eyebrow}
               </span>
 
-              <h3 className="font-bold text-[clamp(32px,4vw,52px)] uppercase tracking-[-1px] leading-[1] mb-3" style={isMobile ? { textShadow: "0 2px 12px rgba(0,0,0,.7)" } : undefined}>
-                <span className="text-[var(--wh)]">{t.academy.programs.intensiveTitlePre}</span>
-                <br />
-                <span className="j3-grad-text font-[var(--font-serif)] italic normal-case">{t.academy.programs.intensiveTitleAccent}</span>
+              <h3 className="font-bold text-[clamp(32px,4vw,52px)] uppercase tracking-[-1px] leading-[1] mb-3">
+                <span className="text-[var(--wh)]">{t.experience.empresas.introBefore}</span>
+                <span className="j3-grad-text font-[var(--font-serif)] italic normal-case">{t.experience.empresas.introAccent}</span>
               </h3>
 
-              <p className="text-[clamp(14px,1.5vw,17px)] text-[var(--gy2)] leading-[1.5] font-light mb-6" style={isMobile ? { textShadow: "0 1px 6px rgba(0,0,0,.5)" } : undefined}>
-                {t.academy.programs.intensiveDesc}
+              <p className="text-[clamp(14px,1.5vw,17px)] text-[var(--gy2)] leading-[1.5] font-light mb-6 max-w-[600px] mx-auto">
+                {t.experience.empresas.introAfter}
               </p>
 
-              <div className="flex flex-wrap gap-3 justify-center">
-                <a
-                  href={waLink(t.academy.programs.intensiveWaMsgBook)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="j3-press btn-glow inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-[13px] font-semibold tracking-[0.5px] text-black"
-                  style={{ background: "var(--j3-grad)" }}
-                >
-                  <WaIcon size={13} />
-                  {t.academy.programs.intensiveCtaBook}
-                </a>
-                <a
-                  href={waLink(t.academy.programs.intensiveWaMsgInfo)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="j3-press btn-ghost inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-white/15 text-[13px] font-semibold tracking-[0.5px] text-[var(--wh)] hover:border-[var(--g1)]/40 hover:text-[var(--g1)]"
-                >
-                  {t.academy.programs.intensiveCtaInfo}
-                </a>
-              </div>
+              <a
+                href={waLink(t.experience.empresas.waMsg)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="j3-press btn-glow inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-[13px] font-semibold tracking-[0.5px] text-black"
+                style={{ background: "var(--j3-grad)" }}
+              >
+                <WaIcon size={13} />
+                {t.experience.empresas.ctaButton}
+              </a>
             </div>
           </div>
         </div>

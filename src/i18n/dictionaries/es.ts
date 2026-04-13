@@ -561,7 +561,7 @@ export const es = {
     },
 
     programs: {
-      eyebrow: "Juniors \u00B7 Adultos",
+      eyebrow: "Juniors \u00B7 Adultos \u00B7 Empresas",
       headingPre: "\u00BFHasta d\u00F3nde quieres ",
       headingAccent: "llegar?",
       juniorsLabel: "Juniors",
@@ -605,11 +605,11 @@ export const es = {
           waMsg: "Hola, quiero info sobre el programa mensual de adultos",
         },
         {
-          tag: "Stages \u00B7 Semanas",
-          title: "Training Camp",
-          sub: "Ven unos d\u00EDas, ll\u00E9vate el m\u00E9todo",
+          tag: "Camps \u00B7 Stages \u00B7 Programas personalizados",
+          title: "Intensive Training",
+          sub: "Ven a entrenar con nosotros",
           ctaLabel: "Reservar",
-          waMsg: "Hola, quiero info sobre training camp para adultos",
+          waMsg: "Hola, quiero reservar Intensive Training",
         },
       ],
       intensiveLabel: "Intensive Training",
