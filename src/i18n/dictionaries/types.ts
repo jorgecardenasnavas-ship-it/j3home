@@ -337,6 +337,8 @@ export interface Dictionary {
         readonly tag: string;
         readonly name: string;
         readonly detail: string;
+        readonly features: readonly string[];
+        readonly badge?: string;
       }[];
     };
 

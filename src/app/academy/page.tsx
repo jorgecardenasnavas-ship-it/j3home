@@ -1282,7 +1282,7 @@ function PerfilesSection() {
    ═══════════════════════════════════════════════════════ */
 
 function SedeCard({
-  video, images, tag, name, detail, href, ctaLabel, index,
+  video, images, tag, name, detail, href, ctaLabel, features, badge, index,
 }: {
   video?: string;
   images?: string[];
@@ -1291,6 +1291,8 @@ function SedeCard({
   detail: string;
   href: string;
   ctaLabel: string;
+  features?: readonly string[];
+  badge?: string;
   index: number;
 }) {
   const { ref, visible } = useReveal(0.15);
@@ -1308,64 +1310,84 @@ function SedeCard({
   return (
     <div
       ref={ref}
-      className="relative h-[70vh] min-h-[500px] max-[960px]:h-[60vh] max-[960px]:min-h-[400px] flex items-end overflow-hidden"
+      className="mx-12 max-[960px]:mx-6 max-[640px]:mx-4 max-w-[1200px] xl:mx-auto mb-10 last:mb-0 border border-white/[.07] overflow-hidden rounded-sm"
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible ? "none" : "translateY(40px)",
-        transition: `all 1s cubic-bezier(.16,1,.3,1) ${index * 0.2}s`,
+        transform: visible ? "none" : "translateY(30px)",
+        transition: `all 1s cubic-bezier(.16,1,.3,1) ${index * 0.15}s`,
       }}
     >
-      {/* Background */}
-      {video ? (
-        <video
-          src={video}
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="none"
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{ filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)" }}
-        />
-      ) : images && images.length > 0 ? (
-        <>
-          {images.map((src, i) => (
-            <img
-              key={src}
-              src={src}
-              alt={`${name} ${i + 1}`}
+      <div className="flex max-[768px]:flex-col">
+        {/* Image / Video side */}
+        <div className="relative w-[45%] max-[768px]:w-full min-h-[320px] max-[768px]:min-h-[240px] overflow-hidden">
+          {video ? (
+            <video
+              src={video}
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="none"
               className="absolute inset-0 w-full h-full object-cover"
-              style={{
-                opacity: currentImg === i ? 1 : 0,
-                transition: "opacity 1.2s ease",
-                filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)",
-              }}
+              style={{ filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)" }}
             />
-          ))}
-        </>
-      ) : (
-        <div
-          className="absolute inset-0"
-          style={{ background: "linear-gradient(135deg, #0a0a0a 0%, #1a1715 50%, #0f0d0b 100%)" }}
-        />
-      )}
+          ) : images && images.length > 0 ? (
+            <>
+              {images.map((src, i) => (
+                <img
+                  key={src}
+                  src={src}
+                  alt={`${name} ${i + 1}`}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  style={{
+                    opacity: currentImg === i ? 1 : 0,
+                    transition: "opacity 1.2s ease",
+                    filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)",
+                  }}
+                />
+              ))}
+            </>
+          ) : null}
+          <div className="absolute inset-0 bg-gradient-to-r max-[768px]:bg-gradient-to-t from-transparent via-transparent to-black/40 max-[768px]:from-transparent max-[768px]:via-transparent max-[768px]:to-black/30" />
 
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/20" />
+          {/* Badge */}
+          {badge && (
+            <div className="absolute top-4 left-4 z-10 px-3 py-1.5 rounded-full text-[10px] font-bold tracking-[1.5px] uppercase text-black" style={{ background: "var(--j3-grad)" }}>
+              {badge}
+            </div>
+          )}
+        </div>
 
-      {/* Content */}
-      <div className="relative z-10 px-12 max-[960px]:px-6 pb-14 w-full max-w-[1200px] mx-auto">
-        <span className="text-[9px] font-bold tracking-[4px] uppercase text-[var(--g1)] block mb-3">{tag}</span>
-        <h3 className="font-bold text-[clamp(40px,6vw,80px)] uppercase tracking-[-2px] leading-[0.95] text-[var(--wh)] mb-2">{name}</h3>
-        <p className="text-[14px] text-[var(--gy2)] tracking-[0.5px] mb-8">{detail}</p>
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="j3-press btn-ghost inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/20 text-[13px] font-semibold text-[var(--wh)] hover:border-[var(--g1)]/40 hover:text-[var(--g1)]"
-        >
-          {ctaLabel}
-        </a>
+        {/* Info side */}
+        <div className="flex-1 p-10 max-[960px]:p-8 max-[640px]:p-6 flex flex-col justify-between bg-[var(--bk2)]">
+          <div>
+            <span className="text-[9px] font-bold tracking-[4px] uppercase text-[var(--g1)] block mb-3">{tag}</span>
+            <h3 className="font-bold text-[clamp(28px,4vw,44px)] uppercase tracking-[-1.5px] leading-[1] text-[var(--wh)] mb-2">{name}</h3>
+            <p className="text-[14px] text-[var(--gy2)] tracking-[0.5px] mb-6">{detail}</p>
+
+            {/* Features grid */}
+            {features && features.length > 0 && (
+              <div className="grid grid-cols-2 gap-x-6 gap-y-2.5 mb-8">
+                {features.map((f) => (
+                  <div key={f} className="flex items-center gap-2.5 text-[13px] text-[var(--gy2)]">
+                    <span className="w-1 h-1 rounded-full bg-[var(--g1)] shrink-0" />
+                    {f}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="j3-press btn-glow inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-[13px] font-semibold tracking-[0.5px] text-black self-start"
+            style={{ background: "var(--j3-grad)" }}
+          >
+            {ctaLabel}
+          </a>
+        </div>
       </div>
     </div>
   );
@@ -1405,6 +1427,7 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
         tag={t.academy.headquarters.sedes[0].tag}
         name={t.academy.headquarters.sedes[0].name}
         detail={t.academy.headquarters.sedes[0].detail}
+        features={t.academy.headquarters.sedes[0].features}
         href="https://finurapadelgym.com"
         ctaLabel={t.academy.headquarters.sedeCta}
         index={0}
@@ -1416,6 +1439,8 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
         tag={t.academy.headquarters.sedes[1].tag}
         name={t.academy.headquarters.sedes[1].name}
         detail={t.academy.headquarters.sedes[1].detail}
+        features={t.academy.headquarters.sedes[1].features}
+        badge={t.academy.headquarters.sedes[1].badge}
         href="https://valssport.com/limoneros/"
         ctaLabel={t.academy.headquarters.sedeCta}
         index={1}
