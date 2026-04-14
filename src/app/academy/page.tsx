@@ -1322,6 +1322,7 @@ function PerfilesSection() {
   const [aRow0Hover, setARow0Hover] = useState<number | null>(null);
   const [jMobileHover, setJMobileHover] = useState<number | null>(null);
   const [aMobileHover, setAMobileHover] = useState<number | null>(null);
+  const [empHover, setEmpHover] = useState(false);
 
   /* Juniors cards — visual data merged with i18n strings */
   const juniorsImages = [
@@ -1483,7 +1484,7 @@ function PerfilesSection() {
         </div>
       </div>
 
-      {/* Block 3: Empresas — Team Building */}
+      {/* Block 3: Empresas — same ProgramTile style with video bg */}
       <div className="border-t theme-border">
         <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] theme-text tracking-[-1px]">03</span>
@@ -1493,56 +1494,86 @@ function PerfilesSection() {
 
         <div
           ref={empReveal.ref}
-          className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-16 max-[960px]:py-12"
+          className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-10"
           style={{
             opacity: empReveal.visible ? 1 : 0,
             transform: empReveal.visible ? "none" : "translateY(30px)",
             transition: "all 1s cubic-bezier(.16,1,.3,1)",
           }}
         >
-          <div className="relative overflow-hidden p-12 max-[960px]:p-6 border border-[var(--g1)]/20 min-h-[400px] max-[960px]:min-h-[400px] flex flex-col justify-end">
+          <a
+            href={waLink(t.experience.empresas.waMsg)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative overflow-hidden rounded-lg block"
+            style={{ background: "#000", height: "clamp(320px, calc(7vh + 30vw), 540px)" }}
+            onMouseEnter={() => setEmpHover(true)}
+            onMouseLeave={() => setEmpHover(false)}
+          >
             {/* Background video */}
             <video
-              autoPlay
-              muted
-              loop
-              playsInline
+              autoPlay muted loop playsInline
               className="absolute inset-0 w-full h-full object-cover object-[center_30%]"
               style={{
-                filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)",
+                transform: empHover ? "scale3d(1.05,1.05,1.05)" : "scale3d(1,1,1)",
+                transition: "transform 0.6s cubic-bezier(0, 0, 0.2, 1)",
+                filter: "contrast(1.08) saturate(0.85) brightness(1.02) sepia(0.08)",
               }}
             >
               <source src="/videos/empresas-bg.mp4" type="video/mp4" />
             </video>
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/20" />
-            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] opacity-60 z-10" />
 
-            <div className="relative z-10 text-center">
-              <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] block mb-3 max-[960px]:text-[12px] max-[960px]:tracking-[3px]">
-                {t.experience.empresas.eyebrow}
-              </span>
+            {/* Top gradient */}
+            <div
+              className="absolute top-0 left-0 w-full z-[5] pointer-events-none"
+              style={{ height: "25%", background: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.45) 30%, rgba(0,0,0,0.15) 60%, transparent 100%)" }}
+            />
+            {/* Bottom gradient */}
+            <div
+              className="absolute bottom-0 left-0 w-full z-[5] pointer-events-none"
+              style={{ height: "45%", background: "linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.55) 30%, rgba(0,0,0,0.2) 60%, transparent 100%)" }}
+            />
 
-              <h3 className="font-bold text-[clamp(32px,4vw,52px)] uppercase tracking-[-1px] leading-[1] mb-3">
-                <span className="text-[var(--wh)]">{t.experience.empresas.introBefore}</span>
-                <span className="j3-grad-text font-[var(--font-serif)] italic normal-case">{t.experience.empresas.introAccent}</span>
-              </h3>
-
-              <p className="text-[clamp(14px,1.5vw,17px)] text-[var(--gy2)] leading-[1.5] font-light mb-6 max-w-[600px] mx-auto">
-                {t.experience.empresas.introAfter}
-              </p>
-
-              <a
-                href={waLink(t.experience.empresas.waMsg)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="j3-press btn-glow inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-[13px] font-semibold tracking-[0.5px] text-black"
-                style={{ background: "var(--j3-grad)" }}
-              >
-                <WaIcon size={13} />
-                {t.experience.empresas.ctaButton}
-              </a>
+            {/* Title — top center */}
+            <div className="absolute top-0 left-0 right-0 z-[6] flex justify-center pt-7 max-[640px]:pt-5">
+              <h4 className="font-bold text-[clamp(26px,3.5vw,48px)] uppercase tracking-[-1.5px] leading-[1] text-white/90">
+                {t.experience.empresas.heading}
+              </h4>
             </div>
-          </div>
+
+            {/* Bottom content — tag + sub left, CTA right */}
+            <div className="absolute bottom-0 left-0 right-0 z-[13] flex items-end justify-between p-[clamp(16px,1.25vw+12px,36px)]">
+              <div className="flex flex-col gap-1.5">
+                <span
+                  className="inline-block w-fit text-[12px] max-[640px]:text-[11px] font-normal leading-[1.5] px-2 py-0.5 rounded"
+                  style={{ background: "rgba(215,215,218,0.25)", backdropFilter: "blur(12px)", color: "rgba(255,255,255,0.85)" }}
+                >
+                  {t.experience.empresas.eyebrow}
+                </span>
+                <p className="text-[14px] max-[640px]:text-[13px] text-white/80 leading-[1.5]">
+                  {t.experience.empresas.introAfter}
+                </p>
+              </div>
+
+              <div className="flex items-center gap-1 shrink-0">
+                <span
+                  className="text-[13px] font-normal text-white/90 whitespace-nowrap overflow-hidden"
+                  style={{
+                    maxWidth: empHover ? "160px" : "0px",
+                    opacity: empHover ? 1 : 0,
+                    transition: empHover
+                      ? "max-width 1.2s cubic-bezier(0, 0, 0.2, 1), opacity 0.6s cubic-bezier(0, 0, 0.2, 1)"
+                      : "max-width 0.4s cubic-bezier(0, 0, 0.2, 1), opacity 0.25s cubic-bezier(0, 0, 0.2, 1)",
+                  }}
+                >
+                  {t.experience.empresas.ctaButton}
+                </span>
+                <svg className="w-6 h-6 max-[640px]:w-5 max-[640px]:h-5 text-white/90 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                </svg>
+              </div>
+            </div>
+          </a>
         </div>
       </div>
 
