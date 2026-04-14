@@ -277,6 +277,15 @@ const PROGRAM_NAV = [
 
 function ProgramBar() {
   const [compact, setCompact] = useState(false);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+  const dragStateRef = useRef<{ active: boolean; startX: number; startScroll: number; moved: boolean }>({
+    active: false,
+    startX: 0,
+    startScroll: 0,
+    moved: false,
+  });
 
   useEffect(() => {
     const onScroll = () => {
@@ -288,22 +297,102 @@ function ProgramBar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const updateEdges = () => {
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      setCanScrollLeft(el.scrollLeft > 2);
+      setCanScrollRight(el.scrollLeft < maxScroll - 2);
+    };
+    updateEdges();
+    el.addEventListener("scroll", updateEdges, { passive: true });
+    window.addEventListener("resize", updateEdges);
+    return () => {
+      el.removeEventListener("scroll", updateEdges);
+      window.removeEventListener("resize", updateEdges);
+    };
+  }, [compact]);
+
+  /* Mouse drag-to-scroll (PC) */
+  const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    dragStateRef.current = {
+      active: true,
+      startX: e.pageX,
+      startScroll: el.scrollLeft,
+      moved: false,
+    };
+    el.style.cursor = "grabbing";
+  };
+  const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const state = dragStateRef.current;
+    if (!state.active) return;
+    const el = scrollRef.current;
+    if (!el) return;
+    const walk = e.pageX - state.startX;
+    if (Math.abs(walk) > 4) state.moved = true;
+    el.scrollLeft = state.startScroll - walk;
+  };
+  const endDrag = () => {
+    const el = scrollRef.current;
+    if (el) el.style.cursor = "";
+    /* Keep "moved" true for a tick so the click handler can see it */
+    setTimeout(() => {
+      dragStateRef.current.active = false;
+    }, 0);
+  };
+
   return (
     <div className="sticky top-[52px] z-[90]">
       <div
-        className="border-b border-white/[.06]"
+        className="border-b border-white/[.06] relative"
         style={{ backgroundColor: "#121214", transition: "all 0.5s cubic-bezier(.16,1,.3,1)" }}
       >
+        {/* Left fade hint */}
+        <div
+          className="pointer-events-none absolute top-0 bottom-0 left-0 w-10 z-10 min-[961px]:hidden"
+          style={{
+            background: "linear-gradient(to right, #121214 0%, rgba(18,18,20,0) 100%)",
+            opacity: canScrollLeft ? 1 : 0,
+            transition: "opacity 0.3s ease",
+          }}
+        />
+        {/* Right fade hint */}
+        <div
+          className="pointer-events-none absolute top-0 bottom-0 right-0 w-10 z-10 min-[961px]:hidden"
+          style={{
+            background: "linear-gradient(to left, #121214 0%, rgba(18,18,20,0) 100%)",
+            opacity: canScrollRight ? 1 : 0,
+            transition: "opacity 0.3s ease",
+          }}
+        />
         <div className="max-w-[1200px] mx-auto">
           <div
-            className="flex items-center gap-0 overflow-x-auto scrollbar-hide min-[961px]:justify-center"
-            style={{ scrollBehavior: "smooth", paddingTop: compact ? "0px" : "8px", paddingBottom: compact ? "0px" : "8px" }}
+            ref={scrollRef}
+            onMouseDown={onMouseDown}
+            onMouseMove={onMouseMove}
+            onMouseUp={endDrag}
+            onMouseLeave={endDrag}
+            className="flex items-center gap-0 overflow-x-auto scrollbar-hide min-[961px]:justify-center select-none"
+            style={{
+              scrollBehavior: "smooth",
+              paddingTop: compact ? "0px" : "8px",
+              paddingBottom: compact ? "0px" : "8px",
+              cursor: "grab",
+            }}
           >
             {PROGRAM_NAV.map((p) => (
               <button
                 key={p.name}
                 type="button"
                 onClick={() => {
+                  /* Suppress click if user was dragging */
+                  if (dragStateRef.current.moved) {
+                    dragStateRef.current.moved = false;
+                    return;
+                  }
                   const isMobileView = window.innerWidth < 961;
                   const cards = document.querySelectorAll(`[data-card-id="${p.cardId}"]`);
                   /* Pick correct card: desktop = first (inside PorscheRow), mobile = last (inside ScrollCarousel) */
