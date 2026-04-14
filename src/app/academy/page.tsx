@@ -288,8 +288,8 @@ function ProgramBar() {
   return (
     <div className="sticky top-[52px] z-[90]">
       <div
-        className="backdrop-blur-xl border-b border-white/[.06]"
-        style={{ backgroundColor: "rgba(18,18,20,0.92)" }}
+        className="border-b border-white/[.06]"
+        style={{ backgroundColor: "#121214" }}
         style={{ transition: "all 0.5s cubic-bezier(.16,1,.3,1)" }}
       >
         <div className="max-w-[1200px] mx-auto">
