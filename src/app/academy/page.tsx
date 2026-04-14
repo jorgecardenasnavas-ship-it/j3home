@@ -418,16 +418,16 @@ function ProgramBar() {
         <div className="max-w-[1200px] mx-auto">
           <div
             ref={scrollRef}
-            onMouseDown={onMouseDown}
-            onMouseMove={onMouseMove}
-            onMouseUp={endDrag}
-            onMouseLeave={endDrag}
-            className="flex items-center gap-0 overflow-x-auto scrollbar-hide min-[961px]:justify-center select-none"
+            onMouseDown={compact ? undefined : onMouseDown}
+            onMouseMove={compact ? undefined : onMouseMove}
+            onMouseUp={compact ? undefined : endDrag}
+            onMouseLeave={compact ? undefined : endDrag}
+            className={`flex items-center gap-0 scrollbar-hide min-[961px]:justify-center select-none ${compact ? "overflow-hidden justify-center" : "overflow-x-auto"}`}
             style={{
               scrollBehavior: "smooth",
               paddingTop: compact ? "0px" : "8px",
               paddingBottom: compact ? "0px" : "8px",
-              cursor: "grab",
+              cursor: compact ? "default" : "grab",
             }}
           >
             {PROGRAM_NAV.map((p) => (
