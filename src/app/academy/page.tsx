@@ -277,8 +277,8 @@ function ProgramBar() {
 
   useEffect(() => {
     const onScroll = () => {
-      /* Switch to compact when scrolled past ~80% of viewport (hero area) */
-      setCompact(window.scrollY > window.innerHeight * 0.6);
+      /* Switch to compact as soon as user scrolls */
+      setCompact(window.scrollY > 10);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
