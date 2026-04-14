@@ -1390,74 +1390,61 @@ const WA_PATH = "M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.
 /** Pill CTA with WhatsApp icon. Collapsed: only gold circle. Expanded: reveals text + progress + arrow. */
 function WaCtaPill({ label, size = "md", expanded = false }: { label: string; size?: "md" | "sm"; expanded?: boolean }) {
   const isSm = size === "sm";
-  const circleSz = isSm ? "36px" : "42px";
-  const iconSz = isSm ? "20px" : "22px";
-  const textSz = isSm ? "11px" : "12px";
+  // Option 2: pill wrapper, small circle anchored RIGHT, text reveals to the LEFT
+  const circleSz = isSm ? "28px" : "32px";
+  const iconSz = isSm ? 15 : 17;
+  const textSz = isSm ? "10px" : "12px";
+  const pad = isSm ? "5px" : "6px";
+  const textMarginLeft = isSm ? "14px" : "18px";
+  const textMarginRight = isSm ? "10px" : "12px";
   return (
     <span
-      className="j3-wa-cta relative inline-flex items-center rounded-full border border-white/[.15] transition-all duration-700 ease-out"
+      className="j3-wa-cta relative inline-flex items-center rounded-full transition-all duration-700 ease-out"
       style={{
-        background: "rgba(255,255,255,.06)",
-        backdropFilter: "blur(12px)",
-        padding: expanded
-          ? (isSm ? "4px 18px 4px 4px" : "5px 22px 5px 5px")
-          : (isSm ? "4px" : "5px"),
+        padding: pad,
+        background: "linear-gradient(135deg, rgba(220,175,100,.08) 0%, rgba(220,175,100,.02) 100%)",
+        border: "1px solid rgba(220,175,100,.28)",
+        boxShadow: expanded ? "0 0 22px rgba(220,175,100,.18)" : "none",
       }}
     >
-      {/* Circle with gold WhatsApp icon */}
-      <span
-        className="j3-wa-circle relative flex items-center justify-center rounded-full overflow-visible shrink-0"
-        style={{
-          width: circleSz,
-          height: circleSz,
-          background: "linear-gradient(135deg, rgba(220,175,100,.14) 0%, rgba(220,175,100,.04) 100%)",
-        }}
-      >
-        <svg width={iconSz} height={iconSz} viewBox="0 0 24 24" fill="var(--g1)" className="shrink-0">
-          <path d={WA_PATH} />
-        </svg>
-        {/* Subtle gold glow when expanded */}
-        <span
-          className="absolute inset-0 rounded-full pointer-events-none transition-opacity duration-700"
-          style={{
-            opacity: expanded ? 1 : 0,
-            boxShadow: "0 0 18px rgba(220,175,100,.35), inset 0 0 10px rgba(220,175,100,.08)",
-          }}
-        />
-      </span>
-      {/* Reveal group: collapses to 0 width when !expanded */}
+      {/* Reveal group: collapses to 0 width when !expanded, text sits to the LEFT of the circle */}
       <span
         className="flex items-center overflow-hidden transition-all duration-700 ease-out"
         style={{
-          maxWidth: expanded ? "220px" : "0px",
+          maxWidth: expanded ? "260px" : "0px",
           opacity: expanded ? 1 : 0,
-          marginLeft: expanded ? (isSm ? "10px" : "12px") : "0px",
+          marginLeft: expanded ? textMarginLeft : "0px",
+          marginRight: expanded ? textMarginRight : "0px",
         }}
       >
-        <span className="flex flex-col text-left whitespace-nowrap">
+        <span className="flex flex-col text-right whitespace-nowrap">
           <span
-            className="font-semibold tracking-[2px] uppercase text-[var(--g1)] whitespace-nowrap"
+            className="font-semibold tracking-[2.5px] uppercase text-[var(--g1)] whitespace-nowrap"
             style={{ fontSize: textSz }}
           >
             {label}
           </span>
           <span
-            className="h-[1.5px] w-full mt-[3px] bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] origin-left transition-transform duration-700 ease-out"
-            style={{ transform: expanded ? "scaleX(1)" : "scaleX(0)" }}
+            className="h-[1.5px] w-full mt-[3px] origin-right transition-transform duration-700 ease-out"
+            style={{
+              transform: expanded ? "scaleX(1)" : "scaleX(0)",
+              background: "linear-gradient(to left, var(--g1), var(--g2))",
+            }}
           />
         </span>
-        <span
-          className="ml-2 shrink-0 transition-all duration-500 ease-out"
-          style={{
-            opacity: expanded ? 0.8 : 0,
-            transform: expanded ? "translateX(0)" : "translateX(-4px)",
-          }}
-        >
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--g1)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M5 12h14" />
-            <path d="M12 5l7 7-7 7" />
-          </svg>
-        </span>
+      </span>
+      {/* Circle with gold WhatsApp icon — always visible, anchored right */}
+      <span
+        className="j3-wa-circle relative flex items-center justify-center rounded-full shrink-0"
+        style={{
+          width: circleSz,
+          height: circleSz,
+          background: "linear-gradient(135deg, rgba(220,175,100,.22) 0%, rgba(220,175,100,.06) 100%)",
+        }}
+      >
+        <svg width={iconSz} height={iconSz} viewBox="0 0 24 24" fill="var(--g1)" className="shrink-0">
+          <path d={WA_PATH} />
+        </svg>
       </span>
     </span>
   );
