@@ -96,11 +96,12 @@ export function Navbar() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-100 h-[52px] flex items-center justify-between px-12 max-[960px]:px-6 backdrop-blur-[20px] border-b transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-100 h-[52px] flex items-center justify-between px-12 max-[960px]:px-6 border-b transition-all duration-500 ${
           scrolled
-            ? "bg-black/85 border-white/[.07] shadow-[0_1px_20px_rgba(0,0,0,.5)]"
-            : "bg-black/60 border-white/[.04]"
+            ? "border-white/[.07] shadow-[0_1px_20px_rgba(0,0,0,.5)]"
+            : "border-white/[.04]"
         }`}
+        style={{ backgroundColor: "#0a0a0b" }}
       >
         {/* Logo — solo tipografía */}
         <Link href="/" className="flex items-center no-underline" aria-label="J3Pádel — Inicio">
