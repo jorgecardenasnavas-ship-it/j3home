@@ -288,9 +288,14 @@ function ProgramBar() {
   });
 
   useEffect(() => {
+    /* Hysteresis thresholds: enter compact after a meaningful scroll,
+       exit compact only when scrolled nearly back to top. Prevents jitter
+       if the user hovers near the transition point. */
+    const ENTER = 180;
+    const EXIT = 80;
     const onScroll = () => {
-      /* Switch to compact as soon as user scrolls */
-      setCompact(window.scrollY > 10);
+      const y = window.scrollY;
+      setCompact((prev) => (prev ? y > EXIT : y > ENTER));
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
