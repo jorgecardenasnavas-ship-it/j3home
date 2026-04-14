@@ -314,6 +314,38 @@ function ProgramBar() {
     };
   }, [compact]);
 
+  /* Nudge animation on mount (mobile only) — wiggles the bar to hint scrollability */
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.innerWidth >= 961) return;
+    let rafId: number;
+    let startTime = 0;
+    const duration = 1400; /* total nudge time */
+    const peak = 45; /* max scroll offset */
+    const el = scrollRef.current;
+    if (!el) return;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    if (maxScroll <= 10) return;
+
+    const tween = (now: number) => {
+      if (!startTime) startTime = now;
+      const t = Math.min(1, (now - startTime) / duration);
+      /* Bell curve: 0 → peak → 0 using sin */
+      const v = Math.sin(t * Math.PI) * peak;
+      el.scrollLeft = v;
+      if (t < 1) rafId = requestAnimationFrame(tween);
+    };
+
+    const kickoff = setTimeout(() => {
+      rafId = requestAnimationFrame(tween);
+    }, 800);
+
+    return () => {
+      clearTimeout(kickoff);
+      cancelAnimationFrame(rafId);
+    };
+  }, []);
+
   /* Mouse drag-to-scroll (PC) */
   const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = scrollRef.current;
@@ -441,7 +473,12 @@ function ProgramBar() {
                 }}
                 className="group/pnav flex flex-col items-center shrink-0 cursor-pointer transition-all duration-500 hover:opacity-100 opacity-70"
                 style={{
-                  width: compact ? "clamp(64px, 12vw, 100px)" : "clamp(80px, 14vw, 130px)",
+                  /* Width scales with viewport so ~5.5 items are visible at any mobile size.
+                     This guarantees the next circle is always half-cut, hinting scrollability.
+                     Min is tuned so the longest label ("Next Gen Pro") fits without overlapping. */
+                  width: compact
+                    ? "clamp(62px, calc(100vw / 6.5), 82px)"
+                    : "clamp(80px, calc(100vw / 5.5), 110px)",
                   paddingTop: compact ? "6px" : undefined,
                   paddingBottom: compact ? "6px" : undefined,
                 }}
