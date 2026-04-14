@@ -318,13 +318,18 @@ function ProgramBar() {
   const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = scrollRef.current;
     if (!el) return;
+    /* Only left button */
+    if (e.button !== 0) return;
     dragStateRef.current = {
       active: true,
       startX: e.pageX,
       startScroll: el.scrollLeft,
       moved: false,
     };
+    /* Disable smooth scroll while dragging so scrollLeft follows the pointer 1:1 */
+    el.style.scrollBehavior = "auto";
     el.style.cursor = "grabbing";
+    e.preventDefault();
   };
   const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const state = dragStateRef.current;
@@ -332,12 +337,17 @@ function ProgramBar() {
     const el = scrollRef.current;
     if (!el) return;
     const walk = e.pageX - state.startX;
-    if (Math.abs(walk) > 4) state.moved = true;
+    if (Math.abs(walk) > 3) state.moved = true;
     el.scrollLeft = state.startScroll - walk;
+    e.preventDefault();
   };
   const endDrag = () => {
     const el = scrollRef.current;
-    if (el) el.style.cursor = "";
+    if (!dragStateRef.current.active) return;
+    if (el) {
+      el.style.cursor = "";
+      el.style.scrollBehavior = "";
+    }
     /* Keep "moved" true for a tick so the click handler can see it */
     setTimeout(() => {
       dragStateRef.current.active = false;
