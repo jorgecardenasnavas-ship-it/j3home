@@ -360,18 +360,18 @@ function ProgramBar() {
         className="border-b border-white/[.06] relative"
         style={{ backgroundColor: "#121214", transition: "all 0.5s cubic-bezier(.16,1,.3,1)" }}
       >
-        {/* Left fade hint */}
+        {/* Left fade hint — narrow so previous circle is still visible */}
         <div
-          className="pointer-events-none absolute top-0 bottom-0 left-0 w-10 z-10 min-[961px]:hidden"
+          className="pointer-events-none absolute top-0 bottom-0 left-0 w-5 z-10 min-[961px]:hidden"
           style={{
             background: "linear-gradient(to right, #121214 0%, rgba(18,18,20,0) 100%)",
             opacity: canScrollLeft ? 1 : 0,
             transition: "opacity 0.3s ease",
           }}
         />
-        {/* Right fade hint */}
+        {/* Right fade hint — narrow so next circle is still visible */}
         <div
-          className="pointer-events-none absolute top-0 bottom-0 right-0 w-10 z-10 min-[961px]:hidden"
+          className="pointer-events-none absolute top-0 bottom-0 right-0 w-5 z-10 min-[961px]:hidden"
           style={{
             background: "linear-gradient(to left, #121214 0%, rgba(18,18,20,0) 100%)",
             opacity: canScrollRight ? 1 : 0,
