@@ -1198,10 +1198,11 @@ function ProgramTile({
           </p>
         </div>
 
-        {/* Right: CTA — arrow only, label expands on card hover */}
+        {/* Right: CTA — desktop: label expands on hover / mobile: always visible */}
         <div className="flex items-center gap-1 shrink-0">
+          {/* Desktop: animated expand on hover */}
           <span
-            className="text-[13px] font-normal text-white/90 whitespace-nowrap overflow-hidden"
+            className="text-[13px] font-normal text-white/90 whitespace-nowrap overflow-hidden hidden min-[961px]:inline"
             style={{
               maxWidth: isHovered ? "160px" : "0px",
               opacity: isHovered ? 1 : 0,
@@ -1210,6 +1211,10 @@ function ProgramTile({
                 : "max-width 0.4s cubic-bezier(0, 0, 0.2, 1), opacity 0.25s cubic-bezier(0, 0, 0.2, 1)",
             }}
           >
+            {cta.label}
+          </span>
+          {/* Mobile: always visible */}
+          <span className="text-[12px] font-normal text-white/90 whitespace-nowrap min-[961px]:hidden">
             {cta.label}
           </span>
           <svg className="w-6 h-6 max-[640px]:w-5 max-[640px]:h-5 text-white/90 shrink-0" viewBox="0 0 24 24" fill="currentColor">
@@ -1556,8 +1561,9 @@ function PerfilesSection() {
               </div>
 
               <div className="flex items-center gap-1 shrink-0">
+                {/* Desktop: animated expand on hover */}
                 <span
-                  className="text-[13px] font-normal text-white/90 whitespace-nowrap overflow-hidden"
+                  className="text-[13px] font-normal text-white/90 whitespace-nowrap overflow-hidden hidden min-[961px]:inline"
                   style={{
                     maxWidth: empHover ? "160px" : "0px",
                     opacity: empHover ? 1 : 0,
@@ -1566,6 +1572,10 @@ function PerfilesSection() {
                       : "max-width 0.4s cubic-bezier(0, 0, 0.2, 1), opacity 0.25s cubic-bezier(0, 0, 0.2, 1)",
                   }}
                 >
+                  {t.experience.empresas.ctaButton}
+                </span>
+                {/* Mobile: always visible */}
+                <span className="text-[12px] font-normal text-white/90 whitespace-nowrap min-[961px]:hidden">
                   {t.experience.empresas.ctaButton}
                 </span>
                 <svg className="w-6 h-6 max-[640px]:w-5 max-[640px]:h-5 text-white/90 shrink-0" viewBox="0 0 24 24" fill="currentColor">
