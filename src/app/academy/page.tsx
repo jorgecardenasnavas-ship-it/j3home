@@ -1465,7 +1465,7 @@ function WaCtaPill({ label, size = "md", expanded = false }: { label: string; si
 
 /* Porsche-style program tile — full-bleed image, info overlay at bottom */
 function ProgramTile({
-  tag, title, sub, cta, image, href, isHovered, onHover, onLeave, index, visible, cardId, forceExpand = false,
+  tag, title, sub, cta, image, href, isHovered, onHover, onLeave, index, visible, cardId, forceExpand = false, inCarousel = false,
 }: {
   tag: string;
   title: string;
@@ -1480,8 +1480,11 @@ function ProgramTile({
   visible: boolean;
   cardId?: string;
   forceExpand?: boolean;
+  inCarousel?: boolean;
 }) {
-  const expanded = isHovered || forceExpand;
+  // In a carousel (mobile), expansion depends ONLY on visual weight (active slide),
+  // not on mouse hover. On desktop, hover drives expansion.
+  const expanded = inCarousel ? forceExpand : isHovered;
   return (
     <a
       data-card-id={cardId}
@@ -1631,8 +1634,8 @@ function ScrollCarousel({
             className="shrink-0"
             style={{ width: cardWidth, height: cardHeight }}
           >
-            {React.isValidElement<{ forceExpand?: boolean }>(child)
-              ? React.cloneElement(child, { forceExpand: i === activeSlide })
+            {React.isValidElement<{ forceExpand?: boolean; inCarousel?: boolean }>(child)
+              ? React.cloneElement(child, { forceExpand: i === activeSlide, inCarousel: true })
               : child}
           </div>
         ))}
