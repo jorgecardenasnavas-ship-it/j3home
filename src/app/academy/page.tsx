@@ -473,11 +473,10 @@ function ProgramBar() {
                 }}
                 className="group/pnav flex flex-col items-center shrink-0 cursor-pointer transition-all duration-500 hover:opacity-100 opacity-70"
                 style={{
-                  /* Width scales with viewport so ~5.5 items are visible at any mobile size.
-                     This guarantees the next circle is always half-cut, hinting scrollability.
-                     Min is tuned so the longest label ("Next Gen Pro") fits without overlapping. */
+                  /* Non-compact: ~5.5 items visible so next circle is half-cut (hints scroll).
+                     Compact: fit all 7 labels at once (no thumbnails, just text). */
                   width: compact
-                    ? "clamp(62px, calc(100vw / 6.5), 82px)"
+                    ? "clamp(52px, calc(100vw / 7), 90px)"
                     : "clamp(80px, calc(100vw / 5.5), 110px)",
                   paddingTop: compact ? "6px" : undefined,
                   paddingBottom: compact ? "6px" : undefined,
@@ -508,7 +507,7 @@ function ProgramBar() {
                 {/* Name */}
                 <span
                   className="font-semibold text-white/80 group-hover/pnav:text-[var(--g1)] transition-all duration-300 whitespace-nowrap leading-tight"
-                  style={{ fontSize: compact ? "11px" : undefined }}
+                  style={{ fontSize: compact ? "10px" : undefined }}
                 >
                   {p.name}
                 </span>
