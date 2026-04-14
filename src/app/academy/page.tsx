@@ -273,40 +273,86 @@ const PROGRAM_NAV = [
 ];
 
 function ProgramBar() {
+  const [compact, setCompact] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      /* Switch to compact when scrolled past ~80% of viewport (hero area) */
+      setCompact(window.scrollY > window.innerHeight * 0.6);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <div className="sticky top-[52px] z-[90] bg-black/90 backdrop-blur-xl border-b border-white/[.06]">
-      <div className="max-w-[1200px] mx-auto">
-        <div
-          className="flex items-center gap-0 overflow-x-auto scrollbar-hide min-[961px]:justify-center"
-          style={{ scrollBehavior: "smooth" }}
-        >
-          {PROGRAM_NAV.map((p) => (
-            <button
-              key={p.name}
-              type="button"
-              onClick={() => document.getElementById(p.target)?.scrollIntoView({ behavior: "smooth" })}
-              className="group/pnav flex flex-col items-center shrink-0 cursor-pointer py-3 min-[961px]:py-4 transition-opacity duration-300 hover:opacity-100 opacity-70"
-              style={{ width: "clamp(80px, 14vw, 130px)" }}
-            >
-              {/* Thumbnail */}
-              <div className="relative w-[42px] h-[42px] min-[961px]:w-[52px] min-[961px]:h-[52px] rounded-full overflow-hidden mb-1.5 ring-1 ring-white/10 group-hover/pnav:ring-[var(--g1)]/40 transition-all duration-500">
-                <img
-                  src={p.img}
-                  alt={p.name}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover/pnav:scale-110"
-                  style={{ filter: "contrast(1.05) saturate(0.85) brightness(0.95)" }}
-                />
-              </div>
-              {/* Name */}
-              <span className="text-[11px] min-[961px]:text-[12px] font-semibold text-white/80 group-hover/pnav:text-[var(--g1)] transition-colors duration-300 whitespace-nowrap leading-tight">
-                {p.name}
-              </span>
-              {/* Age tag */}
-              <span className="text-[9px] min-[961px]:text-[10px] text-white/40 group-hover/pnav:text-white/60 transition-colors duration-300 mt-[1px]">
-                {p.tag}
-              </span>
-            </button>
-          ))}
+    <div className="sticky top-[52px] z-[90]">
+      {/* Gold accent line — separates navbar from program bar */}
+      <div className="h-[1px] w-full" style={{ background: "linear-gradient(90deg, transparent 0%, var(--g1) 30%, var(--g2) 50%, var(--g1) 70%, transparent 100%)", opacity: 0.3 }} />
+
+      <div
+        className="bg-black/90 backdrop-blur-xl border-b border-white/[.06]"
+        style={{ transition: "all 0.5s cubic-bezier(.16,1,.3,1)" }}
+      >
+        <div className="max-w-[1200px] mx-auto">
+          <div
+            className="flex items-center gap-0 overflow-x-auto scrollbar-hide min-[961px]:justify-center"
+            style={{ scrollBehavior: "smooth" }}
+          >
+            {PROGRAM_NAV.map((p) => (
+              <button
+                key={p.name}
+                type="button"
+                onClick={() => document.getElementById(p.target)?.scrollIntoView({ behavior: "smooth" })}
+                className="group/pnav flex flex-col items-center shrink-0 cursor-pointer transition-all duration-500 hover:opacity-100 opacity-70"
+                style={{
+                  width: compact ? "clamp(64px, 12vw, 100px)" : "clamp(80px, 14vw, 130px)",
+                  paddingTop: compact ? "6px" : undefined,
+                  paddingBottom: compact ? "6px" : undefined,
+                }}
+              >
+                {/* Thumbnail — hidden in compact mode */}
+                <div
+                  className="relative rounded-full overflow-hidden ring-1 ring-white/10 group-hover/pnav:ring-[var(--g1)]/40"
+                  style={{
+                    width: compact ? "0px" : undefined,
+                    height: compact ? "0px" : undefined,
+                    opacity: compact ? 0 : 1,
+                    marginBottom: compact ? "0px" : "6px",
+                    transition: "all 0.5s cubic-bezier(.16,1,.3,1)",
+                  }}
+                >
+                  <div className="w-[42px] h-[42px] min-[961px]:w-[52px] min-[961px]:h-[52px]">
+                    <img
+                      src={p.img}
+                      alt={p.name}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover/pnav:scale-110"
+                      style={{ filter: "contrast(1.05) saturate(0.85) brightness(0.95)" }}
+                    />
+                  </div>
+                </div>
+                {/* Name */}
+                <span
+                  className="font-semibold text-white/80 group-hover/pnav:text-[var(--g1)] transition-all duration-300 whitespace-nowrap leading-tight"
+                  style={{ fontSize: compact ? "11px" : undefined }}
+                >
+                  {p.name}
+                </span>
+                {/* Age tag — hidden in compact */}
+                <span
+                  className="text-[9px] min-[961px]:text-[10px] text-white/40 group-hover/pnav:text-white/60 transition-all duration-500"
+                  style={{
+                    maxHeight: compact ? "0px" : "20px",
+                    opacity: compact ? 0 : 1,
+                    marginTop: compact ? "0px" : "1px",
+                    overflow: "hidden",
+                  }}
+                >
+                  {p.tag}
+                </span>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </div>
