@@ -287,9 +287,6 @@ function ProgramBar() {
 
   return (
     <div className="sticky top-[52px] z-[90]">
-      {/* Gold accent line — separates navbar from program bar */}
-      <div className="h-[1px] w-full" style={{ background: "linear-gradient(90deg, transparent 0%, var(--g1) 30%, var(--g2) 50%, var(--g1) 70%, transparent 100%)", opacity: 0.3 }} />
-
       <div
         className="bg-black/90 backdrop-blur-xl border-b border-white/[.06]"
         style={{ transition: "all 0.5s cubic-bezier(.16,1,.3,1)" }}
