@@ -89,7 +89,7 @@ export const es = {
       },
       {
         tag: "Headquarters \u00B7 Stages \u00B7 Camps",
-        forLabel: "Kids \u00B7 Amateur \u00B7 Next Gen",
+        forLabel: "Kids \u00B7 Amateur \u00B7 Promise",
         description: "El mismo sistema del circuito profesional, adaptado a ti.",
         buttons: ["Entrena con nosotros"],
       },
@@ -399,8 +399,8 @@ export const es = {
         "Campe\u00F3n de Espa\u00F1a y del Mundo Junior",
       ],
       nextGenProTags: [
-        "Next Gen \u2192 Top 30",
-        "Next Gen \u2192 Top 30",
+        "Promise \u2192 Top 30",
+        "Promise \u2192 Top 30",
       ],
       featuredPlayers: [
         { info: "5 finales y pareja n.\u00BA 4 del mundo en 2021.", tag: "3 T\u00EDtulos \u00B7 #4 Mundial 2021" },
@@ -591,17 +591,17 @@ export const es = {
         },
         {
           tag: "Kids to PRO",
-          title: "Next Gen",
+          title: "Promise",
           sub: "14+ \u00B7 Competici\u00F3n",
           ctaLabel: "Solicitar info",
-          waMsg: "Hola, quiero info sobre Next Gen (14+ competici\u00F3n)",
+          waMsg: "Hola, quiero info sobre Promise (14+ competici\u00F3n)",
         },
         {
           tag: "Alto rendimiento",
-          title: "Next Gen Pro",
+          title: "Next Gen",
           sub: "16+ \u00B7 Circuito",
           ctaLabel: "Solicitar info",
-          waMsg: "Hola, quiero info sobre Next Gen Pro (16+ circuito)",
+          waMsg: "Hola, quiero info sobre Next Gen (16+ circuito)",
         },
       ],
       adultosLabel: "Adultos",

@@ -89,7 +89,7 @@ export const pt = {
       },
       {
         tag: "Headquarters · Stages · Camps",
-        forLabel: "Kids · Amateur · Next Gen",
+        forLabel: "Kids · Amateur · Promise",
         description: "O mesmo sistema do circuito profissional, adaptado a si.",
         buttons: ["Treine connosco"],
       },
@@ -398,8 +398,8 @@ export const pt = {
         "Campeão de Espanha e do Mundo Júnior",
       ],
       nextGenProTags: [
-        "Next Gen → Top 30",
-        "Next Gen → Top 30",
+        "Promise → Top 30",
+        "Promise → Top 30",
       ],
       featuredPlayers: [
         { info: "5 finais e dupla n.º 4 do mundo em 2021.", tag: "3 Títulos · #4 Mundial 2021" },
@@ -591,17 +591,17 @@ export const pt = {
         },
         {
           tag: "Kids to PRO",
-          title: "Next Gen",
+          title: "Promise",
           sub: "14+ \u00B7 Competi\u00E7\u00E3o",
           ctaLabel: "Pedir info",
-          waMsg: "Ol\u00E1, quero informa\u00E7\u00E3o sobre Next Gen (14+ competi\u00E7\u00E3o)",
+          waMsg: "Ol\u00E1, quero informa\u00E7\u00E3o sobre Promise (14+ competi\u00E7\u00E3o)",
         },
         {
           tag: "Alto rendimento",
-          title: "Next Gen Pro",
+          title: "Next Gen",
           sub: "16+ \u00B7 Circuito",
           ctaLabel: "Pedir info",
-          waMsg: "Ol\u00E1, quero informa\u00E7\u00E3o sobre Next Gen Pro (16+ circuito)",
+          waMsg: "Ol\u00E1, quero informa\u00E7\u00E3o sobre Next Gen (16+ circuito)",
         },
       ],
       adultosLabel: "Adultos",

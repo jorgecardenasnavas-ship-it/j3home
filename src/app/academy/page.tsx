@@ -268,8 +268,8 @@ function J3Ball({ className = "" }: { className?: string }) {
 const PROGRAM_NAV = [
   { name: "Kinder", img: "/images/academy/kinder.jpeg", target: "juniors", cardId: "card-kinder", tag: "4–10" },
   { name: "Kids", img: "/images/academy/kids.jpeg", target: "juniors", cardId: "card-kids", tag: "10+" },
-  { name: "Next Gen", img: "/images/academy/nextgen.jpeg", target: "juniors", cardId: "card-nextgen", tag: "14+" },
-  { name: "Next Gen Pro", img: "/images/academy/nextgen-pro.jpeg", target: "juniors", cardId: "card-nextgenpro", tag: "16+" },
+  { name: "Promise", img: "/images/academy/nextgen.jpeg", target: "juniors", cardId: "card-nextgen", tag: "14+" },
+  { name: "Next Gen", img: "/images/academy/nextgen-pro.jpeg", target: "juniors", cardId: "card-nextgenpro", tag: "16+" },
   { name: "Tu Club", img: "/images/academy/amateur.jpeg", target: "adultos", cardId: "card-tuclub", tag: "Adultos" },
   { name: "Intensive", img: "/images/academy/stage-group.jpeg", target: "adultos", cardId: "card-intensive", tag: "Camps" },
   { name: "Empresas", img: "/images/academy/empresas-poster.jpeg", target: "empresas", cardId: "card-empresas", tag: "B2B" },
@@ -2061,8 +2061,8 @@ function ProgramasGridSection() {
   const programs = [
     { name: "Kinder", tag: "4 – 10 años", img: "/images/academy/kinder.jpeg", href: "#programas" },
     { name: "Kids", tag: "10+", img: "/images/academy/kids.jpeg", href: "#programas" },
-    { name: "Next Gen", tag: "14+ · Competición", img: "/images/academy/nextgen.jpeg", href: "#programas" },
-    { name: "Next Gen Pro", tag: "16+ · Circuito", img: "/images/academy/nextgen-pro.jpeg", href: "#programas" },
+    { name: "Promise", tag: "14+ · Competición", img: "/images/academy/nextgen.jpeg", href: "#programas" },
+    { name: "Next Gen", tag: "16+ · Circuito", img: "/images/academy/nextgen-pro.jpeg", href: "#programas" },
     { name: "Tu Club", tag: "Adultos", img: "/images/academy/amateur.jpeg", href: "#programas" },
     { name: "Intensive Training", tag: "Camps · Stages", img: "/images/academy/stage-group.jpeg", href: "#programas" },
   ];

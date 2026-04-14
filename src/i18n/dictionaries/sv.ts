@@ -89,7 +89,7 @@ export const sv = {
       },
       {
         tag: "Headquarters \u00B7 Stages \u00B7 Camps",
-        forLabel: "Kids \u00B7 Amateur \u00B7 Next Gen",
+        forLabel: "Kids \u00B7 Amateur \u00B7 Promise",
         description: "Samma system som på proffstouren, anpassat för dig.",
         buttons: ["Träna med oss"],
       },
@@ -398,8 +398,8 @@ export const sv = {
         "Mästare i Spanien och världen Junior",
       ],
       nextGenProTags: [
-        "Next Gen → Topp 30",
-        "Next Gen → Topp 30",
+        "Promise → Topp 30",
+        "Promise → Topp 30",
       ],
       featuredPlayers: [
         { info: "5 finaler och världens par nr 4 år 2021.", tag: "3 titlar · #4 i världen 2021" },
@@ -591,17 +591,17 @@ export const sv = {
         },
         {
           tag: "Kids to PRO",
-          title: "Next Gen",
+          title: "Promise",
           sub: "14+ \u00B7 T\u00E4vling",
           ctaLabel: "Beg\u00E4r info",
-          waMsg: "Hej, jag vill ha info om Next Gen (14+ t\u00E4vling)",
+          waMsg: "Hej, jag vill ha info om Promise (14+ t\u00E4vling)",
         },
         {
           tag: "H\u00F6gprestation",
-          title: "Next Gen Pro",
+          title: "Next Gen",
           sub: "16+ \u00B7 Touren",
           ctaLabel: "Beg\u00E4r info",
-          waMsg: "Hej, jag vill ha info om Next Gen Pro (16+ touren)",
+          waMsg: "Hej, jag vill ha info om Next Gen (16+ touren)",
         },
       ],
       adultosLabel: "Vuxna",
