@@ -565,63 +565,45 @@ function HeroSection() {
             ))}
           </div>
 
-          {/* CTA — animate then scroll to programs */}
-          <button
-            type="button"
-            onClick={(e) => {
-              const btn = e.currentTarget;
-              const legs = btn.querySelectorAll<HTMLElement>(".j3-ball-legs");
-              const line = btn.querySelector(".j3-cta-line") as HTMLElement;
-              const ballSvgs = btn.querySelectorAll<SVGElement>(".j3-ball-wrap svg");
-
-              const isDesktop = window.matchMedia("(hover: hover)").matches;
-
-              if (isDesktop) {
-                /* Desktop: quick flash → instant scroll */
-                if (line) { line.style.scale = "1 1"; line.style.transition = "scale .15s ease-out"; }
-                legs.forEach((leg) => { leg.style.opacity = "1"; leg.style.transform = "translateY(0)"; leg.style.transition = "all .15s ease-out"; });
-                ballSvgs.forEach((svg) => { svg.style.filter = "brightness(1.6) saturate(0.2)"; svg.style.transition = "filter .15s ease-out"; });
-                setTimeout(() => {
-                  document.getElementById("programas")?.scrollIntoView({ behavior: "smooth" });
-                }, 180);
-                setTimeout(() => {
-                  legs.forEach((leg) => { leg.style.opacity = ""; leg.style.transform = ""; leg.style.transition = ""; });
-                  ballSvgs.forEach((svg) => { svg.style.filter = ""; svg.style.transition = ""; });
-                  if (line) { line.style.scale = ""; line.style.transition = ""; }
-                }, 1500);
-              } else {
-                /* Mobile: sequential animation → scroll */
-                if (line) {
-                  line.style.scale = "1 1";
-                  line.style.transition = "scale .6s cubic-bezier(.22,1,.36,1)";
-                }
-                setTimeout(() => {
-                  legs.forEach((leg) => { leg.style.opacity = "1"; leg.style.transform = "translateY(0)"; leg.style.transition = "all .45s cubic-bezier(.22,1,.36,1)"; });
-                  ballSvgs.forEach((svg) => { svg.style.filter = "brightness(1.6) saturate(0.2)"; svg.style.transition = "filter .45s ease"; });
-                }, 540);
-                setTimeout(() => {
-                  document.getElementById("programas")?.scrollIntoView({ behavior: "smooth" });
-                }, 920);
-                setTimeout(() => {
-                  legs.forEach((leg) => { leg.style.opacity = ""; leg.style.transform = ""; leg.style.transition = ""; });
-                  ballSvgs.forEach((svg) => { svg.style.filter = ""; svg.style.transition = ""; });
-                  if (line) { line.style.scale = ""; line.style.transition = ""; }
-                }, 2000);
-              }
-            }}
-            className="group/cta inline-flex items-center gap-3 cursor-pointer w-fit mx-auto mt-4"
-          >
-            <span
-              className="relative text-[13px] font-semibold tracking-[3px] uppercase text-[var(--g1)]"
-              style={isMobile ? { textShadow: "0 1px 8px rgba(0,0,0,.6)" } : undefined}
-            >
-              {t.academy.hero.ctaLabel}
-              <span className="j3-cta-line absolute left-0 -bottom-[5px] h-[1.5px] w-full bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] origin-left scale-x-[0.4] group-hover/cta:scale-x-100 transition-transform duration-700 ease-out" />
-            </span>
-            <span className="j3-ball-wrap w-[22px] h-[22px] group-hover/cta:w-[28px] group-hover/cta:h-[28px] transition-all duration-500 ease-out">
-              <J3Ball className="w-full h-full" />
-            </span>
-          </button>
+          {/* Program pills — direct access to each program */}
+          <div className="flex flex-wrap items-center justify-center gap-2 max-[640px]:gap-1.5 mt-5 max-[960px]:mt-4">
+            {[
+              { label: "Kinder", target: "juniors" },
+              { label: "Kids", target: "juniors" },
+              { label: "Next Gen", target: "juniors" },
+              { label: "Next Gen Pro", target: "juniors" },
+              { label: "Tu Club", target: "adultos" },
+              { label: "Intensive", target: "adultos" },
+              { label: "Empresas", target: "empresas" },
+            ].map((p, i) => (
+              <button
+                key={p.label}
+                type="button"
+                onClick={() => document.getElementById(p.target)?.scrollIntoView({ behavior: "smooth" })}
+                className="group/pill relative px-3.5 py-[6px] max-[640px]:px-2.5 max-[640px]:py-[5px] rounded-full text-[12px] max-[640px]:text-[11px] font-medium tracking-[1.5px] uppercase cursor-pointer border transition-all duration-500 ease-out"
+                style={{
+                  background: "rgba(255,255,255,0.06)",
+                  borderColor: "rgba(255,255,255,0.12)",
+                  color: "rgba(255,255,255,0.8)",
+                  backdropFilter: "blur(12px)",
+                  animationDelay: `${i * 0.06}s`,
+                  textShadow: isMobile ? "0 1px 6px rgba(0,0,0,.5)" : undefined,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "rgba(220,175,100,0.15)";
+                  e.currentTarget.style.borderColor = "rgba(220,175,100,0.4)";
+                  e.currentTarget.style.color = "var(--g1)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "rgba(255,255,255,0.06)";
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)";
+                  e.currentTarget.style.color = "rgba(255,255,255,0.8)";
+                }}
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
 
           {/* ── Leg navigation (3 patas del logo — progress fill) ── */}
           <div className="flex items-end justify-center gap-[4px] mt-8 min-[961px]:scale-[1.3] min-[961px]:mt-10">
@@ -1395,7 +1377,7 @@ function PerfilesSection() {
       </div>
 
       {/* Block 1: Juniors */}
-      <div className="border-t theme-border">
+      <div id="juniors" className="border-t theme-border">
         <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] theme-text tracking-[-1px]">01</span>
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.juniorsLabel}</span>
@@ -1455,7 +1437,7 @@ function PerfilesSection() {
       </div>
 
       {/* Block 2: Adultos */}
-      <div className="border-t theme-border">
+      <div id="adultos" className="border-t theme-border">
         <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] theme-text tracking-[-1px]">02</span>
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.adultosLabel}</span>
@@ -1502,7 +1484,7 @@ function PerfilesSection() {
       </div>
 
       {/* Block 3: Empresas — same ProgramTile style with video bg */}
-      <div className="border-t theme-border">
+      <div id="empresas" className="border-t theme-border">
         <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] theme-text tracking-[-1px]">03</span>
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.experience.empresas.heading}</span>
