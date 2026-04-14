@@ -36,36 +36,44 @@ function useDragScroll(totalSlides: number = 0) {
     return () => el.removeEventListener("scroll", onScroll);
   }, [totalSlides]);
 
-  /* Mouse drag (desktop) */
+  /* Mouse drag (desktop viewing mobile layout) */
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
+
     const onDown = (e: MouseEvent) => {
-      dragState.current = { startX: e.pageX - el.offsetLeft, scrollLeft: el.scrollLeft, active: true, moved: false };
+      e.preventDefault(); // Prevent link drag / text selection
+      dragState.current = { startX: e.pageX, scrollLeft: el.scrollLeft, active: true, moved: false };
       setIsDragging(true);
       el.style.cursor = "grabbing";
       el.style.userSelect = "none";
+      // Disable snap during drag so it doesn't fight
+      el.style.scrollSnapType = "none";
     };
+
     const onMove = (e: MouseEvent) => {
       if (!dragState.current.active) return;
       e.preventDefault();
-      const x = e.pageX - el.offsetLeft;
-      const walk = (x - dragState.current.startX) * 1.5;
+      const walk = (e.pageX - dragState.current.startX) * 1.2;
       if (Math.abs(walk) > 3) dragState.current.moved = true;
       el.scrollLeft = dragState.current.scrollLeft - walk;
     };
+
     const onUp = () => {
       if (!dragState.current.active) return;
       dragState.current.active = false;
       setIsDragging(false);
       el.style.cursor = "grab";
       el.style.userSelect = "";
+      // Re-enable snap after drag — let it settle to nearest card
+      el.style.scrollSnapType = "x mandatory";
       /* Block click if we dragged */
       if (dragState.current.moved) {
         const block = (ev: Event) => { ev.preventDefault(); ev.stopPropagation(); };
         el.addEventListener("click", block, { capture: true, once: true });
       }
     };
+
     el.addEventListener("mousedown", onDown);
     window.addEventListener("mousemove", onMove);
     window.addEventListener("mouseup", onUp);
@@ -82,7 +90,7 @@ function useDragScroll(totalSlides: number = 0) {
     const el = scrollRef.current;
     if (!el || !el.children[index]) return;
     const child = el.children[index] as HTMLElement;
-    el.scrollTo({ left: child.offsetLeft - 16, behavior: "smooth" });
+    el.scrollTo({ left: child.offsetLeft - 12, behavior: "smooth" });
   };
 
   return { scrollRef, progress, activeSlide, isDragging, goTo };
