@@ -258,6 +258,61 @@ function J3Ball({ className = "" }: { className?: string }) {
   );
 }
 
+/* ═══════════════════════════════════════════════════════
+   PROGRAM BAR — Apple-style product navigation
+   ═══════════════════════════════════════════════════════ */
+
+const PROGRAM_NAV = [
+  { name: "Kinder", img: "/images/academy/kinder.jpeg", target: "juniors", tag: "4–10" },
+  { name: "Kids", img: "/images/academy/kids.jpeg", target: "juniors", tag: "10+" },
+  { name: "Next Gen", img: "/images/academy/nextgen.jpeg", target: "juniors", tag: "14+" },
+  { name: "Next Gen Pro", img: "/images/academy/nextgen-pro.jpeg", target: "juniors", tag: "16+" },
+  { name: "Tu Club", img: "/images/academy/amateur.jpeg", target: "adultos", tag: "Adultos" },
+  { name: "Intensive", img: "/images/academy/stage-group.jpeg", target: "adultos", tag: "Camps" },
+  { name: "Empresas", img: "/images/academy/empresas-poster.jpeg", target: "empresas", tag: "B2B" },
+];
+
+function ProgramBar() {
+  return (
+    <div className="sticky top-[52px] z-[90] bg-black/90 backdrop-blur-xl border-b border-white/[.06]">
+      <div className="max-w-[1200px] mx-auto">
+        <div
+          className="flex items-center gap-0 overflow-x-auto scrollbar-hide min-[961px]:justify-center"
+          style={{ scrollBehavior: "smooth" }}
+        >
+          {PROGRAM_NAV.map((p) => (
+            <button
+              key={p.name}
+              type="button"
+              onClick={() => document.getElementById(p.target)?.scrollIntoView({ behavior: "smooth" })}
+              className="group/pnav flex flex-col items-center shrink-0 cursor-pointer py-3 min-[961px]:py-4 transition-opacity duration-300 hover:opacity-100 opacity-70"
+              style={{ width: "clamp(80px, 14vw, 130px)" }}
+            >
+              {/* Thumbnail */}
+              <div className="relative w-[42px] h-[42px] min-[961px]:w-[52px] min-[961px]:h-[52px] rounded-full overflow-hidden mb-1.5 ring-1 ring-white/10 group-hover/pnav:ring-[var(--g1)]/40 transition-all duration-500">
+                <img
+                  src={p.img}
+                  alt={p.name}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover/pnav:scale-110"
+                  style={{ filter: "contrast(1.05) saturate(0.85) brightness(0.95)" }}
+                />
+              </div>
+              {/* Name */}
+              <span className="text-[11px] min-[961px]:text-[12px] font-semibold text-white/80 group-hover/pnav:text-[var(--g1)] transition-colors duration-300 whitespace-nowrap leading-tight">
+                {p.name}
+              </span>
+              {/* Age tag */}
+              <span className="text-[9px] min-[961px]:text-[10px] text-white/40 group-hover/pnav:text-white/60 transition-colors duration-300 mt-[1px]">
+                {p.tag}
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 type SlideImage = { src: string; pos: string; mobilePos?: string };
 
 const HERO_SLIDES: {
@@ -565,45 +620,23 @@ function HeroSection() {
             ))}
           </div>
 
-          {/* Program pills — direct access to each program */}
-          <div className="flex flex-wrap items-center justify-center gap-2 max-[640px]:gap-1.5 mt-5 max-[960px]:mt-4">
-            {[
-              { label: "Kinder", target: "juniors" },
-              { label: "Kids", target: "juniors" },
-              { label: "Next Gen", target: "juniors" },
-              { label: "Next Gen Pro", target: "juniors" },
-              { label: "Tu Club", target: "adultos" },
-              { label: "Intensive", target: "adultos" },
-              { label: "Empresas", target: "empresas" },
-            ].map((p, i) => (
-              <button
-                key={p.label}
-                type="button"
-                onClick={() => document.getElementById(p.target)?.scrollIntoView({ behavior: "smooth" })}
-                className="group/pill relative px-3.5 py-[6px] max-[640px]:px-2.5 max-[640px]:py-[5px] rounded-full text-[12px] max-[640px]:text-[11px] font-medium tracking-[1.5px] uppercase cursor-pointer border transition-all duration-500 ease-out"
-                style={{
-                  background: "rgba(255,255,255,0.06)",
-                  borderColor: "rgba(255,255,255,0.12)",
-                  color: "rgba(255,255,255,0.8)",
-                  backdropFilter: "blur(12px)",
-                  animationDelay: `${i * 0.06}s`,
-                  textShadow: isMobile ? "0 1px 6px rgba(0,0,0,.5)" : undefined,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(220,175,100,0.15)";
-                  e.currentTarget.style.borderColor = "rgba(220,175,100,0.4)";
-                  e.currentTarget.style.color = "var(--g1)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "rgba(255,255,255,0.06)";
-                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)";
-                  e.currentTarget.style.color = "rgba(255,255,255,0.8)";
-                }}
-              >
-                {p.label}
-              </button>
-            ))}
-          </div>
+          {/* CTA — scroll to programs */}
+          <button
+            type="button"
+            onClick={() => document.getElementById("programas")?.scrollIntoView({ behavior: "smooth" })}
+            className="group/cta inline-flex items-center gap-3 cursor-pointer w-fit mx-auto mt-4"
+          >
+            <span
+              className="relative text-[13px] font-semibold tracking-[3px] uppercase text-[var(--g1)]"
+              style={isMobile ? { textShadow: "0 1px 8px rgba(0,0,0,.6)" } : undefined}
+            >
+              {t.academy.hero.ctaLabel}
+              <span className="j3-cta-line absolute left-0 -bottom-[5px] h-[1.5px] w-full bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] origin-left scale-x-[0.4] group-hover/cta:scale-x-100 transition-transform duration-700 ease-out" />
+            </span>
+            <span className="j3-ball-wrap w-[22px] h-[22px] group-hover/cta:w-[28px] group-hover/cta:h-[28px] transition-all duration-500 ease-out">
+              <J3Ball className="w-full h-full" />
+            </span>
+          </button>
 
           {/* ── Leg navigation (3 patas del logo — progress fill) ── */}
           <div className="flex items-end justify-center gap-[4px] mt-8 min-[961px]:scale-[1.3] min-[961px]:mt-10">
@@ -2073,6 +2106,7 @@ export default function AcademyV2Page() {
   return (
     <main className="font-sans w-full">
       <Navbar />
+      <ProgramBar />
 
       {/* Hero (starts dark — body default) */}
       <HeroSection />
