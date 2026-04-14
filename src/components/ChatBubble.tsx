@@ -7,6 +7,7 @@ export function ChatBubble() {
   const [hovered, setHovered] = useState(false);
   const [bottomOffset, setBottomOffset] = useState(24);
   const [pastHero, setPastHero] = useState(false);
+  const [inHideZone, setInHideZone] = useState(false);
   const { t } = useI18n();
   const rafRef = useRef(0);
 
@@ -22,6 +23,19 @@ export function ChatBubble() {
       } else {
         setPastHero(window.scrollY > viewH * 0.6);
       }
+
+      // Hide when any [data-hide-chat] section is visible — those
+      // already have their own prominent WhatsApp CTA.
+      const hideZones = document.querySelectorAll<HTMLElement>("[data-hide-chat]");
+      let hide = false;
+      for (const el of hideZones) {
+        const r = el.getBoundingClientRect();
+        if (r.top < viewH && r.bottom > 0) {
+          hide = true;
+          break;
+        }
+      }
+      setInHideZone(hide);
 
       const footer = document.querySelector("footer");
       if (!footer) return;
@@ -57,9 +71,9 @@ export function ChatBubble() {
       className="fixed right-4 max-[960px]:right-3 z-100 flex items-center gap-3 no-underline group cursor-pointer"
       style={{
         bottom: `${bottomOffset}px`,
-        opacity: pastHero ? 1 : 0,
-        transform: pastHero ? "translateY(0)" : "translateY(16px)",
-        pointerEvents: pastHero ? "auto" : "none",
+        opacity: pastHero && !inHideZone ? 1 : 0,
+        transform: pastHero && !inHideZone ? "translateY(0)" : "translateY(16px)",
+        pointerEvents: pastHero && !inHideZone ? "auto" : "none",
         transition: "bottom .25s ease-out, opacity .5s ease, transform .5s cubic-bezier(.22,1,.36,1)",
       }}
     >

@@ -2162,7 +2162,7 @@ function ProgramasGridSection() {
   );
 
   return (
-    <section className="relative bg-[var(--bk)] py-[80px] max-[960px]:py-[60px] border-b border-white/[.07]">
+    <section data-hide-chat className="relative bg-[var(--bk)] py-[80px] max-[960px]:py-[60px] border-b border-white/[.07]">
       <div className="max-w-[1600px] mx-auto">
         <div
           ref={ref}
@@ -2298,6 +2298,7 @@ function CtaFinalSection() {
   return (
     <section
       ref={ref}
+      data-hide-chat
       className="relative bg-[var(--bk)] py-[100px] max-[960px]:py-[72px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden text-center"
     >
       {/* Gold accent line top */}
