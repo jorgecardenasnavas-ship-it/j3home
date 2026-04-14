@@ -202,27 +202,114 @@ html[data-theme="light"] .theme-eyebrow {
 .j3-ball-legs {
   opacity: 0;
   transform: translateY(-8px);
-  transition: all .45s cubic-bezier(.22, 1, .36, 1);
+  transition: all .5s cubic-bezier(.22, 1, .36, 1);
 }
 .j3-ball-wrap svg {
   filter: brightness(1) saturate(1);
-  transition: filter .45s ease;
+  transition: filter .5s ease, transform .7s cubic-bezier(.22, 1, .36, 1);
 }
-/* Desktop hover — sequential: line first, then logo */
+
+/* Hero CTA — button container effects */
+.j3-hero-cta {
+  box-shadow: 0 2px 20px rgba(0,0,0,.3);
+  transition: box-shadow .7s cubic-bezier(.22,1,.36,1),
+              border-color .7s cubic-bezier(.22,1,.36,1);
+}
+/* Gold fill overlay — hidden by default, revealed on hover after line completes */
+.j3-hero-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(220,175,100,.15) 0%, rgba(220,175,100,.05) 100%);
+  opacity: 0;
+  transition: opacity .5s cubic-bezier(.22,1,.36,1);
+  pointer-events: none;
+  z-index: 0;
+}
+.j3-hero-ball {
+  transition: all .7s cubic-bezier(.22, 1, .36, 1);
+  z-index: 1;
+}
+
+/* Desktop hover — orchestrated sequence */
 @media (hover: hover) {
-  .group\/cta:hover .j3-cta-line {
-    scale: 1 1 !important;
-    transition: scale .6s cubic-bezier(.22,1,.36,1) !important;
+  /* 1. Ball grows + legs appear instantly */
+  .group\/cta:hover .j3-ball-wrap svg {
+    filter: brightness(1.3) saturate(0.5);
+    transform: scale(1.08);
+    transition-delay: 0s;
   }
   .group\/cta:hover .j3-ball-legs {
     opacity: 1;
     transform: translateY(0);
-    transition-delay: .38s;
+    transition-delay: 0s;
   }
-  .group\/cta:hover .j3-ball-wrap svg {
-    filter: brightness(1.6) saturate(0.2);
-    transition-delay: .38s;
+  /* 2. Line expands after logo — ease-in: slow start, fast finish */
+  .group\/cta:hover .j3-cta-line {
+    scale: 1 1 !important;
+    transition: scale .7s cubic-bezier(.7,0,1,.5) .35s !important;
   }
+  /* 3. When line completes (~1.05s) — gold fill floods the button */
+  .j3-hero-cta:hover::before {
+    opacity: 1;
+    transition: opacity .5s cubic-bezier(.22,1,.36,1) 1.05s;
+  }
+  .j3-hero-cta:hover {
+    border-color: rgba(220,175,100,.4) !important;
+    box-shadow: 0 4px 32px rgba(220,175,100,.2), 0 0 40px rgba(220,175,100,.08), 0 2px 20px rgba(0,0,0,.4);
+    transition: box-shadow .5s cubic-bezier(.22,1,.36,1) 1.05s,
+                border-color .5s cubic-bezier(.22,1,.36,1) 1.05s;
+    /* 4. Heartbeat pulse starts after gold fill completes */
+    animation: j3-heartbeat 2s ease-in-out 1.8s infinite;
+  }
+  /* Ball bg lights up */
+  .j3-hero-cta:hover .j3-hero-ball {
+    background: linear-gradient(135deg, rgba(220,175,100,.22) 0%, rgba(220,175,100,.08) 100%) !important;
+    transition-delay: 1.05s;
+  }
+}
+
+/* Heartbeat pulse — gold energy breathing while hovering */
+@keyframes j3-heartbeat {
+  0%, 100% {
+    box-shadow: 0 4px 32px rgba(220,175,100,.15), 0 0 30px rgba(220,175,100,.06), 0 2px 20px rgba(0,0,0,.4);
+    border-color: rgba(220,175,100,.3);
+  }
+  50% {
+    box-shadow: 0 4px 40px rgba(220,175,100,.3), 0 0 60px rgba(220,175,100,.12), 0 2px 20px rgba(0,0,0,.4);
+    border-color: rgba(220,175,100,.55);
+  }
+}
+
+/* ProgramBar circle energy pulse on hover */
+@keyframes j3-circle-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(220,175,100,.15), 0 0 8px rgba(220,175,100,.06);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(220,175,100,.1), 0 0 20px rgba(220,175,100,.15);
+  }
+}
+
+/* ProgramBar circles — gold contour + energy on hover */
+.j3-pnav-circle {
+  transition: border-color .4s ease, box-shadow .4s ease;
+}
+.group\/pnav:hover .j3-pnav-circle {
+  border-color: rgba(220,175,100,.7) !important;
+  box-shadow: 0 0 12px rgba(220,175,100,.25), 0 0 4px rgba(220,175,100,.12);
+  animation: j3-circle-pulse 1.8s ease-in-out .3s infinite;
+}
+
+/* Card highlight — flash gold border when navigated from ProgramBar */
+.j3-card-highlight {
+  animation: cardHighlight 1.8s cubic-bezier(.22,1,.36,1) forwards;
+}
+@keyframes cardHighlight {
+  0% { box-shadow: 0 0 0 0 rgba(220,175,100,0); }
+  15% { box-shadow: 0 0 0 3px rgba(220,175,100,.5), 0 0 30px rgba(220,175,100,.15); }
+  100% { box-shadow: 0 0 0 0 rgba(220,175,100,0); }
 }
 
 /* ─── Animations ─── */

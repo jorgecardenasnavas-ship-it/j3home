@@ -6,15 +6,26 @@ import { useI18n } from "@/i18n/context";
 export function ChatBubble() {
   const [hovered, setHovered] = useState(false);
   const [bottomOffset, setBottomOffset] = useState(24);
+  const [pastHero, setPastHero] = useState(false);
   const { t } = useI18n();
   const rafRef = useRef(0);
 
   useEffect(() => {
     function check() {
+      const viewH = window.innerHeight;
+
+      // Show once the section after the hero enters the viewport
+      const nextSection = document.querySelector("section.bg-white");
+      if (nextSection) {
+        const sRect = nextSection.getBoundingClientRect();
+        setPastHero(sRect.top < viewH * 0.95);
+      } else {
+        setPastHero(window.scrollY > viewH * 0.6);
+      }
+
       const footer = document.querySelector("footer");
       if (!footer) return;
       const rect = footer.getBoundingClientRect();
-      const viewH = window.innerHeight;
       // If footer is visible, push the button above it
       if (rect.top < viewH) {
         const overlap = viewH - rect.top;
@@ -46,7 +57,10 @@ export function ChatBubble() {
       className="fixed right-4 max-[960px]:right-3 z-100 flex items-center gap-3 no-underline group cursor-pointer"
       style={{
         bottom: `${bottomOffset}px`,
-        transition: "bottom .25s ease-out",
+        opacity: pastHero ? 1 : 0,
+        transform: pastHero ? "translateY(0)" : "translateY(16px)",
+        pointerEvents: pastHero ? "auto" : "none",
+        transition: "bottom .25s ease-out, opacity .5s ease, transform .5s cubic-bezier(.22,1,.36,1)",
       }}
     >
       {/* Tooltip label */}

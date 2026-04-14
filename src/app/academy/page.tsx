@@ -263,13 +263,13 @@ function J3Ball({ className = "" }: { className?: string }) {
    ═══════════════════════════════════════════════════════ */
 
 const PROGRAM_NAV = [
-  { name: "Kinder", img: "/images/academy/kinder.jpeg", target: "juniors", tag: "4–10" },
-  { name: "Kids", img: "/images/academy/kids.jpeg", target: "juniors", tag: "10+" },
-  { name: "Next Gen", img: "/images/academy/nextgen.jpeg", target: "juniors", tag: "14+" },
-  { name: "Next Gen Pro", img: "/images/academy/nextgen-pro.jpeg", target: "juniors", tag: "16+" },
-  { name: "Tu Club", img: "/images/academy/amateur.jpeg", target: "adultos", tag: "Adultos" },
-  { name: "Intensive", img: "/images/academy/stage-group.jpeg", target: "adultos", tag: "Camps" },
-  { name: "Empresas", img: "/images/academy/empresas-poster.jpeg", target: "empresas", tag: "B2B" },
+  { name: "Kinder", img: "/images/academy/kinder.jpeg", target: "juniors", cardId: "card-kinder", tag: "4–10" },
+  { name: "Kids", img: "/images/academy/kids.jpeg", target: "juniors", cardId: "card-kids", tag: "10+" },
+  { name: "Next Gen", img: "/images/academy/nextgen.jpeg", target: "juniors", cardId: "card-nextgen", tag: "14+" },
+  { name: "Next Gen Pro", img: "/images/academy/nextgen-pro.jpeg", target: "juniors", cardId: "card-nextgenpro", tag: "16+" },
+  { name: "Tu Club", img: "/images/academy/amateur.jpeg", target: "adultos", cardId: "card-tuclub", tag: "Adultos" },
+  { name: "Intensive", img: "/images/academy/stage-group.jpeg", target: "adultos", cardId: "card-intensive", tag: "Camps" },
+  { name: "Empresas", img: "/images/academy/empresas-poster.jpeg", target: "empresas", cardId: "card-empresas", tag: "B2B" },
 ];
 
 function ProgramBar() {
@@ -300,7 +300,16 @@ function ProgramBar() {
               <button
                 key={p.name}
                 type="button"
-                onClick={() => document.getElementById(p.target)?.scrollIntoView({ behavior: "smooth" })}
+                onClick={() => {
+                  const card = document.getElementById(p.cardId);
+                  if (card) {
+                    card.scrollIntoView({ behavior: "smooth", block: "center" });
+                    card.classList.add("j3-card-highlight");
+                    setTimeout(() => card.classList.remove("j3-card-highlight"), 1800);
+                  } else {
+                    document.getElementById(p.target)?.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
                 className="group/pnav flex flex-col items-center shrink-0 cursor-pointer transition-all duration-500 hover:opacity-100 opacity-70"
                 style={{
                   width: compact ? "clamp(64px, 12vw, 100px)" : "clamp(80px, 14vw, 130px)",
@@ -310,16 +319,17 @@ function ProgramBar() {
               >
                 {/* Thumbnail — hidden in compact mode */}
                 <div
-                  className="relative rounded-full overflow-hidden ring-1 ring-white/10 group-hover/pnav:ring-[var(--g1)]/40"
+                  className="j3-pnav-circle relative rounded-full"
                   style={{
                     width: compact ? "0px" : undefined,
                     height: compact ? "0px" : undefined,
                     opacity: compact ? 0 : 1,
                     marginBottom: compact ? "0px" : "6px",
                     transition: "all 0.5s cubic-bezier(.16,1,.3,1)",
+                    border: "1.5px solid rgba(220,175,100,.35)",
                   }}
                 >
-                  <div className="w-[42px] h-[42px] min-[961px]:w-[52px] min-[961px]:h-[52px]">
+                  <div className="w-[42px] h-[42px] min-[961px]:w-[52px] min-[961px]:h-[52px] rounded-full overflow-hidden">
                     <img
                       src={p.img}
                       alt={p.name}
@@ -663,21 +673,46 @@ function HeroSection() {
             ))}
           </div>
 
-          {/* CTA — scroll to programs */}
+          {/* CTA — scroll to programs (reference-style: ball left, text right) */}
           <button
             type="button"
             onClick={() => document.getElementById("programas")?.scrollIntoView({ behavior: "smooth" })}
-            className="group/cta inline-flex items-center gap-3 cursor-pointer w-fit mx-auto mt-4"
+            className="group/cta j3-hero-cta relative inline-flex items-center cursor-pointer w-fit mx-auto mt-6 rounded-full border border-white/[.12] hover:border-[var(--g1)]/30 transition-all duration-700 ease-out"
+            style={{
+              background: "rgba(255,255,255,.04)",
+              backdropFilter: "blur(12px)",
+              padding: "6px 28px 6px 6px",
+            }}
           >
-            <span
-              className="relative text-[13px] font-semibold tracking-[3px] uppercase text-[var(--g1)]"
-              style={isMobile ? { textShadow: "0 1px 8px rgba(0,0,0,.6)" } : undefined}
+            {/* Ball container — circular, prominent */}
+            <span className="j3-hero-ball relative flex items-center justify-center w-[48px] h-[48px] max-[960px]:w-[42px] max-[960px]:h-[42px] rounded-full overflow-visible shrink-0"
+              style={{ background: "linear-gradient(135deg, rgba(220,175,100,.12) 0%, rgba(220,175,100,.04) 100%)" }}
             >
-              {t.academy.hero.ctaLabel}
-              <span className="j3-cta-line absolute left-0 -bottom-[5px] h-[1.5px] w-full bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] origin-left scale-x-[0.4] group-hover/cta:scale-x-100 transition-transform duration-700 ease-out" />
+              <span className="j3-ball-wrap w-[32px] h-[32px] max-[960px]:w-[28px] max-[960px]:h-[28px] transition-all duration-700 ease-out">
+                <J3Ball className="w-full h-full" />
+              </span>
+              {/* Glow ring on hover */}
+              <span className="absolute inset-0 rounded-full opacity-0 group-hover/cta:opacity-100 transition-opacity duration-700"
+                style={{ boxShadow: "0 0 20px rgba(220,175,100,.25), inset 0 0 12px rgba(220,175,100,.08)" }} />
             </span>
-            <span className="j3-ball-wrap w-[22px] h-[22px] group-hover/cta:w-[28px] group-hover/cta:h-[28px] transition-all duration-500 ease-out">
-              <J3Ball className="w-full h-full" />
+
+            {/* Text right */}
+            <span className="flex flex-col ml-4 max-[960px]:ml-3 text-left">
+              <span
+                className="text-[13px] max-[960px]:text-[12px] font-semibold tracking-[2.5px] uppercase text-[var(--g1)] group-hover/cta:text-white transition-colors duration-500"
+                style={isMobile ? { textShadow: "0 1px 8px rgba(0,0,0,.6)" } : undefined}
+              >
+                {t.academy.hero.ctaLabel}
+              </span>
+              <span className="j3-cta-line h-[1.5px] w-full mt-[4px] bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] origin-left scale-x-[0.3] group-hover/cta:scale-x-100 transition-transform duration-700 ease-out" />
+            </span>
+
+            {/* Arrow hint — slides in on hover */}
+            <span className="j3-hero-arrow ml-3 max-[960px]:ml-2 opacity-0 -translate-x-2 group-hover/cta:opacity-70 group-hover/cta:translate-x-0 transition-all duration-500 ease-out">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--g1)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14" />
+                <path d="M12 5l7 7-7 7" />
+              </svg>
             </span>
           </button>
 
@@ -1173,7 +1208,7 @@ function ProofSection() {
 
 /* Porsche-style program tile — full-bleed image, info overlay at bottom */
 function ProgramTile({
-  tag, title, sub, cta, image, href, isHovered, onHover, onLeave, index, visible,
+  tag, title, sub, cta, image, href, isHovered, onHover, onLeave, index, visible, cardId,
 }: {
   tag: string;
   title: string;
@@ -1186,9 +1221,11 @@ function ProgramTile({
   onLeave: () => void;
   index: number;
   visible: boolean;
+  cardId?: string;
 }) {
   return (
     <a
+      id={cardId}
       href={cta.href}
       target="_blank"
       rel="noopener noreferrer"
@@ -1406,24 +1443,28 @@ function PerfilesSection() {
     "/images/academy/nextgen.jpeg",
     "/images/academy/nextgen-pro.jpeg",
   ];
+  const juniorsCardIds = ["card-kinder", "card-kids", "card-nextgen", "card-nextgenpro"];
   const juniorsCards = t.academy.programs.juniorsCards.map((c, i) => ({
     tag: c.tag,
     title: c.title,
     sub: c.sub,
     image: juniorsImages[i],
     cta: { label: c.ctaLabel, href: waLink(c.waMsg) },
+    cardId: juniorsCardIds[i],
   }));
   const { itemRefs: jRefs, visibleItems: jVis } = useStaggerReveal(2, 0.15); // 2 desktop rows
   const jMobileReveal = useReveal(0.15);
 
   /* Adultos cards */
   const adultosImages = ["/images/academy/amateur.jpeg", "/images/academy/stage-group.jpeg"];
+  const adultosCardIds = ["card-tuclub", "card-intensive"];
   const adultosCards = t.academy.programs.adultosCards.map((c, i) => ({
     tag: c.tag,
     title: c.title,
     sub: c.sub,
     image: adultosImages[i],
     cta: { label: c.ctaLabel, href: waLink(c.waMsg) },
+    cardId: adultosCardIds[i],
   }));
   const { itemRefs: aRefs, visibleItems: aVis } = useStaggerReveal(1, 0.15); // 1 desktop row
   const aMobileReveal = useReveal(0.15);
@@ -1466,7 +1507,7 @@ function PerfilesSection() {
               {juniorsCards.slice(0, 2).map((c, i) => (
                 <ProgramTile
                   key={i} tag={c.tag} title={c.title} sub={c.sub} cta={c.cta}
-                  image={c.image} href={c.cta.href}
+                  image={c.image} href={c.cta.href} cardId={c.cardId}
                   isHovered={jRow0Hover === i}
                   onHover={() => setJRow0Hover(i)} onLeave={() => setJRow0Hover(null)}
                   index={i} visible={jVis[0]}
@@ -1479,7 +1520,7 @@ function PerfilesSection() {
               {juniorsCards.slice(2, 4).map((c, i) => (
                 <ProgramTile
                   key={i} tag={c.tag} title={c.title} sub={c.sub} cta={c.cta}
-                  image={c.image} href={c.cta.href}
+                  image={c.image} href={c.cta.href} cardId={c.cardId}
                   isHovered={jRow1Hover === i}
                   onHover={() => setJRow1Hover(i)} onLeave={() => setJRow1Hover(null)}
                   index={i} visible={jVis[1]}
@@ -1502,7 +1543,7 @@ function PerfilesSection() {
             {juniorsCards.map((c, i) => (
               <ProgramTile
                 key={i} tag={c.tag} title={c.title} sub={c.sub} cta={c.cta}
-                image={c.image} href={c.cta.href}
+                image={c.image} href={c.cta.href} cardId={c.cardId}
                 isHovered={jMobileHover === i}
                 onHover={() => setJMobileHover(i)} onLeave={() => setJMobileHover(null)}
                 index={i} visible={jMobileReveal.visible}
@@ -1526,7 +1567,7 @@ function PerfilesSection() {
               {adultosCards.map((c, i) => (
                 <ProgramTile
                   key={i} tag={c.tag} title={c.title} sub={c.sub} cta={c.cta}
-                  image={c.image} href={c.cta.href}
+                  image={c.image} href={c.cta.href} cardId={c.cardId}
                   isHovered={aRow0Hover === i}
                   onHover={() => setARow0Hover(i)} onLeave={() => setARow0Hover(null)}
                   index={i} visible={aVis[0]}
@@ -1549,7 +1590,7 @@ function PerfilesSection() {
             {adultosCards.map((c, i) => (
               <ProgramTile
                 key={i} tag={c.tag} title={c.title} sub={c.sub} cta={c.cta}
-                image={c.image} href={c.cta.href}
+                image={c.image} href={c.cta.href} cardId={c.cardId}
                 isHovered={aMobileHover === i}
                 onHover={() => setAMobileHover(i)} onLeave={() => setAMobileHover(null)}
                 index={i} visible={aMobileReveal.visible}
@@ -1577,6 +1618,7 @@ function PerfilesSection() {
           }}
         >
           <a
+            id="card-empresas"
             href={waLink(t.experience.empresas.waMsg)}
             target="_blank"
             rel="noopener noreferrer"
