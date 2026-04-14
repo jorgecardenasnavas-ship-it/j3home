@@ -1412,13 +1412,13 @@ function WaCtaPill({ label, size = "md" }: { label: string; size?: "md" | "sm" }
           transition: "background 0.5s ease",
         }}
       >
-        <svg width={iconSz} height={iconSz} viewBox="0 0 24 24" fill="#25D366" className="shrink-0 transition-transform duration-500 group-hover/wacta:scale-110">
+        <svg width={iconSz} height={iconSz} viewBox="0 0 24 24" fill="var(--g1)" className="shrink-0 transition-transform duration-500 group-hover/wacta:scale-110">
           <path d={WA_PATH} />
         </svg>
-        {/* Glow ring on hover — WhatsApp green */}
+        {/* Glow ring on hover — gold */}
         <span
           className="absolute inset-0 rounded-full opacity-0 group-hover/wacta:opacity-100 transition-opacity duration-700 pointer-events-none"
-          style={{ boxShadow: "0 0 18px rgba(37,211,102,.35), inset 0 0 10px rgba(37,211,102,.08)" }}
+          style={{ boxShadow: "0 0 18px rgba(220,175,100,.35), inset 0 0 10px rgba(220,175,100,.08)" }}
         />
       </span>
       {/* Text + progress line */}
