@@ -65,8 +65,7 @@ function useDragScroll(totalSlides: number = 0) {
       setIsDragging(false);
       el.style.cursor = "grab";
       el.style.userSelect = "";
-      // Re-enable snap after drag — let it settle to nearest card
-      el.style.scrollSnapType = "x mandatory";
+      // No snap — stays where released
       /* Block click if we dragged */
       if (dragState.current.moved) {
         const block = (ev: Event) => { ev.preventDefault(); ev.stopPropagation(); };
@@ -90,7 +89,8 @@ function useDragScroll(totalSlides: number = 0) {
     const el = scrollRef.current;
     if (!el || !el.children[index]) return;
     const child = el.children[index] as HTMLElement;
-    el.scrollTo({ left: child.offsetLeft - 12, behavior: "smooth" });
+    const scrollLeft = child.offsetLeft - (el.clientWidth / 2) + (child.offsetWidth / 2);
+    el.scrollTo({ left: scrollLeft, behavior: "smooth" });
   };
 
   return { scrollRef, progress, activeSlide, isDragging, goTo };
@@ -221,7 +221,7 @@ function Counter({ val, prefix, suffix, label, className }: { val: number; prefi
 function J3Ball({ className = "" }: { className?: string }) {
   return (
     <svg
-      viewBox="0 -5 155 215"
+      viewBox="0 -5 155 210"
       className={className}
       aria-hidden="true"
     >
@@ -236,23 +236,26 @@ function J3Ball({ className = "" }: { className?: string }) {
         </linearGradient>
       </defs>
 
-      {/* ── Ball (always visible) ── */}
-      <g>
-        {/* Outer ring + seams */}
-        <path fill="url(#j3bg)" d="M74.13,0c-99.18,1.72-98.49,148.91-.03,150.44,99.53-2.75,98.92-148.04.03-150.44ZM131.88,86.77c-14.47,68.36-115.43,59.57-116.69-11.57C17.88-9.88,145.93,2.79,131.88,86.77Z" />
-        {/* Quadrant fills */}
-        <path fill="url(#j3bg)" d="M68.83,30.97c-19.79,1.66-37.93,20.27-39.09,40.06,25.38-.94,49.5,23.19,48.56,48.56,19.79-1.16,38.4-19.3,40.06-39.09-12.75.21-25.57-4.53-35.29-14.25-9.71-9.71-14.45-22.54-14.25-35.29Z" />
-        <path fill="url(#j3bg)" d="M77.28,30.77c-1.47,21.83,19.47,42.76,41.29,41.29-.69-20.97-20.33-40.6-41.29-41.29Z" />
-        <path fill="url(#j3bg)" d="M29.75,79.48c1.21,20.15,19.96,38.91,40.12,40.11.75-20.96-19.16-40.87-40.12-40.11Z" />
-        {/* Inner cutouts (background holes) */}
-        <path fill="var(--bk, #000)" d="M15.19,75.2c1.26,71.14,102.22,79.93,116.69,11.57C145.93,2.79,17.88-9.88,15.19,75.2ZM69.87,119.59c-20.15-1.21-38.9-19.97-40.12-40.11,20.96-.76,40.87,19.15,40.12,40.11ZM78.31,119.59c.93-25.37-23.19-49.5-48.56-48.56,1.16-19.79,19.29-38.4,39.09-40.06-.21,12.75,4.53,25.58,14.25,35.29,9.71,9.71,22.53,14.45,35.29,14.25-1.65,19.79-20.27,37.93-40.06,39.09ZM77.28,30.77c20.97.7,40.6,20.32,41.29,41.29-21.82,1.47-42.76-19.47-41.29-41.29Z" />
-      </g>
+      {/* Wrapper group — shifts down to center ball at rest, up on hover to show full logo */}
+      <g className="j3-ball-content">
+        {/* ── Ball (always visible) ── */}
+        <g>
+          {/* Outer ring + seams */}
+          <path fill="url(#j3bg)" d="M74.13,0c-99.18,1.72-98.49,148.91-.03,150.44,99.53-2.75,98.92-148.04.03-150.44ZM131.88,86.77c-14.47,68.36-115.43,59.57-116.69-11.57C17.88-9.88,145.93,2.79,131.88,86.77Z" />
+          {/* Quadrant fills */}
+          <path fill="url(#j3bg)" d="M68.83,30.97c-19.79,1.66-37.93,20.27-39.09,40.06,25.38-.94,49.5,23.19,48.56,48.56,19.79-1.16,38.4-19.3,40.06-39.09-12.75.21-25.57-4.53-35.29-14.25-9.71-9.71-14.45-22.54-14.25-35.29Z" />
+          <path fill="url(#j3bg)" d="M77.28,30.77c-1.47,21.83,19.47,42.76,41.29,41.29-.69-20.97-20.33-40.6-41.29-41.29Z" />
+          <path fill="url(#j3bg)" d="M29.75,79.48c1.21,20.15,19.96,38.91,40.12,40.11.75-20.96-19.16-40.87-40.12-40.11Z" />
+          {/* Inner cutouts (background holes) */}
+          <path fill="var(--bk, #000)" d="M15.19,75.2c1.26,71.14,102.22,79.93,116.69,11.57C145.93,2.79,17.88-9.88,15.19,75.2ZM69.87,119.59c-20.15-1.21-38.9-19.97-40.12-40.11,20.96-.76,40.87,19.15,40.12,40.11ZM78.31,119.59c.93-25.37-23.19-49.5-48.56-48.56,1.16-19.79,19.29-38.4,39.09-40.06-.21,12.75,4.53,25.58,14.25,35.29,9.71,9.71,22.53,14.45,35.29,14.25-1.65,19.79-20.27,37.93-40.06,39.09ZM77.28,30.77c20.97.7,40.6,20.32,41.29,41.29-21.82,1.47-42.76-19.47-41.29-41.29Z" />
+        </g>
 
-      {/* ── Legs (hidden by default, visible on hover) ── */}
-      <g className="j3-ball-legs">
-        <path fill="url(#j3bg)" d="M24.26,200.51h25.34l9.18-43.08c-8.22-1.53-16.18-4.32-23.59-8.23l-10.93,51.31Z" />
-        <path fill="url(#j3bg)" d="M70.55,158.77l-8.88,41.75h25.33l9.52-44.72c-7.26,2.02-14.8,3.09-22.42,3.09-1.18,0-2.37-.07-3.55-.12Z" />
-        <path fill="url(#j3bg)" d="M127.02,140.02c-5.36,4.38-11.23,8.04-17.44,10.95l-10.53,49.56,25.35-.02,15.69-73.91c-3.83,4.92-8.2,9.44-13.07,13.42Z" />
+        {/* ── Legs (hidden by default, visible on hover) ── */}
+        <g className="j3-ball-legs">
+          <path fill="url(#j3bg)" d="M24.26,200.51h25.34l9.18-43.08c-8.22-1.53-16.18-4.32-23.59-8.23l-10.93,51.31Z" />
+          <path fill="url(#j3bg)" d="M70.55,158.77l-8.88,41.75h25.33l9.52-44.72c-7.26,2.02-14.8,3.09-22.42,3.09-1.18,0-2.37-.07-3.55-.12Z" />
+          <path fill="url(#j3bg)" d="M127.02,140.02c-5.36,4.38-11.23,8.04-17.44,10.95l-10.53,49.56,25.35-.02,15.69-73.91c-3.83,4.92-8.2,9.44-13.07,13.42Z" />
+        </g>
       </g>
     </svg>
   );
@@ -294,18 +297,42 @@ function ProgramBar() {
         <div className="max-w-[1200px] mx-auto">
           <div
             className="flex items-center gap-0 overflow-x-auto scrollbar-hide min-[961px]:justify-center"
-            style={{ scrollBehavior: "smooth" }}
+            style={{ scrollBehavior: "smooth", paddingTop: compact ? "0px" : "8px", paddingBottom: compact ? "0px" : "8px" }}
           >
             {PROGRAM_NAV.map((p) => (
               <button
                 key={p.name}
                 type="button"
                 onClick={() => {
-                  const card = document.getElementById(p.cardId);
-                  if (card) {
-                    card.scrollIntoView({ behavior: "smooth", block: "center" });
-                    card.classList.add("j3-card-highlight");
-                    setTimeout(() => card.classList.remove("j3-card-highlight"), 1800);
+                  const cards = document.querySelectorAll(`[data-card-id="${p.cardId}"]`);
+                  const visible = Array.from(cards).find(el => {
+                    const r = el.getBoundingClientRect();
+                    return r.width > 0 && r.height > 0;
+                  });
+                  if (visible) {
+                    /* Find the scroll carousel container (parent with overflow-x) */
+                    const carousel = visible.closest(".overflow-x-auto");
+                    if (carousel) {
+                      /* Scroll carousel horizontally to center the card */
+                      const cardWrapper = visible.closest(".shrink-0") as HTMLElement;
+                      if (cardWrapper) {
+                        const scrollLeft = cardWrapper.offsetLeft - (carousel.clientWidth / 2) + (cardWrapper.offsetWidth / 2);
+                        carousel.scrollTo({ left: scrollLeft, behavior: "smooth" });
+                      }
+                      /* Scroll page vertically to center the carousel */
+                      const cRect = carousel.getBoundingClientRect();
+                      const offset = 52 + 40;
+                      const top = cRect.top + window.scrollY - (window.innerHeight / 2) + (cRect.height / 2) + offset;
+                      window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+                    } else {
+                      /* Desktop — no carousel, scroll directly to card */
+                      const rect = visible.getBoundingClientRect();
+                      const offset = 52 + 40;
+                      const top = rect.top + window.scrollY - (window.innerHeight / 2) + (rect.height / 2) + offset;
+                      window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+                    }
+                    visible.classList.add("j3-card-highlight");
+                    setTimeout(() => visible.classList.remove("j3-card-highlight"), 3200);
                   } else {
                     document.getElementById(p.target)?.scrollIntoView({ behavior: "smooth" });
                   }
@@ -326,7 +353,8 @@ function ProgramBar() {
                     opacity: compact ? 0 : 1,
                     marginBottom: compact ? "0px" : "6px",
                     transition: "all 0.5s cubic-bezier(.16,1,.3,1)",
-                    border: "1.5px solid rgba(220,175,100,.35)",
+                    border: "1.75px solid rgba(220,175,100,1)",
+                    boxShadow: "0 0 10px rgba(220,175,100,.25), 0 0 3px rgba(220,175,100,.3)",
                   }}
                 >
                   <div className="w-[42px] h-[42px] min-[961px]:w-[52px] min-[961px]:h-[52px] rounded-full overflow-hidden">
@@ -1225,7 +1253,7 @@ function ProgramTile({
 }) {
   return (
     <a
-      id={cardId}
+      data-card-id={cardId}
       href={cta.href}
       target="_blank"
       rel="noopener noreferrer"
@@ -1383,13 +1411,13 @@ function ScrollCarousel({
     <div className="min-[961px]:hidden">
       <div
         ref={scrollRef}
-        className="flex gap-[18px] overflow-x-auto snap-x snap-mandatory scrollbar-hide -mx-3 px-3"
+        className="flex gap-[18px] overflow-x-auto scrollbar-hide -mx-3 px-3"
         style={{ cursor: "grab" }}
       >
         {children.map((child, i) => (
           <div
             key={i}
-            className="snap-start shrink-0"
+            className="shrink-0"
             style={{ width: cardWidth, height: cardHeight }}
           >
             {child}
@@ -1618,7 +1646,7 @@ function PerfilesSection() {
           }}
         >
           <a
-            id="card-empresas"
+            data-card-id="card-empresas"
             href={waLink(t.experience.empresas.waMsg)}
             target="_blank"
             rel="noopener noreferrer"
