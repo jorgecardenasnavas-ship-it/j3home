@@ -304,38 +304,41 @@ function ProgramBar() {
                 key={p.name}
                 type="button"
                 onClick={() => {
+                  const isMobileView = window.innerWidth < 961;
                   const cards = document.querySelectorAll(`[data-card-id="${p.cardId}"]`);
-                  const visible = Array.from(cards).find(el => {
-                    const r = el.getBoundingClientRect();
-                    return r.width > 0 && r.height > 0;
-                  });
-                  if (visible) {
-                    /* Find the scroll carousel container (parent with overflow-x) */
-                    const carousel = visible.closest(".overflow-x-auto");
+                  /* Pick correct card: desktop = first (inside PorscheRow), mobile = last (inside ScrollCarousel) */
+                  const target = isMobileView
+                    ? Array.from(cards).pop()
+                    : Array.from(cards)[0];
+                  if (!target) {
+                    document.getElementById(p.target)?.scrollIntoView({ behavior: "smooth" });
+                    return;
+                  }
+
+                  if (isMobileView) {
+                    /* Mobile: scroll carousel horizontally + page vertically */
+                    const carousel = target.closest(".overflow-x-auto");
                     if (carousel) {
-                      /* Scroll carousel horizontally to center the card */
-                      const cardWrapper = visible.closest(".shrink-0") as HTMLElement;
+                      const cardWrapper = target.closest(".shrink-0") as HTMLElement;
                       if (cardWrapper) {
                         const scrollLeft = cardWrapper.offsetLeft - (carousel.clientWidth / 2) + (cardWrapper.offsetWidth / 2);
                         carousel.scrollTo({ left: scrollLeft, behavior: "smooth" });
                       }
-                      /* Scroll page vertically to center the carousel */
                       const cRect = carousel.getBoundingClientRect();
                       const offset = 52 + 40;
                       const top = cRect.top + window.scrollY - (window.innerHeight / 2) + (cRect.height / 2) + offset;
                       window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
-                    } else {
-                      /* Desktop — no carousel, scroll directly to card */
-                      const rect = visible.getBoundingClientRect();
-                      const offset = 52 + 40;
-                      const top = rect.top + window.scrollY - (window.innerHeight / 2) + (rect.height / 2) + offset;
-                      window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
                     }
-                    visible.classList.add("j3-card-highlight");
-                    setTimeout(() => visible.classList.remove("j3-card-highlight"), 3200);
                   } else {
-                    document.getElementById(p.target)?.scrollIntoView({ behavior: "smooth" });
+                    /* Desktop: scroll page to center the card */
+                    const rect = target.getBoundingClientRect();
+                    const offset = 52 + 40;
+                    const top = rect.top + window.scrollY - (window.innerHeight / 2) + (rect.height / 2) + offset;
+                    window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
                   }
+
+                  target.classList.add("j3-card-highlight");
+                  setTimeout(() => target.classList.remove("j3-card-highlight"), 3200);
                 }}
                 className="group/pnav flex flex-col items-center shrink-0 cursor-pointer transition-all duration-500 hover:opacity-100 opacity-70"
                 style={{
@@ -438,7 +441,7 @@ const HERO_SLIDES: {
   },
 ];
 
-const AUTO_ADVANCE_MS = 5000;
+const AUTO_ADVANCE_MS = 3000;
 
 function HeroSection() {
   const { t } = useI18n();
@@ -704,7 +707,14 @@ function HeroSection() {
           {/* CTA — scroll to programs (reference-style: ball left, text right) */}
           <button
             type="button"
-            onClick={() => document.getElementById("programas")?.scrollIntoView({ behavior: "smooth" })}
+            onClick={(e) => {
+              const btn = e.currentTarget;
+              btn.classList.add("j3-cta-active");
+              setTimeout(() => {
+                btn.classList.remove("j3-cta-active");
+                document.getElementById("programas")?.scrollIntoView({ behavior: "smooth" });
+              }, 1200);
+            }}
             className="group/cta j3-hero-cta relative inline-flex items-center cursor-pointer w-fit mx-auto mt-6 rounded-full border border-white/[.12] hover:border-[var(--g1)]/30 transition-all duration-700 ease-out"
             style={{
               background: "rgba(255,255,255,.04)",
@@ -1262,7 +1272,7 @@ function ProgramTile({
         background: "#000",
         opacity: visible ? 1 : 0,
         transform: visible ? "none" : "translateY(24px)",
-        transition: "opacity 0.7s cubic-bezier(.16,1,.3,1), transform 0.7s cubic-bezier(.16,1,.3,1)",
+        transition: "opacity 0.7s cubic-bezier(.16,1,.3,1), transform 0.7s cubic-bezier(.16,1,.3,1), box-shadow 0.5s cubic-bezier(.22,1,.36,1)",
         transitionDelay: `${index * 0.1}s`,
       }}
       onMouseEnter={onHover}
