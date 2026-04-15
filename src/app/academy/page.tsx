@@ -1835,23 +1835,21 @@ function PerfilesSection() {
    ═══════════════════════════════════════════════════════ */
 
 function SedeCard({
-  video, images, tag, name, detail, href, ctaLabel, features, badge, videoStart, index,
+  video, images, videoStart, eyebrow, name, tag, href, index,
 }: {
   video?: string;
   images?: string[];
-  tag: string;
-  name: string;
-  detail: string;
-  href: string;
-  ctaLabel: string;
-  features?: readonly string[];
-  badge?: string;
   videoStart?: number;
+  eyebrow?: string;
+  name: string;
+  tag: string;
+  href: string;
   index: number;
 }) {
   const { ref, visible } = useReveal(0.15);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [currentImg, setCurrentImg] = useState(0);
+  const [hovered, setHovered] = useState(false);
 
   // Auto-rotate images every 4s
   useEffect(() => {
@@ -1865,88 +1863,98 @@ function SedeCard({
   return (
     <div
       ref={ref}
-      className="mx-4 max-[960px]:mx-3 max-w-[1600px] xl:mx-auto mb-10 last:mb-0 border border-white/[.07] overflow-hidden rounded-sm"
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "none" : "translateY(30px)",
         transition: `all 1s cubic-bezier(.16,1,.3,1) ${index * 0.15}s`,
       }}
     >
-      <div className="flex max-[768px]:flex-col">
-        {/* Image / Video side */}
-        <div className="relative w-[45%] max-[768px]:w-full min-h-[320px] max-[768px]:min-h-[240px] overflow-hidden">
-          {video ? (
-            <video
-              ref={videoRef}
-              src={video}
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="none"
-              className="absolute inset-0 w-full h-full object-cover"
-              style={{ filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)" }}
-              onLoadedMetadata={() => { if (videoStart && videoRef.current) videoRef.current.currentTime = videoStart; }}
-              onSeeking={() => { if (videoStart && videoRef.current && videoRef.current.currentTime < videoStart) videoRef.current.currentTime = videoStart; }}
-            />
-          ) : images && images.length > 0 ? (
-            <>
-              {images.map((src, i) => (
-                <img
-                  key={src}
-                  src={src}
-                  alt={`${name} ${i + 1}`}
-                  className="absolute inset-0 w-full h-full object-cover"
-                  style={{
-                    opacity: currentImg === i ? 1 : 0,
-                    transition: "opacity 1.2s ease",
-                    filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)",
-                  }}
-                />
-              ))}
-            </>
-          ) : null}
-          <div className="absolute inset-0 bg-gradient-to-r max-[768px]:bg-gradient-to-t from-transparent via-transparent to-black/40 max-[768px]:from-transparent max-[768px]:via-transparent max-[768px]:to-black/30" />
-
-          {/* Badge */}
-          {badge && (
-            <div className="absolute top-4 left-4 z-10 px-3 py-1.5 rounded-full text-[10px] font-bold tracking-[1.5px] uppercase text-black" style={{ background: "var(--j3-grad)" }}>
-              {badge}
-            </div>
-          )}
-        </div>
-
-        {/* Info side */}
-        <div className="flex-1 p-10 max-[960px]:p-8 max-[640px]:p-6 flex flex-col justify-between bg-[var(--bk2)]">
-          <div>
-            <span className="text-[9px] font-bold tracking-[4px] uppercase text-[var(--g1)] block mb-3">{tag}</span>
-            <h3 className="font-bold text-[clamp(28px,4vw,44px)] uppercase tracking-[-1.5px] leading-[1] text-[var(--wh)] mb-2">{name}</h3>
-            <p className="text-[14px] text-[var(--gy2)] tracking-[0.5px] mb-6">{detail}</p>
-
-            {/* Features grid */}
-            {features && features.length > 0 && (
-              <div className="grid grid-cols-2 gap-x-6 gap-y-2.5 mb-8">
-                {features.map((f) => (
-                  <div key={f} className="flex items-center gap-2.5 text-[13px] text-[var(--gy2)]">
-                    <span className="w-1 h-1 rounded-full bg-[var(--g1)] shrink-0" />
-                    {f}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <a
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="j3-press btn-glow inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-[13px] font-semibold tracking-[0.5px] text-black self-start"
-            style={{ background: "var(--j3-grad)" }}
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        className="group relative block overflow-hidden rounded-2xl bg-black no-underline"
+        style={{ aspectRatio: "3 / 4" }}
+      >
+        {/* Media */}
+        {video ? (
+          <video
+            ref={videoRef}
+            src={video}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="none"
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{
+              filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)",
+              transform: hovered ? "scale3d(1.04,1.04,1.04)" : "scale3d(1,1,1)",
+              transition: "transform .8s cubic-bezier(.16,1,.3,1)",
+            }}
+            onLoadedMetadata={() => { if (videoStart && videoRef.current) videoRef.current.currentTime = videoStart; }}
+            onSeeking={() => { if (videoStart && videoRef.current && videoRef.current.currentTime < videoStart) videoRef.current.currentTime = videoStart; }}
+          />
+        ) : images && images.length > 0 ? (
+          <div
+            className="absolute inset-0"
+            style={{
+              transform: hovered ? "scale3d(1.04,1.04,1.04)" : "scale3d(1,1,1)",
+              transition: "transform .8s cubic-bezier(.16,1,.3,1)",
+            }}
           >
-            {ctaLabel}
-          </a>
+            {images.map((src, i) => (
+              <img
+                key={src}
+                src={src}
+                alt={`${name} ${i + 1}`}
+                className="absolute inset-0 w-full h-full object-cover"
+                style={{
+                  opacity: currentImg === i ? 1 : 0,
+                  transition: "opacity 1.2s ease",
+                  filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)",
+                }}
+              />
+            ))}
+          </div>
+        ) : null}
+
+        {/* Bottom gradient for legibility */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: "linear-gradient(to top, rgba(0,0,0,.7) 0%, rgba(0,0,0,.18) 45%, transparent 72%)" }}
+        />
+
+        {/* Eyebrow — top left (badge/status) */}
+        {eyebrow && (
+          <div className="absolute top-5 left-6 max-[640px]:top-4 max-[640px]:left-5 z-10">
+            <span className="text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{eyebrow}</span>
+          </div>
+        )}
+
+        {/* Bottom row: name + subtitle (left) · arrow (right) */}
+        <div className="absolute bottom-0 left-0 right-0 z-10 p-6 max-[640px]:p-5 flex items-end justify-between gap-3">
+          <div className="flex flex-col gap-0.5 min-w-0">
+            <span className="font-semibold text-[22px] max-[640px]:text-[18px] text-[var(--wh)] leading-[1.1] tracking-[-.4px]">
+              {name}
+            </span>
+            <span className="text-[12px] max-[640px]:text-[11px] text-white/65">
+              {tag}
+            </span>
+          </div>
+          <span
+            className="text-white/90 shrink-0 transition-transform duration-500 ease-out"
+            style={{ transform: hovered ? "translateX(6px)" : "translateX(0)" }}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12h14" />
+              <path d="M12 5l7 7-7 7" />
+            </svg>
+          </span>
         </div>
-      </div>
+      </a>
     </div>
   );
 }
@@ -1979,31 +1987,27 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
         </h2>
       </div>
 
-      {/* Sede 1 */}
-      <SedeCard
-        video="https://finurapadelgym.com/wp-content/uploads/2025/10/home-2.webm"
-        videoStart={5}
-        tag={t.academy.headquarters.sedes[0].tag}
-        name={t.academy.headquarters.sedes[0].name}
-        detail={t.academy.headquarters.sedes[0].detail}
-        features={t.academy.headquarters.sedes[0].features}
-        href="https://finurapadelgym.com"
-        ctaLabel={t.academy.headquarters.sedeCta}
-        index={0}
-      />
-
-      {/* Sede 2 */}
-      <SedeCard
-        images={["/images/vals-1.jpg", "/images/vals-2.jpg", "/images/vals-3.jpg"]}
-        tag={t.academy.headquarters.sedes[1].tag}
-        name={t.academy.headquarters.sedes[1].name}
-        detail={t.academy.headquarters.sedes[1].detail}
-        features={t.academy.headquarters.sedes[1].features}
-        badge={t.academy.headquarters.sedes[1].badge}
-        href="https://valssport.com/limoneros/"
-        ctaLabel={t.academy.headquarters.sedeCta}
-        index={1}
-      />
+      {/* Sedes grid — Porsche style: portrait cards, full-bleed image, label + arrow bottom */}
+      <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto pb-[72px] max-[960px]:pb-[56px]">
+        <div className="grid grid-cols-2 gap-6 max-[768px]:grid-cols-1 max-[768px]:gap-4">
+          <SedeCard
+            video="https://finurapadelgym.com/wp-content/uploads/2025/10/home-2.webm"
+            videoStart={5}
+            name={t.academy.headquarters.sedes[0].name}
+            tag={t.academy.headquarters.sedes[0].tag}
+            href="https://finurapadelgym.com"
+            index={0}
+          />
+          <SedeCard
+            images={["/images/vals-1.jpg", "/images/vals-2.jpg", "/images/vals-3.jpg"]}
+            eyebrow={t.academy.headquarters.sedes[1].badge}
+            name={t.academy.headquarters.sedes[1].name}
+            tag={t.academy.headquarters.sedes[1].tag}
+            href="https://valssport.com/limoneros/"
+            index={1}
+          />
+        </div>
+      </div>
     </section>
   );
 }
