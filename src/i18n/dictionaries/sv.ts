@@ -634,9 +634,9 @@ export const sv = {
     },
 
     headquarters: {
-      eyebrow: "Headquarters",
-      headingPre: "Tv\u00E5 anl\u00E4ggningar. Ett enda ",
-      headingAccent: "krav.",
+      eyebrow: "Anl\u00E4ggningar",
+      headingPre: "Spela J3. Var du \u00E4n ",
+      headingAccent: "spelar.",
       sedeCta: "Se anl\u00E4ggning \u2192",
       sedes: [
         {
@@ -651,14 +651,14 @@ export const sv = {
           name: "Vals Sport Limoneros",
           detail: "11 banor \u00B7 Snart \u00F6ppet",
           features: ["Outdoor", "Sjukgymnastik", "Fitnesszon", "Pro Shop", "Restaurang", "Pool"],
-          badge: "11 banor \u00B7 Snart \u00F6ppet",
+          badge: "Snart \u00F6ppet \u00B7 11 banor",
         },
       ],
       clubCta: {
         eyebrow: "Din klubb?",
-        title: "F\u00E5 J3 Academy till din klubb",
-        description: "Vi licensierar v\u00E5r metod och tr\u00E4narutbildning till partnerklubbar. Var som helst.",
-        cta: "L\u00E5t oss prata",
+        title: "Din klubb. V\u00E5r metod.",
+        description: "Vi licensierar J3-utbildning och metod till partnerklubbar. Var som helst.",
+        cta: "Bli J3-partner",
       },
     },
 

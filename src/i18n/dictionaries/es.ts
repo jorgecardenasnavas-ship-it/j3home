@@ -634,9 +634,9 @@ export const es = {
     },
 
     headquarters: {
-      eyebrow: "Headquarters",
-      headingPre: "Dos sedes. Una sola ",
-      headingAccent: "exigencia.",
+      eyebrow: "Sedes",
+      headingPre: "Juega J3. Juegues ",
+      headingAccent: "donde juegues.",
       sedeCta: "Ver sede \u2192",
       sedes: [
         {
@@ -651,14 +651,14 @@ export const es = {
           name: "Vals Sport Limoneros",
           detail: "11 pistas \u00B7 Pr\u00F3xima apertura",
           features: ["Outdoor", "Fisioterapia", "Zona fitness", "Pro Shop", "Restaurante", "Piscina"],
-          badge: "11 pistas \u00B7 Pr\u00F3xima apertura",
+          badge: "Pr\u00F3ximamente \u00B7 11 pistas",
         },
       ],
       clubCta: {
         eyebrow: "\u00BFTu club?",
-        title: "Monta J3 Academy en tu club",
-        description: "Licenciamos nuestra metodolog\u00EDa y formaci\u00F3n para clubs asociados. Sea donde sea.",
-        cta: "Hablemos",
+        title: "Tu club. Nuestra metodolog\u00EDa.",
+        description: "Licenciamos formaci\u00F3n y m\u00E9todo J3 a clubs asociados. Sea donde sea.",
+        cta: "S\u00E9 partner J3",
       },
     },
 

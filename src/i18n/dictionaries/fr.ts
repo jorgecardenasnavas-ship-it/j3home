@@ -634,9 +634,9 @@ export const fr = {
     },
 
     headquarters: {
-      eyebrow: "Headquarters",
-      headingPre: "Deux sites. Une seule ",
-      headingAccent: "exigence.",
+      eyebrow: "Sites",
+      headingPre: "Jouez J3. O\u00F9 que vous ",
+      headingAccent: "jouiez.",
       sedeCta: "Voir le site \u2192",
       sedes: [
         {
@@ -651,14 +651,14 @@ export const fr = {
           name: "Vals Sport Limoneros",
           detail: "11 courts \u00B7 Ouverture prochaine",
           features: ["Outdoor", "Physiothérapie", "Zone fitness", "Pro Shop", "Restaurant", "Piscine"],
-          badge: "11 courts \u00B7 Ouverture prochaine",
+          badge: "Ouverture prochaine \u00B7 11 courts",
         },
       ],
       clubCta: {
         eyebrow: "Votre club\u00A0?",
-        title: "Installez J3 Academy dans votre club",
-        description: "Nous licencions notre m\u00E9thodologie et notre formation aux clubs partenaires. O\u00F9 que vous soyez.",
-        cta: "Parlons-en",
+        title: "Votre club. Notre m\u00E9thode.",
+        description: "Nous licencions la formation et la m\u00E9thode J3 aux clubs partenaires. O\u00F9 que vous soyez.",
+        cta: "Devenir partenaire J3",
       },
     },
 

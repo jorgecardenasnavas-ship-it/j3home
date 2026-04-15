@@ -65,7 +65,8 @@ function useDragScroll(totalSlides: number = 0) {
       setIsDragging(false);
       el.style.cursor = "grab";
       el.style.userSelect = "";
-      // No snap — stays where released
+      // Restore scroll-snap from CSS (will snap to nearest card on release if CSS sets it)
+      el.style.scrollSnapType = "";
       /* Block click if we dragged */
       if (dragState.current.moved) {
         const block = (ev: Event) => { ev.preventDefault(); ev.stopPropagation(); };
@@ -1835,14 +1836,16 @@ function PerfilesSection() {
    ═══════════════════════════════════════════════════════ */
 
 function SedeCard({
-  video, images, videoStart, eyebrow, name, tag, href, index,
+  video, images, videoStart, eyebrow, pulseDot, name, tag, features, href, index,
 }: {
   video?: string;
   images?: string[];
   videoStart?: number;
   eyebrow?: string;
+  pulseDot?: boolean;
   name: string;
   tag: string;
+  features?: readonly string[];
   href: string;
   index: number;
 }) {
@@ -1968,14 +1971,41 @@ function SedeCard({
 
         {/* Eyebrow — top left (badge/status) */}
         {eyebrow && (
-          <div className="absolute top-5 left-6 max-[640px]:top-4 max-[640px]:left-5 z-10">
+          <div className="absolute top-5 left-6 max-[640px]:top-4 max-[640px]:left-5 z-10 flex items-center gap-2">
+            {pulseDot && (
+              <span className="relative inline-flex shrink-0" aria-hidden>
+                <span className="w-[6px] h-[6px] rounded-full bg-[var(--g1)]" />
+                <span className="absolute inset-0 w-[6px] h-[6px] rounded-full bg-[var(--g1)] animate-ping" />
+              </span>
+            )}
             <span className="text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{eyebrow}</span>
           </div>
         )}
 
-        {/* Bottom row: name + subtitle (left) · arrow (right) */}
+        {/* Bottom row: name + subtitle + features chips (left) · arrow (right) */}
         <div className="absolute bottom-0 left-0 right-0 z-10 p-6 max-[640px]:p-5 flex items-end justify-between gap-3">
-          <div className="flex flex-col gap-0.5 min-w-0">
+          <div className="flex flex-col gap-0.5 min-w-0 flex-1">
+            {/* Features chips — revelan en hover (desktop), ocultas por defecto */}
+            {features && features.length > 0 && (
+              <div
+                className="flex flex-wrap gap-1.5 mb-2 overflow-hidden"
+                style={{
+                  maxHeight: hovered ? 60 : 0,
+                  opacity: hovered ? 1 : 0,
+                  transform: hovered ? "translateY(0)" : "translateY(8px)",
+                  transition: "all .5s cubic-bezier(.16,1,.3,1)",
+                }}
+              >
+                {features.slice(0, 4).map((f) => (
+                  <span
+                    key={f}
+                    className="text-[9px] font-bold tracking-[1.5px] uppercase px-2 py-[3px] rounded-full border border-white/20 bg-black/40 text-white/85 backdrop-blur-sm"
+                  >
+                    {f}
+                  </span>
+                ))}
+              </div>
+            )}
             <span className="font-semibold text-[22px] max-[640px]:text-[18px] text-[var(--wh)] leading-[1.1] tracking-[-.4px]">
               {name}
             </span>
@@ -2049,43 +2079,82 @@ function ClubCtaCard({ index }: { index: number }) {
         className="group relative block overflow-hidden rounded-2xl no-underline border border-[var(--g1)]/25 hover:border-[var(--g1)]/60 transition-colors duration-500"
         style={{
           aspectRatio: "3 / 4",
-          background: "radial-gradient(120% 80% at 100% 0%, rgba(220,175,100,0.16) 0%, rgba(220,175,100,0.06) 35%, rgba(0,0,0,0.95) 75%), #0a0a0a",
+          background: "radial-gradient(140% 90% at 0% 100%, rgba(220,175,100,0.18) 0%, rgba(220,175,100,0.04) 40%, #050505 80%)",
         }}
       >
+        {/* Pattern de pista — líneas SVG sutiles como "court outline" */}
+        <svg
+          className="absolute inset-0 w-full h-full pointer-events-none z-[2]"
+          viewBox="0 0 300 400"
+          preserveAspectRatio="xMidYMid slice"
+          aria-hidden
+        >
+          <defs>
+            <linearGradient id="court-lines" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="rgba(220,175,100,0.18)" />
+              <stop offset="100%" stopColor="rgba(220,175,100,0.04)" />
+            </linearGradient>
+          </defs>
+          {/* Court outline centrado */}
+          <rect x="60" y="90" width="180" height="230" fill="none" stroke="url(#court-lines)" strokeWidth="1" />
+          {/* Línea central */}
+          <line x1="60" y1="205" x2="240" y2="205" stroke="url(#court-lines)" strokeWidth="1" />
+          {/* Líneas de servicio */}
+          <line x1="60" y1="155" x2="240" y2="155" stroke="url(#court-lines)" strokeWidth="1" />
+          <line x1="60" y1="255" x2="240" y2="255" stroke="url(#court-lines)" strokeWidth="1" />
+          {/* Red central */}
+          <line x1="150" y1="155" x2="150" y2="255" stroke="url(#court-lines)" strokeWidth="1" strokeDasharray="3 3" />
+        </svg>
+
         {/* Radial gold glow sigue cursor */}
         <span className="pc-glow absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-500 z-[5]" aria-hidden />
 
-        {/* Línea gold superior (featured style) */}
+        {/* Línea gold superior (featured style, más intensa que en sedes) */}
         <span
-          className="absolute top-0 left-1/2 -translate-x-1/2 h-[3px] w-[60%] opacity-40 group-hover:w-full group-hover:opacity-90 bg-gradient-to-r from-transparent via-[var(--g1)] to-transparent transition-all duration-700 ease-[var(--ease-out)] z-[6]"
+          className="absolute top-0 left-1/2 -translate-x-1/2 h-[3px] w-[70%] opacity-70 group-hover:w-full group-hover:opacity-100 bg-gradient-to-r from-transparent via-[var(--g1)] to-transparent transition-all duration-700 ease-[var(--ease-out)] z-[6]"
           aria-hidden
         />
 
-        {/* Marca de agua sutil — J3 */}
-        <span className="absolute -bottom-4 -right-2 font-bold text-[120px] max-[640px]:text-[80px] uppercase leading-none tracking-[-4px] pointer-events-none select-none text-white/[.015] group-hover:text-[var(--g1)]/[.05] transition-colors duration-700">
-          J3
-        </span>
-
-        {/* Eyebrow top-left */}
-        <div className="absolute top-5 left-6 max-[640px]:top-4 max-[640px]:left-5 z-10">
+        {/* Eyebrow top-left con dot pulsante */}
+        <div className="absolute top-5 left-6 max-[640px]:top-4 max-[640px]:left-5 z-10 flex items-center gap-2">
+          <span className="relative inline-flex shrink-0" aria-hidden>
+            <span className="w-[6px] h-[6px] rounded-full bg-[var(--g1)]" />
+            <span className="absolute inset-0 w-[6px] h-[6px] rounded-full bg-[var(--g1)] animate-ping" />
+          </span>
           <span className="text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)]">
             {t.academy.headquarters.clubCta.eyebrow}
           </span>
         </div>
 
-        {/* Título centrado */}
-        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 z-10 px-6 max-[640px]:px-5 text-left">
-          <h3 className="font-bold text-[clamp(20px,2vw,26px)] uppercase tracking-[-0.5px] leading-[1.1] text-[var(--wh)]">
+        {/* Icono grande: handshake / partnership — arriba derecha */}
+        <div
+          className="absolute top-5 right-6 max-[640px]:top-4 max-[640px]:right-5 z-10 text-[var(--g1)]/60"
+          style={{
+            transform: hovered ? "scale(1.08) rotate(-4deg)" : "scale(1) rotate(0)",
+            transition: "transform .6s cubic-bezier(.16,1,.3,1)",
+          }}
+        >
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <path d="M11 17l2 2a1 1 0 1 0 3-3" />
+            <path d="M14 14l2.5 2.5a1 1 0 1 0 3-3L15 9" />
+            <path d="M3 7l6-2 4 3h1a2 2 0 1 1 0 4c-.6 0-2-.5-3.5-2" />
+            <path d="M3 8l2 10 4-1 3 3" />
+          </svg>
+        </div>
+
+        {/* Título + descripción — centrado vertical con aire */}
+        <div className="absolute inset-x-0 bottom-[96px] max-[640px]:bottom-[84px] z-10 px-6 max-[640px]:px-5 text-left">
+          <h3 className="font-bold text-[clamp(22px,2.1vw,28px)] uppercase tracking-[-0.6px] leading-[1.05] text-[var(--wh)]">
             {t.academy.headquarters.clubCta.title}
           </h3>
-          <p className="mt-3 text-[13px] max-[640px]:text-[12px] font-light leading-[1.45] text-white/70">
+          <p className="mt-3 text-[12px] max-[640px]:text-[11px] font-light leading-[1.5] text-white/65">
             {t.academy.headquarters.clubCta.description}
           </p>
         </div>
 
         {/* CTA bottom row */}
         <div className="absolute bottom-0 left-0 right-0 z-10 p-6 max-[640px]:p-5 flex items-end justify-between gap-3">
-          <span className="text-[12px] max-[640px]:text-[11px] font-bold tracking-[2.5px] uppercase text-[var(--g1)]">
+          <span className="text-[11px] max-[640px]:text-[10px] font-bold tracking-[2.5px] uppercase text-[var(--g1)]">
             {t.academy.headquarters.clubCta.cta}
           </span>
           <span
@@ -2136,39 +2205,54 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
       </div>
 
       {/* Sedes — drag-scroll unificado (2 sedes + 1 CTA card), alineado a la izquierda */}
-      <div className="max-w-[1600px] mx-auto pb-[56px] max-[960px]:pb-[44px]">
+      <div className="max-w-[1600px] mx-auto pb-[56px] max-[960px]:pb-[44px] relative">
         <div
           ref={scrollRef}
           className="flex gap-6 max-[768px]:gap-4 overflow-x-auto scrollbar-hide px-4 max-[960px]:px-3"
-          style={{ cursor: "grab" }}
+          style={{ cursor: "grab", scrollSnapType: "x mandatory", scrollPadding: "0 16px" }}
         >
-          <div className="shrink-0" style={{ width: "clamp(220px, min(72vw, 36vh), 360px)" }}>
+          <div className="shrink-0 snap-start" style={{ width: "clamp(220px, min(72vw, 36vh), 360px)" }}>
             <SedeCard
               video="https://finurapadelgym.com/wp-content/uploads/2025/10/home-2.webm"
               videoStart={5}
               eyebrow={t.academy.headquarters.sedes[0].badge}
               name={t.academy.headquarters.sedes[0].name}
               tag={t.academy.headquarters.sedes[0].tag}
+              features={t.academy.headquarters.sedes[0].features}
               href="https://finurapadelgym.com"
               index={0}
             />
           </div>
-          <div className="shrink-0" style={{ width: "clamp(220px, min(72vw, 36vh), 360px)" }}>
+          <div className="shrink-0 snap-start" style={{ width: "clamp(220px, min(72vw, 36vh), 360px)" }}>
             <SedeCard
               images={["/images/vals-1.jpg", "/images/vals-2.jpg", "/images/vals-3.jpg"]}
               eyebrow={t.academy.headquarters.sedes[1].badge}
+              pulseDot
               name={t.academy.headquarters.sedes[1].name}
               tag={t.academy.headquarters.sedes[1].tag}
+              features={t.academy.headquarters.sedes[1].features}
               href="https://valssport.com/limoneros/"
               index={1}
             />
           </div>
-          <div className="shrink-0" style={{ width: "clamp(220px, min(72vw, 36vh), 360px)" }}>
+          <div className="shrink-0 snap-start" style={{ width: "clamp(220px, min(72vw, 36vh), 360px)" }}>
             <ClubCtaCard index={2} />
           </div>
           <div className="shrink-0 w-1" aria-hidden />
         </div>
-        <div className="px-4 max-[960px]:px-3 pt-5">
+
+        {/* Fade-out gradient a la derecha — hint de "hay más contenido" */}
+        <div
+          className="pointer-events-none absolute top-0 right-0 bottom-[60px] w-16 max-[768px]:w-10 bg-gradient-to-l from-[var(--bk)] to-transparent z-[2]"
+          aria-hidden
+          style={{ opacity: activeSlide < 2 ? 1 : 0, transition: "opacity .4s ease" }}
+        />
+
+        {/* Counter + dots */}
+        <div className="px-4 max-[960px]:px-3 pt-5 flex items-center justify-between gap-4">
+          <span className="text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)]/70 tabular-nums">
+            {String(activeSlide + 1).padStart(2, "0")} <span className="text-white/30">/</span> {String(3).padStart(2, "0")}
+          </span>
           <PorscheDots total={3} active={activeSlide} onDotClick={goTo} />
         </div>
       </div>
