@@ -2012,27 +2012,27 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
       {/* Dark marker — at top of section so transition starts earlier */}
       {markerSlot}
 
-      {/* Section header */}
+      {/* Section header — compact, sección secundaria */}
       <div
         ref={ref}
-        className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto pt-[72px] pb-14 max-[960px]:pt-[56px] max-[960px]:pb-10"
+        className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto pt-[56px] pb-8 max-[960px]:pt-[44px] max-[960px]:pb-7"
         style={{
           opacity: visible ? 1 : 0,
           transform: visible ? "none" : "translateY(24px)",
           transition: "all .8s cubic-bezier(.16,1,.3,1)",
         }}
       >
-        <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] block mb-3 max-[960px]:text-[12px] max-[960px]:tracking-[3px]">
+        <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] block mb-2 max-[960px]:text-[11px] max-[960px]:tracking-[3px]">
           {t.academy.headquarters.eyebrow}
         </span>
-        <h2 className="font-bold text-[clamp(32px,4vw,52px)] uppercase tracking-[-1px] leading-[1]">
+        <h2 className="font-bold text-[clamp(24px,2.6vw,36px)] uppercase tracking-[-0.5px] leading-[1.05]">
           <span className="sedes-heading">{t.academy.headquarters.headingPre}</span>
           <span className="j3-grad-text">{t.academy.headquarters.headingAccent}</span>
         </h2>
       </div>
 
       {/* Sedes slider — unified drag-scroll carousel (desktop + mobile) with same feel as juniors/adultos */}
-      <div className="max-w-[1600px] mx-auto pb-[72px] max-[960px]:pb-[56px]">
+      <div className="max-w-[1600px] mx-auto pb-[56px] max-[960px]:pb-[44px]">
         <div
           ref={scrollRef}
           className="flex gap-6 max-[768px]:gap-4 overflow-x-auto scrollbar-hide px-4 max-[960px]:px-3"
@@ -2040,7 +2040,7 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
         >
           <div
             className="shrink-0"
-            style={{ width: "clamp(280px, min(82vw, 50vh), 520px)" }}
+            style={{ width: "clamp(220px, min(72vw, 36vh), 360px)" }}
           >
             <SedeCard
               video="https://finurapadelgym.com/wp-content/uploads/2025/10/home-2.webm"
@@ -2054,7 +2054,7 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
           </div>
           <div
             className="shrink-0"
-            style={{ width: "clamp(280px, min(82vw, 50vh), 520px)" }}
+            style={{ width: "clamp(220px, min(72vw, 36vh), 360px)" }}
           >
             <SedeCard
               images={["/images/vals-1.jpg", "/images/vals-2.jpg", "/images/vals-3.jpg"]}
