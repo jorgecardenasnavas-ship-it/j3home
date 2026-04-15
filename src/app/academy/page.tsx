@@ -478,7 +478,7 @@ function ProgramBar() {
                       src={p.img}
                       alt={p.name}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover/pnav:scale-110"
-                      style={{ filter: "contrast(1.05) saturate(0.85) brightness(0.95)" }}
+                      style={{ filter: "saturate(0.9) brightness(0.98) contrast(0.98)" }}
                     />
                   </div>
                 </div>
@@ -726,8 +726,8 @@ function HeroSection() {
             style={{
               opacity: 0.7,
               filter: isMobile
-                ? "contrast(1.10) saturate(0.80) brightness(1.0) sepia(0.12)"
-                : "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)",
+                ? "saturate(0.88) brightness(0.98) contrast(0.98)"
+                : "saturate(0.9) brightness(1) contrast(0.97)",
               transform: !prefersReducedMotion && active === i ? "scale(1.08)" : "scale(1)",
               objectPosition: (isMobile && slide.images[imgIndex[i]].mobilePos) || slide.images[imgIndex[i]].pos,
             }}
@@ -1071,7 +1071,7 @@ function ClaimSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
         loop
         muted
         playsInline
-        style={{ opacity: 0.55, filter: "contrast(1.08) saturate(0.7) brightness(1.0) sepia(0.15)", transform: "scale(1.15)" }}
+        style={{ opacity: 0.55, filter: "saturate(0.8) brightness(0.96) contrast(0.97)", transform: "scale(1.15)" }}
       />
       {/* Overlay — subtle, let the video breathe */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/15 to-black/30" />
@@ -1515,8 +1515,8 @@ function ProgramTile({
           transform: expanded ? "scale3d(1.035,1.035,1.035)" : "scale3d(1,1,1)",
           transition: "transform 0.9s cubic-bezier(0,0,0.2,1), filter 0.9s cubic-bezier(.16,1,.3,1)",
           filter: expanded
-            ? "saturate(1) brightness(1) contrast(1.02)"
-            : "saturate(0.92) brightness(0.96) contrast(1.04)",
+            ? "saturate(0.95) brightness(1.01) contrast(0.98)"
+            : "saturate(0.88) brightness(0.98) contrast(0.96)",
         }}
       />
 
@@ -2085,7 +2085,7 @@ function SedeCard({
             preload="none"
             className="absolute inset-0 w-full h-full object-cover"
             style={{
-              filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)",
+              filter: "saturate(0.9) brightness(1) contrast(0.97)",
               transform: hovered ? "scale3d(1.04,1.04,1.04)" : "scale3d(1,1,1)",
               transition: "transform .8s cubic-bezier(.16,1,.3,1)",
             }}
@@ -2109,7 +2109,7 @@ function SedeCard({
                 style={{
                   opacity: currentImg === i ? 1 : 0,
                   transition: "opacity 1.2s ease",
-                  filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)",
+                  filter: "saturate(0.9) brightness(1) contrast(0.97)",
                 }}
               />
             ))}
@@ -2417,7 +2417,7 @@ function ProgramasGridSection() {
         src={p.img}
         alt={p.name}
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-        style={{ filter: "contrast(1.08) saturate(0.85) brightness(1.05) sepia(0.12)" }}
+        style={{ filter: "saturate(0.9) brightness(1) contrast(0.97)" }}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
       <div className="relative z-10 p-4 max-[640px]:p-3">
