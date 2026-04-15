@@ -1425,12 +1425,11 @@ function WaCtaPill({ label, size = "md", expanded = false }: { label: string; si
 
 /* Porsche-style program tile — full-bleed image, info overlay at bottom */
 function ProgramTile({
-  tag, title, sub, badge, cta, image, href, isHovered, onHover, onLeave, index, visible, cardId, forceExpand = false, inCarousel = false,
+  tag, title, sub, cta, image, href, isHovered, onHover, onLeave, index, visible, cardId, forceExpand = false, inCarousel = false,
 }: {
   tag: string;
   title: string;
   sub: string;
-  badge?: string;
   cta: { label: string; href: string };
   image: string;
   href: string;
@@ -1519,22 +1518,6 @@ function ProgramTile({
         <span className="mt-[6px] text-[10px] max-[640px]:text-[9.5px] font-bold tracking-[3px] uppercase text-[var(--g1)]">
           {tag}
         </span>
-        {/* Badge especial — aparece sólo con hover/active (reward de interacción) */}
-        {badge && (
-          <span
-            className="mt-[10px] inline-block text-[9px] max-[640px]:text-[8.5px] font-bold tracking-[2.5px] uppercase text-[var(--g1)] rounded-full"
-            style={{
-              padding: "3px 10px",
-              border: "1px solid rgba(220,175,100,0.42)",
-              background: "rgba(220,175,100,0.08)",
-              opacity: expanded ? 1 : 0,
-              transform: expanded ? "translateY(0)" : "translateY(-4px)",
-              transition: "opacity 0.5s cubic-bezier(.16,1,.3,1), transform 0.5s cubic-bezier(.16,1,.3,1)",
-            }}
-          >
-            {badge}
-          </span>
-        )}
       </div>
 
       {/* Bottom — edad (izquierda) + CTA (derecha) */}
@@ -1674,7 +1657,6 @@ function PerfilesSection() {
     tag: c.tag,
     title: c.title,
     sub: c.sub,
-    badge: c.badge,
     image: juniorsImages[i],
     cta: { label: c.ctaLabel, href: waLink(c.waMsg) },
     cardId: juniorsCardIds[i],
@@ -1730,7 +1712,7 @@ function PerfilesSection() {
             <PorscheRow hoveredIdx={jRow0Hover}>
               {juniorsCards.slice(0, 2).map((c, i) => (
                 <ProgramTile
-                  key={i} tag={c.tag} title={c.title} sub={c.sub} badge={c.badge} cta={c.cta}
+                  key={i} tag={c.tag} title={c.title} sub={c.sub} cta={c.cta}
                   image={c.image} href={c.cta.href} cardId={c.cardId}
                   isHovered={jRow0Hover === i}
                   onHover={() => setJRow0Hover(i)} onLeave={() => setJRow0Hover(null)}
@@ -1743,7 +1725,7 @@ function PerfilesSection() {
             <PorscheRow hoveredIdx={jRow1Hover}>
               {juniorsCards.slice(2, 4).map((c, i) => (
                 <ProgramTile
-                  key={i} tag={c.tag} title={c.title} sub={c.sub} badge={c.badge} cta={c.cta}
+                  key={i} tag={c.tag} title={c.title} sub={c.sub} cta={c.cta}
                   image={c.image} href={c.cta.href} cardId={c.cardId}
                   isHovered={jRow1Hover === i}
                   onHover={() => setJRow1Hover(i)} onLeave={() => setJRow1Hover(null)}
@@ -1766,7 +1748,7 @@ function PerfilesSection() {
           <ScrollCarousel>
             {juniorsCards.map((c, i) => (
               <ProgramTile
-                key={i} tag={c.tag} title={c.title} sub={c.sub} badge={c.badge} cta={c.cta}
+                key={i} tag={c.tag} title={c.title} sub={c.sub} cta={c.cta}
                 image={c.image} href={c.cta.href} cardId={c.cardId}
                 isHovered={jMobileHover === i}
                 onHover={() => setJMobileHover(i)} onLeave={() => setJMobileHover(null)}

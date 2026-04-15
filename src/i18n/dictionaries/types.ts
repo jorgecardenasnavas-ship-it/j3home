@@ -305,7 +305,6 @@ export interface Dictionary {
         readonly tag: string;
         readonly title: string;
         readonly sub: string;
-        readonly badge?: string;
         readonly ctaLabel: string;
         readonly waMsg: string;
       }[];
