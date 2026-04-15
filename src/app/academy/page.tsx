@@ -1875,7 +1875,7 @@ function SedeCard({
         rel="noopener noreferrer"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        className="group relative block overflow-hidden rounded-2xl bg-black no-underline"
+        className="group relative block overflow-hidden rounded-2xl bg-black no-underline border border-white/[.07] hover:border-[var(--g1)]/30 transition-colors duration-500"
         style={{ aspectRatio: "3 / 4" }}
       >
         {/* Media */}
