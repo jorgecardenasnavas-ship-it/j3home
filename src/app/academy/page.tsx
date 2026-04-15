@@ -1923,7 +1923,7 @@ function PerfilesSection() {
             </div>
           </div>
         </div>
-        {/* Mobile: card on top, info panel below */}
+        {/* Mobile: single centered card on top, info panel below */}
         <div
           ref={iMobileReveal.ref}
           className="max-w-[1600px] mx-auto py-10 min-[961px]:hidden"
@@ -1933,17 +1933,26 @@ function PerfilesSection() {
             transition: "all 0.9s cubic-bezier(.16,1,.3,1)",
           }}
         >
-          <ScrollCarousel>
+          <div className="flex justify-center px-4">
             {intensiveCards.map((c, i) => (
-              <ProgramTile
-                key={i} tag={c.tag} title={c.title} sub={c.sub} cta={c.cta}
-                image={c.image} href={c.cta.href} cardId={c.cardId}
-                isHovered={iMobileHover === i}
-                onHover={() => setIMobileHover(i)} onLeave={() => setIMobileHover(null)}
-                index={i} visible={iMobileReveal.visible}
-              />
+              <div
+                key={i}
+                style={{
+                  width: "min(92vw, 420px)",
+                  height: "clamp(360px, 90vw, 480px)",
+                }}
+              >
+                <ProgramTile
+                  tag={c.tag} title={c.title} sub={c.sub} cta={c.cta}
+                  image={c.image} href={c.cta.href} cardId={c.cardId}
+                  isHovered={iMobileHover === i}
+                  onHover={() => setIMobileHover(i)} onLeave={() => setIMobileHover(null)}
+                  index={i} visible={iMobileReveal.visible}
+                  inCarousel forceExpand
+                />
+              </div>
             ))}
-          </ScrollCarousel>
+          </div>
           {/* Info panel — mobile */}
           <div className="px-4 mt-8">
             <span className="theme-eyebrow text-[11px] font-normal tracking-[3px] uppercase block mb-3">
