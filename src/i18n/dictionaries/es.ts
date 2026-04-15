@@ -585,7 +585,7 @@ export const es = {
         {
           tag: "Tecnificaci\u00F3n",
           title: "Kids",
-          sub: "10+",
+          sub: "10+ a\u00F1os",
           ctaLabel: "Solicitar info",
           waMsg: "Hola, quiero info sobre Kids (10+)",
         },

@@ -585,7 +585,7 @@ export const fr = {
         {
           tag: "Perfectionnement",
           title: "Kids",
-          sub: "10+",
+          sub: "10+ ans",
           ctaLabel: "Demander des infos",
           waMsg: "Bonjour, je souhaite des infos sur Kids (10+)",
         },

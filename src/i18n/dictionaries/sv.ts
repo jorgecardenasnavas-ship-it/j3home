@@ -585,7 +585,7 @@ export const sv = {
         {
           tag: "Utveckling",
           title: "Kids",
-          sub: "10+",
+          sub: "10+ \u00E5r",
           ctaLabel: "Beg\u00E4r info",
           waMsg: "Hej, jag vill ha info om Kids (10+)",
         },
