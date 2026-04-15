@@ -340,6 +340,12 @@ export interface Dictionary {
         readonly features: readonly string[];
         readonly badge?: string;
       }[];
+      readonly clubCta: {
+        readonly eyebrow: string;
+        readonly title: string;
+        readonly description: string;
+        readonly cta: string;
+      };
     };
 
     method: {

@@ -2002,10 +2002,114 @@ function SedeCard({
   );
 }
 
+/** CTA card — "¿Tu club? Monta J3 en tu club". Misma aspect 3/4 que las sedes, sin imagen, foco en texto + gradiente gold sutil */
+function ClubCtaCard({ index }: { index: number }) {
+  const { t } = useI18n();
+  const { ref, visible } = useReveal(0.15);
+  const anchorRef = useRef<HTMLAnchorElement>(null);
+  const [hovered, setHovered] = useState(false);
+
+  /* Mismo radial gold glow que SedeCard */
+  useEffect(() => {
+    const card = anchorRef.current;
+    if (!card) return;
+    const isDesktop = window.matchMedia("(min-width: 961px) and (hover: hover)").matches;
+    if (!isDesktop) return;
+    const glowEl = card.querySelector<HTMLElement>(".pc-glow");
+    const move = (e: MouseEvent) => {
+      const rect = card.getBoundingClientRect();
+      if (glowEl) {
+        glowEl.style.opacity = "1";
+        glowEl.style.background = `radial-gradient(600px circle at ${e.clientX - rect.left}px ${e.clientY - rect.top}px, rgba(220,175,100,0.10), transparent 60%)`;
+      }
+    };
+    const leave = () => { if (glowEl) glowEl.style.opacity = "0"; };
+    card.addEventListener("mousemove", move);
+    card.addEventListener("mouseleave", leave);
+    return () => {
+      card.removeEventListener("mousemove", move);
+      card.removeEventListener("mouseleave", leave);
+    };
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "none" : "translateY(30px)",
+        transition: `all 1s cubic-bezier(.16,1,.3,1) ${index * 0.15}s`,
+      }}
+    >
+      <a
+        ref={anchorRef}
+        href="/business/llamada"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        className="group relative block overflow-hidden rounded-2xl no-underline border border-[var(--g1)]/25 hover:border-[var(--g1)]/60 transition-colors duration-500"
+        style={{
+          aspectRatio: "3 / 4",
+          background: "radial-gradient(120% 80% at 100% 0%, rgba(220,175,100,0.16) 0%, rgba(220,175,100,0.06) 35%, rgba(0,0,0,0.95) 75%), #0a0a0a",
+        }}
+      >
+        {/* Radial gold glow sigue cursor */}
+        <span className="pc-glow absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-500 z-[5]" aria-hidden />
+
+        {/* Línea gold superior (featured style) */}
+        <span
+          className="absolute top-0 left-1/2 -translate-x-1/2 h-[3px] w-[60%] opacity-40 group-hover:w-full group-hover:opacity-90 bg-gradient-to-r from-transparent via-[var(--g1)] to-transparent transition-all duration-700 ease-[var(--ease-out)] z-[6]"
+          aria-hidden
+        />
+
+        {/* Marca de agua sutil — J3 */}
+        <span className="absolute -bottom-4 -right-2 font-bold text-[120px] max-[640px]:text-[80px] uppercase leading-none tracking-[-4px] pointer-events-none select-none text-white/[.015] group-hover:text-[var(--g1)]/[.05] transition-colors duration-700">
+          J3
+        </span>
+
+        {/* Eyebrow top-left */}
+        <div className="absolute top-5 left-6 max-[640px]:top-4 max-[640px]:left-5 z-10">
+          <span className="text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)]">
+            {t.academy.headquarters.clubCta.eyebrow}
+          </span>
+        </div>
+
+        {/* Título centrado */}
+        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 z-10 px-6 max-[640px]:px-5 text-left">
+          <h3 className="font-bold text-[clamp(20px,2vw,26px)] uppercase tracking-[-0.5px] leading-[1.1] text-[var(--wh)]">
+            {t.academy.headquarters.clubCta.title}
+          </h3>
+          <p className="mt-3 text-[13px] max-[640px]:text-[12px] font-light leading-[1.45] text-white/70">
+            {t.academy.headquarters.clubCta.description}
+          </p>
+        </div>
+
+        {/* CTA bottom row */}
+        <div className="absolute bottom-0 left-0 right-0 z-10 p-6 max-[640px]:p-5 flex items-end justify-between gap-3">
+          <span className="text-[12px] max-[640px]:text-[11px] font-bold tracking-[2.5px] uppercase text-[var(--g1)]">
+            {t.academy.headquarters.clubCta.cta}
+          </span>
+          <span
+            className="shrink-0 text-[var(--g1)]"
+            style={{
+              transform: hovered ? "translateX(6px)" : "translateX(0)",
+              transition: "transform .5s cubic-bezier(.16,1,.3,1)",
+            }}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12h14" />
+              <path d="M12 5l7 7-7 7" />
+            </svg>
+          </span>
+        </div>
+      </a>
+    </div>
+  );
+}
+
 function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const { t } = useI18n();
   const { ref, visible } = useReveal(0.15);
-  const { scrollRef, activeSlide, goTo } = useDragScroll(2);
+  const { scrollRef, activeSlide, goTo } = useDragScroll(3);
 
   return (
     <section className="sedes-section relative overflow-hidden border-b border-white/[.07]">
@@ -2031,11 +2135,14 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
         </h2>
       </div>
 
-      {/* Sedes — desktop: grid centrado simétrico · mobile: drag-scroll carousel */}
+      {/* Sedes — drag-scroll unificado (2 sedes + 1 CTA card), alineado a la izquierda */}
       <div className="max-w-[1600px] mx-auto pb-[56px] max-[960px]:pb-[44px]">
-        {/* Desktop: fila centrada */}
-        <div className="hidden min-[769px]:flex justify-center gap-8 px-4">
-          <div style={{ width: "clamp(240px, 30vw, 360px)" }}>
+        <div
+          ref={scrollRef}
+          className="flex gap-6 max-[768px]:gap-4 overflow-x-auto scrollbar-hide px-4 max-[960px]:px-3"
+          style={{ cursor: "grab" }}
+        >
+          <div className="shrink-0" style={{ width: "clamp(220px, min(72vw, 36vh), 360px)" }}>
             <SedeCard
               video="https://finurapadelgym.com/wp-content/uploads/2025/10/home-2.webm"
               videoStart={5}
@@ -2046,7 +2153,7 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
               index={0}
             />
           </div>
-          <div style={{ width: "clamp(240px, 30vw, 360px)" }}>
+          <div className="shrink-0" style={{ width: "clamp(220px, min(72vw, 36vh), 360px)" }}>
             <SedeCard
               images={["/images/vals-1.jpg", "/images/vals-2.jpg", "/images/vals-3.jpg"]}
               eyebrow={t.academy.headquarters.sedes[1].badge}
@@ -2056,41 +2163,13 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
               index={1}
             />
           </div>
+          <div className="shrink-0" style={{ width: "clamp(220px, min(72vw, 36vh), 360px)" }}>
+            <ClubCtaCard index={2} />
+          </div>
+          <div className="shrink-0 w-1" aria-hidden />
         </div>
-
-        {/* Mobile: drag-scroll carousel con dots */}
-        <div className="min-[769px]:hidden">
-          <div
-            ref={scrollRef}
-            className="flex gap-4 overflow-x-auto scrollbar-hide px-3"
-            style={{ cursor: "grab" }}
-          >
-            <div className="shrink-0" style={{ width: "clamp(220px, 72vw, 360px)" }}>
-              <SedeCard
-                video="https://finurapadelgym.com/wp-content/uploads/2025/10/home-2.webm"
-                videoStart={5}
-                eyebrow={t.academy.headquarters.sedes[0].badge}
-                name={t.academy.headquarters.sedes[0].name}
-                tag={t.academy.headquarters.sedes[0].tag}
-                href="https://finurapadelgym.com"
-                index={0}
-              />
-            </div>
-            <div className="shrink-0" style={{ width: "clamp(220px, 72vw, 360px)" }}>
-              <SedeCard
-                images={["/images/vals-1.jpg", "/images/vals-2.jpg", "/images/vals-3.jpg"]}
-                eyebrow={t.academy.headquarters.sedes[1].badge}
-                name={t.academy.headquarters.sedes[1].name}
-                tag={t.academy.headquarters.sedes[1].tag}
-                href="https://valssport.com/limoneros/"
-                index={1}
-              />
-            </div>
-            <div className="shrink-0 w-1" aria-hidden />
-          </div>
-          <div className="px-3 pt-5">
-            <PorscheDots total={2} active={activeSlide} onDotClick={goTo} />
-          </div>
+        <div className="px-4 max-[960px]:px-3 pt-5">
+          <PorscheDots total={3} active={activeSlide} onDotClick={goTo} />
         </div>
       </div>
     </section>

@@ -654,6 +654,12 @@ export const en = {
           badge: "11 courts \u00B7 Opening soon",
         },
       ],
+      clubCta: {
+        eyebrow: "Your club?",
+        title: "Bring J3 Academy to your club",
+        description: "We license our methodology and coaching framework to partner clubs. Anywhere.",
+        cta: "Let\u2019s talk",
+      },
     },
 
     method: {

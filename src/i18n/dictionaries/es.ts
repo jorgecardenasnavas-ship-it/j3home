@@ -654,6 +654,12 @@ export const es = {
           badge: "11 pistas \u00B7 Pr\u00F3xima apertura",
         },
       ],
+      clubCta: {
+        eyebrow: "\u00BFTu club?",
+        title: "Monta J3 Academy en tu club",
+        description: "Licenciamos nuestra metodolog\u00EDa y formaci\u00F3n para clubs asociados. Sea donde sea.",
+        cta: "Hablemos",
+      },
     },
 
     method: {

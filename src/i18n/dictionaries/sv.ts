@@ -654,6 +654,12 @@ export const sv = {
           badge: "11 banor \u00B7 Snart \u00F6ppet",
         },
       ],
+      clubCta: {
+        eyebrow: "Din klubb?",
+        title: "F\u00E5 J3 Academy till din klubb",
+        description: "Vi licensierar v\u00E5r metod och tr\u00E4narutbildning till partnerklubbar. Var som helst.",
+        cta: "L\u00E5t oss prata",
+      },
     },
 
     method: {
