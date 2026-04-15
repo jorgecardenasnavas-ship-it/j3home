@@ -1988,11 +1988,14 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
       </div>
 
       {/* Sedes grid — Porsche style: portrait cards, full-bleed image, label + arrow bottom */}
-      <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto pb-[72px] max-[960px]:pb-[56px]">
-        <div className="grid grid-cols-2 gap-6 max-[768px]:grid-cols-1 max-[768px]:gap-4">
+      {/* Desktop: 2-col grid. Mobile: horizontal scroll with snap */}
+      <div className="max-w-[1600px] mx-auto pb-[72px] max-[960px]:pb-[56px]">
+        {/* Desktop grid */}
+        <div className="px-4 max-[960px]:px-3 grid grid-cols-2 gap-6 max-[768px]:hidden">
           <SedeCard
             video="https://finurapadelgym.com/wp-content/uploads/2025/10/home-2.webm"
             videoStart={5}
+            eyebrow={t.academy.headquarters.sedes[0].badge}
             name={t.academy.headquarters.sedes[0].name}
             tag={t.academy.headquarters.sedes[0].tag}
             href="https://finurapadelgym.com"
@@ -2006,6 +2009,34 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
             href="https://valssport.com/limoneros/"
             index={1}
           />
+        </div>
+
+        {/* Mobile horizontal scroll */}
+        <div
+          className="hidden max-[768px]:flex gap-4 overflow-x-auto snap-x snap-mandatory px-4 pb-2 scrollbar-hide"
+          style={{ scrollPaddingLeft: "1rem", scrollPaddingRight: "1rem" }}
+        >
+          <div className="shrink-0 snap-start w-[82vw] max-w-[360px]">
+            <SedeCard
+              video="https://finurapadelgym.com/wp-content/uploads/2025/10/home-2.webm"
+              videoStart={5}
+              eyebrow={t.academy.headquarters.sedes[0].badge}
+              name={t.academy.headquarters.sedes[0].name}
+              tag={t.academy.headquarters.sedes[0].tag}
+              href="https://finurapadelgym.com"
+              index={0}
+            />
+          </div>
+          <div className="shrink-0 snap-start w-[82vw] max-w-[360px]">
+            <SedeCard
+              images={["/images/vals-1.jpg", "/images/vals-2.jpg", "/images/vals-3.jpg"]}
+              eyebrow={t.academy.headquarters.sedes[1].badge}
+              name={t.academy.headquarters.sedes[1].name}
+              tag={t.academy.headquarters.sedes[1].tag}
+              href="https://valssport.com/limoneros/"
+              index={1}
+            />
+          </div>
         </div>
       </div>
     </section>
