@@ -707,6 +707,13 @@ html[data-theme="light"] .theme-eyebrow {
   color: var(--wh);
 }
 
+/* Quita el flash sepia/ámbar que iOS y Android aplican por defecto al
+   tocar enlaces y botones. El feedback de "presión" ya se gestiona con
+   .j3-press, hovers y otros estados. */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
 /* ─── Focus rings — accessible, gold-branded ─── */
 :focus-visible {
   outline: 2px solid rgba(220, 175, 100, 0.6);
