@@ -1945,8 +1945,12 @@ function SedeCard({
             </span>
           </div>
           <span
-            className="text-white/90 shrink-0 transition-transform duration-500 ease-out"
-            style={{ transform: hovered ? "translateX(6px)" : "translateX(0)" }}
+            className="shrink-0"
+            style={{
+              color: hovered ? "var(--g1)" : "rgba(255,255,255,.9)",
+              transform: hovered ? "translateX(6px)" : "translateX(0)",
+              transition: "transform .5s cubic-bezier(.16,1,.3,1), color .35s ease",
+            }}
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
               <path d="M5 12h14" />
