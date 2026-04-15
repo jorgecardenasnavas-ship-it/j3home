@@ -267,7 +267,7 @@ function J3Ball({ className = "" }: { className?: string }) {
    ═══════════════════════════════════════════════════════ */
 
 const PROGRAM_NAV = [
-  { name: "Kinder", img: "/images/academy/kinder.jpeg", target: "juniors", cardId: "card-kinder", tag: "4–10" },
+  { name: "Kinder", img: "/images/academy/kinder.jpeg", target: "juniors", cardId: "card-kinder", tag: "4+" },
   { name: "Kids", img: "/images/academy/kids.jpeg", target: "juniors", cardId: "card-kids", tag: "10+" },
   { name: "Junior", img: "/images/academy/nextgen.jpeg", target: "juniors", cardId: "card-nextgen", tag: "14+" },
   { name: "Next Gen", img: "/images/academy/nextgen-pro.jpeg", target: "juniors", cardId: "card-nextgenpro", tag: "16+" },
