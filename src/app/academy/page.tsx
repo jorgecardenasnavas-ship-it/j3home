@@ -1462,16 +1462,30 @@ function ProgramTile({
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
     >
-      {/* Image — full cover with Porsche zoom */}
+      {/* Image — full cover con tratamiento cinematográfico:
+          reposo → saturate/brightness bajas (moody), expanded → saturate/brightness plenas + zoom */}
       <img
         src={image}
         alt={title}
         loading="lazy"
         className="absolute inset-0 w-full h-full object-cover"
         style={{
-          transform: isHovered ? "scale3d(1.05,1.05,1.05)" : "scale3d(1,1,1)",
-          transition: "transform 0.6s cubic-bezier(0, 0, 0.2, 1)",
-          filter: "contrast(1.08) saturate(0.85) brightness(1.02) sepia(0.08)",
+          transform: expanded ? "scale3d(1.06,1.06,1.06)" : "scale3d(1,1,1)",
+          transition: "transform 0.7s cubic-bezier(0,0,0.2,1), filter 0.7s cubic-bezier(.16,1,.3,1)",
+          filter: expanded
+            ? "contrast(1.08) saturate(1) brightness(1.05) sepia(0.04)"
+            : "contrast(1.12) saturate(0.7) brightness(0.92) sepia(0.12)",
+        }}
+      />
+
+      {/* Línea gold superior — expande de 50% → 100% al hover/active (estilo featured de ProductsSection) */}
+      <div
+        className="absolute top-0 left-1/2 -translate-x-1/2 h-[1.5px] z-[10] pointer-events-none"
+        style={{
+          background: "linear-gradient(to right, transparent 0%, var(--g1) 50%, transparent 100%)",
+          width: expanded ? "100%" : "55%",
+          opacity: expanded ? 0.9 : 0.35,
+          transition: "width 0.7s cubic-bezier(.16,1,.3,1), opacity 0.5s ease-out",
         }}
       />
 
