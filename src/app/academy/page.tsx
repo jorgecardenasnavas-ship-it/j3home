@@ -1508,7 +1508,7 @@ function ProgramTile({
         }}
       />
 
-      {/* Title + etapa + edad — top center (text-shadow sutil como red de seguridad sobre zonas claras de la imagen) */}
+      {/* Title + etapa — top center (text-shadow sutil como red de seguridad sobre zonas claras de la imagen) */}
       <div
         className="absolute top-0 left-0 right-0 z-[6] flex flex-col items-center pt-7 max-[640px]:pt-5 px-4 text-center"
         style={{ textShadow: "0 2px 14px rgba(0,0,0,0.55), 0 1px 3px rgba(0,0,0,0.4)" }}
@@ -1518,9 +1518,6 @@ function ProgramTile({
         </h4>
         <span className="mt-[6px] text-[10px] max-[640px]:text-[9.5px] font-bold tracking-[3px] uppercase text-[var(--g1)]">
           {tag}
-        </span>
-        <span className="mt-[4px] text-[12.5px] max-[640px]:text-[11.5px] font-normal text-white/85 leading-[1.35]">
-          {sub}
         </span>
         {/* Badge especial — aparece sólo con hover/active (reward de interacción) */}
         {badge && (
@@ -1540,13 +1537,19 @@ function ProgramTile({
         )}
       </div>
 
-      {/* Bottom — solo CTA alineado a la derecha */}
+      {/* Bottom — edad (izquierda) + CTA (derecha) */}
       <div className="absolute bottom-0 left-0 right-0 z-[13] p-[18px] min-[961px]:p-[clamp(16px,1.25vw+12px,36px)]">
-        <div className="flex justify-end">
-          <span className="hidden min-[961px]:inline-flex">
+        <div className="flex items-end justify-between gap-3">
+          <span
+            className="text-[13px] max-[640px]:text-[12px] font-normal text-white/90 leading-[1.3] tracking-[0.2px]"
+            style={{ textShadow: "0 2px 10px rgba(0,0,0,0.55), 0 1px 3px rgba(0,0,0,0.4)" }}
+          >
+            {sub}
+          </span>
+          <span className="hidden min-[961px]:inline-flex shrink-0">
             <WaCtaPill label={cta.label} size="md" expanded={expanded} />
           </span>
-          <span className="inline-flex min-[961px]:hidden">
+          <span className="inline-flex min-[961px]:hidden shrink-0">
             <WaCtaPill label={cta.label} size="sm" expanded={expanded} />
           </span>
         </div>
