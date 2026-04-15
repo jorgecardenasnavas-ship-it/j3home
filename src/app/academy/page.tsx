@@ -1517,16 +1517,18 @@ function ProgramTile({
             <WaCtaPill label={cta.label} size="md" expanded={expanded} />
           </div>
         </div>
-        {/* Mobile layout: vertical Porsche spacing */}
-        <div className="flex flex-col min-[961px]:hidden">
-          <span
-            className="inline-block w-fit text-[13.5px] max-[640px]:text-[12px] font-normal leading-[1.5] px-[6px] py-[1px] rounded"
-            style={{ background: "rgba(215,215,218,0.25)", backdropFilter: "blur(12px)", color: "rgba(255,255,255,0.85)" }}
-          >
-            {tag}
-          </span>
-          <p className="text-[16px] max-[640px]:text-[14px] text-white/80 leading-[1.5] mt-[8px]">{sub}</p>
-          <div className="mt-[18px] w-fit self-end">
+        {/* Mobile layout: horizontal — tag+desc izquierda, CTA derecha (misma estructura que desktop) */}
+        <div className="flex items-end justify-between gap-3 min-[961px]:hidden">
+          <div className="flex flex-col gap-1.5 min-w-0 flex-1">
+            <span
+              className="inline-block w-fit text-[12px] max-[640px]:text-[11px] font-normal leading-[1.5] px-[6px] py-[1px] rounded"
+              style={{ background: "rgba(215,215,218,0.25)", backdropFilter: "blur(12px)", color: "rgba(255,255,255,0.85)" }}
+            >
+              {tag}
+            </span>
+            <p className="text-[14px] max-[640px]:text-[13px] text-white/80 leading-[1.45]">{sub}</p>
+          </div>
+          <div className="shrink-0">
             <WaCtaPill label={cta.label} size="sm" expanded={expanded} />
           </div>
         </div>
