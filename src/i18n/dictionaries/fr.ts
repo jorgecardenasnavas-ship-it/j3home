@@ -576,9 +576,9 @@ export const fr = {
       juniorsLabel: "Juniors",
       juniorsCards: [
         {
-          tag: "Initiation",
+          tag: "Fondamentaux",
           title: "Kinder",
-          sub: "4 \u2013 10 ans",
+          sub: "4+ ans",
           ctaLabel: "Demander des infos",
           waMsg: "Bonjour, je souhaite des infos sur Kinder (4-10 ans)",
         },

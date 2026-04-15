@@ -576,9 +576,9 @@ export const sv = {
       juniorsLabel: "Juniorer",
       juniorsCards: [
         {
-          tag: "Nyb\u00F6rjare",
+          tag: "Grunder",
           title: "Kinder",
-          sub: "4 \u2013 10 \u00E5r",
+          sub: "4+ \u00E5r",
           ctaLabel: "Beg\u00E4r info",
           waMsg: "Hej, jag vill ha info om Kinder (4-10 \u00E5r)",
         },
