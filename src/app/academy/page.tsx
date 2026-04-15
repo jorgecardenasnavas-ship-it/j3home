@@ -2040,7 +2040,7 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
         >
           <div
             className="shrink-0"
-            style={{ width: "clamp(300px, 58vw, 780px)" }}
+            style={{ width: "clamp(280px, min(82vw, 50vh), 520px)" }}
           >
             <SedeCard
               video="https://finurapadelgym.com/wp-content/uploads/2025/10/home-2.webm"
@@ -2054,7 +2054,7 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
           </div>
           <div
             className="shrink-0"
-            style={{ width: "clamp(300px, 58vw, 780px)" }}
+            style={{ width: "clamp(280px, min(82vw, 50vh), 520px)" }}
           >
             <SedeCard
               images={["/images/vals-1.jpg", "/images/vals-2.jpg", "/images/vals-3.jpg"]}
