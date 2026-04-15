@@ -1923,7 +1923,7 @@ function PerfilesSection() {
             </div>
           </div>
         </div>
-        {/* Mobile: card on top, info panel below */}
+        {/* Mobile: card + info panel as sibling slides in the carousel (swipe right) */}
         <div
           ref={iMobileReveal.ref}
           className="max-w-[1600px] mx-auto py-10 min-[961px]:hidden"
@@ -1943,32 +1943,47 @@ function PerfilesSection() {
                 index={i} visible={iMobileReveal.visible}
               />
             ))}
+            {/* Info panel — sibling slide */}
+            <div
+              key="intensive-info"
+              className="relative w-full h-full rounded-lg overflow-hidden theme-border border flex flex-col"
+              style={{ background: "linear-gradient(160deg, rgba(220,175,100,0.04) 0%, transparent 55%)" }}
+            >
+              {/* Gold top line — same visual language as ProgramTile */}
+              <div
+                className="absolute top-0 left-1/2 -translate-x-1/2 h-[1.5px] z-[2] pointer-events-none"
+                style={{
+                  background: "linear-gradient(to right, transparent 0%, var(--g1) 50%, transparent 100%)",
+                  width: "55%",
+                  opacity: 0.4,
+                }}
+              />
+              <div className="flex-1 overflow-y-auto px-5 py-6 flex flex-col gap-4">
+                <span className="theme-eyebrow text-[10px] font-normal tracking-[3px] uppercase block">
+                  {t.academy.programs.intensiveInfoEyebrow}
+                </span>
+                <h3 className="font-bold text-[22px] uppercase tracking-[-0.5px] leading-[1.1]">
+                  <span className="theme-text">{t.academy.programs.intensiveInfoHeadingPre} </span>
+                  <span className="j3-grad-text font-[var(--font-serif)] italic normal-case">{t.academy.programs.intensiveInfoHeadingAccent}</span>
+                </h3>
+                <p className="text-[13px] theme-text opacity-80 leading-[1.5]">
+                  {t.academy.programs.intensiveInfoDesc}
+                </p>
+                <ul className="flex flex-col divide-y theme-border mt-1">
+                  {t.academy.programs.intensiveFeatures.map((f, idx) => (
+                    <li key={idx} className="py-2.5 flex flex-col gap-1">
+                      <span className="text-[10px] font-semibold tracking-[2px] uppercase text-[var(--g1)]">
+                        {f.label}
+                      </span>
+                      <span className="theme-text opacity-80 text-[13px] leading-[1.4]">
+                        {f.desc}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </ScrollCarousel>
-          {/* Info panel — mobile */}
-          <div className="px-4 mt-8">
-            <span className="theme-eyebrow text-[11px] font-normal tracking-[3px] uppercase block mb-3">
-              {t.academy.programs.intensiveInfoEyebrow}
-            </span>
-            <h3 className="font-bold text-[clamp(24px,5vw,32px)] uppercase tracking-[-0.5px] leading-[1.1] mb-4">
-              <span className="theme-text">{t.academy.programs.intensiveInfoHeadingPre} </span>
-              <span className="j3-grad-text font-[var(--font-serif)] italic normal-case">{t.academy.programs.intensiveInfoHeadingAccent}</span>
-            </h3>
-            <p className="text-[14px] theme-text opacity-80 leading-[1.55] mb-5">
-              {t.academy.programs.intensiveInfoDesc}
-            </p>
-            <ul className="flex flex-col divide-y theme-border">
-              {t.academy.programs.intensiveFeatures.map((f, i) => (
-                <li key={i} className="py-3 flex flex-col gap-1">
-                  <span className="text-[10px] font-semibold tracking-[2px] uppercase text-[var(--g1)]">
-                    {f.label}
-                  </span>
-                  <span className="theme-text opacity-80 text-[14px] leading-[1.45]">
-                    {f.desc}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
       </div>
 
