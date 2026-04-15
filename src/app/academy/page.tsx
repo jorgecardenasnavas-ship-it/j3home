@@ -1848,6 +1848,7 @@ function SedeCard({
 }) {
   const { ref, visible } = useReveal(0.15);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const anchorRef = useRef<HTMLAnchorElement>(null);
   const [currentImg, setCurrentImg] = useState(0);
   const [hovered, setHovered] = useState(false);
 
@@ -1860,6 +1861,42 @@ function SedeCard({
     return () => clearInterval(interval);
   }, [images]);
 
+  /* Radial gold glow that follows cursor + subtle 3D tilt — same as ProductsSection */
+  useEffect(() => {
+    const card = anchorRef.current;
+    if (!card) return;
+    const isDesktop = window.matchMedia("(min-width: 961px) and (hover: hover)").matches;
+    if (!isDesktop) return;
+
+    const glowEl = card.querySelector<HTMLElement>(".pc-glow");
+
+    const move = (e: MouseEvent) => {
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+
+      const rotateX = (y - 0.5) * -4;
+      const rotateY = (x - 0.5) * 4;
+      card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.01)`;
+
+      if (glowEl) {
+        glowEl.style.opacity = "1";
+        glowEl.style.background = `radial-gradient(600px circle at ${e.clientX - rect.left}px ${e.clientY - rect.top}px, rgba(220,175,100,0.10), transparent 60%)`;
+      }
+    };
+    const leave = () => {
+      card.style.transform = "";
+      if (glowEl) glowEl.style.opacity = "0";
+    };
+
+    card.addEventListener("mousemove", move);
+    card.addEventListener("mouseleave", leave);
+    return () => {
+      card.removeEventListener("mousemove", move);
+      card.removeEventListener("mouseleave", leave);
+    };
+  }, []);
+
   return (
     <div
       ref={ref}
@@ -1870,14 +1907,24 @@ function SedeCard({
       }}
     >
       <a
+        ref={anchorRef}
         href={href}
         target="_blank"
         rel="noopener noreferrer"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        className="group relative block overflow-hidden rounded-2xl bg-black no-underline border border-white/[.07] hover:border-[var(--g1)]/30 transition-colors duration-500"
+        className="group relative block overflow-hidden rounded-2xl bg-black no-underline border border-white/[.07] hover:border-[var(--g1)]/30 transition-[border-color,transform] duration-300 ease-out will-change-transform"
         style={{ aspectRatio: "3 / 4" }}
       >
+        {/* Radial gold glow — follows cursor on desktop (same as ProductsSection) */}
+        <span className="pc-glow absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-500 z-[5]" aria-hidden />
+
+        {/* Gold accent line — expands on hover (same as ProductsSection) */}
+        <span
+          className="absolute top-0 left-1/2 -translate-x-1/2 h-[2px] w-0 opacity-0 group-hover:w-[80%] group-hover:opacity-60 bg-gradient-to-r from-transparent via-[var(--g1)] to-transparent transition-all duration-700 ease-[var(--ease-out)] z-[6]"
+          aria-hidden
+        />
+
         {/* Media */}
         {video ? (
           <video
