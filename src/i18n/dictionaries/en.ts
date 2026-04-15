@@ -640,14 +640,14 @@ export const en = {
       sedeCta: "View venue \u2192",
       sedes: [
         {
-          tag: "Indoor P\u00E1del \u00B7 Churriana",
+          tag: "Indoor P\u00E1del \u00B7 M\u00E1laga",
           name: "Finura P\u00E1del",
           detail: "7 indoor courts \u00B7 M\u00E1laga",
           features: ["Indoor", "Cafeteria", "Gym", "Pro Shop"],
           badge: "7 courts",
         },
         {
-          tag: "Outdoor P\u00E1del \u00B7 Puerto de la Torre",
+          tag: "Outdoor P\u00E1del \u00B7 M\u00E1laga",
           name: "Vals Sport Limoneros",
           detail: "11 courts \u00B7 Opening soon",
           features: ["Outdoor", "Physiotherapy", "Fitness Zone", "Pro Shop", "Restaurant", "Pool"],
