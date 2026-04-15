@@ -634,9 +634,9 @@ export const fr = {
     },
 
     headquarters: {
-      eyebrow: "Sites",
-      headingPre: "Jouez J3. O\u00F9 que vous ",
-      headingAccent: "jouiez.",
+      eyebrow: "R\u00E9seau J3",
+      headingPre: "Nous, la m\u00E9thodologie. ",
+      headingAccent: "Toi, le lieu.",
       sedeCta: "Voir le site \u2192",
       sedes: [
         {
