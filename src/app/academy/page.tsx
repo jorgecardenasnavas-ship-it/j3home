@@ -2224,11 +2224,8 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
           style={{ opacity: activeSlide < 2 ? 1 : 0, transition: "opacity .4s ease" }}
         />
 
-        {/* Counter + dots — solo móvil/tablet (en desktop se ven las 3 tarjetas a la vez) */}
-        <div className="min-[1200px]:hidden px-4 max-[960px]:px-3 pt-5 flex items-center justify-between gap-4">
-          <span className="text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)]/70 tabular-nums">
-            {String(activeSlide + 1).padStart(2, "0")} <span className="text-white/30">/</span> {String(3).padStart(2, "0")}
-          </span>
+        {/* Dots — solo móvil/tablet, centrados (en desktop se ven las 3 tarjetas a la vez) */}
+        <div className="min-[1200px]:hidden px-4 max-[960px]:px-3 pt-5 flex items-center justify-center">
           <PorscheDots total={3} active={activeSlide} onDotClick={goTo} />
         </div>
       </div>
