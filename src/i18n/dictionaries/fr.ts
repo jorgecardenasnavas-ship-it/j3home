@@ -586,6 +586,7 @@ export const fr = {
           tag: "Perfectionnement",
           title: "Kids",
           sub: "10+ ans",
+          badge: "Pr\u00E9-comp\u00E9tition",
           ctaLabel: "Demander des infos",
           waMsg: "Bonjour, je souhaite des infos sur Kids (10+)",
         },

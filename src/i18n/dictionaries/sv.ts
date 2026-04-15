@@ -586,6 +586,7 @@ export const sv = {
           tag: "Utveckling",
           title: "Kids",
           sub: "10+ \u00E5r",
+          badge: "F\u00F6rt\u00E4vling",
           ctaLabel: "Beg\u00E4r info",
           waMsg: "Hej, jag vill ha info om Kids (10+)",
         },

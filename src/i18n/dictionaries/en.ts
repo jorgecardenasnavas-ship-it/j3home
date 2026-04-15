@@ -586,6 +586,7 @@ export const en = {
           tag: "Skills development",
           title: "Kids",
           sub: "10+ years",
+          badge: "Pre-competition",
           ctaLabel: "Request info",
           waMsg: "Hi, I\u2019d like info about Kids (10+)",
         },

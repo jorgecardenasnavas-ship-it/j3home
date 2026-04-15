@@ -586,6 +586,7 @@ export const pt = {
           tag: "Tecnifica\u00E7\u00E3o",
           title: "Kids",
           sub: "10+ anos",
+          badge: "Pr\u00E9-competi\u00E7\u00E3o",
           ctaLabel: "Pedir info",
           waMsg: "Ol\u00E1, quero informa\u00E7\u00E3o sobre Kids (10+)",
         },
