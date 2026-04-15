@@ -1836,7 +1836,7 @@ function PerfilesSection() {
    ═══════════════════════════════════════════════════════ */
 
 function SedeCard({
-  video, images, videoStart, eyebrow, pulseDot, name, tag, features, href, index,
+  video, images, videoStart, eyebrow, pulseDot, name, tag, href, index,
 }: {
   video?: string;
   images?: string[];
@@ -1845,7 +1845,6 @@ function SedeCard({
   pulseDot?: boolean;
   name: string;
   tag: string;
-  features?: readonly string[];
   href: string;
   index: number;
 }) {
@@ -1982,30 +1981,9 @@ function SedeCard({
           </div>
         )}
 
-        {/* Bottom row: name + subtitle + features chips (left) · arrow (right) */}
+        {/* Bottom row: name + subtitle (left) · arrow (right) */}
         <div className="absolute bottom-0 left-0 right-0 z-10 p-6 max-[640px]:p-5 flex items-end justify-between gap-3">
           <div className="flex flex-col gap-0.5 min-w-0 flex-1">
-            {/* Features chips — revelan en hover (desktop), ocultas por defecto */}
-            {features && features.length > 0 && (
-              <div
-                className="flex flex-wrap gap-1.5 mb-2 overflow-hidden"
-                style={{
-                  maxHeight: hovered ? 60 : 0,
-                  opacity: hovered ? 1 : 0,
-                  transform: hovered ? "translateY(0)" : "translateY(8px)",
-                  transition: "all .5s cubic-bezier(.16,1,.3,1)",
-                }}
-              >
-                {features.slice(0, 4).map((f) => (
-                  <span
-                    key={f}
-                    className="text-[9px] font-bold tracking-[1.5px] uppercase px-2 py-[3px] rounded-full border border-white/20 bg-black/40 text-white/85 backdrop-blur-sm"
-                  >
-                    {f}
-                  </span>
-                ))}
-              </div>
-            )}
             <span className="font-semibold text-[22px] max-[640px]:text-[18px] text-[var(--wh)] leading-[1.1] tracking-[-.4px]">
               {name}
             </span>
@@ -2218,7 +2196,6 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
               eyebrow={t.academy.headquarters.sedes[0].badge}
               name={t.academy.headquarters.sedes[0].name}
               tag={t.academy.headquarters.sedes[0].tag}
-              features={t.academy.headquarters.sedes[0].features}
               href="https://finurapadelgym.com"
               index={0}
             />
@@ -2230,7 +2207,6 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
               pulseDot
               name={t.academy.headquarters.sedes[1].name}
               tag={t.academy.headquarters.sedes[1].tag}
-              features={t.academy.headquarters.sedes[1].features}
               href="https://valssport.com/limoneros/"
               index={1}
             />
@@ -2241,15 +2217,15 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
           <div className="shrink-0 w-1" aria-hidden />
         </div>
 
-        {/* Fade-out gradient a la derecha — hint de "hay más contenido" */}
+        {/* Fade-out gradient a la derecha — hint de "hay más contenido" (solo móvil/tablet) */}
         <div
-          className="pointer-events-none absolute top-0 right-0 bottom-[60px] w-16 max-[768px]:w-10 bg-gradient-to-l from-[var(--bk)] to-transparent z-[2]"
+          className="pointer-events-none absolute top-0 right-0 bottom-[60px] w-16 max-[768px]:w-10 bg-gradient-to-l from-[var(--bk)] to-transparent z-[2] min-[1200px]:hidden"
           aria-hidden
           style={{ opacity: activeSlide < 2 ? 1 : 0, transition: "opacity .4s ease" }}
         />
 
-        {/* Counter + dots */}
-        <div className="px-4 max-[960px]:px-3 pt-5 flex items-center justify-between gap-4">
+        {/* Counter + dots — solo móvil/tablet (en desktop se ven las 3 tarjetas a la vez) */}
+        <div className="min-[1200px]:hidden px-4 max-[960px]:px-3 pt-5 flex items-center justify-between gap-4">
           <span className="text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)]/70 tabular-nums">
             {String(activeSlide + 1).padStart(2, "0")} <span className="text-white/30">/</span> {String(3).padStart(2, "0")}
           </span>

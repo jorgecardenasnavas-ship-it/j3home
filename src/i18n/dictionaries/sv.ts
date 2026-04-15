@@ -640,14 +640,14 @@ export const sv = {
       sedeCta: "Se anl\u00E4ggning \u2192",
       sedes: [
         {
-          tag: "Padel Indoor \u00B7 M\u00E1laga",
+          tag: "Inomhusbanor \u00B7 M\u00E1laga",
           name: "Finura P\u00E1del",
           detail: "7 inomhusbanor \u00B7 M\u00E1laga",
           features: ["Indoor", "Kafeteria", "Gym", "Pro Shop"],
           badge: "7 banor",
         },
         {
-          tag: "Padel Outdoor \u00B7 M\u00E1laga",
+          tag: "Utomhusbanor \u00B7 M\u00E1laga",
           name: "Vals Sport Limoneros",
           detail: "11 banor \u00B7 Snart \u00F6ppet",
           features: ["Outdoor", "Sjukgymnastik", "Fitnesszon", "Pro Shop", "Restaurang", "Pool"],

@@ -640,14 +640,14 @@ export const fr = {
       sedeCta: "Voir le site \u2192",
       sedes: [
         {
-          tag: "Padel Indoor \u00B7 M\u00E1laga",
+          tag: "Courts Indoor \u00B7 M\u00E1laga",
           name: "Finura P\u00E1del",
           detail: "7 courts couverts \u00B7 M\u00E1laga",
           features: ["Indoor", "Cafétéria", "Salle de sport", "Pro Shop"],
           badge: "7 courts",
         },
         {
-          tag: "Padel Outdoor \u00B7 M\u00E1laga",
+          tag: "Courts Outdoor \u00B7 M\u00E1laga",
           name: "Vals Sport Limoneros",
           detail: "11 courts \u00B7 Ouverture prochaine",
           features: ["Outdoor", "Physiothérapie", "Zone fitness", "Pro Shop", "Restaurant", "Piscine"],

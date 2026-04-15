@@ -640,14 +640,14 @@ export const pt = {
       sedeCta: "Ver sede \u2192",
       sedes: [
         {
-          tag: "P\u00E1del Indoor \u00B7 M\u00E1laga",
+          tag: "Campos Indoor \u00B7 M\u00E1laga",
           name: "Finura P\u00E1del",
           detail: "7 campos cobertos \u00B7 M\u00E1laga",
           features: ["Indoor", "Cafetaria", "Ginásio", "Pro Shop"],
           badge: "7 campos",
         },
         {
-          tag: "P\u00E1del Outdoor \u00B7 M\u00E1laga",
+          tag: "Campos Outdoor \u00B7 M\u00E1laga",
           name: "Vals Sport Limoneros",
           detail: "11 campos \u00B7 Pr\u00F3xima abertura",
           features: ["Outdoor", "Fisioterapia", "Zona fitness", "Pro Shop", "Restaurante", "Piscina"],
