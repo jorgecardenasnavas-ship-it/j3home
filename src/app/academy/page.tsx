@@ -1504,19 +1504,19 @@ function ProgramTile({
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
     >
-      {/* Image — full cover con tratamiento cinematográfico:
-          reposo → saturate/brightness bajas (moody), expanded → saturate/brightness plenas + zoom */}
+      {/* Image — full cover con tratamiento sutil:
+          reposo → ligera desaturación / brightness bajado, expanded → plenitud + zoom suave */}
       <img
         src={image}
         alt={title}
         loading="lazy"
         className="absolute inset-0 w-full h-full object-cover"
         style={{
-          transform: expanded ? "scale3d(1.06,1.06,1.06)" : "scale3d(1,1,1)",
-          transition: "transform 0.7s cubic-bezier(0,0,0.2,1), filter 0.7s cubic-bezier(.16,1,.3,1)",
+          transform: expanded ? "scale3d(1.035,1.035,1.035)" : "scale3d(1,1,1)",
+          transition: "transform 0.9s cubic-bezier(0,0,0.2,1), filter 0.9s cubic-bezier(.16,1,.3,1)",
           filter: expanded
-            ? "contrast(1.08) saturate(1) brightness(1.05) sepia(0.04)"
-            : "contrast(1.12) saturate(0.7) brightness(0.92) sepia(0.12)",
+            ? "saturate(1) brightness(1) contrast(1.02)"
+            : "saturate(0.92) brightness(0.96) contrast(1.04)",
         }}
       />
 
