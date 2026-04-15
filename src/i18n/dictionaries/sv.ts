@@ -640,6 +640,16 @@ export const sv = {
       intensiveCtaInfo: "Mer information",
       intensiveWaMsgBook: "Hej, jag vill boka Intensive Training",
       intensiveWaMsgInfo: "Hej, jag vill ha info om Intensive Training",
+      intensiveInfoEyebrow: "Flexibelt format",
+      intensiveInfoHeadingPre: "Din tr\u00E4ning,",
+      intensiveInfoHeadingAccent: "p\u00E5 dina villkor.",
+      intensiveInfoDesc: "Vi skr\u00E4ddarsyr varje program efter dina behov: frekvens, intensitet, matcher och logistik.",
+      intensiveFeatures: [
+        { label: "Schema", desc: "Helg, vardag eller skr\u00E4ddarsytt" },
+        { label: "Pass", desc: "1 till 3 pass per dag" },
+        { label: "Matcher", desc: "Organiserade spel och intern t\u00E4vling" },
+        { label: "Boende", desc: "Vi kan arrangera det \u00E5t dig" },
+      ],
     },
 
     headquarters: {

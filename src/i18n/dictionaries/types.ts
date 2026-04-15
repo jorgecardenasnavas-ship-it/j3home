@@ -333,6 +333,14 @@ export interface Dictionary {
       readonly intensiveCtaInfo: string;
       readonly intensiveWaMsgBook: string;
       readonly intensiveWaMsgInfo: string;
+      readonly intensiveInfoEyebrow: string;
+      readonly intensiveInfoHeadingPre: string;
+      readonly intensiveInfoHeadingAccent: string;
+      readonly intensiveInfoDesc: string;
+      readonly intensiveFeatures: readonly {
+        readonly label: string;
+        readonly desc: string;
+      }[];
     };
 
     headquarters: {

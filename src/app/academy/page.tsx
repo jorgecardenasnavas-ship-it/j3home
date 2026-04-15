@@ -1871,10 +1871,14 @@ function PerfilesSection() {
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.intensiveLabel}</span>
           <span className="ml-auto text-[16px] theme-text opacity-70 italic tracking-normal normal-case hidden min-[961px]:inline">Formatos a medida para grupos y particulares.</span>
         </div>
-        {/* Desktop: PorscheRow (single card, full-width) */}
+        {/* Desktop: split layout — card + info panel */}
         <div className="px-4 max-w-[1600px] mx-auto py-10 hidden min-[961px]:block">
-          <div ref={el => { iRefs.current[0] = el as HTMLDivElement | null; }}>
-            <PorscheRow hoveredIdx={iRow0Hover}>
+          <div
+            ref={el => { iRefs.current[0] = el as HTMLDivElement | null; }}
+            className="grid grid-cols-[1.25fr_1fr] gap-[clamp(24px,2vw+16px,56px)] items-stretch"
+          >
+            {/* Card */}
+            <div style={{ height: "clamp(360px, calc(7vh + 30vw), 540px)" }}>
               {intensiveCards.map((c, i) => (
                 <ProgramTile
                   key={i} tag={c.tag} title={c.title} sub={c.sub} cta={c.cta}
@@ -1884,10 +1888,42 @@ function PerfilesSection() {
                   index={i} visible={iVis[0]}
                 />
               ))}
-            </PorscheRow>
+            </div>
+            {/* Info panel */}
+            <div
+              className="flex flex-col justify-center py-6"
+              style={{
+                opacity: iVis[0] ? 1 : 0,
+                transform: iVis[0] ? "none" : "translateY(24px)",
+                transition: "all 0.9s cubic-bezier(.16,1,.3,1) 0.2s",
+              }}
+            >
+              <span className="theme-eyebrow text-[10px] font-normal tracking-[5px] uppercase block mb-3">
+                {t.academy.programs.intensiveInfoEyebrow}
+              </span>
+              <h3 className="font-bold text-[clamp(28px,2.6vw,44px)] uppercase tracking-[-1px] leading-[1.05] mb-5">
+                <span className="theme-text">{t.academy.programs.intensiveInfoHeadingPre} </span>
+                <span className="j3-grad-text font-[var(--font-serif)] italic normal-case">{t.academy.programs.intensiveInfoHeadingAccent}</span>
+              </h3>
+              <p className="text-[15px] theme-text opacity-80 leading-[1.55] max-w-[460px] mb-6">
+                {t.academy.programs.intensiveInfoDesc}
+              </p>
+              <ul className="flex flex-col divide-y theme-border">
+                {t.academy.programs.intensiveFeatures.map((f, i) => (
+                  <li key={i} className="py-3 grid grid-cols-[140px_1fr] gap-4 items-baseline">
+                    <span className="text-[11px] font-semibold tracking-[2px] uppercase text-[var(--g1)]">
+                      {f.label}
+                    </span>
+                    <span className="theme-text opacity-80 text-[14px] leading-[1.45]">
+                      {f.desc}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
-        {/* Mobile: Horizontal scroll carousel */}
+        {/* Mobile: card on top, info panel below */}
         <div
           ref={iMobileReveal.ref}
           className="max-w-[1600px] mx-auto py-10 min-[961px]:hidden"
@@ -1908,6 +1944,31 @@ function PerfilesSection() {
               />
             ))}
           </ScrollCarousel>
+          {/* Info panel — mobile */}
+          <div className="px-4 mt-8">
+            <span className="theme-eyebrow text-[11px] font-normal tracking-[3px] uppercase block mb-3">
+              {t.academy.programs.intensiveInfoEyebrow}
+            </span>
+            <h3 className="font-bold text-[clamp(24px,5vw,32px)] uppercase tracking-[-0.5px] leading-[1.1] mb-4">
+              <span className="theme-text">{t.academy.programs.intensiveInfoHeadingPre} </span>
+              <span className="j3-grad-text font-[var(--font-serif)] italic normal-case">{t.academy.programs.intensiveInfoHeadingAccent}</span>
+            </h3>
+            <p className="text-[14px] theme-text opacity-80 leading-[1.55] mb-5">
+              {t.academy.programs.intensiveInfoDesc}
+            </p>
+            <ul className="flex flex-col divide-y theme-border">
+              {t.academy.programs.intensiveFeatures.map((f, i) => (
+                <li key={i} className="py-3 flex flex-col gap-1">
+                  <span className="text-[10px] font-semibold tracking-[2px] uppercase text-[var(--g1)]">
+                    {f.label}
+                  </span>
+                  <span className="theme-text opacity-80 text-[14px] leading-[1.45]">
+                    {f.desc}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
 

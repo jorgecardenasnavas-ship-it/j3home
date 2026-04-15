@@ -640,6 +640,16 @@ export const en = {
       intensiveCtaInfo: "More information",
       intensiveWaMsgBook: "Hi, I\u2019d like to book Intensive Training",
       intensiveWaMsgInfo: "Hi, I\u2019d like info about Intensive Training",
+      intensiveInfoEyebrow: "Flexible format",
+      intensiveInfoHeadingPre: "Your training,",
+      intensiveInfoHeadingAccent: "your way.",
+      intensiveInfoDesc: "We design every program to fit what you need: frequency, intensity, matches and logistics.",
+      intensiveFeatures: [
+        { label: "Schedule", desc: "Weekend, weekday or custom" },
+        { label: "Sessions", desc: "1 to 3 sessions per day" },
+        { label: "Matches", desc: "Organized games and internal competition" },
+        { label: "Accommodation", desc: "We can arrange it for you" },
+      ],
     },
 
     headquarters: {

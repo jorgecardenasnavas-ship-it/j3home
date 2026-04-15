@@ -640,6 +640,16 @@ export const pt = {
       intensiveCtaInfo: "Mais informa\u00E7\u00E3o",
       intensiveWaMsgBook: "Ol\u00E1, quero reservar Intensive Training",
       intensiveWaMsgInfo: "Ol\u00E1, quero informa\u00E7\u00E3o sobre Intensive Training",
+      intensiveInfoEyebrow: "Formato flex\u00EDvel",
+      intensiveInfoHeadingPre: "O teu training,",
+      intensiveInfoHeadingAccent: "\u00E0 tua medida.",
+      intensiveInfoDesc: "Desenhamos cada programa segundo o que procuras: frequ\u00EAncia, intensidade, jogos e log\u00EDstica.",
+      intensiveFeatures: [
+        { label: "Calend\u00E1rio", desc: "Fim de semana, durante a semana ou \u00E0 medida" },
+        { label: "Sess\u00F5es", desc: "De 1 a 3 sess\u00F5es por dia" },
+        { label: "Jogos", desc: "Organizados e competi\u00E7\u00E3o interna" },
+        { label: "Alojamento", desc: "Tratamos disso por ti se necessitares" },
+      ],
     },
 
     headquarters: {
