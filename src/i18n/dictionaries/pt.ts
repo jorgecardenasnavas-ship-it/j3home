@@ -89,7 +89,7 @@ export const pt = {
       },
       {
         tag: "Headquarters · Stages · Camps",
-        forLabel: "Kids · Amateur · Promise",
+        forLabel: "Kids · Amateur · Junior",
         description: "O mesmo sistema do circuito profissional, adaptado a si.",
         buttons: ["Treine connosco"],
       },
@@ -398,8 +398,8 @@ export const pt = {
         "Campeão de Espanha e do Mundo Júnior",
       ],
       nextGenProTags: [
-        "Promise → Top 30",
-        "Promise → Top 30",
+        "Junior → Top 30",
+        "Junior → Top 30",
       ],
       featuredPlayers: [
         { info: "5 finais e dupla n.º 4 do mundo em 2021.", tag: "3 Títulos · #4 Mundial 2021" },
@@ -591,10 +591,10 @@ export const pt = {
         },
         {
           tag: "Competi\u00E7\u00E3o",
-          title: "Promise",
+          title: "Junior",
           sub: "14+ anos",
           ctaLabel: "Pedir info",
-          waMsg: "Ol\u00E1, quero informa\u00E7\u00E3o sobre Promise (14+ competi\u00E7\u00E3o)",
+          waMsg: "Ol\u00E1, quero informa\u00E7\u00E3o sobre Junior (14+ competi\u00E7\u00E3o)",
         },
         {
           tag: "Alto rendimento",

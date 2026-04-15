@@ -89,7 +89,7 @@ export const es = {
       },
       {
         tag: "Headquarters \u00B7 Stages \u00B7 Camps",
-        forLabel: "Kids \u00B7 Amateur \u00B7 Promise",
+        forLabel: "Kids \u00B7 Amateur \u00B7 Junior",
         description: "El mismo sistema del circuito profesional, adaptado a ti.",
         buttons: ["Entrena con nosotros"],
       },
@@ -399,8 +399,8 @@ export const es = {
         "Campe\u00F3n de Espa\u00F1a y del Mundo Junior",
       ],
       nextGenProTags: [
-        "Promise \u2192 Top 30",
-        "Promise \u2192 Top 30",
+        "Junior \u2192 Top 30",
+        "Junior \u2192 Top 30",
       ],
       featuredPlayers: [
         { info: "5 finales y pareja n.\u00BA 4 del mundo en 2021.", tag: "3 T\u00EDtulos \u00B7 #4 Mundial 2021" },
@@ -591,10 +591,10 @@ export const es = {
         },
         {
           tag: "Competici\u00F3n",
-          title: "Promise",
+          title: "Junior",
           sub: "14+ a\u00F1os",
           ctaLabel: "Solicitar info",
-          waMsg: "Hola, quiero info sobre Promise (14+ competici\u00F3n)",
+          waMsg: "Hola, quiero info sobre Junior (14+ competici\u00F3n)",
         },
         {
           tag: "Alto rendimiento",

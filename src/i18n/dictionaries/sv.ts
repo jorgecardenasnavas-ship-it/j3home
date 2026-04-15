@@ -89,7 +89,7 @@ export const sv = {
       },
       {
         tag: "Headquarters \u00B7 Stages \u00B7 Camps",
-        forLabel: "Kids \u00B7 Amateur \u00B7 Promise",
+        forLabel: "Kids \u00B7 Amateur \u00B7 Junior",
         description: "Samma system som på proffstouren, anpassat för dig.",
         buttons: ["Träna med oss"],
       },
@@ -398,8 +398,8 @@ export const sv = {
         "Mästare i Spanien och världen Junior",
       ],
       nextGenProTags: [
-        "Promise → Topp 30",
-        "Promise → Topp 30",
+        "Junior → Topp 30",
+        "Junior → Topp 30",
       ],
       featuredPlayers: [
         { info: "5 finaler och världens par nr 4 år 2021.", tag: "3 titlar · #4 i världen 2021" },
@@ -591,10 +591,10 @@ export const sv = {
         },
         {
           tag: "T\u00E4vling",
-          title: "Promise",
+          title: "Junior",
           sub: "14+ \u00E5r",
           ctaLabel: "Beg\u00E4r info",
-          waMsg: "Hej, jag vill ha info om Promise (14+ t\u00E4vling)",
+          waMsg: "Hej, jag vill ha info om Junior (14+ t\u00E4vling)",
         },
         {
           tag: "H\u00F6gprestation",
