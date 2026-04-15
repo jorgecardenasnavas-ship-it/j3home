@@ -319,37 +319,8 @@ function ProgramBar() {
     };
   }, [compact]);
 
-  /* Nudge animation on mount (mobile only) — wiggles the bar to hint scrollability */
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (window.innerWidth >= 961) return;
-    let rafId: number;
-    let startTime = 0;
-    const duration = 1400; /* total nudge time */
-    const peak = 45; /* max scroll offset */
-    const el = scrollRef.current;
-    if (!el) return;
-    const maxScroll = el.scrollWidth - el.clientWidth;
-    if (maxScroll <= 10) return;
-
-    const tween = (now: number) => {
-      if (!startTime) startTime = now;
-      const t = Math.min(1, (now - startTime) / duration);
-      /* Bell curve: 0 → peak → 0 using sin */
-      const v = Math.sin(t * Math.PI) * peak;
-      el.scrollLeft = v;
-      if (t < 1) rafId = requestAnimationFrame(tween);
-    };
-
-    const kickoff = setTimeout(() => {
-      rafId = requestAnimationFrame(tween);
-    }, 800);
-
-    return () => {
-      clearTimeout(kickoff);
-      cancelAnimationFrame(rafId);
-    };
-  }, []);
+  /* Nudge animation retirada: el peek del siguiente círculo (width = 100vw/5.5)
+     ya sirve de hint visual y en móviles reales la animación era molesta. */
 
   /* Mouse drag-to-scroll (PC) */
   const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
