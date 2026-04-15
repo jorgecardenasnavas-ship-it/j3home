@@ -1493,43 +1493,29 @@ function ProgramTile({
         }}
       />
 
-      {/* Title — top center (Porsche model signature style) */}
-      <div className="absolute top-0 left-0 right-0 z-[6] flex justify-center pt-7 max-[640px]:pt-5">
+      {/* Title + edad — top center (Porsche model signature style) */}
+      <div className="absolute top-0 left-0 right-0 z-[6] flex flex-col items-center pt-7 max-[640px]:pt-5">
         <h4 className="font-bold text-[clamp(26px,3.5vw,48px)] uppercase tracking-[-1.5px] leading-[1] text-white/90">
           {title}
         </h4>
+        <span className="mt-[6px] text-[10px] max-[640px]:text-[9.5px] font-bold tracking-[3px] uppercase text-[var(--g1)]">
+          {tag}
+        </span>
       </div>
 
-      {/* Bottom content — Desktop: horizontal (tag+desc left, CTA right) / Mobile: vertical Porsche spacing */}
+      {/* Bottom content — descripción (trunc 1 línea) + CTA horizontal, una sola fila */}
       <div className="absolute bottom-0 left-0 right-0 z-[13] p-[18px] min-[961px]:p-[clamp(16px,1.25vw+12px,36px)]">
-        {/* Desktop layout: horizontal — tag+desc left, CTA right */}
-        <div className="hidden min-[961px]:flex items-end justify-between">
-          <div className="flex flex-col gap-1.5">
-            <span
-              className="inline-block w-fit text-[12px] font-normal leading-[1.5] px-2 py-0.5 rounded"
-              style={{ background: "rgba(215,215,218,0.25)", backdropFilter: "blur(12px)", color: "rgba(255,255,255,0.85)" }}
-            >
-              {tag}
-            </span>
-            <p className="text-[14px] text-white/80 leading-[1.5]">{sub}</p>
-          </div>
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-[14px] max-[960px]:text-[13px] max-[640px]:text-[12px] text-white/85 leading-[1.45] flex-1 min-w-0 truncate">
+            {sub}
+          </p>
           <div className="shrink-0">
-            <WaCtaPill label={cta.label} size="md" expanded={expanded} />
-          </div>
-        </div>
-        {/* Mobile layout: horizontal — tag+desc izquierda, CTA derecha (misma estructura que desktop) */}
-        <div className="flex items-end justify-between gap-3 min-[961px]:hidden">
-          <div className="flex flex-col gap-1.5 min-w-0 flex-1">
-            <span
-              className="inline-block w-fit text-[12px] max-[640px]:text-[11px] font-normal leading-[1.5] px-[6px] py-[1px] rounded"
-              style={{ background: "rgba(215,215,218,0.25)", backdropFilter: "blur(12px)", color: "rgba(255,255,255,0.85)" }}
-            >
-              {tag}
+            <span className="hidden min-[961px]:inline-flex">
+              <WaCtaPill label={cta.label} size="md" expanded={expanded} />
             </span>
-            <p className="text-[14px] max-[640px]:text-[13px] text-white/80 leading-[1.45]">{sub}</p>
-          </div>
-          <div className="shrink-0">
-            <WaCtaPill label={cta.label} size="sm" expanded={expanded} />
+            <span className="inline-flex min-[961px]:hidden">
+              <WaCtaPill label={cta.label} size="sm" expanded={expanded} />
+            </span>
           </div>
         </div>
       </div>
