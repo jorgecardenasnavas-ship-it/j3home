@@ -234,7 +234,11 @@ export function ProductsSection() {
 
           const actions = (
             <div
-              className={`flex gap-[10px] flex-wrap justify-center ${card.actionsPosition === "bottom" ? "mt-8" : "mb-8 max-[960px]:mb-6 max-[960px]:mt-0"}`}
+              className={`flex gap-[10px] flex-wrap justify-center max-[960px]:mt-6 ${
+                card.actionsPosition === "bottom"
+                  ? "min-[961px]:mt-8"
+                  : "min-[961px]:mb-8"
+              }`}
             >
               {card.buttons.map((btn, btnIdx) => (
                 <PillButton
@@ -316,17 +320,14 @@ export function ProductsSection() {
                     : "py-16 px-10 max-[960px]:py-14 max-[960px]:px-8 min-h-[300px] max-[960px]:min-h-0"
                 }`}
               >
-                {card.actionsPosition === "top" ? (
-                  <>
-                    {actions}
-                    {content}
-                  </>
-                ) : (
-                  <>
-                    {content}
-                    {actions}
-                  </>
-                )}
+                {/* DOM siempre content→actions (orden natural en móvil).
+                    En desktop, las cards "top" invierten visualmente vía flex order. */}
+                <div className={`w-full ${card.actionsPosition === "top" ? "min-[961px]:order-2" : ""}`}>
+                  {content}
+                </div>
+                <div className={`w-full ${card.actionsPosition === "top" ? "min-[961px]:order-1" : ""}`}>
+                  {actions}
+                </div>
               </div>
             </div>
           );
