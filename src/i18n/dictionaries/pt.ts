@@ -621,6 +621,15 @@ export const pt = {
           waMsg: "Ol\u00E1, quero informa\u00E7\u00E3o sobre o programa Pro",
         },
       ],
+      intensiveCards: [
+        {
+          tag: "Formato intensivo",
+          title: "Camps \u00B7 Stages",
+          sub: "Programas personalizados",
+          ctaLabel: "Reservar",
+          waMsg: "Ol\u00E1, quero reservar Intensive Training",
+        },
+      ],
       intensiveLabel: "Intensive Training",
       intensiveEyebrow: "Camps \u00B7 Stages \u00B7 Programas personalizados",
       intensiveTitlePre: "Vem treinar",

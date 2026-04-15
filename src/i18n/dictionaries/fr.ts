@@ -621,6 +621,15 @@ export const fr = {
           waMsg: "Bonjour, je souhaite des infos sur le programme Pro",
         },
       ],
+      intensiveCards: [
+        {
+          tag: "Format intensif",
+          title: "Camps \u00B7 Stages",
+          sub: "Programmes sur mesure",
+          ctaLabel: "R\u00E9server",
+          waMsg: "Bonjour, je souhaite r\u00E9server un Intensive Training",
+        },
+      ],
       intensiveLabel: "Intensive Training",
       intensiveEyebrow: "Camps \u00B7 Stages \u00B7 Programmes sur mesure",
       intensiveTitlePre: "Venez vous entra\u00EEner",

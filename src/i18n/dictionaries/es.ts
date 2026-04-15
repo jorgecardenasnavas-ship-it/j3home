@@ -613,10 +613,12 @@ export const es = {
           ctaLabel: "Apuntarme",
           waMsg: "Hola, quiero info sobre el programa mensual de adultos",
         },
+      ],
+      intensiveCards: [
         {
-          tag: "Camps \u00B7 Stages \u00B7 Programas personalizados",
-          title: "Intensive Training",
-          sub: "Ven a entrenar con nosotros",
+          tag: "Formato intensivo",
+          title: "Camps \u00B7 Stages",
+          sub: "Programas personalizados",
           ctaLabel: "Reservar",
           waMsg: "Hola, quiero reservar Intensive Training",
         },

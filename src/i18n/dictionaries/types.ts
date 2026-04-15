@@ -316,6 +316,13 @@ export interface Dictionary {
         readonly ctaLabel: string;
         readonly waMsg: string;
       }[];
+      readonly intensiveCards: readonly {
+        readonly tag: string;
+        readonly title: string;
+        readonly sub: string;
+        readonly ctaLabel: string;
+        readonly waMsg: string;
+      }[];
       readonly intensiveLabel: string;
       readonly intensiveEyebrow: string;
       readonly intensiveTitlePre: string;

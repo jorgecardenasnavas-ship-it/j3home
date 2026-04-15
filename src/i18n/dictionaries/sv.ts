@@ -621,6 +621,15 @@ export const sv = {
           waMsg: "Hej, jag vill ha info om Pro-programmet",
         },
       ],
+      intensiveCards: [
+        {
+          tag: "Intensivformat",
+          title: "Camps \u00B7 Stages",
+          sub: "Skr\u00E4ddarsydda program",
+          ctaLabel: "Boka",
+          waMsg: "Hej, jag vill boka Intensive Training",
+        },
+      ],
       intensiveLabel: "Intensive Training",
       intensiveEyebrow: "Camps \u00B7 Stages \u00B7 Skr\u00E4ddarsydda program",
       intensiveTitlePre: "Kom och tr\u00E4na",

@@ -272,7 +272,7 @@ const PROGRAM_NAV = [
   { name: "Junior", img: "/images/academy/nextgen.jpeg", target: "juniors", cardId: "card-nextgen", tag: "14+" },
   { name: "Next Gen", img: "/images/academy/nextgen-pro.jpeg", target: "juniors", cardId: "card-nextgenpro", tag: "16+" },
   { name: "Tu Club", img: "/images/academy/amateur.jpeg", target: "adultos", cardId: "card-tuclub", tag: "Adultos" },
-  { name: "Intensive", img: "/images/academy/stage-group.jpeg", target: "adultos", cardId: "card-intensive", tag: "Camps" },
+  { name: "Intensive", img: "/images/academy/stage-group.jpeg", target: "intensive", cardId: "card-intensive", tag: "Camps" },
 ];
 
 function ProgramBar() {
@@ -1684,8 +1684,10 @@ function PerfilesSection() {
   const [jRow0Hover, setJRow0Hover] = useState<number | null>(null);
   const [jRow1Hover, setJRow1Hover] = useState<number | null>(null);
   const [aRow0Hover, setARow0Hover] = useState<number | null>(null);
+  const [iRow0Hover, setIRow0Hover] = useState<number | null>(null);
   const [jMobileHover, setJMobileHover] = useState<number | null>(null);
   const [aMobileHover, setAMobileHover] = useState<number | null>(null);
+  const [iMobileHover, setIMobileHover] = useState<number | null>(null);
 
   /* Juniors cards — visual data merged with i18n strings */
   const juniorsImages = [
@@ -1707,18 +1709,32 @@ function PerfilesSection() {
   const jMobileReveal = useReveal(0.15);
 
   /* Adultos cards */
-  const adultosImages = ["/images/academy/amateur.jpeg", "/images/academy/stage-group.jpeg"];
-  const adultosCardIds = ["card-tuclub", "card-intensive"];
+  const adultosImages = ["/images/academy/amateur.jpeg", "/images/academy/pro.jpeg"];
+  const adultosCardIds = ["card-tuclub", "card-adultos-2"];
   const adultosCards = t.academy.programs.adultosCards.map((c, i) => ({
     tag: c.tag,
     title: c.title,
     sub: c.sub,
-    image: adultosImages[i],
+    image: adultosImages[i] || adultosImages[0],
     cta: { label: c.ctaLabel, href: waLink(c.waMsg) },
-    cardId: adultosCardIds[i],
+    cardId: adultosCardIds[i] || `card-adultos-${i}`,
   }));
   const { itemRefs: aRefs, visibleItems: aVis } = useStaggerReveal(1, 0.15); // 1 desktop row
   const aMobileReveal = useReveal(0.15);
+
+  /* Intensive Training cards — standalone section */
+  const intensiveImages = ["/images/academy/stage-group.jpeg"];
+  const intensiveCardIds = ["card-intensive"];
+  const intensiveCards = t.academy.programs.intensiveCards.map((c, i) => ({
+    tag: c.tag,
+    title: c.title,
+    sub: c.sub,
+    image: intensiveImages[i] || intensiveImages[0],
+    cta: { label: c.ctaLabel, href: waLink(c.waMsg) },
+    cardId: intensiveCardIds[i] || `card-intensive-${i}`,
+  }));
+  const { itemRefs: iRefs, visibleItems: iVis } = useStaggerReveal(1, 0.15);
+  const iMobileReveal = useReveal(0.15);
 
   return (
     <section id="programas" className="relative pt-[100px] pb-[60px] max-[960px]:pt-[72px] max-[960px]:pb-[48px] overflow-hidden">
@@ -1842,6 +1858,53 @@ function PerfilesSection() {
                 isHovered={aMobileHover === i}
                 onHover={() => setAMobileHover(i)} onLeave={() => setAMobileHover(null)}
                 index={i} visible={aMobileReveal.visible}
+              />
+            ))}
+          </ScrollCarousel>
+        </div>
+      </div>
+
+      {/* Block 3: Intensive Training */}
+      <div id="intensive" className="border-t theme-border">
+        <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
+          <span className="font-bold text-[clamp(20px,2.5vw,32px)] theme-text tracking-[-1px]">03</span>
+          <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.intensiveLabel}</span>
+          <span className="ml-auto text-[16px] theme-text opacity-70 italic tracking-normal normal-case hidden min-[961px]:inline">Formatos a medida para grupos y particulares.</span>
+        </div>
+        {/* Desktop: PorscheRow (single card, full-width) */}
+        <div className="px-4 max-w-[1600px] mx-auto py-10 hidden min-[961px]:block">
+          <div ref={el => { iRefs.current[0] = el as HTMLDivElement | null; }}>
+            <PorscheRow hoveredIdx={iRow0Hover}>
+              {intensiveCards.map((c, i) => (
+                <ProgramTile
+                  key={i} tag={c.tag} title={c.title} sub={c.sub} cta={c.cta}
+                  image={c.image} href={c.cta.href} cardId={c.cardId}
+                  isHovered={iRow0Hover === i}
+                  onHover={() => setIRow0Hover(i)} onLeave={() => setIRow0Hover(null)}
+                  index={i} visible={iVis[0]}
+                />
+              ))}
+            </PorscheRow>
+          </div>
+        </div>
+        {/* Mobile: Horizontal scroll carousel */}
+        <div
+          ref={iMobileReveal.ref}
+          className="max-w-[1600px] mx-auto py-10 min-[961px]:hidden"
+          style={{
+            opacity: iMobileReveal.visible ? 1 : 0,
+            transform: iMobileReveal.visible ? "none" : "translateY(24px)",
+            transition: "all 0.9s cubic-bezier(.16,1,.3,1)",
+          }}
+        >
+          <ScrollCarousel>
+            {intensiveCards.map((c, i) => (
+              <ProgramTile
+                key={i} tag={c.tag} title={c.title} sub={c.sub} cta={c.cta}
+                image={c.image} href={c.cta.href} cardId={c.cardId}
+                isHovered={iMobileHover === i}
+                onHover={() => setIMobileHover(i)} onLeave={() => setIMobileHover(null)}
+                index={i} visible={iMobileReveal.visible}
               />
             ))}
           </ScrollCarousel>
