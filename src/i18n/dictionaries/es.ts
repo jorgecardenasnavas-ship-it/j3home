@@ -634,7 +634,7 @@ export const es = {
     },
 
     headquarters: {
-      eyebrow: "Red J3",
+      eyebrow: "Sedes",
       headingPre: "Nosotros, la metodolog\u00EDa. ",
       headingAccent: "T\u00FA eliges d\u00F3nde.",
       sedeCta: "Ver sede \u2192",

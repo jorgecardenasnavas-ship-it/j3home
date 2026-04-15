@@ -634,7 +634,7 @@ export const pt = {
     },
 
     headquarters: {
-      eyebrow: "Rede J3",
+      eyebrow: "Sedes",
       headingPre: "N\u00F3s, a metodologia. ",
       headingAccent: "Tu escolhes onde.",
       sedeCta: "Ver sede \u2192",

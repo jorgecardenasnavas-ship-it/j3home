@@ -634,7 +634,7 @@ export const sv = {
     },
 
     headquarters: {
-      eyebrow: "J3-n\u00E4tverket",
+      eyebrow: "Anl\u00E4ggningar",
       headingPre: "Vi st\u00E5r f\u00F6r metodiken. ",
       headingAccent: "Du v\u00E4ljer var.",
       sedeCta: "Se anl\u00E4ggning \u2192",
