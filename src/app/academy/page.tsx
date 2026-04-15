@@ -449,11 +449,13 @@ function ProgramBar() {
                 }}
                 className="group/pnav flex flex-col items-center shrink-0 cursor-pointer transition-all duration-500 hover:opacity-100 opacity-70"
                 style={{
-                  /* Non-compact: ~5.5 items visible so next circle is half-cut (hints scroll).
-                     Compact: fit all 7 labels at once (buffer of 14px to account for scrollbars). */
+                  /* Non-compact: ~4.5 items visible → 4 círculos completos + 50% del 5º
+                     asomando como peek claro que invita al scroll. En móviles estándar
+                     (360–430px) el 5º siempre queda cortado por la mitad.
+                     Compact: fit all 7 labels at once (buffer of 14px para scrollbars). */
                   width: compact
                     ? "clamp(48px, calc((100vw - 14px) / 7), 90px)"
-                    : "clamp(80px, calc(100vw / 5.5), 110px)",
+                    : "clamp(74px, calc(100vw / 4.5), 110px)",
                   paddingTop: compact ? "6px" : undefined,
                   paddingBottom: compact ? "6px" : undefined,
                 }}
