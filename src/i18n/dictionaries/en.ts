@@ -579,6 +579,7 @@ export const en = {
           tag: "Fundamentals",
           title: "Kinder",
           sub: "4+ years",
+          badge: "Fun",
           ctaLabel: "Request info",
           waMsg: "Hi, I\u2019d like info about Kinder (4-10 years)",
         },

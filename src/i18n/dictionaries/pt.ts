@@ -579,6 +579,7 @@ export const pt = {
           tag: "Fundamentos",
           title: "Kinder",
           sub: "4+ anos",
+          badge: "Divers\u00E3o",
           ctaLabel: "Pedir info",
           waMsg: "Ol\u00E1, quero informa\u00E7\u00E3o sobre Kinder (4-10 anos)",
         },

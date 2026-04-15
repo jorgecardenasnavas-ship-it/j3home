@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Final Frame Reference — Mobile Video (Logo Completo)</title>
+<style>
+  * { margin: 0; padding: 0; }
+  body {
+    width: 1080px;
+    height: 1920px;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .logo-container {
+    width: 540px; /* 50% of 1080 */
+    display: flex;
+    justify-content: center;
+  }
+  .logo-container svg {
+    width: 100%;
+    height: auto;
+  }
+</style>
+</head>
+<body>
+  <div class="logo-container">
+    <!-- J3Padel logo mark (ball + 3 legs) in gold gradient -->
+    <svg viewBox="0 0 150 260" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#DCAF64"/>
+          <stop offset="23%" stop-color="#EDDB7E"/>
+          <stop offset="29%" stop-color="#FFF1B4"/>
+          <stop offset="59%" stop-color="#EEDE80"/>
+          <stop offset="71%" stop-color="#E6C772"/>
+          <stop offset="100%" stop-color="#DCAF64"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Ball outer ring -->
+      <circle cx="75" cy="75" r="73" fill="none" stroke="url(#gold)" stroke-width="12"/>
+
+      <!-- Ball inner circle (black) -->
+      <circle cx="75" cy="75" r="56" fill="#000"/>
+
+      <!-- Ball fill -->
+      <circle cx="75" cy="75" r="56" fill="url(#gold)"/>
+
+      <!-- Ball stripes (black lines that create the tennis ball look) -->
+      <path d="M30,79 C31,59 50,40 70,40 C50,60 50,80 70,110 C50,110 31,99 30,79Z" fill="#000"/>
+      <path d="M78,31 C98,32 116,50 118,70 C96,71 77,52 78,31Z" fill="#000"/>
+      <path d="M30,80 C31,100 50,119 70,119 C70,99 50,80 30,80Z" fill="#000" opacity="0.9"/>
+
+      <!-- 3 Legs -->
+      <rect x="22" y="158" width="25" height="95" rx="6" fill="url(#gold)"/>
+      <rect x="62" y="158" width="25" height="95" rx="6" fill="url(#gold)"/>
+      <rect x="102" y="158" width="25" height="95" rx="6" fill="url(#gold)"/>
+    </svg>
+  </div>
+</body>
+</html>
