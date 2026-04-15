@@ -272,7 +272,6 @@ const PROGRAM_NAV = [
   { name: "Next Gen", img: "/images/academy/nextgen-pro.jpeg", target: "juniors", cardId: "card-nextgenpro", tag: "16+" },
   { name: "Tu Club", img: "/images/academy/amateur.jpeg", target: "adultos", cardId: "card-tuclub", tag: "Adultos" },
   { name: "Intensive", img: "/images/academy/stage-group.jpeg", target: "adultos", cardId: "card-intensive", tag: "Camps" },
-  { name: "Empresas", img: "/images/academy/empresas-poster.jpeg", target: "empresas", cardId: "card-empresas", tag: "B2B" },
 ];
 
 function ProgramBar() {
@@ -1665,7 +1664,6 @@ function PerfilesSection() {
   const [aRow0Hover, setARow0Hover] = useState<number | null>(null);
   const [jMobileHover, setJMobileHover] = useState<number | null>(null);
   const [aMobileHover, setAMobileHover] = useState<number | null>(null);
-  const [empHover, setEmpHover] = useState(false);
 
   /* Juniors cards — visual data merged with i18n strings */
   const juniorsImages = [
@@ -1699,9 +1697,6 @@ function PerfilesSection() {
   }));
   const { itemRefs: aRefs, visibleItems: aVis } = useStaggerReveal(1, 0.15); // 1 desktop row
   const aMobileReveal = useReveal(0.15);
-
-  /* Empresas — standalone reveal */
-  const empReveal = useReveal(0.15);
 
   return (
     <section id="programas" className="relative pt-[100px] pb-[60px] max-[960px]:pt-[72px] max-[960px]:pb-[48px] overflow-hidden">
@@ -1828,101 +1823,6 @@ function PerfilesSection() {
               />
             ))}
           </ScrollCarousel>
-        </div>
-      </div>
-
-      {/* Block 3: Empresas — same ProgramTile style with video bg */}
-      <div id="empresas" className="border-t theme-border">
-        <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
-          <span className="font-bold text-[clamp(20px,2.5vw,32px)] theme-text tracking-[-1px]">03</span>
-          <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.experience.empresas.heading}</span>
-          <span className="ml-auto text-[16px] theme-text opacity-70 italic tracking-normal normal-case hidden min-[961px]:inline">El pádel como herramienta de equipo.</span>
-        </div>
-
-        <div
-          ref={empReveal.ref}
-          className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-10"
-          style={{
-            opacity: empReveal.visible ? 1 : 0,
-            transform: empReveal.visible ? "none" : "translateY(30px)",
-            transition: "all 1s cubic-bezier(.16,1,.3,1)",
-          }}
-        >
-          <a
-            data-card-id="card-empresas"
-            href={waLink(t.experience.empresas.waMsg)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group relative overflow-hidden rounded-lg block"
-            style={{ background: "#000", height: "clamp(320px, calc(7vh + 30vw), 540px)" }}
-            onMouseEnter={() => setEmpHover(true)}
-            onMouseLeave={() => setEmpHover(false)}
-          >
-            {/* Background video */}
-            <video
-              autoPlay muted loop playsInline
-              className="absolute inset-0 w-full h-full object-cover object-[center_30%]"
-              style={{
-                transform: empHover ? "scale3d(1.05,1.05,1.05)" : "scale3d(1,1,1)",
-                transition: "transform 0.6s cubic-bezier(0, 0, 0.2, 1)",
-                filter: "contrast(1.08) saturate(0.85) brightness(1.02) sepia(0.08)",
-              }}
-            >
-              <source src="/videos/empresas-bg.mp4" type="video/mp4" />
-            </video>
-
-            {/* Top gradient */}
-            <div
-              className="absolute top-0 left-0 w-full z-[5] pointer-events-none"
-              style={{ height: "25%", background: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.45) 30%, rgba(0,0,0,0.15) 60%, transparent 100%)" }}
-            />
-            {/* Bottom gradient */}
-            <div
-              className="absolute bottom-0 left-0 w-full z-[5] pointer-events-none"
-              style={{ height: "45%", background: "linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.55) 30%, rgba(0,0,0,0.2) 60%, transparent 100%)" }}
-            />
-
-            {/* Title — top center */}
-            <div className="absolute top-0 left-0 right-0 z-[6] flex justify-center pt-7 max-[640px]:pt-5">
-              <h4 className="font-bold text-[clamp(26px,3.5vw,48px)] uppercase tracking-[-1.5px] leading-[1] text-white/90">
-                {t.experience.empresas.heading}
-              </h4>
-            </div>
-
-            {/* Bottom content — Desktop: horizontal / Mobile: vertical Porsche spacing */}
-            <div className="absolute bottom-0 left-0 right-0 z-[13] p-[18px] min-[961px]:p-[clamp(16px,1.25vw+12px,36px)]">
-              {/* Desktop layout */}
-              <div className="hidden min-[961px]:flex items-end justify-between">
-                <div className="flex flex-col gap-1.5">
-                  <span className="inline-block w-fit text-[12px] font-normal leading-[1.5] px-2 py-0.5 rounded" style={{ background: "rgba(215,215,218,0.25)", backdropFilter: "blur(12px)", color: "rgba(255,255,255,0.85)" }}>
-                    {t.experience.empresas.eyebrow}
-                  </span>
-                  <p className="text-[14px] text-white/80 leading-[1.5]">{t.experience.empresas.introAfter}</p>
-                </div>
-                <div className="flex items-center gap-1 shrink-0">
-                  <span className="text-[13px] font-normal text-white/90 whitespace-nowrap overflow-hidden" style={{ maxWidth: empHover ? "160px" : "0px", opacity: empHover ? 1 : 0, transition: empHover ? "max-width 1.2s cubic-bezier(0, 0, 0.2, 1), opacity 0.6s cubic-bezier(0, 0, 0.2, 1)" : "max-width 0.4s cubic-bezier(0, 0, 0.2, 1), opacity 0.25s cubic-bezier(0, 0, 0.2, 1)" }}>
-                    {t.experience.empresas.ctaButton}
-                  </span>
-                  <svg className="w-6 h-6 text-white/90 shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-                  </svg>
-                </div>
-              </div>
-              {/* Mobile layout — Porsche spacing */}
-              <div className="flex flex-col min-[961px]:hidden">
-                <span className="inline-block w-fit text-[13.5px] max-[640px]:text-[12px] font-normal leading-[1.5] px-[6px] py-[1px] rounded" style={{ background: "rgba(215,215,218,0.25)", backdropFilter: "blur(12px)", color: "rgba(255,255,255,0.85)" }}>
-                  {t.experience.empresas.eyebrow}
-                </span>
-                <p className="text-[16px] max-[640px]:text-[14px] text-white/80 leading-[1.5] mt-[8px]">{t.experience.empresas.introAfter}</p>
-                <div className="flex items-center gap-1.5 mt-[18px]">
-                  <span className="text-[12px] font-normal text-white/90 whitespace-nowrap">{t.experience.empresas.ctaButton}</span>
-                  <svg className="w-5 h-5 text-white/90 shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </a>
         </div>
       </div>
 

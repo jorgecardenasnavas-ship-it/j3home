@@ -645,6 +645,125 @@ function EmpresasSection() {
 }
 
 /* ═══════════════════════════════════════════════════════
+   EMPRESAS CARD — Big ProgramTile-style video card
+   (moved from academy; will be re-integrated into experience layout later)
+   ═══════════════════════════════════════════════════════ */
+
+function EmpresasCardSection() {
+  const { t } = useI18n();
+  const { ref, visible } = useReveal(0.15);
+  const [empHover, setEmpHover] = useState(false);
+
+  return (
+    <section className="relative bg-[var(--bk)] border-t border-white/[.06]">
+      <div
+        ref={ref}
+        className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-14 max-[960px]:py-10"
+        style={{
+          opacity: visible ? 1 : 0,
+          transform: visible ? "none" : "translateY(30px)",
+          transition: "all 1s cubic-bezier(.16,1,.3,1)",
+        }}
+      >
+        <a
+          data-card-id="card-empresas"
+          href={waLink(t.experience.empresas.waMsg)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group relative overflow-hidden rounded-lg block"
+          style={{ background: "#000", height: "clamp(320px, calc(7vh + 30vw), 540px)" }}
+          onMouseEnter={() => setEmpHover(true)}
+          onMouseLeave={() => setEmpHover(false)}
+        >
+          {/* Background video */}
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover object-[center_30%]"
+            style={{
+              transform: empHover ? "scale3d(1.05,1.05,1.05)" : "scale3d(1,1,1)",
+              transition: "transform 0.6s cubic-bezier(0, 0, 0.2, 1)",
+              filter: "contrast(1.08) saturate(0.85) brightness(1.02) sepia(0.08)",
+            }}
+          >
+            <source src="/videos/empresas-bg.mp4" type="video/mp4" />
+          </video>
+
+          {/* Top gradient */}
+          <div
+            className="absolute top-0 left-0 w-full z-[5] pointer-events-none"
+            style={{ height: "25%", background: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.45) 30%, rgba(0,0,0,0.15) 60%, transparent 100%)" }}
+          />
+          {/* Bottom gradient */}
+          <div
+            className="absolute bottom-0 left-0 w-full z-[5] pointer-events-none"
+            style={{ height: "45%", background: "linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.55) 30%, rgba(0,0,0,0.2) 60%, transparent 100%)" }}
+          />
+
+          {/* Title — top center */}
+          <div className="absolute top-0 left-0 right-0 z-[6] flex justify-center pt-7 max-[640px]:pt-5">
+            <h4 className="font-bold text-[clamp(26px,3.5vw,48px)] uppercase tracking-[-1.5px] leading-[1] text-white/90">
+              {t.experience.empresas.heading}
+            </h4>
+          </div>
+
+          {/* Bottom content — Desktop: horizontal / Mobile: vertical Porsche spacing */}
+          <div className="absolute bottom-0 left-0 right-0 z-[13] p-[18px] min-[961px]:p-[clamp(16px,1.25vw+12px,36px)]">
+            {/* Desktop layout */}
+            <div className="hidden min-[961px]:flex items-end justify-between">
+              <div className="flex flex-col gap-1.5">
+                <span
+                  className="inline-block w-fit text-[12px] font-normal leading-[1.5] px-2 py-0.5 rounded"
+                  style={{ background: "rgba(215,215,218,0.25)", backdropFilter: "blur(12px)", color: "rgba(255,255,255,0.85)" }}
+                >
+                  {t.experience.empresas.eyebrow}
+                </span>
+                <p className="text-[14px] text-white/80 leading-[1.5]">{t.experience.empresas.introAfter}</p>
+              </div>
+              <div className="flex items-center gap-1 shrink-0">
+                <span
+                  className="text-[13px] font-normal text-white/90 whitespace-nowrap overflow-hidden"
+                  style={{
+                    maxWidth: empHover ? "160px" : "0px",
+                    opacity: empHover ? 1 : 0,
+                    transition: empHover
+                      ? "max-width 1.2s cubic-bezier(0, 0, 0.2, 1), opacity 0.6s cubic-bezier(0, 0, 0.2, 1)"
+                      : "max-width 0.4s cubic-bezier(0, 0, 0.2, 1), opacity 0.25s cubic-bezier(0, 0, 0.2, 1)",
+                  }}
+                >
+                  {t.experience.empresas.ctaButton}
+                </span>
+                <WaIcon size={24} className="text-white/90 shrink-0" />
+              </div>
+            </div>
+            {/* Mobile layout — Porsche spacing */}
+            <div className="flex flex-col min-[961px]:hidden">
+              <span
+                className="inline-block w-fit text-[13.5px] max-[640px]:text-[12px] font-normal leading-[1.5] px-[6px] py-[1px] rounded"
+                style={{ background: "rgba(215,215,218,0.25)", backdropFilter: "blur(12px)", color: "rgba(255,255,255,0.85)" }}
+              >
+                {t.experience.empresas.eyebrow}
+              </span>
+              <p className="text-[16px] max-[640px]:text-[14px] text-white/80 leading-[1.5] mt-[8px]">
+                {t.experience.empresas.introAfter}
+              </p>
+              <div className="flex items-center gap-1.5 mt-[18px]">
+                <span className="text-[12px] font-normal text-white/90 whitespace-nowrap">
+                  {t.experience.empresas.ctaButton}
+                </span>
+                <WaIcon size={20} className="text-white/90 shrink-0" />
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
    S5 — STATS
    ═══════════════════════════════════════════════════════ */
 
@@ -779,6 +898,9 @@ export default function ExperiencePage() {
 
       {/* S4 — Empresas */}
       <EmpresasSection />
+
+      {/* Empresas — big card (moved from academy, will be reorganized) */}
+      <EmpresasCardSection />
 
       {/* S5 — Stats */}
       <StatsSection />
