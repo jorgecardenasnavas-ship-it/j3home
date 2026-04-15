@@ -1203,18 +1203,18 @@ function StatementSection() {
         />
 
         {/* Stats — silent authority */}
-        <div className="flex items-start justify-center">
+        <div className="grid grid-cols-3 items-center justify-items-center w-full max-w-[720px] max-[640px]:max-w-[420px] mx-auto relative">
           {[
             { num: 20, suffix: "+", label: "años" },
             { num: 2000, suffix: "+", label: "jugadores formados" },
             { num: 18, suffix: "", label: "títulos profesionales" },
           ].map((stat, i) => (
-            <div key={i} className="flex items-center">
+            <div key={i} className="relative w-full flex items-center justify-center">
               {i > 0 && (
-                <div className="w-px h-[44px] max-[640px]:h-[36px] bg-gradient-to-b from-transparent via-[var(--g1)]/30 to-transparent mx-10 max-[960px]:mx-6 max-[640px]:mx-4" />
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-px h-[44px] max-[640px]:h-[36px] bg-gradient-to-b from-transparent via-[var(--g1)]/30 to-transparent" />
               )}
               <div
-                className="text-center min-w-[80px] max-[640px]:min-w-[60px]"
+                className="text-center"
                 style={{
                   opacity: visible ? 1 : 0,
                   transform: visible ? "none" : "translateY(16px)",
@@ -1251,15 +1251,15 @@ function StatementStats() {
     <section className="relative pb-[100px] pt-[20px] max-[960px]:pb-[64px] max-[960px]:pt-[12px] px-12 max-[960px]:px-6 max-[640px]:px-4">
       <div
         ref={ref}
-        className="max-w-[900px] mx-auto flex items-start justify-center"
+        className="grid grid-cols-3 items-center justify-items-center w-full max-w-[720px] max-[640px]:max-w-[420px] mx-auto"
       >
         {stats.map((stat, i) => (
-          <div key={i} className="flex items-center">
+          <div key={i} className="relative w-full flex items-center justify-center">
             {i > 0 && (
-              <div className="w-px h-[44px] max-[640px]:h-[36px] bg-gradient-to-b from-transparent via-[var(--g1)]/30 to-transparent mx-10 max-[960px]:mx-6 max-[640px]:mx-4" />
+              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-px h-[44px] max-[640px]:h-[36px] bg-gradient-to-b from-transparent via-[var(--g1)]/30 to-transparent" />
             )}
             <div
-              className="text-center min-w-[80px] max-[640px]:min-w-[60px]"
+              className="text-center"
               style={{
                 opacity: visible ? 1 : 0,
                 transform: visible ? "none" : "translateY(16px)",
