@@ -641,7 +641,7 @@ export const es = {
         { label: "Calendario", desc: "Fin de semana, entre semana o a medida" },
         { label: "Sesiones", desc: "De 1 a 3 sesiones por d\u00EDa" },
         { label: "Partidos", desc: "Organizados y competici\u00F3n interna" },
-        { label: "Alojamiento", desc: "Lo gestionamos por ti si lo necesitas" },
+        { label: "Alojamiento", desc: "Te ofrecemos las mejores opciones" },
       ],
     },
 

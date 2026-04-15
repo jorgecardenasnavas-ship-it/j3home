@@ -648,7 +648,7 @@ export const en = {
         { label: "Schedule", desc: "Weekend, weekday or custom" },
         { label: "Sessions", desc: "1 to 3 sessions per day" },
         { label: "Matches", desc: "Organized games and internal competition" },
-        { label: "Accommodation", desc: "We can arrange it for you" },
+        { label: "Accommodation", desc: "We offer you the best options" },
       ],
     },
 

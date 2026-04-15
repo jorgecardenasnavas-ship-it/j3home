@@ -648,7 +648,7 @@ export const fr = {
         { label: "Calendrier", desc: "Week-end, semaine ou sur mesure" },
         { label: "S\u00E9ances", desc: "De 1 \u00E0 3 s\u00E9ances par jour" },
         { label: "Matchs", desc: "Organis\u00E9s et comp\u00E9tition interne" },
-        { label: "H\u00E9bergement", desc: "Nous pouvons l\u2019organiser pour vous" },
+        { label: "H\u00E9bergement", desc: "Nous vous proposons les meilleures options" },
       ],
     },
 

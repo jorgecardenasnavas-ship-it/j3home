@@ -648,7 +648,7 @@ export const sv = {
         { label: "Schema", desc: "Helg, vardag eller skr\u00E4ddarsytt" },
         { label: "Pass", desc: "1 till 3 pass per dag" },
         { label: "Matcher", desc: "Organiserade spel och intern t\u00E4vling" },
-        { label: "Boende", desc: "Vi kan arrangera det \u00E5t dig" },
+        { label: "Boende", desc: "Vi erbjuder dig de b\u00E4sta alternativen" },
       ],
     },
 

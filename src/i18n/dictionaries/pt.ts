@@ -648,7 +648,7 @@ export const pt = {
         { label: "Calend\u00E1rio", desc: "Fim de semana, durante a semana ou \u00E0 medida" },
         { label: "Sess\u00F5es", desc: "De 1 a 3 sess\u00F5es por dia" },
         { label: "Jogos", desc: "Organizados e competi\u00E7\u00E3o interna" },
-        { label: "Alojamento", desc: "Tratamos disso por ti se necessitares" },
+        { label: "Alojamento", desc: "Oferecemos-te as melhores op\u00E7\u00F5es" },
       ],
     },
 
