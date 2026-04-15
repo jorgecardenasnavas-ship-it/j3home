@@ -1489,12 +1489,12 @@ function ProgramTile({
         }}
       />
 
-      {/* Top gradient */}
+      {/* Top gradient — ampliado y más denso para asegurar legibilidad de título+etapa+edad */}
       <div
         className="absolute top-0 left-0 w-full z-[5] pointer-events-none"
         style={{
-          height: "25%",
-          background: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.45) 30%, rgba(0,0,0,0.15) 60%, transparent 100%)",
+          height: "40%",
+          background: "linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 25%, rgba(0,0,0,0.3) 55%, rgba(0,0,0,0.1) 80%, transparent 100%)",
         }}
       />
 
@@ -1507,15 +1507,18 @@ function ProgramTile({
         }}
       />
 
-      {/* Title + etapa + edad — top center */}
-      <div className="absolute top-0 left-0 right-0 z-[6] flex flex-col items-center pt-7 max-[640px]:pt-5 px-4 text-center">
-        <h4 className="font-bold text-[clamp(26px,3.5vw,48px)] uppercase tracking-[-1.5px] leading-[1] text-white/90">
+      {/* Title + etapa + edad — top center (text-shadow sutil como red de seguridad sobre zonas claras de la imagen) */}
+      <div
+        className="absolute top-0 left-0 right-0 z-[6] flex flex-col items-center pt-7 max-[640px]:pt-5 px-4 text-center"
+        style={{ textShadow: "0 2px 14px rgba(0,0,0,0.55), 0 1px 3px rgba(0,0,0,0.4)" }}
+      >
+        <h4 className="font-bold text-[clamp(26px,3.5vw,48px)] uppercase tracking-[-1.5px] leading-[1] text-white">
           {title}
         </h4>
         <span className="mt-[6px] text-[10px] max-[640px]:text-[9.5px] font-bold tracking-[3px] uppercase text-[var(--g1)]">
           {tag}
         </span>
-        <span className="mt-[4px] text-[12.5px] max-[640px]:text-[11.5px] font-normal text-white/75 leading-[1.35]">
+        <span className="mt-[4px] text-[12.5px] max-[640px]:text-[11.5px] font-normal text-white/85 leading-[1.35]">
           {sub}
         </span>
       </div>
