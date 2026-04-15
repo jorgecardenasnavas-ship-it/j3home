@@ -1221,8 +1221,22 @@ function StatementSection() {
                   transition: `all 0.8s cubic-bezier(.16,1,.3,1) ${0.7 + i * 0.15}s`,
                 }}
               >
-                <Counter val={stat.num} suffix={stat.suffix} className="block stmt-stat font-bold text-[clamp(26px,3.5vw,44px)] tracking-[-1px] leading-[1]" />
-                <span className="block text-[10px] max-[640px]:text-[9px] font-medium tracking-[2px] max-[640px]:tracking-[1.5px] uppercase theme-muted mt-2">
+                <Counter
+                  val={stat.num}
+                  suffix={stat.suffix}
+                  className={
+                    i === 0
+                      ? "block stmt-stat font-extrabold text-[clamp(36px,5vw,60px)] tracking-[-1.5px] leading-[1] drop-shadow-[0_2px_12px_rgba(212,175,55,0.35)]"
+                      : "block stmt-stat font-bold text-[clamp(26px,3.5vw,44px)] tracking-[-1px] leading-[1]"
+                  }
+                />
+                <span
+                  className={
+                    i === 0
+                      ? "block text-[11px] max-[640px]:text-[10px] font-semibold tracking-[2.5px] max-[640px]:tracking-[2px] uppercase theme-muted mt-2"
+                      : "block text-[10px] max-[640px]:text-[9px] font-medium tracking-[2px] max-[640px]:tracking-[1.5px] uppercase theme-muted mt-2"
+                  }
+                >
                   {stat.label}
                 </span>
               </div>
@@ -1266,8 +1280,22 @@ function StatementStats() {
                 transition: `all 0.8s cubic-bezier(.16,1,.3,1) ${i * 0.15}s`,
               }}
             >
-              <Counter val={stat.num} suffix={stat.suffix} className="block j3-grad-text font-bold text-[clamp(26px,3.5vw,44px)] tracking-[-1px] leading-[1]" />
-              <span className="block text-[10px] max-[640px]:text-[9px] font-medium tracking-[2px] max-[640px]:tracking-[1.5px] uppercase text-white/50 mt-2">
+              <Counter
+                val={stat.num}
+                suffix={stat.suffix}
+                className={
+                  i === 0
+                    ? "block j3-grad-text font-extrabold text-[clamp(36px,5vw,60px)] tracking-[-1.5px] leading-[1] drop-shadow-[0_2px_12px_rgba(212,175,55,0.35)]"
+                    : "block j3-grad-text font-bold text-[clamp(26px,3.5vw,44px)] tracking-[-1px] leading-[1]"
+                }
+              />
+              <span
+                className={
+                  i === 0
+                    ? "block text-[11px] max-[640px]:text-[10px] font-semibold tracking-[2.5px] max-[640px]:tracking-[2px] uppercase text-white/60 mt-2"
+                    : "block text-[10px] max-[640px]:text-[9px] font-medium tracking-[2px] max-[640px]:tracking-[1.5px] uppercase text-white/50 mt-2"
+                }
+              >
                 {stat.label}
               </span>
             </div>
