@@ -590,7 +590,7 @@ export const en = {
           waMsg: "Hi, I\u2019d like info about Kids (10+)",
         },
         {
-          tag: "Kids to PRO",
+          tag: "Competition",
           title: "Promise",
           sub: "14+ years",
           ctaLabel: "Request info",

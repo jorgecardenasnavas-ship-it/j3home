@@ -590,7 +590,7 @@ export const sv = {
           waMsg: "Hej, jag vill ha info om Kids (10+)",
         },
         {
-          tag: "Kids to PRO",
+          tag: "T\u00E4vling",
           title: "Promise",
           sub: "14+ \u00E5r",
           ctaLabel: "Beg\u00E4r info",
