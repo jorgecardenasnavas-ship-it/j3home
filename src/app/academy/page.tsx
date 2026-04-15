@@ -1962,6 +1962,7 @@ function SedeCard({
 function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const { t } = useI18n();
   const { ref, visible } = useReveal(0.15);
+  const { scrollRef, activeSlide, goTo } = useDragScroll(2);
 
   return (
     <section className="sedes-section relative overflow-hidden border-b border-white/[.07]">
@@ -1987,36 +1988,17 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
         </h2>
       </div>
 
-      {/* Sedes grid — Porsche style: portrait cards, full-bleed image, label + arrow bottom */}
-      {/* Desktop: 2-col grid. Mobile: horizontal scroll with snap */}
+      {/* Sedes slider — unified drag-scroll carousel (desktop + mobile) with same feel as juniors/adultos */}
       <div className="max-w-[1600px] mx-auto pb-[72px] max-[960px]:pb-[56px]">
-        {/* Desktop grid */}
-        <div className="px-4 max-[960px]:px-3 grid grid-cols-2 gap-6 max-[768px]:hidden">
-          <SedeCard
-            video="https://finurapadelgym.com/wp-content/uploads/2025/10/home-2.webm"
-            videoStart={5}
-            eyebrow={t.academy.headquarters.sedes[0].badge}
-            name={t.academy.headquarters.sedes[0].name}
-            tag={t.academy.headquarters.sedes[0].tag}
-            href="https://finurapadelgym.com"
-            index={0}
-          />
-          <SedeCard
-            images={["/images/vals-1.jpg", "/images/vals-2.jpg", "/images/vals-3.jpg"]}
-            eyebrow={t.academy.headquarters.sedes[1].badge}
-            name={t.academy.headquarters.sedes[1].name}
-            tag={t.academy.headquarters.sedes[1].tag}
-            href="https://valssport.com/limoneros/"
-            index={1}
-          />
-        </div>
-
-        {/* Mobile horizontal scroll */}
         <div
-          className="hidden max-[768px]:flex gap-4 overflow-x-auto snap-x snap-mandatory px-4 pb-2 scrollbar-hide"
-          style={{ scrollPaddingLeft: "1rem", scrollPaddingRight: "1rem" }}
+          ref={scrollRef}
+          className="flex gap-6 max-[768px]:gap-4 overflow-x-auto scrollbar-hide px-4 max-[960px]:px-3"
+          style={{ cursor: "grab" }}
         >
-          <div className="shrink-0 snap-start w-[82vw] max-w-[360px]">
+          <div
+            className="shrink-0"
+            style={{ width: "clamp(300px, 58vw, 780px)" }}
+          >
             <SedeCard
               video="https://finurapadelgym.com/wp-content/uploads/2025/10/home-2.webm"
               videoStart={5}
@@ -2027,7 +2009,10 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
               index={0}
             />
           </div>
-          <div className="shrink-0 snap-start w-[82vw] max-w-[360px]">
+          <div
+            className="shrink-0"
+            style={{ width: "clamp(300px, 58vw, 780px)" }}
+          >
             <SedeCard
               images={["/images/vals-1.jpg", "/images/vals-2.jpg", "/images/vals-3.jpg"]}
               eyebrow={t.academy.headquarters.sedes[1].badge}
@@ -2037,6 +2022,10 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
               index={1}
             />
           </div>
+          <div className="shrink-0 w-1" aria-hidden />
+        </div>
+        <div className="px-4 max-[960px]:px-3 pt-6">
+          <PorscheDots total={2} active={activeSlide} onDotClick={goTo} />
         </div>
       </div>
     </section>
