@@ -570,9 +570,10 @@ export const sv = {
     },
 
     programs: {
-      eyebrow: "Akademi \u00B7 Tr\u00E4ning",
+      eyebrow: "J3-struktur",
       headingPre: "Hitta ditt ",
       headingAccent: "program.",
+      headingSub: "Samma struktur i varje klubb \u2014 tre v\u00E4gar f\u00F6r varje \u00E5lder, niv\u00E5 och m\u00E5l.",
       juniorsLabel: "Juniorer",
       juniorsCards: [
         {

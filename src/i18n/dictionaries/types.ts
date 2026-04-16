@@ -300,6 +300,7 @@ export interface Dictionary {
       readonly eyebrow: string;
       readonly headingPre: string;
       readonly headingAccent: string;
+      readonly headingSub: string;
       readonly juniorsLabel: string;
       readonly juniorsCards: readonly {
         readonly tag: string;

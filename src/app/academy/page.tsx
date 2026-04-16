@@ -1755,6 +1755,9 @@ function PerfilesSection() {
           <span className="theme-text">{t.academy.programs.headingPre}</span>
           <span className="j3-grad-text">{t.academy.programs.headingAccent}</span>
         </h2>
+        <p className="max-w-[720px] mt-5 text-[15px] max-[960px]:text-[14px] theme-text opacity-75 leading-[1.55]">
+          {t.academy.programs.headingSub}
+        </p>
       </div>
 
       {/* Block 1: Juniors */}

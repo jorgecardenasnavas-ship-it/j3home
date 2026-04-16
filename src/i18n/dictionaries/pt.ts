@@ -570,9 +570,10 @@ export const pt = {
     },
 
     programs: {
-      eyebrow: "Academia \u00B7 Treinos",
+      eyebrow: "Estrutura J3",
       headingPre: "Encontra o teu ",
       headingAccent: "programa.",
+      headingSub: "Mesma estrutura em cada clube \u2014 tr\u00EAs caminhos pensados para cada idade, n\u00EDvel e objetivo.",
       juniorsLabel: "Juniores",
       juniorsCards: [
         {
