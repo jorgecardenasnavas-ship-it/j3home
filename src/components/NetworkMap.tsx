@@ -248,10 +248,11 @@ export default function NetworkMap({
         worldCopyJump
         zoomControl={false}
       >
-        {/* Controles +/- reposicionados a esquina inferior izquierda
-            para que no queden ocultos tras el sticky nav en la parte
-            superior del viewport. */}
-        <ZoomControl position="bottomleft" />
+        {/* Controles +/- en esquina superior derecha:
+            - Visibles nada más cargar el mapa (vs. bottomleft que
+              quedaba fuera del viewport inicial si el mapa es alto).
+            - Libres del sticky nav, que ocupa centro-izquierda. */}
+        <ZoomControl position="topright" />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
