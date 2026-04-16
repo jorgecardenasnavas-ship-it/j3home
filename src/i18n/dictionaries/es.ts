@@ -685,6 +685,33 @@ export const es = {
       },
     },
 
+    network: {
+      eyebrow: "Red J3",
+      headingPre: "Un m\u00E9todo, ",
+      headingAccent: "muchas pistas.",
+      headingSub: "Desde nuestra sede en M\u00E1laga a una red de coaches recomendados por J3. El mismo est\u00E1ndar, est\u00E9s donde est\u00E9s.",
+      hqLabel: "Headquarters",
+      hqTitle: "M\u00E1laga \u2014 donde nace el m\u00E9todo",
+      hqSubtitle: "Nuestra sede principal. Cantera, pruebas, referencia.",
+      hqCta: "Conoce la HQ",
+      mapLabel: "El mapa",
+      mapHint: "Explora coaches J3 Recommended por el mundo",
+      gridLabel: "Coaches recomendados",
+      gridHeading: "J3 Recommended.",
+      filterAll: "Todos",
+      badgeRecommended: "J3 Recommended",
+      badgeHq: "J3 HQ",
+      askChatbot: "Pregunta a J3",
+      viewProfile: "Ver perfil",
+      coachCta: {
+        eyebrow: "\u00BFEres coach?",
+        title: "Sube al sello J3.",
+        description: "Entra en Coach360, entrena con nuestro m\u00E9todo y opta a ser recomendado en esta red.",
+        cta: "Entrar a Coach360",
+        href: "/coach360",
+      },
+    },
+
     method: {
       eyebrow: "M\u00E9todo J3",
       headingPre: "C\u00F3mo ",

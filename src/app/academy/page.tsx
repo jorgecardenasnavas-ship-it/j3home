@@ -1,10 +1,23 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import CoachCard from "@/components/CoachCard";
 import { useI18n } from "@/i18n/context";
+import { COACHES, type Coach } from "@/data/coaches";
+
+/* Leaflet map — only on client; heavy + uses window */
+const NetworkMap = dynamic(() => import("@/components/NetworkMap"), {
+  ssr: false,
+  loading: () => (
+    <div className="absolute inset-0 flex items-center justify-center text-[10px] tracking-[4px] uppercase theme-text opacity-35">
+      Cargando mapa…
+    </div>
+  ),
+});
 
 
 /* ═══════════════════════════════════════════════════════
@@ -2486,6 +2499,188 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
 }
 
 /* ═══════════════════════════════════════════════════════
+   S5b — NETWORK (HQ Málaga + mapa + coaches + Coach360 CTA)
+   ═══════════════════════════════════════════════════════ */
+
+function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
+  const { t } = useI18n();
+  const { ref, visible } = useReveal(0.15);
+  const coaches = useMemo(() => COACHES.filter(c => c.tier !== "hq"), []);
+
+  const mapLabels = {
+    badgeHq: t.academy.network.badgeHq,
+    badgeRecommended: t.academy.network.badgeRecommended,
+    viewProfile: t.academy.network.viewProfile,
+  };
+
+  const gridLabels = {
+    badgeHq: t.academy.network.badgeHq,
+    badgeRecommended: t.academy.network.badgeRecommended,
+    askChatbot: t.academy.network.askChatbot,
+  };
+
+  const handleAsk = (coach: Coach) => {
+    // TODO: hook real con el chatbot J3. De momento dispatch de custom event.
+    window.dispatchEvent(new CustomEvent("j3:chat:open", { detail: { coachSlug: coach.slug } }));
+  };
+
+  return (
+    <section className="sedes-section relative overflow-hidden border-b border-white/[.07]">
+      {markerSlot}
+
+      {/* Header */}
+      <div
+        ref={ref}
+        className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto pt-[72px] pb-10 max-[960px]:pt-[56px] max-[960px]:pb-8"
+        style={{
+          opacity: visible ? 1 : 0,
+          transform: visible ? "none" : "translateY(24px)",
+          transition: "all .8s cubic-bezier(.16,1,.3,1)",
+        }}
+      >
+        <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] block mb-2 max-[960px]:text-[11px] max-[960px]:tracking-[3px]">
+          {t.academy.network.eyebrow}
+        </span>
+        <h2 className="font-bold text-[clamp(28px,3vw,44px)] uppercase tracking-[-0.5px] leading-[1.05]">
+          <span className="sedes-heading">{t.academy.network.headingPre}</span>
+          <span className="j3-grad-text font-[var(--font-serif)] italic normal-case">
+            {t.academy.network.headingAccent}
+          </span>
+        </h2>
+        <p className="max-w-[640px] mt-4 text-[14px] max-[960px]:text-[13px] opacity-75 leading-[1.55]" style={{ color: "var(--wh)" }}>
+          {t.academy.network.headingSub}
+        </p>
+      </div>
+
+      {/* HQ Hero block */}
+      <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto pb-12 max-[960px]:pb-10">
+        <a
+          href="https://finurapadelgym.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group relative block overflow-hidden border border-white/[.08] hover:border-[var(--g1)]/40 transition-colors duration-500"
+          style={{ aspectRatio: "16 / 7" }}
+        >
+          <video
+            src="https://finurapadelgym.com/wp-content/uploads/2025/10/home-2.webm"
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.03]"
+            style={{ filter: "saturate(0.88) brightness(0.88) contrast(0.96)" }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" aria-hidden />
+          <span
+            className="absolute top-0 left-1/2 -translate-x-1/2 h-[3px] w-[70%] opacity-70 group-hover:w-full group-hover:opacity-100 bg-gradient-to-r from-transparent via-[var(--g1)] to-transparent transition-all duration-700"
+            aria-hidden
+          />
+
+          <div className="absolute top-6 left-6 max-[640px]:top-4 max-[640px]:left-5 z-10 flex items-center gap-2">
+            <span className="relative inline-flex shrink-0" aria-hidden>
+              <span className="w-[6px] h-[6px] rounded-full bg-[var(--g1)]" />
+              <span className="absolute inset-0 w-[6px] h-[6px] rounded-full bg-[var(--g1)] animate-ping" />
+            </span>
+            <span className="text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)]">
+              {t.academy.network.hqLabel}
+            </span>
+          </div>
+
+          <div className="absolute inset-x-0 bottom-0 z-10 p-6 max-[640px]:p-5 flex items-end justify-between gap-4">
+            <div className="max-w-[620px]">
+              <h3 className="font-bold text-[clamp(22px,2.8vw,40px)] uppercase tracking-[-0.5px] leading-[1.05] text-white">
+                {t.academy.network.hqTitle}
+              </h3>
+              <p className="mt-2 text-[13px] max-[640px]:text-[12px] font-light leading-[1.5] text-white/70">
+                {t.academy.network.hqSubtitle}
+              </p>
+            </div>
+            <span
+              className="shrink-0 flex items-center gap-2 text-[10px] font-bold tracking-[2.5px] uppercase text-[var(--g1)]"
+              style={{ transform: "translateX(0)", transition: "transform .5s cubic-bezier(.16,1,.3,1)" }}
+            >
+              {t.academy.network.hqCta}
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14" />
+                <path d="M12 5l7 7-7 7" />
+              </svg>
+            </span>
+          </div>
+        </a>
+      </div>
+
+      {/* Map block */}
+      <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto pb-12 max-[960px]:pb-10">
+        <div className="flex items-baseline flex-wrap gap-x-4 gap-y-1 mb-5">
+          <span className="text-[10px] font-bold tracking-[4px] uppercase text-[var(--g1)]">
+            {t.academy.network.mapLabel}
+          </span>
+          <span className="text-[12px] opacity-60" style={{ color: "var(--wh)" }}>
+            {t.academy.network.mapHint}
+          </span>
+        </div>
+        <div
+          className="relative overflow-hidden border border-white/[.08]"
+          style={{ height: "clamp(380px, 55vh, 620px)" }}
+        >
+          <NetworkMap labels={mapLabels} />
+        </div>
+      </div>
+
+      {/* Coaches grid */}
+      <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto pb-12 max-[960px]:pb-10">
+        <div className="flex items-baseline flex-wrap gap-x-5 gap-y-1 mb-6">
+          <span className="text-[10px] font-bold tracking-[4px] uppercase text-[var(--g1)]">
+            {t.academy.network.gridLabel}
+          </span>
+          <h3 className="font-[var(--font-serif)] italic text-[clamp(18px,1.5vw,22px)] j3-grad-text">
+            {t.academy.network.gridHeading}
+          </h3>
+        </div>
+        <div className="grid gap-4 max-[960px]:gap-3" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(min(260px, 100%), 1fr))" }}>
+          {coaches.map((c) => (
+            <CoachCard key={c.slug} coach={c} labels={gridLabels} onAsk={handleAsk} />
+          ))}
+        </div>
+      </div>
+
+      {/* Coach360 CTA */}
+      <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto pb-[80px] max-[960px]:pb-[56px]">
+        <a
+          href={t.academy.network.coachCta.href}
+          className="group relative block overflow-hidden border border-white/[.08] hover:border-[var(--g1)]/40 transition-colors duration-500 px-8 py-10 max-[640px]:px-6 max-[640px]:py-8"
+        >
+          <span
+            className="absolute top-0 left-1/2 -translate-x-1/2 h-[3px] w-[50%] opacity-70 group-hover:w-full group-hover:opacity-100 bg-gradient-to-r from-transparent via-[var(--g1)] to-transparent transition-all duration-700"
+            aria-hidden
+          />
+          <span className="text-[10px] font-bold tracking-[4px] uppercase text-[var(--g1)] block mb-3">
+            {t.academy.network.coachCta.eyebrow}
+          </span>
+          <div className="flex items-end justify-between gap-6 flex-wrap">
+            <div className="max-w-[640px]">
+              <h3 className="font-bold text-[clamp(22px,2.4vw,34px)] uppercase tracking-[-0.5px] leading-[1.05]" style={{ color: "var(--wh)" }}>
+                {t.academy.network.coachCta.title}
+              </h3>
+              <p className="mt-3 text-[13px] max-[640px]:text-[12px] opacity-70 leading-[1.55]" style={{ color: "var(--wh)" }}>
+                {t.academy.network.coachCta.description}
+              </p>
+            </div>
+            <span className="inline-flex items-center gap-2 text-[11px] font-bold tracking-[2.5px] uppercase text-[var(--g1)] group-hover:gap-3 transition-all duration-500">
+              {t.academy.network.coachCta.cta}
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14" />
+                <path d="M12 5l7 7-7 7" />
+              </svg>
+            </span>
+          </div>
+        </a>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
    S6 — MÉTODO (timeline methodology)
    ═══════════════════════════════════════════════════════ */
 
@@ -2827,8 +3022,8 @@ export default function AcademyV2Page() {
       {/* Programs section */}
       <PerfilesSection />
 
-      <SedesSection markerSlot={
-        /* Marker 3: white→dark — inside SedesSection (which has its own
+      <NetworkSection markerSlot={
+        /* Marker 3: white→dark — inside NetworkSection (which has its own
            dark bg) so body goes dark invisibly while section is visible */
         <ScrollMarker index={3} to="dark" refs={markerRefs} />
       } />

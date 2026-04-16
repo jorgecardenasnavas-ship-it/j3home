@@ -373,6 +373,33 @@ export interface Dictionary {
       };
     };
 
+    network: {
+      readonly eyebrow: string;
+      readonly headingPre: string;
+      readonly headingAccent: string;
+      readonly headingSub: string;
+      readonly hqLabel: string;
+      readonly hqTitle: string;
+      readonly hqSubtitle: string;
+      readonly hqCta: string;
+      readonly mapLabel: string;
+      readonly mapHint: string;
+      readonly gridLabel: string;
+      readonly gridHeading: string;
+      readonly filterAll: string;
+      readonly badgeRecommended: string;
+      readonly badgeHq: string;
+      readonly askChatbot: string;
+      readonly viewProfile: string;
+      readonly coachCta: {
+        readonly eyebrow: string;
+        readonly title: string;
+        readonly description: string;
+        readonly cta: string;
+        readonly href: string;
+      };
+    };
+
     method: {
       readonly eyebrow: string;
       readonly headingPre: string;
