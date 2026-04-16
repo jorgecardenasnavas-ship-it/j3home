@@ -747,6 +747,76 @@ export const fr = {
       backLink: "\u2190 Volver a Academy",
     },
 
+    sello: {
+      eyebrow: "Le Label J3",
+      headingPre: "Un standard ",
+      headingAccent: "v\u00E9rifiable",
+      lede: "Trois niveaux. Une seule exigence : que chaque heure sur le court vous rende du progr\u00E8s r\u00E9el.",
+      tiers: [
+        {
+          key: "hq",
+          badge: "HQ \u00B7 LAB",
+          title: "J3 Lab M\u00E1laga",
+          summary: "La base m\u00E8re. O\u00F9 na\u00EEt la m\u00E9thode et o\u00F9 se forment les coachs.",
+          points: [
+            "Vals Sport Limoneros \u00B7 Finura Padel",
+            "20+ ans \u00E0 former des joueurs",
+            "Laboratoire de m\u00E9thodologie vivante",
+          ],
+        },
+        {
+          key: "academy",
+          badge: "J3 \u00B7 ACADEMY",
+          title: "Franchise cl\u00E9 en main",
+          summary: "Des clubs qui op\u00E8rent avec la marque, la m\u00E9thode et le soutien de J3.",
+          points: [
+            "M\u00E9thodologie compl\u00E8te et mat\u00E9riel",
+            "Formation Coach360 pour tout le personnel",
+            "Onboarding juridique et op\u00E9rationnel",
+          ],
+        },
+        {
+          key: "recommended",
+          badge: "J3 \u00B7 RECOMMENDED",
+          title: "Coachs accr\u00E9dit\u00E9s",
+          summary: "Professionnels individuels avec le label J3 actif.",
+          points: [
+            "Formation Coach360 compl\u00E8te",
+            "Acc\u00E8s \u00E0 l\u2019IA et aux outils J3",
+            "R\u00E9vision annuelle du label",
+          ],
+        },
+      ],
+      criteriaEyebrow: "\u00CAtre Recommended exige",
+      criteriaHeading: "Quatre portes \u00E0 franchir \u2014 et \u00E0 garder ouvertes.",
+      criteriaItems: [
+        { num: "01", title: "Formation Coach360", desc: "Suivre la formation compl\u00E8te dispens\u00E9e par le Lab de M\u00E1laga." },
+        { num: "02", title: "M\u00E9thodologie J3", desc: "Appliquer la m\u00E9thode au quotidien dans le club, pas uniquement sur le papier." },
+        { num: "03", title: "R\u00E9vision annuelle", desc: "Renouveler le label chaque saison. Se d\u00E9sinscrire co\u00FBte cher au retour." },
+        { num: "04", title: "Acc\u00E8s \u00E0 l\u2019IA J3", desc: "Utiliser le moteur Coach360 comme outil de travail habituel." },
+      ],
+    },
+
+    franquicias: {
+      eyebrow: "J3 Academy \u00B7 Pour les clubs",
+      headingPre: "Apportez J3 ",
+      headingAccent: "\u00E0 votre club",
+      lede: "Un mod\u00E8le de franchise cl\u00E9 en main pour clubs et entrepreneurs qui veulent op\u00E9rer avec la marque, la m\u00E9thode et le soutien J3.",
+      pillars: [
+        { num: "01", title: "M\u00E9thodologie", desc: "La m\u00E9thode J3 compl\u00E8te : programmes par \u00E2ge, niveaux, \u00E9valuation des joueurs et mat\u00E9riel p\u00E9dagogique." },
+        { num: "02", title: "Formation", desc: "Coach360 pour l\u2019ensemble du staff. Chaque coach obtient son label Recommended et appara\u00EEt sur la carte." },
+        { num: "03", title: "Marque", desc: "Vous op\u00E9rez sous J3 Academy. Manuel de marque, lignes directrices visuelles et pr\u00E9sence sur le r\u00E9seau international." },
+        { num: "04", title: "Soutien", desc: "Accompagnement op\u00E9rationnel depuis M\u00E1laga. R\u00E9visions p\u00E9riodiques, mises \u00E0 jour de la m\u00E9thode et communaut\u00E9 des franchis\u00E9s." },
+      ],
+      ctaEyebrow: "Club ou investisseur ?",
+      ctaHeading: "Parlons-en.",
+      ctaSub: "Laissez vos coordonn\u00E9es et un partenaire J3 vous contactera avec le dossier complet.",
+      ctaPrimary: "Demander des informations",
+      ctaPrimaryHref: "mailto:franquicias@j3padel.com?subject=Demande%20d%27informations%20J3%20Academy",
+      ctaSecondary: "T\u00E9l\u00E9charger le dossier",
+      disclaimer: "Mod\u00E8le en formation. Premi\u00E8re promotion 2026.",
+    },
+
     method: {
       eyebrow: "M\u00E9thode J3",
       headingPre: "Comment ",

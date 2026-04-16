@@ -429,6 +429,48 @@ export interface Dictionary {
       readonly backLink: string;
     };
 
+    /* ── S5c — EL SELLO (qué garantiza el sello J3) ── */
+    sello: {
+      readonly eyebrow: string;
+      readonly headingPre: string;
+      readonly headingAccent: string;
+      readonly lede: string;
+      readonly tiers: readonly {
+        readonly key: "hq" | "academy" | "recommended";
+        readonly badge: string;
+        readonly title: string;
+        readonly summary: string;
+        readonly points: readonly string[];
+      }[];
+      readonly criteriaEyebrow: string;
+      readonly criteriaHeading: string;
+      readonly criteriaItems: readonly {
+        readonly num: string;
+        readonly title: string;
+        readonly desc: string;
+      }[];
+    };
+
+    /* ── S5d — J3 ACADEMY (franquicias B2B) ── */
+    franquicias: {
+      readonly eyebrow: string;
+      readonly headingPre: string;
+      readonly headingAccent: string;
+      readonly lede: string;
+      readonly pillars: readonly {
+        readonly num: string;
+        readonly title: string;
+        readonly desc: string;
+      }[];
+      readonly ctaEyebrow: string;
+      readonly ctaHeading: string;
+      readonly ctaSub: string;
+      readonly ctaPrimary: string;
+      readonly ctaPrimaryHref: string;
+      readonly ctaSecondary: string;
+      readonly disclaimer: string;
+    };
+
     method: {
       readonly eyebrow: string;
       readonly headingPre: string;

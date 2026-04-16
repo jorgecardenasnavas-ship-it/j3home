@@ -747,6 +747,76 @@ export const en = {
       backLink: "\u2190 Volver a Academy",
     },
 
+    sello: {
+      eyebrow: "The J3 Seal",
+      headingPre: "A verifiable ",
+      headingAccent: "standard",
+      lede: "Three tiers. One demand: every hour on court must return real progress.",
+      tiers: [
+        {
+          key: "hq",
+          badge: "HQ \u00B7 LAB",
+          title: "J3 Lab M\u00E1laga",
+          summary: "The mother base. Where the method is born and coaches are trained.",
+          points: [
+            "Vals Sport Limoneros \u00B7 Finura Padel",
+            "20+ years developing players",
+            "Living methodology lab",
+          ],
+        },
+        {
+          key: "academy",
+          badge: "J3 \u00B7 ACADEMY",
+          title: "Turnkey franchise",
+          summary: "Clubs operating with J3\u2019s brand, method and support.",
+          points: [
+            "Full methodology and materials",
+            "Coach360 training for the entire staff",
+            "Legal and operational onboarding",
+          ],
+        },
+        {
+          key: "recommended",
+          badge: "J3 \u00B7 RECOMMENDED",
+          title: "Accredited coaches",
+          summary: "Individual professionals with an active J3 seal.",
+          points: [
+            "Complete Coach360 training",
+            "Access to J3 AI and tools",
+            "Annual seal review",
+          ],
+        },
+      ],
+      criteriaEyebrow: "Being Recommended requires",
+      criteriaHeading: "Four doors to cross \u2014 and keep open.",
+      criteriaItems: [
+        { num: "01", title: "Coach360 training", desc: "Complete the full training program run by the M\u00E1laga Lab." },
+        { num: "02", title: "J3 methodology", desc: "Apply the method in the club\u2019s daily life, not just on paper." },
+        { num: "03", title: "Annual review", desc: "Renew the seal every season. Leaving costs your position on return." },
+        { num: "04", title: "Access to J3 AI", desc: "Use the Coach360 engine as a daily working tool." },
+      ],
+    },
+
+    franquicias: {
+      eyebrow: "J3 Academy \u00B7 For clubs",
+      headingPre: "Bring J3 ",
+      headingAccent: "to your club",
+      lede: "A turnkey franchise model for clubs and entrepreneurs who want to operate with J3\u2019s brand, method and support.",
+      pillars: [
+        { num: "01", title: "Methodology", desc: "The full J3 method: age programs, levels, player evaluation and teaching materials." },
+        { num: "02", title: "Training", desc: "Coach360 for your entire staff. Every coach earns their Recommended seal and appears on the map." },
+        { num: "03", title: "Brand", desc: "You operate as a J3 Academy. Brand manual, visual guidelines and presence on the international network." },
+        { num: "04", title: "Support", desc: "Operational accompaniment from M\u00E1laga. Periodic reviews, method updates and franchisee community." },
+      ],
+      ctaEyebrow: "Are you a club or investor?",
+      ctaHeading: "Let\u2019s talk.",
+      ctaSub: "Leave your details and a J3 partner will reach out with the full dossier.",
+      ctaPrimary: "Request information",
+      ctaPrimaryHref: "mailto:franquicias@j3padel.com?subject=J3%20Academy%20information%20request",
+      ctaSecondary: "Download dossier",
+      disclaimer: "Model in formation. First cohort 2026.",
+    },
+
     method: {
       eyebrow: "J3 Method",
       headingPre: "How we ",

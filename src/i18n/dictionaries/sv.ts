@@ -747,6 +747,76 @@ export const sv = {
       backLink: "\u2190 Volver a Academy",
     },
 
+    sello: {
+      eyebrow: "J3-st\u00E4mpeln",
+      headingPre: "En verifierbar ",
+      headingAccent: "standard",
+      lede: "Tre niv\u00E5er. Ett enda krav: varje timme p\u00E5 planen ska ge riktig utveckling tillbaka.",
+      tiers: [
+        {
+          key: "hq",
+          badge: "HQ \u00B7 LAB",
+          title: "J3 Lab M\u00E1laga",
+          summary: "Moderbasen. D\u00E4r metoden f\u00F6ds och coacherna tr\u00E4nas.",
+          points: [
+            "Vals Sport Limoneros \u00B7 Finura Padel",
+            "20+ \u00E5r av spelarutveckling",
+            "Levande metodlabb",
+          ],
+        },
+        {
+          key: "academy",
+          badge: "J3 \u00B7 ACADEMY",
+          title: "Nyckelf\u00E4rdig franchise",
+          summary: "Klubbar som driver verksamheten med J3:s varum\u00E4rke, metod och st\u00F6d.",
+          points: [
+            "Komplett metod och material",
+            "Coach360-utbildning f\u00F6r hela staben",
+            "Juridisk och operativ onboarding",
+          ],
+        },
+        {
+          key: "recommended",
+          badge: "J3 \u00B7 RECOMMENDED",
+          title: "Ackrediterade coacher",
+          summary: "Enskilda proffs med aktiv J3-st\u00E4mpel.",
+          points: [
+            "Fullst\u00E4ndig Coach360-utbildning",
+            "Tillg\u00E5ng till J3:s AI och verktyg",
+            "\u00C5rlig ompr\u00F6vning av st\u00E4mpeln",
+          ],
+        },
+      ],
+      criteriaEyebrow: "Att vara Recommended kr\u00E4ver",
+      criteriaHeading: "Fyra d\u00F6rrar att passera \u2014 och h\u00E5lla \u00F6ppna.",
+      criteriaItems: [
+        { num: "01", title: "Coach360-utbildning", desc: "Klara hela utbildningen som h\u00E5lls av M\u00E1laga-labbet." },
+        { num: "02", title: "J3-metoden", desc: "Till\u00E4mpa metoden i klubbens vardag, inte bara p\u00E5 papper." },
+        { num: "03", title: "\u00C5rlig ompr\u00F6vning", desc: "F\u00F6rnya st\u00E4mpeln varje s\u00E4song. Att hoppa av kostar vid \u00E5terkomst." },
+        { num: "04", title: "Tillg\u00E5ng till J3 AI", desc: "Anv\u00E4nd Coach360-motorn som ett dagligt arbetsverktyg." },
+      ],
+    },
+
+    franquicias: {
+      eyebrow: "J3 Academy \u00B7 F\u00F6r klubbar",
+      headingPre: "Ta J3 ",
+      headingAccent: "till din klubb",
+      lede: "En nyckelf\u00E4rdig franchisemodell f\u00F6r klubbar och entrepren\u00F6rer som vill driva verksamheten med J3:s varum\u00E4rke, metod och st\u00F6d.",
+      pillars: [
+        { num: "01", title: "Metod", desc: "Hela J3-metoden: \u00E5ldersprogram, niv\u00E5er, spelarbed\u00F6mning och undervisningsmaterial." },
+        { num: "02", title: "Utbildning", desc: "Coach360 f\u00F6r hela din personal. Varje coach f\u00E5r sin Recommended-st\u00E4mpel och syns p\u00E5 kartan." },
+        { num: "03", title: "Varum\u00E4rke", desc: "Du driver som J3 Academy. Varum\u00E4rkesmanual, visuella riktlinjer och n\u00E4rvaro i det internationella n\u00E4tverket." },
+        { num: "04", title: "St\u00F6d", desc: "Operativt st\u00F6d fr\u00E5n M\u00E1laga. Periodiska \u00F6versyner, metoduppdateringar och franchisetagargemenskap." },
+      ],
+      ctaEyebrow: "\u00C4r du klubb eller investerare?",
+      ctaHeading: "L\u00E5t oss prata.",
+      ctaSub: "L\u00E4mna dina uppgifter s\u00E5 h\u00F6r en J3-partner av sig med hela dokumentationen.",
+      ctaPrimary: "Beg\u00E4r information",
+      ctaPrimaryHref: "mailto:franquicias@j3padel.com?subject=J3%20Academy%20informationsf%C3%B6rfr%C3%A5gan",
+      ctaSecondary: "Ladda ner dossier",
+      disclaimer: "Modell under utveckling. F\u00F6rsta kullen 2026.",
+    },
+
     method: {
       eyebrow: "J3-metoden",
       headingPre: "S\u00E5 h\u00E4r ",

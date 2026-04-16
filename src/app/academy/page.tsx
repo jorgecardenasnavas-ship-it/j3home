@@ -2570,6 +2570,332 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
 }
 
 /* ═══════════════════════════════════════════════════════
+   S5c — EL SELLO (qué garantiza J3 · tiers + criterios Recommended)
+   Fondo dark, continuación visual de NetworkSection.
+   Refuerza valor de Coach360 antes del pitch de franquicias.
+   ═══════════════════════════════════════════════════════ */
+
+function SelloSection() {
+  const { t } = useI18n();
+  const s = t.academy.sello;
+  const { ref, visible } = useReveal(0.1);
+  const { itemRefs: tierRefs, visibleItems: tierVisible } = useStaggerReveal(s.tiers.length, 0.15);
+  const { itemRefs: critRefs, visibleItems: critVisible } = useStaggerReveal(s.criteriaItems.length, 0.15);
+
+  return (
+    <section
+      id="sello"
+      className="relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 scroll-mt-[120px] overflow-hidden"
+      style={{ background: "var(--bk)", color: "var(--wh)" }}
+    >
+      {/* Backdrop sutil — glow dorado centrado en la parte alta */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-[420px] pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(circle at 50% 0%, rgba(220,175,100,0.08) 0%, rgba(220,175,100,0) 60%)",
+        }}
+      />
+
+      <div ref={ref} className="relative z-10 max-w-[1400px] mx-auto">
+        {/* Header */}
+        <div
+          className="text-center mb-14 max-[960px]:mb-10"
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? "none" : "translateY(20px)",
+            transition: "all 1s cubic-bezier(.16,1,.3,1)",
+          }}
+        >
+          <div className="text-[11px] tracking-[3px] uppercase text-[var(--g1)] mb-4">
+            {s.eyebrow}
+          </div>
+          <h2 className="font-bold text-[clamp(36px,5.5vw,72px)] uppercase tracking-[-1.5px] leading-[1.02]">
+            {s.headingPre}
+            <span className="italic font-[var(--font-serif)] normal-case tracking-[-1px] text-[var(--g1)]">
+              {s.headingAccent}
+            </span>
+          </h2>
+          <p className="mt-5 max-w-[640px] mx-auto text-[14px] max-[640px]:text-[13px] leading-[1.5] opacity-70">
+            {s.lede}
+          </p>
+        </div>
+
+        {/* Tiers grid — 3 columnas */}
+        <div className="grid grid-cols-3 max-[960px]:grid-cols-1 gap-5 max-[960px]:gap-4 mb-20 max-[960px]:mb-14">
+          {s.tiers.map((tier, i) => (
+            <div
+              key={tier.key}
+              ref={(el) => { tierRefs.current[i] = el; }}
+              className="relative border border-white/[.08] hover:border-[var(--g1)]/35 transition-colors duration-500 p-6 max-[960px]:p-5 flex flex-col"
+              style={{
+                background: "rgba(255,255,255,0.015)",
+                borderRadius: 2,
+                opacity: tierVisible[i] ? 1 : 0,
+                transform: tierVisible[i] ? "none" : "translateY(24px)",
+                transition: `all 0.9s cubic-bezier(.16,1,.3,1) ${i * 0.12}s`,
+              }}
+            >
+              {/* Línea superior dorada — destacada en HQ */}
+              <span
+                aria-hidden
+                className="absolute top-0 left-0 right-0 h-[2px]"
+                style={{
+                  background:
+                    tier.key === "hq"
+                      ? "linear-gradient(90deg, transparent, var(--g1), transparent)"
+                      : "linear-gradient(90deg, transparent, rgba(220,175,100,0.35), transparent)",
+                  opacity: tier.key === "hq" ? 1 : 0.6,
+                }}
+              />
+
+              {/* Badge tier */}
+              <div className="inline-flex items-center gap-2 mb-4 self-start">
+                <span className="w-[5px] h-[5px] rounded-full bg-[var(--g1)]" aria-hidden />
+                <span className="text-[10px] font-bold tracking-[2.5px] uppercase text-[var(--g1)]">
+                  {tier.badge}
+                </span>
+              </div>
+
+              <h3 className="font-bold text-[20px] max-[960px]:text-[18px] tracking-[-0.5px] leading-[1.2] mb-2">
+                {tier.title}
+              </h3>
+              <p className="text-[13px] opacity-70 leading-[1.5] mb-5">
+                {tier.summary}
+              </p>
+
+              {/* Points */}
+              <ul className="mt-auto space-y-2 pt-4 border-t border-white/[.06]">
+                {tier.points.map((p) => (
+                  <li
+                    key={p}
+                    className="flex items-start gap-2.5 text-[12px] leading-[1.45] opacity-80"
+                  >
+                    <span
+                      aria-hidden
+                      className="mt-[7px] w-[3px] h-[3px] rounded-full bg-[var(--g1)] flex-shrink-0"
+                    />
+                    <span>{p}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        {/* Divider dorado */}
+        <div
+          className="mx-auto mb-14 max-[960px]:mb-10 h-px bg-gradient-to-r from-transparent via-[var(--g1)]/40 to-transparent"
+          style={{
+            width: visible ? "120px" : "0px",
+            transition: "width 1.2s cubic-bezier(.16,1,.3,1) 0.6s",
+          }}
+        />
+
+        {/* Criterios Recommended */}
+        <div className="text-center mb-10 max-[960px]:mb-8">
+          <div className="text-[11px] tracking-[3px] uppercase text-[var(--g1)] mb-3">
+            {s.criteriaEyebrow}
+          </div>
+          <h3 className="font-bold text-[clamp(22px,3vw,34px)] tracking-[-0.5px] leading-[1.2] max-w-[720px] mx-auto">
+            {s.criteriaHeading}
+          </h3>
+        </div>
+
+        <div className="grid grid-cols-4 max-[960px]:grid-cols-2 max-[640px]:grid-cols-1 gap-4">
+          {s.criteriaItems.map((item, i) => (
+            <div
+              key={item.num}
+              ref={(el) => { critRefs.current[i] = el; }}
+              className="relative border border-white/[.07] hover:border-[var(--g1)]/30 transition-colors duration-500 p-5"
+              style={{
+                background: "rgba(255,255,255,0.012)",
+                borderRadius: 2,
+                opacity: critVisible[i] ? 1 : 0,
+                transform: critVisible[i] ? "none" : "translateY(20px)",
+                transition: `all 0.8s cubic-bezier(.16,1,.3,1) ${i * 0.1}s`,
+              }}
+            >
+              <span className="block font-extrabold text-[34px] leading-[1] tracking-[-1px] text-[var(--g1)]/90 mb-3">
+                {item.num}
+              </span>
+              <h4 className="font-bold text-[15px] tracking-[-0.3px] mb-2">
+                {item.title}
+              </h4>
+              <p className="text-[12px] opacity-65 leading-[1.5]">
+                {item.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   S5d — J3 ACADEMY (franquicias B2B)
+   Oferta llave en mano para clubes e inversores.
+   Visualmente diferenciada: pillars + bloque CTA destacado
+   + disclaimer "modelo en formación · primera convocatoria 2026".
+   ═══════════════════════════════════════════════════════ */
+
+function FranquiciasSection() {
+  const { t } = useI18n();
+  const f = t.academy.franquicias;
+  const { ref, visible } = useReveal(0.12);
+  const { itemRefs: pillarRefs, visibleItems: pillarVisible } = useStaggerReveal(f.pillars.length, 0.15);
+
+  return (
+    <section
+      id="franquicias"
+      className="relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 scroll-mt-[120px] overflow-hidden"
+      style={{ background: "var(--bk)", color: "var(--wh)" }}
+    >
+      {/* Badge B2B flotante arriba-izquierda — diferencia visualmente */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-[340px] pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse at 50% 100%, rgba(220,175,100,0.12) 0%, rgba(220,175,100,0) 65%)",
+        }}
+      />
+
+      <div ref={ref} className="relative z-10 max-w-[1400px] mx-auto">
+        {/* Header */}
+        <div
+          className="text-center mb-14 max-[960px]:mb-10"
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? "none" : "translateY(20px)",
+            transition: "all 1s cubic-bezier(.16,1,.3,1)",
+          }}
+        >
+          <div className="inline-flex items-center gap-2 border border-[var(--g1)]/35 px-3 py-1.5 mb-5" style={{ borderRadius: 2 }}>
+            <span className="w-[5px] h-[5px] rounded-full bg-[var(--g1)]" aria-hidden />
+            <span className="text-[10px] font-bold tracking-[2.5px] uppercase text-[var(--g1)]">
+              {f.eyebrow}
+            </span>
+          </div>
+          <h2 className="font-bold text-[clamp(40px,6vw,80px)] uppercase tracking-[-2px] leading-[1.02]">
+            {f.headingPre}
+            <span className="italic font-[var(--font-serif)] normal-case tracking-[-1px] text-[var(--g1)]">
+              {f.headingAccent}
+            </span>
+          </h2>
+          <p className="mt-5 max-w-[700px] mx-auto text-[14px] max-[640px]:text-[13px] leading-[1.55] opacity-72">
+            {f.lede}
+          </p>
+        </div>
+
+        {/* Pillars 4 cols */}
+        <div className="grid grid-cols-4 max-[960px]:grid-cols-2 max-[640px]:grid-cols-1 gap-4 mb-16 max-[960px]:mb-12">
+          {f.pillars.map((p, i) => (
+            <div
+              key={p.num}
+              ref={(el) => { pillarRefs.current[i] = el; }}
+              className="relative border border-white/[.07] hover:border-[var(--g1)]/35 transition-colors duration-500 p-6 max-[960px]:p-5"
+              style={{
+                background: "rgba(255,255,255,0.018)",
+                borderRadius: 2,
+                opacity: pillarVisible[i] ? 1 : 0,
+                transform: pillarVisible[i] ? "none" : "translateY(20px)",
+                transition: `all 0.85s cubic-bezier(.16,1,.3,1) ${i * 0.1}s`,
+              }}
+            >
+              <div className="flex items-baseline gap-3 mb-3">
+                <span className="font-extrabold text-[28px] leading-[1] tracking-[-0.5px] text-[var(--g1)]">
+                  {p.num}
+                </span>
+                <span className="h-px flex-1 bg-[var(--g1)]/25" aria-hidden />
+              </div>
+              <h4 className="font-bold text-[16px] tracking-[-0.3px] mb-2.5">
+                {p.title}
+              </h4>
+              <p className="text-[12.5px] opacity-68 leading-[1.55]">
+                {p.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* CTA block destacado */}
+        <div
+          className="relative border border-[var(--g1)]/30 overflow-hidden"
+          style={{
+            background:
+              "linear-gradient(135deg, rgba(220,175,100,0.06) 0%, rgba(10,10,10,0.4) 55%, rgba(220,175,100,0.08) 100%)",
+            borderRadius: 2,
+          }}
+        >
+          {/* Líneas doradas arriba y abajo */}
+          <span
+            aria-hidden
+            className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[var(--g1)] to-transparent"
+          />
+          <span
+            aria-hidden
+            className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[var(--g1)]/60 to-transparent"
+          />
+
+          <div className="grid grid-cols-[1.3fr_1fr] max-[960px]:grid-cols-1 gap-10 max-[960px]:gap-6 p-10 max-[960px]:p-6">
+            <div>
+              <div className="text-[11px] tracking-[3px] uppercase text-[var(--g1)] mb-3">
+                {f.ctaEyebrow}
+              </div>
+              <h3 className="font-bold text-[clamp(28px,4vw,48px)] tracking-[-1px] leading-[1.05] mb-4">
+                {f.ctaHeading}
+              </h3>
+              <p className="text-[13px] opacity-75 leading-[1.55] max-w-[460px]">
+                {f.ctaSub}
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-3 self-center max-[960px]:self-stretch">
+              <a
+                href={f.ctaPrimaryHref}
+                className="inline-flex items-center justify-center gap-2 text-[11px] font-bold tracking-[2.5px] uppercase text-black px-6 py-3.5 hover:gap-3 transition-all duration-300"
+                style={{
+                  background: "linear-gradient(135deg, #dcaf64, #b8943e)",
+                  borderRadius: 2,
+                }}
+              >
+                {f.ctaPrimary}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="M5 12h14" />
+                  <path d="M12 5l7 7-7 7" />
+                </svg>
+              </a>
+              <button
+                type="button"
+                disabled
+                title="Próximamente"
+                className="inline-flex items-center justify-center gap-2 text-[11px] font-bold tracking-[2.5px] uppercase text-[var(--g1)]/60 border border-[var(--g1)]/25 px-6 py-3.5 cursor-not-allowed"
+                style={{ borderRadius: 2 }}
+              >
+                {f.ctaSecondary}
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Disclaimer */}
+        <p className="text-center mt-8 text-[10.5px] tracking-[2px] uppercase opacity-45">
+          {f.disclaimer}
+        </p>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
    S6 — MÉTODO (timeline methodology)
    ═══════════════════════════════════════════════════════ */
 
@@ -2916,6 +3242,10 @@ export default function AcademyV2Page() {
            dark bg) so body goes dark invisibly while section is visible */
         <ScrollMarker index={3} to="dark" refs={markerRefs} />
       } />
+
+      <SelloSection />
+
+      <FranquiciasSection />
 
       <ProgramasGridSection />
 
