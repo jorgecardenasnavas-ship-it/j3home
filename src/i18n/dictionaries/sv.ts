@@ -723,7 +723,7 @@ export const sv = {
       specialtyAdultos: "Adultos",
       specialtyCompeticion: "Competici\u00F3n",
       badgeRecommended: "J3 Recommended",
-      badgeHq: "J3 Lab",
+      badgeHq: "Headquarter",
       askChatbot: "Pregunta a J3",
       viewProfile: "Ver perfil",
       viewAllCta: "Ver los {count} coaches",
