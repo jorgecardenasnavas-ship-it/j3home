@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useRef, useEffect, useMemo, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { Navbar } from "@/components/Navbar";
@@ -237,54 +236,6 @@ function Counter({ val, prefix, suffix, label, className }: { val: number; prefi
     <span ref={ref} className={className || "font-bold text-[clamp(36px,6vw,72px)] j3-grad-text leading-[1] block"}>
       {label || `${prefix || ""}${count}${suffix || ""}`}
     </span>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════
-   S1 — HERO CAROUSEL (3 slides: Juniors · Adultos · Intensive)
-   ═══════════════════════════════════════════════════════ */
-
-/* ── J3 Ball icon — extracted from logo-gold.svg ── */
-function J3Ball({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 -5 155 210"
-      className={className}
-      aria-hidden="true"
-    >
-      <defs>
-        <linearGradient id="j3bg" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#dcaf64" />
-          <stop offset=".23" stopColor="#eddb7e" />
-          <stop offset=".29" stopColor="#fff1b4" />
-          <stop offset=".59" stopColor="#eede80" />
-          <stop offset=".78" stopColor="#deb065" />
-          <stop offset="1" stopColor="#dcaf64" />
-        </linearGradient>
-      </defs>
-
-      {/* Wrapper group — shifts down to center ball at rest, up on hover to show full logo */}
-      <g className="j3-ball-content">
-        {/* ── Ball (always visible) ── */}
-        <g>
-          {/* Outer ring + seams */}
-          <path fill="url(#j3bg)" d="M74.13,0c-99.18,1.72-98.49,148.91-.03,150.44,99.53-2.75,98.92-148.04.03-150.44ZM131.88,86.77c-14.47,68.36-115.43,59.57-116.69-11.57C17.88-9.88,145.93,2.79,131.88,86.77Z" />
-          {/* Quadrant fills */}
-          <path fill="url(#j3bg)" d="M68.83,30.97c-19.79,1.66-37.93,20.27-39.09,40.06,25.38-.94,49.5,23.19,48.56,48.56,19.79-1.16,38.4-19.3,40.06-39.09-12.75.21-25.57-4.53-35.29-14.25-9.71-9.71-14.45-22.54-14.25-35.29Z" />
-          <path fill="url(#j3bg)" d="M77.28,30.77c-1.47,21.83,19.47,42.76,41.29,41.29-.69-20.97-20.33-40.6-41.29-41.29Z" />
-          <path fill="url(#j3bg)" d="M29.75,79.48c1.21,20.15,19.96,38.91,40.12,40.11.75-20.96-19.16-40.87-40.12-40.11Z" />
-          {/* Inner cutouts (background holes) */}
-          <path fill="var(--bk, #000)" d="M15.19,75.2c1.26,71.14,102.22,79.93,116.69,11.57C145.93,2.79,17.88-9.88,15.19,75.2ZM69.87,119.59c-20.15-1.21-38.9-19.97-40.12-40.11,20.96-.76,40.87,19.15,40.12,40.11ZM78.31,119.59c.93-25.37-23.19-49.5-48.56-48.56,1.16-19.79,19.29-38.4,39.09-40.06-.21,12.75,4.53,25.58,14.25,35.29,9.71,9.71,22.53,14.45,35.29,14.25-1.65,19.79-20.27,37.93-40.06,39.09ZM77.28,30.77c20.97.7,40.6,20.32,41.29,41.29-21.82,1.47-42.76-19.47-41.29-41.29Z" />
-        </g>
-
-        {/* ── Legs (hidden by default, visible on hover) ── */}
-        <g className="j3-ball-legs">
-          <path fill="url(#j3bg)" d="M24.26,200.51h25.34l9.18-43.08c-8.22-1.53-16.18-4.32-23.59-8.23l-10.93,51.31Z" />
-          <path fill="url(#j3bg)" d="M70.55,158.77l-8.88,41.75h25.33l9.52-44.72c-7.26,2.02-14.8,3.09-22.42,3.09-1.18,0-2.37-.07-3.55-.12Z" />
-          <path fill="url(#j3bg)" d="M127.02,140.02c-5.36,4.38-11.23,8.04-17.44,10.95l-10.53,49.56,25.35-.02,15.69-73.91c-3.83,4.92-8.2,9.44-13.07,13.42Z" />
-        </g>
-      </g>
-    </svg>
   );
 }
 
@@ -536,92 +487,10 @@ function ProgramBar() {
   );
 }
 
-type SlideImage = { src: string; pos: string; mobilePos?: string };
-
-const HERO_SLIDES: {
-  key: string;
-  images: SlideImage[];
-  labelKey: "juniorsLabel" | "adultosLabel" | "intensiveLabel";
-  tagline: string;
-  waMsg: string;
-}[] = [
-  {
-    key: "juniors",
-    images: [
-      { src: "/images/academy/kinder.jpeg", pos: "center", mobilePos: "70% center" },
-      { src: "/images/academy/kids.jpeg", pos: "center", mobilePos: "center 35%" },
-      { src: "/images/academy/gemita.jpeg", pos: "center 25%", mobilePos: "center 30%" },
-      { src: "/images/academy/nextgen.jpeg", pos: "center", mobilePos: "center 30%" },
-      { src: "/images/academy/nextgen-pro.jpeg", pos: "center 20%", mobilePos: "center 25%" },
-    ],
-    labelKey: "juniorsLabel" ,
-    tagline: "4 – 16+ años",
-    waMsg: "Hola, quiero info sobre los programas Juniors",
-  },
-  {
-    key: "adultos",
-    images: [
-      { src: "/images/academy/amateur.jpeg", pos: "center 5%", mobilePos: "center 20%" },
-      { src: "/images/academy/pro.jpeg", pos: "center", mobilePos: "center 25%" },
-      { src: "/images/academy/elena.jpeg", pos: "center 40%", mobilePos: "center 35%" },
-    ],
-    labelKey: "adultosLabel" ,
-    tagline: "Amateur · Pro",
-    waMsg: "Hola, quiero info sobre los programas Adultos",
-  },
-  {
-    key: "intensive",
-    images: [
-      { src: "/images/academy/stage-group.jpeg", pos: "center 28%", mobilePos: "42% 78%" },
-    ],
-    labelKey: "intensiveLabel" ,
-    tagline: "Camps · Stages · A medida",
-    waMsg: "Hola, quiero info sobre Intensive Training",
-  },
-];
-
-const AUTO_ADVANCE_MS = 3000;
-
 function HeroSection() {
   const { t } = useI18n();
-  const [active, setActive] = useState(0);
+  const isMobile = useIsMobile(960);
   const [ready, setReady] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 961);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
-  const [progress, setProgress] = useState(0);
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const progressRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  /* Rotate image when leaving a slide — wait for crossfade to finish */
-  const [imgIndex, setImgIndex] = useState<number[]>(HERO_SLIDES.map(() => 0));
-  const prevActive = useRef(0);
-  const rotateTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
-  useEffect(() => {
-    const leaving = prevActive.current;
-    prevActive.current = active;
-    if (leaving !== active && HERO_SLIDES[leaving].images.length > 1) {
-      /* Fire-and-forget: don't cancel on next active change */
-      const id = setTimeout(() => {
-        setImgIndex(prev => {
-          const next = [...prev];
-          next[leaving] = (next[leaving] + 1) % HERO_SLIDES[leaving].images.length;
-          return next;
-        });
-      }, 1300);
-      rotateTimers.current.push(id);
-    }
-    /* Cleanup only on unmount */
-    return undefined;
-  }, [active]);
-  /* Clear all timers on unmount */
-  useEffect(() => {
-    return () => { rotateTimers.current.forEach(clearTimeout); };
-  }, []);
 
   /* Boot animation delay */
   useEffect(() => {
@@ -629,340 +498,153 @@ function HeroSection() {
     return () => clearTimeout(id);
   }, []);
 
-  /* Start progress + auto-advance */
-  const startAutoPlay = () => {
-    if (progressRef.current) clearInterval(progressRef.current);
-    if (timerRef.current) clearInterval(timerRef.current);
-    setProgress(0);
-    const step = 50; /* update every 50ms */
-    const steps = AUTO_ADVANCE_MS / step;
-    let tick = 0;
-    progressRef.current = setInterval(() => {
-      tick++;
-      setProgress(tick / steps);
-      if (tick >= steps) {
-        if (progressRef.current) clearInterval(progressRef.current);
-      }
-    }, step);
-    timerRef.current = setInterval(() => {
-      setActive(prev => (prev + 1) % HERO_SLIDES.length);
-    }, AUTO_ADVANCE_MS);
+  /* ── Filtros aplicados al mapa y al contador ── */
+  const allCoaches = useMemo(() => sortCoaches(COACHES), []);
+  const [country, setCountry] = useState<string>("all");
+  const [language, setLanguage] = useState<string>("all");
+  const [specialty, setSpecialty] = useState<string>("all");
+
+  const filtered = useMemo(
+    () => filterCoaches(allCoaches, { country, language, specialty }),
+    [allCoaches, country, language, specialty],
+  );
+
+  const specialtyLabel = (s: CoachSpecialty) =>
+    s === "juniors"
+      ? t.academy.network.specialtyJuniors
+      : s === "adultos"
+      ? t.academy.network.specialtyAdultos
+      : t.academy.network.specialtyCompeticion;
+
+  const mapLabels = {
+    badgeHq: t.academy.network.badgeHq,
+    badgeRecommended: t.academy.network.badgeRecommended,
+    askChatbot: t.academy.network.askChatbot,
   };
 
-  useEffect(() => {
-    startAutoPlay();
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-      if (progressRef.current) clearInterval(progressRef.current);
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  /* Contador — "{count} coaches · {countries} ciudades" */
+  const uniqueCities = useMemo(
+    () => new Set(filtered.map((c) => `${c.location.city}|${c.location.country}`)).size,
+    [filtered],
+  );
+  const countLine = t.academy.hero.countTemplate
+    .replace("{count}", filtered.length.toString())
+    .replace("{countries}", uniqueCities.toString());
 
-  /* Restart progress bar on slide change */
-  useEffect(() => {
-    setProgress(0);
-    if (progressRef.current) clearInterval(progressRef.current);
-    const step = 50;
-    const steps = AUTO_ADVANCE_MS / step;
-    let tick = 0;
-    progressRef.current = setInterval(() => {
-      tick++;
-      setProgress(tick / steps);
-      if (tick >= steps) {
-        if (progressRef.current) clearInterval(progressRef.current);
-      }
-    }, step);
-    return () => { if (progressRef.current) clearInterval(progressRef.current); };
-  }, [active]);
-
-  const goTo = (i: number) => {
-    setActive(i);
-    if (timerRef.current) clearInterval(timerRef.current);
-    timerRef.current = setInterval(() => {
-      setActive(prev => (prev + 1) % HERO_SLIDES.length);
-    }, AUTO_ADVANCE_MS);
+  const handleScrollToNetwork = () => {
+    document.getElementById("network")?.scrollIntoView({ behavior: "smooth" });
   };
 
-  /* Touch swipe support */
-  const touchRef = useRef<{ x: number; y: number } | null>(null);
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-  };
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (!touchRef.current) return;
-    const dx = e.changedTouches[0].clientX - touchRef.current.x;
-    const dy = e.changedTouches[0].clientY - touchRef.current.y;
-    touchRef.current = null;
-    if (Math.abs(dx) < 50 || Math.abs(dy) > Math.abs(dx)) return; /* too short or vertical */
-    if (dx < 0) goTo((active + 1) % HERO_SLIDES.length); /* swipe left → next */
-    else goTo((active - 1 + HERO_SLIDES.length) % HERO_SLIDES.length); /* swipe right → prev */
+  const handleFocusLab = () => {
+    window.dispatchEvent(
+      new CustomEvent("j3:map:focus", { detail: { slug: "j3-hq-malaga" } }),
+    );
   };
 
-  const labels: Record<string, string> = {
-    juniorsLabel: t.academy.programs.juniorsLabel,
-    adultosLabel: t.academy.programs.adultosLabel,
-    intensiveLabel: t.academy.programs.intensiveLabel,
-  };
-
-  /* Keyboard navigation */
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "ArrowRight") goTo((active + 1) % HERO_SLIDES.length);
-    else if (e.key === "ArrowLeft") goTo((active - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
-  };
-
-  /* Reduced motion preference */
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPrefersReducedMotion(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
+  /* Mapa centrado en Málaga (Lab) como epicentro. */
+  const mapCenter: [number, number] = [36.72, -4.42];
+  const mapZoom = isMobile ? 5 : 6;
 
   return (
     <section
-      className="relative h-screen min-h-[580px] overflow-hidden bg-black"
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-      onKeyDown={handleKeyDown}
-      tabIndex={0}
+      className="relative overflow-hidden bg-black min-h-[640px] min-[961px]:h-screen min-[961px]:min-h-[720px]"
       role="region"
-      aria-label="Hero carousel"
+      aria-label="Academy J3 hero"
+      style={{
+        opacity: ready ? 1 : 0,
+        transition: "opacity .8s ease .2s",
+      }}
     >
-      {/* ── Slides — crossfade stack ── */}
-      {HERO_SLIDES.map((slide, i) => (
-        <div
-          key={slide.key}
-          className="absolute inset-0 overflow-hidden"
-          style={{
-            opacity: active === i ? 1 : 0,
-            transition: prefersReducedMotion ? "opacity 0.01s" : "opacity 1.2s ease",
-            zIndex: active === i ? 1 : 0,
-          }}
-        >
-          <Image
-            src={slide.images[imgIndex[i]].src}
-            alt={labels[slide.labelKey]}
-            fill
-            sizes="100vw"
-            quality={90}
-            priority={i === 0}
-            className={`object-cover ${prefersReducedMotion ? "" : "transition-transform duration-[7000ms] ease-out"}`}
-            style={{
-              opacity: 0.7,
-              filter: isMobile
-                ? "saturate(0.88) brightness(0.98) contrast(0.98)"
-                : "saturate(0.9) brightness(1) contrast(0.97)",
-              transform: !prefersReducedMotion && active === i ? "scale(1.08)" : "scale(1)",
-              objectPosition: (isMobile && slide.images[imgIndex[i]].mobilePos) || slide.images[imgIndex[i]].pos,
-            }}
-          />
-          {/* Gradient overlay — stronger on mobile for outdoor readability */}
-          <div
-            className="absolute inset-0"
-            style={{
-              background: isMobile
-                ? slide.key === "intensive"
-                  ? "linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.45) 35%, rgba(0,0,0,.12) 55%, rgba(0,0,0,.12) 100%)"
-                  : "linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.38) 40%, rgba(0,0,0,.12) 100%)"
-                : slide.key === "intensive"
-                  ? "linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.45) 35%, rgba(0,0,0,.08) 55%, rgba(0,0,0,.10) 100%)"
-                  : "linear-gradient(to top, rgba(0,0,0,.90) 0%, rgba(0,0,0,.40) 40%, rgba(0,0,0,.15) 100%)",
-            }}
-          />
-        </div>
-      ))}
+      <div className="relative w-full h-full min-[961px]:absolute min-[961px]:inset-0 flex flex-col min-[961px]:flex-row">
+        {/* ── Copy column (40%) ── */}
+        <div className="relative z-10 w-full min-[961px]:w-[40%] flex flex-col justify-center px-6 max-[960px]:px-5 py-16 max-[960px]:py-12 min-[961px]:px-10 min-[961px]:py-16 border-r border-white/[.06]">
+          <div className="max-w-[460px] mx-auto min-[961px]:mx-0">
+            <span className="text-[10px] font-medium tracking-[5px] uppercase text-[var(--g1)] block mb-4 max-[960px]:text-[10px] max-[960px]:tracking-[3px]">
+              {t.academy.hero.eyebrow}
+            </span>
 
-      {/* ── Content — lower center ── */}
-      <div
-        className="absolute inset-0 z-10 flex flex-col justify-end"
-        style={{
-          opacity: ready ? 1 : 0,
-          transition: "opacity .8s ease .3s",
-        }}
-      >
-        <div className="px-12 max-[960px]:px-6 pb-[120px] min-[961px]:pb-[100px] w-full max-w-[1200px] mx-auto text-center">
-          {/* Slide content — crossfade */}
-          <div className="relative min-h-[180px] max-[960px]:min-h-[160px]">
-            {HERO_SLIDES.map((slide, i) => (
-              <div
-                key={slide.key}
-                className="absolute inset-0 flex flex-col justify-end items-center"
-                style={{
-                  opacity: active === i ? 1 : 0,
-                  transform: prefersReducedMotion
-                    ? undefined
-                    : active === i ? "translateY(0) scale(1)" : "translateY(24px) scale(0.97)",
-                  filter: prefersReducedMotion
-                    ? undefined
-                    : active === i ? "blur(0px)" : "blur(6px)",
-                  transition: prefersReducedMotion
-                    ? "opacity 0.01s"
-                    : active === i
-                      ? "opacity .8s ease, transform .9s cubic-bezier(.16,1,.3,1), filter .8s ease"
-                      : "opacity .5s ease, transform .5s ease, filter .5s ease",
-                  pointerEvents: active === i ? "auto" : "none",
-                  visibility: active === i ? "visible" : "hidden",
-                }}
+            <h1 className="font-bold uppercase tracking-[-2px] leading-[.92] text-white text-[clamp(44px,7vw,92px)] max-[960px]:text-[clamp(40px,11vw,72px)]">
+              {t.academy.hero.heading}
+            </h1>
+
+            <p className="mt-5 text-[15px] max-[960px]:text-[14px] leading-[1.5] text-white/75 max-w-[420px]">
+              {t.academy.hero.sub}
+            </p>
+
+            {/* CTAs */}
+            <div className="mt-7 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+              <button
+                type="button"
+                onClick={handleScrollToNetwork}
+                className="group/cta inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] text-black text-[12px] font-bold tracking-[2.5px] uppercase transition-transform duration-500 hover:scale-[1.02]"
               >
-                {/* Tag */}
-                <span
-                  className="text-[12px] font-medium tracking-[5px] uppercase text-[var(--g1)] block mb-3 max-[960px]:text-[11px] max-[960px]:tracking-[3px]"
-                  style={isMobile ? { textShadow: "0 1px 8px rgba(0,0,0,.7)" } : undefined}
-                >
-                  {slide.tagline}
-                </span>
+                {t.academy.hero.ctaPrimary}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14" />
+                  <path d="M12 5l7 7-7 7" />
+                </svg>
+              </button>
 
-                {/* Title — only active slide is h1 for SEO */}
-                {active === i ? (
-                  <h1
-                    className={`font-bold uppercase tracking-[-3px] leading-[.90] text-[var(--wh)] ${
-                      slide.key === "intensive"
-                        ? "text-[clamp(40px,8vw,100px)] max-[960px]:text-[clamp(36px,11vw,72px)]"
-                        : "text-[clamp(56px,10vw,140px)] max-[960px]:text-[clamp(44px,14vw,100px)]"
-                    }`}
-                    style={isMobile ? { textShadow: "0 2px 16px rgba(0,0,0,.8), 0 0 40px rgba(0,0,0,.4)" } : undefined}
-                  >
-                    {labels[slide.labelKey]}
-                  </h1>
-                ) : (
-                  <span
-                    aria-hidden="true"
-                    className={`block font-bold uppercase tracking-[-3px] leading-[.90] text-[var(--wh)] ${
-                      slide.key === "intensive"
-                        ? "text-[clamp(40px,8vw,100px)] max-[960px]:text-[clamp(36px,11vw,72px)]"
-                        : "text-[clamp(56px,10vw,140px)] max-[960px]:text-[clamp(44px,14vw,100px)]"
-                    }`}
-                    style={isMobile ? { textShadow: "0 2px 16px rgba(0,0,0,.8), 0 0 40px rgba(0,0,0,.4)" } : undefined}
-                  >
-                    {labels[slide.labelKey]}
-                  </span>
-                )}
+              <button
+                type="button"
+                onClick={handleFocusLab}
+                className="group/lab inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full border border-white/20 hover:border-[var(--g1)]/60 text-white hover:text-[var(--g1)] text-[12px] font-semibold tracking-[2px] uppercase transition-colors duration-500"
+              >
+                {t.academy.hero.ctaSecondary}
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-500 group-hover/lab:translate-x-1">
+                  <path d="M5 12h14" />
+                  <path d="M12 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Filtros compactos */}
+            <div className="mt-8 pt-7 border-t border-white/[.08]">
+              <span className="text-[10px] font-medium tracking-[4px] uppercase text-white/50 block mb-3">
+                {t.academy.hero.filtersTitle}
+              </span>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <FilterSelect
+                  label={t.academy.network.filterCountry}
+                  value={country}
+                  onChange={setCountry}
+                  options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_COUNTRIES.map(c => ({ value: c, label: c }))]}
+                />
+                <FilterSelect
+                  label={t.academy.network.filterLanguage}
+                  value={language}
+                  onChange={setLanguage}
+                  options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_LANGUAGES.map(l => ({ value: l, label: l.toUpperCase() }))]}
+                />
+                <FilterSelect
+                  label={t.academy.network.filterSpecialty}
+                  value={specialty}
+                  onChange={setSpecialty}
+                  options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_SPECIALTIES.map(s => ({ value: s, label: specialtyLabel(s) }))]}
+                />
               </div>
-            ))}
-          </div>
-
-          {/* CTA — scroll to programs (reference-style: ball left, text right) */}
-          <button
-            type="button"
-            onClick={(e) => {
-              const btn = e.currentTarget;
-              btn.classList.add("j3-cta-active");
-              setTimeout(() => {
-                btn.classList.remove("j3-cta-active");
-                document.getElementById("programas")?.scrollIntoView({ behavior: "smooth" });
-              }, 1200);
-            }}
-            className="group/cta j3-hero-cta relative inline-flex items-center cursor-pointer w-fit mx-auto mt-6 rounded-full border border-white/[.12] hover:border-[var(--g1)]/30 transition-all duration-700 ease-out"
-            style={{
-              background: "rgba(255,255,255,.04)",
-              backdropFilter: "blur(12px)",
-              padding: "6px 28px 6px 6px",
-            }}
-          >
-            {/* Ball container — circular, prominent */}
-            <span className="j3-hero-ball relative flex items-center justify-center w-[48px] h-[48px] max-[960px]:w-[42px] max-[960px]:h-[42px] rounded-full overflow-visible shrink-0"
-              style={{ background: "linear-gradient(135deg, rgba(220,175,100,.12) 0%, rgba(220,175,100,.04) 100%)" }}
-            >
-              <span className="j3-ball-wrap w-[32px] h-[32px] max-[960px]:w-[28px] max-[960px]:h-[28px] transition-all duration-700 ease-out">
-                <J3Ball className="w-full h-full" />
-              </span>
-              {/* Glow ring on hover */}
-              <span className="absolute inset-0 rounded-full opacity-0 group-hover/cta:opacity-100 transition-opacity duration-700"
-                style={{ boxShadow: "0 0 20px rgba(220,175,100,.25), inset 0 0 12px rgba(220,175,100,.08)" }} />
-            </span>
-
-            {/* Text right */}
-            <span className="flex flex-col ml-4 max-[960px]:ml-3 text-left">
-              <span
-                className="text-[13px] max-[960px]:text-[12px] font-semibold tracking-[2.5px] uppercase text-[var(--g1)] group-hover/cta:text-white transition-colors duration-500"
-                style={isMobile ? { textShadow: "0 1px 8px rgba(0,0,0,.6)" } : undefined}
-              >
-                {t.academy.hero.ctaLabel}
-              </span>
-              <span className="j3-cta-line h-[1.5px] w-full mt-[4px] bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] origin-left scale-x-[0.3] group-hover/cta:scale-x-100 transition-transform duration-700 ease-out" />
-            </span>
-
-            {/* Arrow hint — slides in on hover */}
-            <span className="j3-hero-arrow ml-3 max-[960px]:ml-2 opacity-0 -translate-x-2 group-hover/cta:opacity-70 group-hover/cta:translate-x-0 transition-all duration-500 ease-out">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--g1)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14" />
-                <path d="M12 5l7 7-7 7" />
-              </svg>
-            </span>
-          </button>
-
-          {/* ── Leg navigation (3 patas del logo — progress fill) ── */}
-          <div className="flex items-end justify-center gap-[4px] mt-8 min-[961px]:scale-[1.3] min-[961px]:mt-10">
-            {HERO_SLIDES.map((_, i) => {
-              const isActive = active === i;
-              const isPast = i < active;
-              /* Real leg paths from the J3 logo, translated to own viewBox */
-              const paths = [
-                "M0,51.31h25.34l9.18-43.08c-8.22-1.53-16.18-4.32-23.59-8.23L0,51.31Z",
-                "M8.88,2.97l-8.88,41.75h25.33l9.52-44.72c-7.26,2.02-14.8,3.09-22.42,3.09-1.18,0-2.37-.07-3.55-.12Z",
-                "M27.97,13.42c-5.36,4.38-11.23,8.04-17.44,10.95L0,73.93l25.35-.02L41.04,0c-3.83,4.92-8.2,9.44-13.07,13.42Z",
-              ];
-              const widths = [35, 35, 42];
-              const heights = [52, 45, 74];
-              /* Fill from bottom: clipPath reveals gold as progress advances */
-              const fillPct = isActive ? progress : isPast ? 1 : 0;
-              return (
-                <button
-                  key={i}
-                  aria-label={`Slide ${i + 1}`}
-                  onClick={() => goTo(i)}
-                  className="transition-all duration-500 ease-out"
-                  style={{
-                    opacity: isActive || isPast ? 1 : 0.4,
-                    transform: isActive ? "scaleY(1.1)" : "scaleY(1)",
-                    transformOrigin: "bottom",
-                  }}
-                >
-                  <svg width={14} height={Math.round(heights[i] * 14 / widths[i])} viewBox={`0 0 ${widths[i]} ${heights[i]}`}>
-                    <defs>
-                      <linearGradient id={`legGold${i}`} x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0" stopColor="#dcaf64" />
-                        <stop offset=".5" stopColor="#fff1b4" />
-                        <stop offset="1" stopColor="#dcaf64" />
-                      </linearGradient>
-                      <clipPath id={`legClip${i}`}>
-                        <rect x="0" y={heights[i] * (1 - fillPct)} width={widths[i]} height={heights[i] * fillPct} />
-                      </clipPath>
-                    </defs>
-                    {/* Base — white subtle */}
-                    <path d={paths[i]} fill="rgba(255,255,255,0.25)" />
-                    {/* Gold fill — clipped by progress */}
-                    <path d={paths[i]} fill={`url(#legGold${i})`} clipPath={`url(#legClip${i})`} />
-                  </svg>
-                </button>
-              );
-            })}
+              <p className="mt-4 text-[11px] tracking-[2px] uppercase text-white/55">
+                {countLine}
+              </p>
+            </div>
           </div>
         </div>
 
-        {/* ── Bottom banner — "repetir · ajustar · avanzar" ── */}
-        <div className="absolute bottom-0 left-0 w-full z-20 border-t border-white/[.06]" style={{ background: isMobile ? "linear-gradient(to top, rgba(0,0,0,.75) 0%, rgba(0,0,0,.3) 100%)" : "linear-gradient(to top, rgba(0,0,0,.6) 0%, transparent 100%)" }}>
-          <div className="flex items-center justify-center gap-8 max-[640px]:gap-5 py-5 max-[960px]:py-4">
-            {([t.academy.hero.titleLine1, t.academy.hero.titleLine2, t.academy.hero.titleLine3b] as string[]).map((word, i) => (
-              <span key={i} className="flex items-center gap-8 max-[640px]:gap-5">
-                {i > 0 && <span className="text-[var(--g1)]/40 text-[8px]">·</span>}
-                <button
-                  type="button"
-                  onClick={() => goTo(i)}
-                  className={`text-[13px] max-[640px]:text-[11px] tracking-[6px] max-[640px]:tracking-[3px] uppercase transition-all duration-700 cursor-pointer bg-transparent border-none p-0 ${
-                    i === 2
-                      ? `j3-grad-text font-[var(--font-serif)] italic normal-case tracking-[3px] max-[640px]:tracking-[1px] text-[15px] max-[640px]:text-[13px] ${active === i ? "opacity-100" : "opacity-60"}`
-                      : `font-semibold ${active === i ? "text-white opacity-100" : isMobile ? "text-white/50 hover:text-white/70" : "text-white/40 hover:text-white/70"}`
-                  }`}
-                  style={isMobile ? { textShadow: "0 1px 6px rgba(0,0,0,.5)" } : undefined}
-                >
-                  {word.replace(".", "")}
-                </button>
-              </span>
-            ))}
-          </div>
+        {/* ── Mapa column (60%) ── */}
+        <div className="relative w-full min-[961px]:w-[60%] h-[60vh] min-[961px]:h-auto min-[961px]:min-h-full">
+          <NetworkMap
+            coaches={filtered}
+            labels={mapLabels}
+            center={mapCenter}
+            zoom={mapZoom}
+            scrollWheelZoom={false}
+          />
+          {/* Subtle fade-left on desktop para fundir con copy column */}
+          <div
+            className="hidden min-[961px]:block absolute inset-y-0 left-0 w-[80px] pointer-events-none z-[450]"
+            style={{ background: "linear-gradient(to right, rgba(0,0,0,.55), transparent)" }}
+            aria-hidden
+          />
         </div>
       </div>
     </section>
@@ -2552,12 +2234,6 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
     [filtered, displayCount],
   );
 
-  const mapLabels = {
-    badgeHq: t.academy.network.badgeHq,
-    badgeRecommended: t.academy.network.badgeRecommended,
-    askChatbot: t.academy.network.askChatbot,
-  };
-
   const gridLabels = {
     badgeHq: t.academy.network.badgeHq,
     badgeRecommended: t.academy.network.badgeRecommended,
@@ -2681,24 +2357,6 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
             </span>
           </div>
         </a>
-      </div>
-
-      {/* Map block */}
-      <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto pb-12 max-[960px]:pb-10">
-        <div className="flex items-baseline flex-wrap gap-x-4 gap-y-1 mb-5">
-          <span className="text-[10px] font-bold tracking-[4px] uppercase text-[var(--g1)]">
-            {t.academy.network.mapLabel}
-          </span>
-          <span className="text-[12px] opacity-60" style={{ color: "var(--wh)" }}>
-            {t.academy.network.mapHint}
-          </span>
-        </div>
-        <div
-          className="relative overflow-hidden border border-white/[.08]"
-          style={{ height: "clamp(380px, 55vh, 620px)" }}
-        >
-          <NetworkMap coaches={filtered} labels={mapLabels} />
-        </div>
       </div>
 
       {/* Coaches grid */}

@@ -533,6 +533,14 @@ export const pt = {
       subtitleAfter: "de p\u00E1del",
       subtitleLocation: "na Costa del Sol",
       subtitleLine2: "Desde 2004 a treinar jogadores de todos os n\u00EDveis.",
+      eyebrow: "Onde treinar J3",
+      heading: "Academy J3",
+      sub: "O Lab em M\u00E1laga. A rede na tua cidade.",
+      ctaPrimary: "Encontrar coach J3 perto de ti",
+      ctaSecondary: "Treinar no J3 Lab",
+      filtersTitle: "Filtrar",
+      countTemplate: "{count} coaches \u00B7 {countries} cidades",
+      sedesNavLabel: "Sedes J3",
     },
 
     band: {
@@ -715,7 +723,7 @@ export const pt = {
       specialtyAdultos: "Adultos",
       specialtyCompeticion: "Competici\u00F3n",
       badgeRecommended: "J3 Recommended",
-      badgeHq: "J3 HQ",
+      badgeHq: "J3 Lab",
       askChatbot: "Pregunta a J3",
       viewProfile: "Ver perfil",
       viewAllCta: "Ver los {count} coaches",

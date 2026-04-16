@@ -271,6 +271,15 @@ export interface Dictionary {
       readonly subtitleAfter: string;
       readonly subtitleLocation: string;
       readonly subtitleLine2: string;
+      // ── Nuevo hero con mapa ──
+      readonly eyebrow: string;        // "Dónde entrenar J3"
+      readonly heading: string;         // "Academy J3"
+      readonly sub: string;             // "El Lab en Málaga. La red en tu ciudad."
+      readonly ctaPrimary: string;      // "Encontrar coach J3 cerca"
+      readonly ctaSecondary: string;    // "Entrenar en el J3 Lab"
+      readonly filtersTitle: string;    // "Filtrar"
+      readonly countTemplate: string;   // "{count} coaches · {countries} ciudades"
+      readonly sedesNavLabel: string;   // "Sedes J3"
     };
 
     band: {

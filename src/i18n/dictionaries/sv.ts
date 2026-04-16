@@ -533,6 +533,14 @@ export const sv = {
       subtitleAfter: "",
       subtitleLocation: "p\u00E5 Costa del Sol",
       subtitleLine2: "Sedan 2004 tr\u00E4nar vi spelare p\u00E5 alla niv\u00E5er.",
+      eyebrow: "Var du tr\u00E4nar J3",
+      heading: "Academy J3",
+      sub: "Labbet i M\u00E1laga. N\u00E4tverket i din stad.",
+      ctaPrimary: "Hitta en J3-coach n\u00E4ra dig",
+      ctaSecondary: "Tr\u00E4na p\u00E5 J3 Lab",
+      filtersTitle: "Filtrera",
+      countTemplate: "{count} coacher \u00B7 {countries} st\u00E4der",
+      sedesNavLabel: "J3-platser",
     },
 
     band: {
@@ -715,7 +723,7 @@ export const sv = {
       specialtyAdultos: "Adultos",
       specialtyCompeticion: "Competici\u00F3n",
       badgeRecommended: "J3 Recommended",
-      badgeHq: "J3 HQ",
+      badgeHq: "J3 Lab",
       askChatbot: "Pregunta a J3",
       viewProfile: "Ver perfil",
       viewAllCta: "Ver los {count} coaches",

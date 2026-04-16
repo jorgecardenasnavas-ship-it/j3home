@@ -13,6 +13,14 @@
 
 export type CoachSpecialty = "juniors" | "adultos" | "competicion";
 export type CoachTier = "hq" | "recommended" | "elite";
+/**
+ * Tipo de nodo dentro de la red J3:
+ *  - 'lab'     → J3 Lab (sede origen, solo Málaga).
+ *  - 'academy' → J3 Academy (franquicia llave en mano con marca J3).
+ *  - 'coach'   → Recomendado J3 (profesional individual con sello).
+ *  Default implícito cuando no se especifica: 'coach'.
+ */
+export type CoachType = "lab" | "academy" | "coach";
 
 export interface Coach {
   /** Identificador estable para keys/URLs (ej. "juan-lopez-madrid") */
@@ -42,6 +50,11 @@ export interface Coach {
   };
   /** Tier por defecto: "recommended". "hq" reservado para Málaga. */
   tier: CoachTier;
+  /**
+   * Tipo de nodo en la red. Default: 'coach'.
+   * El Lab (Málaga) va como 'lab'. Las franquicias como 'academy'.
+   */
+  type?: CoachType;
   /** Destacar en la home / como primer pin abierto */
   featured?: boolean;
   /** Fecha ISO de alta en Coach360 (YYYY-MM-DD). Usada para ordenar dentro de cada tier. */
@@ -59,8 +72,8 @@ export const COACHES: readonly Coach[] = [
   // ── HQ ──
   {
     slug: "j3-hq-malaga",
-    name: "J3 Padel HQ",
-    role: "Headquarters",
+    name: "J3 Lab",
+    role: "Málaga · Headquarters",
     photo: "/images/academy/stage-group.jpeg",
     location: {
       city: "Málaga",
@@ -74,6 +87,7 @@ export const COACHES: readonly Coach[] = [
       instagram: "https://instagram.com/j3padel",
     },
     tier: "hq",
+    type: "lab",
     featured: true,
     joinedAt: "2005-01-01",
   },

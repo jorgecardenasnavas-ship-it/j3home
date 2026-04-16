@@ -533,6 +533,14 @@ export const en = {
       subtitleAfter: "",
       subtitleLocation: "on the Costa del Sol",
       subtitleLine2: "Training players of all levels since 2004.",
+      eyebrow: "Where to train J3",
+      heading: "Academy J3",
+      sub: "The Lab in M\u00E1laga. The network in your city.",
+      ctaPrimary: "Find a J3 coach near you",
+      ctaSecondary: "Train at the J3 Lab",
+      filtersTitle: "Filter",
+      countTemplate: "{count} coaches \u00B7 {countries} cities",
+      sedesNavLabel: "J3 Venues",
     },
 
     band: {
@@ -715,7 +723,7 @@ export const en = {
       specialtyAdultos: "Adultos",
       specialtyCompeticion: "Competici\u00F3n",
       badgeRecommended: "J3 Recommended",
-      badgeHq: "J3 HQ",
+      badgeHq: "J3 Lab",
       askChatbot: "Pregunta a J3",
       viewProfile: "Ver perfil",
       viewAllCta: "Ver los {count} coaches",

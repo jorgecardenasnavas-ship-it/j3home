@@ -533,6 +533,14 @@ export const fr = {
       subtitleAfter: "de padel",
       subtitleLocation: "sur la Costa del Sol",
       subtitleLine2: "Depuis 2004, nous formons des joueurs de tous niveaux.",
+      eyebrow: "O\u00F9 s'entra\u00EEner J3",
+      heading: "Academy J3",
+      sub: "Le Lab \u00E0 M\u00E1laga. Le r\u00E9seau dans ta ville.",
+      ctaPrimary: "Trouver un coach J3 pr\u00E8s de chez toi",
+      ctaSecondary: "S'entra\u00EEner au J3 Lab",
+      filtersTitle: "Filtrer",
+      countTemplate: "{count} coaches \u00B7 {countries} villes",
+      sedesNavLabel: "Sites J3",
     },
 
     band: {
@@ -715,7 +723,7 @@ export const fr = {
       specialtyAdultos: "Adultos",
       specialtyCompeticion: "Competici\u00F3n",
       badgeRecommended: "J3 Recommended",
-      badgeHq: "J3 HQ",
+      badgeHq: "J3 Lab",
       askChatbot: "Pregunta a J3",
       viewProfile: "Ver perfil",
       viewAllCta: "Ver los {count} coaches",
