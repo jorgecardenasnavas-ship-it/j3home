@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import CoachCard from "@/components/CoachCard";
+import { FilterSelect } from "@/components/FilterSelect";
 import { useI18n } from "@/i18n/context";
 import {
   COACHES,
@@ -2508,35 +2509,6 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
 /* ═══════════════════════════════════════════════════════
    S5b — NETWORK (HQ Málaga + mapa + coaches + Coach360 CTA)
    ═══════════════════════════════════════════════════════ */
-
-interface FilterSelectProps {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  options: readonly { value: string; label: string }[];
-}
-
-function FilterSelect({ label, value, onChange, options }: FilterSelectProps) {
-  return (
-    <label className="inline-flex items-center gap-2 border theme-border px-3 py-2 hover:border-[var(--g1)]/40 transition-colors duration-300" style={{ borderRadius: 2 }}>
-      <span className="text-[9px] font-bold tracking-[2px] uppercase text-[var(--g1)]">
-        {label}
-      </span>
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="bg-transparent border-none outline-none text-[12px] font-medium cursor-pointer"
-        style={{ color: "var(--wh)" }}
-      >
-        {options.map(opt => (
-          <option key={opt.value} value={opt.value} style={{ background: "#0a0a0a", color: "#f5f0e8" }}>
-            {opt.label}
-          </option>
-        ))}
-      </select>
-    </label>
-  );
-}
 
 function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const { t } = useI18n();
