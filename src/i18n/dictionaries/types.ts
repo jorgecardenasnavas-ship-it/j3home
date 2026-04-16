@@ -399,6 +399,8 @@ export interface Dictionary {
       readonly badgeHq: string;
       readonly askChatbot: string;
       readonly viewProfile: string;
+      readonly viewAllCta: string;       // "Ver los {count} coaches"
+      readonly viewFilteredCta: string;  // "Ver los {count} resultados completos"
       readonly coachCta: {
         readonly eyebrow: string;
         readonly title: string;
@@ -406,6 +408,16 @@ export interface Dictionary {
         readonly cta: string;
         readonly href: string;
       };
+    };
+
+    coachesPage: {
+      readonly metaTitle: string;
+      readonly metaDescription: string;
+      readonly heading: string;
+      readonly statsTemplate: string;    // "{coaches} coaches · {countries} países · {languages} idiomas"
+      readonly emptyTitle: string;
+      readonly emptyCta: string;
+      readonly backLink: string;
     };
 
     method: {

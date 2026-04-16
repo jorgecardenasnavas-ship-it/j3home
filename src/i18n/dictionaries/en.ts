@@ -718,6 +718,8 @@ export const en = {
       badgeHq: "J3 HQ",
       askChatbot: "Pregunta a J3",
       viewProfile: "Ver perfil",
+      viewAllCta: "Ver los {count} coaches",
+      viewFilteredCta: "Ver los {count} resultados completos",
       coachCta: {
         eyebrow: "\u00BFEres coach?",
         title: "Sube al sello J3.",
@@ -725,6 +727,16 @@ export const en = {
         cta: "Entrar a Coach360",
         href: "https://j3padel.com/join",
       },
+    },
+
+    coachesPage: {
+      metaTitle: "Coaches J3 \u00B7 Directorio completo",
+      metaDescription: "Red global de coaches certificados por J3. Filtra por pa\u00EDs, idioma o especialidad.",
+      heading: "Red J3 \u2014 directorio completo",
+      statsTemplate: "{coaches} coaches \u00B7 {countries} pa\u00EDses \u00B7 {languages} idiomas",
+      emptyTitle: "Ning\u00FAn coach coincide con tus filtros.",
+      emptyCta: "Quitar filtros",
+      backLink: "\u2190 Volver a Academy",
     },
 
     method: {
