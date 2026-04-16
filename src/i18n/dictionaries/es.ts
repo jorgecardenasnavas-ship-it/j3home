@@ -610,7 +610,7 @@ export const es = {
         {
           tag: "Programa mensual",
           title: "Amateur",
-          sub: "Entrena todo el a\u00F1o",
+          sub: "Entrena cada semana",
           ctaLabel: "Apuntarme",
           waMsg: "Hola, quiero info sobre el programa mensual de adultos",
         },
