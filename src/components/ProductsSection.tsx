@@ -242,7 +242,7 @@ export function ProductsSection() {
             >
               {card.buttons.map((btn, btnIdx) => (
                 <PillButton
-                  key={btn.href}
+                  key={`${btn.variant}-${btnIdx}`}
                   label={tCard.buttons[btnIdx]}
                   href={btn.href}
                   variant={btn.variant}
