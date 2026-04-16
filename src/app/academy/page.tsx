@@ -732,6 +732,8 @@ function HeroSection() {
             center={mapCenter}
             zoom={mapZoom}
             scrollWheelZoom={false}
+            floatingZoomControls
+            floatingZoomTopOffset={180}
           />
           {/* Subtle fade-left on desktop para fundir con copy column */}
           <div

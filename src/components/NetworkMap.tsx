@@ -13,7 +13,8 @@
    - coach    → Recomendado individual. Sobrio.
    ────────────────────────────────────────────── */
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import L from "leaflet";
 import { MapContainer, TileLayer, Marker, Popup, useMap, ZoomControl } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -191,6 +192,102 @@ function MapFocusListener({
   return null;
 }
 
+/**
+ * Controles de zoom flotantes con `position:fixed` (vía createPortal
+ * a document.body para escapar de cualquier containing block del
+ * wrapper del mapa — en el hero, el wrapper tiene `contain:layout
+ * paint` que de otro modo atraparía los controles).
+ *
+ * Con IntersectionObserver sobre el MapContainer: los controles sólo
+ * se pintan cuando el mapa está parcialmente visible en el viewport.
+ * Así no aparecen botones de zoom cuando el usuario ha scrolleado
+ * fuera del mapa.
+ *
+ * `topOffset` en px — distancia desde el top del viewport donde
+ * anclar los controles. Para el hero de /academy, el valor correcto
+ * es navbar (52px) + altura del sticky ProgramBar (~110px) + margen
+ * = ~180px.
+ */
+function FloatingZoomControls({ topOffset = 180 }: { topOffset?: number }) {
+  const map = useMap();
+  const [visible, setVisible] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    const container = map.getContainer();
+    if (!container) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setVisible(entry.isIntersecting),
+      { threshold: 0, rootMargin: "-80px 0px -80px 0px" },
+    );
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [map]);
+
+  if (!mounted || typeof document === "undefined") return null;
+  if (!visible) return null;
+
+  const btnBase: React.CSSProperties = {
+    width: 36,
+    height: 36,
+    background: "rgba(10,10,10,0.92)",
+    color: "#dcaf64",
+    border: "none",
+    cursor: "pointer",
+    fontSize: 18,
+    fontWeight: 300,
+    lineHeight: "36px",
+    padding: 0,
+    transition: "background .18s ease, color .18s ease",
+  };
+
+  return createPortal(
+    <div
+      role="group"
+      aria-label="Zoom controls"
+      style={{
+        position: "fixed",
+        top: topOffset,
+        right: 16,
+        zIndex: 95,
+        display: "flex",
+        flexDirection: "column",
+        border: "1px solid rgba(220,175,100,0.3)",
+        borderRadius: 2,
+        overflow: "hidden",
+        boxShadow: "0 4px 18px rgba(0,0,0,0.5)",
+        backdropFilter: "blur(4px)",
+      }}
+    >
+      <button
+        type="button"
+        onClick={() => map.zoomIn()}
+        aria-label="Acercar"
+        style={{ ...btnBase, borderBottom: "1px solid rgba(220,175,100,0.15)" }}
+        onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(220,175,100,0.14)"; e.currentTarget.style.color = "#f0c478"; }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(10,10,10,0.92)"; e.currentTarget.style.color = "#dcaf64"; }}
+      >
+        +
+      </button>
+      <button
+        type="button"
+        onClick={() => map.zoomOut()}
+        aria-label="Alejar"
+        style={btnBase}
+        onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(220,175,100,0.14)"; e.currentTarget.style.color = "#f0c478"; }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(10,10,10,0.92)"; e.currentTarget.style.color = "#dcaf64"; }}
+      >
+        −
+      </button>
+    </div>,
+    document.body,
+  );
+}
+
 interface NetworkMapProps {
   /** Lista de coaches a pintar. La página pasa la lista ya filtrada. */
   coaches: readonly Coach[];
@@ -202,6 +299,14 @@ interface NetworkMapProps {
   zoom?: number;
   /** Permitir scroll-zoom (útil cuando el mapa ocupa la mayor parte del viewport). */
   scrollWheelZoom?: boolean;
+  /**
+   * Si true, usa controles de zoom flotantes (position:fixed via portal)
+   * con offset para no quedar tapados por sticky nav. Para el hero.
+   * Si false (default), usa el ZoomControl nativo de Leaflet en topright.
+   */
+  floatingZoomControls?: boolean;
+  /** Offset top para los controles flotantes, en px. Default 180 (navbar + sticky + margen). */
+  floatingZoomTopOffset?: number;
   labels: {
     badgeHq: string;
     badgeRecommended: string;
@@ -256,6 +361,8 @@ export default function NetworkMap({
   center = [42, 5],
   zoom = 4,
   scrollWheelZoom = false,
+  floatingZoomControls = false,
+  floatingZoomTopOffset = 180,
   labels,
 }: NetworkMapProps) {
   const coaches = useMemo(() => [...coachesProp], [coachesProp]);
@@ -290,11 +397,14 @@ export default function NetworkMap({
         worldCopyJump
         zoomControl={false}
       >
-        {/* Controles +/- en esquina superior derecha:
-            - Visibles nada más cargar el mapa (vs. bottomleft que
-              quedaba fuera del viewport inicial si el mapa es alto).
-            - Libres del sticky nav, que ocupa centro-izquierda. */}
-        <ZoomControl position="topright" />
+        {/* Controles de zoom: flotantes (portal al body, position:fixed)
+            cuando el mapa está bajo un sticky nav que lo taparía; nativos
+            de Leaflet (topright dentro del mapa) en cualquier otro caso. */}
+        {floatingZoomControls ? (
+          <FloatingZoomControls topOffset={floatingZoomTopOffset} />
+        ) : (
+          <ZoomControl position="topright" />
+        )}
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
