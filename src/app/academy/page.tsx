@@ -243,14 +243,80 @@ function Counter({ val, prefix, suffix, label, className }: { val: number; prefi
    PROGRAM BAR — Apple-style product navigation
    ═══════════════════════════════════════════════════════ */
 
-const PROGRAM_NAV = [
-  { name: "Kinder", img: "/images/academy/kinder.jpeg", target: "juniors", cardId: "card-kinder", tag: "4+" },
-  { name: "Kids", img: "/images/academy/kids.jpeg", target: "juniors", cardId: "card-kids", tag: "10+" },
-  { name: "Junior", img: "/images/academy/nextgen.jpeg", target: "juniors", cardId: "card-nextgen", tag: "14+" },
-  { name: "Next Gen", img: "/images/academy/nextgen-pro.jpeg", target: "juniors", cardId: "card-nextgenpro", tag: "16+" },
-  { name: "Tu Club", img: "/images/academy/amateur.jpeg", target: "adultos", cardId: "card-tuclub", tag: "Adultos" },
-  { name: "Intensive", img: "/images/academy/stage-group.jpeg", target: "intensive", cardId: "card-intensive", tag: "Camps" },
+/* Navegación sticky híbrida:
+   - Primer tramo: sedes J3 (hoy solo el Lab · Málaga). Click centra el mapa
+     en esa sede y vuelve al hero.
+   - Separador dorado.
+   - Segundo tramo: secciones navegables de la página (Coaches, Programas,
+     Coach360). Click = anchor scroll.
+   Cuando abramos franquicias, se añaden al array de sedes sin cambiar nada
+   más. La jerarquía visual (sede grande · sección pequeña) hace que el
+   inventario Lab/franquicia destaque sobre el resto. */
+
+type SedeItem = {
+  kind: "sede";
+  name: string;
+  sub: string;
+  slug: string;   // para j3:map:focus
+  img: string;
+};
+
+type SectionItem = {
+  kind: "section";
+  name: string;
+  anchor: string; // id HTML sin "#"
+};
+
+const STICKY_SEDES: SedeItem[] = [
+  { kind: "sede", name: "J3 Lab", sub: "Málaga", slug: "j3-hq-malaga", img: "/images/proof-players.jpg" },
 ];
+
+const STICKY_SECTIONS: SectionItem[] = [
+  { kind: "section", name: "Coaches",   anchor: "network" },
+  { kind: "section", name: "Programas", anchor: "programas" },
+  { kind: "section", name: "Coach360",  anchor: "coach360" },
+];
+
+/** Iconos gold para las secciones del sticky nav. */
+function SectionIcon({ name }: { name: string }) {
+  const common = {
+    width: 18,
+    height: 18,
+    viewBox: "0 0 24 24",
+    fill: "none" as const,
+    stroke: "var(--g1)",
+    strokeWidth: 1.5,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+  };
+  if (name === "network") {
+    return (
+      <svg {...common} aria-hidden>
+        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0Z" />
+        <circle cx="12" cy="10" r="3" />
+      </svg>
+    );
+  }
+  if (name === "programas") {
+    return (
+      <svg {...common} aria-hidden>
+        <path d="M12 2 3 7l9 5 9-5-9-5Z" />
+        <path d="m3 12 9 5 9-5" />
+        <path d="m3 17 9 5 9-5" />
+      </svg>
+    );
+  }
+  if (name === "coach360") {
+    return (
+      <svg {...common} aria-hidden>
+        <path d="m2 10 10-5 10 5-10 5-10-5Z" />
+        <path d="M6 12.5V16a6 6 0 0 0 12 0v-3.5" />
+        <path d="M22 10v6" />
+      </svg>
+    );
+  }
+  return null;
+}
 
 function ProgramBar() {
   const [compact, setCompact] = useState(false);
@@ -265,9 +331,8 @@ function ProgramBar() {
   });
 
   useEffect(() => {
-    /* Hysteresis thresholds: enter compact after a meaningful scroll,
-       exit compact only when scrolled nearly back to top. Prevents jitter
-       if the user hovers near the transition point. */
+    /* Hysteresis thresholds: enter compact después de scroll meaningful,
+       salir compact sólo cuando casi volvemos a top. Evita jitter. */
     const ENTER = 180;
     const EXIT = 80;
     const onScroll = () => {
@@ -296,14 +361,10 @@ function ProgramBar() {
     };
   }, [compact]);
 
-  /* Nudge animation retirada: el peek del siguiente círculo (width = 100vw/5.5)
-     ya sirve de hint visual y en móviles reales la animación era molesta. */
-
   /* Mouse drag-to-scroll (PC) */
   const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = scrollRef.current;
     if (!el) return;
-    /* Only left button */
     if (e.button !== 0) return;
     dragStateRef.current = {
       active: true,
@@ -311,7 +372,6 @@ function ProgramBar() {
       startScroll: el.scrollLeft,
       moved: false,
     };
-    /* Disable smooth scroll while dragging so scrollLeft follows the pointer 1:1 */
     el.style.scrollBehavior = "auto";
     el.style.cursor = "grabbing";
     e.preventDefault();
@@ -333,10 +393,25 @@ function ProgramBar() {
       el.style.cursor = "";
       el.style.scrollBehavior = "";
     }
-    /* Keep "moved" true for a tick so the click handler can see it */
     setTimeout(() => {
       dragStateRef.current.active = false;
     }, 0);
+  };
+
+  const handleClickSede = (sede: SedeItem) => {
+    if (dragStateRef.current.moved) { dragStateRef.current.moved = false; return; }
+    window.dispatchEvent(new CustomEvent("j3:map:focus", { detail: { slug: sede.slug } }));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleClickSection = (section: SectionItem) => {
+    if (dragStateRef.current.moved) { dragStateRef.current.moved = false; return; }
+    const el = document.getElementById(section.anchor);
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    /* 52px navbar + 60px sticky compact ≈ 112 → dejamos 120 de guarda. */
+    const top = rect.top + window.scrollY - 120;
+    window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
   };
 
   return (
@@ -345,7 +420,7 @@ function ProgramBar() {
         className="border-b border-white/[.06] relative"
         style={{ backgroundColor: "#121214", transition: "all 0.5s cubic-bezier(.16,1,.3,1)" }}
       >
-        {/* Left fade hint — narrow so previous circle is still visible */}
+        {/* Left fade hint */}
         <div
           className="pointer-events-none absolute top-0 bottom-0 left-0 w-5 z-10 min-[961px]:hidden"
           style={{
@@ -354,7 +429,7 @@ function ProgramBar() {
             transition: "opacity 0.3s ease",
           }}
         />
-        {/* Right fade hint — narrow so next circle is still visible */}
+        {/* Right fade hint */}
         <div
           className="pointer-events-none absolute top-0 bottom-0 right-0 w-5 z-10 min-[961px]:hidden"
           style={{
@@ -373,110 +448,117 @@ function ProgramBar() {
             className={`flex items-center gap-0 scrollbar-hide min-[961px]:justify-center select-none ${compact ? "overflow-hidden justify-center" : "overflow-x-auto"}`}
             style={{
               scrollBehavior: "smooth",
-              paddingTop: compact ? "0px" : "8px",
-              paddingBottom: compact ? "0px" : "8px",
+              paddingTop: compact ? "0px" : "10px",
+              paddingBottom: compact ? "0px" : "10px",
               cursor: compact ? "default" : "grab",
             }}
           >
-            {PROGRAM_NAV.map((p) => (
+            {/* ── SEDES — círculo destacado ── */}
+            {STICKY_SEDES.map((sede) => (
               <button
-                key={p.name}
+                key={sede.slug}
                 type="button"
-                onClick={() => {
-                  /* Suppress click if user was dragging */
-                  if (dragStateRef.current.moved) {
-                    dragStateRef.current.moved = false;
-                    return;
-                  }
-                  const isMobileView = window.innerWidth < 961;
-                  const cards = document.querySelectorAll(`[data-card-id="${p.cardId}"]`);
-                  /* Pick correct card: desktop = first (inside PorscheRow), mobile = last (inside ScrollCarousel) */
-                  const target = isMobileView
-                    ? Array.from(cards).pop()
-                    : Array.from(cards)[0];
-                  if (!target) {
-                    document.getElementById(p.target)?.scrollIntoView({ behavior: "smooth" });
-                    return;
-                  }
-
-                  if (isMobileView) {
-                    /* Mobile: scroll carousel horizontally + page vertically */
-                    const carousel = target.closest(".overflow-x-auto");
-                    if (carousel) {
-                      const cardWrapper = target.closest(".shrink-0") as HTMLElement;
-                      if (cardWrapper) {
-                        const scrollLeft = cardWrapper.offsetLeft - (carousel.clientWidth / 2) + (cardWrapper.offsetWidth / 2);
-                        carousel.scrollTo({ left: scrollLeft, behavior: "smooth" });
-                      }
-                      const cRect = carousel.getBoundingClientRect();
-                      const offset = 52 + 40;
-                      const top = cRect.top + window.scrollY - (window.innerHeight / 2) + (cRect.height / 2) + offset;
-                      window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
-                    }
-                  } else {
-                    /* Desktop: scroll page to center the card */
-                    const rect = target.getBoundingClientRect();
-                    const offset = 52 + 40;
-                    const top = rect.top + window.scrollY - (window.innerHeight / 2) + (rect.height / 2) + offset;
-                    window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
-                  }
-
-                  target.classList.add("j3-card-highlight");
-                  setTimeout(() => target.classList.remove("j3-card-highlight"), 3200);
-                }}
-                className="group/pnav flex flex-col items-center shrink-0 cursor-pointer transition-all duration-500 hover:opacity-100 opacity-70"
+                onClick={() => handleClickSede(sede)}
+                className="group/pnav flex flex-col items-center shrink-0 cursor-pointer transition-all duration-500 hover:opacity-100 opacity-95"
                 style={{
-                  /* Non-compact: ~4.5 items visible → 4 círculos completos + 50% del 5º
-                     asomando como peek claro que invita al scroll. En móviles estándar
-                     (360–430px) el 5º siempre queda cortado por la mitad.
-                     Compact: fit all 7 labels at once (buffer of 14px para scrollbars). */
                   width: compact
-                    ? "clamp(48px, calc((100vw - 14px) / 7), 90px)"
-                    : "clamp(74px, calc(100vw / 4.5), 110px)",
+                    ? "clamp(64px, calc((100vw - 14px) / 5.5), 120px)"
+                    : "clamp(96px, calc(100vw / 4.2), 130px)",
                   paddingTop: compact ? "6px" : undefined,
                   paddingBottom: compact ? "6px" : undefined,
                 }}
               >
-                {/* Thumbnail — hidden in compact mode */}
                 <div
                   className="j3-pnav-circle relative rounded-full"
                   style={{
                     width: compact ? "0px" : undefined,
                     height: compact ? "0px" : undefined,
                     opacity: compact ? 0 : 1,
-                    marginBottom: compact ? "0px" : "6px",
+                    marginBottom: compact ? "0px" : "7px",
                     transition: "all 0.5s cubic-bezier(.16,1,.3,1)",
-                    border: "1.75px solid rgba(220,175,100,1)",
-                    boxShadow: "0 0 10px rgba(220,175,100,.25), 0 0 3px rgba(220,175,100,.3)",
+                    border: "2px solid rgba(220,175,100,1)",
+                    boxShadow: "0 0 16px rgba(220,175,100,.35), 0 0 4px rgba(220,175,100,.4)",
                   }}
                 >
-                  <div className="w-[42px] h-[42px] min-[961px]:w-[52px] min-[961px]:h-[52px] rounded-full overflow-hidden">
+                  <div className="w-[54px] h-[54px] min-[961px]:w-[64px] min-[961px]:h-[64px] rounded-full overflow-hidden">
                     <img
-                      src={p.img}
-                      alt={p.name}
+                      src={sede.img}
+                      alt={sede.name}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover/pnav:scale-110"
-                      style={{ filter: "saturate(0.9) brightness(0.98) contrast(0.98)" }}
+                      style={{ filter: "saturate(0.95) brightness(1) contrast(0.98)" }}
                     />
                   </div>
                 </div>
-                {/* Name */}
                 <span
-                  className="font-semibold text-white/80 group-hover/pnav:text-[var(--g1)] transition-all duration-300 whitespace-nowrap leading-tight"
-                  style={{ fontSize: compact ? "10px" : undefined }}
+                  className="font-bold text-[var(--g1)] group-hover/pnav:text-white transition-all duration-300 whitespace-nowrap leading-tight uppercase tracking-[1.5px]"
+                  style={{ fontSize: compact ? "10px" : "11px" }}
                 >
-                  {p.name}
+                  {sede.name}
                 </span>
-                {/* Age tag — hidden in compact */}
                 <span
-                  className="text-[9px] min-[961px]:text-[10px] text-white/40 group-hover/pnav:text-white/60 transition-all duration-500"
+                  className="text-[9px] min-[961px]:text-[10px] text-white/50 transition-all duration-500"
                   style={{
                     maxHeight: compact ? "0px" : "20px",
                     opacity: compact ? 0 : 1,
-                    marginTop: compact ? "0px" : "1px",
+                    marginTop: compact ? "0px" : "2px",
                     overflow: "hidden",
                   }}
                 >
-                  {p.tag}
+                  {sede.sub}
+                </span>
+              </button>
+            ))}
+
+            {/* ── Separador gold sutil ── */}
+            <span
+              aria-hidden
+              className="shrink-0"
+              style={{
+                width: "1px",
+                height: compact ? "22px" : "56px",
+                margin: compact ? "0 10px" : "0 14px",
+                background: "linear-gradient(to bottom, transparent, rgba(220,175,100,.4), transparent)",
+                transition: "height 0.5s cubic-bezier(.16,1,.3,1)",
+              }}
+            />
+
+            {/* ── SECCIONES ── */}
+            {STICKY_SECTIONS.map((section) => (
+              <button
+                key={section.anchor}
+                type="button"
+                onClick={() => handleClickSection(section)}
+                className="group/pnav flex flex-col items-center shrink-0 cursor-pointer transition-all duration-500 hover:opacity-100 opacity-70"
+                style={{
+                  width: compact
+                    ? "clamp(52px, calc((100vw - 14px) / 6.5), 100px)"
+                    : "clamp(76px, calc(100vw / 5.2), 100px)",
+                  paddingTop: compact ? "6px" : undefined,
+                  paddingBottom: compact ? "6px" : undefined,
+                }}
+              >
+                <div
+                  className="j3-pnav-circle relative rounded-full flex items-center justify-center"
+                  style={{
+                    width: compact ? "0px" : undefined,
+                    height: compact ? "0px" : undefined,
+                    opacity: compact ? 0 : 1,
+                    marginBottom: compact ? "0px" : "7px",
+                    transition: "all 0.5s cubic-bezier(.16,1,.3,1)",
+                    border: "1px solid rgba(255,255,255,.16)",
+                  }}
+                >
+                  <div className="w-[42px] h-[42px] min-[961px]:w-[46px] min-[961px]:h-[46px] rounded-full flex items-center justify-center"
+                    style={{ background: "rgba(220,175,100,.05)" }}
+                  >
+                    <SectionIcon name={section.anchor} />
+                  </div>
+                </div>
+                <span
+                  className="font-semibold text-white/75 group-hover/pnav:text-[var(--g1)] transition-all duration-300 whitespace-nowrap leading-tight"
+                  style={{ fontSize: compact ? "10px" : "11px" }}
+                >
+                  {section.name}
                 </span>
               </button>
             ))}
@@ -2436,7 +2518,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
       </div>
 
       {/* Coach360 CTA */}
-      <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto pb-[80px] max-[960px]:pb-[56px]">
+      <div id="coach360" className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto pb-[80px] max-[960px]:pb-[56px] scroll-mt-[120px]">
         <a
           href={t.academy.network.coachCta.href}
           target="_blank"
