@@ -1862,10 +1862,13 @@ function PerfilesSection() {
               <span className="theme-eyebrow text-[10px] font-normal tracking-[5px] uppercase block mb-3">
                 {t.academy.programs.adultosInfoEyebrow}
               </span>
-              <h3 className="font-bold text-[clamp(28px,2.6vw,44px)] uppercase tracking-[-1px] leading-[1.05] mb-5">
+              <h3 className="font-bold text-[clamp(28px,2.6vw,44px)] uppercase tracking-[-1px] leading-[1.05] mb-4">
                 <span className="theme-text">{t.academy.programs.adultosInfoHeadingPre} </span>
                 <span className="j3-grad-text font-[var(--font-serif)] italic normal-case">{t.academy.programs.adultosInfoHeadingAccent}</span>
               </h3>
+              <p className="j3-grad-text font-[var(--font-serif)] italic text-[clamp(16px,1.2vw,20px)] leading-[1.2] mb-5">
+                {t.academy.programs.adultosInfoTagline}
+              </p>
               <p className="text-[15px] theme-text opacity-80 leading-[1.55] max-w-[460px] mb-6">
                 {t.academy.programs.adultosInfoDesc}
               </p>
@@ -1933,10 +1936,13 @@ function PerfilesSection() {
             <span className="theme-eyebrow text-[11px] font-normal tracking-[3px] uppercase block mb-3">
               {t.academy.programs.adultosInfoEyebrow}
             </span>
-            <h3 className="font-bold text-[clamp(24px,5vw,32px)] uppercase tracking-[-0.5px] leading-[1.1] mb-4">
+            <h3 className="font-bold text-[clamp(24px,5vw,32px)] uppercase tracking-[-0.5px] leading-[1.1] mb-3">
               <span className="theme-text">{t.academy.programs.adultosInfoHeadingPre} </span>
               <span className="j3-grad-text font-[var(--font-serif)] italic normal-case">{t.academy.programs.adultosInfoHeadingAccent}</span>
             </h3>
+            <p className="j3-grad-text font-[var(--font-serif)] italic text-[15px] leading-[1.2] mb-4">
+              {t.academy.programs.adultosInfoTagline}
+            </p>
             <p className="text-[14px] theme-text opacity-80 leading-[1.55] mb-5">
               {t.academy.programs.adultosInfoDesc}
             </p>

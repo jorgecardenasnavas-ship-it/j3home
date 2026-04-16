@@ -625,6 +625,7 @@ export const sv = {
       adultosInfoEyebrow: "Ordinarie skola",
       adultosInfoHeadingPre: "Amat\u00F6r-",
       adultosInfoHeadingAccent: "skolan.",
+      adultosInfoTagline: "Mejora con constancia.",
       adultosInfoDesc: "\u00C5rsprogram \u00F6ppet f\u00F6r alla niv\u00E5er. Din takt, din grupp, ditt schema.",
       adultosFeatures: [
         { label: "Niv\u00E5er", desc: "Nyb\u00F6rjare, medel, avancerad och t\u00E4vling" },

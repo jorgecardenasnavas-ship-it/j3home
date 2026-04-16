@@ -610,7 +610,7 @@ export const es = {
         {
           tag: "Programa mensual",
           title: "Amateur",
-          sub: "Entrena cada semana",
+          sub: "Tu rutina semanal",
           ctaLabel: "Apuntarme",
           waMsg: "Hola, quiero info sobre el programa mensual de adultos",
         },
@@ -618,6 +618,7 @@ export const es = {
       adultosInfoEyebrow: "Escuela regular",
       adultosInfoHeadingPre: "La escuela",
       adultosInfoHeadingAccent: "amateur.",
+      adultosInfoTagline: "Mejora con constancia.",
       adultosInfoDesc: "Programaci\u00F3n anual abierta a todos los niveles. Tu ritmo, tu grupo, tu horario.",
       adultosFeatures: [
         { label: "Niveles", desc: "Iniciaci\u00F3n, intermedio, avanzado y competici\u00F3n" },

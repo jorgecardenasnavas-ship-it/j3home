@@ -320,6 +320,7 @@ export interface Dictionary {
       readonly adultosInfoEyebrow: string;
       readonly adultosInfoHeadingPre: string;
       readonly adultosInfoHeadingAccent: string;
+      readonly adultosInfoTagline: string;
       readonly adultosInfoDesc: string;
       readonly adultosFeatures: readonly {
         readonly label: string;

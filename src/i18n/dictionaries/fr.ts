@@ -625,6 +625,7 @@ export const fr = {
       adultosInfoEyebrow: "\u00C9cole r\u00E9guli\u00E8re",
       adultosInfoHeadingPre: "L\u2019\u00E9cole",
       adultosInfoHeadingAccent: "amateur.",
+      adultosInfoTagline: "Mejora con constancia.",
       adultosInfoDesc: "Programme annuel ouvert \u00E0 tous les niveaux. Votre rythme, votre groupe, votre horaire.",
       adultosFeatures: [
         { label: "Niveaux", desc: "D\u00E9butant, interm\u00E9diaire, avanc\u00E9 et comp\u00E9tition" },

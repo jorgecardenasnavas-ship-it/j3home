@@ -625,6 +625,7 @@ export const en = {
       adultosInfoEyebrow: "Regular school",
       adultosInfoHeadingPre: "The amateur",
       adultosInfoHeadingAccent: "school.",
+      adultosInfoTagline: "Mejora con constancia.",
       adultosInfoDesc: "Year-round program open to all levels. Your pace, your group, your schedule.",
       adultosFeatures: [
         { label: "Levels", desc: "Beginner, intermediate, advanced and competition" },

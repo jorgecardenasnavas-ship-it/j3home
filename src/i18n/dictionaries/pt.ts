@@ -625,6 +625,7 @@ export const pt = {
       adultosInfoEyebrow: "Escola regular",
       adultosInfoHeadingPre: "A escola",
       adultosInfoHeadingAccent: "amateur.",
+      adultosInfoTagline: "Mejora con constancia.",
       adultosInfoDesc: "Programa anual aberto a todos os n\u00EDveis. O teu ritmo, o teu grupo, o teu hor\u00E1rio.",
       adultosFeatures: [
         { label: "N\u00EDveis", desc: "Inicia\u00E7\u00E3o, interm\u00E9dio, avan\u00E7ado e competi\u00E7\u00E3o" },
