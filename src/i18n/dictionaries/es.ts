@@ -805,7 +805,7 @@ export const es = {
       ctaHeading: "Hablemos.",
       ctaSub: "D\u00E9janos tus datos y un partner de J3 te contactar\u00E1 con el dossier completo.",
       ctaPrimary: "Solicitar informaci\u00F3n",
-      ctaPrimaryHref: "mailto:franquicias@j3padel.com?subject=Quiero%20informaci%C3%B3n%20sobre%20J3%20Academy",
+      ctaPrimaryHref: "mailto:partner@j3padel.com?subject=Quiero%20informaci%C3%B3n%20sobre%20J3%20Academy",
       ctaSecondary: "Descargar dossier",
       disclaimer: "Modelo en formaci\u00F3n. Primera convocatoria 2026.",
     },

@@ -812,7 +812,7 @@ export const sv = {
       ctaHeading: "L\u00E5t oss prata.",
       ctaSub: "L\u00E4mna dina uppgifter s\u00E5 h\u00F6r en J3-partner av sig med hela dokumentationen.",
       ctaPrimary: "Beg\u00E4r information",
-      ctaPrimaryHref: "mailto:franquicias@j3padel.com?subject=J3%20Academy%20informationsf%C3%B6rfr%C3%A5gan",
+      ctaPrimaryHref: "mailto:partner@j3padel.com?subject=J3%20Academy%20informationsf%C3%B6rfr%C3%A5gan",
       ctaSecondary: "Ladda ner dossier",
       disclaimer: "Modell under utveckling. F\u00F6rsta kullen 2026.",
     },

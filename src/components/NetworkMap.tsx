@@ -1,11 +1,22 @@
 "use client";
 
 /* ──────────────────────────────────────────────
-   NetworkMap — Leaflet + OpenStreetMap.
+   NetworkMap — Leaflet + OpenStreetMap + clustering.
    Solo se carga en el cliente (dynamic import
    con ssr:false desde la página).
-   Los pines usan divIcon con HTML inline para
-   que hereden la marca J3 (gold glow, monograma).
+
+   Clustering: leaflet.markercluster. A zoom bajo los
+   pines cercanos se agrupan en un círculo dorado con
+   el número de coaches dentro. Click en un cluster →
+   zoom automático al bound; si al zoom máximo siguen
+   pisándose (misma coord), el spiderfy despliega los
+   pines en forma de estrella.
+
+   Popup: renderToStaticMarkup convierte el JSX a HTML
+   estático que se bindea al marker. Los handlers
+   interactivos ("Pregunta a J3") se resuelven con
+   event delegation sobre el contenedor del mapa,
+   usando data-attributes.
 
    3 tipos visuales de marker:
    - lab      → Málaga. Grande, halo pulsante.
@@ -13,11 +24,14 @@
    - coach    → Recomendado individual. Sobrio.
    ────────────────────────────────────────────── */
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
+import { renderToStaticMarkup } from "react-dom/server";
 import L from "leaflet";
-import { MapContainer, TileLayer, Marker, Popup, useMap, ZoomControl } from "react-leaflet";
+import "leaflet.markercluster"; // side-effect: registra L.markerClusterGroup
+import { MapContainer, TileLayer, useMap, ZoomControl } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import "leaflet.markercluster/dist/MarkerCluster.css";
 import type { Coach } from "@/data/coaches";
 import { LanguageChip } from "@/components/LanguageChip";
 
@@ -137,6 +151,70 @@ const pinStyles = `
     opacity: 0.35 !important;
     cursor: not-allowed !important;
   }
+
+  /* ── Clusters (leaflet.markercluster) ── */
+  .j3-cluster {
+    background: transparent !important;
+    border: none !important;
+  }
+  .j3-cluster-inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    color: #0a0a0a;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    font-variant-numeric: tabular-nums;
+    background: radial-gradient(circle at 50% 50%, #f0c478 0%, #dcaf64 55%, #b8943e 100%);
+    transition: transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s ease;
+    cursor: pointer;
+  }
+  .j3-cluster-inner::after {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    border-radius: 999px;
+    border: 1px solid rgba(220,175,100,0.55);
+    pointer-events: none;
+  }
+  .j3-cluster-inner:hover {
+    transform: scale(1.08);
+  }
+  .j3-cluster-sm {
+    width: 32px;
+    height: 32px;
+    font-size: 13px;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.55), 0 3px 14px rgba(220,175,100,0.45);
+  }
+  .j3-cluster-md {
+    width: 40px;
+    height: 40px;
+    font-size: 15px;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.6), 0 5px 20px rgba(220,175,100,0.6);
+  }
+  .j3-cluster-lg {
+    width: 52px;
+    height: 52px;
+    font-size: 17px;
+    box-shadow: 0 0 0 3px rgba(0,0,0,0.65), 0 7px 28px rgba(220,175,100,0.75);
+  }
+  .j3-cluster-lg::before {
+    content: "";
+    position: absolute;
+    inset: -8px;
+    border-radius: 999px;
+    border: 1px solid rgba(220,175,100,0.4);
+    animation: j3PulseRing 2.6s ease-out infinite;
+    pointer-events: none;
+  }
+  /* Spiderfy: líneas doradas suaves */
+  .leaflet-cluster-spider-leg {
+    stroke: rgba(220,175,100,0.55) !important;
+    stroke-width: 1.2 !important;
+    stroke-opacity: 0.8 !important;
+  }
 `;
 
 function resolveKind(c: Coach): "lab" | "academy" | "coach" {
@@ -159,36 +237,339 @@ function makeIcon(kind: "lab" | "academy" | "coach"): L.DivIcon {
   });
 }
 
+interface PopupLabels {
+  badgeHq: string;
+  badgeRecommended: string;
+  askChatbot: string;
+}
+
 /**
- * Escucha el evento global `j3:map:focus` con `{ slug }` y hace fly+open
- * en el marker correspondiente. Permite que elementos fuera del mapa
- * (ej. el carrusel sticky de sedes) centren el mapa sin prop-drilling.
+ * Componente puro de popup — se renderiza a HTML estático
+ * con renderToStaticMarkup y se bindea al marker. Los
+ * handlers interactivos se conectan por event delegation
+ * (data-j3-ask-slug para "Pregunta a J3"; IG y Web son
+ * anchors nativos con target=_blank).
  */
-function MapFocusListener({
+function PopupContent({
+  coach: c,
+  labels,
+  kind,
+}: {
+  coach: Coach;
+  labels: PopupLabels;
+  kind: "lab" | "academy" | "coach";
+}) {
+  const initials = c.name.split(" ").map((w) => w[0]).slice(0, 2).join("");
+  return (
+    <div style={{ minWidth: 220 }}>
+      {/* Header: foto + nombre + tier */}
+      <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 8 }}>
+        {c.photo ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={c.photo}
+            alt=""
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: 999,
+              objectFit: "cover",
+              border: kind !== "coach" ? "2px solid #dcaf64" : "1px solid rgba(220,175,100,0.3)",
+              flexShrink: 0,
+            }}
+          />
+        ) : (
+          <div
+            aria-hidden
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: 999,
+              background: "rgba(220,175,100,0.08)",
+              border: "1px solid rgba(220,175,100,0.25)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: 14,
+              fontWeight: 700,
+              color: "#dcaf64",
+              letterSpacing: 1,
+              flexShrink: 0,
+            }}
+          >
+            {initials}
+          </div>
+        )}
+        <div style={{ minWidth: 0 }}>
+          <div
+            style={{
+              fontSize: 9,
+              letterSpacing: 2,
+              textTransform: "uppercase",
+              color: "#dcaf64",
+              marginBottom: 2,
+            }}
+          >
+            {kind === "lab" || kind === "academy" ? labels.badgeHq : labels.badgeRecommended}
+          </div>
+          <div style={{ fontWeight: 700, fontSize: 14, lineHeight: 1.15, marginBottom: 2 }}>
+            {c.name}
+          </div>
+          <div style={{ fontSize: 11, opacity: 0.7 }}>
+            {c.location.city}, {c.location.country}
+          </div>
+        </div>
+      </div>
+
+      {/* Clubs */}
+      {c.clubs && c.clubs.length > 0 && (
+        <div style={{ fontSize: 11, opacity: 0.6, marginBottom: 8 }}>
+          {c.clubs.slice(0, 2).join(" · ")}
+        </div>
+      )}
+
+      {/* Idiomas */}
+      {c.languages && c.languages.length > 0 && (
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 8 }}>
+          {c.languages.map((l) => (
+            <LanguageChip key={l} code={l} variant="popup" />
+          ))}
+        </div>
+      )}
+
+      {/* Especialidades — chips dorados suaves */}
+      {c.specialties && c.specialties.length > 0 && (
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 12 }}>
+          {c.specialties.map((s) => {
+            const lbl = s === "juniors" ? "Juniors" : s === "adultos" ? "Adultos" : "Competición";
+            return (
+              <span
+                key={s}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 4,
+                  fontSize: 9,
+                  letterSpacing: 1.5,
+                  textTransform: "uppercase",
+                  fontWeight: 600,
+                  color: "#dcaf64",
+                  background: "rgba(220,175,100,0.08)",
+                  border: "1px solid rgba(220,175,100,0.25)",
+                  padding: "2px 6px",
+                  borderRadius: 2,
+                }}
+              >
+                <span
+                  aria-hidden
+                  style={{
+                    width: 3,
+                    height: 3,
+                    borderRadius: 999,
+                    background: "#dcaf64",
+                  }}
+                />
+                {lbl}
+              </span>
+            );
+          })}
+        </div>
+      )}
+
+      {/* CTA principal + iconos sociales (IG, Web)
+          El botón "Pregunta a J3" usa data-j3-ask-slug para event delegation
+          (no podemos poner onClick porque el HTML está serializado). */}
+      <div style={{ display: "flex", gap: 6, alignItems: "stretch" }}>
+        <button
+          type="button"
+          data-j3-ask-slug={c.slug}
+          style={{
+            flex: 1,
+            fontSize: 10,
+            fontWeight: 700,
+            letterSpacing: 2,
+            textTransform: "uppercase",
+            color: "#000",
+            background: "linear-gradient(135deg, #dcaf64, #b8943e)",
+            border: "none",
+            padding: "8px 12px",
+            cursor: "pointer",
+            borderRadius: 2,
+          }}
+        >
+          {labels.askChatbot}
+        </button>
+        {c.socials?.instagram && (
+          <a
+            href={c.socials.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Instagram de ${c.name}`}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 34,
+              background: "rgba(220,175,100,0.08)",
+              border: "1px solid rgba(220,175,100,0.35)",
+              color: "#dcaf64",
+              borderRadius: 2,
+            }}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+            </svg>
+          </a>
+        )}
+        {c.socials?.web && (
+          <a
+            href={c.socials.web}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Web de ${c.name}`}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 34,
+              background: "rgba(220,175,100,0.08)",
+              border: "1px solid rgba(220,175,100,0.35)",
+              color: "#dcaf64",
+              borderRadius: 2,
+            }}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <circle cx="12" cy="12" r="10" />
+              <line x1="2" y1="12" x2="22" y2="12" />
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+            </svg>
+          </a>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Radio (px) de agrupación del cluster. 60px agrupa coaches
+ * que en pantalla están a menos de esa distancia — probado
+ * para no ser agresivo a zoom medio pero juntar los duplicados
+ * reales (misma ciudad) a zoom continental.
+ */
+const MAX_CLUSTER_RADIUS = 60;
+
+/**
+ * iconCreateFunction — el cluster se pinta como círculo dorado
+ * con el conteo dentro. Tres tamaños según cantidad:
+ *   sm (2-4) · md (5-9) · lg (10+, con halo pulsante).
+ */
+function makeClusterIcon(count: number): L.DivIcon {
+  const size = count < 5 ? "sm" : count < 10 ? "md" : "lg";
+  const px = size === "sm" ? 32 : size === "md" ? 40 : 52;
+  return L.divIcon({
+    className: "j3-cluster",
+    html: `<div class="j3-cluster-inner j3-cluster-${size}"><span>${count}</span></div>`,
+    iconSize: [px, px],
+    iconAnchor: [px / 2, px / 2],
+  });
+}
+
+/**
+ * ClusteredMarkers — crea y gestiona el markerClusterGroup.
+ * Escucha el evento global `j3:map:focus` para centrar + abrir
+ * popup de un coach concreto (sustituye al antiguo MapFocusListener).
+ *
+ * El botón "Pregunta a J3" del popup se resuelve por event
+ * delegation sobre el contenedor del mapa (data-j3-ask-slug).
+ */
+function ClusteredMarkers({
   coaches,
-  markerRefs,
+  labels,
+  onAsk,
 }: {
   coaches: readonly Coach[];
-  markerRefs: React.MutableRefObject<Map<string, L.Marker>>;
+  labels: PopupLabels;
+  onAsk?: (coach: Coach) => void;
 }) {
   const map = useMap();
+
   useEffect(() => {
-    const onFocus = (ev: Event) => {
-      const slug = (ev as CustomEvent<{ slug?: string }>).detail?.slug;
+    const group = L.markerClusterGroup({
+      maxClusterRadius: MAX_CLUSTER_RADIUS,
+      showCoverageOnHover: false,
+      spiderfyOnMaxZoom: true,
+      zoomToBoundsOnClick: true,
+      animate: true,
+      animateAddingMarkers: false,
+      iconCreateFunction: (cluster) => makeClusterIcon(cluster.getChildCount()),
+    });
+
+    // slug → marker, para j3:map:focus
+    const markerBySlug = new Map<string, L.Marker>();
+
+    coaches.forEach((c) => {
+      const kind = resolveKind(c);
+      const popupHtml = renderToStaticMarkup(
+        <PopupContent coach={c} labels={labels} kind={kind} />
+      );
+      const m = L.marker(c.location.coordinates, { icon: makeIcon(kind) });
+      m.bindPopup(popupHtml, { maxWidth: 280, minWidth: 240 });
+      group.addLayer(m);
+      markerBySlug.set(c.slug, m);
+    });
+
+    map.addLayer(group);
+
+    // Event delegation para el botón "Pregunta a J3"
+    const container = map.getContainer();
+    const onContainerClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target) return;
+      const askBtn = target.closest("[data-j3-ask-slug]") as HTMLElement | null;
+      if (!askBtn) return;
+      const slug = askBtn.getAttribute("data-j3-ask-slug");
       if (!slug) return;
       const coach = coaches.find((c) => c.slug === slug);
       if (!coach) return;
-      const [lat, lng] = coach.location.coordinates;
-      map.flyTo([lat, lng], Math.max(map.getZoom(), 6), { duration: 0.9 });
-      const marker = markerRefs.current.get(slug);
-      if (marker) {
-        // Abrir popup tras el flyTo para que no se cierre a media animación.
-        window.setTimeout(() => marker.openPopup(), 950);
+      if (onAsk) {
+        onAsk(coach);
+        return;
       }
+      window.dispatchEvent(
+        new CustomEvent("j3:chat:open", {
+          detail: {
+            coachName: coach.name,
+            coachLocation: `${coach.location.city}, ${coach.location.country}`,
+          },
+        }),
+      );
+    };
+    container.addEventListener("click", onContainerClick);
+
+    // j3:map:focus — centrar y abrir popup del coach indicado
+    const onFocus = (ev: Event) => {
+      const slug = (ev as CustomEvent<{ slug?: string }>).detail?.slug;
+      if (!slug) return;
+      const marker = markerBySlug.get(slug);
+      if (!marker) return;
+      // zoomToShowLayer: hace zoom al nivel donde el marker deja
+      // de estar agrupado, luego abre el popup.
+      group.zoomToShowLayer(marker, () => {
+        marker.openPopup();
+      });
     };
     window.addEventListener("j3:map:focus", onFocus as EventListener);
-    return () => window.removeEventListener("j3:map:focus", onFocus as EventListener);
-  }, [coaches, map, markerRefs]);
+
+    return () => {
+      window.removeEventListener("j3:map:focus", onFocus as EventListener);
+      container.removeEventListener("click", onContainerClick);
+      map.removeLayer(group);
+      group.clearLayers();
+    };
+  }, [map, coaches, labels, onAsk]);
+
   return null;
 }
 
@@ -307,52 +688,7 @@ interface NetworkMapProps {
   floatingZoomControls?: boolean;
   /** Offset top para los controles flotantes, en px. Default 180 (navbar + sticky + margen). */
   floatingZoomTopOffset?: number;
-  labels: {
-    badgeHq: string;
-    badgeRecommended: string;
-    askChatbot: string;
-  };
-}
-
-/**
- * Radio del círculo de offset (en grados) cuando varios coaches
- * comparten exactamente las mismas coordenadas. ~0.008 grados ≈ 900m,
- * suficiente para separar los pines visualmente a zoom continental
- * sin distorsionar la percepción geográfica.
- */
-const DUPLICATE_COORD_RADIUS = 0.008;
-
-/**
- * Devuelve la lista de coaches con coordenadas ajustadas: si N coaches
- * comparten el mismo punto, los distribuye en círculo alrededor del
- * punto base. Los coaches en ubicaciones únicas mantienen sus
- * coordenadas reales intactas.
- */
-function applyCoordOffsets(coaches: readonly Coach[]): Array<{ coach: Coach; position: [number, number] }> {
-  const groups = new Map<string, Coach[]>();
-  for (const c of coaches) {
-    const key = `${c.location.coordinates[0]},${c.location.coordinates[1]}`;
-    const arr = groups.get(key) ?? [];
-    arr.push(c);
-    groups.set(key, arr);
-  }
-  return coaches.map((c) => {
-    const key = `${c.location.coordinates[0]},${c.location.coordinates[1]}`;
-    const group = groups.get(key)!;
-    if (group.length === 1) {
-      return { coach: c, position: c.location.coordinates };
-    }
-    const index = group.findIndex((g) => g.slug === c.slug);
-    const angle = (index / group.length) * Math.PI * 2;
-    const [lat, lng] = c.location.coordinates;
-    return {
-      coach: c,
-      position: [
-        lat + Math.sin(angle) * DUPLICATE_COORD_RADIUS,
-        lng + Math.cos(angle) * DUPLICATE_COORD_RADIUS,
-      ] as [number, number],
-    };
-  });
+  labels: PopupLabels;
 }
 
 export default function NetworkMap({
@@ -366,23 +702,6 @@ export default function NetworkMap({
   labels,
 }: NetworkMapProps) {
   const coaches = useMemo(() => [...coachesProp], [coachesProp]);
-  const coachesPositioned = useMemo(() => applyCoordOffsets(coaches), [coaches]);
-  const markerRefs = useRef<Map<string, L.Marker>>(new Map());
-
-  const handleAsk = (c: Coach) => {
-    if (onAsk) {
-      onAsk(c);
-      return;
-    }
-    window.dispatchEvent(
-      new CustomEvent("j3:chat:open", {
-        detail: {
-          coachName: c.name,
-          coachLocation: `${c.location.city}, ${c.location.country}`,
-        },
-      }),
-    );
-  };
 
   return (
     <>
@@ -409,216 +728,7 @@ export default function NetworkMap({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
         />
-        <MapFocusListener coaches={coaches} markerRefs={markerRefs} />
-        {coachesPositioned.map(({ coach: c, position }) => {
-          const kind = resolveKind(c);
-          return (
-          <Marker
-            key={c.slug}
-            position={position}
-            icon={makeIcon(kind)}
-            ref={(instance) => {
-              if (instance) markerRefs.current.set(c.slug, instance);
-              else markerRefs.current.delete(c.slug);
-            }}
-          >
-            <Popup maxWidth={280} minWidth={240}>
-              <div style={{ minWidth: 220 }}>
-                {/* Header: foto + nombre + tier */}
-                <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 8 }}>
-                  {c.photo ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={c.photo}
-                      alt=""
-                      style={{
-                        width: 40,
-                        height: 40,
-                        borderRadius: 999,
-                        objectFit: "cover",
-                        border: kind !== "coach" ? "2px solid #dcaf64" : "1px solid rgba(220,175,100,0.3)",
-                        flexShrink: 0,
-                      }}
-                    />
-                  ) : (
-                    <div
-                      aria-hidden
-                      style={{
-                        width: 40,
-                        height: 40,
-                        borderRadius: 999,
-                        background: "rgba(220,175,100,0.08)",
-                        border: "1px solid rgba(220,175,100,0.25)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontSize: 14,
-                        fontWeight: 700,
-                        color: "#dcaf64",
-                        letterSpacing: 1,
-                        flexShrink: 0,
-                      }}
-                    >
-                      {c.name.split(" ").map(w => w[0]).slice(0, 2).join("")}
-                    </div>
-                  )}
-                  <div style={{ minWidth: 0 }}>
-                    <div
-                      style={{
-                        fontSize: 9,
-                        letterSpacing: 2,
-                        textTransform: "uppercase",
-                        color: "#dcaf64",
-                        marginBottom: 2,
-                      }}
-                    >
-                      {kind === "lab" || kind === "academy" ? labels.badgeHq : labels.badgeRecommended}
-                    </div>
-                    <div style={{ fontWeight: 700, fontSize: 14, lineHeight: 1.15, marginBottom: 2 }}>
-                      {c.name}
-                    </div>
-                    <div style={{ fontSize: 11, opacity: 0.7 }}>
-                      {c.location.city}, {c.location.country}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Clubs */}
-                {c.clubs && c.clubs.length > 0 && (
-                  <div style={{ fontSize: 11, opacity: 0.6, marginBottom: 8 }}>
-                    {c.clubs.slice(0, 2).join(" · ")}
-                  </div>
-                )}
-
-                {/* Idiomas */}
-                {c.languages && c.languages.length > 0 && (
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 8 }}>
-                    {c.languages.map(l => (
-                      <LanguageChip key={l} code={l} variant="popup" />
-                    ))}
-                  </div>
-                )}
-
-                {/* Especialidades — chips dorados suaves */}
-                {c.specialties && c.specialties.length > 0 && (
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 12 }}>
-                    {c.specialties.map((s) => {
-                      const lbl = s === "juniors" ? "Juniors" : s === "adultos" ? "Adultos" : "Competición";
-                      return (
-                        <span
-                          key={s}
-                          style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: 4,
-                            fontSize: 9,
-                            letterSpacing: 1.5,
-                            textTransform: "uppercase",
-                            fontWeight: 600,
-                            color: "#dcaf64",
-                            background: "rgba(220,175,100,0.08)",
-                            border: "1px solid rgba(220,175,100,0.25)",
-                            padding: "2px 6px",
-                            borderRadius: 2,
-                          }}
-                        >
-                          <span
-                            aria-hidden
-                            style={{
-                              width: 3,
-                              height: 3,
-                              borderRadius: 999,
-                              background: "#dcaf64",
-                            }}
-                          />
-                          {lbl}
-                        </span>
-                      );
-                    })}
-                  </div>
-                )}
-
-                {/* CTA principal + iconos sociales (IG, Web) */}
-                <div style={{ display: "flex", gap: 6, alignItems: "stretch" }}>
-                  <button
-                    type="button"
-                    onClick={() => handleAsk(c)}
-                    style={{
-                      flex: 1,
-                      fontSize: 10,
-                      fontWeight: 700,
-                      letterSpacing: 2,
-                      textTransform: "uppercase",
-                      color: "#000",
-                      background: "linear-gradient(135deg, #dcaf64, #b8943e)",
-                      border: "none",
-                      padding: "8px 12px",
-                      cursor: "pointer",
-                      borderRadius: 2,
-                    }}
-                  >
-                    {labels.askChatbot}
-                  </button>
-                  {c.socials?.instagram && (
-                    <a
-                      href={c.socials.instagram}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`Instagram de ${c.name}`}
-                      style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        width: 34,
-                        background: "rgba(220,175,100,0.08)",
-                        border: "1px solid rgba(220,175,100,0.35)",
-                        color: "#dcaf64",
-                        borderRadius: 2,
-                        transition: "background .18s ease, color .18s ease",
-                      }}
-                      onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(220,175,100,0.18)"; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(220,175,100,0.08)"; }}
-                    >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-                      </svg>
-                    </a>
-                  )}
-                  {c.socials?.web && (
-                    <a
-                      href={c.socials.web}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`Web de ${c.name}`}
-                      style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        width: 34,
-                        background: "rgba(220,175,100,0.08)",
-                        border: "1px solid rgba(220,175,100,0.35)",
-                        color: "#dcaf64",
-                        borderRadius: 2,
-                        transition: "background .18s ease, color .18s ease",
-                      }}
-                      onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(220,175,100,0.18)"; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(220,175,100,0.08)"; }}
-                    >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                        <circle cx="12" cy="12" r="10" />
-                        <line x1="2" y1="12" x2="22" y2="12" />
-                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-                      </svg>
-                    </a>
-                  )}
-                </div>
-              </div>
-            </Popup>
-          </Marker>
-          );
-        })}
+        <ClusteredMarkers coaches={coaches} labels={labels} onAsk={onAsk} />
       </MapContainer>
     </>
   );
