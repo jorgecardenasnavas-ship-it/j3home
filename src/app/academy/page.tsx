@@ -268,7 +268,7 @@ type SectionItem = {
 };
 
 const STICKY_SEDES: SedeItem[] = [
-  { kind: "sede", name: "J3 Lab", sub: "Limoneros", slug: "j3-hq-malaga", img: "/images/imagotipo-gold.svg" },
+  { kind: "sede", name: "J3 Lab", sub: "Málaga", slug: "j3-hq-malaga", img: "/images/imagotipo-gold.svg" },
 ];
 
 const STICKY_SECTIONS: SectionItem[] = [
