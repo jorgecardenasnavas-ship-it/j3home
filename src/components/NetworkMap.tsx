@@ -12,7 +12,7 @@ import { useMemo } from "react";
 import L from "leaflet";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { COACHES, type Coach } from "@/data/coaches";
+import type { Coach } from "@/data/coaches";
 
 const pinStyles = `
   .j3-pin {
@@ -107,6 +107,8 @@ function makeIcon(tier: Coach["tier"]): L.DivIcon {
 }
 
 interface NetworkMapProps {
+  /** Lista de coaches a pintar. La página pasa la lista ya filtrada. */
+  coaches: readonly Coach[];
   onSelect?: (slug: string) => void;
   labels: {
     badgeHq: string;
@@ -115,8 +117,8 @@ interface NetworkMapProps {
   };
 }
 
-export default function NetworkMap({ onSelect, labels }: NetworkMapProps) {
-  const coaches = useMemo(() => [...COACHES], []);
+export default function NetworkMap({ coaches: coachesProp, onSelect, labels }: NetworkMapProps) {
+  const coaches = useMemo(() => [...coachesProp], [coachesProp]);
 
   // Centro en Europa occidental con un zoom razonable para ver España + Europa.
   const center: [number, number] = [42, 5];

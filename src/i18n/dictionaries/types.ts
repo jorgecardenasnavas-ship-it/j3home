@@ -387,6 +387,14 @@ export interface Dictionary {
       readonly gridLabel: string;
       readonly gridHeading: string;
       readonly filterAll: string;
+      readonly filterCountry: string;
+      readonly filterLanguage: string;
+      readonly filterSpecialty: string;
+      readonly filterReset: string;
+      readonly filterEmpty: string;
+      readonly specialtyJuniors: string;
+      readonly specialtyAdultos: string;
+      readonly specialtyCompeticion: string;
       readonly badgeRecommended: string;
       readonly badgeHq: string;
       readonly askChatbot: string;

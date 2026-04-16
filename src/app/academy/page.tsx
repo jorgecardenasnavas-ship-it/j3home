@@ -7,7 +7,14 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import CoachCard from "@/components/CoachCard";
 import { useI18n } from "@/i18n/context";
-import { COACHES, type Coach } from "@/data/coaches";
+import {
+  COACHES,
+  COACH_COUNTRIES,
+  COACH_LANGUAGES,
+  COACH_SPECIALTIES,
+  type Coach,
+  type CoachSpecialty,
+} from "@/data/coaches";
 
 /* Leaflet map — only on client; heavy + uses window */
 const NetworkMap = dynamic(() => import("@/components/NetworkMap"), {
@@ -2502,10 +2509,58 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
    S5b — NETWORK (HQ Málaga + mapa + coaches + Coach360 CTA)
    ═══════════════════════════════════════════════════════ */
 
+interface FilterSelectProps {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  options: readonly { value: string; label: string }[];
+}
+
+function FilterSelect({ label, value, onChange, options }: FilterSelectProps) {
+  return (
+    <label className="inline-flex items-center gap-2 border theme-border px-3 py-2 hover:border-[var(--g1)]/40 transition-colors duration-300" style={{ borderRadius: 2 }}>
+      <span className="text-[9px] font-bold tracking-[2px] uppercase text-[var(--g1)]">
+        {label}
+      </span>
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="bg-transparent border-none outline-none text-[12px] font-medium cursor-pointer"
+        style={{ color: "var(--wh)" }}
+      >
+        {options.map(opt => (
+          <option key={opt.value} value={opt.value} style={{ background: "#0a0a0a", color: "#f5f0e8" }}>
+            {opt.label}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
 function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const { t } = useI18n();
   const { ref, visible } = useReveal(0.15);
-  const coaches = useMemo(() => COACHES.filter(c => c.tier !== "hq"), []);
+
+  // Coaches visibles en la red (sin HQ, que tiene bloque propio arriba).
+  const allCoaches = useMemo(() => COACHES.filter(c => c.tier !== "hq"), []);
+
+  // Filtros. "all" = sin filtro en esa dimensión.
+  const [country, setCountry] = useState<string>("all");
+  const [language, setLanguage] = useState<string>("all");
+  const [specialty, setSpecialty] = useState<CoachSpecialty | "all">("all");
+  const [highlightSlug, setHighlightSlug] = useState<string | null>(null);
+
+  const coaches = useMemo(() => {
+    return allCoaches.filter(c => {
+      if (country !== "all" && c.location.country !== country) return false;
+      if (language !== "all" && !(c.languages ?? []).includes(language)) return false;
+      if (specialty !== "all" && !(c.specialties ?? []).includes(specialty)) return false;
+      return true;
+    });
+  }, [allCoaches, country, language, specialty]);
+
+  const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const mapLabels = {
     badgeHq: t.academy.network.badgeHq,
@@ -2519,9 +2574,36 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
     askChatbot: t.academy.network.askChatbot,
   };
 
+  const specialtyLabel = (s: CoachSpecialty) =>
+    s === "juniors"
+      ? t.academy.network.specialtyJuniors
+      : s === "adultos"
+      ? t.academy.network.specialtyAdultos
+      : t.academy.network.specialtyCompeticion;
+
   const handleAsk = (coach: Coach) => {
-    // TODO: hook real con el chatbot J3. De momento dispatch de custom event.
-    window.dispatchEvent(new CustomEvent("j3:chat:open", { detail: { coachSlug: coach.slug } }));
+    // Flujo J3: el usuario pasa SIEMPRE por el chatbot antes de llegar al coach.
+    // TODO: hook real con el chatbot cuando exista. Mientras, custom event.
+    window.dispatchEvent(
+      new CustomEvent("j3:chat:open", { detail: { coachSlug: coach.slug } }),
+    );
+  };
+
+  const handleMapSelect = (slug: string) => {
+    setHighlightSlug(slug);
+    const el = cardRefs.current[slug];
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    // Auto-apaga el highlight pasados unos segundos.
+    window.setTimeout(() => setHighlightSlug(current => (current === slug ? null : current)), 2600);
+  };
+
+  const hasAnyFilter = country !== "all" || language !== "all" || specialty !== "all";
+  const resetFilters = () => {
+    setCountry("all");
+    setLanguage("all");
+    setSpecialty("all");
   };
 
   return (
@@ -2623,7 +2705,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
           className="relative overflow-hidden border border-white/[.08]"
           style={{ height: "clamp(380px, 55vh, 620px)" }}
         >
-          <NetworkMap labels={mapLabels} />
+          <NetworkMap coaches={coaches} labels={mapLabels} onSelect={handleMapSelect} />
         </div>
       </div>
 
@@ -2636,12 +2718,63 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
           <h3 className="font-[var(--font-serif)] italic text-[clamp(18px,1.5vw,22px)] j3-grad-text">
             {t.academy.network.gridHeading}
           </h3>
+          <span className="ml-auto text-[11px] opacity-55 tracking-[2px] uppercase" style={{ color: "var(--wh)" }}>
+            {coaches.length} / {allCoaches.length}
+          </span>
         </div>
-        <div className="grid gap-4 max-[960px]:gap-3" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(min(260px, 100%), 1fr))" }}>
-          {coaches.map((c) => (
-            <CoachCard key={c.slug} coach={c} labels={gridLabels} onAsk={handleAsk} />
-          ))}
+
+        {/* Filtros */}
+        <div className="flex flex-wrap items-center gap-3 max-[960px]:gap-2 mb-6 text-[12px] max-[960px]:text-[11px]" style={{ color: "var(--wh)" }}>
+          <FilterSelect
+            label={t.academy.network.filterCountry}
+            value={country}
+            onChange={setCountry}
+            options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_COUNTRIES.map(c => ({ value: c, label: c }))]}
+          />
+          <FilterSelect
+            label={t.academy.network.filterLanguage}
+            value={language}
+            onChange={setLanguage}
+            options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_LANGUAGES.map(l => ({ value: l, label: l.toUpperCase() }))]}
+          />
+          <FilterSelect
+            label={t.academy.network.filterSpecialty}
+            value={specialty}
+            onChange={(v) => setSpecialty(v as CoachSpecialty | "all")}
+            options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_SPECIALTIES.map(s => ({ value: s, label: specialtyLabel(s) }))]}
+          />
+          {hasAnyFilter && (
+            <button
+              type="button"
+              onClick={resetFilters}
+              className="text-[10px] tracking-[2px] uppercase text-[var(--g1)] hover:underline underline-offset-4"
+            >
+              {t.academy.network.filterReset}
+            </button>
+          )}
         </div>
+
+        {coaches.length === 0 ? (
+          <div className="border theme-border px-6 py-10 text-center text-[13px] opacity-70" style={{ color: "var(--wh)" }}>
+            {t.academy.network.filterEmpty}
+          </div>
+        ) : (
+          <div className="grid gap-4 max-[960px]:gap-3" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(min(260px, 100%), 1fr))" }}>
+            {coaches.map((c) => (
+              <div
+                key={c.slug}
+                ref={el => { cardRefs.current[c.slug] = el; }}
+                style={{
+                  transition: "box-shadow .5s ease, transform .5s ease",
+                  boxShadow: highlightSlug === c.slug ? "0 0 0 2px var(--g1), 0 10px 40px rgba(220,175,100,0.25)" : "none",
+                  transform: highlightSlug === c.slug ? "translateY(-4px)" : "translateY(0)",
+                }}
+              >
+                <CoachCard coach={c} labels={gridLabels} onAsk={handleAsk} />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Coach360 CTA */}
