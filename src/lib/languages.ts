@@ -1,38 +1,46 @@
 /* ──────────────────────────────────────────────
    Language rendering helpers.
    El dataset guarda códigos ISO 639-1 ("es", "it"...).
-   La UI los pinta con bandera + código en mayúsculas
-   ("🇪🇸 ES") para que se reconozca de un vistazo en
-   cualquier idioma que tenga puesto el usuario.
+   La UI los pinta con bandera SVG + código ("ES"/"IT")
+   en chips. Los dropdowns HTML nativos no permiten SVG
+   dentro de <option>, así que ahí va solo el código.
+
+   Usamos `country-flag-icons` para SVGs de banderas
+   reales — los emojis de bandera Unicode NO se
+   renderizan en Windows/Chrome (Microsoft los pinta
+   como pares de letras), así que confiar en el emoji
+   flag no funciona multiplataforma.
    ────────────────────────────────────────────── */
 
 /**
- * Bandera por código de idioma. Convención: país origen
- * dominante del idioma (en → 🇬🇧, nl → 🇳🇱, etc.).
- * Fallback: 🌐 para códigos sin bandera registrada.
+ * Mapa de código de idioma ISO 639-1 → código de país ISO 3166-1 alpha-2
+ * para elegir qué bandera mostrar. Convención: país origen del idioma.
+ * - en → GB (convención: bandera británica para inglés)
+ * - sv → SE (Suecia)
+ * - ar → SA (Arabia Saudí)
+ * - ca/eu/gl → ES (no hay bandera ISO; usamos España)
  */
-export const LANGUAGE_FLAGS: Record<string, string> = {
-  es: "🇪🇸",
-  en: "🇬🇧",
-  fr: "🇫🇷",
-  it: "🇮🇹",
-  pt: "🇵🇹",
-  nl: "🇳🇱",
-  sv: "🇸🇪",
-  de: "🇩🇪",
-  ar: "🇸🇦",
-  ca: "🇪🇸",
-  eu: "🇪🇸",
-  gl: "🇪🇸",
+export const LANGUAGE_TO_COUNTRY: Record<string, string> = {
+  es: "ES",
+  en: "GB",
+  fr: "FR",
+  it: "IT",
+  pt: "PT",
+  nl: "NL",
+  sv: "SE",
+  de: "DE",
+  ar: "SA",
+  ca: "ES",
+  eu: "ES",
+  gl: "ES",
 };
 
-/** "🇪🇸 ES" — formato estándar para chips y dropdowns. */
-export function formatLanguage(code: string): string {
-  const flag = LANGUAGE_FLAGS[code] ?? "🌐";
-  return `${flag} ${code.toUpperCase()}`;
+/** Código de país ISO alpha-2 correspondiente al idioma. `null` si no hay. */
+export function languageCountry(code: string): string | null {
+  return LANGUAGE_TO_COUNTRY[code] ?? null;
 }
 
-/** Solo la bandera, sin código — para chips muy compactos. */
-export function languageFlag(code: string): string {
-  return LANGUAGE_FLAGS[code] ?? "🌐";
+/** Solo el código del idioma en mayúsculas — para los dropdowns `<select>`. */
+export function languageLabel(code: string): string {
+  return code.toUpperCase();
 }

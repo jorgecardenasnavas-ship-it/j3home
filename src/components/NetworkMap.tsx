@@ -15,10 +15,10 @@
 
 import { useEffect, useMemo, useRef } from "react";
 import L from "leaflet";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap, ZoomControl } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import type { Coach } from "@/data/coaches";
-import { formatLanguage } from "@/lib/languages";
+import { LanguageChip } from "@/components/LanguageChip";
 
 const pinStyles = `
   .j3-pin {
@@ -105,6 +105,36 @@ const pinStyles = `
   }
   .leaflet-control-attribution a {
     color: rgba(220,175,100,0.75) !important;
+  }
+  /* Controles de zoom (+/-) con estética J3 dark+gold */
+  .leaflet-control-zoom {
+    border: 1px solid rgba(220,175,100,0.3) !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4) !important;
+    border-radius: 2px !important;
+    overflow: hidden !important;
+  }
+  .leaflet-control-zoom a {
+    background: rgba(10,10,10,0.9) !important;
+    color: #dcaf64 !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(220,175,100,0.15) !important;
+    font-size: 18px !important;
+    font-weight: 300 !important;
+    width: 32px !important;
+    height: 32px !important;
+    line-height: 32px !important;
+    transition: background 0.2s ease, color 0.2s ease !important;
+  }
+  .leaflet-control-zoom a:last-child {
+    border-bottom: none !important;
+  }
+  .leaflet-control-zoom a:hover {
+    background: rgba(220,175,100,0.12) !important;
+    color: #f0c478 !important;
+  }
+  .leaflet-control-zoom a.leaflet-disabled {
+    opacity: 0.35 !important;
+    cursor: not-allowed !important;
   }
 `;
 
@@ -216,7 +246,12 @@ export default function NetworkMap({
         scrollWheelZoom={scrollWheelZoom}
         style={{ width: "100%", height: "100%" }}
         worldCopyJump
+        zoomControl={false}
       >
+        {/* Controles +/- reposicionados a esquina inferior izquierda
+            para que no queden ocultos tras el sticky nav en la parte
+            superior del viewport. */}
+        <ZoomControl position="bottomleft" />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
@@ -306,22 +341,7 @@ export default function NetworkMap({
                 {c.languages && c.languages.length > 0 && (
                   <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 12 }}>
                     {c.languages.map(l => (
-                      <span
-                        key={l}
-                        style={{
-                          fontSize: 10,
-                          letterSpacing: 0.3,
-                          color: "#dcaf64",
-                          border: "1px solid rgba(220,175,100,0.3)",
-                          padding: "2px 6px",
-                          borderRadius: 2,
-                          display: "inline-flex",
-                          alignItems: "center",
-                          gap: 2,
-                        }}
-                      >
-                        {formatLanguage(l)}
-                      </span>
+                      <LanguageChip key={l} code={l} variant="popup" />
                     ))}
                   </div>
                 )}

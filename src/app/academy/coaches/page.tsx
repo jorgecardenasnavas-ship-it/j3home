@@ -20,7 +20,7 @@ import { FilterSelect } from "@/components/FilterSelect";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useI18n } from "@/i18n/context";
-import { formatLanguage } from "@/lib/languages";
+import { languageLabel } from "@/lib/languages";
 
 function CoachesCatalogContent() {
   const { t } = useI18n();
@@ -124,7 +124,7 @@ function CoachesCatalogContent() {
             label={t.academy.network.filterLanguage}
             value={filters.language}
             onChange={(v) => setFilter("language", v)}
-            options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_LANGUAGES.map(l => ({ value: l, label: formatLanguage(l) }))]}
+            options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_LANGUAGES.map(l => ({ value: l, label: languageLabel(l) }))]}
           />
           <FilterSelect
             label={t.academy.network.filterSpecialty}

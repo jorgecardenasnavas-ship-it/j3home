@@ -7,7 +7,7 @@
    ────────────────────────────────────────────── */
 
 import type { Coach } from "@/data/coaches";
-import { formatLanguage } from "@/lib/languages";
+import { LanguageChip } from "@/components/LanguageChip";
 
 interface CoachCardProps {
   coach: Coach;
@@ -101,13 +101,7 @@ export default function CoachCard({ coach, labels, onAsk }: CoachCardProps) {
         {coach.languages && coach.languages.length > 0 && (
           <div className="flex flex-wrap gap-1.5 mt-1">
             {coach.languages.map((lng) => (
-              <span
-                key={lng}
-                className="text-[10px] font-semibold tracking-[0.5px] theme-text opacity-70 border theme-border px-1.5 py-0.5 inline-flex items-center gap-1"
-                style={{ borderRadius: 2 }}
-              >
-                {formatLanguage(lng)}
-              </span>
+              <LanguageChip key={lng} code={lng} variant="card" />
             ))}
           </div>
         )}
