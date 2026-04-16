@@ -17,7 +17,7 @@ const cards: ProductCard[] = [
   {
     nameParts: [{ text: "Coach" }, { text: "360", white: true }],
     buttons: [
-      { href: "/coach360", variant: "ghost" },
+      { href: "https://j3padel.com/join", variant: "ghost" },
       { href: "https://j3padel.com/join", variant: "gold" },
     ],
     actionsPosition: "bottom",

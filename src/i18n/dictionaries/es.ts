@@ -716,7 +716,7 @@ export const es = {
         title: "Sube al sello J3.",
         description: "Entra en Coach360, entrena con nuestro m\u00E9todo y opta a ser recomendado en esta red.",
         cta: "Entrar a Coach360",
-        href: "/coach360",
+        href: "https://j3padel.com/join",
       },
     },
 

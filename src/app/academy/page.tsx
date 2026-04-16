@@ -2582,10 +2582,15 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
       : t.academy.network.specialtyCompeticion;
 
   const handleAsk = (coach: Coach) => {
-    // Flujo J3: el usuario pasa SIEMPRE por el chatbot antes de llegar al coach.
-    // TODO: hook real con el chatbot cuando exista. Mientras, custom event.
+    // Flujo J3: el usuario pasa SIEMPRE por nuestro chatbot antes de llegar al coach.
+    // El ChatBubble escucha este evento y abre el panel con el mensaje precargado.
     window.dispatchEvent(
-      new CustomEvent("j3:chat:open", { detail: { coachSlug: coach.slug } }),
+      new CustomEvent("j3:chat:open", {
+        detail: {
+          coachName: coach.name,
+          coachLocation: `${coach.location.city}, ${coach.location.country}`,
+        },
+      }),
     );
   };
 
@@ -2607,7 +2612,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   };
 
   return (
-    <section className="sedes-section relative overflow-hidden border-b border-white/[.07]">
+    <section id="network" className="sedes-section relative overflow-hidden border-b border-white/[.07]">
       {markerSlot}
 
       {/* Header */}

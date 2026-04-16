@@ -2922,7 +2922,7 @@ export default function StoryPage() {
           <a href="/#contacto" className="text-[12px] font-bold tracking-[2px] uppercase px-[30px] py-[13px] rounded-full bg-[image:var(--j3-grad)] text-black no-underline transition-all hover:opacity-85 hover:scale-105">
             {t.story.cta.buttons[0]}
           </a>
-          <a href="/coach360" className="text-[12px] font-bold tracking-[2px] uppercase px-[30px] py-[13px] rounded-full border border-[rgba(220,175,100,.3)] text-[var(--g1)] bg-transparent no-underline transition-all hover:bg-[rgba(220,175,100,.07)] hover:scale-105">
+          <a href="https://j3padel.com/join" target="_blank" rel="noopener noreferrer" className="text-[12px] font-bold tracking-[2px] uppercase px-[30px] py-[13px] rounded-full border border-[rgba(220,175,100,.3)] text-[var(--g1)] bg-transparent no-underline transition-all hover:bg-[rgba(220,175,100,.07)] hover:scale-105">
             {t.story.cta.buttons[1]}
           </a>
           <a href="/academy" className="text-[12px] font-bold tracking-[2px] uppercase px-[30px] py-[13px] rounded-full border border-[rgba(220,175,100,.3)] text-[var(--g1)] bg-transparent no-underline transition-all hover:bg-[rgba(220,175,100,.07)] hover:scale-105">

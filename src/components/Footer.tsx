@@ -5,13 +5,13 @@ import { useI18n } from "@/i18n/context";
 
 
 const footerLinks = [
-  { label: "Coach360", href: "/coach360" },
-  { label: "Academy", href: "/academy" },
-  { label: "Business", href: "/business" },
-  { label: "Experience", href: "/experience" },
-  { label: "Partner", href: "/partner" },
-  { label: "J3PTV", href: "/j3ptv" },
-  { label: "Story", href: "/story" },
+  { label: "Coach360", href: "https://j3padel.com/join", external: true },
+  { label: "Academy", href: "/academy", external: false },
+  { label: "Business", href: "/business", external: false },
+  { label: "Experience", href: "/experience", external: false },
+  { label: "Partner", href: "/partner", external: false },
+  { label: "J3PTV", href: "/j3ptv", external: false },
+  { label: "Story", href: "/story", external: false },
 ] as const;
 
 export function Footer() {
@@ -44,15 +44,27 @@ export function Footer() {
 
         {/* Links */}
         <div className="flex gap-5 max-[960px]:gap-4 flex-wrap">
-          {footerLinks.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              className="j3-press text-[11px] max-[960px]:text-[12px] font-light tracking-[1px] uppercase text-[var(--gy2)] no-underline hover:text-[var(--wh)] transition-colors duration-200 ease-[var(--ease-out)]"
-            >
-              {link.label}
-            </Link>
-          ))}
+          {footerLinks.map((link) =>
+            link.external ? (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="j3-press text-[11px] max-[960px]:text-[12px] font-light tracking-[1px] uppercase text-[var(--gy2)] no-underline hover:text-[var(--wh)] transition-colors duration-200 ease-[var(--ease-out)]"
+              >
+                {link.label}
+              </a>
+            ) : (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="j3-press text-[11px] max-[960px]:text-[12px] font-light tracking-[1px] uppercase text-[var(--gy2)] no-underline hover:text-[var(--wh)] transition-colors duration-200 ease-[var(--ease-out)]"
+              >
+                {link.label}
+              </Link>
+            ),
+          )}
         </div>
 
         {/* Social + copyright */}

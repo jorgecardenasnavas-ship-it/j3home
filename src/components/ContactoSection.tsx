@@ -15,7 +15,7 @@ const pillars = [
     number: "02",
     title: "Coach360",
     desc: "Sistema de formaci\u00f3n integral para entrenadores de p\u00e1del.",
-    href: "/coach360",
+    href: "https://j3padel.com/join",
     cta: "Descubrir Coach360",
   },
   {

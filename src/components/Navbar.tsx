@@ -8,14 +8,14 @@ import { useI18n, type Locale } from "@/i18n/context";
 
 /* Nav links — split around center home icon */
 const leftLinks = [
-  { label: "Coach360", href: "/coach360" },
-  { label: "Academy", href: "/academy" },
+  { label: "Coach360", href: "https://j3padel.com/join", external: true },
+  { label: "Academy", href: "/academy", external: false },
 ] as const;
 
 const rightLinks = [
-  { label: "Story", href: "/story" },
-  { label: "J3PTV", href: "/j3ptv" },
-  { label: "Experience", href: "/experience" },
+  { label: "Story", href: "/story", external: false },
+  { label: "J3PTV", href: "/j3ptv", external: false },
+  { label: "Experience", href: "/experience", external: false },
 ] as const;
 
 const allNavLinks = [...leftLinks, ...rightLinks] as const;
@@ -117,16 +117,27 @@ export function Navbar() {
         <ul className="hidden min-[961px]:flex gap-8 list-none items-center">
           {visibleLeft.map((link) => (
             <li key={link.href}>
-              <Link
-                href={link.href}
-                className={`text-[12px] font-normal tracking-[1px] no-underline uppercase transition-colors duration-300 ${
-                  pathname === link.href
-                    ? "text-[var(--g1)]"
-                    : "text-[var(--gy2)] hover:text-[var(--wh)]"
-                }`}
-              >
-                {link.label}
-              </Link>
+              {link.external ? (
+                <a
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[12px] font-normal tracking-[1px] no-underline uppercase transition-colors duration-300 text-[var(--gy2)] hover:text-[var(--wh)]"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  href={link.href}
+                  className={`text-[12px] font-normal tracking-[1px] no-underline uppercase transition-colors duration-300 ${
+                    pathname === link.href
+                      ? "text-[var(--g1)]"
+                      : "text-[var(--gy2)] hover:text-[var(--wh)]"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              )}
             </li>
           ))}
 
@@ -148,16 +159,27 @@ export function Navbar() {
 
           {visibleRight.map((link) => (
             <li key={link.href}>
-              <Link
-                href={link.href}
-                className={`text-[12px] font-normal tracking-[1px] no-underline uppercase transition-colors duration-300 ${
-                  pathname === link.href
-                    ? "text-[var(--g1)]"
-                    : "text-[var(--gy2)] hover:text-[var(--wh)]"
-                }`}
-              >
-                {link.label}
-              </Link>
+              {link.external ? (
+                <a
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[12px] font-normal tracking-[1px] no-underline uppercase transition-colors duration-300 text-[var(--gy2)] hover:text-[var(--wh)]"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  href={link.href}
+                  className={`text-[12px] font-normal tracking-[1px] no-underline uppercase transition-colors duration-300 ${
+                    pathname === link.href
+                      ? "text-[var(--g1)]"
+                      : "text-[var(--gy2)] hover:text-[var(--wh)]"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              )}
             </li>
           ))}
         </ul>
@@ -307,18 +329,31 @@ export function Navbar() {
         </Link>
 
         {/* Main links — gold when active */}
-        {mobileLinks.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            onClick={() => setMenuOpen(false)}
-            className={`text-[18px] font-bold tracking-[3px] uppercase no-underline transition-colors duration-300 ${
-              pathname === link.href ? "text-[var(--g1)]" : "text-[var(--wh)] hover:text-[var(--g1)]"
-            }`}
-          >
-            {link.label}
-          </Link>
-        ))}
+        {mobileLinks.map((link) =>
+          link.external ? (
+            <a
+              key={link.href}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMenuOpen(false)}
+              className="text-[18px] font-bold tracking-[3px] uppercase no-underline transition-colors duration-300 text-[var(--wh)] hover:text-[var(--g1)]"
+            >
+              {link.label}
+            </a>
+          ) : (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={() => setMenuOpen(false)}
+              className={`text-[18px] font-bold tracking-[3px] uppercase no-underline transition-colors duration-300 ${
+                pathname === link.href ? "text-[var(--g1)]" : "text-[var(--wh)] hover:text-[var(--g1)]"
+              }`}
+            >
+              {link.label}
+            </Link>
+          ),
+        )}
 
         {/* Auth CTA mobile — icon only */}
         <Link
