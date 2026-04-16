@@ -605,6 +605,11 @@ function HeroSection() {
     badgeHq: t.academy.network.badgeHq,
     badgeRecommended: t.academy.network.badgeRecommended,
     askChatbot: t.academy.network.askChatbot,
+    legendTitle: t.academy.network.legendTitle,
+    legendHq: t.academy.network.legendHq,
+    legendRecommended: t.academy.network.legendRecommended,
+    legendCluster: t.academy.network.legendCluster,
+    viewInMaps: t.academy.network.viewInMaps,
   };
 
   /* Contador — "{count} coaches · {countries} ciudades" */
@@ -734,6 +739,8 @@ function HeroSection() {
             scrollWheelZoom={false}
             floatingZoomControls
             floatingZoomTopOffset={180}
+            autoFitBounds
+            showLegend
           />
           {/* Subtle fade-left on desktop para fundir con copy column */}
           <div

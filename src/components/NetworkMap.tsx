@@ -5,18 +5,23 @@
    Solo se carga en el cliente (dynamic import
    con ssr:false desde la página).
 
-   Clustering: leaflet.markercluster. A zoom bajo los
-   pines cercanos se agrupan en un círculo dorado con
-   el número de coaches dentro. Click en un cluster →
-   zoom automático al bound; si al zoom máximo siguen
-   pisándose (misma coord), el spiderfy despliega los
-   pines en forma de estrella.
+   Features:
+   - Clustering (leaflet.markercluster) con círculos
+     dorados mostrando el nº de coaches agrupados.
+   - Auto-fit bounds opt-in: si hay pines, calcula
+     el bound que los contiene a todos y ajusta el
+     viewport (respetando un padding generoso).
+   - Mini-leyenda flotante bottom-left.
+   - Deep-link #coach=slug: al cargar, abre popup del
+     coach indicado. Al abrir/cerrar popups, actualiza
+     el hash sin provocar reload.
+   - Botón "Ver en Maps" en el popup (abre Google Maps
+     con las coordenadas del coach).
 
    Popup: renderToStaticMarkup convierte el JSX a HTML
    estático que se bindea al marker. Los handlers
-   interactivos ("Pregunta a J3") se resuelven con
-   event delegation sobre el contenedor del mapa,
-   usando data-attributes.
+   interactivos se resuelven con event delegation
+   sobre el contenedor del mapa, usando data-attributes.
 
    3 tipos visuales de marker:
    - lab      → Málaga. Grande, halo pulsante.
@@ -24,7 +29,7 @@
    - coach    → Recomendado individual. Sobrio.
    ────────────────────────────────────────────── */
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { renderToStaticMarkup } from "react-dom/server";
 import L from "leaflet";
@@ -215,6 +220,63 @@ const pinStyles = `
     stroke-width: 1.2 !important;
     stroke-opacity: 0.8 !important;
   }
+
+  /* ── Leyenda flotante (Leaflet control bottomleft) ── */
+  .j3-legend {
+    background: rgba(10,10,10,0.78) !important;
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(220,175,100,0.28) !important;
+    border-radius: 2px !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4) !important;
+    padding: 10px 12px !important;
+    color: #f5f0e8;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    line-height: 1;
+    margin: 0 0 14px 12px !important;
+  }
+  .j3-legend-title {
+    color: #dcaf64;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+  .j3-legend-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+    color: rgba(245,240,232,0.85);
+    font-weight: 500;
+  }
+  .j3-legend-dot {
+    display: inline-block;
+    border-radius: 999px;
+    flex-shrink: 0;
+    background: radial-gradient(circle at 50% 50%, #f0c478 0%, #dcaf64 55%, #b8943e 100%);
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.55), 0 1px 4px rgba(220,175,100,0.4);
+  }
+  .j3-legend-dot-hq {
+    width: 16px;
+    height: 16px;
+    box-shadow: 0 0 0 1.5px rgba(0,0,0,0.6), 0 2px 8px rgba(220,175,100,0.7);
+  }
+  .j3-legend-dot-coach {
+    width: 10px;
+    height: 10px;
+  }
+  .j3-legend-dot-cluster {
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    color: #0a0a0a;
+    font-weight: 800;
+    letter-spacing: 0;
+  }
 `;
 
 function resolveKind(c: Coach): "lab" | "academy" | "coach" {
@@ -241,14 +303,21 @@ interface PopupLabels {
   badgeHq: string;
   badgeRecommended: string;
   askChatbot: string;
+  /** "Headquarter · Recommended · Cluster" (strings cortas para la mini-leyenda) */
+  legendTitle: string;
+  legendHq: string;
+  legendRecommended: string;
+  legendCluster: string;
+  /** Label del botón "Ver en Maps" */
+  viewInMaps: string;
 }
 
 /**
  * Componente puro de popup — se renderiza a HTML estático
  * con renderToStaticMarkup y se bindea al marker. Los
  * handlers interactivos se conectan por event delegation
- * (data-j3-ask-slug para "Pregunta a J3"; IG y Web son
- * anchors nativos con target=_blank).
+ * (data-j3-ask-slug para "Pregunta a J3"; IG, Web y Maps
+ * son anchors nativos con target=_blank).
  */
 function PopupContent({
   coach: c,
@@ -260,6 +329,9 @@ function PopupContent({
   kind: "lab" | "academy" | "coach";
 }) {
   const initials = c.name.split(" ").map((w) => w[0]).slice(0, 2).join("");
+  const [lat, lng] = c.location.coordinates;
+  const mapsHref = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+
   return (
     <div style={{ minWidth: 220 }}>
       {/* Header: foto + nombre + tier */}
@@ -376,7 +448,7 @@ function PopupContent({
         </div>
       )}
 
-      {/* CTA principal + iconos sociales (IG, Web)
+      {/* CTA principal + iconos sociales (IG, Web, Maps).
           El botón "Pregunta a J3" usa data-j3-ask-slug para event delegation
           (no podemos poner onClick porque el HTML está serializado). */}
       <div style={{ display: "flex", gap: 6, alignItems: "stretch" }}>
@@ -447,6 +519,29 @@ function PopupContent({
             </svg>
           </a>
         )}
+        {/* "Ver en Maps" — siempre disponible (todos los coaches tienen coords) */}
+        <a
+          href={mapsHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`${labels.viewInMaps}: ${c.name}`}
+          title={labels.viewInMaps}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: 34,
+            background: "rgba(220,175,100,0.08)",
+            border: "1px solid rgba(220,175,100,0.35)",
+            color: "#dcaf64",
+            borderRadius: 2,
+          }}
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+            <circle cx="12" cy="10" r="3" />
+          </svg>
+        </a>
       </div>
     </div>
   );
@@ -478,11 +573,17 @@ function makeClusterIcon(count: number): L.DivIcon {
 
 /**
  * ClusteredMarkers — crea y gestiona el markerClusterGroup.
- * Escucha el evento global `j3:map:focus` para centrar + abrir
- * popup de un coach concreto (sustituye al antiguo MapFocusListener).
  *
- * El botón "Pregunta a J3" del popup se resuelve por event
- * delegation sobre el contenedor del mapa (data-j3-ask-slug).
+ * Escucha dos eventos:
+ *  - `j3:map:focus` (custom event global)  → lleva el mapa
+ *    al coach con el slug indicado y abre su popup.
+ *  - `hashchange` (DOM)                    → si el hash cambia
+ *    a `#coach=slug`, abre el popup correspondiente. Esto
+ *    permite deep-links compartibles.
+ *
+ * Al abrir/cerrar popups, actualiza el hash de la URL sin
+ * provocar reload (replaceState). Así compartir un coach es
+ * copiar la URL del navegador.
  */
 function ClusteredMarkers({
   coaches,
@@ -506,7 +607,6 @@ function ClusteredMarkers({
       iconCreateFunction: (cluster) => makeClusterIcon(cluster.getChildCount()),
     });
 
-    // slug → marker, para j3:map:focus
     const markerBySlug = new Map<string, L.Marker>();
 
     coaches.forEach((c) => {
@@ -516,6 +616,23 @@ function ClusteredMarkers({
       );
       const m = L.marker(c.location.coordinates, { icon: makeIcon(kind) });
       m.bindPopup(popupHtml, { maxWidth: 280, minWidth: 240 });
+
+      // Al abrir el popup, reflejar el coach en el hash de la URL
+      // para que sea compartible. Al cerrar, limpiar.
+      m.on("popupopen", () => {
+        if (typeof window === "undefined") return;
+        const next = `#coach=${c.slug}`;
+        if (window.location.hash !== next) {
+          window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}${next}`);
+        }
+      });
+      m.on("popupclose", () => {
+        if (typeof window === "undefined") return;
+        if (window.location.hash === `#coach=${c.slug}`) {
+          window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+        }
+      });
+
       group.addLayer(m);
       markerBySlug.set(c.slug, m);
     });
@@ -548,27 +665,120 @@ function ClusteredMarkers({
     };
     container.addEventListener("click", onContainerClick);
 
-    // j3:map:focus — centrar y abrir popup del coach indicado
-    const onFocus = (ev: Event) => {
-      const slug = (ev as CustomEvent<{ slug?: string }>).detail?.slug;
-      if (!slug) return;
+    /** Foca un coach concreto: zoom al cluster si procede y abre popup. */
+    const focusCoach = (slug: string) => {
       const marker = markerBySlug.get(slug);
       if (!marker) return;
-      // zoomToShowLayer: hace zoom al nivel donde el marker deja
-      // de estar agrupado, luego abre el popup.
       group.zoomToShowLayer(marker, () => {
         marker.openPopup();
       });
     };
-    window.addEventListener("j3:map:focus", onFocus as EventListener);
+
+    // j3:map:focus — evento custom disparado desde fuera del mapa
+    const onFocusEvent = (ev: Event) => {
+      const slug = (ev as CustomEvent<{ slug?: string }>).detail?.slug;
+      if (slug) focusCoach(slug);
+    };
+    window.addEventListener("j3:map:focus", onFocusEvent as EventListener);
+
+    // hashchange — deep-link reactivo durante la sesión
+    const parseHashSlug = (): string | null => {
+      if (typeof window === "undefined") return null;
+      const m = window.location.hash.match(/^#coach=([a-z0-9-]+)$/i);
+      return m ? m[1] : null;
+    };
+    const onHashChange = () => {
+      const slug = parseHashSlug();
+      if (slug) focusCoach(slug);
+    };
+    window.addEventListener("hashchange", onHashChange);
+
+    // Deep-link al cargar: si el hash ya trae un coach, abrirlo
+    // con un pequeño delay para dejar que el tile layer y el
+    // cluster group terminen de montar.
+    const initialSlug = parseHashSlug();
+    const initialTimer = initialSlug
+      ? window.setTimeout(() => focusCoach(initialSlug), 600)
+      : null;
 
     return () => {
-      window.removeEventListener("j3:map:focus", onFocus as EventListener);
+      window.removeEventListener("j3:map:focus", onFocusEvent as EventListener);
+      window.removeEventListener("hashchange", onHashChange);
       container.removeEventListener("click", onContainerClick);
+      if (initialTimer !== null) window.clearTimeout(initialTimer);
       map.removeLayer(group);
       group.clearLayers();
     };
   }, [map, coaches, labels, onAsk]);
+
+  return null;
+}
+
+/**
+ * AutoFitBounds — calcula el bound que contiene todos los
+ * pines visibles y ajusta el viewport. Solo dispara una vez
+ * por instancia del mapa para no sobreescribir las pan/zoom
+ * del usuario.
+ *
+ * Si la lista de coaches está vacía o solo tiene uno, no
+ * hace nada (deja el center/zoom que ya tenía el mapa).
+ */
+function AutoFitBounds({ coaches, padding = 48 }: { coaches: readonly Coach[]; padding?: number }) {
+  const map = useMap();
+  const done = useRef(false);
+
+  useEffect(() => {
+    if (done.current) return;
+    if (coaches.length < 2) return;
+    const bounds = L.latLngBounds(coaches.map((c) => c.location.coordinates));
+    if (!bounds.isValid()) return;
+    map.fitBounds(bounds, { padding: [padding, padding], animate: false, maxZoom: 7 });
+    done.current = true;
+  }, [map, coaches, padding]);
+
+  return null;
+}
+
+/**
+ * MapLegend — mini-leyenda flotante (Leaflet control en
+ * `bottomleft`) explicando qué significan los tres tipos de
+ * pin y el cluster. Se monta como un L.control custom para
+ * mantener el posicionamiento correcto dentro del mapa.
+ */
+function MapLegend({ labels }: { labels: PopupLabels }) {
+  const map = useMap();
+
+  useEffect(() => {
+    const Legend = L.Control.extend({
+      options: { position: "bottomleft" as L.ControlPosition },
+      onAdd() {
+        const div = L.DomUtil.create("div", "j3-legend");
+        div.innerHTML = `
+          <div class="j3-legend-title">${labels.legendTitle}</div>
+          <div class="j3-legend-row">
+            <span class="j3-legend-dot j3-legend-dot-hq" aria-hidden></span>
+            <span>${labels.legendHq}</span>
+          </div>
+          <div class="j3-legend-row">
+            <span class="j3-legend-dot j3-legend-dot-coach" aria-hidden></span>
+            <span>${labels.legendRecommended}</span>
+          </div>
+          <div class="j3-legend-row">
+            <span class="j3-legend-dot j3-legend-dot-cluster" aria-hidden>3</span>
+            <span>${labels.legendCluster}</span>
+          </div>
+        `;
+        // Permitir scroll/click dentro del control sin propagarlo al mapa.
+        L.DomEvent.disableClickPropagation(div);
+        return div;
+      },
+    });
+    const control = new Legend();
+    control.addTo(map);
+    return () => {
+      control.remove();
+    };
+  }, [map, labels]);
 
   return null;
 }
@@ -674,9 +884,9 @@ interface NetworkMapProps {
   coaches: readonly Coach[];
   /** Override opcional del handler del botón "Pregunta a J3". Default: dispara evento j3:chat:open. */
   onAsk?: (coach: Coach) => void;
-  /** Centro inicial [lat, lng]. Default: Europa occidental. */
+  /** Centro inicial [lat, lng]. Default: Europa occidental. Ignorado si autoFitBounds=true. */
   center?: [number, number];
-  /** Zoom inicial. Default: 4. */
+  /** Zoom inicial. Default: 4. Ignorado si autoFitBounds=true. */
   zoom?: number;
   /** Permitir scroll-zoom (útil cuando el mapa ocupa la mayor parte del viewport). */
   scrollWheelZoom?: boolean;
@@ -688,6 +898,14 @@ interface NetworkMapProps {
   floatingZoomControls?: boolean;
   /** Offset top para los controles flotantes, en px. Default 180 (navbar + sticky + margen). */
   floatingZoomTopOffset?: number;
+  /**
+   * Si true, calcula bounds de todos los pines y ajusta el viewport
+   * una sola vez al montar. Respeta maxZoom:7 para no sobreacercarse
+   * en casos de pocos pines concentrados.
+   */
+  autoFitBounds?: boolean;
+  /** Si true, muestra la mini-leyenda bottom-left. Default: true. */
+  showLegend?: boolean;
   labels: PopupLabels;
 }
 
@@ -699,6 +917,8 @@ export default function NetworkMap({
   scrollWheelZoom = false,
   floatingZoomControls = false,
   floatingZoomTopOffset = 180,
+  autoFitBounds = false,
+  showLegend = true,
   labels,
 }: NetworkMapProps) {
   const coaches = useMemo(() => [...coachesProp], [coachesProp]);
@@ -728,6 +948,8 @@ export default function NetworkMap({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
         />
+        {autoFitBounds && <AutoFitBounds coaches={coaches} />}
+        {showLegend && <MapLegend labels={labels} />}
         <ClusteredMarkers coaches={coaches} labels={labels} onAsk={onAsk} />
       </MapContainer>
     </>

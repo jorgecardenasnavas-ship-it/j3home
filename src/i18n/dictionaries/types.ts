@@ -407,6 +407,16 @@ export interface Dictionary {
       readonly badgeRecommended: string;
       readonly badgeHq: string;
       readonly askChatbot: string;
+      /** Título de la mini-leyenda del mapa (bottom-left) */
+      readonly legendTitle: string;
+      /** Label de la fila "Headquarter" en la leyenda */
+      readonly legendHq: string;
+      /** Label de la fila "Recomendado" en la leyenda */
+      readonly legendRecommended: string;
+      /** Label de la fila "Cluster (agrupación)" en la leyenda */
+      readonly legendCluster: string;
+      /** Label del botón "Ver en Maps" en el popup */
+      readonly viewInMaps: string;
       readonly viewProfile: string;
       readonly viewAllCta: string;       // "Ver los {count} coaches"
       readonly viewFilteredCta: string;  // "Ver los {count} resultados completos"
