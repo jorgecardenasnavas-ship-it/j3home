@@ -38,6 +38,7 @@ import { MapContainer, TileLayer, useMap, ZoomControl } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import type { Coach } from "@/data/coaches";
+import type { LatLng } from "@/lib/geo";
 import { LanguageChip } from "@/components/LanguageChip";
 
 const pinStyles = `
@@ -807,7 +808,7 @@ function UserLocationMarker({
   location,
   label,
 }: {
-  location: [number, number];
+  location: LatLng;
   label: string;
 }) {
   const map = useMap();
@@ -820,7 +821,8 @@ function UserLocationMarker({
       iconAnchor: [14, 14],
       popupAnchor: [0, -14],
     });
-    const marker = L.marker(location, { icon, keyboard: false, interactive: true });
+    // Leaflet expects a mutable tuple; LatLng es readonly → copia.
+    const marker = L.marker([location[0], location[1]], { icon, keyboard: false, interactive: true });
     marker.bindTooltip(label, {
       direction: "top",
       offset: [0, -14],
@@ -843,7 +845,7 @@ function UserLocationMarker({
  * cambio de location: si el usuario luego pan-ea, no se
  * vuelve a centrar.
  */
-function AutoCenterOnUser({ location }: { location: [number, number] | null | undefined }) {
+function AutoCenterOnUser({ location }: { location: LatLng | null | undefined }) {
   const map = useMap();
   const lastKey = useRef<string | null>(null);
 
@@ -852,7 +854,8 @@ function AutoCenterOnUser({ location }: { location: [number, number] | null | un
     const key = `${location[0].toFixed(4)},${location[1].toFixed(4)}`;
     if (lastKey.current === key) return;
     lastKey.current = key;
-    map.flyTo(location, 8, { duration: 1.2, easeLinearity: 0.25 });
+    // Leaflet expects a mutable tuple; LatLng es readonly → copia.
+    map.flyTo([location[0], location[1]], 8, { duration: 1.2, easeLinearity: 0.25 });
   }, [map, location]);
 
   return null;
@@ -1055,7 +1058,7 @@ interface NetworkMapProps {
    * un pin cyan pulsante y el mapa se recentra automáticamente sobre
    * esa posición con un zoom regional.
    */
-  userLocation?: [number, number] | null;
+  userLocation?: LatLng | null;
   labels: PopupLabels;
 }
 

@@ -10,7 +10,7 @@ import { FilterSelect } from "@/components/FilterSelect";
 import { useI18n } from "@/i18n/context";
 import { languageLabel } from "@/lib/languages";
 import { haversineKm } from "@/lib/geo";
-import { useUserLocation } from "@/hooks/useUserLocation";
+import { GeoProvider, useGeo } from "@/contexts/GeoContext";
 import {
   COACHES,
   COACH_COUNTRIES,
@@ -636,6 +636,10 @@ function HeroSection() {
   const { t } = useI18n();
   const isMobile = useIsMobile(960);
   const [ready, setReady] = useState(false);
+  // Geolocalización compartida con NetworkSection. Cuando el usuario pulsa
+  // "Cerca de mí" en el grid, `geo.coords` pasa a estar definido y el mapa
+  // del hero recentrará automáticamente sobre el pin cyan "tú estás aquí".
+  const geo = useGeo();
 
   /* Boot animation delay */
   useEffect(() => {
@@ -860,6 +864,7 @@ function HeroSection() {
             floatingZoomTopOffset={180}
             autoFitBounds
             showLegend
+            userLocation={geo.coords}
           />
           {/* Subtle fade-left on desktop para fundir con copy column */}
           <div
@@ -2444,9 +2449,11 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const [language, setLanguage] = useState<string>("all");
   const [specialty, setSpecialty] = useState<string>("all");
 
-  // Geolocalización opt-in. `coords` es null hasta que el usuario
-  // pulsa el botón "Cerca de mí" y el navegador concede permiso.
-  const geo = useUserLocation();
+  // Geolocalización opt-in compartida vía GeoContext. `coords` es null
+  // hasta que el usuario pulsa "Cerca de mí" y el navegador concede
+  // permiso. Al estar en context, el mapa del hero recibe las mismas
+  // coords y se recentra automáticamente.
+  const geo = useGeo();
 
   const filtered = useMemo(() => {
     const list = filterCoaches(allCoaches, { country, language, specialty });
@@ -3512,6 +3519,12 @@ export default function AcademyV2Page() {
       <Navbar />
       <ProgramBar />
 
+      {/* GeoProvider envuelve Hero + Network: ambas secciones consumen
+          la misma instancia de `useUserLocation`, de modo que al pulsar
+          "Cerca de mí" en el grid, el mapa del hero también recibe las
+          coords y recentra al usuario (y viceversa). Evita dos prompts
+          simultáneos del navegador y mantiene un único estado. */}
+      <GeoProvider>
       {/* Hero (starts dark — body default) */}
       <HeroSection />
 
@@ -3542,6 +3555,7 @@ export default function AcademyV2Page() {
            dark bg) so body goes dark invisibly while section is visible */
         <ScrollMarker index={3} to="dark" refs={markerRefs} />
       } />
+      </GeoProvider>
 
       <SelloSection />
 
