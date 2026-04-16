@@ -209,6 +209,47 @@ interface NetworkMapProps {
   };
 }
 
+/**
+ * Radio del círculo de offset (en grados) cuando varios coaches
+ * comparten exactamente las mismas coordenadas. ~0.008 grados ≈ 900m,
+ * suficiente para separar los pines visualmente a zoom continental
+ * sin distorsionar la percepción geográfica.
+ */
+const DUPLICATE_COORD_RADIUS = 0.008;
+
+/**
+ * Devuelve la lista de coaches con coordenadas ajustadas: si N coaches
+ * comparten el mismo punto, los distribuye en círculo alrededor del
+ * punto base. Los coaches en ubicaciones únicas mantienen sus
+ * coordenadas reales intactas.
+ */
+function applyCoordOffsets(coaches: readonly Coach[]): Array<{ coach: Coach; position: [number, number] }> {
+  const groups = new Map<string, Coach[]>();
+  for (const c of coaches) {
+    const key = `${c.location.coordinates[0]},${c.location.coordinates[1]}`;
+    const arr = groups.get(key) ?? [];
+    arr.push(c);
+    groups.set(key, arr);
+  }
+  return coaches.map((c) => {
+    const key = `${c.location.coordinates[0]},${c.location.coordinates[1]}`;
+    const group = groups.get(key)!;
+    if (group.length === 1) {
+      return { coach: c, position: c.location.coordinates };
+    }
+    const index = group.findIndex((g) => g.slug === c.slug);
+    const angle = (index / group.length) * Math.PI * 2;
+    const [lat, lng] = c.location.coordinates;
+    return {
+      coach: c,
+      position: [
+        lat + Math.sin(angle) * DUPLICATE_COORD_RADIUS,
+        lng + Math.cos(angle) * DUPLICATE_COORD_RADIUS,
+      ] as [number, number],
+    };
+  });
+}
+
 export default function NetworkMap({
   coaches: coachesProp,
   onAsk,
@@ -218,6 +259,7 @@ export default function NetworkMap({
   labels,
 }: NetworkMapProps) {
   const coaches = useMemo(() => [...coachesProp], [coachesProp]);
+  const coachesPositioned = useMemo(() => applyCoordOffsets(coaches), [coaches]);
   const markerRefs = useRef<Map<string, L.Marker>>(new Map());
 
   const handleAsk = (c: Coach) => {
@@ -258,12 +300,12 @@ export default function NetworkMap({
           url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
         />
         <MapFocusListener coaches={coaches} markerRefs={markerRefs} />
-        {coaches.map((c) => {
+        {coachesPositioned.map(({ coach: c, position }) => {
           const kind = resolveKind(c);
           return (
           <Marker
             key={c.slug}
-            position={c.location.coordinates}
+            position={position}
             icon={makeIcon(kind)}
             ref={(instance) => {
               if (instance) markerRefs.current.set(c.slug, instance);
