@@ -228,6 +228,42 @@ const pinStyles = `
     stroke-opacity: 0.8 !important;
   }
 
+  /* ── Pin "tú estás aquí" — color frío (azul cyan) para
+     diferenciarlo inmediatamente de los pines dorados J3.
+     Ring pulsante continuo para señalizar que es dinámico. ── */
+  .j3-user-pin {
+    background: transparent !important;
+    border: none !important;
+  }
+  .j3-user-pin-inner {
+    position: relative;
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    background: radial-gradient(circle at 50% 50%, rgba(130,200,255,0.98), rgba(100,180,240,0.6) 55%, rgba(100,180,240,0) 100%);
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.55), 0 4px 18px rgba(130,200,255,0.55);
+  }
+  .j3-user-pin-inner::after {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border-radius: 999px;
+    background: #ffffff;
+    border: 1px solid rgba(130,200,255,0.9);
+  }
+  .j3-user-pin-inner::before {
+    content: "";
+    position: absolute;
+    inset: -10px;
+    border-radius: 999px;
+    border: 1px solid rgba(130,200,255,0.5);
+    animation: j3UserPulse 2s ease-out infinite;
+  }
+  @keyframes j3UserPulse {
+    0%   { transform: scale(0.75); opacity: 1; }
+    100% { transform: scale(2.1);  opacity: 0; }
+  }
+
   /* ── Leyenda flotante (Leaflet control bottomleft) ── */
   .j3-legend {
     background: rgba(10,10,10,0.78) !important;
@@ -317,6 +353,8 @@ interface PopupLabels {
   legendCluster: string;
   /** Label del botón "Ver en Maps" */
   viewInMaps: string;
+  /** Tooltip del pin del usuario: "Estás aquí" */
+  youAreHere?: string;
 }
 
 /**
@@ -761,6 +799,66 @@ function ClusteredMarkers({
 }
 
 /**
+ * UserLocationMarker — pin cyan pulsante en la ubicación del
+ * usuario. Se monta y desmonta cuando la prop `userLocation`
+ * cambia. Muestra un popup simple con el label "Estás aquí".
+ */
+function UserLocationMarker({
+  location,
+  label,
+}: {
+  location: [number, number];
+  label: string;
+}) {
+  const map = useMap();
+
+  useEffect(() => {
+    const icon = L.divIcon({
+      className: "j3-user-pin",
+      html: `<div class="j3-user-pin-inner"></div>`,
+      iconSize: [28, 28],
+      iconAnchor: [14, 14],
+      popupAnchor: [0, -14],
+    });
+    const marker = L.marker(location, { icon, keyboard: false, interactive: true });
+    marker.bindTooltip(label, {
+      direction: "top",
+      offset: [0, -14],
+      opacity: 0.95,
+      className: "j3-user-tooltip",
+    });
+    marker.addTo(map);
+    return () => {
+      marker.remove();
+    };
+  }, [map, location, label]);
+
+  return null;
+}
+
+/**
+ * AutoCenterOnUser — cuando se obtiene por primera vez la
+ * ubicación del usuario, anima el mapa para centrarse ahí
+ * con un zoom cómodo (regional). Solo dispara una vez por
+ * cambio de location: si el usuario luego pan-ea, no se
+ * vuelve a centrar.
+ */
+function AutoCenterOnUser({ location }: { location: [number, number] | null | undefined }) {
+  const map = useMap();
+  const lastKey = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (!location) return;
+    const key = `${location[0].toFixed(4)},${location[1].toFixed(4)}`;
+    if (lastKey.current === key) return;
+    lastKey.current = key;
+    map.flyTo(location, 8, { duration: 1.2, easeLinearity: 0.25 });
+  }, [map, location]);
+
+  return null;
+}
+
+/**
  * AutoFitBounds — calcula el bound que contiene todos los
  * pines visibles y ajusta el viewport. Solo dispara una vez
  * por instancia del mapa para no sobreescribir las pan/zoom
@@ -952,6 +1050,12 @@ interface NetworkMapProps {
   autoFitBounds?: boolean;
   /** Si true, muestra la mini-leyenda bottom-left. Default: true. */
   showLegend?: boolean;
+  /**
+   * Coordenadas del usuario [lat, lng]. Si están presentes, se pinta
+   * un pin cyan pulsante y el mapa se recentra automáticamente sobre
+   * esa posición con un zoom regional.
+   */
+  userLocation?: [number, number] | null;
   labels: PopupLabels;
 }
 
@@ -965,6 +1069,7 @@ export default function NetworkMap({
   floatingZoomTopOffset = 180,
   autoFitBounds = false,
   showLegend = true,
+  userLocation = null,
   labels,
 }: NetworkMapProps) {
   const coaches = useMemo(() => [...coachesProp], [coachesProp]);
@@ -994,7 +1099,14 @@ export default function NetworkMap({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
         />
-        {autoFitBounds && <AutoFitBounds coaches={coaches} />}
+        {autoFitBounds && !userLocation && <AutoFitBounds coaches={coaches} />}
+        {userLocation && <AutoCenterOnUser location={userLocation} />}
+        {userLocation && (
+          <UserLocationMarker
+            location={userLocation}
+            label={labels.youAreHere ?? "You are here"}
+          />
+        )}
         {showLegend && <MapLegend labels={labels} />}
         <ClusteredMarkers coaches={coaches} labels={labels} onAsk={onAsk} />
       </MapContainer>

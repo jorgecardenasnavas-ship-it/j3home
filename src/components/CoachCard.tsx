@@ -19,6 +19,7 @@
 import { useEffect, useState } from "react";
 import type { Coach } from "@/data/coaches";
 import { LanguageChip } from "@/components/LanguageChip";
+import { formatDistance, haversineKm, type LatLng } from "@/lib/geo";
 
 interface CoachCardProps {
   coach: Coach;
@@ -26,11 +27,15 @@ interface CoachCardProps {
     badgeHq: string;
     badgeRecommended: string;
     askChatbot: string;
+    /** Template "a {km} km de ti". Opcional: solo se muestra si hay userCoords. */
+    kmFromYou?: string;
   };
+  /** Coordenadas del usuario. Si están presentes, se muestra badge de distancia. */
+  userCoords?: LatLng | null;
   onAsk?: (coach: Coach) => void;
 }
 
-export default function CoachCard({ coach, labels, onAsk }: CoachCardProps) {
+export default function CoachCard({ coach, labels, userCoords, onAsk }: CoachCardProps) {
   const isHq = coach.tier === "hq";
   const [isHovered, setIsHovered] = useState(false);
 
@@ -121,6 +126,31 @@ export default function CoachCard({ coach, labels, onAsk }: CoachCardProps) {
             {isHq ? labels.badgeHq : labels.badgeRecommended}
           </span>
         </span>
+
+        {/* Badge de distancia — solo visible cuando el usuario ha
+            compartido su ubicación. Se pinta arriba-derecha con icono
+            de pin para que sea inmediatamente legible. */}
+        {userCoords && labels.kmFromYou && (
+          <span
+            className="absolute top-3 right-3 inline-flex items-center gap-1.5 px-2.5 py-1 bg-black/75 backdrop-blur-sm border border-[var(--g1)]/50"
+            style={{ borderRadius: 2 }}
+            aria-label={formatDistance(
+              haversineKm(userCoords, coach.location.coordinates),
+              labels.kmFromYou,
+            )}
+          >
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-[var(--g1)]" aria-hidden>
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            <span className="text-[10px] font-bold tracking-[1.2px] text-[var(--g1)] font-variant-numeric-tabular">
+              {formatDistance(
+                haversineKm(userCoords, coach.location.coordinates),
+                labels.kmFromYou,
+              )}
+            </span>
+          </span>
+        )}
       </div>
 
       {/* Body */}

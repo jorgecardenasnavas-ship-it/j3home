@@ -9,6 +9,8 @@ import CoachCard from "@/components/CoachCard";
 import { FilterSelect } from "@/components/FilterSelect";
 import { useI18n } from "@/i18n/context";
 import { languageLabel } from "@/lib/languages";
+import { haversineKm } from "@/lib/geo";
+import { useUserLocation } from "@/hooks/useUserLocation";
 import {
   COACHES,
   COACH_COUNTRIES,
@@ -668,6 +670,7 @@ function HeroSection() {
     legendRecommended: t.academy.network.legendRecommended,
     legendCluster: t.academy.network.legendCluster,
     viewInMaps: t.academy.network.viewInMaps,
+    youAreHere: t.academy.network.youAreHere,
   };
 
   /* Contador — "{count} coaches · {countries} ciudades" */
@@ -703,24 +706,82 @@ function HeroSection() {
         transition: "opacity .8s ease .2s",
       }}
     >
-      <div className="relative w-full h-full min-[961px]:absolute min-[961px]:inset-0 flex flex-col min-[961px]:flex-row">
+      {/* Styles locales para las animaciones escalonadas del hero.
+          Cada elemento tiene una clase .hero-rise y un delay custom.
+          Usamos data-ready en el parent para triggerar la animación
+          solo cuando el boot delay ha pasado. */}
+      <style>{`
+        @keyframes heroRise {
+          from { opacity: 0; transform: translateY(18px); filter: blur(4px); }
+          to   { opacity: 1; transform: translateY(0);    filter: blur(0);  }
+        }
+        [data-hero-ready="true"] .hero-rise {
+          animation: heroRise .9s cubic-bezier(.16,1,.3,1) both;
+        }
+        .hero-rise-1 { animation-delay: .05s !important; }
+        .hero-rise-2 { animation-delay: .18s !important; }
+        .hero-rise-3 { animation-delay: .34s !important; }
+        .hero-rise-4 { animation-delay: .48s !important; }
+        .hero-rise-5 { animation-delay: .62s !important; }
+        .hero-rise-6 { animation-delay: .76s !important; }
+        @keyframes heroLineGrow {
+          from { transform: scaleY(0); }
+          to   { transform: scaleY(1); }
+        }
+        [data-hero-ready="true"] .hero-sidebar-line {
+          animation: heroLineGrow 1.4s cubic-bezier(.16,1,.3,1) .2s both;
+          transform-origin: top;
+        }
+      `}</style>
+
+      <div className="relative w-full h-full min-[961px]:absolute min-[961px]:inset-0 flex flex-col min-[961px]:flex-row" data-hero-ready={ready ? "true" : "false"}>
         {/* ── Copy column (40%) ── */}
         <div className="relative z-10 w-full min-[961px]:w-[40%] flex flex-col justify-center px-6 max-[960px]:px-5 py-16 max-[960px]:py-12 min-[961px]:px-10 min-[961px]:py-16 border-r border-white/[.06]">
+          {/* Línea vertical dorada — ornamento lateral en desktop. Crece
+              de arriba a abajo al entrar. Refuerza la jerarquía sin
+              competir con el contenido. */}
+          <span
+            aria-hidden
+            className="hero-sidebar-line hidden min-[961px]:block absolute left-0 top-[10%] bottom-[10%] w-px"
+            style={{
+              background:
+                "linear-gradient(180deg, transparent 0%, rgba(220,175,100,0.45) 30%, rgba(220,175,100,0.6) 50%, rgba(220,175,100,0.45) 70%, transparent 100%)",
+            }}
+          />
+
+          {/* Marcador "01" — aporta un toque editorial en desktop */}
+          <span
+            aria-hidden
+            className="hero-rise hero-rise-1 hidden min-[961px]:block absolute top-10 right-8 text-[10px] tracking-[3px] uppercase font-semibold text-[var(--g1)]/60"
+          >
+            01 / <span className="text-[var(--g1)]/35">04</span>
+          </span>
+
           <div className="max-w-[460px] mx-auto min-[961px]:mx-0">
-            <span className="text-[10px] font-medium tracking-[5px] uppercase text-[var(--g1)] block mb-4 max-[960px]:text-[10px] max-[960px]:tracking-[3px]">
+            <span className="hero-rise hero-rise-1 text-[10px] font-medium tracking-[5px] uppercase text-[var(--g1)] block mb-4 max-[960px]:text-[10px] max-[960px]:tracking-[3px]">
               {t.academy.hero.eyebrow}
             </span>
 
-            <h1 className="font-bold uppercase tracking-[-2px] leading-[.92] text-white text-[clamp(44px,7vw,92px)] max-[960px]:text-[clamp(40px,11vw,72px)]">
+            <h1 className="hero-rise hero-rise-2 font-bold uppercase tracking-[-2px] leading-[.92] text-white text-[clamp(44px,7vw,92px)] max-[960px]:text-[clamp(40px,11vw,72px)]">
               {t.academy.hero.heading}
             </h1>
 
-            <p className="mt-5 text-[15px] max-[960px]:text-[14px] leading-[1.5] text-white/75 max-w-[420px]">
+            {/* Línea horizontal ultrafina — separa H1 del subtítulo */}
+            <span
+              aria-hidden
+              className="hero-rise hero-rise-3 block mt-6 mb-5 h-px w-[56px]"
+              style={{
+                background:
+                  "linear-gradient(90deg, rgba(220,175,100,0.85), rgba(220,175,100,0.15) 100%)",
+              }}
+            />
+
+            <p className="hero-rise hero-rise-3 text-[15px] max-[960px]:text-[14px] leading-[1.5] text-white/75 max-w-[420px]">
               {t.academy.hero.sub}
             </p>
 
             {/* CTAs */}
-            <div className="mt-7 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <div className="hero-rise hero-rise-4 mt-7 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               <button
                 type="button"
                 onClick={handleScrollToNetwork}
@@ -747,7 +808,7 @@ function HeroSection() {
             </div>
 
             {/* Filtros compactos */}
-            <div className="mt-8 pt-7 border-t border-white/[.08]">
+            <div className="hero-rise hero-rise-5 mt-8 pt-7 border-t border-white/[.08]">
               <span className="text-[10px] font-medium tracking-[4px] uppercase text-white/50 block mb-3">
                 {t.academy.hero.filtersTitle}
               </span>
@@ -771,7 +832,7 @@ function HeroSection() {
                   options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_SPECIALTIES.map(s => ({ value: s, label: specialtyLabel(s) }))]}
                 />
               </div>
-              <p className="mt-4 text-[11px] tracking-[2px] uppercase text-white/55">
+              <p className="hero-rise hero-rise-6 mt-4 text-[11px] tracking-[2px] uppercase text-white/55">
                 {countLine}
               </p>
             </div>
@@ -2383,10 +2444,21 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const [language, setLanguage] = useState<string>("all");
   const [specialty, setSpecialty] = useState<string>("all");
 
-  const filtered = useMemo(
-    () => filterCoaches(allCoaches, { country, language, specialty }),
-    [allCoaches, country, language, specialty],
-  );
+  // Geolocalización opt-in. `coords` es null hasta que el usuario
+  // pulsa el botón "Cerca de mí" y el navegador concede permiso.
+  const geo = useUserLocation();
+
+  const filtered = useMemo(() => {
+    const list = filterCoaches(allCoaches, { country, language, specialty });
+    if (!geo.coords) return list;
+    // Mutable copy para sort. Haversine es trivial computacionalmente.
+    const withDistance = [...list].map((c) => ({
+      coach: c,
+      km: haversineKm(geo.coords!, c.location.coordinates),
+    }));
+    withDistance.sort((a, b) => a.km - b.km);
+    return withDistance.map((x) => x.coach);
+  }, [allCoaches, country, language, specialty, geo.coords]);
 
   // 6 destacados en desktop, 3 en mobile.
   const displayCount = isMobile ? 3 : 6;
@@ -2399,6 +2471,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
     badgeHq: t.academy.network.badgeHq,
     badgeRecommended: t.academy.network.badgeRecommended,
     askChatbot: t.academy.network.askChatbot,
+    kmFromYou: t.academy.network.kmFromYou,
   };
 
   const specialtyLabel = (s: CoachSpecialty) =>
@@ -2554,6 +2627,59 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
             onChange={setSpecialty}
             options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_SPECIALTIES.map(s => ({ value: s, label: specialtyLabel(s) }))]}
           />
+          {/* Cerca de mí — botón de geolocalización opt-in. Cambia de
+              aspecto según el estado del hook (idle/loading/success/error).
+              Cuando success, aparece un 'X' para limpiar y volver al orden
+              por defecto. */}
+          {geo.status === "success" ? (
+            <button
+              type="button"
+              onClick={geo.clear}
+              className="group inline-flex items-center gap-2 px-3 py-1.5 text-[10px] tracking-[2px] uppercase font-bold text-[#000] bg-gradient-to-br from-[#f0c478] to-[#dcaf64] hover:brightness-110 transition-all"
+              style={{ borderRadius: 2 }}
+              aria-label={t.academy.network.nearMeActive}
+            >
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <circle cx="12" cy="12" r="10" />
+                <line x1="22" y1="12" x2="18" y2="12" />
+                <line x1="6" y1="12" x2="2" y2="12" />
+                <line x1="12" y1="6" x2="12" y2="2" />
+                <line x1="12" y1="22" x2="12" y2="18" />
+                <circle cx="12" cy="12" r="3" fill="currentColor" />
+              </svg>
+              <span>{t.academy.network.nearMeActive}</span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="opacity-60 group-hover:opacity-100">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={geo.request}
+              disabled={geo.status === "loading"}
+              className="inline-flex items-center gap-2 px-3 py-1.5 text-[10px] tracking-[2px] uppercase font-bold text-[var(--g1)] border border-[var(--g1)]/50 hover:border-[var(--g1)] hover:bg-[var(--g1)]/10 disabled:opacity-60 transition-all"
+              style={{ borderRadius: 2 }}
+            >
+              {geo.status === "loading" ? (
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="animate-spin">
+                  <path d="M21 12a9 9 0 1 1-6.2-8.55" />
+                </svg>
+              ) : (
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="22" y1="12" x2="18" y2="12" />
+                  <line x1="6" y1="12" x2="2" y2="12" />
+                  <line x1="12" y1="6" x2="12" y2="2" />
+                  <line x1="12" y1="22" x2="12" y2="18" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              )}
+              <span>
+                {geo.status === "loading" ? t.academy.network.nearMeLoading : t.academy.network.nearMe}
+              </span>
+            </button>
+          )}
           {hasAnyFilter && (
             <button
               type="button"
@@ -2564,6 +2690,36 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
             </button>
           )}
         </div>
+
+        {/* Mensaje de error de geolocalización — discreto, con cierre
+            manual (se recupera reiniciando el estado al clicar "×"). */}
+        {geo.status === "error" && (
+          <div
+            role="alert"
+            className="mb-4 flex items-start gap-3 px-4 py-3 border border-[var(--g1)]/25 bg-[var(--g1)]/5"
+            style={{ borderRadius: 2, color: "var(--wh)" }}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[var(--g1)] flex-shrink-0 mt-0.5" aria-hidden>
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+            <p className="text-[12px] opacity-85 leading-[1.5] flex-1">
+              {t.academy.network.nearMeError}
+            </p>
+            <button
+              type="button"
+              onClick={geo.clear}
+              className="text-[var(--g1)] opacity-60 hover:opacity-100 transition"
+              aria-label="Cerrar"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          </div>
+        )}
 
         {filtered.length === 0 ? (
           <div
@@ -2652,7 +2808,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
           <>
             <div className="grid gap-4 max-[960px]:gap-3" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(min(260px, 100%), 1fr))" }}>
               {display.map((c) => (
-                <CoachCard key={c.slug} coach={c} labels={gridLabels} onAsk={handleAsk} />
+                <CoachCard key={c.slug} coach={c} labels={gridLabels} userCoords={geo.coords} onAsk={handleAsk} />
               ))}
             </div>
 

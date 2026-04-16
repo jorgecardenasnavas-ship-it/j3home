@@ -405,6 +405,18 @@ export interface Dictionary {
       readonly filterEmptyTitle: string;
       /** Subtítulo / sugerencia en el empty state */
       readonly filterEmptyDesc: string;
+      /** Botón "Cerca de mí" (idle) */
+      readonly nearMe: string;
+      /** Label mientras se pide permiso de geolocalización */
+      readonly nearMeLoading: string;
+      /** Badge cuando está activo: "Ordenado por cercanía" */
+      readonly nearMeActive: string;
+      /** Mensaje si el usuario deniega o el navegador falla */
+      readonly nearMeError: string;
+      /** Template del badge de distancia en la card. {km} = número */
+      readonly kmFromYou: string;
+      /** Label del pin "tú estás aquí" en el mapa */
+      readonly youAreHere: string;
       readonly specialtyJuniors: string;
       readonly specialtyAdultos: string;
       readonly specialtyCompeticion: string;
