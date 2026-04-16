@@ -65,8 +65,15 @@ const pinStyles = `
     background: #0a0a0a;
     border: 1px solid rgba(220,175,100,0.9);
   }
-  .j3-pin-inner:hover {
-    transform: scale(1.2);
+  .j3-pin-inner:hover,
+  .j3-pin-inner.is-hovered {
+    transform: scale(1.25);
+    box-shadow: 0 0 0 3px rgba(0,0,0,0.6), 0 8px 28px rgba(220,175,100,0.7);
+  }
+  /* Cuando el hover viene desde una card (sync externo), destacar más */
+  .j3-pin-inner.is-hovered::after {
+    border-color: #f0c478;
+    background: #1a1408;
   }
   .j3-pin-lab {
     width: 48px;
@@ -633,6 +640,18 @@ function ClusteredMarkers({
         }
       });
 
+      // Hover bidireccional — emite eventos globales al pasar
+      // el cursor por encima del pin. Las cards escuchan estos
+      // mismos eventos y se resaltan si coincide el slug.
+      m.on("mouseover", () => {
+        if (typeof window === "undefined") return;
+        window.dispatchEvent(new CustomEvent("j3:hover:enter", { detail: { slug: c.slug } }));
+      });
+      m.on("mouseout", () => {
+        if (typeof window === "undefined") return;
+        window.dispatchEvent(new CustomEvent("j3:hover:leave", { detail: { slug: c.slug } }));
+      });
+
       group.addLayer(m);
       markerBySlug.set(c.slug, m);
     });
@@ -681,6 +700,31 @@ function ClusteredMarkers({
     };
     window.addEventListener("j3:map:focus", onFocusEvent as EventListener);
 
+    // Hover sync inverso: cuando una card emite hover, resaltar
+    // el pin correspondiente añadiendo la clase .is-hovered al
+    // div interno del marker. Usamos getElement() porque el
+    // icono es un DivIcon y el contenedor existe siempre que
+    // el marker esté visible (no dentro de un cluster colapsado).
+    const togglePinHover = (slug: string, on: boolean) => {
+      const marker = markerBySlug.get(slug);
+      if (!marker) return;
+      const el = marker.getElement();
+      if (!el) return;
+      const inner = el.querySelector<HTMLElement>(".j3-pin-inner");
+      if (!inner) return;
+      inner.classList.toggle("is-hovered", on);
+    };
+    const onHoverEnter = (ev: Event) => {
+      const slug = (ev as CustomEvent<{ slug?: string }>).detail?.slug;
+      if (slug) togglePinHover(slug, true);
+    };
+    const onHoverLeave = (ev: Event) => {
+      const slug = (ev as CustomEvent<{ slug?: string }>).detail?.slug;
+      if (slug) togglePinHover(slug, false);
+    };
+    window.addEventListener("j3:hover:enter", onHoverEnter as EventListener);
+    window.addEventListener("j3:hover:leave", onHoverLeave as EventListener);
+
     // hashchange — deep-link reactivo durante la sesión
     const parseHashSlug = (): string | null => {
       if (typeof window === "undefined") return null;
@@ -704,6 +748,8 @@ function ClusteredMarkers({
     return () => {
       window.removeEventListener("j3:map:focus", onFocusEvent as EventListener);
       window.removeEventListener("hashchange", onHashChange);
+      window.removeEventListener("j3:hover:enter", onHoverEnter as EventListener);
+      window.removeEventListener("j3:hover:leave", onHoverLeave as EventListener);
       container.removeEventListener("click", onContainerClick);
       if (initialTimer !== null) window.clearTimeout(initialTimer);
       map.removeLayer(group);

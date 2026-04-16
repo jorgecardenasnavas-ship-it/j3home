@@ -4,8 +4,19 @@
    CoachCard — ficha de coach J3 Recommended.
    Se renderiza en el grid bajo el mapa y como
    resultado de un click en un pin.
+
+   Hover bidireccional pin ↔ card (Sprint D-hover):
+   - Al entrar/salir del card se emite un CustomEvent
+     global `j3:hover:enter` / `j3:hover:leave` con el
+     slug, que NetworkMap escucha para resaltar el pin
+     correspondiente.
+   - Inversamente, se escuchan esos mismos eventos
+     (los dispara el propio marcador al hover) y se
+     aplica un estado visual destacado a este card
+     cuando el slug coincide.
    ────────────────────────────────────────────── */
 
+import { useEffect, useState } from "react";
 import type { Coach } from "@/data/coaches";
 import { LanguageChip } from "@/components/LanguageChip";
 
@@ -21,11 +32,50 @@ interface CoachCardProps {
 
 export default function CoachCard({ coach, labels, onAsk }: CoachCardProps) {
   const isHq = coach.tier === "hq";
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Escuchar eventos globales del mapa: si el pin del mismo slug
+  // está siendo hovered, marcar este card como "is-hovered".
+  useEffect(() => {
+    const onEnter = (ev: Event) => {
+      const slug = (ev as CustomEvent<{ slug?: string }>).detail?.slug;
+      if (slug === coach.slug) setIsHovered(true);
+    };
+    const onLeave = (ev: Event) => {
+      const slug = (ev as CustomEvent<{ slug?: string }>).detail?.slug;
+      if (slug === coach.slug) setIsHovered(false);
+    };
+    window.addEventListener("j3:hover:enter", onEnter as EventListener);
+    window.addEventListener("j3:hover:leave", onLeave as EventListener);
+    return () => {
+      window.removeEventListener("j3:hover:enter", onEnter as EventListener);
+      window.removeEventListener("j3:hover:leave", onLeave as EventListener);
+    };
+  }, [coach.slug]);
+
+  const fireEnter = () => {
+    window.dispatchEvent(new CustomEvent("j3:hover:enter", { detail: { slug: coach.slug } }));
+  };
+  const fireLeave = () => {
+    window.dispatchEvent(new CustomEvent("j3:hover:leave", { detail: { slug: coach.slug } }));
+  };
 
   return (
     <article
-      className="group relative flex flex-col theme-surface border theme-border hover:border-[var(--g1)]/40 transition-colors duration-300 overflow-hidden"
+      onMouseEnter={fireEnter}
+      onMouseLeave={fireLeave}
+      className="group relative flex flex-col theme-surface border theme-border hover:border-[var(--g1)]/40 transition-all duration-300 overflow-hidden"
       data-featured={coach.featured ? "true" : undefined}
+      data-hovered={isHovered ? "true" : undefined}
+      style={
+        isHovered
+          ? {
+              borderColor: "rgba(220,175,100,0.85)",
+              transform: "translateY(-2px)",
+              boxShadow: "0 10px 32px rgba(220,175,100,0.18), 0 2px 8px rgba(0,0,0,0.35)",
+            }
+          : undefined
+      }
     >
       {/* Badge superior — gradiente */}
       <span
