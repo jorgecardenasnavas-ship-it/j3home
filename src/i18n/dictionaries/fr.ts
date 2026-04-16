@@ -621,6 +621,15 @@ export const fr = {
           waMsg: "Bonjour, je souhaite des infos sur le programme Pro",
         },
       ],
+      adultosInfoEyebrow: "\u00C9cole r\u00E9guli\u00E8re",
+      adultosInfoHeadingPre: "L\u2019\u00E9cole",
+      adultosInfoHeadingAccent: "amateur.",
+      adultosInfoDesc: "Programme annuel ouvert \u00E0 tous les niveaux. Votre rythme, votre groupe, votre horaire.",
+      adultosFeatures: [
+        { label: "Niveaux", desc: "D\u00E9butant, interm\u00E9diaire, avanc\u00E9 et comp\u00E9tition" },
+        { label: "Format", desc: "\u00C9cole r\u00E9guli\u00E8re, programme annuel" },
+        { label: "Horaires", desc: "Matins, apr\u00E8s-midi, semaine ou week-end" },
+      ],
       intensiveCards: [
         {
           tag: "Format intensif",

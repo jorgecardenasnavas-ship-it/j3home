@@ -1824,23 +1824,64 @@ function PerfilesSection() {
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.adultosLabel}</span>
           <span className="ml-auto text-[16px] theme-text opacity-70 italic tracking-normal normal-case hidden min-[961px]:inline">Cada jugador tiene su momento y evolución.</span>
         </div>
-        {/* Desktop: PorscheRow */}
+        {/* Desktop: split layout — cards + info panel */}
         <div className="px-4 max-w-[1600px] mx-auto py-10 hidden min-[961px]:block">
-          <div ref={el => { aRefs.current[0] = el as HTMLDivElement | null; }}>
-            <PorscheRow hoveredIdx={aRow0Hover}>
+          <div
+            ref={el => { aRefs.current[0] = el as HTMLDivElement | null; }}
+            className="grid grid-cols-[1.25fr_1fr] gap-[clamp(24px,2vw+16px,56px)] items-stretch"
+          >
+            {/* Card(s) — full-height column */}
+            <div
+              className="flex flex-col gap-[clamp(16px,1.25vw+12px,36px)]"
+              style={{ height: "clamp(360px, calc(7vh + 30vw), 540px)" }}
+            >
               {adultosCards.map((c, i) => (
-                <ProgramTile
-                  key={i} tag={c.tag} title={c.title} sub={c.sub} cta={c.cta}
-                  image={c.image} href={c.cta.href} cardId={c.cardId}
-                  isHovered={aRow0Hover === i}
-                  onHover={() => setARow0Hover(i)} onLeave={() => setARow0Hover(null)}
-                  index={i} visible={aVis[0]}
-                />
+                <div key={i} className="flex-1 min-h-0">
+                  <ProgramTile
+                    tag={c.tag} title={c.title} sub={c.sub} cta={c.cta}
+                    image={c.image} href={c.cta.href} cardId={c.cardId}
+                    isHovered={aRow0Hover === i}
+                    onHover={() => setARow0Hover(i)} onLeave={() => setARow0Hover(null)}
+                    index={i} visible={aVis[0]}
+                  />
+                </div>
               ))}
-            </PorscheRow>
+            </div>
+            {/* Info panel */}
+            <div
+              className="flex flex-col justify-center py-6"
+              style={{
+                opacity: aVis[0] ? 1 : 0,
+                transform: aVis[0] ? "none" : "translateY(24px)",
+                transition: "all 0.9s cubic-bezier(.16,1,.3,1) 0.2s",
+              }}
+            >
+              <span className="theme-eyebrow text-[10px] font-normal tracking-[5px] uppercase block mb-3">
+                {t.academy.programs.adultosInfoEyebrow}
+              </span>
+              <h3 className="font-bold text-[clamp(28px,2.6vw,44px)] uppercase tracking-[-1px] leading-[1.05] mb-5">
+                <span className="theme-text">{t.academy.programs.adultosInfoHeadingPre} </span>
+                <span className="j3-grad-text font-[var(--font-serif)] italic normal-case">{t.academy.programs.adultosInfoHeadingAccent}</span>
+              </h3>
+              <p className="text-[15px] theme-text opacity-80 leading-[1.55] max-w-[460px] mb-6">
+                {t.academy.programs.adultosInfoDesc}
+              </p>
+              <ul className="flex flex-col divide-y theme-border">
+                {t.academy.programs.adultosFeatures.map((f, idx) => (
+                  <li key={idx} className="py-3 grid grid-cols-[140px_1fr] gap-4 items-baseline">
+                    <span className="text-[11px] font-semibold tracking-[2px] uppercase text-[var(--g1)]">
+                      {f.label}
+                    </span>
+                    <span className="theme-text opacity-80 text-[14px] leading-[1.45]">
+                      {f.desc}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
-        {/* Mobile: Horizontal scroll carousel with Porsche dots */}
+        {/* Mobile: card(s) on top, info panel below */}
         <div
           ref={aMobileReveal.ref}
           className="max-w-[1600px] mx-auto py-10 min-[961px]:hidden"
@@ -1850,17 +1891,65 @@ function PerfilesSection() {
             transition: "all 0.9s cubic-bezier(.16,1,.3,1)",
           }}
         >
-          <ScrollCarousel>
-            {adultosCards.map((c, i) => (
-              <ProgramTile
-                key={i} tag={c.tag} title={c.title} sub={c.sub} cta={c.cta}
-                image={c.image} href={c.cta.href} cardId={c.cardId}
-                isHovered={aMobileHover === i}
-                onHover={() => setAMobileHover(i)} onLeave={() => setAMobileHover(null)}
-                index={i} visible={aMobileReveal.visible}
-              />
-            ))}
-          </ScrollCarousel>
+          {adultosCards.length === 1 ? (
+            <div className="flex justify-center px-4">
+              {adultosCards.map((c, i) => (
+                <div
+                  key={i}
+                  style={{
+                    width: "min(92vw, 420px)",
+                    height: "clamp(360px, 90vw, 480px)",
+                  }}
+                >
+                  <ProgramTile
+                    tag={c.tag} title={c.title} sub={c.sub} cta={c.cta}
+                    image={c.image} href={c.cta.href} cardId={c.cardId}
+                    isHovered={aMobileHover === i}
+                    onHover={() => setAMobileHover(i)} onLeave={() => setAMobileHover(null)}
+                    index={i} visible={aMobileReveal.visible}
+                    inCarousel forceExpand
+                  />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <ScrollCarousel>
+              {adultosCards.map((c, i) => (
+                <ProgramTile
+                  key={i} tag={c.tag} title={c.title} sub={c.sub} cta={c.cta}
+                  image={c.image} href={c.cta.href} cardId={c.cardId}
+                  isHovered={aMobileHover === i}
+                  onHover={() => setAMobileHover(i)} onLeave={() => setAMobileHover(null)}
+                  index={i} visible={aMobileReveal.visible}
+                />
+              ))}
+            </ScrollCarousel>
+          )}
+          {/* Info panel — mobile */}
+          <div className="px-4 mt-8">
+            <span className="theme-eyebrow text-[11px] font-normal tracking-[3px] uppercase block mb-3">
+              {t.academy.programs.adultosInfoEyebrow}
+            </span>
+            <h3 className="font-bold text-[clamp(24px,5vw,32px)] uppercase tracking-[-0.5px] leading-[1.1] mb-4">
+              <span className="theme-text">{t.academy.programs.adultosInfoHeadingPre} </span>
+              <span className="j3-grad-text font-[var(--font-serif)] italic normal-case">{t.academy.programs.adultosInfoHeadingAccent}</span>
+            </h3>
+            <p className="text-[14px] theme-text opacity-80 leading-[1.55] mb-5">
+              {t.academy.programs.adultosInfoDesc}
+            </p>
+            <ul className="flex flex-col divide-y theme-border">
+              {t.academy.programs.adultosFeatures.map((f, idx) => (
+                <li key={idx} className="py-3 flex flex-col gap-1">
+                  <span className="text-[10px] font-semibold tracking-[2px] uppercase text-[var(--g1)]">
+                    {f.label}
+                  </span>
+                  <span className="theme-text opacity-80 text-[14px] leading-[1.45]">
+                    {f.desc}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
 

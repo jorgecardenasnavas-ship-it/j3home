@@ -316,6 +316,14 @@ export interface Dictionary {
         readonly ctaLabel: string;
         readonly waMsg: string;
       }[];
+      readonly adultosInfoEyebrow: string;
+      readonly adultosInfoHeadingPre: string;
+      readonly adultosInfoHeadingAccent: string;
+      readonly adultosInfoDesc: string;
+      readonly adultosFeatures: readonly {
+        readonly label: string;
+        readonly desc: string;
+      }[];
       readonly intensiveCards: readonly {
         readonly tag: string;
         readonly title: string;

@@ -621,6 +621,15 @@ export const en = {
           waMsg: "Hi, I\u2019d like info about the Pro program",
         },
       ],
+      adultosInfoEyebrow: "Regular school",
+      adultosInfoHeadingPre: "The amateur",
+      adultosInfoHeadingAccent: "school.",
+      adultosInfoDesc: "Year-round program open to all levels. Your pace, your group, your schedule.",
+      adultosFeatures: [
+        { label: "Levels", desc: "Beginner, intermediate, advanced and competition" },
+        { label: "Format", desc: "Regular school, year-long program" },
+        { label: "Schedule", desc: "Mornings, afternoons, weekdays or weekends" },
+      ],
       intensiveCards: [
         {
           tag: "Intensive format",

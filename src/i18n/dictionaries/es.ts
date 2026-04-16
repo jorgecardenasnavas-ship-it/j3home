@@ -614,6 +614,15 @@ export const es = {
           waMsg: "Hola, quiero info sobre el programa mensual de adultos",
         },
       ],
+      adultosInfoEyebrow: "Escuela regular",
+      adultosInfoHeadingPre: "La escuela",
+      adultosInfoHeadingAccent: "amateur.",
+      adultosInfoDesc: "Programaci\u00F3n anual abierta a todos los niveles. Tu ritmo, tu grupo, tu horario.",
+      adultosFeatures: [
+        { label: "Niveles", desc: "Iniciaci\u00F3n, intermedio, avanzado y competici\u00F3n" },
+        { label: "Formato", desc: "Escuela regular con programaci\u00F3n anual" },
+        { label: "Horarios", desc: "Ma\u00F1anas, tardes, entre semana o fin de semana" },
+      ],
       intensiveCards: [
         {
           tag: "Formato intensivo",

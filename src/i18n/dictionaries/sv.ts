@@ -621,6 +621,15 @@ export const sv = {
           waMsg: "Hej, jag vill ha info om Pro-programmet",
         },
       ],
+      adultosInfoEyebrow: "Ordinarie skola",
+      adultosInfoHeadingPre: "Amat\u00F6r-",
+      adultosInfoHeadingAccent: "skolan.",
+      adultosInfoDesc: "\u00C5rsprogram \u00F6ppet f\u00F6r alla niv\u00E5er. Din takt, din grupp, ditt schema.",
+      adultosFeatures: [
+        { label: "Niv\u00E5er", desc: "Nyb\u00F6rjare, medel, avancerad och t\u00E4vling" },
+        { label: "Format", desc: "Ordinarie skola med \u00E5rsprogram" },
+        { label: "Schema", desc: "Morgnar, eftermiddagar, vardag eller helg" },
+      ],
       intensiveCards: [
         {
           tag: "Intensivformat",
