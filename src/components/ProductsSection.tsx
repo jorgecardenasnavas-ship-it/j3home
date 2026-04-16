@@ -16,10 +16,7 @@ interface ProductCard {
 const cards: ProductCard[] = [
   {
     nameParts: [{ text: "Coach" }, { text: "360", white: true }],
-    buttons: [
-      { href: "https://j3padel.com/join", variant: "ghost" },
-      { href: "https://j3padel.com/join", variant: "gold" },
-    ],
+    buttons: [{ href: "https://j3padel.com/join", variant: "gold" }],
     actionsPosition: "bottom",
     featured: true,
     watermark: "C360",

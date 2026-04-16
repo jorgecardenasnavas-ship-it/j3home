@@ -79,7 +79,7 @@ export const pt = {
         tag: "Online · Formação",
         forLabel: "Treinadores de padel",
         description: "Critério, método e comunidade. Conteúdo novo todas as semanas.",
-        buttons: ["Ver mais", "Aderir"],
+        buttons: ["Entrar no Coach360"],
       },
       {
         tag: "Online · Conteúdo · Entretenimento",

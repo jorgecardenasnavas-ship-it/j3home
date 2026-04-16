@@ -79,7 +79,7 @@ export const fr = {
         tag: "En ligne \u00B7 Formation",
         forLabel: "Entra\u00EEneurs de padel",
         description: "Expertise, m\u00E9thode et communaut\u00E9. Du nouveau contenu chaque semaine.",
-        buttons: ["En savoir plus", "Rejoindre"],
+        buttons: ["Entrer dans Coach360"],
       },
       {
         tag: "En ligne \u00B7 Contenu \u00B7 Divertissement",

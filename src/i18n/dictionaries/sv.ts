@@ -79,7 +79,7 @@ export const sv = {
         tag: "Online \u00B7 Utbildning",
         forLabel: "Padeltränare",
         description: "Omdöme, metod och gemenskap. Nytt innehåll varje vecka.",
-        buttons: ["Läs mer", "Gå med"],
+        buttons: ["Gå till Coach360"],
       },
       {
         tag: "Online \u00B7 Innehåll \u00B7 Underhållning",

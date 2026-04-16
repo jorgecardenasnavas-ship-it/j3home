@@ -79,7 +79,7 @@ export const es = {
         tag: "Online \u00B7 Formaci\u00F3n",
         forLabel: "Entrenadores de p\u00E1del",
         description: "Criterio, m\u00E9todo y comunidad. Contenido nuevo cada semana.",
-        buttons: ["Ver m\u00E1s", "Unirse"],
+        buttons: ["Entrar a Coach360"],
       },
       {
         tag: "Online \u00B7 Contenido \u00B7 Entretenimiento",
