@@ -2,7 +2,7 @@
    J3 Network — Coaches Recommended.
    Single source of truth for the map + grid.
 
-   Campos obligatorios: slug, name, location, tier.
+   Campos obligatorios: slug, name, location, tier, joinedAt.
    Los demás se rellenan progresivamente conforme
    validamos cada ficha en Coach360.
 
@@ -44,6 +44,8 @@ export interface Coach {
   tier: CoachTier;
   /** Destacar en la home / como primer pin abierto */
   featured?: boolean;
+  /** Fecha ISO de alta en Coach360 (YYYY-MM-DD). Usada para ordenar dentro de cada tier. */
+  joinedAt: string;
 }
 
 /* ──────────────────────────────────────────────
@@ -73,6 +75,7 @@ export const COACHES: readonly Coach[] = [
     },
     tier: "hq",
     featured: true,
+    joinedAt: "2005-01-01",
   },
 
   // ── Recommended · España ──
@@ -92,6 +95,8 @@ export const COACHES: readonly Coach[] = [
       instagram: "https://instagram.com/arturosanjose_padel",
     },
     tier: "recommended",
+    featured: true,
+    joinedAt: "2024-03-12",
   },
   {
     slug: "alejandro-coscollano-gonzalez",
@@ -109,6 +114,8 @@ export const COACHES: readonly Coach[] = [
       instagram: "https://instagram.com/coscollanopadel",
     },
     tier: "recommended",
+    featured: true,
+    joinedAt: "2024-06-04",
   },
   {
     slug: "carlos-herrera-madrid",
@@ -126,6 +133,7 @@ export const COACHES: readonly Coach[] = [
       instagram: "https://instagram.com/herrerapadelcoach",
     },
     tier: "recommended",
+    joinedAt: "2023-09-18",
   },
   {
     slug: "sofia-moreno-barcelona",
@@ -143,6 +151,7 @@ export const COACHES: readonly Coach[] = [
       instagram: "https://instagram.com/sofiamorenopadel",
     },
     tier: "recommended",
+    joinedAt: "2023-11-22",
   },
   {
     slug: "ramon-delgado-valencia",
@@ -160,6 +169,7 @@ export const COACHES: readonly Coach[] = [
       instagram: "https://instagram.com/ramondelgadopadel",
     },
     tier: "recommended",
+    joinedAt: "2024-01-15",
   },
   {
     slug: "elena-ruiz-sevilla",
@@ -177,6 +187,7 @@ export const COACHES: readonly Coach[] = [
       instagram: "https://instagram.com/elenaruizpadel",
     },
     tier: "recommended",
+    joinedAt: "2024-08-30",
   },
   {
     slug: "nacho-castro-bilbao",
@@ -194,6 +205,7 @@ export const COACHES: readonly Coach[] = [
       instagram: "https://instagram.com/nachocastropadel",
     },
     tier: "recommended",
+    joinedAt: "2025-02-11",
   },
 
   // ── Recommended · Portugal ──
@@ -213,6 +225,8 @@ export const COACHES: readonly Coach[] = [
       instagram: "https://instagram.com/miguelferreirapadel",
     },
     tier: "recommended",
+    featured: true,
+    joinedAt: "2023-10-05",
   },
   {
     slug: "ines-pereira-porto",
@@ -230,6 +244,7 @@ export const COACHES: readonly Coach[] = [
       instagram: "https://instagram.com/inespadel",
     },
     tier: "recommended",
+    joinedAt: "2024-04-20",
   },
 
   // ── Recommended · Francia ──
@@ -249,6 +264,8 @@ export const COACHES: readonly Coach[] = [
       instagram: "https://instagram.com/julienmartinpadel",
     },
     tier: "recommended",
+    featured: true,
+    joinedAt: "2024-05-14",
   },
   {
     slug: "amelie-laurent-marseille",
@@ -266,6 +283,7 @@ export const COACHES: readonly Coach[] = [
       instagram: "https://instagram.com/amelielaurentpadel",
     },
     tier: "recommended",
+    joinedAt: "2025-01-08",
   },
 
   // ── Recommended · Suecia ──
@@ -285,6 +303,8 @@ export const COACHES: readonly Coach[] = [
       instagram: "https://instagram.com/anderspadelcoach",
     },
     tier: "recommended",
+    featured: true,
+    joinedAt: "2024-11-02",
   },
 
   // ── Recommended · Italia ──
@@ -304,6 +324,7 @@ export const COACHES: readonly Coach[] = [
       instagram: "https://instagram.com/lorenzorossipadel",
     },
     tier: "recommended",
+    joinedAt: "2024-07-19",
   },
 
   // ── Recommended · Reino Unido ──
@@ -323,6 +344,7 @@ export const COACHES: readonly Coach[] = [
       instagram: "https://instagram.com/jameswhitmorepadel",
     },
     tier: "recommended",
+    joinedAt: "2023-12-01",
   },
 
   // ── Recommended · Emiratos ──
@@ -342,6 +364,7 @@ export const COACHES: readonly Coach[] = [
       instagram: "https://instagram.com/khalidpadelcoach",
     },
     tier: "recommended",
+    joinedAt: "2025-03-25",
   },
 
   // ── Recommended · México ──
@@ -361,6 +384,7 @@ export const COACHES: readonly Coach[] = [
       instagram: "https://instagram.com/diegoortegapadel",
     },
     tier: "recommended",
+    joinedAt: "2024-09-11",
   },
 ] as const;
 
@@ -380,3 +404,97 @@ export const COACH_SPECIALTIES: readonly CoachSpecialty[] = [
   "adultos",
   "competicion",
 ] as const;
+
+/* ──────────────────────────────────────────────
+   Ordenación híbrida: tier → antigüedad dentro del tier.
+   HQ siempre primero · dentro de Recommended, los más
+   antiguos (joinedAt menor) van delante. Es la palanca
+   de retención Coach360 — darse de baja hace que al volver
+   se pierda posicionamiento dentro del tier.
+   ────────────────────────────────────────────── */
+
+const TIER_ORDER: Record<CoachTier, number> = {
+  hq: 0,
+  elite: 1,
+  recommended: 2,
+};
+
+/**
+ * Devuelve una copia ordenada por (tier ascendente) → (joinedAt ascendente).
+ */
+export function sortCoaches(coaches: readonly Coach[]): Coach[] {
+  return [...coaches].sort((a, b) => {
+    const tierDiff = TIER_ORDER[a.tier] - TIER_ORDER[b.tier];
+    if (tierDiff !== 0) return tierDiff;
+    return a.joinedAt.localeCompare(b.joinedAt);
+  });
+}
+
+/* ──────────────────────────────────────────────
+   URL helpers para la página catálogo /academy/coaches.
+   Mantienen el estado de filtros sincronizado con la URL
+   para que sean compartibles e indexables.
+   ────────────────────────────────────────────── */
+
+export interface CoachFilters {
+  country: string;   // "all" o un país concreto
+  language: string;  // "all" o código ISO
+  specialty: string; // "all" o "juniors"/"adultos"/"competicion"
+}
+
+// Alias de tipado para los dos tipos que Next puede dar (mutable o readonly)
+type ReadonlyURLSearchParams = { get(name: string): string | null };
+
+/**
+ * Construye la URL de /academy/coaches con los filtros como query params.
+ * Sólo serializa los filtros que no son "all".
+ */
+export function buildCoachesUrl(filters: CoachFilters): string {
+  const params = new URLSearchParams();
+  if (filters.country !== "all") params.set("country", filters.country);
+  if (filters.language !== "all") params.set("language", filters.language);
+  if (filters.specialty !== "all") params.set("specialty", filters.specialty);
+  const qs = params.toString();
+  return `/academy/coaches${qs ? `?${qs}` : ""}`;
+}
+
+/**
+ * Lee filtros desde URLSearchParams. Valores ausentes o inválidos caen en "all".
+ */
+export function parseCoachesFilters(params: URLSearchParams | ReadonlyURLSearchParams): CoachFilters {
+  const country = params.get("country") ?? "all";
+  const language = params.get("language") ?? "all";
+  const specialty = params.get("specialty") ?? "all";
+  const validSpecialty = (COACH_SPECIALTIES as readonly string[]).includes(specialty) ? specialty : "all";
+  return {
+    country: COACH_COUNTRIES.includes(country) ? country : "all",
+    language: COACH_LANGUAGES.includes(language) ? language : "all",
+    specialty: validSpecialty,
+  };
+}
+
+/**
+ * Aplica filtros a una lista de coaches.
+ * "all" en cualquier dimensión = sin filtro en esa dimensión.
+ */
+export function filterCoaches(coaches: readonly Coach[], filters: CoachFilters): Coach[] {
+  return coaches.filter(c => {
+    if (filters.country !== "all" && c.location.country !== filters.country) return false;
+    if (filters.language !== "all" && !(c.languages ?? []).includes(filters.language)) return false;
+    if (filters.specialty !== "all" && !(c.specialties ?? []).includes(filters.specialty as CoachSpecialty)) return false;
+    return true;
+  });
+}
+
+/**
+ * Toma los N destacados de una lista ya filtrada. Si hay menos featured que N,
+ * completa con no-featured (mismo orden) hasta llegar a N. Si la lista filtrada
+ * es menor que N, devuelve la lista entera.
+ */
+export function pickDisplayCoaches(sortedFiltered: readonly Coach[], n: number): Coach[] {
+  const featured = sortedFiltered.filter(c => c.featured);
+  if (featured.length >= n) return featured.slice(0, n);
+  const needed = n - featured.length;
+  const rest = sortedFiltered.filter(c => !c.featured).slice(0, needed);
+  return [...featured, ...rest];
+}
