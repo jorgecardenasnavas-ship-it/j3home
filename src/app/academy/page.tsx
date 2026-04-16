@@ -836,7 +836,69 @@ function HeroSection() {
                   options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_SPECIALTIES.map(s => ({ value: s, label: specialtyLabel(s) }))]}
                 />
               </div>
-              <p className="hero-rise hero-rise-6 mt-4 text-[11px] tracking-[2px] uppercase text-white/55">
+              {/* Cerca de mí — mismo control que la NetworkSection. El estado
+                  vive en el GeoContext: activarlo aquí también hace que el
+                  grid de coaches (más abajo) se ordene por distancia. Y al
+                  revés: si el usuario ya lo activó en la grid, aquí aparece
+                  el estado "activo" con ✕ para limpiarlo. */}
+              <div className="hero-rise hero-rise-6 mt-4 flex items-center gap-3 flex-wrap">
+                {geo.status === "success" ? (
+                  <button
+                    type="button"
+                    onClick={geo.clear}
+                    className="group inline-flex items-center gap-2 px-3 py-1.5 text-[10px] tracking-[2px] uppercase font-bold text-[#000] bg-gradient-to-br from-[#f0c478] to-[#dcaf64] hover:brightness-110 transition-all"
+                    style={{ borderRadius: 2 }}
+                    aria-label={t.academy.network.nearMeActive}
+                  >
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="22" y1="12" x2="18" y2="12" />
+                      <line x1="6" y1="12" x2="2" y2="12" />
+                      <line x1="12" y1="6" x2="12" y2="2" />
+                      <line x1="12" y1="22" x2="12" y2="18" />
+                      <circle cx="12" cy="12" r="3" fill="currentColor" />
+                    </svg>
+                    <span>{t.academy.network.nearMeActive}</span>
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="opacity-60 group-hover:opacity-100">
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={geo.request}
+                    disabled={geo.status === "loading"}
+                    className="inline-flex items-center gap-2 px-3 py-1.5 text-[10px] tracking-[2px] uppercase font-bold text-[var(--g1)] border border-[var(--g1)]/50 hover:border-[var(--g1)] hover:bg-[var(--g1)]/10 disabled:opacity-60 transition-all"
+                    style={{ borderRadius: 2 }}
+                  >
+                    {geo.status === "loading" ? (
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="animate-spin">
+                        <path d="M21 12a9 9 0 1 1-6.2-8.55" />
+                      </svg>
+                    ) : (
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="22" y1="12" x2="18" y2="12" />
+                        <line x1="6" y1="12" x2="2" y2="12" />
+                        <line x1="12" y1="6" x2="12" y2="2" />
+                        <line x1="12" y1="22" x2="12" y2="18" />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>
+                    )}
+                    <span>
+                      {geo.status === "loading" ? t.academy.network.nearMeLoading : t.academy.network.nearMe}
+                    </span>
+                  </button>
+                )}
+                {/* Error inline — muy compacto, no roba espacio */}
+                {geo.status === "error" && (
+                  <span className="text-[10px] tracking-[1.5px] uppercase text-white/55">
+                    {t.academy.network.nearMeError}
+                  </span>
+                )}
+              </div>
+              <p className="hero-rise hero-rise-6 mt-3 text-[11px] tracking-[2px] uppercase text-white/55">
                 {countLine}
               </p>
             </div>
