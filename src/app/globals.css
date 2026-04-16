@@ -714,11 +714,37 @@ html[data-theme="light"] .theme-eyebrow {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* ─── Focus rings — accessible, gold-branded ─── */
+/* ─── Focus rings — accessible, gold-branded ───
+   Doble anillo: outline dorado al 0.95 (visible sobre cualquier fondo)
+   + box-shadow negro opaco por dentro, que crea separación cuando
+   el elemento está sobre un fondo claro/dorado (sin esta sombra,
+   el dorado del ring se mimetizaría con botones amarillos). */
 :focus-visible {
-  outline: 2px solid rgba(220, 175, 100, 0.6);
+  outline: 2.5px solid rgba(220, 175, 100, 0.95);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 1.5px rgba(0, 0, 0, 0.55);
+  border-radius: 3px;
+  transition: outline-offset 0.15s var(--ease-out);
+}
+
+/* Algunos wrappers tienen overflow:hidden y el outline queda clipeado.
+   Para los pines de Leaflet (DivIcons) usamos box-shadow como ring
+   alternativo que NO se recorta y mantiene la estética J3. */
+.leaflet-marker-icon:focus-visible,
+.leaflet-marker-icon:focus-within {
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(220, 175, 100, 0.95), 0 0 0 5px rgba(0, 0, 0, 0.6) !important;
+  border-radius: 999px;
+}
+
+/* Popups y leyenda: focus interno con el mismo tono dorado */
+.leaflet-popup-content a:focus-visible,
+.leaflet-popup-content button:focus-visible,
+.j3-legend a:focus-visible,
+.j3-legend button:focus-visible {
+  outline: 2px solid #f0c478;
   outline-offset: 2px;
-  border-radius: 4px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.7);
 }
 
 /* Skip-to-content link (accessibility) */

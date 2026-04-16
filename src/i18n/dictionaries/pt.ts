@@ -719,6 +719,8 @@ export const pt = {
       filterSpecialty: "Especialidad",
       filterReset: "Limpiar filtros",
       filterEmpty: "Ning\u00FAn coach con estos filtros. Prueba otros.",
+      filterEmptyTitle: "Ningu\u00E9m encaixa agora mesmo",
+      filterEmptyDesc: "Tente remover um filtro ou pergunte ao J3 \u2014 vamos encontrar algu\u00E9m.",
       specialtyJuniors: "Juniors",
       specialtyAdultos: "Adultos",
       specialtyCompeticion: "Competici\u00F3n",

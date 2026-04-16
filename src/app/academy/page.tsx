@@ -22,12 +22,70 @@ import {
   type CoachSpecialty,
 } from "@/data/coaches";
 
-/* Leaflet map — only on client; heavy + uses window */
+/* Leaflet map — only on client; heavy + uses window.
+   Loading skeleton: shimmer dorado + grid de "meridianos" sutiles
+   que evocan un atlas, con indicador de "buscando coaches"
+   discreto en el centro. Más premium que un texto plano. */
 const NetworkMap = dynamic(() => import("@/components/NetworkMap"), {
   ssr: false,
   loading: () => (
-    <div className="absolute inset-0 flex items-center justify-center text-[10px] tracking-[4px] uppercase theme-text opacity-35">
-      Cargando mapa…
+    <div
+      className="absolute inset-0 overflow-hidden"
+      style={{
+        background:
+          "radial-gradient(circle at 30% 40%, rgba(220,175,100,0.06), transparent 55%), linear-gradient(180deg, #0a0a0a 0%, #0f0f0f 100%)",
+      }}
+      aria-label="Cargando mapa de la red J3"
+      role="status"
+    >
+      {/* Meridianos sutiles — simulan un grid de atlas */}
+      <div
+        aria-hidden
+        className="absolute inset-0 opacity-40"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(220,175,100,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(220,175,100,0.05) 1px, transparent 1px)",
+          backgroundSize: "60px 60px",
+        }}
+      />
+      {/* Shimmer dorado que barre de izquierda a derecha */}
+      <div
+        aria-hidden
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(90deg, transparent 0%, transparent 35%, rgba(220,175,100,0.08) 50%, transparent 65%, transparent 100%)",
+          animation: "j3ShimmerMap 2.2s linear infinite",
+        }}
+      />
+      <style>{`
+        @keyframes j3ShimmerMap {
+          0%   { transform: translateX(-60%); }
+          100% { transform: translateX(60%); }
+        }
+        @keyframes j3PulseDot {
+          0%,100% { opacity: .35; transform: scale(1); }
+          50%     { opacity: 1;   transform: scale(1.15); }
+        }
+      `}</style>
+      {/* Indicador central: punto dorado pulsante + label */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+        <span
+          aria-hidden
+          className="block w-3 h-3 rounded-full"
+          style={{
+            background: "radial-gradient(circle at 50% 50%, #f0c478, #dcaf64 60%, #b8943e 100%)",
+            boxShadow: "0 0 0 2px rgba(0,0,0,0.55), 0 0 16px rgba(220,175,100,0.5)",
+            animation: "j3PulseDot 1.6s ease-in-out infinite",
+          }}
+        />
+        <span
+          className="text-[9px] tracking-[4px] uppercase font-semibold"
+          style={{ color: "rgba(220,175,100,0.85)" }}
+        >
+          Buscando coaches J3
+        </span>
+      </div>
     </div>
   ),
 });
@@ -2508,8 +2566,87 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
         </div>
 
         {filtered.length === 0 ? (
-          <div className="border theme-border px-6 py-10 text-center text-[13px] opacity-70" style={{ color: "var(--wh)" }}>
-            {t.academy.network.filterEmpty}
+          <div
+            className="relative border theme-border px-8 py-14 min-[768px]:py-16 text-center flex flex-col items-center gap-4"
+            style={{
+              color: "var(--wh)",
+              background:
+                "radial-gradient(circle at 50% 30%, rgba(220,175,100,0.06), transparent 60%)",
+            }}
+            role="status"
+            aria-live="polite"
+          >
+            {/* Icono — lupa con guión inclinado (sin resultados) */}
+            <div
+              aria-hidden
+              className="relative flex items-center justify-center"
+              style={{
+                width: 64,
+                height: 64,
+                borderRadius: 999,
+                background:
+                  "radial-gradient(circle at 50% 50%, rgba(220,175,100,0.12), rgba(220,175,100,0.04) 60%, transparent 100%)",
+                border: "1px solid rgba(220,175,100,0.3)",
+              }}
+            >
+              <svg
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                style={{ color: "var(--g1)", opacity: 0.9 }}
+              >
+                <circle cx="11" cy="11" r="7" />
+                <line x1="21" y1="21" x2="16.5" y2="16.5" />
+                <line x1="8" y1="11" x2="14" y2="11" />
+              </svg>
+            </div>
+
+            <h3 className="text-[16px] min-[768px]:text-[18px] font-bold tracking-[-0.2px] leading-[1.2]">
+              {t.academy.network.filterEmptyTitle}
+            </h3>
+            <p className="text-[13px] opacity-65 max-w-[380px] leading-[1.5]">
+              {t.academy.network.filterEmptyDesc}
+            </p>
+
+            <div className="flex flex-wrap items-center justify-center gap-3 mt-2">
+              {hasAnyFilter && (
+                <button
+                  type="button"
+                  onClick={resetFilters}
+                  className="inline-flex items-center gap-2 text-[10px] font-bold tracking-[2.5px] uppercase text-[var(--g1)] border border-[var(--g1)]/50 hover:border-[var(--g1)] hover:bg-[var(--g1)]/10 px-5 py-2.5 transition-all duration-300"
+                  style={{ borderRadius: 2 }}
+                >
+                  {t.academy.network.filterReset}
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    <path d="M3 12a9 9 0 0 1 15-6.7L21 8" />
+                    <path d="M21 3v5h-5" />
+                  </svg>
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={() =>
+                  window.dispatchEvent(
+                    new CustomEvent("j3:chat:open", {
+                      detail: { coachName: "J3", coachLocation: "" },
+                    }),
+                  )
+                }
+                className="inline-flex items-center gap-2 text-[10px] font-bold tracking-[2.5px] uppercase text-[#000] bg-gradient-to-br from-[#f0c478] to-[#b8943e] hover:brightness-110 px-5 py-2.5 transition-all duration-300"
+                style={{ borderRadius: 2 }}
+              >
+                {t.academy.network.askChatbot}
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="M5 12h14" />
+                  <path d="M12 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
           </div>
         ) : (
           <>

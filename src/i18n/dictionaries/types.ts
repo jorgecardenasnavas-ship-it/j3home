@@ -401,6 +401,10 @@ export interface Dictionary {
       readonly filterSpecialty: string;
       readonly filterReset: string;
       readonly filterEmpty: string;
+      /** Título del empty state cuando filtros no matchean */
+      readonly filterEmptyTitle: string;
+      /** Subtítulo / sugerencia en el empty state */
+      readonly filterEmptyDesc: string;
       readonly specialtyJuniors: string;
       readonly specialtyAdultos: string;
       readonly specialtyCompeticion: string;

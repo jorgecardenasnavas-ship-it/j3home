@@ -719,6 +719,8 @@ export const fr = {
       filterSpecialty: "Especialidad",
       filterReset: "Limpiar filtros",
       filterEmpty: "Ning\u00FAn coach con estos filtros. Prueba otros.",
+      filterEmptyTitle: "Personne ne correspond pour l'instant",
+      filterEmptyDesc: "Retire un filtre ou demande \u00E0 J3 \u2014 on trouvera quelqu'un pour toi.",
       specialtyJuniors: "Juniors",
       specialtyAdultos: "Adultos",
       specialtyCompeticion: "Competici\u00F3n",
