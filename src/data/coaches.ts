@@ -76,17 +76,19 @@ export const COACHES: readonly Coach[] = [
     slug: "j3-hq-malaga",
     name: "J3 Lab",
     role: "Málaga · Headquarters",
-    photo: "/images/academy/stage-group.jpeg",
+    photo: "/images/vals-1.jpg",
     location: {
+      // Vals Sport Limoneros — C. Pedro Garfias 5, Puerto de la Torre, 29190 Málaga
       city: "Málaga",
       country: "España",
-      coordinates: [36.7213, -4.4213],
+      coordinates: [36.7334706, -4.4844103],
     },
-    clubs: ["Finura Padel", "Vals Sport Limoneros"],
+    clubs: ["Vals Sport Limoneros", "Finura Padel"],
     languages: ["es", "en"],
     specialties: ["juniors", "adultos", "competicion"],
     socials: {
       instagram: "https://instagram.com/j3padel",
+      web: "https://j3padel.com",
     },
     tier: "hq",
     type: "lab",

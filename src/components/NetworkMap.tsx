@@ -492,33 +492,128 @@ export default function NetworkMap({
 
                 {/* Idiomas */}
                 {c.languages && c.languages.length > 0 && (
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 12 }}>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 8 }}>
                     {c.languages.map(l => (
                       <LanguageChip key={l} code={l} variant="popup" />
                     ))}
                   </div>
                 )}
 
-                {/* CTA "Pregunta a J3" */}
-                <button
-                  type="button"
-                  onClick={() => handleAsk(c)}
-                  style={{
-                    width: "100%",
-                    fontSize: 10,
-                    fontWeight: 700,
-                    letterSpacing: 2,
-                    textTransform: "uppercase",
-                    color: "#000",
-                    background: "linear-gradient(135deg, #dcaf64, #b8943e)",
-                    border: "none",
-                    padding: "8px 12px",
-                    cursor: "pointer",
-                    borderRadius: 2,
-                  }}
-                >
-                  {labels.askChatbot}
-                </button>
+                {/* Especialidades — chips dorados suaves */}
+                {c.specialties && c.specialties.length > 0 && (
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 12 }}>
+                    {c.specialties.map((s) => {
+                      const lbl = s === "juniors" ? "Juniors" : s === "adultos" ? "Adultos" : "Competición";
+                      return (
+                        <span
+                          key={s}
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 4,
+                            fontSize: 9,
+                            letterSpacing: 1.5,
+                            textTransform: "uppercase",
+                            fontWeight: 600,
+                            color: "#dcaf64",
+                            background: "rgba(220,175,100,0.08)",
+                            border: "1px solid rgba(220,175,100,0.25)",
+                            padding: "2px 6px",
+                            borderRadius: 2,
+                          }}
+                        >
+                          <span
+                            aria-hidden
+                            style={{
+                              width: 3,
+                              height: 3,
+                              borderRadius: 999,
+                              background: "#dcaf64",
+                            }}
+                          />
+                          {lbl}
+                        </span>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* CTA principal + iconos sociales (IG, Web) */}
+                <div style={{ display: "flex", gap: 6, alignItems: "stretch" }}>
+                  <button
+                    type="button"
+                    onClick={() => handleAsk(c)}
+                    style={{
+                      flex: 1,
+                      fontSize: 10,
+                      fontWeight: 700,
+                      letterSpacing: 2,
+                      textTransform: "uppercase",
+                      color: "#000",
+                      background: "linear-gradient(135deg, #dcaf64, #b8943e)",
+                      border: "none",
+                      padding: "8px 12px",
+                      cursor: "pointer",
+                      borderRadius: 2,
+                    }}
+                  >
+                    {labels.askChatbot}
+                  </button>
+                  {c.socials?.instagram && (
+                    <a
+                      href={c.socials.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Instagram de ${c.name}`}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: 34,
+                        background: "rgba(220,175,100,0.08)",
+                        border: "1px solid rgba(220,175,100,0.35)",
+                        color: "#dcaf64",
+                        borderRadius: 2,
+                        transition: "background .18s ease, color .18s ease",
+                      }}
+                      onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(220,175,100,0.18)"; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(220,175,100,0.08)"; }}
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                      </svg>
+                    </a>
+                  )}
+                  {c.socials?.web && (
+                    <a
+                      href={c.socials.web}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Web de ${c.name}`}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: 34,
+                        background: "rgba(220,175,100,0.08)",
+                        border: "1px solid rgba(220,175,100,0.35)",
+                        color: "#dcaf64",
+                        borderRadius: 2,
+                        transition: "background .18s ease, color .18s ease",
+                      }}
+                      onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(220,175,100,0.18)"; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(220,175,100,0.08)"; }}
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="2" y1="12" x2="22" y2="12" />
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                      </svg>
+                    </a>
+                  )}
+                </div>
               </div>
             </Popup>
           </Marker>
