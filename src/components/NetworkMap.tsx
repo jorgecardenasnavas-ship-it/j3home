@@ -18,6 +18,7 @@ import L from "leaflet";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import type { Coach } from "@/data/coaches";
+import { formatLanguage } from "@/lib/languages";
 
 const pinStyles = `
   .j3-pin {
@@ -308,16 +309,18 @@ export default function NetworkMap({
                       <span
                         key={l}
                         style={{
-                          fontSize: 9,
-                          letterSpacing: 1,
-                          textTransform: "uppercase",
+                          fontSize: 10,
+                          letterSpacing: 0.3,
                           color: "#dcaf64",
                           border: "1px solid rgba(220,175,100,0.3)",
                           padding: "2px 6px",
                           borderRadius: 2,
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: 2,
                         }}
                       >
-                        {l}
+                        {formatLanguage(l)}
                       </span>
                     ))}
                   </div>

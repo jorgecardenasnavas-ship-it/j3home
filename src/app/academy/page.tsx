@@ -8,6 +8,7 @@ import { Footer } from "@/components/Footer";
 import CoachCard from "@/components/CoachCard";
 import { FilterSelect } from "@/components/FilterSelect";
 import { useI18n } from "@/i18n/context";
+import { formatLanguage } from "@/lib/languages";
 import {
   COACHES,
   COACH_COUNTRIES,
@@ -698,7 +699,7 @@ function HeroSection() {
                   label={t.academy.network.filterLanguage}
                   value={language}
                   onChange={setLanguage}
-                  options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_LANGUAGES.map(l => ({ value: l, label: l.toUpperCase() }))]}
+                  options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_LANGUAGES.map(l => ({ value: l, label: formatLanguage(l) }))]}
                 />
                 <FilterSelect
                   label={t.academy.network.filterSpecialty}
@@ -2478,7 +2479,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
             label={t.academy.network.filterLanguage}
             value={language}
             onChange={setLanguage}
-            options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_LANGUAGES.map(l => ({ value: l, label: l.toUpperCase() }))]}
+            options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_LANGUAGES.map(l => ({ value: l, label: formatLanguage(l) }))]}
           />
           <FilterSelect
             label={t.academy.network.filterSpecialty}

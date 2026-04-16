@@ -3,12 +3,12 @@
    Single source of truth for the map + grid.
 
    Campos obligatorios: slug, name, location, tier, joinedAt.
-   Los demás se rellenan progresivamente conforme
-   validamos cada ficha en Coach360.
+   Los demás (clubs, specialties, socials, photo) se rellenan
+   progresivamente conforme cada coach nos pase su info.
 
-   ⚠ Datos marcados como "__MOCK__" son valores de
-   referencia generados durante el build de la red,
-   pendientes de validación real.
+   Política de veracidad: NUNCA inventar datos. Si falta el
+   Instagram o las specialties, van vacíos. Es preferible una
+   ficha parca y verdadera que una completa y falsa.
    ────────────────────────────────────────────── */
 
 export type CoachSpecialty = "juniors" | "adultos" | "competicion";
@@ -62,10 +62,12 @@ export interface Coach {
 }
 
 /* ──────────────────────────────────────────────
-   Dataset.
-   HQ real + coaches recommended. Algunos reales
-   confirmados por Jorge, otros mock plausibles
-   hasta que ingeste los 80 de Coach360.
+   Dataset — TODOS los coaches son reales.
+   Los 12 coaches Recommended entraron a la formación
+   Coach360 el 2025-08-01. La ficha arranca con campos
+   mínimos (nombre, ubicación, idiomas por defecto) y
+   se va rellenando conforme cada coach nos manda su
+   Instagram, clubs, specialties y foto.
    ────────────────────────────────────────────── */
 
 export const COACHES: readonly Coach[] = [
@@ -94,25 +96,6 @@ export const COACHES: readonly Coach[] = [
 
   // ── Recommended · España ──
   {
-    slug: "arturo-san-jose-esparza",
-    name: "Arturo San José Esparza",
-    role: "Coach",
-    location: {
-      city: "Pamplona",
-      country: "España",
-      coordinates: [42.8125, -1.6458],
-    },
-    clubs: ["Padel Indoor Pamplona", "Club Oberena"],
-    languages: ["es"],
-    specialties: ["juniors", "competicion"],
-    socials: {
-      instagram: "https://instagram.com/arturosanjose_padel",
-    },
-    tier: "recommended",
-    featured: true,
-    joinedAt: "2024-03-12",
-  },
-  {
     slug: "alejandro-coscollano-gonzalez",
     name: "Alejandro Coscollano González",
     role: "Coach",
@@ -121,284 +104,216 @@ export const COACHES: readonly Coach[] = [
       country: "España",
       coordinates: [39.9629, -4.8306],
     },
-    clubs: ["Club Talavera Padel"],
+    clubs: [],
     languages: ["es"],
-    specialties: ["adultos", "juniors"],
-    socials: {
-      instagram: "https://instagram.com/coscollanopadel",
-    },
+    specialties: [],
+    socials: {},
     tier: "recommended",
+    type: "coach",
     featured: true,
-    joinedAt: "2024-06-04",
+    joinedAt: "2025-08-01",
   },
   {
-    slug: "carlos-herrera-madrid",
-    name: "Carlos Herrera",
+    slug: "aleix-vinals-llagosta",
+    name: "Aleix Viñals",
     role: "Coach",
     location: {
-      city: "Madrid",
+      city: "La Llagosta",
       country: "España",
-      coordinates: [40.4381, -3.6795],
+      coordinates: [41.5182, 2.1932],
     },
-    clubs: ["La Moraleja Padel", "Alcobendas Padel Club"],
-    languages: ["es", "en"],
-    specialties: ["adultos", "competicion"],
-    socials: {
-      instagram: "https://instagram.com/herrerapadelcoach",
-    },
-    tier: "recommended",
-    joinedAt: "2023-09-18",
-  },
-  {
-    slug: "sofia-moreno-barcelona",
-    name: "Sofía Moreno",
-    role: "Coach",
-    location: {
-      city: "Barcelona",
-      country: "España",
-      coordinates: [41.3954, 2.1397],
-    },
-    clubs: ["Vall Parc", "Padel Barcino"],
-    languages: ["es", "ca", "en"],
-    specialties: ["juniors", "adultos"],
-    socials: {
-      instagram: "https://instagram.com/sofiamorenopadel",
-    },
-    tier: "recommended",
-    joinedAt: "2023-11-22",
-  },
-  {
-    slug: "ramon-delgado-valencia",
-    name: "Ramón Delgado",
-    role: "Coach",
-    location: {
-      city: "Valencia",
-      country: "España",
-      coordinates: [39.4851, -0.3534],
-    },
-    clubs: ["Sporting Club Valencia", "Padel Indoor Mislata"],
-    languages: ["es", "en"],
-    specialties: ["adultos", "competicion"],
-    socials: {
-      instagram: "https://instagram.com/ramondelgadopadel",
-    },
-    tier: "recommended",
-    joinedAt: "2024-01-15",
-  },
-  {
-    slug: "elena-ruiz-sevilla",
-    name: "Elena Ruiz",
-    role: "Coach",
-    location: {
-      city: "Sevilla",
-      country: "España",
-      coordinates: [37.3891, -5.9845],
-    },
-    clubs: ["Club Pineda", "Nervión Padel"],
+    clubs: [],
     languages: ["es"],
-    specialties: ["juniors"],
-    socials: {
-      instagram: "https://instagram.com/elenaruizpadel",
-    },
+    specialties: [],
+    socials: {},
     tier: "recommended",
-    joinedAt: "2024-08-30",
+    type: "coach",
+    featured: true,
+    joinedAt: "2025-08-01",
   },
   {
-    slug: "nacho-castro-bilbao",
-    name: "Nacho Castro",
+    slug: "andres-fernandez-murcia",
+    name: "Andrés Fernández",
     role: "Coach",
     location: {
-      city: "Bilbao",
+      city: "San Javier",
       country: "España",
-      coordinates: [43.263, -2.935],
+      coordinates: [37.8045, -0.8360],
     },
-    clubs: ["Lasesarre Padel Club"],
-    languages: ["es", "eu"],
-    specialties: ["adultos"],
-    socials: {
-      instagram: "https://instagram.com/nachocastropadel",
-    },
+    clubs: [],
+    languages: ["es"],
+    specialties: [],
+    socials: {},
     tier: "recommended",
-    joinedAt: "2025-02-11",
-  },
-
-  // ── Recommended · Portugal ──
-  {
-    slug: "miguel-ferreira-lisboa",
-    name: "Miguel Ferreira",
-    role: "Coach",
-    location: {
-      city: "Lisboa",
-      country: "Portugal",
-      coordinates: [38.7223, -9.1393],
-    },
-    clubs: ["Cascais Padel", "Lisbon Racket Centre"],
-    languages: ["pt", "es", "en"],
-    specialties: ["adultos", "competicion"],
-    socials: {
-      instagram: "https://instagram.com/miguelferreirapadel",
-    },
-    tier: "recommended",
+    type: "coach",
     featured: true,
-    joinedAt: "2023-10-05",
+    joinedAt: "2025-08-01",
   },
   {
-    slug: "ines-pereira-porto",
-    name: "Inês Pereira",
+    slug: "arturo-san-jose-esparza",
+    name: "Arturo San José Esparza",
     role: "Coach",
     location: {
-      city: "Porto",
-      country: "Portugal",
-      coordinates: [41.1579, -8.6291],
+      city: "Pamplona",
+      country: "España",
+      coordinates: [42.8125, -1.6458],
     },
-    clubs: ["CNM Padel", "Porto Padel Club"],
-    languages: ["pt", "en"],
-    specialties: ["juniors", "adultos"],
-    socials: {
-      instagram: "https://instagram.com/inespadel",
-    },
+    clubs: [],
+    languages: ["es"],
+    specialties: [],
+    socials: {},
     tier: "recommended",
-    joinedAt: "2024-04-20",
-  },
-
-  // ── Recommended · Francia ──
-  {
-    slug: "julien-martin-paris",
-    name: "Julien Martin",
-    role: "Coach",
-    location: {
-      city: "Paris",
-      country: "Francia",
-      coordinates: [48.8566, 2.3522],
-    },
-    clubs: ["All In Padel Paris", "Club Padel 75"],
-    languages: ["fr", "en"],
-    specialties: ["adultos"],
-    socials: {
-      instagram: "https://instagram.com/julienmartinpadel",
-    },
-    tier: "recommended",
+    type: "coach",
     featured: true,
-    joinedAt: "2024-05-14",
+    joinedAt: "2025-08-01",
   },
   {
-    slug: "amelie-laurent-marseille",
-    name: "Amélie Laurent",
+    slug: "david-camunas-molina",
+    name: "David Camuñas Molina",
     role: "Coach",
     location: {
-      city: "Marseille",
-      country: "Francia",
-      coordinates: [43.2965, 5.3698],
+      city: "Talavera de la Reina",
+      country: "España",
+      coordinates: [39.9629, -4.8306],
     },
-    clubs: ["Padel Marseille", "Set Padel Club"],
-    languages: ["fr", "es"],
-    specialties: ["juniors", "competicion"],
-    socials: {
-      instagram: "https://instagram.com/amelielaurentpadel",
-    },
+    clubs: [],
+    languages: ["es"],
+    specialties: [],
+    socials: {},
     tier: "recommended",
-    joinedAt: "2025-01-08",
-  },
-
-  // ── Recommended · Suecia ──
-  {
-    slug: "anders-lindqvist-stockholm",
-    name: "Anders Lindqvist",
-    role: "Coach",
-    location: {
-      city: "Stockholm",
-      country: "Sverige",
-      coordinates: [59.3293, 18.0686],
-    },
-    clubs: ["Padel Stars Stockholm", "Kungens Kurva Padel"],
-    languages: ["sv", "en"],
-    specialties: ["adultos", "competicion"],
-    socials: {
-      instagram: "https://instagram.com/anderspadelcoach",
-    },
-    tier: "recommended",
+    type: "coach",
     featured: true,
-    joinedAt: "2024-11-02",
+    joinedAt: "2025-08-01",
+  },
+  {
+    slug: "diego-valdez-castelldefels",
+    name: "Diego Valdez",
+    role: "Coach",
+    location: {
+      city: "Castelldefels",
+      country: "España",
+      coordinates: [41.2800, 1.9755],
+    },
+    clubs: [],
+    languages: ["es"],
+    specialties: [],
+    socials: {},
+    tier: "recommended",
+    type: "coach",
+    featured: true,
+    joinedAt: "2025-08-01",
+  },
+  {
+    slug: "manuel-sarachaga-gomez",
+    name: "Manuel Sarachaga Gómez",
+    role: "Coach",
+    location: {
+      city: "Santander",
+      country: "España",
+      coordinates: [43.4623, -3.8099],
+    },
+    clubs: [],
+    languages: ["es"],
+    specialties: [],
+    socials: {},
+    tier: "recommended",
+    type: "coach",
+    featured: true,
+    joinedAt: "2025-08-01",
+  },
+  {
+    slug: "mati-pereira-tarragona",
+    name: "Mati Pereira",
+    role: "Coach",
+    location: {
+      city: "Tarragona",
+      country: "España",
+      coordinates: [41.1189, 1.2445],
+    },
+    clubs: [],
+    languages: ["es"],
+    specialties: [],
+    socials: {},
+    tier: "recommended",
+    type: "coach",
+    featured: true,
+    joinedAt: "2025-08-01",
+  },
+  {
+    slug: "miguel-laredo-pontevedra",
+    name: "Miguel Laredo",
+    role: "Coach",
+    location: {
+      city: "Pontevedra",
+      country: "España",
+      coordinates: [42.4336, -8.6448],
+    },
+    clubs: [],
+    languages: ["es"],
+    specialties: [],
+    socials: {},
+    tier: "recommended",
+    type: "coach",
+    featured: true,
+    joinedAt: "2025-08-01",
   },
 
   // ── Recommended · Italia ──
   {
-    slug: "lorenzo-rossi-milano",
-    name: "Lorenzo Rossi",
+    slug: "emilio-cigala-desenzano",
+    name: "Emilio Cigala",
     role: "Coach",
     location: {
-      city: "Milano",
+      city: "Desenzano del Garda",
       country: "Italia",
-      coordinates: [45.4642, 9.19],
+      coordinates: [45.4710, 10.5380],
     },
-    clubs: ["Milano Padel Club", "Aspria Harbour"],
-    languages: ["it", "en", "es"],
-    specialties: ["adultos", "competicion"],
-    socials: {
-      instagram: "https://instagram.com/lorenzorossipadel",
-    },
+    clubs: [],
+    languages: ["it", "es"],
+    specialties: [],
+    socials: {},
     tier: "recommended",
-    joinedAt: "2024-07-19",
+    type: "coach",
+    featured: true,
+    joinedAt: "2025-08-01",
   },
-
-  // ── Recommended · Reino Unido ──
   {
-    slug: "james-whitmore-london",
-    name: "James Whitmore",
+    slug: "saul-rielo-cagliari",
+    name: "Saúl Rielo",
     role: "Coach",
     location: {
-      city: "London",
-      country: "United Kingdom",
-      coordinates: [51.5074, -0.1278],
+      city: "Cagliari",
+      country: "Italia",
+      coordinates: [39.2238, 9.1217],
     },
-    clubs: ["Padel4All Shoreditch", "The Padel Club London"],
-    languages: ["en", "es"],
-    specialties: ["adultos"],
-    socials: {
-      instagram: "https://instagram.com/jameswhitmorepadel",
-    },
+    clubs: [],
+    languages: ["it", "es"],
+    specialties: [],
+    socials: {},
     tier: "recommended",
-    joinedAt: "2023-12-01",
+    type: "coach",
+    featured: true,
+    joinedAt: "2025-08-01",
   },
 
-  // ── Recommended · Emiratos ──
+  // ── Recommended · Bélgica ──
   {
-    slug: "khalid-al-maktoum-dubai",
-    name: "Khalid Al-Maktoum",
+    slug: "manuel-agten-sanchez",
+    name: "Manuel Agten Sanchez",
     role: "Coach",
     location: {
-      city: "Dubai",
-      country: "United Arab Emirates",
-      coordinates: [25.2048, 55.2708],
+      city: "Tongeren",
+      country: "Bélgica",
+      coordinates: [50.7802, 5.4646],
     },
-    clubs: ["ISD Dubai Padel", "Matcha Club"],
-    languages: ["ar", "en"],
-    specialties: ["juniors", "adultos"],
-    socials: {
-      instagram: "https://instagram.com/khalidpadelcoach",
-    },
+    clubs: [],
+    languages: ["nl", "es"],
+    specialties: [],
+    socials: {},
     tier: "recommended",
-    joinedAt: "2025-03-25",
-  },
-
-  // ── Recommended · México ──
-  {
-    slug: "diego-ortega-cdmx",
-    name: "Diego Ortega",
-    role: "Coach",
-    location: {
-      city: "Ciudad de México",
-      country: "México",
-      coordinates: [19.4326, -99.1332],
-    },
-    clubs: ["Padel Club Polanco", "Sports World Padel"],
-    languages: ["es", "en"],
-    specialties: ["adultos", "competicion"],
-    socials: {
-      instagram: "https://instagram.com/diegoortegapadel",
-    },
-    tier: "recommended",
-    joinedAt: "2024-09-11",
+    type: "coach",
+    featured: true,
+    joinedAt: "2025-08-01",
   },
 ] as const;
 
