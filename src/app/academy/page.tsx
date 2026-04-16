@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import dynamic from "next/dynamic";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -13,6 +14,10 @@ import {
   COACH_COUNTRIES,
   COACH_LANGUAGES,
   COACH_SPECIALTIES,
+  sortCoaches,
+  filterCoaches,
+  pickDisplayCoaches,
+  buildCoachesUrl,
   type Coach,
   type CoachSpecialty,
 } from "@/data/coaches";
@@ -2510,34 +2515,47 @@ function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
    S5b — NETWORK (HQ Málaga + mapa + coaches + Coach360 CTA)
    ═══════════════════════════════════════════════════════ */
 
+function useIsMobile(breakpoint: number = 960): boolean {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= breakpoint);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, [breakpoint]);
+  return isMobile;
+}
+
 function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const { t } = useI18n();
   const { ref, visible } = useReveal(0.15);
+  const isMobile = useIsMobile(960);
 
-  // Coaches visibles en la red (sin HQ, que tiene bloque propio arriba).
-  const allCoaches = useMemo(() => COACHES.filter(c => c.tier !== "hq"), []);
+  // Coaches visibles en la red (sin HQ — HQ tiene bloque propio arriba).
+  // Ordenados por tier → joinedAt (ver sortCoaches).
+  const allCoaches = useMemo(() => sortCoaches(COACHES).filter(c => c.tier !== "hq"), []);
 
   // Filtros. "all" = sin filtro en esa dimensión.
   const [country, setCountry] = useState<string>("all");
   const [language, setLanguage] = useState<string>("all");
-  const [specialty, setSpecialty] = useState<CoachSpecialty | "all">("all");
-  const [highlightSlug, setHighlightSlug] = useState<string | null>(null);
+  const [specialty, setSpecialty] = useState<string>("all");
 
-  const coaches = useMemo(() => {
-    return allCoaches.filter(c => {
-      if (country !== "all" && c.location.country !== country) return false;
-      if (language !== "all" && !(c.languages ?? []).includes(language)) return false;
-      if (specialty !== "all" && !(c.specialties ?? []).includes(specialty)) return false;
-      return true;
-    });
-  }, [allCoaches, country, language, specialty]);
+  const filtered = useMemo(
+    () => filterCoaches(allCoaches, { country, language, specialty }),
+    [allCoaches, country, language, specialty],
+  );
 
-  const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  // 6 destacados en desktop, 3 en mobile.
+  const displayCount = isMobile ? 3 : 6;
+  const display = useMemo(
+    () => pickDisplayCoaches(filtered, displayCount),
+    [filtered, displayCount],
+  );
 
   const mapLabels = {
     badgeHq: t.academy.network.badgeHq,
     badgeRecommended: t.academy.network.badgeRecommended,
-    viewProfile: t.academy.network.viewProfile,
+    askChatbot: t.academy.network.askChatbot,
   };
 
   const gridLabels = {
@@ -2555,7 +2573,6 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
 
   const handleAsk = (coach: Coach) => {
     // Flujo J3: el usuario pasa SIEMPRE por nuestro chatbot antes de llegar al coach.
-    // El ChatBubble escucha este evento y abre el panel con el mensaje precargado.
     window.dispatchEvent(
       new CustomEvent("j3:chat:open", {
         detail: {
@@ -2566,22 +2583,20 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
     );
   };
 
-  const handleMapSelect = (slug: string) => {
-    setHighlightSlug(slug);
-    const el = cardRefs.current[slug];
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-    // Auto-apaga el highlight pasados unos segundos.
-    window.setTimeout(() => setHighlightSlug(current => (current === slug ? null : current)), 2600);
-  };
-
   const hasAnyFilter = country !== "all" || language !== "all" || specialty !== "all";
   const resetFilters = () => {
     setCountry("all");
     setLanguage("all");
     setSpecialty("all");
   };
+
+  // CTA "ver todos": cambia de texto según haya filtros activos.
+  const viewAllHref = buildCoachesUrl({ country, language, specialty });
+  const viewAllLabel = hasAnyFilter
+    ? t.academy.network.viewFilteredCta.replace("{count}", filtered.length.toString())
+    : t.academy.network.viewAllCta.replace("{count}", allCoaches.length.toString());
+  // Si hay filtros y ya vemos todos los resultados en el bloque reducido, ocultamos el CTA.
+  const showViewAllCta = !hasAnyFilter || filtered.length > displayCount;
 
   return (
     <section id="network" className="sedes-section relative overflow-hidden border-b border-white/[.07]">
@@ -2682,7 +2697,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
           className="relative overflow-hidden border border-white/[.08]"
           style={{ height: "clamp(380px, 55vh, 620px)" }}
         >
-          <NetworkMap coaches={coaches} labels={mapLabels} onSelect={handleMapSelect} />
+          <NetworkMap coaches={filtered} labels={mapLabels} />
         </div>
       </div>
 
@@ -2696,7 +2711,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
             {t.academy.network.gridHeading}
           </h3>
           <span className="ml-auto text-[11px] opacity-55 tracking-[2px] uppercase" style={{ color: "var(--wh)" }}>
-            {coaches.length} / {allCoaches.length}
+            {filtered.length} / {allCoaches.length}
           </span>
         </div>
 
@@ -2717,7 +2732,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
           <FilterSelect
             label={t.academy.network.filterSpecialty}
             value={specialty}
-            onChange={(v) => setSpecialty(v as CoachSpecialty | "all")}
+            onChange={setSpecialty}
             options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_SPECIALTIES.map(s => ({ value: s, label: specialtyLabel(s) }))]}
           />
           {hasAnyFilter && (
@@ -2731,26 +2746,34 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
           )}
         </div>
 
-        {coaches.length === 0 ? (
+        {filtered.length === 0 ? (
           <div className="border theme-border px-6 py-10 text-center text-[13px] opacity-70" style={{ color: "var(--wh)" }}>
             {t.academy.network.filterEmpty}
           </div>
         ) : (
-          <div className="grid gap-4 max-[960px]:gap-3" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(min(260px, 100%), 1fr))" }}>
-            {coaches.map((c) => (
-              <div
-                key={c.slug}
-                ref={el => { cardRefs.current[c.slug] = el; }}
-                style={{
-                  transition: "box-shadow .5s ease, transform .5s ease",
-                  boxShadow: highlightSlug === c.slug ? "0 0 0 2px var(--g1), 0 10px 40px rgba(220,175,100,0.25)" : "none",
-                  transform: highlightSlug === c.slug ? "translateY(-4px)" : "translateY(0)",
-                }}
-              >
-                <CoachCard coach={c} labels={gridLabels} onAsk={handleAsk} />
+          <>
+            <div className="grid gap-4 max-[960px]:gap-3" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(min(260px, 100%), 1fr))" }}>
+              {display.map((c) => (
+                <CoachCard key={c.slug} coach={c} labels={gridLabels} onAsk={handleAsk} />
+              ))}
+            </div>
+
+            {showViewAllCta && (
+              <div className="mt-8 flex justify-center">
+                <Link
+                  href={viewAllHref}
+                  className="group inline-flex items-center gap-3 text-[11px] font-bold tracking-[2.5px] uppercase text-[var(--g1)] border border-[var(--g1)]/40 hover:border-[var(--g1)] px-6 py-3 transition-all duration-300"
+                  style={{ borderRadius: 2 }}
+                >
+                  {viewAllLabel}
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:translate-x-1">
+                    <path d="M5 12h14" />
+                    <path d="M12 5l7 7-7 7" />
+                  </svg>
+                </Link>
               </div>
-            ))}
-          </div>
+            )}
+          </>
         )}
       </div>
 
@@ -2758,6 +2781,8 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
       <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto pb-[80px] max-[960px]:pb-[56px]">
         <a
           href={t.academy.network.coachCta.href}
+          target="_blank"
+          rel="noopener noreferrer"
           className="group relative block overflow-hidden border border-white/[.08] hover:border-[var(--g1)]/40 transition-colors duration-500 px-8 py-10 max-[640px]:px-6 max-[640px]:py-8"
         >
           <span

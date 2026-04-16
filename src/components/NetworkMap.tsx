@@ -109,16 +109,32 @@ function makeIcon(tier: Coach["tier"]): L.DivIcon {
 interface NetworkMapProps {
   /** Lista de coaches a pintar. La página pasa la lista ya filtrada. */
   coaches: readonly Coach[];
-  onSelect?: (slug: string) => void;
+  /** Override opcional del handler del botón "Pregunta a J3". Default: dispara evento j3:chat:open. */
+  onAsk?: (coach: Coach) => void;
   labels: {
     badgeHq: string;
     badgeRecommended: string;
-    viewProfile: string;
+    askChatbot: string;
   };
 }
 
-export default function NetworkMap({ coaches: coachesProp, onSelect, labels }: NetworkMapProps) {
+export default function NetworkMap({ coaches: coachesProp, onAsk, labels }: NetworkMapProps) {
   const coaches = useMemo(() => [...coachesProp], [coachesProp]);
+
+  const handleAsk = (c: Coach) => {
+    if (onAsk) {
+      onAsk(c);
+      return;
+    }
+    window.dispatchEvent(
+      new CustomEvent("j3:chat:open", {
+        detail: {
+          coachName: c.name,
+          coachLocation: `${c.location.city}, ${c.location.country}`,
+        },
+      }),
+    );
+  };
 
   // Centro en Europa occidental con un zoom razonable para ver España + Europa.
   const center: [number, number] = [42, 5];
@@ -145,48 +161,116 @@ export default function NetworkMap({ coaches: coachesProp, onSelect, labels }: N
             key={c.slug}
             position={c.location.coordinates}
             icon={makeIcon(c.tier)}
-            eventHandlers={{
-              click: () => onSelect?.(c.slug),
-            }}
           >
-            <Popup>
-              <div style={{ minWidth: 180 }}>
-                <div
-                  style={{
-                    fontSize: 10,
-                    letterSpacing: 2,
-                    textTransform: "uppercase",
-                    color: "#dcaf64",
-                    marginBottom: 4,
-                  }}
-                >
-                  {c.tier === "hq" ? labels.badgeHq : labels.badgeRecommended}
+            <Popup maxWidth={280} minWidth={240}>
+              <div style={{ minWidth: 220 }}>
+                {/* Header: foto + nombre + tier */}
+                <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 8 }}>
+                  {c.photo ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={c.photo}
+                      alt=""
+                      style={{
+                        width: 40,
+                        height: 40,
+                        borderRadius: 999,
+                        objectFit: "cover",
+                        border: c.tier === "hq" ? "2px solid #dcaf64" : "1px solid rgba(220,175,100,0.3)",
+                        flexShrink: 0,
+                      }}
+                    />
+                  ) : (
+                    <div
+                      aria-hidden
+                      style={{
+                        width: 40,
+                        height: 40,
+                        borderRadius: 999,
+                        background: "rgba(220,175,100,0.08)",
+                        border: "1px solid rgba(220,175,100,0.25)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: 14,
+                        fontWeight: 700,
+                        color: "#dcaf64",
+                        letterSpacing: 1,
+                        flexShrink: 0,
+                      }}
+                    >
+                      {c.name.split(" ").map(w => w[0]).slice(0, 2).join("")}
+                    </div>
+                  )}
+                  <div style={{ minWidth: 0 }}>
+                    <div
+                      style={{
+                        fontSize: 9,
+                        letterSpacing: 2,
+                        textTransform: "uppercase",
+                        color: "#dcaf64",
+                        marginBottom: 2,
+                      }}
+                    >
+                      {c.tier === "hq" ? labels.badgeHq : labels.badgeRecommended}
+                    </div>
+                    <div style={{ fontWeight: 700, fontSize: 14, lineHeight: 1.15, marginBottom: 2 }}>
+                      {c.name}
+                    </div>
+                    <div style={{ fontSize: 11, opacity: 0.7 }}>
+                      {c.location.city}, {c.location.country}
+                    </div>
+                  </div>
                 </div>
-                <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 2 }}>{c.name}</div>
-                <div style={{ fontSize: 12, opacity: 0.75 }}>
-                  {c.location.city}, {c.location.country}
-                </div>
+
+                {/* Clubs */}
                 {c.clubs && c.clubs.length > 0 && (
-                  <div style={{ fontSize: 11, opacity: 0.6, marginTop: 6 }}>
-                    {c.clubs.join(" · ")}
+                  <div style={{ fontSize: 11, opacity: 0.6, marginBottom: 8 }}>
+                    {c.clubs.slice(0, 2).join(" · ")}
                   </div>
                 )}
+
+                {/* Idiomas */}
+                {c.languages && c.languages.length > 0 && (
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 12 }}>
+                    {c.languages.map(l => (
+                      <span
+                        key={l}
+                        style={{
+                          fontSize: 9,
+                          letterSpacing: 1,
+                          textTransform: "uppercase",
+                          color: "#dcaf64",
+                          border: "1px solid rgba(220,175,100,0.3)",
+                          padding: "2px 6px",
+                          borderRadius: 2,
+                        }}
+                      >
+                        {l}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {/* CTA "Pregunta a J3" */}
                 <button
                   type="button"
-                  onClick={() => onSelect?.(c.slug)}
+                  onClick={() => handleAsk(c)}
                   style={{
-                    marginTop: 10,
+                    width: "100%",
                     fontSize: 10,
+                    fontWeight: 700,
                     letterSpacing: 2,
                     textTransform: "uppercase",
-                    color: "#dcaf64",
-                    background: "transparent",
-                    border: "1px solid rgba(220,175,100,0.4)",
-                    padding: "6px 10px",
+                    color: "#000",
+                    background: "linear-gradient(135deg, #dcaf64, #b8943e)",
+                    border: "none",
+                    padding: "8px 12px",
                     cursor: "pointer",
+                    borderRadius: 2,
                   }}
                 >
-                  {labels.viewProfile} →
+                  {labels.askChatbot}
                 </button>
               </div>
             </Popup>
