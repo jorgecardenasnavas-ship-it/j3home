@@ -268,13 +268,13 @@ type SectionItem = {
 };
 
 const STICKY_SEDES: SedeItem[] = [
-  { kind: "sede", name: "J3 Lab", sub: "Málaga", slug: "j3-hq-malaga", img: "/images/proof-players.jpg" },
+  { kind: "sede", name: "J3 Lab", sub: "Limoneros", slug: "j3-hq-malaga", img: "/images/imagotipo-gold.svg" },
 ];
 
 const STICKY_SECTIONS: SectionItem[] = [
   { kind: "section", name: "Coaches",   anchor: "network" },
   { kind: "section", name: "Programas", anchor: "programas" },
-  { kind: "section", name: "Coach360",  anchor: "coach360" },
+  { kind: "section", name: "Método",    anchor: "metodo" },
 ];
 
 /** Iconos gold para las secciones del sticky nav. */
@@ -306,12 +306,12 @@ function SectionIcon({ name }: { name: string }) {
       </svg>
     );
   }
-  if (name === "coach360") {
+  if (name === "metodo") {
+    /* Brújula: método J3, orientación, criterio. */
     return (
       <svg {...common} aria-hidden>
-        <path d="m2 10 10-5 10 5-10 5-10-5Z" />
-        <path d="M6 12.5V16a6 6 0 0 0 12 0v-3.5" />
-        <path d="M22 10v6" />
+        <circle cx="12" cy="12" r="9" />
+        <path d="m14.5 9.5-5 1.5 1.5 5 5-1.5-1.5-5Z" />
       </svg>
     );
   }
@@ -415,7 +415,7 @@ function ProgramBar() {
   };
 
   return (
-    <div className="sticky top-[52px] z-[90]">
+    <div className="sticky top-[52px] z-[100]">
       <div
         className="border-b border-white/[.06] relative"
         style={{ backgroundColor: "#121214", transition: "all 0.5s cubic-bezier(.16,1,.3,1)" }}
@@ -453,7 +453,7 @@ function ProgramBar() {
               cursor: compact ? "default" : "grab",
             }}
           >
-            {/* ── SEDES — círculo destacado ── */}
+            {/* ── SEDES — círculo destacado (logo J3 dorado) ── */}
             {STICKY_SEDES.map((sede) => (
               <button
                 key={sede.slug}
@@ -462,14 +462,14 @@ function ProgramBar() {
                 className="group/pnav flex flex-col items-center shrink-0 cursor-pointer transition-all duration-500 hover:opacity-100 opacity-95"
                 style={{
                   width: compact
-                    ? "clamp(64px, calc((100vw - 14px) / 5.5), 120px)"
-                    : "clamp(96px, calc(100vw / 4.2), 130px)",
+                    ? "clamp(72px, calc((100vw - 14px) / 5), 130px)"
+                    : "clamp(104px, calc(100vw / 3.8), 140px)",
                   paddingTop: compact ? "6px" : undefined,
                   paddingBottom: compact ? "6px" : undefined,
                 }}
               >
                 <div
-                  className="j3-pnav-circle relative rounded-full"
+                  className="j3-pnav-circle relative rounded-full flex items-center justify-center"
                   style={{
                     width: compact ? "0px" : undefined,
                     height: compact ? "0px" : undefined,
@@ -478,14 +478,16 @@ function ProgramBar() {
                     transition: "all 0.5s cubic-bezier(.16,1,.3,1)",
                     border: "2px solid rgba(220,175,100,1)",
                     boxShadow: "0 0 16px rgba(220,175,100,.35), 0 0 4px rgba(220,175,100,.4)",
+                    background: "radial-gradient(circle at 30% 30%, rgba(220,175,100,.12) 0%, rgba(18,18,20,1) 70%)",
                   }}
                 >
-                  <div className="w-[54px] h-[54px] min-[961px]:w-[64px] min-[961px]:h-[64px] rounded-full overflow-hidden">
+                  <div
+                    className="w-[62px] h-[62px] min-[961px]:w-[72px] min-[961px]:h-[72px] rounded-full overflow-hidden flex items-center justify-center"
+                  >
                     <img
                       src={sede.img}
                       alt={sede.name}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover/pnav:scale-110"
-                      style={{ filter: "saturate(0.95) brightness(1) contrast(0.98)" }}
+                      className="w-[58%] h-[58%] object-contain transition-transform duration-700 group-hover/pnav:scale-110"
                     />
                   </div>
                 </div>
@@ -515,8 +517,8 @@ function ProgramBar() {
               className="shrink-0"
               style={{
                 width: "1px",
-                height: compact ? "22px" : "56px",
-                margin: compact ? "0 10px" : "0 14px",
+                height: compact ? "24px" : "64px",
+                margin: compact ? "0 12px" : "0 16px",
                 background: "linear-gradient(to bottom, transparent, rgba(220,175,100,.4), transparent)",
                 transition: "height 0.5s cubic-bezier(.16,1,.3,1)",
               }}
@@ -712,8 +714,17 @@ function HeroSection() {
           </div>
         </div>
 
-        {/* ── Mapa column (60%) ── */}
-        <div className="relative w-full min-[961px]:w-[60%] h-[60vh] min-[961px]:h-auto min-[961px]:min-h-full">
+        {/* ── Mapa column (60%) ──
+            isolation:isolate + contain:layout paint crean un stacking context
+            propio para el mapa. Así los popups y controles de Leaflet
+            (z-index ~700 internos) quedan confinados dentro del hero y
+            siempre por debajo del sticky nav (z-[100]) y navbar (z-100).
+            contain:paint evita repaints del mapa fuera de su caja durante
+            zoom/pan → zoom más fluido. */}
+        <div
+          className="relative w-full min-[961px]:w-[60%] h-[60vh] min-[961px]:h-auto min-[961px]:min-h-full"
+          style={{ isolation: "isolate", contain: "layout paint" }}
+        >
           <NetworkMap
             coaches={filtered}
             labels={mapLabels}
@@ -952,7 +963,7 @@ function StatementSection() {
   const { itemRefs, visibleItems } = useStaggerReveal(lines.length, 0.2);
 
   return (
-    <section className="stmt-section relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden flex items-center">
+    <section id="metodo" className="stmt-section relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden flex items-center scroll-mt-[120px]">
       <div ref={ref} className="absolute top-0 left-0" />
 
       <div className="max-w-[1400px] mx-auto relative z-10 flex flex-col items-center gap-10 max-[960px]:gap-6 w-full">
