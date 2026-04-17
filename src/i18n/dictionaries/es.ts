@@ -613,11 +613,11 @@ export const es = {
           waMsg: "Hola, quiero info sobre Next Gen (16+ circuito)",
         },
       ],
-      adultosLabel: "Adultos",
+      adultosLabel: "Programa mensual",
       adultosCards: [
         {
-          tag: "Programa mensual",
-          title: "Adultos",
+          tag: "Adultos",
+          title: "Amateur",
           sub: "Tu rutina semanal",
           ctaLabel: "Apuntarme",
           waMsg: "Hola, quiero info sobre el programa mensual de adultos",
