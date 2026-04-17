@@ -576,22 +576,6 @@ export const es = {
       statTitles: "t\u00EDtulos profesionales",
     },
 
-    proof: {
-      eyebrow: "Trayectoria \u00B7 Resultados",
-      quoteOpen: "\u201CNuestros jugadores no solo llegan al circuito. ",
-      quoteAccent: "Destacan",
-      quoteClose: ".\u201D",
-      imageAlt: "Jugadores J3 Academy en el circuito profesional",
-      players: [
-        { name: "Guille Collado", info: "Circuito profesional WPT / APT" },
-        { name: "\u00C1lex Ruiz", info: "Circuito profesional" },
-        { name: "Bea Gonz\u00E1lez", info: "Circuito femenino" },
-        { name: "Momo Gonz\u00E1lez", info: "Circuito profesional" },
-        { name: "Martina Fassio", info: "Circuito profesional" },
-        { name: "Jos\u00E9 Jim\u00E9nez", info: "Circuito profesional" },
-      ],
-    },
-
     programs: {
       eyebrow: "Estructura J3",
       headingPre: "\u00BFHasta d\u00F3nde quieres ",

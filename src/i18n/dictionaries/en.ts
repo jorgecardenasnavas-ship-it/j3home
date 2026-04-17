@@ -576,22 +576,6 @@ export const en = {
       statTitles: "professional titles",
     },
 
-    proof: {
-      eyebrow: "Track record \u00B7 Results",
-      quoteOpen: "\u201COur players don\u2019t just reach the tour. ",
-      quoteAccent: "They stand out",
-      quoteClose: ".\u201D",
-      imageAlt: "J3 Academy players on the professional tour",
-      players: [
-        { name: "Guille Collado", info: "WPT / APT professional tour" },
-        { name: "\u00C1lex Ruiz", info: "Professional tour" },
-        { name: "Bea Gonz\u00E1lez", info: "Women\u2019s tour" },
-        { name: "Momo Gonz\u00E1lez", info: "Professional tour" },
-        { name: "Martina Fassio", info: "Professional tour" },
-        { name: "Jos\u00E9 Jim\u00E9nez", info: "Professional tour" },
-      ],
-    },
-
     programs: {
       eyebrow: "J3 Structure",
       headingPre: "Find your ",

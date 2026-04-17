@@ -319,15 +319,6 @@ export interface Dictionary {
       readonly statTitles: string;
     };
 
-    proof: {
-      readonly eyebrow: string;
-      readonly quoteOpen: string;
-      readonly quoteAccent: string;
-      readonly quoteClose: string;
-      readonly imageAlt: string;
-      readonly players: readonly { readonly name: string; readonly info: string }[];
-    };
-
     programs: {
       readonly eyebrow: string;
       readonly headingPre: string;

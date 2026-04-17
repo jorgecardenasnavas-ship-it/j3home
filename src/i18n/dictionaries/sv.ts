@@ -576,22 +576,6 @@ export const sv = {
       statTitles: "proffstitlar",
     },
 
-    proof: {
-      eyebrow: "Erfarenhet \u00B7 Resultat",
-      quoteOpen: "\u201DV\u00E5ra spelare n\u00E5r inte bara touren. ",
-      quoteAccent: "De sticker ut",
-      quoteClose: ".\u201D",
-      imageAlt: "J3 Academy-spelare p\u00E5 den professionella touren",
-      players: [
-        { name: "Guille Collado", info: "Proffstour WPT / APT" },
-        { name: "\u00C1lex Ruiz", info: "Proffstour" },
-        { name: "Bea Gonz\u00E1lez", info: "Damtour" },
-        { name: "Momo Gonz\u00E1lez", info: "Proffstour" },
-        { name: "Martina Fassio", info: "Proffstour" },
-        { name: "Jos\u00E9 Jim\u00E9nez", info: "Proffstour" },
-      ],
-    },
-
     programs: {
       eyebrow: "J3-struktur",
       headingPre: "Hitta ditt ",
