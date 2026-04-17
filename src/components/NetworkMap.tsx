@@ -272,12 +272,74 @@ const pinStyles = `
     text-transform: uppercase;
     line-height: 1;
     margin: 0 0 14px 12px !important;
+    transition: padding .25s cubic-bezier(.4,0,.2,1), background .25s ease;
+  }
+  .j3-legend-details > summary { list-style: none; cursor: pointer; outline: none; }
+  .j3-legend-details > summary::-webkit-details-marker { display: none; }
+  .j3-legend-summary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
+  }
+  .j3-legend-summary-icon {
+    display: none; /* desktop: oculto, el title ya comunica */
+    width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    background: rgba(220,175,100,0.12);
+    border: 1px solid rgba(220,175,100,0.45);
+    color: #dcaf64;
+    font-family: ui-serif, Georgia, serif;
+    font-style: italic;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: 700;
+    text-align: center;
+    text-transform: none;
+    letter-spacing: 0;
   }
   .j3-legend-title {
     color: #dcaf64;
     font-weight: 700;
     letter-spacing: 2px;
     margin-bottom: 8px;
+  }
+  .j3-legend-body { margin-top: 0; }
+  /* Desktop: details siempre visual-mente abierto, sin transición */
+  @media (min-width: 961px) {
+    .j3-legend-body { display: block !important; }
+  }
+  /* Mobile: si el details está cerrado, solo el icono i (sin title).
+     Al abrir, se muestra title + body. */
+  @media (max-width: 960px) {
+    .j3-legend-details:not([open]) .j3-legend-title,
+    .j3-legend-details:not([open]) .j3-legend-body {
+      display: none;
+    }
+    .j3-legend-details:not([open]) .j3-legend-summary-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .j3-legend-details:not([open]) {
+      /* Compacta el padding cuando está cerrado para no ocupar espacio. */
+    }
+    .j3-legend:has(.j3-legend-details:not([open])) {
+      padding: 6px !important;
+    }
+    /* Abierto: icono a la izquierda del título como "tap para cerrar". */
+    .j3-legend-details[open] .j3-legend-summary-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .j3-legend-details[open] .j3-legend-summary {
+      margin-bottom: 4px;
+    }
+    .j3-legend-details[open] .j3-legend-title {
+      margin-bottom: 0;
+    }
   }
   .j3-legend-row {
     display: flex;
@@ -1070,20 +1132,33 @@ function MapLegend({ labels }: { labels: PopupLabels }) {
       options: { position: "bottomleft" as L.ControlPosition },
       onAdd() {
         const div = L.DomUtil.create("div", "j3-legend");
+        /* En desktop la leyenda está siempre visible (open). En móvil la
+           envolvemos en un <details> sin atributo open, así se colapsa al
+           icono 'i' y libera espacio del mapa. El CSS pinta el summary como
+           un círculo gold cuando está cerrado, y se expande al tap. */
+        const isDesktopAtMount = typeof window !== "undefined" && window.matchMedia("(min-width: 961px)").matches;
+        const openAttr = isDesktopAtMount ? " open" : "";
         div.innerHTML = `
-          <div class="j3-legend-title">${labels.legendTitle}</div>
-          <div class="j3-legend-row">
-            <span class="j3-legend-dot j3-legend-dot-hq" aria-hidden></span>
-            <span>${labels.legendHq}</span>
-          </div>
-          <div class="j3-legend-row">
-            <span class="j3-legend-dot j3-legend-dot-coach" aria-hidden></span>
-            <span>${labels.legendRecommended}</span>
-          </div>
-          <div class="j3-legend-row">
-            <span class="j3-legend-dot j3-legend-dot-cluster" aria-hidden>3</span>
-            <span>${labels.legendCluster}</span>
-          </div>
+          <details class="j3-legend-details"${openAttr}>
+            <summary class="j3-legend-summary" aria-label="${labels.legendTitle}">
+              <span class="j3-legend-summary-icon" aria-hidden>i</span>
+              <span class="j3-legend-title">${labels.legendTitle}</span>
+            </summary>
+            <div class="j3-legend-body">
+              <div class="j3-legend-row">
+                <span class="j3-legend-dot j3-legend-dot-hq" aria-hidden></span>
+                <span>${labels.legendHq}</span>
+              </div>
+              <div class="j3-legend-row">
+                <span class="j3-legend-dot j3-legend-dot-coach" aria-hidden></span>
+                <span>${labels.legendRecommended}</span>
+              </div>
+              <div class="j3-legend-row">
+                <span class="j3-legend-dot j3-legend-dot-cluster" aria-hidden>3</span>
+                <span>${labels.legendCluster}</span>
+              </div>
+            </div>
+          </details>
         `;
         // Permitir scroll/click dentro del control sin propagarlo al mapa.
         L.DomEvent.disableClickPropagation(div);
@@ -1116,7 +1191,15 @@ function MapLegend({ labels }: { labels: PopupLabels }) {
  * es navbar (52px) + altura del sticky ProgramBar (~110px) + margen
  * = ~180px.
  */
-function FloatingZoomControls({ topOffset = 180 }: { topOffset?: number }) {
+function FloatingZoomControls({
+  topOffset = 180,
+  coaches,
+  initialZoom,
+}: {
+  topOffset?: number;
+  coaches?: readonly Coach[];
+  initialZoom?: number;
+}) {
   const map = useMap();
   const [visible, setVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -1129,6 +1212,10 @@ function FloatingZoomControls({ topOffset = 180 }: { topOffset?: number }) {
      el mapa asoma por debajo) y al hacer scroll se pega al sticky header
      en vez de quedarse flotando sobre la siguiente sección. */
   const [mobileTopOffset, setMobileTopOffset] = useState(100);
+  /* Botón "Reset view": visible solo cuando el usuario ha hecho zoom
+     significativo (initialZoom + 2) y tenemos una lista de coaches a
+     la que volver. Fit automático. */
+  const [zoomedIn, setZoomedIn] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -1138,6 +1225,37 @@ function FloatingZoomControls({ topOffset = 180 }: { topOffset?: number }) {
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);
   }, []);
+
+  useEffect(() => {
+    /* Capturamos el zoom "reposado" después de que autoFitBounds se asiente.
+       Si el usuario zoomea >= 2 niveles sobre esa línea base, asumimos que
+       quiere volver a la vista general y mostramos el reset. */
+    let baseline: number | null = null;
+    const captureBaseline = () => {
+      baseline = map.getZoom();
+      setZoomedIn(false);
+    };
+    const t = window.setTimeout(captureBaseline, 900);
+    const check = () => {
+      if (baseline === null) return;
+      setZoomedIn(map.getZoom() > baseline + 1.5);
+    };
+    map.on("zoomend", check);
+    return () => {
+      window.clearTimeout(t);
+      map.off("zoomend", check);
+    };
+  }, [map]);
+
+  const handleResetView = () => {
+    if (!coaches || coaches.length < 2) {
+      if (initialZoom !== undefined) map.setZoom(initialZoom, { animate: true });
+      return;
+    }
+    const bounds = L.latLngBounds(coaches.map((c) => c.location.coordinates));
+    if (!bounds.isValid()) return;
+    map.flyToBounds(bounds, { padding: [60, 60], maxZoom: 7, duration: 0.8 });
+  };
 
   useEffect(() => {
     const container = map.getContainer();
@@ -1232,6 +1350,26 @@ function FloatingZoomControls({ topOffset = 180 }: { topOffset?: number }) {
       >
         −
       </button>
+      {/* Reset view: solo aparece cuando hay zoom significativo. Devuelve
+          el mapa a la vista general (fitBounds de todos los coaches). */}
+      {zoomedIn && (
+        <button
+          type="button"
+          onClick={handleResetView}
+          aria-label="Ver toda la red"
+          title="Ver toda la red"
+          style={{ ...btnBase, borderTop: "1px solid rgba(220,175,100,0.15)" }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(220,175,100,0.14)"; e.currentTarget.style.color = "#f0c478"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(10,10,10,0.92)"; e.currentTarget.style.color = "#dcaf64"; }}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden style={{ display: "inline-block", verticalAlign: "middle" }}>
+            <path d="M3 8V5a2 2 0 0 1 2-2h3" />
+            <path d="M21 8V5a2 2 0 0 0-2-2h-3" />
+            <path d="M3 16v3a2 2 0 0 0 2 2h3" />
+            <path d="M21 16v3a2 2 0 0 1-2 2h-3" />
+          </svg>
+        </button>
+      )}
     </div>,
     document.body,
   );
@@ -1312,7 +1450,7 @@ export default function NetworkMap({
             cuando el mapa está bajo un sticky nav que lo taparía; nativos
             de Leaflet (topright dentro del mapa) en cualquier otro caso. */}
         {floatingZoomControls ? (
-          <FloatingZoomControls topOffset={floatingZoomTopOffset} />
+          <FloatingZoomControls topOffset={floatingZoomTopOffset} coaches={coaches} initialZoom={zoom} />
         ) : (
           <ZoomControl position="topright" />
         )}
