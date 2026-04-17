@@ -9,7 +9,7 @@ import CoachCard from "@/components/CoachCard";
 import { FilterSelect } from "@/components/FilterSelect";
 import { useI18n } from "@/i18n/context";
 import { languageLabel } from "@/lib/languages";
-import { haversineKm } from "@/lib/geo";
+import { haversineKm, type LatLng } from "@/lib/geo";
 import { GeoProvider, useGeo } from "@/contexts/GeoContext";
 import { FilterProvider, useFilters } from "@/contexts/FilterContext";
 import {
@@ -2230,6 +2230,8 @@ function SedeCard({
   forceExpand?: boolean;
   inCarousel?: boolean;
 }) {
+  /* Misma lógica de expanded que ProgramTile: en carrusel móvil, el
+     active-slide fuerza expand; en desktop con PorscheRow lo dicta hover. */
   const expanded = inCarousel ? forceExpand : isHovered;
   return (
     <a
@@ -2238,8 +2240,10 @@ function SedeCard({
       rel="noopener noreferrer"
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
-      className="group relative block overflow-hidden border border-white/[.08] hover:border-[var(--g1)]/40 transition-colors duration-500 h-full"
+      className="relative overflow-hidden rounded-lg cursor-pointer block h-full group"
+      style={{ background: "#000" }}
     >
+      {/* Media — video si existe, gradient placeholder si no */}
       {sede.video ? (
         <video
           src={sede.video}
@@ -2247,76 +2251,159 @@ function SedeCard({
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out"
+          className="absolute inset-0 w-full h-full object-cover"
           style={{
-            filter: expanded ? "saturate(1) brightness(1) contrast(1)" : "saturate(0.88) brightness(0.85) contrast(0.96)",
-            transform: expanded ? "scale(1.03)" : "scale(1)",
+            transform: expanded ? "scale3d(1.035,1.035,1.035)" : "scale3d(1,1,1)",
+            transition: "transform 0.9s cubic-bezier(0,0,0.2,1), filter 0.9s cubic-bezier(.16,1,.3,1)",
+            filter: expanded
+              ? "saturate(0.95) brightness(1.01) contrast(0.98)"
+              : "saturate(0.88) brightness(0.98) contrast(0.96)",
           }}
         />
       ) : (
-        /* Placeholder gradient cuando aún no hay asset de video. */
         <div
-          className="absolute inset-0 transition-opacity duration-700"
+          className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(circle at 20% 30%, rgba(220,175,100,0.18) 0%, rgba(10,10,10,1) 55%)",
-            opacity: expanded ? 1 : 0.82,
+              "radial-gradient(circle at 20% 30%, rgba(220,175,100,0.2) 0%, rgba(10,10,10,1) 55%)",
+            transform: expanded ? "scale3d(1.035,1.035,1.035)" : "scale3d(1,1,1)",
+            transition: "transform 0.9s cubic-bezier(0,0,0.2,1)",
           }}
           aria-hidden
         />
       )}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" aria-hidden />
-      <span
-        className="absolute top-0 left-1/2 -translate-x-1/2 h-[3px] w-[70%] opacity-70 group-hover:w-full group-hover:opacity-100 bg-gradient-to-r from-transparent via-[var(--g1)] to-transparent transition-all duration-700"
-        aria-hidden
+
+      {/* Línea gold superior — expande de 55% → 100% al hover/active */}
+      <div
+        className="absolute top-0 left-1/2 -translate-x-1/2 h-[1.5px] z-[10] pointer-events-none"
+        style={{
+          background: "linear-gradient(to right, transparent 0%, var(--g1) 50%, transparent 100%)",
+          width: expanded ? "100%" : "55%",
+          opacity: expanded ? 0.9 : 0.35,
+          transition: "width 0.7s cubic-bezier(.16,1,.3,1), opacity 0.5s ease-out",
+        }}
       />
 
-      <div className="absolute top-6 left-6 max-[640px]:top-4 max-[640px]:left-5 z-10 flex items-center gap-2">
-        <span className="relative inline-flex shrink-0" aria-hidden>
-          <span className="w-[6px] h-[6px] rounded-full bg-[var(--g1)]" />
-          <span className="absolute inset-0 w-[6px] h-[6px] rounded-full bg-[var(--g1)] animate-ping" />
-        </span>
-        <span className="text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)]">
+      {/* Top gradient — denso para legibilidad de título + flag */}
+      <div
+        className="absolute top-0 left-0 w-full z-[5] pointer-events-none"
+        style={{
+          height: "45%",
+          background: "linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 25%, rgba(0,0,0,0.3) 55%, rgba(0,0,0,0.1) 80%, transparent 100%)",
+        }}
+      />
+
+      {/* Bottom gradient */}
+      <div
+        className="absolute bottom-0 left-0 w-full z-[5] pointer-events-none"
+        style={{
+          height: "45%",
+          background: "linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.55) 30%, rgba(0,0,0,0.2) 60%, transparent 100%)",
+        }}
+      />
+
+      {/* Nombre (top-center) + flag (tag debajo) — misma jerarquía que ProgramTile */}
+      <div
+        className="absolute top-0 left-0 right-0 z-[6] flex flex-col items-center pt-7 max-[640px]:pt-5 px-4 text-center"
+        style={{ textShadow: "0 2px 14px rgba(0,0,0,0.55), 0 1px 3px rgba(0,0,0,0.4)" }}
+      >
+        <h4 className="font-bold text-[clamp(22px,2.8vw,38px)] uppercase tracking-[-1px] leading-[1] text-white">
+          {sede.name}
+        </h4>
+        <span className="mt-[6px] text-[10px] max-[640px]:text-[9.5px] font-bold tracking-[3px] uppercase text-[var(--g1)]">
           {eyebrow}
         </span>
-      </div>
-
-      {/* Badge top-right — solo si hay openingSoon (sedes no operativas aún). */}
-      {sede.openingSoon && (
-        <div className="absolute top-6 right-6 max-[640px]:top-4 max-[640px]:right-5 z-10">
-          <span
-            className="inline-flex items-center px-2.5 py-[6px] text-[9px] font-bold tracking-[2px] uppercase text-black"
-            style={{
-              background: "linear-gradient(135deg, #f0c478 0%, #dcaf64 100%)",
-              borderRadius: 2,
-            }}
-          >
-            {sede.openingSoon}
-          </span>
-        </div>
-      )}
-
-      <div className="absolute inset-x-0 bottom-0 z-10 p-6 max-[640px]:p-5 flex items-end justify-between gap-3">
-        <div className="max-w-[420px]">
-          <span className="block text-[10px] font-semibold tracking-[2px] uppercase text-white/55 mb-2">
-            {sede.flag}
-          </span>
-          <h3 className="font-bold text-[clamp(20px,2.2vw,30px)] uppercase tracking-[-0.5px] leading-[1.05] text-white">
-            {sede.name}
-          </h3>
-        </div>
-        <span
-          className="shrink-0 flex items-center gap-2 text-[10px] font-bold tracking-[2px] uppercase text-[var(--g1)]"
-          style={{ transform: expanded ? "translateX(4px)" : "translateX(0)", transition: "transform .5s cubic-bezier(.16,1,.3,1)" }}
-        >
-          <span className="hidden min-[640px]:inline">{sede.cta}</span>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-            <path d="M5 12h14" />
-            <path d="M12 5l7 7-7 7" />
-          </svg>
+        <span className="mt-[3px] text-[10px] max-[640px]:text-[9px] font-normal tracking-[1.5px] uppercase text-white/65">
+          {sede.flag}
         </span>
       </div>
+
+      {/* Bottom — openingSoon badge (izquierda) + CTA arrow (derecha) */}
+      <div className="absolute bottom-0 left-0 right-0 z-[13] p-[18px] min-[961px]:p-[clamp(16px,1.25vw+12px,36px)]">
+        <div className="flex items-end justify-between gap-3">
+          {sede.openingSoon ? (
+            <span
+              className="inline-flex items-center px-2.5 py-[5px] text-[9px] font-bold tracking-[1.5px] uppercase text-black"
+              style={{
+                background: "linear-gradient(135deg, #f0c478 0%, #dcaf64 100%)",
+                borderRadius: 2,
+              }}
+            >
+              {sede.openingSoon}
+            </span>
+          ) : (
+            <span aria-hidden />
+          )}
+          <span
+            className="shrink-0 flex items-center gap-2 text-[10px] font-bold tracking-[2px] uppercase text-[var(--g1)]"
+            style={{
+              transform: expanded ? "translateX(4px)" : "translateX(0)",
+              transition: "transform .5s cubic-bezier(.16,1,.3,1)",
+              textShadow: "0 2px 10px rgba(0,0,0,0.55)",
+            }}
+          >
+            <span className="hidden min-[640px]:inline">{sede.cta}</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="M5 12h14" />
+              <path d="M12 5l7 7-7 7" />
+            </svg>
+          </span>
+        </div>
+      </div>
     </a>
+  );
+}
+
+/* ──────────────────────────────────────────────
+   CoachesCarousel — J3 Recommended grid.
+   Scroll horizontal con cards pequeñas (estilo Porsche). Drag-scroll
+   para ratón + snap nativo en móvil/trackpad. Fade a la derecha como
+   hint de "hay más contenido".
+   ────────────────────────────────────────────── */
+
+function CoachesCarousel({
+  coaches,
+  labels,
+  userCoords,
+  onAsk,
+}: {
+  coaches: readonly Coach[];
+  labels: { badgeHq: string; badgeRecommended: string; askChatbot: string; kmFromYou?: string };
+  userCoords?: LatLng | null;
+  onAsk?: (c: Coach) => void;
+}) {
+  const { scrollRef, progress } = useDragScroll(coaches.length);
+  const showRightFade = progress < 0.98;
+  return (
+    <div className="relative">
+      <div
+        ref={scrollRef}
+        className="flex gap-4 max-[960px]:gap-3 overflow-x-auto scrollbar-hide snap-x snap-mandatory -mx-4 max-[960px]:-mx-3 px-4 max-[960px]:px-3"
+        style={{ cursor: "grab", scrollPadding: "0 16px" }}
+      >
+        {coaches.map((c) => (
+          <div
+            key={c.slug}
+            className="shrink-0 snap-start"
+            style={{ width: "clamp(210px, 22vw, 250px)" }}
+          >
+            <CoachCard coach={c} labels={labels} userCoords={userCoords} onAsk={onAsk} />
+          </div>
+        ))}
+        {/* Breathe right */}
+        <div className="shrink-0 w-1" aria-hidden />
+      </div>
+      {/* Fade right — hint de "más contenido", se desvanece al final */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute top-0 bottom-0 right-0 w-14 max-[960px]:w-10 z-[2] transition-opacity duration-300"
+        style={{
+          background:
+            "linear-gradient(to left, rgba(12,12,14,1), rgba(12,12,14,0))",
+          opacity: showRightFade ? 1 : 0,
+        }}
+      />
+    </div>
   );
 }
 
@@ -2376,7 +2463,10 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   }, [allCoaches, country, language, specialty, geo.coords]);
 
   // 6 destacados en desktop, 3 en mobile.
-  const displayCount = isMobile ? 3 : 6;
+  /* En carrusel horizontal cabe más material que en grid — incrementamos
+     el número de featured coaches mostrados. El CTA "ver todos" sigue
+     apareciendo si hay más en la lista completa. */
+  const displayCount = isMobile ? 6 : 10;
   const display = useMemo(
     () => pickDisplayCoaches(filtered, displayCount),
     [filtered, displayCount],
@@ -2664,11 +2754,15 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
           </div>
         ) : (
           <>
-            <div className="grid gap-4 max-[960px]:gap-3" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(min(260px, 100%), 1fr))" }}>
-              {display.map((c) => (
-                <CoachCard key={c.slug} coach={c} labels={gridLabels} userCoords={geo.coords} onAsk={handleAsk} />
-              ))}
-            </div>
+            {/* Scroll horizontal estilo Porsche — cards pequeñas que se
+                arrastran con drag/touch, snap al borde. Damos un pelín de
+                padding virtual a la derecha para hint de "hay más". */}
+            <CoachesCarousel
+              coaches={display}
+              labels={gridLabels}
+              userCoords={geo.coords}
+              onAsk={handleAsk}
+            />
 
             {showViewAllCta && (
               <div className="mt-8 flex justify-center">
