@@ -730,6 +730,7 @@ export const en = {
       specialtyJuniors: "Juniors",
       specialtyAdultos: "Adultos",
       specialtyCompeticion: "Competici\u00F3n",
+      specialtyCamps: "Camps",
       badgeRecommended: "J3 Recommended",
       badgeHq: "Headquarter",
       askChatbot: "Pregunta a J3",

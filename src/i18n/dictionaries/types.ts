@@ -425,6 +425,7 @@ export interface Dictionary {
       readonly specialtyJuniors: string;
       readonly specialtyAdultos: string;
       readonly specialtyCompeticion: string;
+      readonly specialtyCamps: string;
       readonly badgeRecommended: string;
       readonly badgeHq: string;
       readonly askChatbot: string;

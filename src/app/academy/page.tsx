@@ -844,7 +844,9 @@ function HeroSection() {
       ? t.academy.network.specialtyJuniors
       : s === "adultos"
       ? t.academy.network.specialtyAdultos
-      : t.academy.network.specialtyCompeticion;
+      : s === "competicion"
+      ? t.academy.network.specialtyCompeticion
+      : t.academy.network.specialtyCamps;
 
   const mapLabels = {
     badgeHq: t.academy.network.badgeHq,
@@ -867,6 +869,21 @@ function HeroSection() {
       new CustomEvent("j3:map:focus", { detail: { slug: "j3-hq-malaga" } }),
     );
   };
+
+  /* Las pills de especialidad dentro del popup del mapa disparan este
+     evento; aquí scrolleamos a la sección correspondiente en la página. */
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const anchor = (e as CustomEvent<{ anchor?: string }>).detail?.anchor;
+      if (!anchor) return;
+      const el = document.getElementById(anchor);
+      if (!el) return;
+      const top = el.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+    };
+    window.addEventListener("j3:academy:goto", handler);
+    return () => window.removeEventListener("j3:academy:goto", handler);
+  }, []);
 
   /* Mapa centrado en Málaga (Lab) como epicentro. */
   const mapCenter: [number, number] = [36.72, -4.42];
@@ -2752,7 +2769,9 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
       ? t.academy.network.specialtyJuniors
       : s === "adultos"
       ? t.academy.network.specialtyAdultos
-      : t.academy.network.specialtyCompeticion;
+      : s === "competicion"
+      ? t.academy.network.specialtyCompeticion
+      : t.academy.network.specialtyCamps;
 
   const handleAsk = (coach: Coach) => {
     // Flujo J3: el usuario pasa SIEMPRE por nuestro chatbot antes de llegar al coach.

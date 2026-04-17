@@ -448,14 +448,23 @@ function PopupContent({
         </div>
       )}
 
-      {/* Especialidades — chips dorados suaves */}
+      {/* Especialidades — chips dorados suaves, clickables.
+          El click se maneja vía event delegation en la page
+          (data-j3-specialty) porque este JSX se serializa a HTML dentro
+          del popup de Leaflet y pierde los onClick de React. */}
       {c.specialties && c.specialties.length > 0 && (
         <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 12 }}>
           {c.specialties.map((s) => {
-            const lbl = s === "juniors" ? "Juniors" : s === "adultos" ? "Adultos" : "Competición";
+            const lbl =
+              s === "juniors" ? "Juniors" :
+              s === "adultos" ? "Adultos" :
+              s === "competicion" ? "Competición" :
+              "Camps";
             return (
-              <span
+              <button
                 key={s}
+                type="button"
+                data-j3-specialty={s}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -469,6 +478,8 @@ function PopupContent({
                   border: "1px solid rgba(220,175,100,0.25)",
                   padding: "2px 6px",
                   borderRadius: 2,
+                  cursor: "pointer",
+                  font: "inherit",
                 }}
               >
                 <span
@@ -481,7 +492,7 @@ function PopupContent({
                   }}
                 />
                 {lbl}
-              </span>
+              </button>
             );
           })}
         </div>
@@ -744,29 +755,47 @@ function ClusteredMarkers({
     // Sync inicial por si el mapa arranca ya a zoom >= 5
     syncHqBreakout();
 
-    // Event delegation para el botón "Pregunta a J3"
+    // Event delegation para el botón "Pregunta a J3" y las pills
+    // de especialidades (data-j3-specialty) — el JSX del popup se
+    // serializa a HTML y los onClick de React no sobreviven.
     const container = map.getContainer();
     const onContainerClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement | null;
       if (!target) return;
+
       const askBtn = target.closest("[data-j3-ask-slug]") as HTMLElement | null;
-      if (!askBtn) return;
-      const slug = askBtn.getAttribute("data-j3-ask-slug");
-      if (!slug) return;
-      const coach = coaches.find((c) => c.slug === slug);
-      if (!coach) return;
-      if (onAsk) {
-        onAsk(coach);
+      if (askBtn) {
+        const slug = askBtn.getAttribute("data-j3-ask-slug");
+        if (!slug) return;
+        const coach = coaches.find((c) => c.slug === slug);
+        if (!coach) return;
+        if (onAsk) {
+          onAsk(coach);
+          return;
+        }
+        window.dispatchEvent(
+          new CustomEvent("j3:chat:open", {
+            detail: {
+              coachName: coach.name,
+              coachLocation: `${coach.location.city}, ${coach.location.country}`,
+            },
+          }),
+        );
         return;
       }
-      window.dispatchEvent(
-        new CustomEvent("j3:chat:open", {
-          detail: {
-            coachName: coach.name,
-            coachLocation: `${coach.location.city}, ${coach.location.country}`,
-          },
-        }),
-      );
+
+      const specBtn = target.closest("[data-j3-specialty]") as HTMLElement | null;
+      if (specBtn) {
+        const s = specBtn.getAttribute("data-j3-specialty");
+        if (!s) return;
+        /* Map especialidad → anchor de sección en /academy. */
+        const anchor =
+          s === "adultos" ? "adultos" :
+          s === "camps" ? "intensive" :
+          /* juniors + competicion */ "juniors";
+        window.dispatchEvent(new CustomEvent("j3:academy:goto", { detail: { anchor } }));
+        return;
+      }
     };
     container.addEventListener("click", onContainerClick);
 

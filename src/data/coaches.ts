@@ -11,7 +11,7 @@
    ficha parca y verdadera que una completa y falsa.
    ────────────────────────────────────────────── */
 
-export type CoachSpecialty = "juniors" | "adultos" | "competicion";
+export type CoachSpecialty = "juniors" | "adultos" | "competicion" | "camps";
 export type CoachTier = "hq" | "recommended" | "elite";
 /**
  * Tipo de nodo dentro de la red J3:
@@ -85,7 +85,7 @@ export const COACHES: readonly Coach[] = [
     },
     clubs: ["Vals Sport Limoneros", "Finura Padel"],
     languages: ["es", "en"],
-    specialties: ["juniors", "adultos", "competicion"],
+    specialties: ["juniors", "adultos", "competicion", "camps"],
     socials: {
       instagram: "https://instagram.com/j3padel",
       web: "https://j3padel.com",
@@ -410,6 +410,7 @@ export const COACH_SPECIALTIES: readonly CoachSpecialty[] = [
   "juniors",
   "adultos",
   "competicion",
+  "camps",
 ] as const;
 
 /* ──────────────────────────────────────────────

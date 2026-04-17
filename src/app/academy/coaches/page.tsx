@@ -75,7 +75,9 @@ function CoachesCatalogContent() {
       ? t.academy.network.specialtyJuniors
       : s === "adultos"
       ? t.academy.network.specialtyAdultos
-      : t.academy.network.specialtyCompeticion;
+      : s === "competicion"
+      ? t.academy.network.specialtyCompeticion
+      : t.academy.network.specialtyCamps;
 
   const handleAsk = (coach: Coach) => {
     window.dispatchEvent(
