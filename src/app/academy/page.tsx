@@ -962,7 +962,14 @@ function HeroSection() {
             />
 
             <p className="hero-rise hero-rise-3 text-[15px] max-[960px]:text-[14px] leading-[1.5] text-white/75 max-w-[420px]">
-              {t.academy.hero.sub}
+              {/* Partimos al fin de cada frase para que el wrap caiga en un
+                  punto natural (". ") en vez de cortar mid-phrase. */}
+              {t.academy.hero.sub.split(/(?<=\.) +/).map((s, i, arr) => (
+                <React.Fragment key={i}>
+                  {s}
+                  {i < arr.length - 1 && <br />}
+                </React.Fragment>
+              ))}
             </p>
 
             {/* CTAs — el primario unifica el "Cerca de mí" del mapa:
