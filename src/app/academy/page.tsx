@@ -11,6 +11,7 @@ import { useI18n } from "@/i18n/context";
 import { languageLabel } from "@/lib/languages";
 import { haversineKm } from "@/lib/geo";
 import { GeoProvider, useGeo } from "@/contexts/GeoContext";
+import { FilterProvider, useFilters } from "@/contexts/FilterContext";
 import {
   COACHES,
   COACH_COUNTRIES,
@@ -384,6 +385,29 @@ function ProgramBar() {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
+  // Sección activa: detecta cuál de los anchors está visible en viewport
+  // y la marca con un underline dorado.
+  const [activeAnchor, setActiveAnchor] = useState<string | null>(null);
+
+  useEffect(() => {
+    const anchors = STICKY_SECTIONS.map((s) => s.anchor);
+    const els = anchors.map((a) => document.getElementById(a)).filter(Boolean) as HTMLElement[];
+    if (els.length === 0) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        // Buscar la primera entrada visible con más del 15% en viewport
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setActiveAnchor(entry.target.id);
+            return;
+          }
+        }
+      },
+      { threshold: 0.15, rootMargin: "-120px 0px -40% 0px" },
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
   const dragStateRef = useRef<{ active: boolean; startX: number; startScroll: number; moved: boolean }>({
     active: false,
     startX: 0,
@@ -586,13 +610,16 @@ function ProgramBar() {
             />
 
             {/* ── SECCIONES ── */}
-            {STICKY_SECTIONS.map((section) => (
+            {STICKY_SECTIONS.map((section) => {
+              const isActive = activeAnchor === section.anchor;
+              return (
               <button
                 key={section.anchor}
                 type="button"
                 onClick={() => handleClickSection(section)}
-                className="group/pnav flex flex-col items-center shrink-0 cursor-pointer transition-all duration-500 hover:opacity-100 opacity-70"
+                className="group/pnav relative flex flex-col items-center shrink-0 cursor-pointer transition-all duration-500 hover:opacity-100"
                 style={{
+                  opacity: isActive ? 1 : 0.7,
                   width: compact
                     ? "clamp(52px, calc((100vw - 14px) / 6.5), 100px)"
                     : "clamp(76px, calc(100vw / 5.2), 100px)",
@@ -608,23 +635,37 @@ function ProgramBar() {
                     opacity: compact ? 0 : 1,
                     marginBottom: compact ? "0px" : "7px",
                     transition: "all 0.5s cubic-bezier(.16,1,.3,1)",
-                    border: "1px solid rgba(255,255,255,.16)",
+                    border: isActive ? "1px solid rgba(220,175,100,.5)" : "1px solid rgba(255,255,255,.16)",
                   }}
                 >
                   <div className="w-[42px] h-[42px] min-[961px]:w-[46px] min-[961px]:h-[46px] rounded-full flex items-center justify-center"
-                    style={{ background: "rgba(220,175,100,.05)" }}
+                    style={{ background: isActive ? "rgba(220,175,100,.1)" : "rgba(220,175,100,.05)" }}
                   >
                     <SectionIcon name={section.anchor} />
                   </div>
                 </div>
                 <span
-                  className="font-semibold text-white/75 group-hover/pnav:text-[var(--g1)] transition-all duration-300 whitespace-nowrap leading-tight"
-                  style={{ fontSize: compact ? "10px" : "11px" }}
+                  className="font-semibold transition-all duration-300 whitespace-nowrap leading-tight"
+                  style={{
+                    fontSize: compact ? "10px" : "11px",
+                    color: isActive ? "var(--g1)" : "rgba(255,255,255,.75)",
+                  }}
                 >
                   {section.name}
                 </span>
+                {/* Underline dorado — indicador de sección activa */}
+                <span
+                  aria-hidden
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] rounded-full transition-all duration-500"
+                  style={{
+                    width: isActive ? "60%" : "0%",
+                    background: "linear-gradient(90deg, transparent, rgba(220,175,100,.85), transparent)",
+                    opacity: isActive ? 1 : 0,
+                  }}
+                />
               </button>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
@@ -647,11 +688,9 @@ function HeroSection() {
     return () => clearTimeout(id);
   }, []);
 
-  /* ── Filtros aplicados al mapa y al contador ── */
+  /* ── Filtros compartidos con NetworkSection via FilterContext ── */
   const allCoaches = useMemo(() => sortCoaches(COACHES), []);
-  const [country, setCountry] = useState<string>("all");
-  const [language, setLanguage] = useState<string>("all");
-  const [specialty, setSpecialty] = useState<string>("all");
+  const { country, setCountry, language, setLanguage, specialty, setSpecialty } = useFilters();
 
   const filtered = useMemo(
     () => filterCoaches(allCoaches, { country, language, specialty }),
@@ -677,13 +716,18 @@ function HeroSection() {
     youAreHere: t.academy.network.youAreHere,
   };
 
-  /* Contador — "{count} coaches · {countries} ciudades" */
+  /* Contador — "{count} coaches · {numCountries} países · {countries} ciudades" */
   const uniqueCities = useMemo(
     () => new Set(filtered.map((c) => `${c.location.city}|${c.location.country}`)).size,
     [filtered],
   );
+  const uniqueCountries = useMemo(
+    () => new Set(filtered.map((c) => c.location.country)).size,
+    [filtered],
+  );
   const countLine = t.academy.hero.countTemplate
     .replace("{count}", filtered.length.toString())
+    .replace("{numCountries}", uniqueCountries.toString())
     .replace("{countries}", uniqueCities.toString());
 
   const handleScrollToNetwork = () => {
@@ -695,6 +739,9 @@ function HeroSection() {
       new CustomEvent("j3:map:focus", { detail: { slug: "j3-hq-malaga" } }),
     );
   };
+
+  // Toggle para filtros colapsables en mobile.
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   /* Mapa centrado en Málaga (Lab) como epicentro. */
   const mapCenter: [number, number] = [36.72, -4.42];
@@ -753,20 +800,15 @@ function HeroSection() {
             }}
           />
 
-          {/* Marcador "01" — aporta un toque editorial en desktop */}
-          <span
-            aria-hidden
-            className="hero-rise hero-rise-1 hidden min-[961px]:block absolute top-10 right-8 text-[10px] tracking-[3px] uppercase font-semibold text-[var(--g1)]/60"
-          >
-            01 / <span className="text-[var(--g1)]/35">04</span>
-          </span>
-
           <div className="max-w-[460px] mx-auto min-[961px]:mx-0">
             <span className="hero-rise hero-rise-1 text-[10px] font-medium tracking-[5px] uppercase text-[var(--g1)] block mb-4 max-[960px]:text-[10px] max-[960px]:tracking-[3px]">
               {t.academy.hero.eyebrow}
             </span>
 
-            <h1 className="hero-rise hero-rise-2 font-bold uppercase tracking-[-2px] leading-[.92] text-white text-[clamp(44px,7vw,92px)] max-[960px]:text-[clamp(40px,11vw,72px)]">
+            <h1
+              className="hero-rise hero-rise-2 font-bold uppercase tracking-[-2px] leading-[.92] text-white text-[clamp(44px,7vw,92px)] max-[960px]:text-[clamp(40px,11vw,72px)]"
+              style={{ textShadow: "0 0 60px rgba(220,175,100,0.15), 0 2px 12px rgba(0,0,0,0.4)" }}
+            >
               {t.academy.hero.heading}
             </h1>
 
@@ -811,12 +853,31 @@ function HeroSection() {
               </button>
             </div>
 
-            {/* Filtros compactos */}
+            {/* Filtros compactos — colapsables en mobile para no empujar el mapa demasiado abajo */}
             <div className="hero-rise hero-rise-5 mt-8 pt-7 border-t border-white/[.08]">
-              <span className="text-[10px] font-medium tracking-[4px] uppercase text-white/50 block mb-3">
+              <button
+                type="button"
+                onClick={() => setFiltersOpen((p) => !p)}
+                className="min-[961px]:pointer-events-none flex items-center gap-2 text-[10px] font-medium tracking-[4px] uppercase text-white/50 mb-3"
+              >
                 {t.academy.hero.filtersTitle}
-              </span>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <svg
+                  width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                  className="min-[961px]:hidden transition-transform duration-300"
+                  style={{ transform: filtersOpen ? "rotate(180deg)" : undefined }}
+                  aria-hidden
+                >
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </button>
+              <div
+                className="grid grid-cols-1 sm:grid-cols-3 gap-2 min-[961px]:!max-h-none min-[961px]:!opacity-100 overflow-hidden transition-all duration-500"
+                style={{
+                  maxHeight: filtersOpen || !isMobile ? "200px" : "0px",
+                  opacity: filtersOpen || !isMobile ? 1 : 0,
+                }}
+              >
                 <FilterSelect
                   label={t.academy.network.filterCountry}
                   value={country}
@@ -2506,10 +2567,8 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   // Ordenados por tier → joinedAt (ver sortCoaches).
   const allCoaches = useMemo(() => sortCoaches(COACHES).filter(c => c.tier !== "hq"), []);
 
-  // Filtros. "all" = sin filtro en esa dimensión.
-  const [country, setCountry] = useState<string>("all");
-  const [language, setLanguage] = useState<string>("all");
-  const [specialty, setSpecialty] = useState<string>("all");
+  // Filtros compartidos con HeroSection via FilterContext.
+  const { country, setCountry, language, setLanguage, specialty, setSpecialty, hasAnyFilter, resetAll: resetFilters } = useFilters();
 
   // Geolocalización opt-in compartida vía GeoContext. `coords` es null
   // hasta que el usuario pulsa "Cerca de mí" y el navegador concede
@@ -2560,13 +2619,6 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
         },
       }),
     );
-  };
-
-  const hasAnyFilter = country !== "all" || language !== "all" || specialty !== "all";
-  const resetFilters = () => {
-    setCountry("all");
-    setLanguage("all");
-    setSpecialty("all");
   };
 
   // CTA "ver todos": cambia de texto según haya filtros activos.
@@ -3587,6 +3639,7 @@ export default function AcademyV2Page() {
           coords y recentra al usuario (y viceversa). Evita dos prompts
           simultáneos del navegador y mantiene un único estado. */}
       <GeoProvider>
+      <FilterProvider>
       {/* Hero (starts dark — body default) */}
       <HeroSection />
 
@@ -3617,6 +3670,7 @@ export default function AcademyV2Page() {
            dark bg) so body goes dark invisibly while section is visible */
         <ScrollMarker index={3} to="dark" refs={markerRefs} />
       } />
+      </FilterProvider>
       </GeoProvider>
 
       <SelloSection />
