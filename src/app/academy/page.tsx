@@ -684,11 +684,18 @@ function ProgramBar() {
                     }
 
                     /* Scroll a la tarjeta específica centrándola en viewport.
+                       En móvil hay dos elementos con el mismo data-card-id
+                       (layout desktop + carrusel móvil); uno está colapsado a
+                       0×0 por CSS. Cogemos el que tenga dimensiones reales.
                        Si no existe, caemos al anchor de sección. La sticky bar
                        mide ~82px en compact, así que compensamos para que la
                        tarjeta quede centrada en el área visible real. */
                     const cardEl = card.cardId
-                      ? (document.querySelector(`[data-card-id="${card.cardId}"]`) as HTMLElement | null)
+                      ? (Array.from(
+                          document.querySelectorAll(`[data-card-id="${card.cardId}"]`),
+                        ).find((el) => (el as HTMLElement).offsetHeight > 0) as
+                          | HTMLElement
+                          | undefined) ?? null
                       : null;
                     if (cardEl) {
                       const rect = cardEl.getBoundingClientRect();
