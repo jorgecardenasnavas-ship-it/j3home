@@ -617,7 +617,7 @@ export const fr = {
       adultosCards: [
         {
           tag: "Tous niveaux",
-          title: "Amateur",
+          title: "Adultos",
           sub: "D\u00E9butant \u00B7 Interm\u00E9diaire \u00B7 Avanc\u00E9 \u00B7 Comp\u00E9tition",
           ctaLabel: "Je m\u2019inscris",
           waMsg: "Bonjour, je souhaite des infos sur le programme Amateur",

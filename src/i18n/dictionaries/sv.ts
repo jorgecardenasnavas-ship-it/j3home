@@ -617,7 +617,7 @@ export const sv = {
       adultosCards: [
         {
           tag: "Alla niv\u00E5er",
-          title: "Amateur",
+          title: "Adultos",
           sub: "Nyb\u00F6rjare \u00B7 Medel \u00B7 Avancerad \u00B7 T\u00E4vling",
           ctaLabel: "Anm\u00E4l mig",
           waMsg: "Hej, jag vill ha info om Amateur-programmet",

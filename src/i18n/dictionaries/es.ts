@@ -617,7 +617,7 @@ export const es = {
       adultosCards: [
         {
           tag: "Programa mensual",
-          title: "Amateur",
+          title: "Adultos",
           sub: "Tu rutina semanal",
           ctaLabel: "Apuntarme",
           waMsg: "Hola, quiero info sobre el programa mensual de adultos",

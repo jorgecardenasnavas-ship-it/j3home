@@ -617,7 +617,7 @@ export const pt = {
       adultosCards: [
         {
           tag: "Todos os n\u00EDveis",
-          title: "Amateur",
+          title: "Adultos",
           sub: "Inicia\u00E7\u00E3o \u00B7 Interm\u00E9dio \u00B7 Avan\u00E7ado \u00B7 Competi\u00E7\u00E3o",
           ctaLabel: "Inscrever-me",
           waMsg: "Ol\u00E1, quero informa\u00E7\u00E3o sobre o programa Amateur",
