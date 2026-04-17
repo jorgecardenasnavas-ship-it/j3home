@@ -577,10 +577,10 @@ export const sv = {
     },
 
     programs: {
-      eyebrow: "J3-struktur",
-      headingPre: "Hitta ditt ",
-      headingAccent: "program.",
-      headingSub: "Samma struktur i varje klubb \u2014 tre v\u00E4gar f\u00F6r varje \u00E5lder, niv\u00E5 och m\u00E5l.",
+      eyebrow: "Program",
+      headingPre: "V\u00E4lj efter ",
+      headingAccent: "\u00E5lder, niv\u00E5 eller kalender.",
+      headingSub: "Juniorer, Vuxna, Intensive Training. En metod, tre kriterier.",
       juniorsLabel: "Juniorer",
       juniorsCards: [
         {

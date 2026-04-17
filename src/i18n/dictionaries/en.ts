@@ -577,10 +577,10 @@ export const en = {
     },
 
     programs: {
-      eyebrow: "J3 Structure",
-      headingPre: "Find your ",
-      headingAccent: "program.",
-      headingSub: "Same structure in every club \u2014 three paths built around each age, level and goal.",
+      eyebrow: "Programs",
+      headingPre: "Pick by ",
+      headingAccent: "age, level or calendar.",
+      headingSub: "Juniors, Adults, Intensive Training. One method, three criteria.",
       juniorsLabel: "Juniors",
       juniorsCards: [
         {
