@@ -1071,7 +1071,7 @@ function HeroSection() {
             zoom={mapZoom}
             scrollWheelZoom={false}
             floatingZoomControls
-            floatingZoomTopOffset={180}
+            floatingZoomTopOffset={240}
             autoFitBounds
             showLegend
             userLocation={geo.coords}
