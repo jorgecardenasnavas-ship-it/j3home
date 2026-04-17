@@ -757,11 +757,11 @@ function ProgramBar() {
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover/card:scale-110"
                     style={{
                       filter: (isSelected || hoveredCard === card.name)
-                        ? "brightness(0.8) saturate(0.9)"
-                        : "brightness(0.55) saturate(0.75)",
+                        ? "brightness(1) saturate(1)"
+                        : "brightness(0.8) saturate(0.9)",
                     }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-2">
                     <span className="text-[7px] font-bold tracking-[1.5px] uppercase text-[var(--g1)] block leading-tight">
                       {card.tag}
