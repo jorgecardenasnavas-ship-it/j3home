@@ -1162,7 +1162,31 @@ function MapLegend({ labels }: { labels: PopupLabels }) {
         `;
         // Permitir scroll/click dentro del control sin propagarlo al mapa.
         L.DomEvent.disableClickPropagation(div);
+        /* Click-outside → colapsa el details (solo cuando está abierto).
+           Importante en móvil: el usuario espera que tocar fuera cierre
+           la leyenda expandida. */
+        const details = div.querySelector(".j3-legend-details") as HTMLDetailsElement | null;
+        if (details) {
+          const onDocClick = (ev: Event) => {
+            if (!details.open) return;
+            const target = ev.target as Node;
+            if (div.contains(target)) return;
+            details.open = false;
+          };
+          document.addEventListener("click", onDocClick, { capture: true });
+          document.addEventListener("touchstart", onDocClick, { capture: true, passive: true });
+          // Guardamos el cleanup en el propio elemento para poder recuperarlo en onRemove.
+          (div as HTMLElement & { __j3Cleanup?: () => void }).__j3Cleanup = () => {
+            document.removeEventListener("click", onDocClick, { capture: true });
+            document.removeEventListener("touchstart", onDocClick, { capture: true });
+          };
+        }
         return div;
+      },
+      onRemove(this: L.Control) {
+        const container = (this as L.Control & { getContainer?: () => HTMLElement | undefined }).getContainer?.();
+        const cleanup = (container as HTMLElement & { __j3Cleanup?: () => void } | undefined)?.__j3Cleanup;
+        if (cleanup) cleanup();
       },
     });
     const control = new Legend();
