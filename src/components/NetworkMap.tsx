@@ -1016,6 +1016,10 @@ function FloatingZoomControls({ topOffset = 180 }: { topOffset?: number }) {
      pisaba el H1 cuando ambos estaban en viewport. Cambiamos a abajo-derecha
      bajo 960px para que los controles floten cerca del mapa visible. */
   const [mobileAnchor, setMobileAnchor] = useState(false);
+  /* En móvil, mantenemos el zoom pegado al borde inferior del mapa — si
+     el mapa se está saliendo por abajo, el zoom sube con él en vez de
+     quedarse flotando sobre la siguiente sección (fondo blanco). */
+  const [mobileBottomOffset, setMobileBottomOffset] = useState(16);
 
   useEffect(() => {
     setMounted(true);
@@ -1029,18 +1033,22 @@ function FloatingZoomControls({ topOffset = 180 }: { topOffset?: number }) {
   useEffect(() => {
     const container = map.getContainer();
     if (!container) return;
-    /* IntersectionObserver solo dice "toca o no toca" el viewport; no mide
-       cobertura. Pero el requisito es: ocultar los controles antes de que
-       la siguiente sección (p.ej. banda blanca) entre en viewport, para
-       que los botones de zoom no queden flotando sobre ella. Usamos un
-       scroll listener que computa qué % del viewport está cubierto por
-       el mapa y oculta por debajo de ~40%. */
+    /* Requisito: ocultar los controles antes de que la siguiente sección
+       (p.ej. banda blanca) entre en viewport. Usamos un scroll listener
+       que computa qué % del viewport cubre el mapa y oculta por debajo
+       del 40%. Además, en móvil, reanclamos la posición vertical al
+       fondo del mapa para que el zoom no quede sobre la zona blanca
+       cuando el mapa sale por abajo. */
     const MIN_COVERAGE = 0.4;
     const update = () => {
       const rect = container.getBoundingClientRect();
-      const visibleH = Math.max(0, Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0));
-      const coverage = window.innerHeight > 0 ? visibleH / window.innerHeight : 0;
+      const vh = window.innerHeight;
+      const visibleH = Math.max(0, Math.min(rect.bottom, vh) - Math.max(rect.top, 0));
+      const coverage = vh > 0 ? visibleH / vh : 0;
       setVisible(coverage >= MIN_COVERAGE);
+      /* bottom-from-viewport: 16px si el mapa llega al fondo del viewport,
+         si no, pegado al borde inferior del mapa. */
+      setMobileBottomOffset(Math.max(16, vh - rect.bottom + 16));
     };
     update();
     window.addEventListener("scroll", update, { passive: true });
@@ -1074,7 +1082,7 @@ function FloatingZoomControls({ topOffset = 180 }: { topOffset?: number }) {
       aria-label="Zoom controls"
       style={{
         position: "fixed",
-        ...(mobileAnchor ? { bottom: 16 } : { top: topOffset }),
+        ...(mobileAnchor ? { bottom: mobileBottomOffset } : { top: topOffset }),
         right: 16,
         zIndex: 95,
         display: "flex",

@@ -874,7 +874,7 @@ function HeroSection() {
 
   return (
     <section
-      className="relative z-[1] overflow-hidden bg-black min-h-[640px] min-[961px]:h-screen min-[961px]:min-h-[720px]"
+      className="relative z-[1] overflow-hidden bg-black min-h-[640px] min-[961px]:h-[calc(100vh-134px)] min-[961px]:min-h-[600px]"
       role="region"
       aria-label="Academy J3 hero"
       style={{
