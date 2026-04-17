@@ -44,20 +44,20 @@ export function LanguageChip({ code, variant = "card" }: LanguageChipProps) {
   const Flag = countryCode ? FLAGS[countryCode] : undefined;
 
   if (variant === "popup") {
-    // Estilo inline (se usa dentro del Popup de react-leaflet con CSS de Leaflet)
+    // Estilo inline (popup del mapa). Sin border/bg para que no compita
+    // con las pills — solo la bandera y el código en minúsculas.
     return (
       <span
         style={{
           fontSize: 10,
-          letterSpacing: 0.3,
-          color: "#dcaf64",
-          border: "1px solid rgba(220,175,100,0.3)",
-          padding: "2px 6px",
-          borderRadius: 2,
+          letterSpacing: 0.5,
+          color: "rgba(245,240,232,0.7)",
           display: "inline-flex",
           alignItems: "center",
           gap: 4,
           lineHeight: 1,
+          textTransform: "uppercase",
+          fontWeight: 600,
         }}
       >
         {Flag ? (
@@ -66,7 +66,7 @@ export function LanguageChip({ code, variant = "card" }: LanguageChipProps) {
             title={countryCode ?? undefined}
           />
         ) : null}
-        <span>{languageLabel(code)}</span>
+        <span>{code.toUpperCase()}</span>
       </span>
     );
   }

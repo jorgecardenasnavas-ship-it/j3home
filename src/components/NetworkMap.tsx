@@ -314,6 +314,44 @@ const pinStyles = `
     font-weight: 800;
     letter-spacing: 0;
   }
+
+  /* ── Popup: pills de especialidad clickables con hover ── */
+  .j3-popup-spec {
+    position: relative;
+    transition: background .18s ease, border-color .18s ease, color .18s ease, padding .18s ease;
+  }
+  .j3-popup-spec:hover {
+    background: rgba(220,175,100,0.22) !important;
+    border-color: rgba(220,175,100,0.7) !important;
+    color: #f0c478 !important;
+    padding-right: 14px !important;
+  }
+  .j3-popup-spec::after {
+    content: "→";
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%) translateX(-2px);
+    font-size: 10px;
+    line-height: 1;
+    opacity: 0;
+    transition: opacity .18s ease, transform .18s ease;
+    pointer-events: none;
+  }
+  .j3-popup-spec:hover::after {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+
+  /* ── Popup: iconos sociales ghost con hover ── */
+  .j3-popup-social {
+    transition: background .18s ease, color .18s ease, border-color .18s ease;
+  }
+  .j3-popup-social:hover {
+    background: rgba(220,175,100,0.18) !important;
+    color: #f0c478 !important;
+    border-color: rgba(220,175,100,0.55) !important;
+  }
 `;
 
 function resolveKind(c: Coach): "lab" | "academy" | "coach" {
@@ -423,7 +461,7 @@ function PopupContent({
           >
             {kind === "lab" || kind === "academy" ? labels.badgeHq : labels.badgeRecommended}
           </div>
-          <div style={{ fontWeight: 700, fontSize: 14, lineHeight: 1.15, marginBottom: 2 }}>
+          <div style={{ fontWeight: 700, fontSize: 16, lineHeight: 1.15, marginBottom: 2, letterSpacing: "-0.3px" }}>
             {c.name}
           </div>
           <div style={{ fontSize: 11, opacity: 0.7 }}>
@@ -465,6 +503,7 @@ function PopupContent({
                 key={s}
                 type="button"
                 data-j3-specialty={s}
+                className="j3-popup-spec"
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -476,7 +515,7 @@ function PopupContent({
                   color: "#dcaf64",
                   background: "rgba(220,175,100,0.08)",
                   border: "1px solid rgba(220,175,100,0.25)",
-                  padding: "2px 6px",
+                  padding: "3px 8px",
                   borderRadius: 2,
                   cursor: "pointer",
                   font: "inherit",
@@ -527,42 +566,46 @@ function PopupContent({
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`Instagram de ${c.name}`}
+            className="j3-popup-social"
             style={{
               display: "inline-flex",
               alignItems: "center",
               justifyContent: "center",
-              width: 34,
-              background: "rgba(220,175,100,0.08)",
-              border: "1px solid rgba(220,175,100,0.35)",
-              color: "#dcaf64",
+              width: 30,
+              background: "transparent",
+              border: "1px solid rgba(220,175,100,0.2)",
+              color: "rgba(220,175,100,0.75)",
               borderRadius: 2,
             }}
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
               <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
               <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
               <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
             </svg>
           </a>
         )}
-        {c.socials?.web && (
+        {/* El icono web solo tiene sentido para coaches externos; en la
+            propia tarjeta del Lab (estamos ya en su web) se oculta. */}
+        {c.socials?.web && kind !== "lab" && (
           <a
             href={c.socials.web}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`Web de ${c.name}`}
+            className="j3-popup-social"
             style={{
               display: "inline-flex",
               alignItems: "center",
               justifyContent: "center",
-              width: 34,
-              background: "rgba(220,175,100,0.08)",
-              border: "1px solid rgba(220,175,100,0.35)",
-              color: "#dcaf64",
+              width: 30,
+              background: "transparent",
+              border: "1px solid rgba(220,175,100,0.2)",
+              color: "rgba(220,175,100,0.75)",
               borderRadius: 2,
             }}
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
               <circle cx="12" cy="12" r="10" />
               <line x1="2" y1="12" x2="22" y2="12" />
               <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
@@ -576,18 +619,19 @@ function PopupContent({
           rel="noopener noreferrer"
           aria-label={`${labels.viewInMaps}: ${c.name}`}
           title={labels.viewInMaps}
+          className="j3-popup-social"
           style={{
             display: "inline-flex",
             alignItems: "center",
             justifyContent: "center",
-            width: 34,
-            background: "rgba(220,175,100,0.08)",
-            border: "1px solid rgba(220,175,100,0.35)",
-            color: "#dcaf64",
+            width: 30,
+            background: "transparent",
+            border: "1px solid rgba(220,175,100,0.2)",
+            color: "rgba(220,175,100,0.75)",
             borderRadius: 2,
           }}
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
             <circle cx="12" cy="10" r="3" />
           </svg>
