@@ -700,11 +700,11 @@ export const en = {
     },
 
     network: {
-      eyebrow: "Red J3",
-      headingPre: "Un m\u00E9todo, ",
-      headingAccent: "muchas pistas.",
-      headingSub: "Desde nuestra sede en M\u00E1laga a una red de coaches recomendados por J3. El mismo est\u00E1ndar, est\u00E9s donde est\u00E9s.",
-      hqLabel: "Headquarters",
+      eyebrow: "The network",
+      headingPre: "One method, ",
+      headingAccent: "many courts.",
+      headingSub: "Coaches we personally validate. Same criterion in every city.",
+      hqLabel: "Headquarter",
       hqTitle: "M\u00E1laga \u2014 donde nace el m\u00E9todo",
       hqSubtitle: "Nuestra sede principal. Cantera, pruebas, referencia.",
       hqCta: "Conoce la HQ",
