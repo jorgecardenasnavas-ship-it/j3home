@@ -9,7 +9,7 @@ import CoachCard from "@/components/CoachCard";
 import { FilterSelect } from "@/components/FilterSelect";
 import { useI18n } from "@/i18n/context";
 import { languageLabel } from "@/lib/languages";
-import { haversineKm, type LatLng } from "@/lib/geo";
+import { haversineKm, formatDistance, type LatLng } from "@/lib/geo";
 import { GeoProvider, useGeo } from "@/contexts/GeoContext";
 import { FilterProvider, useFilters } from "@/contexts/FilterContext";
 import {
@@ -2355,11 +2355,162 @@ function SedeCard({
 }
 
 /* ──────────────────────────────────────────────
-   CoachesCarousel — J3 Recommended grid.
-   Scroll horizontal con cards pequeñas (estilo Porsche). Drag-scroll
-   para ratón + snap nativo en móvil/trackpad. Fade a la derecha como
-   hint de "hay más contenido".
+   PorscheCoachCard — misma estética visual que ProgramTile (Juniors)
+   y SedeCard. Media full-bleed, título centrado arriba + tag con rol,
+   top/bottom gradients, gold line superior que expande al hover,
+   badge tier top-left, km top-right, CTA arrow abajo.
    ────────────────────────────────────────────── */
+
+function PorscheCoachCard({
+  coach,
+  labels,
+  userCoords,
+  onAsk,
+  isHovered,
+  onHover,
+  onLeave,
+}: {
+  coach: Coach;
+  labels: { badgeHq: string; badgeRecommended: string; askChatbot: string; kmFromYou?: string };
+  userCoords?: LatLng | null;
+  onAsk?: (c: Coach) => void;
+  isHovered: boolean;
+  onHover: () => void;
+  onLeave: () => void;
+}) {
+  const isHq = coach.tier === "hq";
+  const expanded = isHovered;
+  return (
+    <button
+      type="button"
+      onClick={() => onAsk?.(coach)}
+      onMouseEnter={onHover}
+      onMouseLeave={onLeave}
+      className="relative overflow-hidden rounded-lg cursor-pointer block h-full w-full group text-left"
+      style={{ background: "#000" }}
+    >
+      {/* Media — foto o placeholder silueta */}
+      {coach.photo ? (
+        <img
+          src={coach.photo}
+          alt={coach.name}
+          loading="lazy"
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{
+            transform: expanded ? "scale3d(1.035,1.035,1.035)" : "scale3d(1,1,1)",
+            transition: "transform 0.9s cubic-bezier(0,0,0.2,1), filter 0.9s cubic-bezier(.16,1,.3,1)",
+            filter: expanded
+              ? "saturate(0.95) brightness(1.01) contrast(0.98)"
+              : "saturate(0.88) brightness(0.95) contrast(0.96)",
+          }}
+        />
+      ) : (
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(circle at 50% 35%, rgba(220,175,100,0.12) 0%, rgba(10,10,10,1) 60%)",
+            transform: expanded ? "scale3d(1.03,1.03,1.03)" : "scale3d(1,1,1)",
+            transition: "transform 0.9s cubic-bezier(0,0,0.2,1)",
+          }}
+          aria-hidden
+        >
+          <svg className="absolute inset-0 m-auto opacity-20 theme-text" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden>
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1" />
+          </svg>
+        </div>
+      )}
+
+      {/* Gold line superior — expande al hover */}
+      <div
+        className="absolute top-0 left-1/2 -translate-x-1/2 h-[1.5px] z-[10] pointer-events-none"
+        style={{
+          background: "linear-gradient(to right, transparent 0%, var(--g1) 50%, transparent 100%)",
+          width: expanded ? "100%" : "55%",
+          opacity: expanded ? 0.9 : 0.35,
+          transition: "width 0.7s cubic-bezier(.16,1,.3,1), opacity 0.5s ease-out",
+        }}
+      />
+
+      {/* Top gradient */}
+      <div
+        className="absolute top-0 left-0 w-full z-[5] pointer-events-none"
+        style={{
+          height: "45%",
+          background: "linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.55) 30%, rgba(0,0,0,0.2) 60%, transparent 100%)",
+        }}
+      />
+      {/* Bottom gradient */}
+      <div
+        className="absolute bottom-0 left-0 w-full z-[5] pointer-events-none"
+        style={{
+          height: "55%",
+          background: "linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.65) 25%, rgba(0,0,0,0.3) 55%, transparent 100%)",
+        }}
+      />
+
+      {/* Badge tier — top-left, compacto */}
+      <div className="absolute top-3 left-3 z-[10] flex items-center gap-1.5">
+        <span className="relative inline-flex shrink-0" aria-hidden>
+          <span className="w-[5px] h-[5px] rounded-full bg-[var(--g1)]" />
+        </span>
+        <span className="text-[8px] font-bold tracking-[1.8px] uppercase text-[var(--g1)]">
+          {isHq ? labels.badgeHq : labels.badgeRecommended}
+        </span>
+      </div>
+
+      {/* Km from user — top-right si hay coords */}
+      {userCoords && labels.kmFromYou && (
+        <div className="absolute top-3 right-3 z-[10]">
+          <span
+            className="inline-flex items-center gap-1 px-2 py-[3px] bg-black/60 backdrop-blur-[2px] text-[8px] font-bold tracking-[1.2px] text-[var(--g1)]"
+            style={{ borderRadius: 2 }}
+          >
+            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            {formatDistance(haversineKm(userCoords, coach.location.coordinates), labels.kmFromYou)}
+          </span>
+        </div>
+      )}
+
+      {/* Bottom — name + ubicación + CTA arrow */}
+      <div className="absolute bottom-0 left-0 right-0 z-[13] p-[14px] min-[640px]:p-[16px]">
+        <div className="flex items-end justify-between gap-2">
+          <div className="min-w-0 flex-1">
+            <h3
+              className="font-bold text-[15px] min-[640px]:text-[16px] text-white leading-[1.1] tracking-[-0.3px] truncate"
+              style={{ textShadow: "0 2px 10px rgba(0,0,0,0.6), 0 1px 3px rgba(0,0,0,0.4)" }}
+            >
+              {coach.name}
+            </h3>
+            <p
+              className="mt-[3px] text-[10px] font-medium text-white/70 tracking-[0.5px] truncate"
+              style={{ textShadow: "0 1px 6px rgba(0,0,0,0.5)" }}
+            >
+              {coach.location.city} · {coach.location.country}
+            </p>
+          </div>
+          <span
+            className="shrink-0 text-[var(--g1)]"
+            style={{
+              transform: expanded ? "translateX(3px)" : "translateX(0)",
+              transition: "transform .5s cubic-bezier(.16,1,.3,1)",
+            }}
+            aria-label={labels.askChatbot}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="M5 12h14" />
+              <path d="M12 5l7 7-7 7" />
+            </svg>
+          </span>
+        </div>
+      </div>
+    </button>
+  );
+}
 
 function CoachesCarousel({
   coaches,
@@ -2373,6 +2524,7 @@ function CoachesCarousel({
   onAsk?: (c: Coach) => void;
 }) {
   const { scrollRef, progress } = useDragScroll(coaches.length);
+  const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
   const showRightFade = progress < 0.98;
   return (
     <div className="relative">
@@ -2385,15 +2537,21 @@ function CoachesCarousel({
           <div
             key={c.slug}
             className="shrink-0 snap-start"
-            style={{ width: "clamp(210px, 22vw, 250px)" }}
+            style={{ width: "clamp(210px, 22vw, 250px)", aspectRatio: "3 / 4" }}
           >
-            <CoachCard coach={c} labels={labels} userCoords={userCoords} onAsk={onAsk} />
+            <PorscheCoachCard
+              coach={c}
+              labels={labels}
+              userCoords={userCoords}
+              onAsk={onAsk}
+              isHovered={hoveredSlug === c.slug}
+              onHover={() => setHoveredSlug(c.slug)}
+              onLeave={() => setHoveredSlug(null)}
+            />
           </div>
         ))}
-        {/* Breathe right */}
         <div className="shrink-0 w-1" aria-hidden />
       </div>
-      {/* Fade right — hint de "más contenido", se desvanece al final */}
       <div
         aria-hidden
         className="pointer-events-none absolute top-0 bottom-0 right-0 w-14 max-[960px]:w-10 z-[2] transition-opacity duration-300"
