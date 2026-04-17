@@ -666,9 +666,19 @@ function ClusteredMarkers({
     });
 
     const markerBySlug = new Map<string, L.Marker>();
+    // Markers del Lab/HQ: a zoom bajo viven en el cluster group
+    // (vista mundial limpia). A partir de HQ_BREAKOUT_ZOOM se
+    // extraen del grupo y se añaden directamente al mapa, así el
+    // Lab es visible como pin independiente ANTES de que el resto
+    // de coaches se expandan. Efecto: zoom 5 → Lab ya visible,
+    // otros coaches aún agrupados en sub-clusters.
+    const HQ_BREAKOUT_ZOOM = 5;
+    const hqMarkers: L.Marker[] = [];
+    let hqBrokenOut = false;
 
     coaches.forEach((c) => {
       const kind = resolveKind(c);
+      const isHq = kind === "lab";
       const popupHtml = renderToStaticMarkup(
         <PopupContent coach={c} labels={labels} kind={kind} />
       );
@@ -704,10 +714,33 @@ function ClusteredMarkers({
       });
 
       group.addLayer(m);
+      if (isHq) hqMarkers.push(m);
       markerBySlug.set(c.slug, m);
     });
 
     map.addLayer(group);
+
+    // Breakout dinámico: al cambiar de zoom, mueve los markers HQ
+    // entre el cluster group y el mapa directo.
+    const syncHqBreakout = () => {
+      const z = map.getZoom();
+      if (z >= HQ_BREAKOUT_ZOOM && !hqBrokenOut) {
+        hqMarkers.forEach((m) => {
+          group.removeLayer(m);
+          m.addTo(map);
+        });
+        hqBrokenOut = true;
+      } else if (z < HQ_BREAKOUT_ZOOM && hqBrokenOut) {
+        hqMarkers.forEach((m) => {
+          m.remove();
+          group.addLayer(m);
+        });
+        hqBrokenOut = false;
+      }
+    };
+    map.on("zoomend", syncHqBreakout);
+    // Sync inicial por si el mapa arranca ya a zoom >= 5
+    syncHqBreakout();
 
     // Event delegation para el botón "Pregunta a J3"
     const container = map.getContainer();
@@ -735,13 +768,20 @@ function ClusteredMarkers({
     };
     container.addEventListener("click", onContainerClick);
 
-    /** Foca un coach concreto: zoom al cluster que lo contiene y abre popup. */
+    /** Foca un coach concreto: zoom al cluster que lo contiene y abre popup.
+     *  Si el marker está en breakout (HQ fuera del cluster group),
+     *  hacemos flyTo directo. */
     const focusCoach = (slug: string) => {
       const marker = markerBySlug.get(slug);
       if (!marker) return;
-      group.zoomToShowLayer(marker, () => {
-        marker.openPopup();
-      });
+      if (hqBrokenOut && hqMarkers.includes(marker)) {
+        map.flyTo(marker.getLatLng(), 10, { duration: 1 });
+        setTimeout(() => marker.openPopup(), 600);
+      } else {
+        group.zoomToShowLayer(marker, () => {
+          marker.openPopup();
+        });
+      }
     };
 
     // j3:map:focus — evento custom disparado desde fuera del mapa
@@ -802,6 +842,8 @@ function ClusteredMarkers({
       window.removeEventListener("j3:hover:enter", onHoverEnter as EventListener);
       window.removeEventListener("j3:hover:leave", onHoverLeave as EventListener);
       container.removeEventListener("click", onContainerClick);
+      map.off("zoomend", syncHqBreakout);
+      if (hqBrokenOut) hqMarkers.forEach((m) => m.remove());
       if (initialTimer !== null) window.clearTimeout(initialTimer);
       map.removeLayer(group);
       group.clearLayers();
