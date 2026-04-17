@@ -951,7 +951,7 @@ function HeroSection() {
               {t.academy.hero.headingAccent ? (
                 <>
                   {t.academy.hero.headingPre}
-                  <span className="j3-grad-text font-[var(--font-serif)] italic normal-case font-medium">
+                  <span className="j3-grad-text font-[var(--font-serif)] italic normal-case font-medium inline-block pr-[0.12em]">
                     {t.academy.hero.headingAccent}
                   </span>
                   {t.academy.hero.headingPost}
