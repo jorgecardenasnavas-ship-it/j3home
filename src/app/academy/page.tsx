@@ -1198,10 +1198,11 @@ function AcademyBand() {
               transition: "opacity 0.8s ease 0.3s",
             }}
           >
-            Pádel Academy · Costa del Sol
+            {t.academy.band.eyebrow}
           </span>
 
-          {/* Heading */}
+          {/* Heading — sujeto afirmativo + accent serif-italic gold
+              (mismo patrón de jerarquía que en el hero). */}
           <h2
             className="text-[clamp(28px,3.5vw,42px)] font-bold uppercase tracking-[-0.5px] leading-[1.1] text-black mb-6"
             style={{
@@ -1210,9 +1211,11 @@ function AcademyBand() {
               transition: "all 1s cubic-bezier(.16,1,.3,1) 0.4s",
             }}
           >
-            Desde 2004.
+            {t.academy.band.headingLead}
             <br />
-            <span className="text-black/25">Málaga, España.</span>
+            <span className="j3-grad-text font-[var(--font-serif)] italic normal-case font-medium inline-block pr-[0.18em]">
+              {t.academy.band.headingAccent}
+            </span>
           </h2>
 
           {/* Gold divider */}

@@ -547,6 +547,9 @@ export const sv = {
     },
 
     band: {
+      eyebrow: "V\u00E5rt laboratorium",
+      headingLead: "Sedan 2004.",
+      headingAccent: "M\u00E1laga, Spanien.",
       description: "Belägen i hjärtat av Costa del Sol, kombinerar akademin topprestanda, en egen metodik och ett tränarteam med erfarenhet från den professionella touren.",
     },
 

@@ -547,6 +547,9 @@ export const en = {
     },
 
     band: {
+      eyebrow: "Our laboratory",
+      headingLead: "Since 2004.",
+      headingAccent: "M\u00E1laga, Spain.",
       description: "Located in the heart of the Costa del Sol, it combines high performance, a proprietary methodology, and a coaching team with professional-circuit experience.",
     },
 

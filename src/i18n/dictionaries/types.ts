@@ -288,6 +288,11 @@ export interface Dictionary {
     };
 
     band: {
+      readonly eyebrow: string;
+      /** Parte afirmativa del H2 ("Desde 2004.") */
+      readonly headingLead: string;
+      /** Acento serif-italic dorado ("Málaga, España.") */
+      readonly headingAccent: string;
       readonly description: string;
     };
 

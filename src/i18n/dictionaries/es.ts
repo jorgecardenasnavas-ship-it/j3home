@@ -548,6 +548,9 @@ export const es = {
     },
 
     band: {
+      eyebrow: "Nuestro laboratorio",
+      headingLead: "Desde 2004.",
+      headingAccent: "M\u00E1laga, Espa\u00F1a.",
       description: "Ubicada en el coraz\u00F3n de la Costa del Sol, combina alto rendimiento, metodolog\u00EDa propia y un equipo t\u00E9cnico con experiencia en el circuito profesional.",
     },
 
