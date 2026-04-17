@@ -768,15 +768,21 @@ function ClusteredMarkers({
     };
     container.addEventListener("click", onContainerClick);
 
-    /** Foca un coach concreto: zoom al cluster que lo contiene y abre popup.
-     *  Si el marker está en breakout (HQ fuera del cluster group),
-     *  hacemos flyTo directo. */
+    /** Foca un coach concreto: zoom + centra + abre popup.
+     *  Para markers HQ usamos siempre flyTo directo: el breakout
+     *  dinámico (syncHqBreakout) los saca del cluster group a
+     *  zoom >= 5, lo que causa una race condition con zoomToShowLayer.
+     *  flyTo es más fiable y siempre centra correctamente. */
     const focusCoach = (slug: string) => {
       const marker = markerBySlug.get(slug);
       if (!marker) return;
-      if (hqBrokenOut && hqMarkers.includes(marker)) {
-        map.flyTo(marker.getLatLng(), 10, { duration: 1 });
-        setTimeout(() => marker.openPopup(), 600);
+      if (hqMarkers.includes(marker)) {
+        map.flyTo(marker.getLatLng(), 10, { duration: 1.2 });
+        // Esperar a que el flyTo termine y el breakout se active
+        // antes de abrir el popup.
+        map.once("moveend", () => {
+          marker.openPopup();
+        });
       } else {
         group.zoomToShowLayer(marker, () => {
           marker.openPopup();
