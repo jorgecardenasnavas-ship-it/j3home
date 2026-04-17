@@ -975,19 +975,69 @@ function HeroSection() {
               {t.academy.hero.sub}
             </p>
 
-            {/* CTAs */}
+            {/* CTAs — el primario unifica el "Cerca de mí" del mapa:
+                  · idle   → pide geo + scroll al mapa
+                  · loading → disabled
+                  · success → muestra estado activo + X para limpiar
+                  · error  → reintentar + hint */}
             <div className="hero-rise hero-rise-4 mt-7 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-              <button
-                type="button"
-                onClick={handleScrollToNetwork}
-                className="group/cta inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] text-black text-[12px] font-bold tracking-[2.5px] uppercase transition-transform duration-500 hover:scale-[1.02]"
-              >
-                {t.academy.hero.ctaPrimary}
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 12h14" />
-                  <path d="M12 5l7 7-7 7" />
-                </svg>
-              </button>
+              {geo.status === "success" ? (
+                <div className="inline-flex items-stretch rounded-full bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] text-black overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={handleScrollToNetwork}
+                    className="inline-flex items-center gap-2 pl-6 pr-4 py-3 text-[12px] font-bold tracking-[2.5px] uppercase hover:brightness-110 transition"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="22" y1="12" x2="18" y2="12" />
+                      <line x1="6" y1="12" x2="2" y2="12" />
+                      <line x1="12" y1="6" x2="12" y2="2" />
+                      <line x1="12" y1="22" x2="12" y2="18" />
+                      <circle cx="12" cy="12" r="3" fill="currentColor" />
+                    </svg>
+                    {t.academy.network.nearMeActive}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={geo.clear}
+                    aria-label={t.academy.network.nearMe}
+                    className="inline-flex items-center justify-center px-4 border-l border-black/20 hover:bg-black/10 transition"
+                  >
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (geo.status !== "loading") geo.request();
+                    handleScrollToNetwork();
+                  }}
+                  disabled={geo.status === "loading"}
+                  className="group/cta inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] text-black text-[12px] font-bold tracking-[2.5px] uppercase transition-transform duration-500 hover:scale-[1.02] disabled:opacity-70 disabled:cursor-wait"
+                >
+                  {geo.status === "loading" ? (
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="animate-spin" aria-hidden>
+                      <path d="M21 12a9 9 0 1 1-6.2-8.55" />
+                    </svg>
+                  ) : (
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="22" y1="12" x2="18" y2="12" />
+                      <line x1="6" y1="12" x2="2" y2="12" />
+                      <line x1="12" y1="6" x2="12" y2="2" />
+                      <line x1="12" y1="6" x2="12" y2="2" />
+                      <line x1="12" y1="22" x2="12" y2="18" />
+                      <circle cx="12" cy="12" r="3" fill="currentColor" />
+                    </svg>
+                  )}
+                  {geo.status === "loading" ? t.academy.network.nearMeLoading : t.academy.hero.ctaPrimary}
+                </button>
+              )}
 
               <button
                 type="button"
@@ -1001,6 +1051,12 @@ function HeroSection() {
                 </svg>
               </button>
             </div>
+
+            {geo.status === "error" && (
+              <p className="hero-rise hero-rise-4 mt-3 text-[11px] tracking-[1px] uppercase text-white/55">
+                {t.academy.network.nearMeError}
+              </p>
+            )}
 
           </div>
         </div>
@@ -1049,57 +1105,9 @@ function HeroSection() {
               options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_SPECIALTIES.map(s => ({ value: s, label: specialtyLabel(s) }))]}
             />
 
-            {/* Cerca de mí — pill */}
-            {geo.status === "success" ? (
-              <button
-                type="button"
-                onClick={geo.clear}
-                className="group inline-flex items-center gap-1.5 px-2.5 py-[6px] text-[10px] tracking-[1.5px] uppercase font-bold text-black bg-gradient-to-br from-[#f0c478] to-[#dcaf64] rounded-full hover:brightness-110 transition-all"
-                aria-label={t.academy.network.nearMeActive}
-              >
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                  <circle cx="12" cy="12" r="10" />
-                  <line x1="22" y1="12" x2="18" y2="12" />
-                  <line x1="6" y1="12" x2="2" y2="12" />
-                  <line x1="12" y1="6" x2="12" y2="2" />
-                  <line x1="12" y1="22" x2="12" y2="18" />
-                  <circle cx="12" cy="12" r="3" fill="currentColor" />
-                </svg>
-                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="opacity-60 group-hover:opacity-100">
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={geo.request}
-                disabled={geo.status === "loading"}
-                className="inline-flex items-center gap-1.5 px-2.5 py-[6px] text-[10px] tracking-[1.5px] uppercase font-bold text-[var(--g1)] bg-[#1a1a1c]/90 backdrop-blur-[16px] border border-[var(--g1)]/40 rounded-full shadow-[0_2px_12px_rgba(0,0,0,.5)] hover:bg-[var(--g1)]/10 disabled:opacity-60 transition-all"
-              >
-                {geo.status === "loading" ? (
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="animate-spin">
-                    <path d="M21 12a9 9 0 1 1-6.2-8.55" />
-                  </svg>
-                ) : (
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="22" y1="12" x2="18" y2="12" />
-                    <line x1="6" y1="12" x2="2" y2="12" />
-                    <line x1="12" y1="6" x2="12" y2="2" />
-                    <line x1="12" y1="22" x2="12" y2="18" />
-                    <circle cx="12" cy="12" r="3" />
-                  </svg>
-                )}
-                <span>{geo.status === "loading" ? t.academy.network.nearMeLoading : t.academy.network.nearMe}</span>
-              </button>
-            )}
-
-            {geo.status === "error" && (
-              <span className="text-[9px] tracking-[1px] uppercase text-white/55 bg-[#1a1a1c]/90 backdrop-blur-[16px] px-2.5 py-1 rounded-full shadow-[0_2px_12px_rgba(0,0,0,.5)]">
-                {t.academy.network.nearMeError}
-              </span>
-            )}
+            {/* El pill "Cerca de mí" se ha consolidado en el CTA primario
+                del hero (más prominente, sin duplicación). Los estados de
+                loading/success/error viven allí. */}
           </div>
 
           {/* Counter — bottom of map.
