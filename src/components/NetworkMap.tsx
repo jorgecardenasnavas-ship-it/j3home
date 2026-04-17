@@ -1016,10 +1016,11 @@ function FloatingZoomControls({ topOffset = 180 }: { topOffset?: number }) {
      pisaba el H1 cuando ambos estaban en viewport. Cambiamos a abajo-derecha
      bajo 960px para que los controles floten cerca del mapa visible. */
   const [mobileAnchor, setMobileAnchor] = useState(false);
-  /* En móvil, mantenemos el zoom pegado al borde inferior del mapa — si
-     el mapa se está saliendo por abajo, el zoom sube con él en vez de
-     quedarse flotando sobre la siguiente sección (fondo blanco). */
-  const [mobileBottomOffset, setMobileBottomOffset] = useState(16);
+  /* En móvil, el zoom se ancla al borde SUPERIOR del mapa: aparece desde
+     el primer pantallazo (cuando el usuario aún está viendo el hero y
+     el mapa asoma por debajo) y al hacer scroll se pega al sticky header
+     en vez de quedarse flotando sobre la siguiente sección. */
+  const [mobileTopOffset, setMobileTopOffset] = useState(100);
 
   useEffect(() => {
     setMounted(true);
@@ -1039,16 +1040,21 @@ function FloatingZoomControls({ topOffset = 180 }: { topOffset?: number }) {
        del 40%. Además, en móvil, reanclamos la posición vertical al
        fondo del mapa para que el zoom no quede sobre la zona blanca
        cuando el mapa sale por abajo. */
-    const MIN_COVERAGE = 0.4;
+    /* Mínima porción de mapa visible (en px) para mostrar el zoom.
+       El botón mide ~74px; pedimos 200px para que haya margen encima y
+       debajo y no se derrame sobre la siguiente sección. */
+    const MIN_VISIBLE_PX = 200;
+    /* Respeto al stack de headers (navbar + sticky program bar ≈ 82-134px). */
+    const STICKY_TOP = 100;
     const update = () => {
       const rect = container.getBoundingClientRect();
       const vh = window.innerHeight;
       const visibleH = Math.max(0, Math.min(rect.bottom, vh) - Math.max(rect.top, 0));
-      const coverage = vh > 0 ? visibleH / vh : 0;
-      setVisible(coverage >= MIN_COVERAGE);
-      /* bottom-from-viewport: 16px si el mapa llega al fondo del viewport,
-         si no, pegado al borde inferior del mapa. */
-      setMobileBottomOffset(Math.max(16, vh - rect.bottom + 16));
+      setVisible(visibleH >= MIN_VISIBLE_PX);
+      /* top-from-viewport: pegado al borde superior del mapa mientras
+         esté por debajo del sticky; si el mapa se sube y tapa el
+         sticky, el zoom se queda justo debajo del sticky. */
+      setMobileTopOffset(Math.max(STICKY_TOP, rect.top + 16));
     };
     update();
     window.addEventListener("scroll", update, { passive: true });
@@ -1082,7 +1088,7 @@ function FloatingZoomControls({ topOffset = 180 }: { topOffset?: number }) {
       aria-label="Zoom controls"
       style={{
         position: "fixed",
-        ...(mobileAnchor ? { bottom: mobileBottomOffset } : { top: topOffset }),
+        ...(mobileAnchor ? { top: mobileTopOffset } : { top: topOffset }),
         right: 16,
         zIndex: 95,
         display: "flex",
