@@ -412,7 +412,6 @@ function SectionIcon({ name }: { name: string }) {
 function ProgramBar() {
   const [compact, setCompact] = useState(false);
   const scrollRef = useRef<HTMLDivElement | null>(null);
-  const stripRef = useRef<HTMLDivElement | null>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
   // Sección activa: detecta cuál de los anchors está visible en viewport
@@ -476,14 +475,14 @@ function ProgramBar() {
     };
   }, [compact]);
 
-  /* Auto-scroll del strip cuando la sección activa cambia */
+  /* Auto-scroll product cards cuando la sección activa cambia (solo expanded) */
   useEffect(() => {
-    if (!activeAnchor || !stripRef.current) return;
-    const firstCard = stripRef.current.querySelector(`[data-group="${activeAnchor}"]`) as HTMLElement | null;
+    if (!activeAnchor || !scrollRef.current || compact) return;
+    const firstCard = scrollRef.current.querySelector(`[data-group="${activeAnchor}"]`) as HTMLElement | null;
     if (firstCard) {
       firstCard.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
     }
-  }, [activeAnchor]);
+  }, [activeAnchor, compact]);
 
   /* Mouse drag-to-scroll (PC) */
   const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -537,9 +536,9 @@ function ProgramBar() {
     const top = rect.top + window.scrollY - (compact ? 190 : 120);
     window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
 
-    /* Auto-scroll strip al grupo correspondiente */
-    if (stripRef.current) {
-      const firstCard = stripRef.current.querySelector(`[data-group="${section.anchor}"]`) as HTMLElement | null;
+    /* Auto-scroll product cards al grupo correspondiente (solo expanded) */
+    if (scrollRef.current && !compact) {
+      const firstCard = scrollRef.current.querySelector(`[data-group="${section.anchor}"]`) as HTMLElement | null;
       if (firstCard) {
         firstCard.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
       }
@@ -656,127 +655,98 @@ function ProgramBar() {
               }}
             />
 
-            {/* ── SECCIONES ── */}
+            {/* ── PRODUCT CARDS — impacto visual al aterrizar, colapsan al scroll ── */}
+            {PRODUCT_CARDS.map((card) => {
+              const isGroupActive = activeAnchor === card.group;
+              return (
+                <button
+                  key={card.name}
+                  type="button"
+                  data-group={card.group}
+                  onClick={() => {
+                    const el = document.getElementById(card.anchor);
+                    if (!el) return;
+                    const rect = el.getBoundingClientRect();
+                    const top = rect.top + window.scrollY - 120;
+                    window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+                  }}
+                  className="group/card relative shrink-0 rounded-lg overflow-hidden cursor-pointer"
+                  style={{
+                    width: compact ? "0px" : "clamp(100px, 11vw, 150px)",
+                    height: compact ? "0px" : "clamp(72px, 8.5vw, 95px)",
+                    opacity: compact ? 0 : 1,
+                    margin: compact ? "0" : "0 3px",
+                    transition: "all 0.5s cubic-bezier(.16,1,.3,1)",
+                    pointerEvents: compact ? "none" : "auto",
+                    boxShadow: isGroupActive
+                      ? "0 0 0 1.5px rgba(220,175,100,.6), 0 0 14px rgba(220,175,100,.2)"
+                      : "0 0 0 1px rgba(255,255,255,.1)",
+                  }}
+                >
+                  <img
+                    src={card.img}
+                    alt={card.name}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover/card:scale-110"
+                    style={{
+                      filter: isGroupActive
+                        ? "brightness(0.8) saturate(0.9)"
+                        : "brightness(0.55) saturate(0.75)",
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-2">
+                    <span className="text-[7px] font-bold tracking-[1.5px] uppercase text-[var(--g1)] block leading-tight">
+                      {card.tag}
+                    </span>
+                    <span className="text-[11px] font-bold uppercase tracking-[-0.3px] text-white/90 leading-tight block">
+                      {card.name}
+                    </span>
+                  </div>
+                </button>
+              );
+            })}
+
+            {/* ── CATEGORY TABS — aparecen al scroll (compact), texto puro ── */}
             {STICKY_SECTIONS.map((section) => {
               const isActive = activeAnchor === section.anchor;
               return (
-              <button
-                key={section.anchor}
-                type="button"
-                onClick={() => handleClickSection(section)}
-                className="group/pnav relative flex flex-col items-center shrink-0 cursor-pointer transition-all duration-500 hover:opacity-100"
-                style={{
-                  opacity: isActive ? 1 : 0.7,
-                  width: compact
-                    ? "clamp(52px, calc((100vw - 14px) / 6.5), 100px)"
-                    : "clamp(76px, calc(100vw / 5.2), 100px)",
-                  paddingTop: compact ? "6px" : undefined,
-                  paddingBottom: compact ? "6px" : undefined,
-                }}
-              >
-                <div
-                  className="j3-pnav-circle relative rounded-full flex items-center justify-center"
+                <button
+                  key={section.anchor}
+                  type="button"
+                  onClick={() => handleClickSection(section)}
+                  className="group/pnav relative flex flex-col items-center shrink-0 cursor-pointer hover:opacity-100"
                   style={{
-                    width: compact ? "0px" : undefined,
-                    height: compact ? "0px" : undefined,
-                    opacity: compact ? 0 : 1,
-                    marginBottom: compact ? "0px" : "7px",
+                    opacity: compact ? (isActive ? 1 : 0.7) : 0,
+                    width: compact ? "clamp(52px, calc((100vw - 14px) / 6.5), 100px)" : "0px",
+                    paddingTop: compact ? "6px" : "0px",
+                    paddingBottom: compact ? "6px" : "0px",
+                    overflow: "hidden",
+                    pointerEvents: compact ? "auto" : "none",
                     transition: "all 0.5s cubic-bezier(.16,1,.3,1)",
-                    border: isActive ? "1px solid rgba(220,175,100,.5)" : "1px solid rgba(255,255,255,.16)",
                   }}
                 >
-                  <div className="w-[42px] h-[42px] min-[961px]:w-[46px] min-[961px]:h-[46px] rounded-full flex items-center justify-center"
-                    style={{ background: isActive ? "rgba(220,175,100,.1)" : "rgba(220,175,100,.05)" }}
+                  <span
+                    className="font-semibold whitespace-nowrap leading-tight"
+                    style={{
+                      fontSize: "10px",
+                      color: isActive ? "var(--g1)" : "rgba(255,255,255,.75)",
+                    }}
                   >
-                    <SectionIcon name={section.anchor} />
-                  </div>
-                </div>
-                <span
-                  className="font-semibold transition-all duration-300 whitespace-nowrap leading-tight"
-                  style={{
-                    fontSize: compact ? "10px" : "11px",
-                    color: isActive ? "var(--g1)" : "rgba(255,255,255,.75)",
-                  }}
-                >
-                  {section.name}
-                </span>
-                {/* Underline dorado — indicador de sección activa */}
-                <span
-                  aria-hidden
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] rounded-full transition-all duration-500"
-                  style={{
-                    width: isActive ? "60%" : "0%",
-                    background: "linear-gradient(90deg, transparent, rgba(220,175,100,.85), transparent)",
-                    opacity: isActive ? 1 : 0,
-                  }}
-                />
-              </button>
+                    {section.name}
+                  </span>
+                  {/* Underline dorado — indicador de sección activa */}
+                  <span
+                    aria-hidden
+                    className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] rounded-full transition-all duration-500"
+                    style={{
+                      width: isActive ? "60%" : "0%",
+                      background: "linear-gradient(90deg, transparent, rgba(220,175,100,.85), transparent)",
+                      opacity: isActive ? 1 : 0,
+                    }}
+                  />
+                </button>
               );
             })}
-          </div>
-        </div>
-
-        {/* ── Product Strip — Apple-style thumbnails, slides in on compact ── */}
-        <div
-          className="border-t border-white/[.06] overflow-hidden"
-          style={{
-            maxHeight: compact ? "120px" : "0px",
-            opacity: compact ? 1 : 0,
-            transition: "all 0.5s cubic-bezier(.16,1,.3,1)",
-          }}
-        >
-          <div className="max-w-[1200px] mx-auto">
-            <div
-              ref={stripRef}
-              className="flex gap-2 overflow-x-auto snap-x snap-mandatory scrollbar-hide py-2 px-3 min-[961px]:justify-center min-[961px]:gap-3"
-              style={{ scrollBehavior: "smooth" }}
-            >
-              {PRODUCT_CARDS.map((card) => {
-                const isGroupActive = activeAnchor === card.group;
-                return (
-                  <button
-                    key={card.name}
-                    type="button"
-                    data-group={card.group}
-                    onClick={() => {
-                      const el = document.getElementById(card.anchor);
-                      if (!el) return;
-                      const rect = el.getBoundingClientRect();
-                      const top = rect.top + window.scrollY - 190;
-                      window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
-                    }}
-                    className="group/card relative snap-start shrink-0 rounded-lg overflow-hidden cursor-pointer transition-all duration-300"
-                    style={{
-                      width: "clamp(90px, 12vw, 140px)",
-                      height: "clamp(65px, 8vw, 80px)",
-                      boxShadow: isGroupActive
-                        ? "0 0 0 1px rgba(220,175,100,.5), 0 0 12px rgba(220,175,100,.15)"
-                        : "0 0 0 1px rgba(255,255,255,.08)",
-                    }}
-                  >
-                    <img
-                      src={card.img}
-                      alt={card.name}
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover/card:scale-110"
-                      style={{
-                        filter: isGroupActive
-                          ? "brightness(0.75) saturate(0.9)"
-                          : "brightness(0.5) saturate(0.7)",
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-1.5">
-                      <span className="text-[7px] font-bold tracking-[1.5px] uppercase text-[var(--g1)] block leading-tight">
-                        {card.tag}
-                      </span>
-                      <span className="text-[10px] font-bold uppercase tracking-[-0.3px] text-white/90 leading-tight block">
-                        {card.name}
-                      </span>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
           </div>
         </div>
       </div>
