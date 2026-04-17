@@ -334,9 +334,10 @@ const STICKY_SEDES: SedeItem[] = [
 ];
 
 const STICKY_SECTIONS: SectionItem[] = [
-  { kind: "section", name: "Coaches",   anchor: "network" },
-  { kind: "section", name: "Programas", anchor: "programas" },
-  { kind: "section", name: "Método",    anchor: "metodo" },
+  { kind: "section", name: "Juniors",  anchor: "juniors" },
+  { kind: "section", name: "Adultos",  anchor: "adultos" },
+  { kind: "section", name: "Camps",    anchor: "intensive" },
+  { kind: "section", name: "M\u00E9todo",   anchor: "metodo" },
 ];
 
 /** Iconos gold para las secciones del sticky nav. */
@@ -351,25 +352,35 @@ function SectionIcon({ name }: { name: string }) {
     strokeLinecap: "round" as const,
     strokeLinejoin: "round" as const,
   };
-  if (name === "network") {
+  if (name === "juniors") {
+    /* Estrella — talento joven */
     return (
       <svg {...common} aria-hidden>
-        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0Z" />
-        <circle cx="12" cy="10" r="3" />
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
       </svg>
     );
   }
-  if (name === "programas") {
+  if (name === "adultos") {
+    /* Grupo — escuela adultos */
     return (
       <svg {...common} aria-hidden>
-        <path d="M12 2 3 7l9 5 9-5-9-5Z" />
-        <path d="m3 12 9 5 9-5" />
-        <path d="m3 17 9 5 9-5" />
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+        <circle cx="9" cy="7" r="4" />
+        <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+      </svg>
+    );
+  }
+  if (name === "intensive") {
+    /* Rayo — intensidad, camps & stages */
+    return (
+      <svg {...common} aria-hidden>
+        <path d="M13 2L3 14h9l-1 10 10-12h-9l1-10z" />
       </svg>
     );
   }
   if (name === "metodo") {
-    /* Brújula: método J3, orientación, criterio. */
+    /* Brújula — método J3, orientación, criterio */
     return (
       <svg {...common} aria-hidden>
         <circle cx="12" cy="12" r="9" />
