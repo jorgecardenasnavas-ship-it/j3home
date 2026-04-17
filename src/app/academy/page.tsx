@@ -2240,7 +2240,7 @@ function SedeCard({
       rel="noopener noreferrer"
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
-      className="relative overflow-hidden rounded-lg cursor-pointer block h-full group"
+      className="relative overflow-hidden rounded-2xl cursor-pointer block h-full group"
       style={{ background: "#000" }}
     >
       {/* Media — video si existe, gradient placeholder si no */}
@@ -2261,16 +2261,61 @@ function SedeCard({
           }}
         />
       ) : (
+        /* Placeholder "blueprint" para sedes sin asset — plano de pista
+           padel en gold sobre fondo oscuro con noise sutil. Da estética
+           de "en construcción / proyecto" en vez de un gradient plano. */
         <div
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(circle at 20% 30%, rgba(220,175,100,0.2) 0%, rgba(10,10,10,1) 55%)",
-            transform: expanded ? "scale3d(1.035,1.035,1.035)" : "scale3d(1,1,1)",
+              "radial-gradient(140% 90% at 50% 100%, rgba(220,175,100,0.12) 0%, rgba(220,175,100,0.02) 45%, #050505 85%)",
+            transform: expanded ? "scale3d(1.03,1.03,1.03)" : "scale3d(1,1,1)",
             transition: "transform 0.9s cubic-bezier(0,0,0.2,1)",
           }}
           aria-hidden
-        />
+        >
+          <svg
+            className="absolute inset-0 w-full h-full"
+            viewBox="0 0 400 500"
+            preserveAspectRatio="xMidYMid slice"
+            aria-hidden
+          >
+            <defs>
+              <linearGradient id="blueprint-lines" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="rgba(220,175,100,0.35)" />
+                <stop offset="100%" stopColor="rgba(220,175,100,0.08)" />
+              </linearGradient>
+              <pattern id="blueprint-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(220,175,100,0.06)" strokeWidth="0.5" />
+              </pattern>
+            </defs>
+            {/* Grid técnico sutil */}
+            <rect width="100%" height="100%" fill="url(#blueprint-grid)" />
+            {/* Court outline centrado */}
+            <g transform="translate(100 130)" stroke="url(#blueprint-lines)" strokeWidth="1.2" fill="none">
+              <rect x="0" y="0" width="200" height="260" />
+              <line x1="0" y1="130" x2="200" y2="130" />
+              <line x1="0" y1="70" x2="200" y2="70" />
+              <line x1="0" y1="190" x2="200" y2="190" />
+              <line x1="100" y1="70" x2="100" y2="190" strokeDasharray="4 4" />
+            </g>
+            {/* Medidas — estética de plano técnico */}
+            <g stroke="rgba(220,175,100,0.28)" strokeWidth="0.8" fill="none">
+              <line x1="80" y1="130" x2="95" y2="130" />
+              <line x1="305" y1="130" x2="320" y2="130" />
+              <line x1="80" y1="125" x2="80" y2="135" />
+              <line x1="320" y1="125" x2="320" y2="135" />
+            </g>
+            <text x="200" y="120" textAnchor="middle" fill="rgba(220,175,100,0.45)" fontSize="10" fontFamily="ui-monospace, monospace" letterSpacing="2">20m</text>
+          </svg>
+          {/* Code chip bottom-left — estética técnica */}
+          <span
+            className="absolute bottom-3 left-3 text-[9px] font-bold tracking-[2px] uppercase text-[var(--g1)]/60"
+            style={{ fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace" }}
+          >
+            PLANO · J3·LIM·001
+          </span>
+        </div>
       )}
 
       {/* Línea gold superior — expande de 55% → 100% al hover/active */}
@@ -2354,6 +2399,19 @@ function SedeCard({
   );
 }
 
+/** Devuelve las 2 primeras iniciales del nombre, en mayúsculas.
+ *  "Alejandro Coscollano González" → "AC". Nombres de una sola palabra
+ *  (ej. "Maya") devuelven una sola letra. */
+function getInitials(name: string): string {
+  return name
+    .trim()
+    .split(/\s+/)
+    .filter((w) => w.length > 0)
+    .slice(0, 2)
+    .map((w) => w[0]?.toUpperCase() ?? "")
+    .join("");
+}
+
 /* ──────────────────────────────────────────────
    PorscheCoachCard — misma estética visual que ProgramTile (Juniors)
    y SedeCard. Media full-bleed, título centrado arriba + tag con rol,
@@ -2389,7 +2447,10 @@ function PorscheCoachCard({
       className="relative overflow-hidden rounded-lg cursor-pointer block h-full w-full group text-left"
       style={{ background: "#000" }}
     >
-      {/* Media — foto o placeholder silueta */}
+      {/* Media — foto si existe; si no, placeholder con iniciales gold.
+          Las iniciales (p.ej. 'AC' para Alejandro Coscollano) sobre un
+          gradient radial gold → dark convierten un estado "sin foto" en
+          un brand moment, diferenciando visualmente a cada coach. */}
       {coach.photo ? (
         <img
           src={coach.photo}
@@ -2406,19 +2467,26 @@ function PorscheCoachCard({
         />
       ) : (
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 flex items-center justify-center"
           style={{
             background:
-              "radial-gradient(circle at 50% 35%, rgba(220,175,100,0.12) 0%, rgba(10,10,10,1) 60%)",
+              "radial-gradient(circle at 50% 42%, rgba(220,175,100,0.14) 0%, rgba(18,18,20,1) 65%)",
             transform: expanded ? "scale3d(1.03,1.03,1.03)" : "scale3d(1,1,1)",
             transition: "transform 0.9s cubic-bezier(0,0,0.2,1)",
           }}
           aria-hidden
         >
-          <svg className="absolute inset-0 m-auto opacity-20 theme-text" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden>
-            <circle cx="12" cy="8" r="4" />
-            <path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1" />
-          </svg>
+          <span
+            className="j3-grad-text font-bold font-[var(--font-serif)] italic normal-case tracking-[-2px] leading-[0.9] select-none"
+            style={{
+              fontSize: "clamp(56px, 10vw, 92px)",
+              transform: expanded ? "scale(1.04)" : "scale(1)",
+              transition: "transform 0.7s cubic-bezier(.16,1,.3,1)",
+              filter: "drop-shadow(0 6px 16px rgba(0,0,0,0.45))",
+            }}
+          >
+            {getInitials(coach.name)}
+          </span>
         </div>
       )}
 
@@ -2559,6 +2627,29 @@ function CoachesCarousel({
           background:
             "linear-gradient(to left, rgba(12,12,14,1), rgba(12,12,14,0))",
           opacity: showRightFade ? 1 : 0,
+        }}
+      />
+
+      {/* Progress bar Porsche-style — indica cuánto del carrusel has
+          recorrido. Da discoverabilidad de "hay más contenido a la
+          derecha" tanto en desktop como en móvil. */}
+      <CarouselProgress progress={progress} />
+    </div>
+  );
+}
+
+/** Barra de progreso delgada bajo un scroll horizontal — un track
+ *  tenue + un fill gold que escala al `progress` (0-1). */
+function CarouselProgress({ progress }: { progress: number }) {
+  return (
+    <div className="mt-5 h-[2px] w-full bg-white/[.07] relative overflow-hidden" aria-hidden>
+      <div
+        className="absolute left-0 top-0 bottom-0"
+        style={{
+          width: "28%",
+          transform: `translateX(${progress * (100 / 0.28 - 100)}%)`,
+          background: "linear-gradient(to right, rgba(220,175,100,0.25), var(--g1), rgba(220,175,100,0.25))",
+          transition: "transform .18s cubic-bezier(.4,0,.2,1)",
         }}
       />
     </div>
