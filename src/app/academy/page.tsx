@@ -565,16 +565,16 @@ function ProgramBar() {
         <div className="max-w-[1200px] mx-auto">
           <div
             ref={scrollRef}
-            onMouseDown={compact ? undefined : onMouseDown}
-            onMouseMove={compact ? undefined : onMouseMove}
-            onMouseUp={compact ? undefined : endDrag}
-            onMouseLeave={compact ? undefined : endDrag}
-            className={`flex items-center gap-0 scrollbar-hide min-[961px]:justify-center select-none ${compact ? "overflow-hidden justify-center" : "overflow-x-auto"}`}
+            onMouseDown={onMouseDown}
+            onMouseMove={onMouseMove}
+            onMouseUp={endDrag}
+            onMouseLeave={endDrag}
+            className={`flex items-center gap-0 scrollbar-hide min-[961px]:justify-center select-none overflow-x-auto`}
             style={{
               scrollBehavior: "smooth",
-              paddingTop: compact ? "0px" : "10px",
-              paddingBottom: compact ? "0px" : "10px",
-              cursor: compact ? "default" : "grab",
+              paddingTop: compact ? "4px" : "10px",
+              paddingBottom: compact ? "4px" : "10px",
+              cursor: "grab",
             }}
           >
             {/* ── SEDES — círculo destacado (logo J3 dorado) ── */}
@@ -663,31 +663,31 @@ function ProgramBar() {
                     if (dragStateRef.current.moved) { dragStateRef.current.moved = false; return; }
                     setSelectedCard(card.name);
 
-                    /* Centrar la tarjeta seleccionada en el strip */
+                    /* Centrar la tarjeta en el strip (viewport-relative) */
                     const btn = e.currentTarget;
                     const container = scrollRef.current;
                     if (container) {
                       const cRect = container.getBoundingClientRect();
                       const bRect = btn.getBoundingClientRect();
-                      const scrollLeft = btn.offsetLeft - cRect.width / 2 + bRect.width / 2;
-                      container.scrollTo({ left: Math.max(0, scrollLeft), behavior: "smooth" });
+                      const scrollTo = container.scrollLeft + (bRect.left - cRect.left) - cRect.width / 2 + bRect.width / 2;
+                      container.scrollTo({ left: Math.max(0, scrollTo), behavior: "smooth" });
                     }
 
                     /* Scroll a la sección */
                     const el = document.getElementById(card.anchor);
                     if (!el) return;
                     const rect = el.getBoundingClientRect();
-                    const top = rect.top + window.scrollY - 190;
+                    /* Compact bar: 52 navbar + 48 mini cards ≈ 100 → +90 shrink = 190 */
+                    const top = rect.top + window.scrollY - (compact ? 120 : 190);
                     window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
                   }}
                   className="group/card relative shrink-0 rounded-lg overflow-hidden cursor-pointer"
                   style={{
-                    width: compact ? "0px" : "clamp(100px, 11vw, 150px)",
-                    height: compact ? "0px" : "clamp(72px, 8.5vw, 95px)",
-                    opacity: compact ? 0 : 1,
-                    margin: compact ? "0" : "0 3px",
+                    width: compact ? "clamp(52px, 8vw, 68px)" : "clamp(100px, 11vw, 150px)",
+                    height: compact ? "clamp(36px, 5vw, 44px)" : "clamp(72px, 8.5vw, 95px)",
+                    opacity: 1,
+                    margin: compact ? "0 2px" : "0 3px",
                     transition: "all 0.5s cubic-bezier(.16,1,.3,1)",
-                    pointerEvents: compact ? "none" : "auto",
                     boxShadow: isSelected
                       ? "0 0 0 2px rgba(220,175,100,.9), 0 0 20px rgba(220,175,100,.3)"
                       : isGroupActive
@@ -706,11 +706,25 @@ function ProgramBar() {
                     }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-2">
-                    <span className="text-[7px] font-bold tracking-[1.5px] uppercase text-[var(--g1)] block leading-tight">
+                  <div
+                    className="absolute bottom-0 left-0 right-0 transition-all duration-500"
+                    style={{ padding: compact ? "2px 3px" : "8px" }}
+                  >
+                    <span
+                      className="font-bold tracking-[1.5px] uppercase text-[var(--g1)] block leading-tight transition-all duration-500"
+                      style={{
+                        fontSize: compact ? "0px" : "7px",
+                        maxHeight: compact ? "0px" : "12px",
+                        opacity: compact ? 0 : 1,
+                        overflow: "hidden",
+                      }}
+                    >
                       {card.tag}
                     </span>
-                    <span className="text-[11px] font-bold uppercase tracking-[-0.3px] text-white/90 leading-tight block">
+                    <span
+                      className="font-bold uppercase tracking-[-0.3px] text-white/90 leading-tight block transition-all duration-500"
+                      style={{ fontSize: compact ? "7px" : "11px" }}
+                    >
                       {card.name}
                     </span>
                   </div>
@@ -718,47 +732,7 @@ function ProgramBar() {
               );
             })}
 
-            {/* ── CATEGORY TABS — aparecen al scroll (compact), texto puro ── */}
-            {STICKY_SECTIONS.map((section) => {
-              const isActive = activeAnchor === section.anchor;
-              return (
-                <button
-                  key={section.anchor}
-                  type="button"
-                  onClick={() => handleClickSection(section)}
-                  className="group/pnav relative flex flex-col items-center shrink-0 cursor-pointer hover:opacity-100"
-                  style={{
-                    opacity: compact ? (isActive ? 1 : 0.7) : 0,
-                    width: compact ? "clamp(52px, calc((100vw - 14px) / 6.5), 100px)" : "0px",
-                    paddingTop: compact ? "6px" : "0px",
-                    paddingBottom: compact ? "6px" : "0px",
-                    overflow: "hidden",
-                    pointerEvents: compact ? "auto" : "none",
-                    transition: "all 0.5s cubic-bezier(.16,1,.3,1)",
-                  }}
-                >
-                  <span
-                    className="font-semibold whitespace-nowrap leading-tight"
-                    style={{
-                      fontSize: "10px",
-                      color: isActive ? "var(--g1)" : "rgba(255,255,255,.75)",
-                    }}
-                  >
-                    {section.name}
-                  </span>
-                  {/* Underline dorado — indicador de sección activa */}
-                  <span
-                    aria-hidden
-                    className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] rounded-full transition-all duration-500"
-                    style={{
-                      width: isActive ? "60%" : "0%",
-                      background: "linear-gradient(90deg, transparent, rgba(220,175,100,.85), transparent)",
-                      opacity: isActive ? 1 : 0,
-                    }}
-                  />
-                </button>
-              );
-            })}
+            {/* Category tabs eliminados: las mini-cards sirven de navegación en compact */}
           </div>
         </div>
       </div>
