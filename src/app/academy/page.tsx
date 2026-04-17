@@ -740,9 +740,6 @@ function HeroSection() {
     );
   };
 
-  // Toggle para filtros colapsables en mobile.
-  const [filtersOpen, setFiltersOpen] = useState(false);
-
   /* Mapa centrado en Málaga (Lab) como epicentro. */
   const mapCenter: [number, number] = [36.72, -4.42];
   const mapZoom = isMobile ? 5 : 6;
@@ -853,116 +850,6 @@ function HeroSection() {
               </button>
             </div>
 
-            {/* Filtros compactos — colapsables en mobile para no empujar el mapa demasiado abajo */}
-            <div className="hero-rise hero-rise-5 mt-8 pt-7 border-t border-white/[.08]">
-              <button
-                type="button"
-                onClick={() => setFiltersOpen((p) => !p)}
-                className="min-[961px]:pointer-events-none flex items-center gap-2 text-[10px] font-medium tracking-[4px] uppercase text-white/50 mb-3"
-              >
-                {t.academy.hero.filtersTitle}
-                <svg
-                  width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-                  className="min-[961px]:hidden transition-transform duration-300"
-                  style={{ transform: filtersOpen ? "rotate(180deg)" : undefined }}
-                  aria-hidden
-                >
-                  <path d="M6 9l6 6 6-6" />
-                </svg>
-              </button>
-              <div
-                className="grid grid-cols-1 sm:grid-cols-3 gap-2 min-[961px]:!max-h-none min-[961px]:!opacity-100 overflow-hidden transition-all duration-500"
-                style={{
-                  maxHeight: filtersOpen || !isMobile ? "200px" : "0px",
-                  opacity: filtersOpen || !isMobile ? 1 : 0,
-                }}
-              >
-                <FilterSelect
-                  label={t.academy.network.filterCountry}
-                  value={country}
-                  onChange={setCountry}
-                  options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_COUNTRIES.map(c => ({ value: c, label: c }))]}
-                />
-                <FilterSelect
-                  label={t.academy.network.filterLanguage}
-                  value={language}
-                  onChange={setLanguage}
-                  options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_LANGUAGES.map(l => ({ value: l, label: languageLabel(l) }))]}
-                />
-                <FilterSelect
-                  label={t.academy.network.filterSpecialty}
-                  value={specialty}
-                  onChange={setSpecialty}
-                  options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_SPECIALTIES.map(s => ({ value: s, label: specialtyLabel(s) }))]}
-                />
-              </div>
-              {/* Cerca de mí — mismo control que la NetworkSection. El estado
-                  vive en el GeoContext: activarlo aquí también hace que el
-                  grid de coaches (más abajo) se ordene por distancia. Y al
-                  revés: si el usuario ya lo activó en la grid, aquí aparece
-                  el estado "activo" con ✕ para limpiarlo. */}
-              <div className="hero-rise hero-rise-6 mt-4 flex items-center gap-3 flex-wrap">
-                {geo.status === "success" ? (
-                  <button
-                    type="button"
-                    onClick={geo.clear}
-                    className="group inline-flex items-center gap-2 px-3 py-1.5 text-[10px] tracking-[2px] uppercase font-bold text-[#000] bg-gradient-to-br from-[#f0c478] to-[#dcaf64] hover:brightness-110 transition-all"
-                    style={{ borderRadius: 2 }}
-                    aria-label={t.academy.network.nearMeActive}
-                  >
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                      <circle cx="12" cy="12" r="10" />
-                      <line x1="22" y1="12" x2="18" y2="12" />
-                      <line x1="6" y1="12" x2="2" y2="12" />
-                      <line x1="12" y1="6" x2="12" y2="2" />
-                      <line x1="12" y1="22" x2="12" y2="18" />
-                      <circle cx="12" cy="12" r="3" fill="currentColor" />
-                    </svg>
-                    <span>{t.academy.network.nearMeActive}</span>
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="opacity-60 group-hover:opacity-100">
-                      <line x1="18" y1="6" x2="6" y2="18" />
-                      <line x1="6" y1="6" x2="18" y2="18" />
-                    </svg>
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={geo.request}
-                    disabled={geo.status === "loading"}
-                    className="inline-flex items-center gap-2 px-3 py-1.5 text-[10px] tracking-[2px] uppercase font-bold text-[var(--g1)] border border-[var(--g1)]/50 hover:border-[var(--g1)] hover:bg-[var(--g1)]/10 disabled:opacity-60 transition-all"
-                    style={{ borderRadius: 2 }}
-                  >
-                    {geo.status === "loading" ? (
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="animate-spin">
-                        <path d="M21 12a9 9 0 1 1-6.2-8.55" />
-                      </svg>
-                    ) : (
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                        <circle cx="12" cy="12" r="10" />
-                        <line x1="22" y1="12" x2="18" y2="12" />
-                        <line x1="6" y1="12" x2="2" y2="12" />
-                        <line x1="12" y1="6" x2="12" y2="2" />
-                        <line x1="12" y1="22" x2="12" y2="18" />
-                        <circle cx="12" cy="12" r="3" />
-                      </svg>
-                    )}
-                    <span>
-                      {geo.status === "loading" ? t.academy.network.nearMeLoading : t.academy.network.nearMe}
-                    </span>
-                  </button>
-                )}
-                {/* Error inline — muy compacto, no roba espacio */}
-                {geo.status === "error" && (
-                  <span className="text-[10px] tracking-[1.5px] uppercase text-white/55">
-                    {t.academy.network.nearMeError}
-                  </span>
-                )}
-              </div>
-              <p className="hero-rise hero-rise-6 mt-3 text-[11px] tracking-[2px] uppercase text-white/55">
-                {countLine}
-              </p>
-            </div>
           </div>
         </div>
 
@@ -989,6 +876,91 @@ function HeroSection() {
             showLegend
             userLocation={geo.coords}
           />
+
+          {/* ── Floating filter pills over the map ── */}
+          <div className="hero-rise hero-rise-5 absolute top-3 left-3 right-3 z-[460] flex flex-wrap items-center gap-2">
+            <FilterSelect
+              compact
+              label={t.academy.network.filterCountry}
+              value={country}
+              onChange={setCountry}
+              options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_COUNTRIES.map(c => ({ value: c, label: c }))]}
+            />
+            <FilterSelect
+              compact
+              label={t.academy.network.filterLanguage}
+              value={language}
+              onChange={setLanguage}
+              options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_LANGUAGES.map(l => ({ value: l, label: languageLabel(l) }))]}
+            />
+            <FilterSelect
+              compact
+              label={t.academy.network.filterSpecialty}
+              value={specialty}
+              onChange={setSpecialty}
+              options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_SPECIALTIES.map(s => ({ value: s, label: specialtyLabel(s) }))]}
+            />
+
+            {/* Cerca de mí — pill */}
+            {geo.status === "success" ? (
+              <button
+                type="button"
+                onClick={geo.clear}
+                className="group inline-flex items-center gap-1.5 px-2.5 py-[6px] text-[10px] tracking-[1.5px] uppercase font-bold text-black bg-gradient-to-br from-[#f0c478] to-[#dcaf64] rounded-full hover:brightness-110 transition-all"
+                aria-label={t.academy.network.nearMeActive}
+              >
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="22" y1="12" x2="18" y2="12" />
+                  <line x1="6" y1="12" x2="2" y2="12" />
+                  <line x1="12" y1="6" x2="12" y2="2" />
+                  <line x1="12" y1="22" x2="12" y2="18" />
+                  <circle cx="12" cy="12" r="3" fill="currentColor" />
+                </svg>
+                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="opacity-60 group-hover:opacity-100">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={geo.request}
+                disabled={geo.status === "loading"}
+                className="inline-flex items-center gap-1.5 px-2.5 py-[6px] text-[10px] tracking-[1.5px] uppercase font-bold text-[var(--g1)] bg-black/60 backdrop-blur-[12px] border border-[var(--g1)]/40 rounded-full hover:bg-[var(--g1)]/10 disabled:opacity-60 transition-all"
+              >
+                {geo.status === "loading" ? (
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="animate-spin">
+                    <path d="M21 12a9 9 0 1 1-6.2-8.55" />
+                  </svg>
+                ) : (
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="22" y1="12" x2="18" y2="12" />
+                    <line x1="6" y1="12" x2="2" y2="12" />
+                    <line x1="12" y1="6" x2="12" y2="2" />
+                    <line x1="12" y1="22" x2="12" y2="18" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                )}
+                <span>{geo.status === "loading" ? t.academy.network.nearMeLoading : t.academy.network.nearMe}</span>
+              </button>
+            )}
+
+            {geo.status === "error" && (
+              <span className="text-[9px] tracking-[1px] uppercase text-white/55 bg-black/60 backdrop-blur-[12px] px-2.5 py-1 rounded-full">
+                {t.academy.network.nearMeError}
+              </span>
+            )}
+          </div>
+
+          {/* Counter — bottom of map */}
+          <div className="hero-rise hero-rise-6 absolute bottom-3 left-3 z-[460] pointer-events-none">
+            <span className="text-[10px] tracking-[2px] uppercase text-white/55 bg-black/50 backdrop-blur-[12px] px-3 py-1.5 rounded-full border border-white/[.06]">
+              {countLine}
+            </span>
+          </div>
+
           {/* Subtle fade-left on desktop para fundir con copy column */}
           <div
             className="hidden min-[961px]:block absolute inset-y-0 left-0 w-[80px] pointer-events-none z-[450]"
