@@ -1078,7 +1078,7 @@ function HeroSection() {
           />
 
           {/* ── Floating filter pills over the map ── */}
-          <div className="hero-rise hero-rise-5 absolute top-[68px] left-3 right-3 z-[10] flex flex-wrap items-center gap-2">
+          <div className="hero-rise hero-rise-5 absolute top-[16px] min-[961px]:top-[96px] left-3 right-3 z-[10] flex flex-wrap items-center gap-2">
             <FilterSelect
               compact
               label={t.academy.network.filterCountry}
