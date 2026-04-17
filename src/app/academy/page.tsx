@@ -1038,7 +1038,7 @@ function HeroSection() {
               <button
                 type="button"
                 onClick={handleFocusLab}
-                className="group/lab inline-flex items-center justify-center gap-2 whitespace-nowrap px-5 py-3 rounded-full border border-white/20 hover:border-[var(--g1)]/60 text-white hover:text-[var(--g1)] text-[12px] font-semibold tracking-[1.5px] uppercase transition-colors duration-500"
+                className="group/lab inline-flex items-center justify-center sm:justify-start gap-2 whitespace-nowrap px-2 py-3 text-[var(--g1)]/75 hover:text-[var(--g1)] text-[12px] font-semibold tracking-[1.5px] uppercase transition-colors duration-500"
               >
                 {t.academy.hero.ctaSecondary}
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-500 group-hover/lab:translate-x-1">
