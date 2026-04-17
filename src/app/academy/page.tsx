@@ -874,7 +874,7 @@ function HeroSection() {
           />
 
           {/* ── Floating filter pills over the map ── */}
-          <div className="hero-rise hero-rise-5 absolute top-3 left-3 right-3 z-[1100] flex flex-wrap items-center gap-2">
+          <div className="hero-rise hero-rise-5 absolute top-[68px] left-3 right-3 z-[10] flex flex-wrap items-center gap-2">
             <FilterSelect
               compact
               label={t.academy.network.filterCountry}
@@ -951,7 +951,7 @@ function HeroSection() {
           </div>
 
           {/* Counter — bottom of map */}
-          <div className="hero-rise hero-rise-6 absolute bottom-3 left-3 z-[1100] pointer-events-none">
+          <div className="hero-rise hero-rise-6 absolute bottom-3 left-3 z-[10] pointer-events-none">
             <span className="text-[10px] tracking-[2px] uppercase text-white/55 bg-[#1a1a1c]/90 backdrop-blur-[16px] px-3 py-1.5 rounded-full border border-white/[.12] shadow-[0_2px_12px_rgba(0,0,0,.5)]">
               {countLine}
             </span>
