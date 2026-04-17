@@ -125,6 +125,8 @@ const pinStyles = `
   .leaflet-container {
     background: #0f0f0f;
     font-family: inherit;
+    position: relative;
+    z-index: 0;
   }
   .leaflet-control-attribution {
     background: rgba(10,10,10,0.7) !important;

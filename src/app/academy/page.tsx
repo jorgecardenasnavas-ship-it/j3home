@@ -854,16 +854,12 @@ function HeroSection() {
         </div>
 
         {/* ── Mapa column (60%) ──
-            isolation:isolate + contain:layout paint crean un stacking context
-            propio para el mapa. Así los popups y controles de Leaflet
-            (z-index ~700 internos) quedan confinados dentro del hero y
-            siempre por debajo del sticky nav (z-[100]) y navbar (z-100).
-            contain:paint evita repaints del mapa fuera de su caja durante
-            zoom/pan → zoom más fluido. */}
-        <div
-          className="relative w-full min-[961px]:w-[60%] h-[60vh] min-[961px]:h-auto min-[961px]:min-h-full"
-          style={{ isolation: "isolate", contain: "layout paint" }}
-        >
+            El .leaflet-container recibe z-index:0 (vía pinStyles en
+            NetworkMap) para contener sus panes internos (hasta z-1000)
+            dentro de su propio stacking context. Así los floating pills
+            de filtros (z-1100) quedan por encima del mapa pero la navbar
+            (z-110 fixed) sigue por encima de todo. */}
+        <div className="relative w-full min-[961px]:w-[60%] h-[60vh] min-[961px]:h-auto min-[961px]:min-h-full">
           <NetworkMap
             coaches={filtered}
             labels={mapLabels}
@@ -878,7 +874,7 @@ function HeroSection() {
           />
 
           {/* ── Floating filter pills over the map ── */}
-          <div className="hero-rise hero-rise-5 absolute top-3 left-3 right-3 z-[460] flex flex-wrap items-center gap-2">
+          <div className="hero-rise hero-rise-5 absolute top-3 left-3 right-3 z-[1100] flex flex-wrap items-center gap-2">
             <FilterSelect
               compact
               label={t.academy.network.filterCountry}
@@ -927,7 +923,7 @@ function HeroSection() {
                 type="button"
                 onClick={geo.request}
                 disabled={geo.status === "loading"}
-                className="inline-flex items-center gap-1.5 px-2.5 py-[6px] text-[10px] tracking-[1.5px] uppercase font-bold text-[var(--g1)] bg-black/60 backdrop-blur-[12px] border border-[var(--g1)]/40 rounded-full hover:bg-[var(--g1)]/10 disabled:opacity-60 transition-all"
+                className="inline-flex items-center gap-1.5 px-2.5 py-[6px] text-[10px] tracking-[1.5px] uppercase font-bold text-[var(--g1)] bg-[#1a1a1c]/90 backdrop-blur-[16px] border border-[var(--g1)]/40 rounded-full shadow-[0_2px_12px_rgba(0,0,0,.5)] hover:bg-[var(--g1)]/10 disabled:opacity-60 transition-all"
               >
                 {geo.status === "loading" ? (
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="animate-spin">
@@ -948,15 +944,15 @@ function HeroSection() {
             )}
 
             {geo.status === "error" && (
-              <span className="text-[9px] tracking-[1px] uppercase text-white/55 bg-black/60 backdrop-blur-[12px] px-2.5 py-1 rounded-full">
+              <span className="text-[9px] tracking-[1px] uppercase text-white/55 bg-[#1a1a1c]/90 backdrop-blur-[16px] px-2.5 py-1 rounded-full shadow-[0_2px_12px_rgba(0,0,0,.5)]">
                 {t.academy.network.nearMeError}
               </span>
             )}
           </div>
 
           {/* Counter — bottom of map */}
-          <div className="hero-rise hero-rise-6 absolute bottom-3 left-3 z-[460] pointer-events-none">
-            <span className="text-[10px] tracking-[2px] uppercase text-white/55 bg-black/50 backdrop-blur-[12px] px-3 py-1.5 rounded-full border border-white/[.06]">
+          <div className="hero-rise hero-rise-6 absolute bottom-3 left-3 z-[1100] pointer-events-none">
+            <span className="text-[10px] tracking-[2px] uppercase text-white/55 bg-[#1a1a1c]/90 backdrop-blur-[16px] px-3 py-1.5 rounded-full border border-white/[.12] shadow-[0_2px_12px_rgba(0,0,0,.5)]">
               {countLine}
             </span>
           </div>

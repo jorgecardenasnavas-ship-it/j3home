@@ -21,7 +21,7 @@ export function FilterSelect({ label, value, onChange, options, compact = false 
   if (compact) {
     return (
       <label
-        className="inline-flex items-center gap-1.5 bg-black/60 backdrop-blur-[12px] border border-white/[.1] px-2.5 py-[6px] rounded-full hover:border-[var(--g1)]/40 transition-colors duration-300 cursor-pointer"
+        className="inline-flex items-center gap-1.5 bg-[#1a1a1c]/90 backdrop-blur-[16px] border border-white/[.15] px-2.5 py-[6px] rounded-full shadow-[0_2px_12px_rgba(0,0,0,.5)] hover:border-[var(--g1)]/40 transition-colors duration-300 cursor-pointer"
       >
         <span className="text-[8px] font-bold tracking-[1.5px] uppercase text-[var(--g1)]">
           {label}
