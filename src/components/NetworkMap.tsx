@@ -647,10 +647,25 @@ function ClusteredMarkers({
       maxClusterRadius: MAX_CLUSTER_RADIUS,
       showCoverageOnHover: false,
       spiderfyOnMaxZoom: true,
-      zoomToBoundsOnClick: true,
+      // Desactivamos zoomToBoundsOnClick nativo porque hace un salto
+      // agresivo al fitBounds exacto del cluster — pierdes el contexto
+      // regional (ej: click en el "11" de España y desaparece Italia).
+      // En su lugar usamos un handler custom más abajo que sube 3
+      // niveles de zoom centrado en el cluster → exploración progresiva.
+      zoomToBoundsOnClick: false,
       animate: true,
       animateAddingMarkers: false,
       iconCreateFunction: (cluster) => makeClusterIcon(cluster.getChildCount()),
+    });
+
+    // Zoom progresivo al clicar un cluster: +3 niveles centrado en
+    // el cluster, en vez del fitBounds agresivo de Leaflet. Así el
+    // usuario va "explorando" gradualmente y no pierde el contexto.
+    group.on("clusterclick", (e: L.LeafletEvent) => {
+      const cluster = (e as unknown as { layer: L.MarkerCluster }).layer;
+      const currentZoom = map.getZoom();
+      const targetZoom = Math.min(currentZoom + 3, map.getMaxZoom());
+      map.flyTo(cluster.getLatLng(), targetZoom, { duration: 0.6 });
     });
 
     const markerBySlug = new Map<string, L.Marker>();
@@ -904,6 +919,15 @@ function AutoFitBounds({ coaches, padding = 48 }: { coaches: readonly Coach[]; p
     const bounds = L.latLngBounds(coaches.map((c) => c.location.coordinates));
     if (!bounds.isValid()) return;
     map.fitBounds(bounds, { padding: [padding, padding], animate: false, maxZoom: 7 });
+    // Suelo de zoom: si coaches intercontinentales (ej. Argentina +
+    // Europa) obligan al mapa a zoom 2-3, forzamos al menos zoom 4
+    // para que la vista inicial sea Europa centrada, no el Atlántico
+    // entero. Los coaches lejanos siguen en el mapa, solo hay que
+    // hacer pan para verlos.
+    const MIN_INITIAL_ZOOM = 4;
+    if (map.getZoom() < MIN_INITIAL_ZOOM) {
+      map.setZoom(MIN_INITIAL_ZOOM, { animate: false });
+    }
     done.current = true;
   }, [map, coaches, padding]);
 
