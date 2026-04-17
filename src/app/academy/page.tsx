@@ -354,7 +354,7 @@ const PRODUCT_CARDS: ProductCard[] = [
   { name: "Kids",               tag: "10+",                img: "/images/academy/kids.jpeg",          group: "juniors",   anchor: "juniors" },
   { name: "Junior",             tag: "14+ · Competición",  img: "/images/academy/nextgen.jpeg",       group: "juniors",   anchor: "juniors" },
   { name: "Next Gen",           tag: "16+ · Circuito",     img: "/images/academy/nextgen-pro.jpeg",   group: "juniors",   anchor: "juniors" },
-  { name: "Amateur",             tag: "Adultos",            img: "/images/academy/amateur.jpeg",       group: "adultos",   anchor: "adultos" },
+  { name: "Adultos",             tag: "Programa mensual",   img: "/images/academy/amateur.jpeg",       group: "adultos",   anchor: "adultos" },
   { name: "Intensive Training", tag: "Camps · Stages",     img: "/images/academy/stage-group.jpeg",   group: "intensive", anchor: "intensive" },
 ];
 
@@ -414,6 +414,7 @@ function ProgramBar() {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
+  const [selectedCard, setSelectedCard] = useState<string | null>(null);
   // Sección activa: detecta cuál de los anchors está visible en viewport
   // y la marca con un underline dorado.
   const [activeAnchor, setActiveAnchor] = useState<string | null>(null);
@@ -649,19 +650,33 @@ function ProgramBar() {
 
             {/* ── PRODUCT CARDS — impacto visual al aterrizar, colapsan al scroll ── */}
             {PRODUCT_CARDS.map((card) => {
+              const isSelected = selectedCard === card.name;
               const isGroupActive = activeAnchor === card.group;
+              const isHighlighted = isSelected || isGroupActive;
               return (
                 <button
                   key={card.name}
                   type="button"
                   data-group={card.group}
-                  onClick={() => {
+                  data-card={card.name}
+                  onClick={(e) => {
                     if (dragStateRef.current.moved) { dragStateRef.current.moved = false; return; }
+                    setSelectedCard(card.name);
+
+                    /* Centrar la tarjeta seleccionada en el strip */
+                    const btn = e.currentTarget;
+                    const container = scrollRef.current;
+                    if (container) {
+                      const cRect = container.getBoundingClientRect();
+                      const bRect = btn.getBoundingClientRect();
+                      const scrollLeft = btn.offsetLeft - cRect.width / 2 + bRect.width / 2;
+                      container.scrollTo({ left: Math.max(0, scrollLeft), behavior: "smooth" });
+                    }
+
+                    /* Scroll a la sección */
                     const el = document.getElementById(card.anchor);
                     if (!el) return;
                     const rect = el.getBoundingClientRect();
-                    /* Desde expanded la barra se encoge ~93px durante el scroll.
-                       Offset final deseado: 100px. Compensar: 100 + 93 ≈ 190. */
                     const top = rect.top + window.scrollY - 190;
                     window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
                   }}
@@ -673,9 +688,11 @@ function ProgramBar() {
                     margin: compact ? "0" : "0 3px",
                     transition: "all 0.5s cubic-bezier(.16,1,.3,1)",
                     pointerEvents: compact ? "none" : "auto",
-                    boxShadow: isGroupActive
-                      ? "0 0 0 1.5px rgba(220,175,100,.6), 0 0 14px rgba(220,175,100,.2)"
-                      : "0 0 0 1px rgba(255,255,255,.1)",
+                    boxShadow: isSelected
+                      ? "0 0 0 2px rgba(220,175,100,.9), 0 0 20px rgba(220,175,100,.3)"
+                      : isGroupActive
+                        ? "0 0 0 1.5px rgba(220,175,100,.6), 0 0 14px rgba(220,175,100,.2)"
+                        : "0 0 0 1px rgba(255,255,255,.1)",
                   }}
                 >
                   <img
@@ -683,7 +700,7 @@ function ProgramBar() {
                     alt={card.name}
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover/card:scale-110"
                     style={{
-                      filter: isGroupActive
+                      filter: isHighlighted
                         ? "brightness(0.8) saturate(0.9)"
                         : "brightness(0.55) saturate(0.75)",
                     }}
@@ -3373,7 +3390,7 @@ function ProgramasGridSection() {
     { name: "Kids", tag: "10+", img: "/images/academy/kids.jpeg", href: "#programas" },
     { name: "Junior", tag: "14+ · Competición", img: "/images/academy/nextgen.jpeg", href: "#programas" },
     { name: "Next Gen", tag: "16+ · Circuito", img: "/images/academy/nextgen-pro.jpeg", href: "#programas" },
-    { name: "Amateur", tag: "Programa mensual", img: "/images/academy/amateur.jpeg", href: "#programas" },
+    { name: "Adultos", tag: "Programa mensual", img: "/images/academy/amateur.jpeg", href: "#programas" },
     { name: "Intensive Training", tag: "Camps · Stages", img: "/images/academy/stage-group.jpeg", href: "#programas" },
   ];
 
