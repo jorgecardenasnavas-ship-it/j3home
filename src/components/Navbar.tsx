@@ -61,7 +61,7 @@ export function Navbar() {
   const [langOpen, setLangOpen] = useState(false);
   const [mobileLangOpen, setMobileLangOpen] = useState(false);
   const currentLang = languages.find(l => l.code === locale) || languages[0];
-  const langTimeout = useRef<ReturnType<typeof setTimeout>>(null);
+  const langRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleScroll() {
@@ -72,17 +72,21 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  /* Close desktop lang dropdown on outside click */
+  useEffect(() => {
+    if (!langOpen) return;
+    function handleClickOutside(e: MouseEvent) {
+      if (langRef.current && !langRef.current.contains(e.target as Node)) {
+        setLangOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [langOpen]);
+
   // Mobile: filter out current page; Desktop: show all (highlight active)
   const visibleLeft = leftLinks;
   const visibleRight = rightLinks;
-
-  function openLang() {
-    if (langTimeout.current) clearTimeout(langTimeout.current);
-    setLangOpen(true);
-  }
-  function closeLang() {
-    langTimeout.current = setTimeout(() => setLangOpen(false), 150);
-  }
 
   function selectLang(lang: (typeof languages)[number]) {
     setLocale(lang.code as Locale);
@@ -188,11 +192,11 @@ export function Navbar() {
         <div className="hidden min-[961px]:flex items-center gap-5">
           {/* Language selector */}
           <div
+            ref={langRef}
             className="relative"
-            onMouseEnter={openLang}
-            onMouseLeave={closeLang}
           >
             <button
+              onClick={() => setLangOpen(prev => !prev)}
               className="flex items-center gap-[5px] text-[12px] font-normal tracking-[1px] uppercase text-[var(--gy2)] hover:text-[var(--wh)] transition-colors duration-300 bg-transparent border-none cursor-pointer"
             >
               <GlobeIcon />
