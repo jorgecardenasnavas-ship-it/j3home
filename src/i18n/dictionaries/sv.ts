@@ -700,11 +700,11 @@ export const sv = {
     },
 
     network: {
-      eyebrow: "N\u00E4tverket",
+      eyebrow: "Dela m\u00E5nggl\u00F6r",
       headingPre: "En metod, ",
       headingAccent: "m\u00E5nga banor.",
       headingSub: "Tr\u00E4nare som vi personligen godk\u00E4nner. Samma kriterium i varje stad.",
-      sedesLabel: "Coach360",
+      sedesLabel: "Headquarter",
       sedes: [
         {
           name: "Vals Los Limoneros",

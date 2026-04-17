@@ -693,11 +693,11 @@ export const es = {
     },
 
     network: {
-      eyebrow: "La red",
+      eyebrow: "Compartir multiplica",
       headingPre: "Un m\u00E9todo, ",
       headingAccent: "muchas pistas.",
       headingSub: "Coaches que validamos personalmente. Mismo criterio en cada ciudad.",
-      sedesLabel: "Coach360",
+      sedesLabel: "Headquarter",
       sedes: [
         {
           name: "Vals Los Limoneros",

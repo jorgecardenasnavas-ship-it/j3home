@@ -700,11 +700,11 @@ export const en = {
     },
 
     network: {
-      eyebrow: "The network",
+      eyebrow: "Sharing multiplies",
       headingPre: "One method, ",
       headingAccent: "many courts.",
       headingSub: "Coaches we personally validate. Same criterion in every city.",
-      sedesLabel: "Coach360",
+      sedesLabel: "Headquarter",
       sedes: [
         {
           name: "Vals Los Limoneros",
