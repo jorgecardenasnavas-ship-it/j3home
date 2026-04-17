@@ -658,14 +658,20 @@ function ClusteredMarkers({
       iconCreateFunction: (cluster) => makeClusterIcon(cluster.getChildCount()),
     });
 
-    // Zoom progresivo al clicar un cluster: +3 niveles centrado en
-    // el cluster, en vez del fitBounds agresivo de Leaflet. Así el
-    // usuario va "explorando" gradualmente y no pierde el contexto.
+    // Click en cluster → fitBounds de sus hijos con padding generoso.
+    // El padding amplio ("aire alrededor") evita que el zoom sea
+    // demasiado agresivo y da contexto regional (ej: clicar el cluster
+    // de Europa muestra toda Europa con margen, no solo los pines
+    // apretados). maxZoom 10 evita zoom absurdo si el cluster tiene
+    // pocos pines muy juntos.
     group.on("clusterclick", (e: L.LeafletEvent) => {
       const cluster = (e as unknown as { layer: L.MarkerCluster }).layer;
-      const currentZoom = map.getZoom();
-      const targetZoom = Math.min(currentZoom + 3, map.getMaxZoom());
-      map.flyTo(cluster.getLatLng(), targetZoom, { duration: 0.6 });
+      const bounds = cluster.getBounds();
+      map.fitBounds(bounds, {
+        padding: [120, 120],
+        maxZoom: 10,
+        animate: true,
+      });
     });
 
     const markerBySlug = new Map<string, L.Marker>();
@@ -919,15 +925,6 @@ function AutoFitBounds({ coaches, padding = 48 }: { coaches: readonly Coach[]; p
     const bounds = L.latLngBounds(coaches.map((c) => c.location.coordinates));
     if (!bounds.isValid()) return;
     map.fitBounds(bounds, { padding: [padding, padding], animate: false, maxZoom: 7 });
-    // Suelo de zoom: si coaches intercontinentales (ej. Argentina +
-    // Europa) obligan al mapa a zoom 2-3, forzamos al menos zoom 4
-    // para que la vista inicial sea Europa centrada, no el Atlántico
-    // entero. Los coaches lejanos siguen en el mapa, solo hay que
-    // hacer pan para verlos.
-    const MIN_INITIAL_ZOOM = 4;
-    if (map.getZoom() < MIN_INITIAL_ZOOM) {
-      map.setZoom(MIN_INITIAL_ZOOM, { animate: false });
-    }
     done.current = true;
   }, [map, coaches, padding]);
 
