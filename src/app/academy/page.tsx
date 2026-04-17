@@ -937,6 +937,10 @@ function HeroSection() {
               {t.academy.hero.headingAccent ? (
                 <>
                   {t.academy.hero.headingPre}
+                  {/* En móvil forzamos el salto entre pre y accent para
+                      que "Encuentra entrenadores con" quepa en la primera
+                      fila y el accent italic ocupe la segunda completa. */}
+                  <br className="min-[961px]:hidden" aria-hidden />
                   <span className="j3-grad-text font-[var(--font-serif)] italic normal-case font-medium inline-block pr-[0.25em]">
                     {t.academy.hero.headingAccent}
                   </span>
