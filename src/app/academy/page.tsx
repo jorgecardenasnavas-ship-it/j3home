@@ -1075,6 +1075,7 @@ function HeroSection() {
             autoFitBounds
             showLegend
             userLocation={geo.coords}
+            focusKey={`${country}|${language}`}
           />
 
           {/* ── Floating filter pills over the map ── */}
@@ -1116,11 +1117,9 @@ function HeroSection() {
           50%      { opacity: 1;    }
         }
       `}</style>
-      <button
-        type="button"
-        onClick={handleScrollToNetwork}
-        aria-label="Ver coaches"
-        className="hero-rise hero-rise-6 hidden min-[961px]:flex absolute bottom-5 left-1/2 -translate-x-1/2 z-[12] flex-col items-center gap-[2px] p-2 cursor-pointer group"
+      <div
+        aria-hidden
+        className="hero-rise hero-rise-6 hidden min-[961px]:flex absolute bottom-5 left-1/2 -translate-x-1/2 z-[12] flex-col items-center gap-[2px] p-2 pointer-events-none"
       >
         {[0, 1, 2].map((i) => (
           <svg
@@ -1142,7 +1141,7 @@ function HeroSection() {
             <path d="M2 2 L10 8 L18 2" />
           </svg>
         ))}
-      </button>
+      </div>
     </section>
   );
 }

@@ -949,6 +949,28 @@ function AutoFitBounds({ coaches, padding = 48 }: { coaches: readonly Coach[]; p
 }
 
 /**
+ * FocusOnFilter — cuando el `trigger` cambia (típicamente un filtro
+ * como país o idioma), re-fitea los bounds a la lista de coaches
+ * actual con animación y un pelín de padding. Se salta el primer
+ * render para dejar que AutoFitBounds haga el fit inicial.
+ */
+function FocusOnFilter({ coaches, trigger, padding = 70 }: { coaches: readonly Coach[]; trigger: string; padding?: number }) {
+  const map = useMap();
+  const initial = useRef(true);
+
+  useEffect(() => {
+    if (initial.current) { initial.current = false; return; }
+    if (coaches.length === 0) return;
+    const bounds = L.latLngBounds(coaches.map((c) => c.location.coordinates));
+    if (!bounds.isValid()) return;
+    map.flyToBounds(bounds, { padding: [padding, padding], maxZoom: 8, duration: 0.9 });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [trigger]);
+
+  return null;
+}
+
+/**
  * MapLegend — mini-leyenda flotante (Leaflet control en
  * `bottomleft`) explicando qué significan los tres tipos de
  * pin y el cluster. Se monta como un L.control custom para
@@ -1047,7 +1069,7 @@ function FloatingZoomControls({ topOffset = 180 }: { topOffset?: number }) {
        umbral tiene que ser más bajo para que aparezca desde el inicio;
        en desktop el mapa es mucho más alto (~766px) y podemos pedir
        más visibilidad antes de esconder. */
-    const MIN_VISIBLE_PX = window.innerWidth < 961 ? 220 : 480;
+    const MIN_VISIBLE_PX = window.innerWidth < 961 ? 220 : 380;
     /* Respeto al stack de headers (navbar + sticky program bar ≈ 82-134px). */
     const STICKY_TOP = 100;
     const update = () => {
@@ -1157,6 +1179,12 @@ interface NetworkMapProps {
   /** Si true, muestra la mini-leyenda bottom-left. Default: true. */
   showLegend?: boolean;
   /**
+   * Clave de filtro externo (p.ej. país). Cuando cambia, el mapa
+   * re-ajusta sus bounds a la lista actual de coaches con animación
+   * — útil para centrar al seleccionar un país en el filtro.
+   */
+  focusKey?: string;
+  /**
    * Coordenadas del usuario [lat, lng]. Si están presentes, se pinta
    * un pin cyan pulsante y el mapa se recentra automáticamente sobre
    * esa posición con un zoom regional.
@@ -1176,6 +1204,7 @@ export default function NetworkMap({
   autoFitBounds = false,
   showLegend = true,
   userLocation = null,
+  focusKey,
   labels,
 }: NetworkMapProps) {
   const coaches = useMemo(() => [...coachesProp], [coachesProp]);
@@ -1206,6 +1235,9 @@ export default function NetworkMap({
           url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
         />
         {autoFitBounds && !userLocation && <AutoFitBounds coaches={coaches} />}
+        {focusKey !== undefined && !userLocation && (
+          <FocusOnFilter coaches={coaches} trigger={focusKey} />
+        )}
         {userLocation && <AutoCenterOnUser location={userLocation} />}
         {userLocation && (
           <UserLocationMarker
