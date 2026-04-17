@@ -432,7 +432,7 @@ function ProgramBar() {
           }
         }
       },
-      { threshold: 0.15, rootMargin: "-120px 0px -40% 0px" },
+      { threshold: 0.15, rootMargin: "-100px 0px -40% 0px" },
     );
     els.forEach((el) => io.observe(el));
     return () => io.disconnect();
@@ -475,7 +475,7 @@ function ProgramBar() {
     };
   }, [compact]);
 
-  /* Auto-scroll product cards cuando la sección activa cambia (solo expanded) */
+  /* Auto-scroll product cards en móvil cuando la sección activa cambia */
   useEffect(() => {
     if (!activeAnchor || !scrollRef.current || compact) return;
     const firstCard = scrollRef.current.querySelector(`[data-group="${activeAnchor}"]`) as HTMLElement | null;
@@ -532,17 +532,9 @@ function ProgramBar() {
     const el = document.getElementById(section.anchor);
     if (!el) return;
     const rect = el.getBoundingClientRect();
-    /* 52px navbar + 30px compact nav + ~90px strip ≈ 172 → 190 de guarda */
-    const top = rect.top + window.scrollY - (compact ? 190 : 120);
+    /* Desde compact: navbar 52 + bar 30 = 82 → 100 de guarda */
+    const top = rect.top + window.scrollY - 100;
     window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
-
-    /* Auto-scroll product cards al grupo correspondiente (solo expanded) */
-    if (scrollRef.current && !compact) {
-      const firstCard = scrollRef.current.querySelector(`[data-group="${section.anchor}"]`) as HTMLElement | null;
-      if (firstCard) {
-        firstCard.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
-      }
-    }
   };
 
   return (
@@ -664,10 +656,13 @@ function ProgramBar() {
                   type="button"
                   data-group={card.group}
                   onClick={() => {
+                    if (dragStateRef.current.moved) { dragStateRef.current.moved = false; return; }
                     const el = document.getElementById(card.anchor);
                     if (!el) return;
                     const rect = el.getBoundingClientRect();
-                    const top = rect.top + window.scrollY - 120;
+                    /* Desde expanded la barra se encoge ~93px durante el scroll.
+                       Offset final deseado: 100px. Compensar: 100 + 93 ≈ 190. */
+                    const top = rect.top + window.scrollY - 190;
                     window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
                   }}
                   className="group/card relative shrink-0 rounded-lg overflow-hidden cursor-pointer"
@@ -1269,7 +1264,7 @@ function StatementSection() {
   const { itemRefs, visibleItems } = useStaggerReveal(lines.length, 0.2);
 
   return (
-    <section id="metodo" className="stmt-section relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden flex items-center scroll-mt-[120px]">
+    <section id="metodo" className="stmt-section relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden flex items-center scroll-mt-[100px]">
       <div ref={ref} className="absolute top-0 left-0" />
 
       <div className="max-w-[1400px] mx-auto relative z-10 flex flex-col items-center gap-10 max-[960px]:gap-6 w-full">
@@ -1868,7 +1863,7 @@ function PerfilesSection() {
       </div>
 
       {/* Block 1: Juniors */}
-      <div id="juniors" className="border-t theme-border">
+      <div id="juniors" className="border-t theme-border scroll-mt-[100px]">
         <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] theme-text tracking-[-1px]">01</span>
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.juniorsLabel}</span>
@@ -1928,7 +1923,7 @@ function PerfilesSection() {
       </div>
 
       {/* Block 2: Adultos */}
-      <div id="adultos" className="border-t theme-border">
+      <div id="adultos" className="border-t theme-border scroll-mt-[100px]">
         <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] theme-text tracking-[-1px]">02</span>
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.adultosLabel}</span>
@@ -2070,7 +2065,7 @@ function PerfilesSection() {
       </div>
 
       {/* Block 3: Intensive Training */}
-      <div id="intensive" className="border-t theme-border">
+      <div id="intensive" className="border-t theme-border scroll-mt-[100px]">
         <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
           <span className="font-bold text-[clamp(20px,2.5vw,32px)] theme-text tracking-[-1px]">03</span>
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.intensiveLabel}</span>
