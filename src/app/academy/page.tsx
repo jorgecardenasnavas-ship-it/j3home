@@ -858,20 +858,6 @@ function HeroSection() {
     youAreHere: t.academy.network.youAreHere,
   };
 
-  /* Contador — "{count} coaches · {numCountries} países · {countries} ciudades" */
-  const uniqueCities = useMemo(
-    () => new Set(filtered.map((c) => `${c.location.city}|${c.location.country}`)).size,
-    [filtered],
-  );
-  const uniqueCountries = useMemo(
-    () => new Set(filtered.map((c) => c.location.country)).size,
-    [filtered],
-  );
-  const countLine = t.academy.hero.countTemplate
-    .replace("{count}", filtered.length.toString())
-    .replace("{numCountries}", uniqueCountries.toString())
-    .replace("{countries}", uniqueCities.toString());
-
   const handleScrollToNetwork = () => {
     document.getElementById("network")?.scrollIntoView({ behavior: "smooth" });
   };
@@ -1107,17 +1093,6 @@ function HeroSection() {
             {/* El pill "Cerca de mí" se ha consolidado en el CTA primario
                 del hero (más prominente, sin duplicación). Los estados de
                 loading/success/error viven allí. */}
-          </div>
-
-          {/* Counter — bottom of map.
-              Desktop: esquina inferior derecha para no pisar la mini-leyenda
-              del mapa (Leaflet control en bottomleft).
-              Mobile: no cabe a la derecha, así que lo apilamos encima de la
-              leyenda en el lado izquierdo. */}
-          <div className="hero-rise hero-rise-6 absolute bottom-3 right-3 max-[960px]:right-auto max-[960px]:left-3 max-[960px]:bottom-[120px] z-[10] pointer-events-none">
-            <span className="text-[10px] tracking-[2px] uppercase text-white/55 bg-[#1a1a1c]/90 backdrop-blur-[16px] px-3 py-1.5 rounded-full border border-white/[.12] shadow-[0_2px_12px_rgba(0,0,0,.5)]">
-              {countLine}
-            </span>
           </div>
 
           {/* Subtle fade-left on desktop para fundir con copy column */}
