@@ -1112,8 +1112,8 @@ function HeroSection() {
           Solo desktop; en móvil el scroll es obvio y no aporta. */}
       <style>{`
         @keyframes j3ChevPulse {
-          0%, 100% { opacity: 0.15; transform: translateY(-2px); }
-          50%      { opacity: 0.9;  transform: translateY(2px); }
+          0%, 100% { opacity: 0.18; }
+          50%      { opacity: 1;    }
         }
       `}</style>
       <button
