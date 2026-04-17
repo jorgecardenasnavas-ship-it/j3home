@@ -1092,8 +1092,12 @@ function HeroSection() {
             )}
           </div>
 
-          {/* Counter — bottom of map */}
-          <div className="hero-rise hero-rise-6 absolute bottom-3 left-3 z-[10] pointer-events-none">
+          {/* Counter — bottom of map.
+              Desktop: esquina inferior derecha para no pisar la mini-leyenda
+              del mapa (Leaflet control en bottomleft).
+              Mobile: no cabe a la derecha, así que lo apilamos encima de la
+              leyenda en el lado izquierdo. */}
+          <div className="hero-rise hero-rise-6 absolute bottom-3 right-3 max-[960px]:right-auto max-[960px]:left-3 max-[960px]:bottom-[120px] z-[10] pointer-events-none">
             <span className="text-[10px] tracking-[2px] uppercase text-white/55 bg-[#1a1a1c]/90 backdrop-blur-[16px] px-3 py-1.5 rounded-full border border-white/[.12] shadow-[0_2px_12px_rgba(0,0,0,.5)]">
               {countLine}
             </span>
