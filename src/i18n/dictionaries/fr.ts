@@ -566,12 +566,14 @@ export const fr = {
     },
 
     statement: {
-      eyebrow: "Notre mission",
       lines: [
         { before: "Nous formons", accent: "des joueurs." },
         { before: "Nous d\u00E9veloppons", accent: "des personnes." },
         { before: "Nous b\u00E2tissons", accent: "des carri\u00E8res." },
       ],
+      statYears: "ans",
+      statPlayers: "joueurs form\u00E9s",
+      statTitles: "titres professionnels",
     },
 
     proof: {

@@ -566,12 +566,14 @@ export const sv = {
     },
 
     statement: {
-      eyebrow: "V\u00E5rt uppdrag",
       lines: [
         { before: "Vi formar", accent: "spelare." },
         { before: "Vi utvecklar", accent: "m\u00E4nniskor." },
         { before: "Vi bygger", accent: "karri\u00E4rer." },
       ],
+      statYears: "\u00E5r",
+      statPlayers: "spelare formade",
+      statTitles: "proffstitlar",
     },
 
     proof: {

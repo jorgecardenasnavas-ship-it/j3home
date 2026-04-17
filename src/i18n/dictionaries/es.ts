@@ -567,11 +567,13 @@ export const es = {
     },
 
     statement: {
-      eyebrow: "Nuestra misi\u00F3n",
       lines: [
         { before: "El talento", accent: "se entrena." },
         { before: "El car\u00E1cter", accent: "se forja." },
       ],
+      statYears: "a\u00F1os",
+      statPlayers: "jugadores formados",
+      statTitles: "t\u00EDtulos profesionales",
     },
 
     proof: {

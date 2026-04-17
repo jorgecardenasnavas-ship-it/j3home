@@ -312,8 +312,11 @@ export interface Dictionary {
     };
 
     statement: {
-      readonly eyebrow: string;
       readonly lines: readonly { readonly before: string; readonly accent?: string }[];
+      /** Labels de los stats bajo el manifesto (años / jugadores formados / etc). */
+      readonly statYears: string;
+      readonly statPlayers: string;
+      readonly statTitles: string;
     };
 
     proof: {

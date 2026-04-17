@@ -1451,15 +1451,15 @@ function StatementSection() {
               className="block stmt-stat font-extrabold text-[clamp(48px,7vw,80px)] tracking-[-2px] leading-[1] drop-shadow-[0_2px_16px_rgba(212,175,55,0.4)]"
             />
             <span className="block text-[12px] max-[640px]:text-[11px] font-semibold tracking-[3px] max-[640px]:tracking-[2.5px] uppercase theme-muted mt-3">
-              años
+              {t.academy.statement.statYears}
             </span>
           </div>
 
           {/* Support stats row — 2 columns */}
           <div className="grid grid-cols-2 items-center justify-items-center w-full max-w-[560px] max-[640px]:max-w-[360px] relative">
             {[
-              { num: 2000, suffix: "+", label: "jugadores formados" },
-              { num: 18, suffix: "", label: "títulos profesionales" },
+              { num: 2000, suffix: "+", label: t.academy.statement.statPlayers },
+              { num: 18, suffix: "", label: t.academy.statement.statTitles },
             ].map((stat, i) => (
               <div key={i} className="relative w-full flex items-center justify-center">
                 {i > 0 && (
@@ -1481,71 +1481,6 @@ function StatementSection() {
               </div>
             ))}
           </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════
-   S2b — STATEMENT STATS (authority numbers after philosophy)
-   ═══════════════════════════════════════════════════════ */
-
-function StatementStats() {
-  const { ref, visible } = useReveal(0.3);
-
-  const supportStats: { num: number; suffix: string; label: string }[] = [
-    { num: 2000, suffix: "+", label: "jugadores formados" },
-    { num: 18, suffix: "", label: "títulos profesionales" },
-  ];
-
-  return (
-    <section className="relative pb-[100px] pt-[20px] max-[960px]:pb-[64px] max-[960px]:pt-[12px] px-12 max-[960px]:px-6 max-[640px]:px-4">
-      <div
-        ref={ref}
-        className="flex flex-col items-center w-full max-w-[720px] max-[640px]:max-w-[420px] mx-auto gap-8 max-[640px]:gap-6"
-      >
-        {/* Hero stat — 20+ años */}
-        <div
-          className="text-center"
-          style={{
-            opacity: visible ? 1 : 0,
-            transform: visible ? "none" : "translateY(16px)",
-            transition: "all 0.8s cubic-bezier(.16,1,.3,1) 0s",
-          }}
-        >
-          <Counter
-            val={20}
-            suffix="+"
-            className="block j3-grad-text font-extrabold text-[clamp(48px,7vw,80px)] tracking-[-2px] leading-[1] drop-shadow-[0_2px_16px_rgba(212,175,55,0.4)]"
-          />
-          <span className="block text-[12px] max-[640px]:text-[11px] font-semibold tracking-[3px] max-[640px]:tracking-[2.5px] uppercase text-white/60 mt-3">
-            años
-          </span>
-        </div>
-
-        {/* Support stats row */}
-        <div className="grid grid-cols-2 items-center justify-items-center w-full max-w-[560px] max-[640px]:max-w-[360px] relative">
-          {supportStats.map((stat, i) => (
-            <div key={i} className="relative w-full flex items-center justify-center">
-              {i > 0 && (
-                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-px h-[44px] max-[640px]:h-[36px] bg-gradient-to-b from-transparent via-[var(--g1)]/30 to-transparent" />
-              )}
-              <div
-                className="text-center"
-                style={{
-                  opacity: visible ? 1 : 0,
-                  transform: visible ? "none" : "translateY(16px)",
-                  transition: `all 0.8s cubic-bezier(.16,1,.3,1) ${0.2 + i * 0.15}s`,
-                }}
-              >
-                <Counter val={stat.num} suffix={stat.suffix} className="block j3-grad-text font-bold text-[clamp(26px,3.5vw,44px)] tracking-[-1px] leading-[1]" />
-                <span className="block text-[10px] max-[640px]:text-[9px] font-medium tracking-[2px] max-[640px]:tracking-[1.5px] uppercase text-white/50 mt-2">
-                  {stat.label}
-                </span>
-              </div>
-            </div>
-          ))}
         </div>
       </div>
     </section>
