@@ -274,6 +274,11 @@ export interface Dictionary {
       // ── Nuevo hero con mapa ──
       readonly eyebrow: string;        // "Dónde entrenar J3"
       readonly heading: string;         // "Academy J3"
+      /** Opcional: si se definen, el H1 se renderiza como pre + <em>accent</em> + post,
+       *  con el accent en serif-itálico dorado. Si faltan se usa `heading`. */
+      readonly headingPre?: string;
+      readonly headingAccent?: string;
+      readonly headingPost?: string;
       readonly sub: string;             // "El Lab en Málaga. La red en tu ciudad."
       readonly ctaPrimary: string;      // "Encontrar coach J3 cerca"
       readonly ctaSecondary: string;    // "Entrenar en el J3 Lab"

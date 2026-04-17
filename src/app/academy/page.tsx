@@ -926,7 +926,7 @@ function HeroSection() {
 
       <div className="relative w-full h-full min-[961px]:absolute min-[961px]:inset-0 flex flex-col min-[961px]:flex-row" data-hero-ready={ready ? "true" : "false"}>
         {/* ── Copy column (40%) ── */}
-        <div className="relative z-10 w-full min-[961px]:w-[40%] flex flex-col justify-center px-6 max-[960px]:px-5 py-16 max-[960px]:py-12 min-[961px]:px-10 min-[961px]:py-16 border-r border-white/[.06]">
+        <div className="relative z-10 w-full min-[961px]:w-[40%] flex flex-col justify-center px-6 max-[960px]:px-5 py-16 max-[960px]:pt-16 max-[960px]:pb-12 min-[961px]:px-10 min-[961px]:py-16 border-r border-white/[.06]">
           {/* Línea vertical dorada — ornamento lateral en desktop. Crece
               de arriba a abajo al entrar. Refuerza la jerarquía sin
               competir con el contenido. */}
@@ -948,7 +948,17 @@ function HeroSection() {
               className="hero-rise hero-rise-2 font-bold tracking-[-1px] leading-[1.08] text-white text-[clamp(32px,5.5vw,58px)] max-[960px]:text-[clamp(28px,8.5vw,48px)]"
               style={{ textShadow: "0 0 60px rgba(220,175,100,0.15), 0 2px 12px rgba(0,0,0,0.4)" }}
             >
-              {t.academy.hero.heading}
+              {t.academy.hero.headingAccent ? (
+                <>
+                  {t.academy.hero.headingPre}
+                  <span className="j3-grad-text font-[var(--font-serif)] italic normal-case font-medium">
+                    {t.academy.hero.headingAccent}
+                  </span>
+                  {t.academy.hero.headingPost}
+                </>
+              ) : (
+                t.academy.hero.heading
+              )}
             </h1>
 
             {/* Línea horizontal ultrafina — separa H1 del subtítulo */}

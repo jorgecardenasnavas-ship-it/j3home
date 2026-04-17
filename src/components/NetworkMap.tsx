@@ -1012,9 +1012,18 @@ function FloatingZoomControls({ topOffset = 180 }: { topOffset?: number }) {
   const map = useMap();
   const [visible, setVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
+  /* En mobile el mapa está debajo del copy del hero; anclar arriba-derecha
+     pisaba el H1 cuando ambos estaban en viewport. Cambiamos a abajo-derecha
+     bajo 960px para que los controles floten cerca del mapa visible. */
+  const [mobileAnchor, setMobileAnchor] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+    const mq = window.matchMedia("(max-width: 960px)");
+    const onChange = () => setMobileAnchor(mq.matches);
+    onChange();
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
   }, []);
 
   useEffect(() => {
@@ -1051,7 +1060,7 @@ function FloatingZoomControls({ topOffset = 180 }: { topOffset?: number }) {
       aria-label="Zoom controls"
       style={{
         position: "fixed",
-        top: topOffset,
+        ...(mobileAnchor ? { bottom: 16 } : { top: topOffset }),
         right: 16,
         zIndex: 95,
         display: "flex",
