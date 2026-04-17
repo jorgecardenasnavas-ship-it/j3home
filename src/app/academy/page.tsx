@@ -2187,407 +2187,6 @@ function PerfilesSection() {
   );
 }
 
-/* ═══════════════════════════════════════════════════════
-   S5 — SEDES (full-bleed venue sections)
-   ═══════════════════════════════════════════════════════ */
-
-function SedeCard({
-  video, images, videoStart, eyebrow, pulseDot, name, tag, href, index,
-}: {
-  video?: string;
-  images?: string[];
-  videoStart?: number;
-  eyebrow?: string;
-  pulseDot?: boolean;
-  name: string;
-  tag: string;
-  href: string;
-  index: number;
-}) {
-  const { ref, visible } = useReveal(0.15);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const anchorRef = useRef<HTMLAnchorElement>(null);
-  const [currentImg, setCurrentImg] = useState(0);
-  const [hovered, setHovered] = useState(false);
-
-  // Auto-rotate images every 4s
-  useEffect(() => {
-    if (!images || images.length <= 1) return;
-    const interval = setInterval(() => {
-      setCurrentImg(prev => (prev + 1) % images.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [images]);
-
-  /* Radial gold glow that follows cursor — same as ProductsSection */
-  useEffect(() => {
-    const card = anchorRef.current;
-    if (!card) return;
-    const isDesktop = window.matchMedia("(min-width: 961px) and (hover: hover)").matches;
-    if (!isDesktop) return;
-
-    const glowEl = card.querySelector<HTMLElement>(".pc-glow");
-
-    const move = (e: MouseEvent) => {
-      const rect = card.getBoundingClientRect();
-      if (glowEl) {
-        glowEl.style.opacity = "1";
-        glowEl.style.background = `radial-gradient(600px circle at ${e.clientX - rect.left}px ${e.clientY - rect.top}px, rgba(220,175,100,0.06), transparent 60%)`;
-      }
-    };
-    const leave = () => {
-      if (glowEl) glowEl.style.opacity = "0";
-    };
-
-    card.addEventListener("mousemove", move);
-    card.addEventListener("mouseleave", leave);
-    return () => {
-      card.removeEventListener("mousemove", move);
-      card.removeEventListener("mouseleave", leave);
-    };
-  }, []);
-
-  return (
-    <div
-      ref={ref}
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? "none" : "translateY(30px)",
-        transition: `all 1s cubic-bezier(.16,1,.3,1) ${index * 0.15}s`,
-      }}
-    >
-      <a
-        ref={anchorRef}
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        className="group relative block overflow-hidden rounded-2xl bg-black no-underline border border-white/[.07] hover:border-[var(--g1)]/40 transition-colors duration-500"
-        style={{ aspectRatio: "3 / 4" }}
-      >
-        {/* Radial gold glow — follows cursor on desktop (same as ProductsSection) */}
-        <span className="pc-glow absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-500 z-[5]" aria-hidden />
-
-        {/* Gold accent line — siempre visible, se expande al hover (featured style de ProductsSection) */}
-        <span
-          className="absolute top-0 left-1/2 -translate-x-1/2 h-[3px] w-[60%] opacity-40 group-hover:w-full group-hover:opacity-90 bg-gradient-to-r from-transparent via-[var(--g1)] to-transparent transition-all duration-700 ease-[var(--ease-out)] z-[6]"
-          aria-hidden
-        />
-
-        {/* Media */}
-        {video ? (
-          <video
-            ref={videoRef}
-            src={video}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="none"
-            className="absolute inset-0 w-full h-full object-cover"
-            style={{
-              filter: "saturate(0.9) brightness(1) contrast(0.97)",
-              transform: hovered ? "scale3d(1.04,1.04,1.04)" : "scale3d(1,1,1)",
-              transition: "transform .8s cubic-bezier(.16,1,.3,1)",
-            }}
-            onLoadedMetadata={() => { if (videoStart && videoRef.current) videoRef.current.currentTime = videoStart; }}
-            onSeeking={() => { if (videoStart && videoRef.current && videoRef.current.currentTime < videoStart) videoRef.current.currentTime = videoStart; }}
-          />
-        ) : images && images.length > 0 ? (
-          <div
-            className="absolute inset-0"
-            style={{
-              transform: hovered ? "scale3d(1.04,1.04,1.04)" : "scale3d(1,1,1)",
-              transition: "transform .8s cubic-bezier(.16,1,.3,1)",
-            }}
-          >
-            {images.map((src, i) => (
-              <img
-                key={src}
-                src={src}
-                alt={`${name} ${i + 1}`}
-                className="absolute inset-0 w-full h-full object-cover"
-                style={{
-                  opacity: currentImg === i ? 1 : 0,
-                  transition: "opacity 1.2s ease",
-                  filter: "saturate(0.9) brightness(1) contrast(0.97)",
-                }}
-              />
-            ))}
-          </div>
-        ) : null}
-
-        {/* Bottom gradient for legibility */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: "linear-gradient(to top, rgba(0,0,0,.7) 0%, rgba(0,0,0,.18) 45%, transparent 72%)" }}
-        />
-
-        {/* Eyebrow — top left (badge/status) */}
-        {eyebrow && (
-          <div className="absolute top-5 left-6 max-[640px]:top-4 max-[640px]:left-5 z-10 flex items-center gap-2">
-            {pulseDot && (
-              <span className="relative inline-flex shrink-0" aria-hidden>
-                <span className="w-[6px] h-[6px] rounded-full bg-[var(--g1)]" />
-                <span className="absolute inset-0 w-[6px] h-[6px] rounded-full bg-[var(--g1)] animate-ping" />
-              </span>
-            )}
-            <span className="text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{eyebrow}</span>
-          </div>
-        )}
-
-        {/* Bottom row: name + subtitle (left) · arrow (right) */}
-        <div className="absolute bottom-0 left-0 right-0 z-10 p-6 max-[640px]:p-5 flex items-end justify-between gap-3">
-          <div className="flex flex-col gap-0.5 min-w-0 flex-1">
-            <span className="font-semibold text-[22px] max-[640px]:text-[18px] text-[var(--wh)] leading-[1.1] tracking-[-.4px]">
-              {name}
-            </span>
-            <span className="text-[12px] max-[640px]:text-[11px] text-white/65">
-              {tag}
-            </span>
-          </div>
-          <span
-            className="shrink-0"
-            style={{
-              color: hovered ? "var(--g1)" : "rgba(255,255,255,.9)",
-              transform: hovered ? "translateX(6px)" : "translateX(0)",
-              transition: "transform .5s cubic-bezier(.16,1,.3,1), color .35s ease",
-            }}
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M5 12h14" />
-              <path d="M12 5l7 7-7 7" />
-            </svg>
-          </span>
-        </div>
-      </a>
-    </div>
-  );
-}
-
-/** CTA card — "¿Tu club? Monta J3 en tu club". Misma aspect 3/4 que las sedes, sin imagen, foco en texto + gradiente gold sutil */
-function ClubCtaCard({ index }: { index: number }) {
-  const { t } = useI18n();
-  const { ref, visible } = useReveal(0.15);
-  const anchorRef = useRef<HTMLAnchorElement>(null);
-  const [hovered, setHovered] = useState(false);
-
-  /* Mismo radial gold glow que SedeCard */
-  useEffect(() => {
-    const card = anchorRef.current;
-    if (!card) return;
-    const isDesktop = window.matchMedia("(min-width: 961px) and (hover: hover)").matches;
-    if (!isDesktop) return;
-    const glowEl = card.querySelector<HTMLElement>(".pc-glow");
-    const move = (e: MouseEvent) => {
-      const rect = card.getBoundingClientRect();
-      if (glowEl) {
-        glowEl.style.opacity = "1";
-        glowEl.style.background = `radial-gradient(600px circle at ${e.clientX - rect.left}px ${e.clientY - rect.top}px, rgba(220,175,100,0.10), transparent 60%)`;
-      }
-    };
-    const leave = () => { if (glowEl) glowEl.style.opacity = "0"; };
-    card.addEventListener("mousemove", move);
-    card.addEventListener("mouseleave", leave);
-    return () => {
-      card.removeEventListener("mousemove", move);
-      card.removeEventListener("mouseleave", leave);
-    };
-  }, []);
-
-  return (
-    <div
-      ref={ref}
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? "none" : "translateY(30px)",
-        transition: `all 1s cubic-bezier(.16,1,.3,1) ${index * 0.15}s`,
-      }}
-    >
-      <a
-        ref={anchorRef}
-        href="/business/llamada"
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        className="group relative block overflow-hidden rounded-2xl no-underline border border-[var(--g1)]/25 hover:border-[var(--g1)]/60 transition-colors duration-500"
-        style={{
-          aspectRatio: "3 / 4",
-          background: "radial-gradient(140% 90% at 0% 100%, rgba(220,175,100,0.18) 0%, rgba(220,175,100,0.04) 40%, #050505 80%)",
-        }}
-      >
-        {/* Pattern de pista — líneas SVG sutiles como "court outline" */}
-        <svg
-          className="absolute inset-0 w-full h-full pointer-events-none z-[2]"
-          viewBox="0 0 300 400"
-          preserveAspectRatio="xMidYMid slice"
-          aria-hidden
-        >
-          <defs>
-            <linearGradient id="court-lines" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="rgba(220,175,100,0.18)" />
-              <stop offset="100%" stopColor="rgba(220,175,100,0.04)" />
-            </linearGradient>
-          </defs>
-          {/* Court outline centrado */}
-          <rect x="60" y="90" width="180" height="230" fill="none" stroke="url(#court-lines)" strokeWidth="1" />
-          {/* Línea central */}
-          <line x1="60" y1="205" x2="240" y2="205" stroke="url(#court-lines)" strokeWidth="1" />
-          {/* Líneas de servicio */}
-          <line x1="60" y1="155" x2="240" y2="155" stroke="url(#court-lines)" strokeWidth="1" />
-          <line x1="60" y1="255" x2="240" y2="255" stroke="url(#court-lines)" strokeWidth="1" />
-          {/* Red central */}
-          <line x1="150" y1="155" x2="150" y2="255" stroke="url(#court-lines)" strokeWidth="1" strokeDasharray="3 3" />
-        </svg>
-
-        {/* Radial gold glow sigue cursor */}
-        <span className="pc-glow absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-500 z-[5]" aria-hidden />
-
-        {/* Línea gold superior (featured style, más intensa que en sedes) */}
-        <span
-          className="absolute top-0 left-1/2 -translate-x-1/2 h-[3px] w-[70%] opacity-70 group-hover:w-full group-hover:opacity-100 bg-gradient-to-r from-transparent via-[var(--g1)] to-transparent transition-all duration-700 ease-[var(--ease-out)] z-[6]"
-          aria-hidden
-        />
-
-        {/* Eyebrow top-left con dot pulsante */}
-        <div className="absolute top-5 left-6 max-[640px]:top-4 max-[640px]:left-5 z-10 flex items-center gap-2">
-          <span className="relative inline-flex shrink-0" aria-hidden>
-            <span className="w-[6px] h-[6px] rounded-full bg-[var(--g1)]" />
-            <span className="absolute inset-0 w-[6px] h-[6px] rounded-full bg-[var(--g1)] animate-ping" />
-          </span>
-          <span className="text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)]">
-            {t.academy.headquarters.clubCta.eyebrow}
-          </span>
-        </div>
-
-        {/* Icono grande: handshake / partnership — arriba derecha */}
-        <div
-          className="absolute top-5 right-6 max-[640px]:top-4 max-[640px]:right-5 z-10 text-[var(--g1)]/60"
-          style={{
-            transform: hovered ? "scale(1.08) rotate(-4deg)" : "scale(1) rotate(0)",
-            transition: "transform .6s cubic-bezier(.16,1,.3,1)",
-          }}
-        >
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-            <path d="M11 17l2 2a1 1 0 1 0 3-3" />
-            <path d="M14 14l2.5 2.5a1 1 0 1 0 3-3L15 9" />
-            <path d="M3 7l6-2 4 3h1a2 2 0 1 1 0 4c-.6 0-2-.5-3.5-2" />
-            <path d="M3 8l2 10 4-1 3 3" />
-          </svg>
-        </div>
-
-        {/* Título + descripción — centrado vertical con aire */}
-        <div className="absolute inset-x-0 bottom-[96px] max-[640px]:bottom-[84px] z-10 px-6 max-[640px]:px-5 text-left">
-          <h3 className="font-bold text-[clamp(22px,2.1vw,28px)] uppercase tracking-[-0.6px] leading-[1.05] text-[var(--wh)]">
-            {t.academy.headquarters.clubCta.title}
-          </h3>
-          <p className="mt-3 text-[12px] max-[640px]:text-[11px] font-light leading-[1.5] text-white/65">
-            {t.academy.headquarters.clubCta.description}
-          </p>
-        </div>
-
-        {/* CTA bottom row */}
-        <div className="absolute bottom-0 left-0 right-0 z-10 p-6 max-[640px]:p-5 flex items-end justify-between gap-3">
-          <span className="text-[11px] max-[640px]:text-[10px] font-bold tracking-[2.5px] uppercase text-[var(--g1)]">
-            {t.academy.headquarters.clubCta.cta}
-          </span>
-          <span
-            className="shrink-0 text-[var(--g1)]"
-            style={{
-              transform: hovered ? "translateX(6px)" : "translateX(0)",
-              transition: "transform .5s cubic-bezier(.16,1,.3,1)",
-            }}
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M5 12h14" />
-              <path d="M12 5l7 7-7 7" />
-            </svg>
-          </span>
-        </div>
-      </a>
-    </div>
-  );
-}
-
-function SedesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
-  const { t } = useI18n();
-  const { ref, visible } = useReveal(0.15);
-  const { scrollRef, activeSlide, goTo } = useDragScroll(3);
-
-  return (
-    <section className="sedes-section relative overflow-hidden border-b border-white/[.07]">
-      {/* Dark marker — at top of section so transition starts earlier */}
-      {markerSlot}
-
-      {/* Section header — compact, sección secundaria */}
-      <div
-        ref={ref}
-        className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto pt-[56px] pb-8 max-[960px]:pt-[44px] max-[960px]:pb-7"
-        style={{
-          opacity: visible ? 1 : 0,
-          transform: visible ? "none" : "translateY(24px)",
-          transition: "all .8s cubic-bezier(.16,1,.3,1)",
-        }}
-      >
-        <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] block mb-2 max-[960px]:text-[11px] max-[960px]:tracking-[3px]">
-          {t.academy.headquarters.eyebrow}
-        </span>
-        <h2 className="font-bold text-[clamp(24px,2.6vw,36px)] uppercase tracking-[-0.5px] leading-[1.05]">
-          <span className="sedes-heading">{t.academy.headquarters.headingPre}</span>
-          <span className="j3-grad-text">{t.academy.headquarters.headingAccent}</span>
-        </h2>
-      </div>
-
-      {/* Sedes — drag-scroll unificado (2 sedes + 1 CTA card), alineado a la izquierda */}
-      <div className="max-w-[1600px] mx-auto pb-[56px] max-[960px]:pb-[44px] relative">
-        <div
-          ref={scrollRef}
-          className="flex gap-6 max-[768px]:gap-4 overflow-x-auto scrollbar-hide px-4 max-[960px]:px-3"
-          style={{ cursor: "grab", scrollSnapType: "x mandatory", scrollPadding: "0 16px" }}
-        >
-          <div className="shrink-0 snap-start" style={{ width: "clamp(220px, min(72vw, 36vh), 360px)" }}>
-            <SedeCard
-              video="https://finurapadelgym.com/wp-content/uploads/2025/10/home-2.webm"
-              videoStart={5}
-              eyebrow={t.academy.headquarters.sedes[0].badge}
-              name={t.academy.headquarters.sedes[0].name}
-              tag={t.academy.headquarters.sedes[0].tag}
-              href="https://finurapadelgym.com"
-              index={0}
-            />
-          </div>
-          <div className="shrink-0 snap-start" style={{ width: "clamp(220px, min(72vw, 36vh), 360px)" }}>
-            <SedeCard
-              images={["/images/vals-1.jpg", "/images/vals-2.jpg", "/images/vals-3.jpg"]}
-              eyebrow={t.academy.headquarters.sedes[1].badge}
-              pulseDot
-              name={t.academy.headquarters.sedes[1].name}
-              tag={t.academy.headquarters.sedes[1].tag}
-              href="https://valssport.com/limoneros/"
-              index={1}
-            />
-          </div>
-          <div className="shrink-0 snap-start" style={{ width: "clamp(220px, min(72vw, 36vh), 360px)" }}>
-            <ClubCtaCard index={2} />
-          </div>
-          <div className="shrink-0 w-1" aria-hidden />
-        </div>
-
-        {/* Fade-out gradient a la derecha — hint de "hay más contenido" (solo móvil/tablet) */}
-        <div
-          className="pointer-events-none absolute top-0 right-0 bottom-[60px] w-16 max-[768px]:w-10 bg-gradient-to-l from-[var(--bk)] to-transparent z-[2] min-[1200px]:hidden"
-          aria-hidden
-          style={{ opacity: activeSlide < 2 ? 1 : 0, transition: "opacity .4s ease" }}
-        />
-
-        {/* Dots — solo móvil/tablet, centrados (en desktop se ven las 3 tarjetas a la vez) */}
-        <div className="min-[1200px]:hidden px-4 max-[960px]:px-3 pt-5 flex items-center justify-center">
-          <PorscheDots total={3} active={activeSlide} onDotClick={goTo} />
-        </div>
-      </div>
-    </section>
-  );
-}
 
 /* ═══════════════════════════════════════════════════════
    S5b — NETWORK (HQ Málaga + mapa + coaches + Coach360 CTA)
@@ -2602,6 +2201,136 @@ function useIsMobile(breakpoint: number = 960): boolean {
     return () => window.removeEventListener("resize", check);
   }, [breakpoint]);
   return isMobile;
+}
+
+/* ──────────────────────────────────────────────
+   SedeCard + SedesBlock — bloque de sedes físicas del Lab.
+   La tarjeta tiene video/gradient de fondo, eyebrow con pulse dot,
+   título, subtítulo y CTA con flecha. Los estados inCarousel/
+   forceExpand permiten reusar el patrón ScrollCarousel del mobile.
+   ────────────────────────────────────────────── */
+
+type Sede = {
+  readonly name: string;
+  readonly flag: string;
+  readonly subtitle: string;
+  readonly cta: string;
+  readonly href: string;
+  readonly video?: string;
+};
+
+function SedeCard({
+  sede, eyebrow, isHovered, onHover, onLeave, forceExpand = false, inCarousel = false,
+}: {
+  sede: Sede;
+  eyebrow: string;
+  isHovered: boolean;
+  onHover: () => void;
+  onLeave: () => void;
+  forceExpand?: boolean;
+  inCarousel?: boolean;
+}) {
+  const expanded = inCarousel ? forceExpand : isHovered;
+  return (
+    <a
+      href={sede.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      onMouseEnter={onHover}
+      onMouseLeave={onLeave}
+      className="group relative block overflow-hidden border border-white/[.08] hover:border-[var(--g1)]/40 transition-colors duration-500 h-full"
+    >
+      {sede.video ? (
+        <video
+          src={sede.video}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out"
+          style={{
+            filter: expanded ? "saturate(1) brightness(1) contrast(1)" : "saturate(0.88) brightness(0.85) contrast(0.96)",
+            transform: expanded ? "scale(1.03)" : "scale(1)",
+          }}
+        />
+      ) : (
+        /* Placeholder gradient cuando aún no hay asset de video. */
+        <div
+          className="absolute inset-0 transition-opacity duration-700"
+          style={{
+            background:
+              "radial-gradient(circle at 20% 30%, rgba(220,175,100,0.18) 0%, rgba(10,10,10,1) 55%)",
+            opacity: expanded ? 1 : 0.82,
+          }}
+          aria-hidden
+        />
+      )}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" aria-hidden />
+      <span
+        className="absolute top-0 left-1/2 -translate-x-1/2 h-[3px] w-[70%] opacity-70 group-hover:w-full group-hover:opacity-100 bg-gradient-to-r from-transparent via-[var(--g1)] to-transparent transition-all duration-700"
+        aria-hidden
+      />
+
+      <div className="absolute top-6 left-6 max-[640px]:top-4 max-[640px]:left-5 z-10 flex items-center gap-2">
+        <span className="relative inline-flex shrink-0" aria-hidden>
+          <span className="w-[6px] h-[6px] rounded-full bg-[var(--g1)]" />
+          <span className="absolute inset-0 w-[6px] h-[6px] rounded-full bg-[var(--g1)] animate-ping" />
+        </span>
+        <span className="text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)]">
+          {eyebrow}
+        </span>
+      </div>
+
+      <div className="absolute inset-x-0 bottom-0 z-10 p-6 max-[640px]:p-5 flex items-end justify-between gap-3">
+        <div className="max-w-[420px]">
+          <span className="block text-[10px] font-semibold tracking-[2px] uppercase text-white/55 mb-2">
+            {sede.flag}
+          </span>
+          <h3 className="font-bold text-[clamp(20px,2.2vw,30px)] uppercase tracking-[-0.5px] leading-[1.05] text-white">
+            {sede.name}
+          </h3>
+          <p className="mt-2 text-[13px] max-[640px]:text-[12px] font-light leading-[1.45] text-white/70">
+            {sede.subtitle}
+          </p>
+        </div>
+        <span
+          className="shrink-0 flex items-center gap-2 text-[10px] font-bold tracking-[2px] uppercase text-[var(--g1)]"
+          style={{ transform: expanded ? "translateX(4px)" : "translateX(0)", transition: "transform .5s cubic-bezier(.16,1,.3,1)" }}
+        >
+          <span className="hidden min-[640px]:inline">{sede.cta}</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <path d="M5 12h14" />
+            <path d="M12 5l7 7-7 7" />
+          </svg>
+        </span>
+      </div>
+    </a>
+  );
+}
+
+function SedesBlock({ sedes, eyebrow }: { sedes: readonly Sede[]; eyebrow: string }) {
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const cards = sedes.map((s, i) => (
+    <SedeCard
+      key={s.name}
+      sede={s}
+      eyebrow={eyebrow}
+      isHovered={hoveredIdx === i}
+      onHover={() => setHoveredIdx(i)}
+      onLeave={() => setHoveredIdx(null)}
+    />
+  ));
+  return (
+    <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto pb-12 max-[960px]:pb-10">
+      <PorscheRow hoveredIdx={hoveredIdx}>{cards}</PorscheRow>
+      <ScrollCarousel
+        cardWidth="clamp(280px, 78vw, 360px)"
+        cardHeight="clamp(240px, 58vw, 320px)"
+      >
+        {cards}
+      </ScrollCarousel>
+    </div>
+  );
 }
 
 function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
@@ -2705,62 +2434,10 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
         </p>
       </div>
 
-      {/* HQ Hero block */}
-      <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto pb-12 max-[960px]:pb-10">
-        <a
-          href="https://finurapadelgym.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group relative block overflow-hidden border border-white/[.08] hover:border-[var(--g1)]/40 transition-colors duration-500"
-          style={{ aspectRatio: "16 / 7" }}
-        >
-          <video
-            src="https://finurapadelgym.com/wp-content/uploads/2025/10/home-2.webm"
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.03]"
-            style={{ filter: "saturate(0.88) brightness(0.88) contrast(0.96)" }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" aria-hidden />
-          <span
-            className="absolute top-0 left-1/2 -translate-x-1/2 h-[3px] w-[70%] opacity-70 group-hover:w-full group-hover:opacity-100 bg-gradient-to-r from-transparent via-[var(--g1)] to-transparent transition-all duration-700"
-            aria-hidden
-          />
-
-          <div className="absolute top-6 left-6 max-[640px]:top-4 max-[640px]:left-5 z-10 flex items-center gap-2">
-            <span className="relative inline-flex shrink-0" aria-hidden>
-              <span className="w-[6px] h-[6px] rounded-full bg-[var(--g1)]" />
-              <span className="absolute inset-0 w-[6px] h-[6px] rounded-full bg-[var(--g1)] animate-ping" />
-            </span>
-            <span className="text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)]">
-              {t.academy.network.hqLabel}
-            </span>
-          </div>
-
-          <div className="absolute inset-x-0 bottom-0 z-10 p-6 max-[640px]:p-5 flex items-end justify-between gap-4">
-            <div className="max-w-[620px]">
-              <h3 className="font-bold text-[clamp(22px,2.8vw,40px)] uppercase tracking-[-0.5px] leading-[1.05] text-white">
-                {t.academy.network.hqTitle}
-              </h3>
-              <p className="mt-2 text-[13px] max-[640px]:text-[12px] font-light leading-[1.5] text-white/70">
-                {t.academy.network.hqSubtitle}
-              </p>
-            </div>
-            <span
-              className="shrink-0 flex items-center gap-2 text-[10px] font-bold tracking-[2.5px] uppercase text-[var(--g1)]"
-              style={{ transform: "translateX(0)", transition: "transform .5s cubic-bezier(.16,1,.3,1)" }}
-            >
-              {t.academy.network.hqCta}
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14" />
-                <path d="M12 5l7 7-7 7" />
-              </svg>
-            </span>
-          </div>
-        </a>
-      </div>
+      {/* Sedes block — eyebrow "Coach360" + 2 cards (Los Limoneros + Finura).
+          Desktop: PorscheRow (2 columnas con flex-expand al hover).
+          Mobile: ScrollCarousel horizontal con snap. */}
+      <SedesBlock sedes={t.academy.network.sedes} eyebrow={t.academy.network.sedesLabel} />
 
       {/* Coaches grid */}
       <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto pb-12 max-[960px]:pb-10">

@@ -401,10 +401,18 @@ export interface Dictionary {
       readonly headingPre: string;
       readonly headingAccent: string;
       readonly headingSub: string;
-      readonly hqLabel: string;
-      readonly hqTitle: string;
-      readonly hqSubtitle: string;
-      readonly hqCta: string;
+      /** Eyebrow del bloque de sedes físicas del Lab (Coach360 / el Lab). */
+      readonly sedesLabel: string;
+      /** Array de sedes físicas. Se pintan en scroll horizontal. */
+      readonly sedes: readonly {
+        readonly name: string;
+        readonly flag: string;
+        readonly subtitle: string;
+        readonly cta: string;
+        readonly href: string;
+        /** URL opcional de video de fondo (mp4/webm). Si no, se usa gradient. */
+        readonly video?: string;
+      }[];
       readonly mapLabel: string;
       readonly mapHint: string;
       readonly gridLabel: string;
