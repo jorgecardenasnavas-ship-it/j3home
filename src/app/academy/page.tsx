@@ -931,7 +931,7 @@ function HeroSection() {
             </span>
 
             <h1
-              className="hero-rise hero-rise-2 font-bold max-[960px]:font-bold min-[961px]:font-medium tracking-[-1px] min-[961px]:tracking-[-1.5px] leading-[1.08] text-white text-[clamp(32px,5.5vw,58px)] max-[960px]:text-[clamp(28px,8.5vw,48px)]"
+              className="hero-rise hero-rise-2 font-bold max-[960px]:font-bold min-[961px]:font-medium tracking-[-1px] min-[961px]:tracking-[-1.5px] leading-[1.08] text-white text-[clamp(28px,3.2vw,44px)] max-[960px]:text-[clamp(28px,8.5vw,48px)]"
               style={{ textShadow: "0 0 60px rgba(220,175,100,0.15), 0 2px 12px rgba(0,0,0,0.4)" }}
             >
               {t.academy.hero.headingAccent ? (
