@@ -558,6 +558,13 @@ export const en = {
       author: "Michael Jordan",
     },
 
+    banner: {
+      headingBefore: "The leading p\u00E1del ",
+      headingAccent: "academy",
+      headingAfter: "on the Costa del Sol.",
+      tagline: "All ages \u00B7 All levels \u00B7 All year round",
+    },
+
     statement: {
       eyebrow: "Our mission",
       lines: [

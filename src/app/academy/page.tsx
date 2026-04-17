@@ -1323,8 +1323,8 @@ function ClaimSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
           <p className="text-[clamp(20px,2.5vw,32px)] font-[var(--font-serif)] italic text-white/80 leading-[1.5] mb-4" style={{ textWrap: "balance" }}>
             &ldquo;{t.academy.claim.quote}&rdquo;
           </p>
-          <cite className="text-[11px] font-medium tracking-[4px] uppercase text-[var(--g1)] not-italic">
-            {t.academy.claim.author}
+          <cite className="text-[11px] font-medium tracking-[2.5px] uppercase text-[var(--g1)] not-italic">
+            &mdash;&nbsp;{t.academy.claim.author}
           </cite>
         </blockquote>
       </div>
@@ -1338,6 +1338,7 @@ function ClaimSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
    ═══════════════════════════════════════════════════════ */
 
 function BannerSection() {
+  const { t } = useI18n();
   const { ref, visible } = useReveal(0.05);
 
   return (
@@ -1351,12 +1352,14 @@ function BannerSection() {
           transition: "all 1.2s cubic-bezier(.16,1,.3,1)",
         }}
       >
-        {/* Main claim */}
+        {/* Main claim — mismo patrón de accent que hero y AcademyBand */}
         <h2 className="text-[clamp(28px,4vw,48px)] font-light uppercase tracking-[3px] max-[640px]:tracking-[1.5px] leading-[1.3] text-black">
-          La academia de{" "}
-          <span className="font-[var(--font-serif)] italic normal-case tracking-[0px] text-[var(--g1)]">referencia</span>
+          {t.academy.banner.headingBefore}
+          <span className="font-[var(--font-serif)] italic normal-case tracking-[0px] text-[var(--g1)] inline-block pr-[0.12em]">
+            {t.academy.banner.headingAccent}
+          </span>
           <br />
-          en la Costa del Sol.
+          {t.academy.banner.headingAfter}
         </h2>
 
         {/* Gold accent line */}
@@ -1364,7 +1367,7 @@ function BannerSection() {
 
         {/* Tagline */}
         <p className="text-[clamp(13px,1.4vw,16px)] font-light uppercase tracking-[4px] max-[640px]:tracking-[2px] leading-[2] text-black/35" style={{ textWrap: "balance" }}>
-          Todas las edades · Todos los niveles · Todo el año
+          {t.academy.banner.tagline}
         </p>
       </div>
     </section>

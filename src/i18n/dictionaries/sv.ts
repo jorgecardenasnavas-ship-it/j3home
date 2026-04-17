@@ -558,6 +558,13 @@ export const sv = {
       author: "Michael Jordan",
     },
 
+    banner: {
+      headingBefore: "Den ledande padel",
+      headingAccent: "akademin",
+      headingAfter: "p\u00E5 Costa del Sol.",
+      tagline: "Alla \u00E5ldrar \u00B7 Alla niv\u00E5er \u00B7 \u00C5ret runt",
+    },
+
     statement: {
       eyebrow: "V\u00E5rt uppdrag",
       lines: [

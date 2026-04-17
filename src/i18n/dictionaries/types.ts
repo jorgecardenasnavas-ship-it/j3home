@@ -301,6 +301,16 @@ export interface Dictionary {
       readonly author: string;
     };
 
+    banner: {
+      /** H2: texto antes del accent. Ej: "La academia de " */
+      readonly headingBefore: string;
+      /** Palabra/frase accent en serif-itálico gold. Ej: "referencia" */
+      readonly headingAccent: string;
+      /** Texto después del accent (salta línea si existe). Ej: "en la Costa del Sol." */
+      readonly headingAfter: string;
+      readonly tagline: string;
+    };
+
     statement: {
       readonly eyebrow: string;
       readonly lines: readonly { readonly before: string; readonly accent?: string }[];
