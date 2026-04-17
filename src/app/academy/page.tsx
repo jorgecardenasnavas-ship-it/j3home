@@ -867,7 +867,19 @@ function HeroSection() {
   };
 
   const handleScrollToNetwork = () => {
-    document.getElementById("network")?.scrollIntoView({ behavior: "smooth" });
+    /* En desktop el mapa del hero ya está side-by-side con el copy,
+       no tiene sentido hacer scroll. En móvil el mapa queda debajo
+       del copy → scrolleamos hasta su wrapper (#hero-map), no a la
+       NetworkSection grande de más abajo. */
+    if (typeof window === "undefined") return;
+    if (window.innerWidth >= 961) return;
+    const el = document.getElementById("hero-map");
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    /* Restamos 60px para dejar el sticky bar visible por encima sin
+       tapar la parte superior del mapa. */
+    const top = rect.top + window.scrollY - 60;
+    window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
   };
 
   const handleFocusLab = () => {
@@ -1086,7 +1098,7 @@ function HeroSection() {
             dentro de su propio stacking context. Así los floating pills
             de filtros (z-1100) quedan por encima del mapa pero la navbar
             (z-110 fixed) sigue por encima de todo. */}
-        <div className="relative w-full min-[961px]:w-[60%] h-[60vh] min-[961px]:h-auto min-[961px]:min-h-full">
+        <div id="hero-map" className="relative w-full min-[961px]:w-[60%] h-[60vh] min-[961px]:h-auto min-[961px]:min-h-full">
           <NetworkMap
             coaches={filtered}
             labels={mapLabels}
