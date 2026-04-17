@@ -306,40 +306,31 @@ const pinStyles = `
     margin-bottom: 8px;
   }
   .j3-legend-body { margin-top: 0; }
-  /* Desktop: details siempre visual-mente abierto, sin transición */
-  @media (min-width: 961px) {
-    .j3-legend-body { display: block !important; }
+  /* Colapso unificado (desktop + móvil): si el details está cerrado,
+     solo se ve el icono 'i' gold; al abrir se muestra el title + body. */
+  .j3-legend-details:not([open]) .j3-legend-title,
+  .j3-legend-details:not([open]) .j3-legend-body {
+    display: none;
   }
-  /* Mobile: si el details está cerrado, solo el icono i (sin title).
-     Al abrir, se muestra title + body. */
-  @media (max-width: 960px) {
-    .j3-legend-details:not([open]) .j3-legend-title,
-    .j3-legend-details:not([open]) .j3-legend-body {
-      display: none;
-    }
-    .j3-legend-details:not([open]) .j3-legend-summary-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .j3-legend-details:not([open]) {
-      /* Compacta el padding cuando está cerrado para no ocupar espacio. */
-    }
-    .j3-legend:has(.j3-legend-details:not([open])) {
-      padding: 6px !important;
-    }
-    /* Abierto: icono a la izquierda del título como "tap para cerrar". */
-    .j3-legend-details[open] .j3-legend-summary-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .j3-legend-details[open] .j3-legend-summary {
-      margin-bottom: 4px;
-    }
-    .j3-legend-details[open] .j3-legend-title {
-      margin-bottom: 0;
-    }
+  .j3-legend-details:not([open]) .j3-legend-summary-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .j3-legend:has(.j3-legend-details:not([open])) {
+    padding: 6px !important;
+  }
+  /* Abierto: icono a la izquierda del título como "tap para cerrar". */
+  .j3-legend-details[open] .j3-legend-summary-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .j3-legend-details[open] .j3-legend-summary {
+    margin-bottom: 4px;
+  }
+  .j3-legend-details[open] .j3-legend-title {
+    margin-bottom: 0;
   }
   .j3-legend-row {
     display: flex;
@@ -1132,14 +1123,11 @@ function MapLegend({ labels }: { labels: PopupLabels }) {
       options: { position: "bottomleft" as L.ControlPosition },
       onAdd() {
         const div = L.DomUtil.create("div", "j3-legend");
-        /* En desktop la leyenda está siempre visible (open). En móvil la
-           envolvemos en un <details> sin atributo open, así se colapsa al
-           icono 'i' y libera espacio del mapa. El CSS pinta el summary como
-           un círculo gold cuando está cerrado, y se expande al tap. */
-        const isDesktopAtMount = typeof window !== "undefined" && window.matchMedia("(min-width: 961px)").matches;
-        const openAttr = isDesktopAtMount ? " open" : "";
+        /* La leyenda monta colapsada (solo el icono 'i' gold) tanto en
+           desktop como en móvil — libera espacio del mapa y la mantenemos
+           disponible a un tap para quien la necesite. Click fuera cierra. */
         div.innerHTML = `
-          <details class="j3-legend-details"${openAttr}>
+          <details class="j3-legend-details">
             <summary class="j3-legend-summary" aria-label="${labels.legendTitle}">
               <span class="j3-legend-summary-icon" aria-hidden>i</span>
               <span class="j3-legend-title">${labels.legendTitle}</span>
