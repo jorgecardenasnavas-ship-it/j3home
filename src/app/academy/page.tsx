@@ -460,6 +460,12 @@ function ProgramBar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  /* Limpiar selectedCard al entrar en compact para que no quede
+     el borde gold "stuck" cuando el usuario vuelve arriba. */
+  useEffect(() => {
+    if (compact) setSelectedCard(null);
+  }, [compact]);
+
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
@@ -664,14 +670,16 @@ function ProgramBar() {
                     if (dragStateRef.current.moved) { dragStateRef.current.moved = false; return; }
                     setSelectedCard(card.name);
 
-                    /* Centrar la tarjeta en el strip (viewport-relative) */
+                    /* Centrar la tarjeta en el strip — scroll INSTANTÁNEO
+                       (smooth competiría con el page-scroll y el compact
+                       transition lo mata antes de completarse) */
                     const btn = e.currentTarget;
                     const container = scrollRef.current;
                     if (container) {
                       const cRect = container.getBoundingClientRect();
                       const bRect = btn.getBoundingClientRect();
-                      const scrollTo = container.scrollLeft + (bRect.left - cRect.left) - cRect.width / 2 + bRect.width / 2;
-                      container.scrollTo({ left: Math.max(0, scrollTo), behavior: "smooth" });
+                      const targetLeft = container.scrollLeft + (bRect.left - cRect.left) - cRect.width / 2 + bRect.width / 2;
+                      container.scrollLeft = Math.max(0, targetLeft);
                     }
 
                     /* Scroll a la sección */
