@@ -806,7 +806,7 @@ function HeroSection() {
             </span>
 
             <h1
-              className="hero-rise hero-rise-2 font-bold uppercase tracking-[-2px] leading-[.92] text-white text-[clamp(44px,7vw,92px)] max-[960px]:text-[clamp(40px,11vw,72px)]"
+              className="hero-rise hero-rise-2 font-bold tracking-[-1px] leading-[1.08] text-white text-[clamp(32px,5.5vw,58px)] max-[960px]:text-[clamp(28px,8.5vw,48px)]"
               style={{ textShadow: "0 0 60px rgba(220,175,100,0.15), 0 2px 12px rgba(0,0,0,0.4)" }}
             >
               {t.academy.hero.heading}
