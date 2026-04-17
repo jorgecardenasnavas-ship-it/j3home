@@ -340,6 +340,24 @@ const STICKY_SECTIONS: SectionItem[] = [
   { kind: "section", name: "M\u00E9todo",   anchor: "metodo" },
 ];
 
+/** Tarjetas de producto para el strip Apple-style bajo el sticky nav. */
+type ProductCard = {
+  name: string;
+  tag: string;
+  img: string;
+  group: string;   // coincide con anchor de STICKY_SECTIONS
+  anchor: string;  // id HTML al que navega el click
+};
+
+const PRODUCT_CARDS: ProductCard[] = [
+  { name: "Kinder",             tag: "4 – 10 años",       img: "/images/academy/kinder.jpeg",       group: "juniors",   anchor: "juniors" },
+  { name: "Kids",               tag: "10+",                img: "/images/academy/kids.jpeg",          group: "juniors",   anchor: "juniors" },
+  { name: "Junior",             tag: "14+ · Competición",  img: "/images/academy/nextgen.jpeg",       group: "juniors",   anchor: "juniors" },
+  { name: "Next Gen",           tag: "16+ · Circuito",     img: "/images/academy/nextgen-pro.jpeg",   group: "juniors",   anchor: "juniors" },
+  { name: "Tu Club",            tag: "Adultos",            img: "/images/academy/amateur.jpeg",       group: "adultos",   anchor: "adultos" },
+  { name: "Intensive Training", tag: "Camps · Stages",     img: "/images/academy/stage-group.jpeg",   group: "intensive", anchor: "intensive" },
+];
+
 /** Iconos gold para las secciones del sticky nav. */
 function SectionIcon({ name }: { name: string }) {
   const common = {
@@ -394,6 +412,7 @@ function SectionIcon({ name }: { name: string }) {
 function ProgramBar() {
   const [compact, setCompact] = useState(false);
   const scrollRef = useRef<HTMLDivElement | null>(null);
+  const stripRef = useRef<HTMLDivElement | null>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
   // Sección activa: detecta cuál de los anchors está visible en viewport
@@ -457,6 +476,15 @@ function ProgramBar() {
     };
   }, [compact]);
 
+  /* Auto-scroll del strip cuando la sección activa cambia */
+  useEffect(() => {
+    if (!activeAnchor || !stripRef.current) return;
+    const firstCard = stripRef.current.querySelector(`[data-group="${activeAnchor}"]`) as HTMLElement | null;
+    if (firstCard) {
+      firstCard.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+    }
+  }, [activeAnchor]);
+
   /* Mouse drag-to-scroll (PC) */
   const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = scrollRef.current;
@@ -505,9 +533,17 @@ function ProgramBar() {
     const el = document.getElementById(section.anchor);
     if (!el) return;
     const rect = el.getBoundingClientRect();
-    /* 52px navbar + 60px sticky compact ≈ 112 → dejamos 120 de guarda. */
-    const top = rect.top + window.scrollY - 120;
+    /* 52px navbar + 30px compact nav + ~90px strip ≈ 172 → 190 de guarda */
+    const top = rect.top + window.scrollY - (compact ? 190 : 120);
     window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+
+    /* Auto-scroll strip al grupo correspondiente */
+    if (stripRef.current) {
+      const firstCard = stripRef.current.querySelector(`[data-group="${section.anchor}"]`) as HTMLElement | null;
+      if (firstCard) {
+        firstCard.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+      }
+    }
   };
 
   return (
@@ -677,6 +713,70 @@ function ProgramBar() {
               </button>
               );
             })}
+          </div>
+        </div>
+
+        {/* ── Product Strip — Apple-style thumbnails, slides in on compact ── */}
+        <div
+          className="border-t border-white/[.06] overflow-hidden"
+          style={{
+            maxHeight: compact ? "120px" : "0px",
+            opacity: compact ? 1 : 0,
+            transition: "all 0.5s cubic-bezier(.16,1,.3,1)",
+          }}
+        >
+          <div className="max-w-[1200px] mx-auto">
+            <div
+              ref={stripRef}
+              className="flex gap-2 overflow-x-auto snap-x snap-mandatory scrollbar-hide py-2 px-3 min-[961px]:justify-center min-[961px]:gap-3"
+              style={{ scrollBehavior: "smooth" }}
+            >
+              {PRODUCT_CARDS.map((card) => {
+                const isGroupActive = activeAnchor === card.group;
+                return (
+                  <button
+                    key={card.name}
+                    type="button"
+                    data-group={card.group}
+                    onClick={() => {
+                      const el = document.getElementById(card.anchor);
+                      if (!el) return;
+                      const rect = el.getBoundingClientRect();
+                      const top = rect.top + window.scrollY - 190;
+                      window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+                    }}
+                    className="group/card relative snap-start shrink-0 rounded-lg overflow-hidden cursor-pointer transition-all duration-300"
+                    style={{
+                      width: "clamp(90px, 12vw, 140px)",
+                      height: "clamp(65px, 8vw, 80px)",
+                      boxShadow: isGroupActive
+                        ? "0 0 0 1px rgba(220,175,100,.5), 0 0 12px rgba(220,175,100,.15)"
+                        : "0 0 0 1px rgba(255,255,255,.08)",
+                    }}
+                  >
+                    <img
+                      src={card.img}
+                      alt={card.name}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover/card:scale-110"
+                      style={{
+                        filter: isGroupActive
+                          ? "brightness(0.75) saturate(0.9)"
+                          : "brightness(0.5) saturate(0.7)",
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-1.5">
+                      <span className="text-[7px] font-bold tracking-[1.5px] uppercase text-[var(--g1)] block leading-tight">
+                        {card.tag}
+                      </span>
+                      <span className="text-[10px] font-bold uppercase tracking-[-0.3px] text-white/90 leading-tight block">
+                        {card.name}
+                      </span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
