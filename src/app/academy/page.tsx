@@ -698,6 +698,25 @@ function ProgramBar() {
                           | undefined) ?? null
                       : null;
                     if (cardEl) {
+                      /* Carrusel móvil: buscar el ancestro scrolleable
+                         horizontalmente y centrar la tarjeta dentro. */
+                      let scroller: HTMLElement | null = cardEl.parentElement;
+                      while (scroller) {
+                        const cs = getComputedStyle(scroller);
+                        const ox = cs.overflowX;
+                        if ((ox === "auto" || ox === "scroll") && scroller.scrollWidth > scroller.clientWidth) {
+                          break;
+                        }
+                        scroller = scroller.parentElement;
+                      }
+                      if (scroller) {
+                        const sRect = scroller.getBoundingClientRect();
+                        const cRect = cardEl.getBoundingClientRect();
+                        const targetLeft =
+                          scroller.scrollLeft + (cRect.left - sRect.left) - sRect.width / 2 + cRect.width / 2;
+                        scroller.scrollTo({ left: Math.max(0, targetLeft), behavior: "smooth" });
+                      }
+
                       const rect = cardEl.getBoundingClientRect();
                       const stickyOffset = 82;
                       const visibleH = window.innerHeight - stickyOffset;
