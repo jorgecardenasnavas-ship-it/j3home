@@ -354,7 +354,7 @@ const PRODUCT_CARDS: ProductCard[] = [
   { name: "Kids",               tag: "10+",                img: "/images/academy/kids.jpeg",          group: "juniors",   anchor: "juniors" },
   { name: "Junior",             tag: "14+ · Competición",  img: "/images/academy/nextgen.jpeg",       group: "juniors",   anchor: "juniors" },
   { name: "Next Gen",           tag: "16+ · Circuito",     img: "/images/academy/nextgen-pro.jpeg",   group: "juniors",   anchor: "juniors" },
-  { name: "Amateur",             tag: "Programa mensual",   img: "/images/academy/amateur.jpeg",       group: "adultos",   anchor: "adultos" },
+  { name: "Amateur",             tag: "Adultos",            img: "/images/academy/amateur.jpeg",       group: "adultos",   anchor: "adultos" },
   { name: "Intensive Training", tag: "Camps · Stages",     img: "/images/academy/stage-group.jpeg",   group: "intensive", anchor: "intensive" },
 ];
 
