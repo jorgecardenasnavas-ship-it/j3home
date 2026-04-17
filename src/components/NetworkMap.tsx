@@ -352,6 +352,19 @@ const pinStyles = `
     color: #f0c478 !important;
     border-color: rgba(220,175,100,0.55) !important;
   }
+
+  /* En móvil la fila de filtros (hero-rise-5) vive a top-[16px] del
+     mapa y se solapa con la X del popup cuando éste se abre cerca del
+     borde superior. Cuando hay un popup abierto, atenuamos los filtros
+     y les quitamos pointer-events — el click sobre la X ya no intercepta
+     el selector del filtro. */
+  @media (max-width: 960px) {
+    .leaflet-container:has(.leaflet-popup) ~ .hero-rise-5 {
+      pointer-events: none !important;
+      opacity: 0.25 !important;
+      transition: opacity .2s ease !important;
+    }
+  }
 `;
 
 function resolveKind(c: Coach): "lab" | "academy" | "coach" {
