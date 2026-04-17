@@ -1029,12 +1029,26 @@ function FloatingZoomControls({ topOffset = 180 }: { topOffset?: number }) {
   useEffect(() => {
     const container = map.getContainer();
     if (!container) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => setVisible(entry.isIntersecting),
-      { threshold: 0, rootMargin: "-80px 0px -80px 0px" },
-    );
-    observer.observe(container);
-    return () => observer.disconnect();
+    /* IntersectionObserver solo dice "toca o no toca" el viewport; no mide
+       cobertura. Pero el requisito es: ocultar los controles antes de que
+       la siguiente sección (p.ej. banda blanca) entre en viewport, para
+       que los botones de zoom no queden flotando sobre ella. Usamos un
+       scroll listener que computa qué % del viewport está cubierto por
+       el mapa y oculta por debajo de ~40%. */
+    const MIN_COVERAGE = 0.4;
+    const update = () => {
+      const rect = container.getBoundingClientRect();
+      const visibleH = Math.max(0, Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0));
+      const coverage = window.innerHeight > 0 ? visibleH / window.innerHeight : 0;
+      setVisible(coverage >= MIN_COVERAGE);
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
   }, [map]);
 
   if (!mounted || typeof document === "undefined") return null;
