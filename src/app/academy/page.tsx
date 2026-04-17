@@ -1107,6 +1107,42 @@ function HeroSection() {
           />
         </div>
       </div>
+
+      {/* Scroll-down indicator — 3 chevrons apilados estilo Ferrari.
+          Solo desktop; en móvil el scroll es obvio y no aporta. */}
+      <style>{`
+        @keyframes j3ChevPulse {
+          0%, 100% { opacity: 0.15; transform: translateY(-2px); }
+          50%      { opacity: 0.9;  transform: translateY(2px); }
+        }
+      `}</style>
+      <button
+        type="button"
+        onClick={handleScrollToNetwork}
+        aria-label="Ver coaches"
+        className="hero-rise hero-rise-6 hidden min-[961px]:flex absolute bottom-5 left-1/2 -translate-x-1/2 z-[12] flex-col items-center gap-[2px] p-2 cursor-pointer group"
+      >
+        {[0, 1, 2].map((i) => (
+          <svg
+            key={i}
+            width="20"
+            height="10"
+            viewBox="0 0 20 10"
+            fill="none"
+            stroke="#f0c478"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden
+            style={{
+              animation: "j3ChevPulse 1.6s cubic-bezier(.4,0,.6,1) infinite",
+              animationDelay: `${i * 0.18}s`,
+            }}
+          >
+            <path d="M2 2 L10 8 L18 2" />
+          </svg>
+        ))}
+      </button>
     </section>
   );
 }
