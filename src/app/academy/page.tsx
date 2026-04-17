@@ -1082,13 +1082,6 @@ function HeroSection() {
               onChange={setLanguage}
               options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_LANGUAGES.map(l => ({ value: l, label: languageLabel(l) }))]}
             />
-            <FilterSelect
-              compact
-              label={t.academy.network.filterSpecialty}
-              value={specialty}
-              onChange={setSpecialty}
-              options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_SPECIALTIES.map(s => ({ value: s, label: specialtyLabel(s) }))]}
-            />
 
             {/* El pill "Cerca de mí" se ha consolidado en el CTA primario
                 del hero (más prominente, sin duplicación). Los estados de
