@@ -550,7 +550,7 @@ function ProgramBar() {
     <div className="sticky top-[52px] z-[100]">
       <div
         className="border-b border-white/[.06] relative"
-        style={{ backgroundColor: "#121214", transition: "all 0.5s cubic-bezier(.16,1,.3,1)" }}
+        style={{ backgroundColor: "#121214", transition: "all 0.6s cubic-bezier(.4,0,.2,1)" }}
       >
         {/* Left fade hint */}
         <div
@@ -583,6 +583,12 @@ function ProgramBar() {
               paddingTop: compact ? "0px" : "10px",
               paddingBottom: compact ? "0px" : "10px",
               cursor: compact ? "default" : "grab",
+              /* El padding top/bottom cae de 10→0 al volverse compact, y los
+                 hijos colapsan al mismo tiempo — sin transition aquí se nota
+                 un jump de 20px en la altura del sticky. Curva ease-in-out
+                 (.4,0,.2,1) en lugar de la "snappy" .16,1,.3,1 para que el
+                 colapso arranque gentle y no se sienta brusco en móvil. */
+              transition: "padding 0.6s cubic-bezier(.4,0,.2,1)",
             }}
           >
             {/* ── SEDES — círculo destacado (logo J3 dorado) ── */}
@@ -607,7 +613,7 @@ function ProgramBar() {
                     height: compact ? "0px" : undefined,
                     opacity: compact ? 0 : 1,
                     marginBottom: compact ? "0px" : "7px",
-                    transition: "all 0.5s cubic-bezier(.16,1,.3,1)",
+                    transition: "all 0.6s cubic-bezier(.4,0,.2,1)",
                     border: "2px solid rgba(220,175,100,1)",
                     boxShadow: "0 0 16px rgba(220,175,100,.35), 0 0 4px rgba(220,175,100,.4)",
                     background: "radial-gradient(circle at 30% 30%, rgba(220,175,100,.12) 0%, rgba(18,18,20,1) 70%)",
@@ -652,7 +658,7 @@ function ProgramBar() {
                 height: compact ? "24px" : "64px",
                 margin: compact ? "0 12px" : "0 16px",
                 background: "linear-gradient(to bottom, transparent, rgba(220,175,100,.4), transparent)",
-                transition: "height 0.5s cubic-bezier(.16,1,.3,1)",
+                transition: "height 0.6s cubic-bezier(.4,0,.2,1), margin 0.6s cubic-bezier(.4,0,.2,1)",
               }}
             />
 
@@ -736,7 +742,7 @@ function ProgramBar() {
                     height: compact ? "0px" : "clamp(72px, 8.5vw, 95px)",
                     opacity: compact ? 0 : 1,
                     margin: compact ? "0" : "0 3px",
-                    transition: "all 0.5s cubic-bezier(.16,1,.3,1)",
+                    transition: "all 0.6s cubic-bezier(.4,0,.2,1)",
                     pointerEvents: compact ? "none" : "auto",
                     boxShadow: isSelected
                       ? "0 0 0 2px rgba(220,175,100,.9), 0 0 20px rgba(220,175,100,.3)"
@@ -784,7 +790,7 @@ function ProgramBar() {
                     paddingBottom: compact ? "6px" : "0px",
                     overflow: "hidden",
                     pointerEvents: compact ? "auto" : "none",
-                    transition: "all 0.5s cubic-bezier(.16,1,.3,1)",
+                    transition: "all 0.6s cubic-bezier(.4,0,.2,1)",
                   }}
                 >
                   <span
