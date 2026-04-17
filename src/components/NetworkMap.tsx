@@ -1040,10 +1040,14 @@ function FloatingZoomControls({ topOffset = 180 }: { topOffset?: number }) {
        del 40%. Además, en móvil, reanclamos la posición vertical al
        fondo del mapa para que el zoom no quede sobre la zona blanca
        cuando el mapa sale por abajo. */
-    /* Mínima porción de mapa visible (en px) para mostrar el zoom.
-       El botón mide ~74px; pedimos 200px para que haya margen encima y
-       debajo y no se derrame sobre la siguiente sección. */
-    const MIN_VISIBLE_PX = 200;
+    /* Mínima porción de mapa visible para mostrar el zoom. El valor
+       debe ocultarlo antes de que la sección blanca domine el viewport,
+       para que el desvanecimiento ocurra sobre mapa (oscuro) y no sobre
+       la banda blanca. En móvil el mapa mide 60vh (~487px) así que el
+       umbral tiene que ser más bajo para que aparezca desde el inicio;
+       en desktop el mapa es mucho más alto (~766px) y podemos pedir
+       más visibilidad antes de esconder. */
+    const MIN_VISIBLE_PX = window.innerWidth < 961 ? 220 : 480;
     /* Respeto al stack de headers (navbar + sticky program bar ≈ 82-134px). */
     const STICKY_TOP = 100;
     const update = () => {
