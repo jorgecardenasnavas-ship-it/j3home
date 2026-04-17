@@ -213,15 +213,6 @@ const pinStyles = `
     font-size: 17px;
     box-shadow: 0 0 0 3px rgba(0,0,0,0.65), 0 7px 28px rgba(220,175,100,0.75);
   }
-  .j3-cluster-lg::before {
-    content: "";
-    position: absolute;
-    inset: -8px;
-    border-radius: 999px;
-    border: 1px solid rgba(220,175,100,0.4);
-    animation: j3PulseRing 2.6s ease-out infinite;
-    pointer-events: none;
-  }
   /* Spiderfy: líneas doradas suaves */
   .leaflet-cluster-spider-leg {
     stroke: rgba(220,175,100,0.55) !important;
@@ -604,7 +595,7 @@ const MAX_CLUSTER_RADIUS = 60;
 /**
  * iconCreateFunction — el cluster se pinta como círculo dorado
  * con el conteo dentro. Tres tamaños según cantidad:
- *   sm (2-4) · md (5-9) · lg (10+, con halo pulsante).
+ *   sm (2-4) · md (5-9) · lg (10+).
  */
 function makeClusterIcon(count: number): L.DivIcon {
   const size = count < 5 ? "sm" : count < 10 ? "md" : "lg";
