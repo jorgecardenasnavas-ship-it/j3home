@@ -680,8 +680,6 @@ function ClusteredMarkers({
       );
       const m = L.marker(c.location.coordinates, {
         icon: makeIcon(kind),
-        // El Lab siempre por encima de los clusters
-        zIndexOffset: isStandalone ? 1000 : 0,
       });
       m.bindPopup(popupHtml, { maxWidth: 280, minWidth: 240 });
 
