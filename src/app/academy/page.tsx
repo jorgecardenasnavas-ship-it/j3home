@@ -346,16 +346,17 @@ type ProductCard = {
   tag: string;
   img: string;
   group: string;   // coincide con anchor de STICKY_SECTIONS
-  anchor: string;  // id HTML al que navega el click
+  anchor: string;  // id HTML al que navega el click (fallback si no hay cardId)
+  cardId?: string; // data-card-id de la tarjeta concreta dentro de la sección
 };
 
 const PRODUCT_CARDS: ProductCard[] = [
-  { name: "Kinder",             tag: "4 – 10 años",       img: "/images/academy/kinder.jpeg",       group: "juniors",   anchor: "juniors" },
-  { name: "Kids",               tag: "10+",                img: "/images/academy/kids.jpeg",          group: "juniors",   anchor: "juniors" },
-  { name: "Junior",             tag: "14+ · Competición",  img: "/images/academy/nextgen.jpeg",       group: "juniors",   anchor: "juniors" },
-  { name: "Next Gen",           tag: "16+ · Circuito",     img: "/images/academy/nextgen-pro.jpeg",   group: "juniors",   anchor: "juniors" },
-  { name: "Adultos",             tag: "Programa mensual",   img: "/images/academy/amateur.jpeg",       group: "adultos",   anchor: "adultos" },
-  { name: "Intensive Training", tag: "Camps · Stages",     img: "/images/academy/stage-group.jpeg",   group: "intensive", anchor: "intensive" },
+  { name: "Kinder",             tag: "4 – 10 años",       img: "/images/academy/kinder.jpeg",       group: "juniors",   anchor: "juniors",   cardId: "card-kinder" },
+  { name: "Kids",               tag: "10+",                img: "/images/academy/kids.jpeg",          group: "juniors",   anchor: "juniors",   cardId: "card-kids" },
+  { name: "Junior",             tag: "14+ · Competición",  img: "/images/academy/nextgen.jpeg",       group: "juniors",   anchor: "juniors",   cardId: "card-nextgen" },
+  { name: "Next Gen",           tag: "16+ · Circuito",     img: "/images/academy/nextgen-pro.jpeg",   group: "juniors",   anchor: "juniors",   cardId: "card-nextgenpro" },
+  { name: "Adultos",             tag: "Programa mensual",   img: "/images/academy/amateur.jpeg",       group: "adultos",   anchor: "adultos",   cardId: "card-tuclub" },
+  { name: "Intensive Training", tag: "Camps · Stages",     img: "/images/academy/stage-group.jpeg",   group: "intensive", anchor: "intensive", cardId: "card-intensive" },
 ];
 
 /** Iconos gold para las secciones del sticky nav. */
@@ -682,7 +683,21 @@ function ProgramBar() {
                       container.scrollLeft = Math.max(0, targetLeft);
                     }
 
-                    /* Scroll a la sección */
+                    /* Scroll a la tarjeta específica centrándola en viewport.
+                       Si no existe, caemos al anchor de sección. La sticky bar
+                       mide ~82px en compact, así que compensamos para que la
+                       tarjeta quede centrada en el área visible real. */
+                    const cardEl = card.cardId
+                      ? (document.querySelector(`[data-card-id="${card.cardId}"]`) as HTMLElement | null)
+                      : null;
+                    if (cardEl) {
+                      const rect = cardEl.getBoundingClientRect();
+                      const stickyOffset = 82;
+                      const visibleH = window.innerHeight - stickyOffset;
+                      const top = rect.top + window.scrollY - stickyOffset - (visibleH - rect.height) / 2;
+                      window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+                      return;
+                    }
                     const el = document.getElementById(card.anchor);
                     if (!el) return;
                     const rect = el.getBoundingClientRect();
