@@ -654,13 +654,23 @@ function ClusteredMarkers({
     });
 
     const markerBySlug = new Map<string, L.Marker>();
+    // Markers de HQ/Lab se añaden directamente al mapa (fuera del
+    // cluster group) para que siempre sean visibles como pin
+    // independiente sin importar el nivel de zoom. El resto de
+    // coaches van al cluster group y se agrupan normalmente.
+    const standaloneMarkers: L.Marker[] = [];
 
     coaches.forEach((c) => {
       const kind = resolveKind(c);
+      const isStandalone = kind === "lab";
       const popupHtml = renderToStaticMarkup(
         <PopupContent coach={c} labels={labels} kind={kind} />
       );
-      const m = L.marker(c.location.coordinates, { icon: makeIcon(kind) });
+      const m = L.marker(c.location.coordinates, {
+        icon: makeIcon(kind),
+        // El Lab siempre por encima de los clusters
+        zIndexOffset: isStandalone ? 1000 : 0,
+      });
       m.bindPopup(popupHtml, { maxWidth: 280, minWidth: 240 });
 
       // Al abrir el popup, reflejar el coach en el hash de la URL
@@ -691,7 +701,12 @@ function ClusteredMarkers({
         window.dispatchEvent(new CustomEvent("j3:hover:leave", { detail: { slug: c.slug } }));
       });
 
-      group.addLayer(m);
+      if (isStandalone) {
+        m.addTo(map);
+        standaloneMarkers.push(m);
+      } else {
+        group.addLayer(m);
+      }
       markerBySlug.set(c.slug, m);
     });
 
@@ -723,13 +738,21 @@ function ClusteredMarkers({
     };
     container.addEventListener("click", onContainerClick);
 
-    /** Foca un coach concreto: zoom al cluster si procede y abre popup. */
+    /** Foca un coach concreto: zoom al cluster si procede y abre popup.
+     *  Para markers standalone (Lab/HQ) que no están en el cluster group,
+     *  hacemos flyTo directo ya que siempre son visibles. */
     const focusCoach = (slug: string) => {
       const marker = markerBySlug.get(slug);
       if (!marker) return;
-      group.zoomToShowLayer(marker, () => {
-        marker.openPopup();
-      });
+      if (standaloneMarkers.includes(marker)) {
+        const ll = marker.getLatLng();
+        map.flyTo(ll, 10, { duration: 1 });
+        setTimeout(() => marker.openPopup(), 600);
+      } else {
+        group.zoomToShowLayer(marker, () => {
+          marker.openPopup();
+        });
+      }
     };
 
     // j3:map:focus — evento custom disparado desde fuera del mapa
@@ -791,6 +814,7 @@ function ClusteredMarkers({
       window.removeEventListener("j3:hover:leave", onHoverLeave as EventListener);
       container.removeEventListener("click", onContainerClick);
       if (initialTimer !== null) window.clearTimeout(initialTimer);
+      standaloneMarkers.forEach((m) => m.remove());
       map.removeLayer(group);
       group.clearLayers();
     };
