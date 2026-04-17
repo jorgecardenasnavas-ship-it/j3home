@@ -970,7 +970,7 @@ function HeroSection() {
                   · loading → disabled
                   · success → muestra estado activo + X para limpiar
                   · error  → reintentar + hint */}
-            <div className="hero-rise hero-rise-4 mt-7 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <div className="hero-rise hero-rise-4 mt-7 flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
               {geo.status === "success" ? (
                 <div className="flex items-stretch rounded-full bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] text-black overflow-hidden sm:inline-flex sm:self-start">
                   <button
@@ -1008,7 +1008,7 @@ function HeroSection() {
                     handleScrollToNetwork();
                   }}
                   disabled={geo.status === "loading"}
-                  className="group/cta inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] text-black text-[12px] font-bold tracking-[2.5px] uppercase transition-transform duration-500 hover:scale-[1.02] disabled:opacity-70 disabled:cursor-wait"
+                  className="group/cta inline-flex items-center justify-center gap-2 whitespace-nowrap px-5 py-3 rounded-full bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] text-black text-[12px] font-bold tracking-[2px] uppercase transition-transform duration-500 hover:scale-[1.02] disabled:opacity-70 disabled:cursor-wait"
                 >
                   {geo.status === "loading" ? (
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="animate-spin" aria-hidden>
@@ -1031,7 +1031,7 @@ function HeroSection() {
               <button
                 type="button"
                 onClick={handleFocusLab}
-                className="group/lab inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full border border-white/20 hover:border-[var(--g1)]/60 text-white hover:text-[var(--g1)] text-[12px] font-semibold tracking-[2px] uppercase transition-colors duration-500"
+                className="group/lab inline-flex items-center justify-center gap-2 whitespace-nowrap px-5 py-3 rounded-full border border-white/20 hover:border-[var(--g1)]/60 text-white hover:text-[var(--g1)] text-[12px] font-semibold tracking-[1.5px] uppercase transition-colors duration-500"
               >
                 {t.academy.hero.ctaSecondary}
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-500 group-hover/lab:translate-x-1">
