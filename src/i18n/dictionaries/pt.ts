@@ -709,14 +709,13 @@ export const pt = {
         {
           name: "Vals Los Limoneros",
           flag: "Puerto de la Torre \u00B7 M\u00E1laga",
-          subtitle: "Sede principal. Onde nasce o m\u00E9todo.",
           cta: "Conhece a sede",
           href: "https://valssportlimoneros.com",
+          openingSoon: "Pr\u00F3xima abertura \u00B7 1 junho 2026",
         },
         {
           name: "Finura Padel",
           flag: "M\u00E1laga capital",
-          subtitle: "Segunda sede. Operativa desde 2026.",
           cta: "Conhece Finura",
           href: "https://finurapadelgym.com",
           video: "https://finurapadelgym.com/wp-content/uploads/2025/10/home-2.webm",

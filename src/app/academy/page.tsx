@@ -2213,10 +2213,10 @@ function useIsMobile(breakpoint: number = 960): boolean {
 type Sede = {
   readonly name: string;
   readonly flag: string;
-  readonly subtitle: string;
   readonly cta: string;
   readonly href: string;
   readonly video?: string;
+  readonly openingSoon?: string;
 };
 
 function SedeCard({
@@ -2281,6 +2281,21 @@ function SedeCard({
         </span>
       </div>
 
+      {/* Badge top-right — solo si hay openingSoon (sedes no operativas aún). */}
+      {sede.openingSoon && (
+        <div className="absolute top-6 right-6 max-[640px]:top-4 max-[640px]:right-5 z-10">
+          <span
+            className="inline-flex items-center px-2.5 py-[6px] text-[9px] font-bold tracking-[2px] uppercase text-black"
+            style={{
+              background: "linear-gradient(135deg, #f0c478 0%, #dcaf64 100%)",
+              borderRadius: 2,
+            }}
+          >
+            {sede.openingSoon}
+          </span>
+        </div>
+      )}
+
       <div className="absolute inset-x-0 bottom-0 z-10 p-6 max-[640px]:p-5 flex items-end justify-between gap-3">
         <div className="max-w-[420px]">
           <span className="block text-[10px] font-semibold tracking-[2px] uppercase text-white/55 mb-2">
@@ -2289,9 +2304,6 @@ function SedeCard({
           <h3 className="font-bold text-[clamp(20px,2.2vw,30px)] uppercase tracking-[-0.5px] leading-[1.05] text-white">
             {sede.name}
           </h3>
-          <p className="mt-2 text-[13px] max-[640px]:text-[12px] font-light leading-[1.45] text-white/70">
-            {sede.subtitle}
-          </p>
         </div>
         <span
           className="shrink-0 flex items-center gap-2 text-[10px] font-bold tracking-[2px] uppercase text-[var(--g1)]"
@@ -2429,7 +2441,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
             {t.academy.network.headingAccent}
           </span>
         </h2>
-        <p className="max-w-[640px] mt-4 text-[14px] max-[960px]:text-[13px] opacity-75 leading-[1.55]" style={{ color: "var(--wh)" }}>
+        <p className="max-w-[640px] mt-4 text-[14px] max-[960px]:text-[13px] opacity-75 leading-[1.55] theme-text">
           {t.academy.network.headingSub}
         </p>
       </div>

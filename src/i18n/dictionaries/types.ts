@@ -407,11 +407,12 @@ export interface Dictionary {
       readonly sedes: readonly {
         readonly name: string;
         readonly flag: string;
-        readonly subtitle: string;
         readonly cta: string;
         readonly href: string;
         /** URL opcional de video de fondo (mp4/webm). Si no, se usa gradient. */
         readonly video?: string;
+        /** Badge opcional de "próxima apertura" — se pinta top-right de la card. */
+        readonly openingSoon?: string;
       }[];
       readonly mapLabel: string;
       readonly mapHint: string;

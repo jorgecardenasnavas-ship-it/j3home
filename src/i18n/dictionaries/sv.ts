@@ -709,14 +709,13 @@ export const sv = {
         {
           name: "Vals Los Limoneros",
           flag: "Puerto de la Torre \u00B7 M\u00E1laga",
-          subtitle: "Huvudbas. D\u00E4r metoden f\u00F6ds.",
           cta: "Bes\u00F6k basen",
           href: "https://valssportlimoneros.com",
+          openingSoon: "Kommande \u00F6ppning \u00B7 1 juni 2026",
         },
         {
           name: "Finura Padel",
           flag: "M\u00E1laga centrum",
-          subtitle: "Andra basen. I drift sedan 2026.",
           cta: "Bes\u00F6k Finura",
           href: "https://finurapadelgym.com",
           video: "https://finurapadelgym.com/wp-content/uploads/2025/10/home-2.webm",
