@@ -876,6 +876,7 @@ function HeroSection() {
     legendTitle: t.academy.network.legendTitle,
     legendHq: t.academy.network.legendHq,
     legendCoach: t.academy.network.legendCoach,
+    legendCoachEx: t.academy.network.legendCoachEx,
     legendCluster: t.academy.network.legendCluster,
     viewInMaps: t.academy.network.viewInMaps,
     youAreHere: t.academy.network.youAreHere,

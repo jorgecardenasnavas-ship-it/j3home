@@ -378,12 +378,20 @@ const pinStyles = `
     height: 16px;
     box-shadow: 0 0 0 1.5px rgba(0,0,0,0.6), 0 2px 8px rgba(220,175,100,0.7);
   }
-  /* Un solo dot "coach" para todos los coaches del mapa (certificados
-     y recomendados). La diferenciación vive en la card, no en el pin. */
+  /* Dot "coach activo" — gold lleno, igual que el pin del certificado al día. */
   .j3-legend-dot-coach {
     width: 10px;
     height: 10px;
     box-shadow: 0 0 0 1px rgba(0,0,0,0.55), 0 0 5px rgba(220,175,100,0.45);
+  }
+  /* Dot "ex-certificado" — hollow ring, espejo del pin del mapa para los
+     que bajaron del plan de certificación. */
+  .j3-legend-dot-coach-ex {
+    width: 10px;
+    height: 10px;
+    background: transparent !important;
+    border: 1.5px solid rgba(220,175,100,0.6);
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.4);
   }
   .j3-legend-dot-cluster {
     width: 18px;
@@ -508,7 +516,10 @@ interface PopupLabels {
   /** Labels de la mini-leyenda (Headquarter · Coach · Cluster) */
   legendTitle: string;
   legendHq: string;
+  /** Coach con certificación activa — pin gold lleno. Ej: "Certificado" */
   legendCoach: string;
+  /** Coach ex-certificado (bajó a 19€) — pin hollow. Ej: "Ex-certificado" */
+  legendCoachEx: string;
   legendCluster: string;
   /** Label del botón "Ver en Maps" */
   viewInMaps: string;
@@ -1416,6 +1427,10 @@ function MapLegend({ labels }: { labels: PopupLabels }) {
               <div class="j3-legend-row">
                 <span class="j3-legend-dot j3-legend-dot-coach" aria-hidden></span>
                 <span>${labels.legendCoach}</span>
+              </div>
+              <div class="j3-legend-row">
+                <span class="j3-legend-dot j3-legend-dot-coach-ex" aria-hidden></span>
+                <span>${labels.legendCoachEx}</span>
               </div>
               <div class="j3-legend-row">
                 <span class="j3-legend-dot j3-legend-dot-cluster" aria-hidden>3</span>

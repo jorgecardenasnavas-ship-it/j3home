@@ -473,8 +473,10 @@ export interface Dictionary {
       readonly legendTitle: string;
       /** Label de la fila "Headquarter" en la leyenda */
       readonly legendHq: string;
-      /** Label genérico "Coach" en la leyenda (todos los pines de coaches son iguales). */
+      /** Fila "Certificado al día" — pin gold lleno. Ej: "Certificado" */
       readonly legendCoach: string;
+      /** Fila "Ex-certificado" — pin hollow. Ej: "Ex-certificado" */
+      readonly legendCoachEx: string;
       /** Label de la fila "Cluster (agrupación)" en la leyenda */
       readonly legendCluster: string;
       /** Label del botón "Ver en Maps" en el popup */
