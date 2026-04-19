@@ -139,14 +139,17 @@ export interface Coach {
 
    Cobertura:
      1. HQ — J3 Lab Málaga
-     2. Certificado activo · sin extras (baseline limpio)
+     2. Certificado activo · sin extras (baseline limpio, entró 2026)
      3. Certificado activo + Gen ONE
      4. Certificado activo + Founder
      5. Founder + Mentor + 2 distinciones (la card más rica)
      6. Gen ONE + Mentor + 1 distinción
-     7. Ex-certificado · sin extras (estado apagado)
+     7. Gen ONE + Ex-certificado (entró 2025, no Founder)
      8. Ex-certificado + Founder
-     9. Ex-certificado + 2 distinciones (logros permanentes)
+     9. Gen ONE + Ex-certificado + 2 distinciones (logros permanentes)
+
+   Regla Gen ONE: entró entre Sep 1 y Dic 31 de 2025 (no-founder).
+   Los Founders son la cohorte específica del 2025-08-01.
    ────────────────────────────────────────────── */
 
 export const COACHES: readonly Coach[] = [
@@ -272,7 +275,8 @@ export const COACHES: readonly Coach[] = [
     joinedAt: "2025-11-03",
   },
 
-  // 7 · Ex-certificado · limpio (se certificó, luego bajó a 19€)
+  // 7 · Ex-certificado + Gen ONE (entró Dic 2025 → Gen ONE;
+  //      se certificó Feb 2026, luego bajó a 19€)
   {
     slug: "thomas-bernard-lyon",
     name: "Thomas Bernard",
@@ -285,6 +289,7 @@ export const COACHES: readonly Coach[] = [
     tier: "coach",
     type: "coach",
     featured: true,
+    genOne: true,
     certifiedAt: "2026-02-05",
     certificationActive: false,
     joinedAt: "2025-12-10",
@@ -309,7 +314,8 @@ export const COACHES: readonly Coach[] = [
     joinedAt: "2025-08-01",
   },
 
-  // 9 · Ex-certificado + 2 distinciones (logros permanentes tras dejar Mentor)
+  // 9 · Gen ONE + Ex-certificado + 2 distinciones (entró Sep 2025 → Gen ONE;
+  //      logros permanentes tras dejar Mentor)
   {
     slug: "james-walker-london",
     name: "James Walker",
@@ -322,6 +328,7 @@ export const COACHES: readonly Coach[] = [
     tier: "coach",
     type: "coach",
     featured: true,
+    genOne: true,
     certifiedAt: "2026-01-15",
     certificationActive: false,
     distinctions: ["forma-coaches", "multilingue"],
