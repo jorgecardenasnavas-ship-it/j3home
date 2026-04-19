@@ -759,12 +759,20 @@ function PopupContent({
           {certLine && (
             <div
               style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 5,
                 color: certLine.active ? "#dcaf64" : "rgba(245,240,232,0.62)",
                 fontWeight: certLine.active ? 600 : 400,
                 fontStyle: certLine.active ? "normal" : "italic",
               }}
             >
-              {certLine.text}
+              {certLine.active && (
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden style={{ flexShrink: 0 }}>
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              )}
+              <span>{certLine.text}</span>
             </div>
           )}
         </div>

@@ -273,7 +273,10 @@ export default function CoachCard({ coach, labels, userCoords, onAsk }: CoachCar
               {labels.memberSince.replace("{date}", formatMonthYear(badges.joinedAt, labels.monthShort))}
             </span>
             {badges.certifiedAt && badges.status === "certified-active" && (
-              <span className="text-[11px] font-semibold text-[var(--g1)] tracking-[0.2px]">
+              <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[var(--g1)] tracking-[0.2px]">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="shrink-0">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
                 {labels.certifiedSince}
               </span>
             )}

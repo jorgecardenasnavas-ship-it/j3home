@@ -2655,17 +2655,22 @@ function PorscheCoachCard({
             >
               {coach.location.city} · {coach.location.country}
             </p>
-            {/* Línea de certificación — dorada si activa, itálica apagada si histórica.
-                Se pinta DEBAJO de la ubicación, por encima de la especialidad
-                porque es el dato de mayor autoridad. */}
+            {/* Línea de certificación — tick dorado + "Certificado" si activa,
+                itálica apagada con fecha si histórica. Justo debajo de la ubicación,
+                por encima de la especialidad porque es el dato de mayor autoridad. */}
             {certText && (
               <p
-                className={`mt-[4px] text-[9.5px] tracking-[0.3px] truncate ${
+                className={`mt-[4px] text-[9.5px] tracking-[0.3px] truncate flex items-center gap-1 ${
                   certText.active ? "font-bold text-[var(--g1)]" : "italic text-white/55"
                 }`}
                 style={{ textShadow: "0 1px 6px rgba(0,0,0,0.5)" }}
               >
-                {certText.text}
+                {certText.active && (
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="shrink-0">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                )}
+                <span className="truncate">{certText.text}</span>
               </p>
             )}
             {/* Especialidad verificada — solo si hay certificación activa.
