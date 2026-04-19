@@ -1410,29 +1410,6 @@ function MapLegend({ labels }: { labels: PopupLabels }) {
                 <span class="j3-legend-dot j3-legend-dot-cluster" aria-hidden>3</span>
                 <span>${labels.legendCluster}</span>
               </div>
-
-              <div class="j3-legend-separator"></div>
-              <div class="j3-legend-subtitle">${labels.legendDistinctionsTitle}</div>
-
-              <div class="j3-legend-group">${labels.legendDistGroupProfesional}</div>
-              <div class="j3-legend-dist"><span class="j3-legend-dist-dot" aria-hidden></span><span>${labels.distinctionFormaCoaches}</span></div>
-              <div class="j3-legend-dist"><span class="j3-legend-dist-dot" aria-hidden></span><span>${labels.distinctionJugadoresCircuito}</span></div>
-              <div class="j3-legend-dist"><span class="j3-legend-dist-dot" aria-hidden></span><span>${labels.distinctionMultilingue}</span></div>
-              <div class="j3-legend-dist"><span class="j3-legend-dist-dot" aria-hidden></span><span>${labels.distinctionDecano}</span></div>
-
-              <div class="j3-legend-group">${labels.legendDistGroupKids}</div>
-              <div class="j3-legend-dist"><span class="j3-legend-dist-dot" aria-hidden></span><span>${labels.distinctionKidsIniciacion}</span></div>
-              <div class="j3-legend-dist"><span class="j3-legend-dist-dot" aria-hidden></span><span>${labels.distinctionJuniorsTecnificacion}</span></div>
-              <div class="j3-legend-dist"><span class="j3-legend-dist-dot" aria-hidden></span><span>${labels.distinctionProtocoloFamiliar}</span></div>
-
-              <div class="j3-legend-group">${labels.legendDistGroupAmateur}</div>
-              <div class="j3-legend-dist"><span class="j3-legend-dist-dot" aria-hidden></span><span>${labels.distinctionIniciacionAdulto}</span></div>
-              <div class="j3-legend-dist"><span class="j3-legend-dist-dot" aria-hidden></span><span>${labels.distinctionReeducacionTecnica}</span></div>
-              <div class="j3-legend-dist"><span class="j3-legend-dist-dot" aria-hidden></span><span>${labels.distinctionGruposMixtos}</span></div>
-
-              <div class="j3-legend-group">${labels.legendDistGroupVacacional}</div>
-              <div class="j3-legend-dist"><span class="j3-legend-dist-dot" aria-hidden></span><span>${labels.distinctionBautismoPadel}</span></div>
-              <div class="j3-legend-dist"><span class="j3-legend-dist-dot" aria-hidden></span><span>${labels.distinctionExperienciaFamiliar}</span></div>
             </div>
           </details>
         `;
