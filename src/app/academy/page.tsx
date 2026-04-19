@@ -2518,15 +2518,18 @@ function PorscheCoachCard({
         }}
       />
 
-      {/* Badge tier — top-left, compacto */}
-      <div className="absolute top-3 left-3 z-[10] flex items-center gap-1.5">
-        <span className="relative inline-flex shrink-0" aria-hidden>
-          <span className="w-[5px] h-[5px] rounded-full bg-[var(--g1)]" />
-        </span>
-        <span className="text-[8px] font-bold tracking-[1.8px] uppercase text-[var(--g1)]">
-          {isHq ? labels.badgeHq : labels.badgeRecommended}
-        </span>
-      </div>
+      {/* Badge tier — top-left. Solo se pinta para HQ o Recommended.
+          'Trained' sale sin badge (su credencial es estar en el mapa). */}
+      {(isHq || coach.tier === "recommended") && (
+        <div className="absolute top-3 left-3 z-[10] flex items-center gap-1.5">
+          <span className="relative inline-flex shrink-0" aria-hidden>
+            <span className="w-[5px] h-[5px] rounded-full bg-[var(--g1)]" />
+          </span>
+          <span className="text-[8px] font-bold tracking-[1.8px] uppercase text-[var(--g1)]">
+            {isHq ? labels.badgeHq : labels.badgeRecommended}
+          </span>
+        </div>
+      )}
 
       {/* Km from user — top-right si hay coords */}
       {userCoords && labels.kmFromYou && (

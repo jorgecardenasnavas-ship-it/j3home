@@ -37,7 +37,7 @@ import "leaflet.markercluster"; // side-effect: registra L.markerClusterGroup
 import { MapContainer, TileLayer, useMap, ZoomControl } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet.markercluster/dist/MarkerCluster.css";
-import type { Coach } from "@/data/coaches";
+import type { Coach, CoachTier } from "@/data/coaches";
 import type { LatLng } from "@/lib/geo";
 import { LanguageChip } from "@/components/LanguageChip";
 
@@ -99,6 +99,17 @@ const pinStyles = `
   }
   .j3-pin-academy::after {
     inset: 7px;
+  }
+  /* Coach Recommended: pin 32px con halo gold sutil (no tan intenso
+     como Lab, pero diferenciable de Trained). Sin pulse ring — ese
+     queda reservado para el Lab. */
+  .j3-pin-recommended {
+    width: 32px;
+    height: 32px;
+    box-shadow: 0 0 0 1.5px rgba(0,0,0,0.55), 0 4px 16px rgba(220,175,100,0.45);
+  }
+  .j3-pin-recommended::after {
+    inset: 6px;
   }
   @keyframes j3PulseRing {
     0%   { transform: scale(0.8); opacity: 1; }
@@ -427,13 +438,20 @@ function resolveKind(c: Coach): "lab" | "academy" | "coach" {
   return "coach";
 }
 
-function makeIcon(kind: "lab" | "academy" | "coach"): L.DivIcon {
-  const sizes = { lab: 48, academy: 36, coach: 28 } as const;
-  const modifier = kind === "lab" ? " j3-pin-lab" : kind === "academy" ? " j3-pin-academy" : "";
-  const size = sizes[kind];
+function makeIcon(kind: "lab" | "academy" | "coach", tier?: CoachTier): L.DivIcon {
+  /* Tamaños base por kind. Los coaches Recommended ganan 4px de
+     tamaño + halo gold (via clase) para priorizar visualmente sobre
+     Trained sin crear 3 sizes distintos arbitrarios. */
+  const baseSize = { lab: 48, academy: 36, coach: 28 }[kind];
+  const isRecommended = kind === "coach" && tier === "recommended";
+  const size = isRecommended ? baseSize + 4 : baseSize;
+  const kindModifier =
+    kind === "lab" ? " j3-pin-lab" :
+    kind === "academy" ? " j3-pin-academy" :
+    isRecommended ? " j3-pin-recommended" : "";
   return L.divIcon({
     className: "j3-pin",
-    html: `<div class="j3-pin-inner${modifier}"></div>`,
+    html: `<div class="j3-pin-inner${kindModifier}"></div>`,
     iconSize: [size, size],
     iconAnchor: [size / 2, size / 2],
     popupAnchor: [0, -size / 2],
@@ -805,7 +823,7 @@ function ClusteredMarkers({
       const popupHtml = renderToStaticMarkup(
         <PopupContent coach={c} labels={labels} kind={kind} />
       );
-      const m = L.marker(c.location.coordinates, { icon: makeIcon(kind) });
+      const m = L.marker(c.location.coordinates, { icon: makeIcon(kind, c.tier) });
       m.bindPopup(popupHtml, { maxWidth: 280, minWidth: 240 });
 
       // Al abrir el popup, reflejar el coach en el hash de la URL

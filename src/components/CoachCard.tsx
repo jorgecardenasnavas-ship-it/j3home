@@ -116,16 +116,19 @@ export default function CoachCard({ coach, labels, userCoords, onAsk }: CoachCar
           </div>
         )}
 
-        {/* Badge tier */}
-        <span
-          className="absolute top-3 left-3 inline-flex items-center gap-2 px-2.5 py-1 bg-black/70 backdrop-blur-sm border border-[var(--g1)]/40"
-          style={{ borderRadius: 2 }}
-        >
-          <span className="w-[5px] h-[5px] rounded-full bg-[var(--g1)]" aria-hidden />
-          <span className="text-[9px] font-bold tracking-[2px] uppercase text-[var(--g1)]">
-            {isHq ? labels.badgeHq : labels.badgeRecommended}
+        {/* Badge tier — HQ y Recommended. Trained no lleva badge:
+            su credencial es aparecer en la red J3. */}
+        {(isHq || coach.tier === "recommended") && (
+          <span
+            className="absolute top-3 left-3 inline-flex items-center gap-2 px-2.5 py-1 bg-black/70 backdrop-blur-sm border border-[var(--g1)]/40"
+            style={{ borderRadius: 2 }}
+          >
+            <span className="w-[5px] h-[5px] rounded-full bg-[var(--g1)]" aria-hidden />
+            <span className="text-[9px] font-bold tracking-[2px] uppercase text-[var(--g1)]">
+              {isHq ? labels.badgeHq : labels.badgeRecommended}
+            </span>
           </span>
-        </span>
+        )}
 
         {/* Badge de distancia — solo visible cuando el usuario ha
             compartido su ubicación. Se pinta arriba-derecha con icono

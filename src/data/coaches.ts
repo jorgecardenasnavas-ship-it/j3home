@@ -12,7 +12,19 @@
    ────────────────────────────────────────────── */
 
 export type CoachSpecialty = "juniors" | "adultos" | "competicion" | "camps";
-export type CoachTier = "hq" | "recommended" | "elite";
+/**
+ * Tier público de visibilidad de un coach:
+ *  - 'hq'          → Lab/Headquarter (solo las sedes J3 propias).
+ *  - 'recommended' → Coaches que J3 recomienda editorialmente (plan Pro).
+ *                    Badge 'J3 Recommended', halo gold en el pin, ranking
+ *                    sobre 'trained'.
+ *  - 'trained'     → Coaches que han completado la formación Coach360
+ *                    (plan Plus). Aparecen en el mapa sin badge — su
+ *                    credencial es estar aquí.
+ *  Modelo "v3": 2 tiers públicos de coach (Recommended destaca, Trained
+ *  es implícito). Partners/sedes viven como concepto aparte en la UI.
+ */
+export type CoachTier = "hq" | "recommended" | "trained";
 /**
  * Tipo de nodo dentro de la red J3:
  *  - 'lab'     → J3 Lab (sede origen, solo Málaga).
@@ -423,8 +435,8 @@ export const COACH_SPECIALTIES: readonly CoachSpecialty[] = [
 
 const TIER_ORDER: Record<CoachTier, number> = {
   hq: 0,
-  elite: 1,
-  recommended: 2,
+  recommended: 1,
+  trained: 2,
 };
 
 /**
