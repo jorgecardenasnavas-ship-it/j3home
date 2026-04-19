@@ -839,11 +839,11 @@ function HeroSection() {
 
   /* ── Filtros compartidos con NetworkSection via FilterContext ── */
   const allCoaches = useMemo(() => sortCoaches(COACHES), []);
-  const { country, setCountry, language, setLanguage, specialty, setSpecialty } = useFilters();
+  const { country, setCountry, language, setLanguage, specialty, setSpecialty, certifiedOnly, setCertifiedOnly } = useFilters();
 
   const filtered = useMemo(
-    () => filterCoaches(allCoaches, { country, language, specialty }),
-    [allCoaches, country, language, specialty],
+    () => filterCoaches(allCoaches, { country, language, specialty, certifiedOnly }),
+    [allCoaches, country, language, specialty, certifiedOnly],
   );
 
   const specialtyLabel = (s: CoachSpecialty) =>
@@ -857,7 +857,6 @@ function HeroSection() {
 
   const mapLabels = {
     badgeHq: t.academy.network.badgeHq,
-    badgeRecommended: t.academy.network.badgeRecommended,
     badgeFounder: t.academy.network.badgeFounder,
     specialtyLabel: t.academy.network.specialtyLabel,
     specialtyJuniors: t.academy.network.specialtyJuniors,
@@ -868,12 +867,14 @@ function HeroSection() {
     distinctionJugadoresCircuito: t.academy.network.distinctionJugadoresCircuito,
     distinctionMultilingue: t.academy.network.distinctionMultilingue,
     distinctionDecano: t.academy.network.distinctionDecano,
+    monthShort: t.academy.network.monthShort,
     memberSince: t.academy.network.memberSince,
+    certifiedSince: t.academy.network.certifiedSince,
+    lastCertification: t.academy.network.lastCertification,
     askChatbot: t.academy.network.askChatbot,
     legendTitle: t.academy.network.legendTitle,
     legendHq: t.academy.network.legendHq,
-    legendRecommended: t.academy.network.legendRecommended,
-    legendTrained: t.academy.network.legendTrained,
+    legendCoach: t.academy.network.legendCoach,
     legendCluster: t.academy.network.legendCluster,
     viewInMaps: t.academy.network.viewInMaps,
     youAreHere: t.academy.network.youAreHere,
@@ -2444,13 +2445,16 @@ function PorscheCoachCard({
   coach: Coach;
   labels: {
     badgeHq: string;
-    badgeRecommended: string;
     badgeFounder: string;
     specialtyLabel: string;
     specialtyJuniors: string;
     specialtyAdultos: string;
     specialtyCompeticion: string;
     specialtyCamps: string;
+    monthShort: readonly string[];
+    memberSince: string;
+    certifiedSince: string;
+    lastCertification: string;
     askChatbot: string;
     kmFromYou?: string;
   };
@@ -2462,13 +2466,13 @@ function PorscheCoachCard({
 }) {
   const isHq = coach.tier === "hq";
   const expanded = isHovered;
-  /* Badges normalizados por la lógica central (getCoachBadges):
-     - 'recomendado' solo para tier='recommended'
-     - 'founder' puede combinarse con cualquier tier
-     - specialties verificadas solo si recomendado (máx. 2) */
+  /* Badges normalizados por la lógica central:
+     - Founder es histórico, combinable con cualquier estado
+     - Specialties solo si certificación activa (J3 solo avala actuales)
+     - Distinctions solo si mentorActive
+     - Status computado (hq / certified-active / ex-certified / base) */
   const badges = getCoachBadges(coach);
-  /* Label legible de la primera especialidad verificada — la mostramos
-     debajo del nombre cuando hay Recomendado. */
+  /* Label legible de la primera especialidad (máx. 1 en la card pequeña). */
   const primarySpecialty = badges.specialties[0];
   const primarySpecialtyLabel = primarySpecialty
     ? primarySpecialty === "juniors"
@@ -2478,6 +2482,20 @@ function PorscheCoachCard({
       : primarySpecialty === "competicion"
       ? labels.specialtyCompeticion
       : labels.specialtyCamps
+    : null;
+  /* Línea de certificación en el bottom: activa (dorado) o histórica (itálica). */
+  const formatMonthYear = (iso: string) => {
+    const m = /^(\d{4})-(\d{2})/.exec(iso);
+    if (!m) return iso;
+    const idx = parseInt(m[2], 10) - 1;
+    return idx >= 0 && idx < 12 ? `${labels.monthShort[idx]} ${m[1]}` : iso;
+  };
+  const certText: { text: string; active: boolean } | null = badges.certifiedAt
+    ? badges.status === "certified-active"
+      ? { text: labels.certifiedSince.replace("{date}", formatMonthYear(badges.certifiedAt)), active: true }
+      : badges.status === "ex-certified"
+      ? { text: labels.lastCertification.replace("{date}", formatMonthYear(badges.certifiedAt)), active: false }
+      : null
     : null;
   return (
     <button
@@ -2559,11 +2577,11 @@ function PorscheCoachCard({
         }}
       />
 
-      {/* Stack de badges — top-left.
-          Orden: HQ > Recomendado > Founder.
-          Certificados sin Founder no ven badge aquí (su credencial es
-          estar en el mapa) — la card queda limpia y el nombre brilla. */}
-      {(isHq || badges.recomendado || badges.founder) && (
+      {/* Badges top-left. Solo HQ (sede) o Founder (histórico). El estado
+          del coach (certificado/ex-cert/base) se comunica abajo con las
+          líneas de fecha — no con badges. Así "Recomendado" no existe
+          como categoría y el mapa queda democrático. */}
+      {(isHq || badges.founder) && (
         <div className="absolute top-3 left-3 z-[10] flex flex-wrap items-center gap-1.5 max-w-[calc(100%-24px)]">
           {isHq && (
             <span className="inline-flex items-center gap-1 px-1.5 py-[2px] bg-black/55 backdrop-blur-[2px]" style={{ borderRadius: 2 }}>
@@ -2571,14 +2589,6 @@ function PorscheCoachCard({
                 style={{ boxShadow: "0 0 4px var(--g1)" }} />
               <span className="text-[8px] font-bold tracking-[1.6px] uppercase text-[var(--g1)]">
                 {labels.badgeHq}
-              </span>
-            </span>
-          )}
-          {!isHq && badges.recomendado && (
-            <span className="inline-flex items-center gap-1 px-1.5 py-[2px] bg-black/55 backdrop-blur-[2px]" style={{ borderRadius: 2 }}>
-              <span className="w-[4px] h-[4px] rounded-full bg-[var(--g1)]" aria-hidden />
-              <span className="text-[8px] font-bold tracking-[1.6px] uppercase text-[var(--g1)]">
-                {labels.badgeRecommended}
               </span>
             </span>
           )}
@@ -2609,7 +2619,7 @@ function PorscheCoachCard({
         </div>
       )}
 
-      {/* Bottom — name + ubicación + especialidad verificada + CTA arrow */}
+      {/* Bottom — name + ubicación + fechas + especialidad + CTA arrow */}
       <div className="absolute bottom-0 left-0 right-0 z-[13] p-[14px] min-[640px]:p-[16px]">
         <div className="flex items-end justify-between gap-2">
           <div className="min-w-0 flex-1">
@@ -2625,13 +2635,24 @@ function PorscheCoachCard({
             >
               {coach.location.city} · {coach.location.country}
             </p>
-            {/* Especialidad verificada — solo Recomendados. Un único chip
-                compacto debajo de la ubicación. En la card pequeña no
-                tiene sentido listar todas: con la primera (la más fuerte)
-                ya queda claro el territorio en el que J3 lo avala. */}
+            {/* Línea de certificación — dorada si activa, itálica apagada si histórica.
+                Se pinta DEBAJO de la ubicación, por encima de la especialidad
+                porque es el dato de mayor autoridad. */}
+            {certText && (
+              <p
+                className={`mt-[4px] text-[9.5px] tracking-[0.3px] truncate ${
+                  certText.active ? "font-bold text-[var(--g1)]" : "italic text-white/55"
+                }`}
+                style={{ textShadow: "0 1px 6px rgba(0,0,0,0.5)" }}
+              >
+                {certText.text}
+              </p>
+            )}
+            {/* Especialidad verificada — solo si hay certificación activa.
+                En la card pequeña mostramos una sola (la más fuerte). */}
             {primarySpecialtyLabel && (
               <p
-                className="mt-[6px] text-[9px] font-bold tracking-[1.4px] uppercase truncate text-[var(--g1)]"
+                className="mt-[4px] text-[9px] font-bold tracking-[1.4px] uppercase truncate text-[var(--g1)]/85"
                 style={{ textShadow: "0 1px 6px rgba(0,0,0,0.5)" }}
               >
                 {labels.specialtyLabel} {primarySpecialtyLabel}
@@ -2666,13 +2687,16 @@ function CoachesCarousel({
   coaches: readonly Coach[];
   labels: {
     badgeHq: string;
-    badgeRecommended: string;
     badgeFounder: string;
     specialtyLabel: string;
     specialtyJuniors: string;
     specialtyAdultos: string;
     specialtyCompeticion: string;
     specialtyCamps: string;
+    monthShort: readonly string[];
+    memberSince: string;
+    certifiedSince: string;
+    lastCertification: string;
     askChatbot: string;
     kmFromYou?: string;
   };
@@ -2779,7 +2803,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const allCoaches = useMemo(() => sortCoaches(COACHES).filter(c => c.tier !== "hq"), []);
 
   // Filtros compartidos con HeroSection via FilterContext.
-  const { country, setCountry, language, setLanguage, specialty, setSpecialty, hasAnyFilter, resetAll: resetFilters } = useFilters();
+  const { country, setCountry, language, setLanguage, specialty, setSpecialty, certifiedOnly, setCertifiedOnly, hasAnyFilter, resetAll: resetFilters } = useFilters();
 
   // Geolocalización opt-in compartida vía GeoContext. `coords` es null
   // hasta que el usuario pulsa "Cerca de mí" y el navegador concede
@@ -2788,7 +2812,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const geo = useGeo();
 
   const filtered = useMemo(() => {
-    const list = filterCoaches(allCoaches, { country, language, specialty });
+    const list = filterCoaches(allCoaches, { country, language, specialty, certifiedOnly });
     if (!geo.coords) return list;
     // Mutable copy para sort. Haversine es trivial computacionalmente.
     const withDistance = [...list].map((c) => ({
@@ -2797,7 +2821,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
     }));
     withDistance.sort((a, b) => a.km - b.km);
     return withDistance.map((x) => x.coach);
-  }, [allCoaches, country, language, specialty, geo.coords]);
+  }, [allCoaches, country, language, specialty, certifiedOnly, geo.coords]);
 
   // 6 destacados en desktop, 3 en mobile.
   /* En carrusel horizontal cabe más material que en grid — incrementamos
@@ -2811,13 +2835,16 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
 
   const gridLabels = {
     badgeHq: t.academy.network.badgeHq,
-    badgeRecommended: t.academy.network.badgeRecommended,
     badgeFounder: t.academy.network.badgeFounder,
     specialtyLabel: t.academy.network.specialtyLabel,
     specialtyJuniors: t.academy.network.specialtyJuniors,
     specialtyAdultos: t.academy.network.specialtyAdultos,
     specialtyCompeticion: t.academy.network.specialtyCompeticion,
     specialtyCamps: t.academy.network.specialtyCamps,
+    monthShort: t.academy.network.monthShort,
+    memberSince: t.academy.network.memberSince,
+    certifiedSince: t.academy.network.certifiedSince,
+    lastCertification: t.academy.network.lastCertification,
     askChatbot: t.academy.network.askChatbot,
     kmFromYou: t.academy.network.kmFromYou,
   };
@@ -2844,7 +2871,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   };
 
   // CTA "ver todos": cambia de texto según haya filtros activos.
-  const viewAllHref = buildCoachesUrl({ country, language, specialty });
+  const viewAllHref = buildCoachesUrl({ country, language, specialty, certifiedOnly });
   const viewAllLabel = hasAnyFilter
     ? t.academy.network.viewFilteredCta.replace("{count}", filtered.length.toString())
     : t.academy.network.viewAllCta.replace("{count}", allCoaches.length.toString());
@@ -2918,6 +2945,38 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
             onChange={setSpecialty}
             options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_SPECIALTIES.map(s => ({ value: s, label: specialtyLabel(s) }))]}
           />
+
+          {/* Toggle "Solo certificados" — oculta coaches base y ex-certificados.
+              El jugador que busca en serio puede filtrar por calidad verificada.
+              El coach base sabe que existe este filtro → incentivo para certificarse. */}
+          <button
+            type="button"
+            role="switch"
+            aria-checked={certifiedOnly}
+            onClick={() => setCertifiedOnly(!certifiedOnly)}
+            className={`inline-flex items-center gap-2 px-3 py-1.5 text-[10px] tracking-[2px] uppercase font-bold transition-all ${
+              certifiedOnly
+                ? "text-[#000] bg-gradient-to-br from-[#f0c478] to-[#dcaf64] hover:brightness-110"
+                : "text-[var(--g1)] border border-[var(--g1)]/50 hover:border-[var(--g1)] hover:bg-[var(--g1)]/10"
+            }`}
+            style={{ borderRadius: 2 }}
+          >
+            <span
+              aria-hidden
+              className={`inline-flex items-center justify-center w-3 h-3 border ${
+                certifiedOnly ? "bg-[#000] border-[#000]" : "border-[var(--g1)]/70"
+              }`}
+              style={{ borderRadius: 1 }}
+            >
+              {certifiedOnly && (
+                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="var(--g1)" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              )}
+            </span>
+            {t.academy.network.filterCertifiedOnly}
+          </button>
+
           {/* Cerca de mí — botón de geolocalización opt-in. Cambia de
               aspecto según el estado del hook (idle/loading/success/error).
               Cuando success, aparece un 'X' para limpiar y volver al orden

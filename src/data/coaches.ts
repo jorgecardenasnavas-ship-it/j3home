@@ -14,49 +14,39 @@
 export type CoachSpecialty = "juniors" | "adultos" | "competicion" | "camps";
 
 /**
- * Tier público del coach — la "capa base" que determina quién aparece
- * en el mapa y con qué garantía:
+ * Tier del coach — capa base que clasifica el NODO en el mapa:
  *
- *  - 'hq'          → J3 Lab / Headquarter (solo las sedes J3 propias).
- *  - 'recommended' → Coach en mentoría activa con J3. J3 conoce cómo
- *                    trabaja hoy y lo avala. Lleva badge 'Recomendado J3'
- *                    en la card. Puede además mostrar especialidades
- *                    verificadas y distinciones (Forma coaches, Jugadores
- *                    en circuito, Multilingüe, Decano).
- *  - 'trained'     → Coach certificado (ha pasado Coach360 Plus + examen).
- *                    Aparece en el mapa sin badges — su credencial es
- *                    estar aquí. J3 valida su formación, no su práctica
- *                    actual.
+ *  - 'hq'    → J3 Lab / Headquarter (sede J3 propia, Málaga).
+ *  - 'coach' → Cualquier coach de la red. Su ESTADO visible (base, certificado
+ *              activo, ex-certificado, mentor con distinciones) se deriva de
+ *              los campos `certifiedAt`, `certificationActive` y `mentorActive`
+ *              — no del tier.
  *
- *  Regla de oro: solo los 'recommended' pueden mostrar badges adicionales
- *  (especialidad, distinciones) porque son los únicos cuya práctica J3
- *  conoce en directo.
- *
- *  El Founder es histórico y puede combinarse con cualquier tier — no
- *  depende de la relación actual.
+ *  Nota: versiones anteriores separaban 'recommended' y 'trained' como tiers.
+ *  Se abandona esa distinción — todos los coaches son iguales a nivel de pin
+ *  en el mapa. La diferencia vive en la card.
  */
-export type CoachTier = "hq" | "recommended" | "trained";
+export type CoachTier = "hq" | "coach";
 
 /**
- * Distinciones reseñables que J3 puede avalar de un coach. Solo
- * se muestran si el coach está en tier 'recommended' (J3 conoce su
- * práctica en directo).
+ * Distinciones reseñables que J3 puede avalar. Solo se renderizan si el
+ * coach tiene `mentorActive: true` (Plan Mentor activo). Se perderán al
+ * instante si baja de plan — son estado activo, no medallas ganadas.
  *
  *  - 'forma-coaches'      → Enseña el método J3 a otros entrenadores.
- *  - 'jugadores-circuito' → Tiene alumnos activos en rankings nacionales
- *                           o en el circuito profesional.
+ *  - 'jugadores-circuito' → Tiene alumnos activos en rankings nacionales o pro.
  *  - 'multilingue'        → Trabaja profesionalmente en 3+ idiomas.
  *
- *  (El 'decano' — 5+ años en la red — se computa desde joinedAt, no
- *   se almacena como distinción explícita.)
+ *  El 'decano' (5+ años en la red) se computa desde joinedAt, no se
+ *  almacena.
  */
 export type CoachDistinction = "forma-coaches" | "jugadores-circuito" | "multilingue";
 
 /**
- * Tipo de nodo dentro de la red J3:
+ * Tipo de nodo en la red J3:
  *  - 'lab'     → J3 Lab (sede origen, solo Málaga).
  *  - 'academy' → J3 Academy (franquicia llave en mano con marca J3).
- *  - 'coach'   → Coach individual con sello (certificado o recomendado).
+ *  - 'coach'   → Coach individual.
  *  Default implícito cuando no se especifica: 'coach'.
  */
 export type CoachType = "lab" | "academy" | "coach";
@@ -80,16 +70,16 @@ export interface Coach {
   clubs?: string[];
   /** ISO 639-1: "es", "en", "fr"… */
   languages?: string[];
-  /** Para filtros. En 'recommended' actúan como especialidades verificadas
-   *  por J3 (mostramos máx. 2 en la card). En 'trained' no se muestran
-   *  en la card — solo sirven para el filtro. */
+  /** Especialidades. Se muestran en la card SOLO si certificationActive=true
+   *  (J3 solo avala especialidades de coaches actualmente certificados).
+   *  Siempre sirven para filtrar. */
   specialties?: CoachSpecialty[];
   socials?: {
     instagram?: string;
     web?: string;
     coach360?: string;
   };
-  /** Tier por defecto cuando se crea un coach: 'trained'. */
+  /** 'hq' solo para sedes J3 propias. Resto: 'coach'. */
   tier: CoachTier;
   /**
    * Tipo de nodo en la red. Default: 'coach'.
@@ -99,17 +89,37 @@ export interface Coach {
   /** Destacar en la home / como primer pin abierto */
   featured?: boolean;
   /**
-   * Founder J3: miembro de la primera hornada de coaches. Distinción
-   * histórica e irrepetible. Puede combinarse con cualquier tier —
-   * no depende de la relación actual.
+   * Founder J3: miembro de la primera hornada. Distinción histórica
+   * irrepetible. Una vez Founder, Founder para siempre — incluso si
+   * baja a plan básico.
    */
   founder?: boolean;
   /**
-   * Distinciones reseñables que J3 avala. Solo se renderizan en la card
-   * cuando el coach está en tier 'recommended'.
+   * Fecha ISO (YYYY-MM-DD) de la última certificación obtenida.
+   * Null/undefined → nunca se certificó (plan base 19€).
+   */
+  certifiedAt?: string;
+  /**
+   * Si true, mantiene plan Plus o Mentor activo y la certificación está
+   * VIGENTE. La card muestra "Certificado desde {mes año}".
+   * Si false con certifiedAt presente → EX-CERTIFICADO. La card muestra
+   * "Última certificación {mes año}".
+   * Si certifiedAt es null/undefined este flag se ignora (coach base).
+   */
+  certificationActive?: boolean;
+  /**
+   * Plan Mentor activo. Requiere certificationActive=true. Habilita el
+   * render de `distinctions` en la card. Al bajar de Mentor a Plus, se
+   * pone a false y las distinciones desaparecen inmediatamente.
+   */
+  mentorActive?: boolean;
+  /**
+   * Distinciones reseñables verificadas por J3. Solo se muestran si
+   * mentorActive=true.
    */
   distinctions?: CoachDistinction[];
-  /** Fecha ISO de alta en Coach360 (YYYY-MM-DD). Usada para ordenar dentro de cada tier. */
+  /** Fecha ISO (YYYY-MM-DD) de alta en la plataforma. Inmutable.
+   *  La card la muestra como "Coach360 desde {mes año}". */
   joinedAt: string;
 }
 
@@ -148,31 +158,31 @@ export const COACHES: readonly Coach[] = [
     joinedAt: "2005-01-01",
   },
 
-  /* ── Recomendados · primera hornada (Founders) ──
-     Los 16 coaches que iniciaron Coach360 el 2025-08-01. Todos arrancan
-     en tier 'recommended' (J3 los mentoriza activamente) y con badge
-     'founder' (distinción histórica, nunca se podrá volver a ganar).
-     Las specialties y distinctions son sample data hasta que cada coach
-     nos confirme las suyas. */
+  /* ── Fundadores · primera hornada ──
+     Los 16 coaches que iniciaron Coach360 el 2025-08-01. Todos llevan
+     badge 'founder' (histórico, irrepetible). Arrancaron la fase beta
+     y se certificaron en Feb 2026 tras superar los requisitos iniciales.
+     Los que además están en Plan Mentor activo tienen `mentorActive:
+     true` y muestran sus distinciones. Los datos (specialties,
+     distinctions) son sample hasta que cada coach confirme los suyos. */
 
   // ── España ──
   {
     slug: "alejandro-coscollano-gonzalez",
     name: "Alejandro Coscollano González",
     role: "Coach",
-    location: {
-      city: "Talavera de la Reina",
-      country: "España",
-      coordinates: [39.9629, -4.8306],
-    },
+    location: { city: "Talavera de la Reina", country: "España", coordinates: [39.9629, -4.8306] },
     clubs: [],
     languages: ["es"],
     specialties: ["juniors"],
     socials: {},
-    tier: "recommended",
+    tier: "coach",
     type: "coach",
     featured: true,
     founder: true,
+    certifiedAt: "2026-02-15",
+    certificationActive: true,
+    mentorActive: true,
     distinctions: ["forma-coaches"],
     joinedAt: "2025-08-01",
   },
@@ -180,57 +190,52 @@ export const COACHES: readonly Coach[] = [
     slug: "aleix-vinals-llagosta",
     name: "Aleix Viñals",
     role: "Coach",
-    location: {
-      city: "La Llagosta",
-      country: "España",
-      coordinates: [41.5182, 2.1932],
-    },
+    location: { city: "La Llagosta", country: "España", coordinates: [41.5182, 2.1932] },
     clubs: [],
     languages: ["es"],
     specialties: ["competicion"],
     socials: {},
-    tier: "recommended",
+    tier: "coach",
     type: "coach",
     featured: true,
     founder: true,
+    certifiedAt: "2026-02-15",
+    certificationActive: true,
     joinedAt: "2025-08-01",
   },
   {
     slug: "andres-fernandez-murcia",
     name: "Andrés Fernández",
     role: "Coach",
-    location: {
-      city: "San Javier",
-      country: "España",
-      coordinates: [37.8045, -0.8360],
-    },
+    location: { city: "San Javier", country: "España", coordinates: [37.8045, -0.8360] },
     clubs: [],
     languages: ["es", "en"],
     specialties: ["adultos"],
     socials: {},
-    tier: "recommended",
+    tier: "coach",
     type: "coach",
     featured: true,
     founder: true,
+    certifiedAt: "2026-02-15",
+    certificationActive: true,
     joinedAt: "2025-08-01",
   },
   {
     slug: "arturo-san-jose-esparza",
     name: "Arturo San José Esparza",
     role: "Coach",
-    location: {
-      city: "Pamplona",
-      country: "España",
-      coordinates: [42.8125, -1.6458],
-    },
+    location: { city: "Pamplona", country: "España", coordinates: [42.8125, -1.6458] },
     clubs: [],
     languages: ["es"],
     specialties: ["juniors", "competicion"],
     socials: {},
-    tier: "recommended",
+    tier: "coach",
     type: "coach",
     featured: true,
     founder: true,
+    certifiedAt: "2026-02-15",
+    certificationActive: true,
+    mentorActive: true,
     distinctions: ["jugadores-circuito"],
     joinedAt: "2025-08-01",
   },
@@ -238,38 +243,35 @@ export const COACHES: readonly Coach[] = [
     slug: "david-camunas-molina",
     name: "David Camuñas Molina",
     role: "Coach",
-    location: {
-      city: "Talavera de la Reina",
-      country: "España",
-      coordinates: [39.9629, -4.8306],
-    },
+    location: { city: "Talavera de la Reina", country: "España", coordinates: [39.9629, -4.8306] },
     clubs: [],
     languages: ["es"],
     specialties: ["camps"],
     socials: {},
-    tier: "recommended",
+    tier: "coach",
     type: "coach",
     featured: true,
     founder: true,
+    certifiedAt: "2026-02-15",
+    certificationActive: true,
     joinedAt: "2025-08-01",
   },
   {
     slug: "diego-valdez-castelldefels",
     name: "Diego Valdez",
     role: "Coach",
-    location: {
-      city: "Castelldefels",
-      country: "España",
-      coordinates: [41.2800, 1.9755],
-    },
+    location: { city: "Castelldefels", country: "España", coordinates: [41.2800, 1.9755] },
     clubs: [],
     languages: ["es"],
     specialties: ["competicion"],
     socials: {},
-    tier: "recommended",
+    tier: "coach",
     type: "coach",
     featured: true,
     founder: true,
+    certifiedAt: "2026-02-15",
+    certificationActive: true,
+    mentorActive: true,
     distinctions: ["jugadores-circuito"],
     joinedAt: "2025-08-01",
   },
@@ -277,38 +279,35 @@ export const COACHES: readonly Coach[] = [
     slug: "manuel-sarachaga-gomez",
     name: "Manuel Sarachaga Gómez",
     role: "Coach",
-    location: {
-      city: "Santander",
-      country: "España",
-      coordinates: [43.4623, -3.8099],
-    },
+    location: { city: "Santander", country: "España", coordinates: [43.4623, -3.8099] },
     clubs: [],
     languages: ["es"],
     specialties: ["adultos"],
     socials: {},
-    tier: "recommended",
+    tier: "coach",
     type: "coach",
     featured: true,
     founder: true,
+    certifiedAt: "2026-02-15",
+    certificationActive: true,
     joinedAt: "2025-08-01",
   },
   {
     slug: "mati-pereira-tarragona",
     name: "Mati Pereira",
     role: "Coach",
-    location: {
-      city: "Tarragona",
-      country: "España",
-      coordinates: [41.1189, 1.2445],
-    },
+    location: { city: "Tarragona", country: "España", coordinates: [41.1189, 1.2445] },
     clubs: [],
     languages: ["es"],
     specialties: ["juniors"],
     socials: {},
-    tier: "recommended",
+    tier: "coach",
     type: "coach",
     featured: true,
     founder: true,
+    certifiedAt: "2026-02-15",
+    certificationActive: true,
+    mentorActive: true,
     distinctions: ["forma-coaches"],
     joinedAt: "2025-08-01",
   },
@@ -316,38 +315,35 @@ export const COACHES: readonly Coach[] = [
     slug: "miguel-laredo-pontevedra",
     name: "Miguel Laredo",
     role: "Coach",
-    location: {
-      city: "Pontevedra",
-      country: "España",
-      coordinates: [42.4336, -8.6448],
-    },
+    location: { city: "Pontevedra", country: "España", coordinates: [42.4336, -8.6448] },
     clubs: [],
     languages: ["es"],
     specialties: ["juniors"],
     socials: {},
-    tier: "recommended",
+    tier: "coach",
     type: "coach",
     featured: true,
     founder: true,
+    certifiedAt: "2026-02-15",
+    certificationActive: true,
     joinedAt: "2025-08-01",
   },
   {
     slug: "nacho-gonzalez-madrid",
     name: "Nacho González",
     role: "Coach",
-    location: {
-      city: "Villanueva de la Cañada",
-      country: "España",
-      coordinates: [40.4467, -3.9942],
-    },
+    location: { city: "Villanueva de la Cañada", country: "España", coordinates: [40.4467, -3.9942] },
     clubs: [],
     languages: ["es", "en"],
     specialties: ["competicion"],
     socials: {},
-    tier: "recommended",
+    tier: "coach",
     type: "coach",
     featured: true,
     founder: true,
+    certifiedAt: "2026-02-15",
+    certificationActive: true,
+    mentorActive: true,
     distinctions: ["forma-coaches", "jugadores-circuito"],
     joinedAt: "2025-08-01",
   },
@@ -357,19 +353,18 @@ export const COACHES: readonly Coach[] = [
     slug: "camilo-masmut-milano",
     name: "Camilo Masmut",
     role: "Coach",
-    location: {
-      city: "Milano",
-      country: "Italia",
-      coordinates: [45.4642, 9.1900],
-    },
+    location: { city: "Milano", country: "Italia", coordinates: [45.4642, 9.1900] },
     clubs: [],
     languages: ["it", "es", "en"],
     specialties: ["adultos"],
     socials: {},
-    tier: "recommended",
+    tier: "coach",
     type: "coach",
     featured: true,
     founder: true,
+    certifiedAt: "2026-02-15",
+    certificationActive: true,
+    mentorActive: true,
     distinctions: ["multilingue"],
     joinedAt: "2025-08-01",
   },
@@ -377,38 +372,34 @@ export const COACHES: readonly Coach[] = [
     slug: "emilio-cigala-desenzano",
     name: "Emilio Cigala",
     role: "Coach",
-    location: {
-      city: "Desenzano del Garda",
-      country: "Italia",
-      coordinates: [45.4710, 10.5380],
-    },
+    location: { city: "Desenzano del Garda", country: "Italia", coordinates: [45.4710, 10.5380] },
     clubs: [],
     languages: ["it", "es"],
     specialties: ["competicion"],
     socials: {},
-    tier: "recommended",
+    tier: "coach",
     type: "coach",
     featured: true,
     founder: true,
+    certifiedAt: "2026-02-15",
+    certificationActive: true,
     joinedAt: "2025-08-01",
   },
   {
     slug: "saul-rielo-cagliari",
     name: "Saúl Rielo",
     role: "Coach",
-    location: {
-      city: "Cagliari",
-      country: "Italia",
-      coordinates: [39.2238, 9.1217],
-    },
+    location: { city: "Cagliari", country: "Italia", coordinates: [39.2238, 9.1217] },
     clubs: [],
     languages: ["it", "es"],
     specialties: ["juniors"],
     socials: {},
-    tier: "recommended",
+    tier: "coach",
     type: "coach",
     featured: true,
     founder: true,
+    certifiedAt: "2026-02-15",
+    certificationActive: true,
     joinedAt: "2025-08-01",
   },
 
@@ -417,19 +408,18 @@ export const COACHES: readonly Coach[] = [
     slug: "lucas-barros-mar-del-plata",
     name: "Lucas Barros",
     role: "Coach",
-    location: {
-      city: "Mar del Plata",
-      country: "Argentina",
-      coordinates: [-38.0055, -57.5426],
-    },
+    location: { city: "Mar del Plata", country: "Argentina", coordinates: [-38.0055, -57.5426] },
     clubs: [],
     languages: ["es"],
     specialties: ["competicion"],
     socials: {},
-    tier: "recommended",
+    tier: "coach",
     type: "coach",
     featured: true,
     founder: true,
+    certifiedAt: "2026-02-15",
+    certificationActive: true,
+    mentorActive: true,
     distinctions: ["jugadores-circuito"],
     joinedAt: "2025-08-01",
   },
@@ -439,19 +429,17 @@ export const COACHES: readonly Coach[] = [
     slug: "andre-silva-esposende",
     name: "André Silva",
     role: "Coach",
-    location: {
-      city: "Esposende",
-      country: "Portugal",
-      coordinates: [41.5362, -8.7817],
-    },
+    location: { city: "Esposende", country: "Portugal", coordinates: [41.5362, -8.7817] },
     clubs: [],
     languages: ["pt", "es"],
     specialties: ["juniors"],
     socials: {},
-    tier: "recommended",
+    tier: "coach",
     type: "coach",
     featured: true,
     founder: true,
+    certifiedAt: "2026-02-15",
+    certificationActive: true,
     joinedAt: "2025-08-01",
   },
 
@@ -460,100 +448,96 @@ export const COACHES: readonly Coach[] = [
     slug: "manuel-agten-sanchez",
     name: "Manuel Agten Sanchez",
     role: "Coach",
-    location: {
-      city: "Tongeren",
-      country: "Bélgica",
-      coordinates: [50.7802, 5.4646],
-    },
+    location: { city: "Tongeren", country: "Bélgica", coordinates: [50.7802, 5.4646] },
     clubs: [],
     languages: ["nl", "es", "en"],
     specialties: ["adultos"],
     socials: {},
-    tier: "recommended",
+    tier: "coach",
     type: "coach",
     featured: true,
     founder: true,
+    certifiedAt: "2026-02-15",
+    certificationActive: true,
+    mentorActive: true,
     distinctions: ["multilingue"],
     joinedAt: "2025-08-01",
   },
 
-  /* ── Certificados · datos de muestra ──
-     Coaches que han pasado Coach360 Plus + examen pero no están en
-     mentoría activa con J3. Aparecen en el mapa sin badges — J3
-     valida su formación, no su práctica actual. No pueden mostrar
-     specialties verificadas ni distinctions (esas requieren que J3
-     conozca su práctica en directo). */
+  /* ── Datos de muestra: los 4 estados visibles ──
+     Ilustran los casos A/B/C/D del documento de escalera de valor:
+       A · Base (19€, sin certificación)
+       B · Certificado activo (Plus)
+       C · Founder + certificado + Mentor (viven en el bloque fundadores)
+       D · Ex-certificada (bajó a 19€ tras certificarse)
+     Estos coaches son sample — se eliminarán cuando lleguen reales. */
+
+  // A · Base (Coach360 19€, sin certificación obtenida nunca)
   {
     slug: "carlos-merino-sevilla",
     name: "Carlos Merino",
     role: "Coach",
-    location: {
-      city: "Sevilla",
-      country: "España",
-      coordinates: [37.3891, -5.9845],
-    },
+    location: { city: "Sevilla", country: "España", coordinates: [37.3891, -5.9845] },
     clubs: [],
     languages: ["es"],
     specialties: [],
     socials: {},
-    tier: "trained",
+    tier: "coach",
     type: "coach",
     featured: true,
     joinedAt: "2026-02-14",
   },
+
+  // B · Certificado activo (Plus, sin mentor)
   {
     slug: "lucia-santos-lisboa",
     name: "Lucía Santos",
     role: "Coach",
-    location: {
-      city: "Lisboa",
-      country: "Portugal",
-      coordinates: [38.7223, -9.1393],
-    },
+    location: { city: "Lisboa", country: "Portugal", coordinates: [38.7223, -9.1393] },
     clubs: [],
     languages: ["pt", "es"],
-    specialties: [],
+    specialties: ["adultos"],
     socials: {},
-    tier: "trained",
+    tier: "coach",
     type: "coach",
     featured: true,
+    certifiedAt: "2026-03-10",
+    certificationActive: true,
     joinedAt: "2026-03-05",
   },
+
+  // A · Base (nuevo en plataforma, aún sin certificar)
   {
     slug: "thomas-bernard-lyon",
     name: "Thomas Bernard",
     role: "Coach",
-    location: {
-      city: "Lyon",
-      country: "Francia",
-      coordinates: [45.7640, 4.8357],
-    },
+    location: { city: "Lyon", country: "Francia", coordinates: [45.7640, 4.8357] },
     clubs: [],
     languages: ["fr", "en"],
     specialties: [],
     socials: {},
-    tier: "trained",
+    tier: "coach",
     type: "coach",
     featured: true,
     joinedAt: "2026-01-20",
   },
+
+  // D · Ex-certificada (se certificó, bajó a 19€ — cert marcada como histórica)
   {
     slug: "martina-rossi-milan",
     name: "Martina Rossi",
     role: "Coach",
-    location: {
-      city: "Milán",
-      country: "Italia",
-      coordinates: [45.4642, 9.1900],
-    },
+    location: { city: "Milán", country: "Italia", coordinates: [45.4642, 9.1900] },
     clubs: [],
     languages: ["it", "en"],
     specialties: [],
     socials: {},
-    tier: "trained",
+    tier: "coach",
     type: "coach",
     featured: true,
-    joinedAt: "2026-03-18",
+    certifiedAt: "2026-03-18",
+    certificationActive: false,
+    joinedAt: "2025-11-10",
   },
 ] as const;
 
@@ -576,27 +560,44 @@ export const COACH_SPECIALTIES: readonly CoachSpecialty[] = [
 ] as const;
 
 /* ──────────────────────────────────────────────
-   Ordenación: tier → founder boost → antigüedad.
-   - HQ siempre primero.
-   - Recomendados > Certificados (J3 los conoce en directo).
-   - Dentro del mismo tier, los Founders suben un puesto dentro
-     de su empate (distinción histórica + palanca de retención).
-   - Finalmente, por antigüedad (más veteranos primero).
+   Ordenación: estado → founder boost → antigüedad.
+
+   Estado (derivado, ver getCoachStatus):
+     0 · HQ (J3 Lab)
+     1 · Certificación activa (Plus o Mentor)
+     2 · Ex-certificado (ya no activo pero con historia)
+     3 · Base (19€, sin certificación)
+
+   Dentro del mismo estado, los Founders empujan un puesto.
+   Finalmente por antigüedad (más veteranos primero).
    ────────────────────────────────────────────── */
 
-const TIER_ORDER: Record<CoachTier, number> = {
-  hq: 0,
-  recommended: 1,
-  trained: 2,
+/**
+ * Estado derivado del coach. 0 = mejor posicionado.
+ * No se almacena — se computa en cada render. Los campos de verdad
+ * son `tier`, `certifiedAt` y `certificationActive`.
+ */
+export type CoachStatus = "hq" | "certified-active" | "ex-certified" | "base";
+
+export function getCoachStatus(coach: Coach): CoachStatus {
+  if (coach.tier === "hq") return "hq";
+  if (coach.certifiedAt && coach.certificationActive) return "certified-active";
+  if (coach.certifiedAt && !coach.certificationActive) return "ex-certified";
+  return "base";
+}
+
+const STATUS_ORDER: Record<CoachStatus, number> = {
+  "hq": 0,
+  "certified-active": 1,
+  "ex-certified": 2,
+  "base": 3,
 };
 
-/**
- * Devuelve una copia ordenada por (tier) → (founder) → (joinedAt).
- */
+/** Devuelve una copia ordenada por (status) → (founder) → (joinedAt). */
 export function sortCoaches(coaches: readonly Coach[]): Coach[] {
   return [...coaches].sort((a, b) => {
-    const tierDiff = TIER_ORDER[a.tier] - TIER_ORDER[b.tier];
-    if (tierDiff !== 0) return tierDiff;
+    const statusDiff = STATUS_ORDER[getCoachStatus(a)] - STATUS_ORDER[getCoachStatus(b)];
+    if (statusDiff !== 0) return statusDiff;
     const founderDiff = (b.founder ? 1 : 0) - (a.founder ? 1 : 0);
     if (founderDiff !== 0) return founderDiff;
     return a.joinedAt.localeCompare(b.joinedAt);
@@ -620,36 +621,48 @@ export function isDecano(coach: Coach, referenceDate: Date = new Date()): boolea
 }
 
 export interface CoachBadgeView {
-  /** ¿Mostrar badge "Recomendado J3"? (tier actual = recommended) */
-  recomendado: boolean;
-  /** ¿Mostrar badge "Founder"? (distinción histórica) */
+  /** Estado computado del coach (base / certified-active / ex-certified / hq). */
+  status: CoachStatus;
+  /** ¿Mostrar badge "Founder"? (distinción histórica). */
   founder: boolean;
-  /** Specialties verificadas a mostrar en la card (máx. 2). Vacío si tier !== recommended. */
+  /** Specialties verificadas a mostrar en la card (máx. 2). Vacío si no hay
+   *  certificación activa — J3 solo avala specialties cuando la cert está vigente. */
   specialties: CoachSpecialty[];
-  /** Distinciones reseñables. Vacío si tier !== recommended. */
+  /** Distinciones reseñables — solo si mentorActive=true. */
   distinctions: CoachDistinction[];
-  /** ¿Es decano? (5+ años en la red). Solo relevante para recommended. */
+  /** ¿Es decano? (5+ años en la red). Solo se pinta si mentor. */
   decano: boolean;
+  /** Fecha ISO (YYYY-MM-DD) de alta — siempre presente. */
+  joinedAt: string;
+  /** Fecha ISO de certificación — presente si el coach tiene certifiedAt. */
+  certifiedAt: string | null;
 }
 
 /**
- * Normaliza qué badges mostrar en la card de un coach.
+ * Normaliza qué se muestra en la card de un coach según las reglas del doc:
  *
- * Reglas:
- *  - Founder: se muestra siempre que esté marcado (histórico, no depende del tier).
- *  - Recomendado: solo si tier === 'recommended'.
- *  - Specialties verificadas: solo si 'recommended', máx. 2 (evita catálogo).
- *  - Distinctions: solo si 'recommended'.
- *  - Decano: se computa desde joinedAt, solo cuenta como badge si recomendado.
+ *  - Founder: siempre que esté marcado (histórico, compatible con cualquier estado).
+ *  - Specialties verificadas: solo si certificationActive (J3 no avala práctica
+ *    de un ex-certificado). Máx. 2 en la card.
+ *  - Distinctions: solo si mentorActive. Se pierden al instante si baja de plan.
+ *  - Decano: computado desde joinedAt. Solo se pinta si está en Mentor
+ *    (coherente con la regla general de distinciones).
+ *  - joinedAt / certifiedAt: las fechas crudas que la capa de UI formatea
+ *    según idioma ("Coach360 desde Ago 2025" / "Certificado desde Feb 2026"
+ *    / "Última certificación Feb 2026" según el status).
  */
 export function getCoachBadges(coach: Coach, referenceDate: Date = new Date()): CoachBadgeView {
-  const isRecommended = coach.tier === "recommended";
+  const status = getCoachStatus(coach);
+  const certActive = status === "certified-active";
+  const isMentor = certActive && !!coach.mentorActive;
   return {
-    recomendado: isRecommended,
+    status,
     founder: !!coach.founder,
-    specialties: isRecommended ? (coach.specialties ?? []).slice(0, 2) : [],
-    distinctions: isRecommended ? (coach.distinctions ?? []) : [],
-    decano: isRecommended && isDecano(coach, referenceDate),
+    specialties: certActive ? (coach.specialties ?? []).slice(0, 2) : [],
+    distinctions: isMentor ? (coach.distinctions ?? []) : [],
+    decano: isMentor && isDecano(coach, referenceDate),
+    joinedAt: coach.joinedAt,
+    certifiedAt: coach.certifiedAt ?? null,
   };
 }
 
@@ -663,6 +676,9 @@ export interface CoachFilters {
   country: string;   // "all" o un país concreto
   language: string;  // "all" o código ISO
   specialty: string; // "all" o "juniors"/"adultos"/"competicion"
+  /** Toggle "Solo certificados" — cuando true, oculta coaches base
+   *  y ex-certificados. Solo deja HQ + certificados activos. */
+  certifiedOnly: boolean;
 }
 
 // Alias de tipado para los dos tipos que Next puede dar (mutable o readonly)
@@ -670,41 +686,49 @@ type ReadonlyURLSearchParams = { get(name: string): string | null };
 
 /**
  * Construye la URL de /academy/coaches con los filtros como query params.
- * Sólo serializa los filtros que no son "all".
+ * Sólo serializa los filtros que no son su valor por defecto.
  */
 export function buildCoachesUrl(filters: CoachFilters): string {
   const params = new URLSearchParams();
   if (filters.country !== "all") params.set("country", filters.country);
   if (filters.language !== "all") params.set("language", filters.language);
   if (filters.specialty !== "all") params.set("specialty", filters.specialty);
+  if (filters.certifiedOnly) params.set("certified", "1");
   const qs = params.toString();
   return `/academy/coaches${qs ? `?${qs}` : ""}`;
 }
 
 /**
- * Lee filtros desde URLSearchParams. Valores ausentes o inválidos caen en "all".
+ * Lee filtros desde URLSearchParams. Valores ausentes o inválidos caen en default.
  */
 export function parseCoachesFilters(params: URLSearchParams | ReadonlyURLSearchParams): CoachFilters {
   const country = params.get("country") ?? "all";
   const language = params.get("language") ?? "all";
   const specialty = params.get("specialty") ?? "all";
   const validSpecialty = (COACH_SPECIALTIES as readonly string[]).includes(specialty) ? specialty : "all";
+  const certifiedOnly = params.get("certified") === "1";
   return {
     country: COACH_COUNTRIES.includes(country) ? country : "all",
     language: COACH_LANGUAGES.includes(language) ? language : "all",
     specialty: validSpecialty,
+    certifiedOnly,
   };
 }
 
 /**
  * Aplica filtros a una lista de coaches.
  * "all" en cualquier dimensión = sin filtro en esa dimensión.
+ * certifiedOnly=true → solo HQ + coaches con certificationActive.
  */
 export function filterCoaches(coaches: readonly Coach[], filters: CoachFilters): Coach[] {
   return coaches.filter(c => {
     if (filters.country !== "all" && c.location.country !== filters.country) return false;
     if (filters.language !== "all" && !(c.languages ?? []).includes(filters.language)) return false;
     if (filters.specialty !== "all" && !(c.specialties ?? []).includes(filters.specialty as CoachSpecialty)) return false;
+    if (filters.certifiedOnly) {
+      const status = getCoachStatus(c);
+      if (status !== "hq" && status !== "certified-active") return false;
+    }
     return true;
   });
 }

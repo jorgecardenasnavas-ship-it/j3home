@@ -26,7 +26,6 @@ interface CoachCardProps {
   coach: Coach;
   labels: {
     badgeHq: string;
-    badgeRecommended: string;
     badgeFounder: string;
     specialtyLabel: string;
     specialtyJuniors: string;
@@ -37,6 +36,11 @@ interface CoachCardProps {
     distinctionJugadoresCircuito: string;
     distinctionMultilingue: string;
     distinctionDecano: string;
+    /** Meses abreviados (Ene, Feb…) — índice 0=enero. 12 items. */
+    monthShort: readonly string[];
+    memberSince: string;
+    certifiedSince: string;
+    lastCertification: string;
     askChatbot: string;
     /** Template "a {km} km de ti". Opcional: solo se muestra si hay userCoords. */
     kmFromYou?: string;
@@ -65,6 +69,14 @@ function distinctionText(d: CoachDistinction, labels: CoachCardProps["labels"]):
     case "jugadores-circuito": return labels.distinctionJugadoresCircuito;
     case "multilingue": return labels.distinctionMultilingue;
   }
+}
+
+/** ISO (YYYY-MM-DD) → "Mes Año" usando monthShort del idioma. */
+function formatMonthYear(iso: string, monthShort: readonly string[]): string {
+  const m = /^(\d{4})-(\d{2})/.exec(iso);
+  if (!m) return iso;
+  const idx = parseInt(m[2], 10) - 1;
+  return idx >= 0 && idx < 12 ? `${monthShort[idx]} ${m[1]}` : iso;
 }
 
 export default function CoachCard({ coach, labels, userCoords, onAsk }: CoachCardProps) {
@@ -155,11 +167,11 @@ export default function CoachCard({ coach, labels, userCoords, onAsk }: CoachCar
           </div>
         )}
 
-        {/* Stack de badges (top-left). Orden: HQ > Recomendado > Founder.
-            Certificados sin Founder no ven badge: su credencial es estar
-            en el mapa. Layout con flex-wrap para permitir apilado si la
-            card es estrecha. */}
-        {(isHq || badges.recomendado || badges.founder) && (
+        {/* Badges (top-left). Solo HQ o Founder — el estado del coach
+            (certificado activo / ex-cert / base) se comunica en el body
+            mediante las LÍNEAS DE FECHA. No se pinta "Recomendado" porque
+            "Recomendado" ya no existe como categoría. */}
+        {(isHq || badges.founder) && (
           <div className="absolute top-3 left-3 flex flex-wrap items-center gap-1.5 max-w-[calc(100%-24px)]">
             {isHq && (
               <span
@@ -170,17 +182,6 @@ export default function CoachCard({ coach, labels, userCoords, onAsk }: CoachCar
                   style={{ boxShadow: "0 0 4px var(--g1)" }} />
                 <span className="text-[9px] font-bold tracking-[2px] uppercase text-[var(--g1)]">
                   {labels.badgeHq}
-                </span>
-              </span>
-            )}
-            {!isHq && badges.recomendado && (
-              <span
-                className="inline-flex items-center gap-2 px-2.5 py-1 bg-black/70 backdrop-blur-sm border border-[var(--g1)]/40"
-                style={{ borderRadius: 2 }}
-              >
-                <span className="w-[5px] h-[5px] rounded-full bg-[var(--g1)]" aria-hidden />
-                <span className="text-[9px] font-bold tracking-[2px] uppercase text-[var(--g1)]">
-                  {labels.badgeRecommended}
                 </span>
               </span>
             )}
@@ -243,11 +244,31 @@ export default function CoachCard({ coach, labels, userCoords, onAsk }: CoachCar
           <span className="opacity-70">{coach.location.country}</span>
         </div>
 
-        {/* Especialidad verificada — solo Recomendados. Texto no clickable
-            (comunica "J3 avala esto"). Los chips de filtro existen en
-            otros lugares; aquí el mensaje es editorial. */}
+        {/* Stack de fechas — comunica el estado del coach sin badge.
+            "Coach360 desde Ago 2025" siempre para coaches.
+            "Certificado desde Feb 2026" si cert activa (dorado, destacado).
+            "Última certificación Feb 2026" si histórica (itálica, apagado). */}
+        {!isHq && (
+          <div className="flex flex-col gap-[2px] -mt-1">
+            <span className="text-[11px] theme-text opacity-65 tracking-[0.2px]">
+              {labels.memberSince.replace("{date}", formatMonthYear(badges.joinedAt, labels.monthShort))}
+            </span>
+            {badges.certifiedAt && badges.status === "certified-active" && (
+              <span className="text-[11px] font-semibold text-[var(--g1)] tracking-[0.2px]">
+                {labels.certifiedSince.replace("{date}", formatMonthYear(badges.certifiedAt, labels.monthShort))}
+              </span>
+            )}
+            {badges.certifiedAt && badges.status === "ex-certified" && (
+              <span className="text-[11px] italic theme-text opacity-55 tracking-[0.2px]">
+                {labels.lastCertification.replace("{date}", formatMonthYear(badges.certifiedAt, labels.monthShort))}
+              </span>
+            )}
+          </div>
+        )}
+
+        {/* Especialidad verificada — solo si certificación activa. */}
         {badges.specialties.length > 0 && (
-          <p className="text-[11px] leading-[1.4]">
+          <p className="text-[11px] leading-[1.4] mt-1">
             <span className="text-[var(--g1)] font-bold tracking-[0.5px] uppercase text-[10px]">
               {labels.specialtyLabel}
             </span>{" "}

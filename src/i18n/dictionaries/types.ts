@@ -444,13 +444,11 @@ export interface Dictionary {
       readonly specialtyAdultos: string;
       readonly specialtyCompeticion: string;
       readonly specialtyCamps: string;
-      /** Badge "Recomendado J3" — coach en mentoría activa */
-      readonly badgeRecommended: string;
-      /** Badge "Founder" — distinción histórica de la primera hornada */
+      /** Badge "Founder" — distinción histórica irrepetible */
       readonly badgeFounder: string;
       /** Badge "Headquarter" — sedes J3 propias */
       readonly badgeHq: string;
-      /** Prefijo antes de la especialidad verificada en la card. Ej: "Especialista:" */
+      /** Prefijo antes de la especialidad en la card. Ej: "Especialista:" */
       readonly specialtyLabel: string;
       /** Distinción: "Forma coaches" */
       readonly distinctionFormaCoaches: string;
@@ -460,17 +458,23 @@ export interface Dictionary {
       readonly distinctionMultilingue: string;
       /** Distinción computada: "Decano J3" (5+ años en la red) */
       readonly distinctionDecano: string;
-      /** Template de antigüedad silenciosa. Ej: "Coach360 desde {year}" */
+      /** Nombres abreviados de mes (Ene, Feb, Mar…) — índice 0 = enero. 12 items. */
+      readonly monthShort: readonly [string, string, string, string, string, string, string, string, string, string, string, string];
+      /** Template antigüedad. Ej: "Coach360 desde {date}" — se sustituye por "Ago 2025". */
       readonly memberSince: string;
+      /** Template certificación activa. Ej: "Certificado desde {date}" */
+      readonly certifiedSince: string;
+      /** Template certificación histórica. Ej: "Última certificación {date}" */
+      readonly lastCertification: string;
+      /** Toggle "Solo certificados" en la UI de filtros */
+      readonly filterCertifiedOnly: string;
       readonly askChatbot: string;
       /** Título de la mini-leyenda del mapa (bottom-left) */
       readonly legendTitle: string;
       /** Label de la fila "Headquarter" en la leyenda */
       readonly legendHq: string;
-      /** Label de la fila "Recomendado" en la leyenda */
-      readonly legendRecommended: string;
-      /** Label de la fila "Certificado" en la leyenda (Coach360 certificado) */
-      readonly legendTrained: string;
+      /** Label genérico "Coach" en la leyenda (todos los pines de coaches son iguales). */
+      readonly legendCoach: string;
       /** Label de la fila "Cluster (agrupación)" en la leyenda */
       readonly legendCluster: string;
       /** Label del botón "Ver en Maps" en el popup */

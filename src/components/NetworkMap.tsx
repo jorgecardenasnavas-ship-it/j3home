@@ -459,9 +459,7 @@ function makeIcon(kind: "lab" | "academy" | "coach"): L.DivIcon {
 interface PopupLabels {
   /** Badge "Headquarter" — solo para tipo lab/academy */
   badgeHq: string;
-  /** Badge "Recomendado J3" — tier recommended */
-  badgeRecommended: string;
-  /** Badge "Founder" — distinción histórica (puede combinarse con cualquier tier) */
+  /** Badge "Founder" — distinción histórica (puede combinarse con cualquier estado) */
   badgeFounder: string;
   /** Prefijo de especialidad. Ej: "Especialista:" → "Especialista: Juniors" */
   specialtyLabel: string;
@@ -475,19 +473,33 @@ interface PopupLabels {
   distinctionJugadoresCircuito: string;
   distinctionMultilingue: string;
   distinctionDecano: string;
-  /** Template antigüedad: "Coach360 desde {year}" */
+  /** Meses abreviados, índice 0 = Enero. */
+  monthShort: readonly string[];
+  /** Templates con placeholder {date} → "Ago 2025" */
   memberSince: string;
+  certifiedSince: string;
+  lastCertification: string;
   askChatbot: string;
-  /** Labels cortas para la mini-leyenda (Headquarter · Coach · Cluster) */
+  /** Labels de la mini-leyenda (Headquarter · Coach · Cluster) */
   legendTitle: string;
   legendHq: string;
-  legendRecommended: string;
-  legendTrained: string;
+  legendCoach: string;
   legendCluster: string;
   /** Label del botón "Ver en Maps" */
   viewInMaps: string;
   /** Tooltip del pin del usuario: "Estás aquí" */
   youAreHere?: string;
+}
+
+/** Formatea una fecha ISO (YYYY-MM-DD) a "Mes Año" legible usando los
+ *  `monthShort` del idioma. Si falla el parseo devuelve la fecha cruda. */
+function formatMonthYear(isoDate: string, monthShort: readonly string[]): string {
+  const match = /^(\d{4})-(\d{2})/.exec(isoDate);
+  if (!match) return isoDate;
+  const year = match[1];
+  const monthIdx = parseInt(match[2], 10) - 1;
+  if (monthIdx < 0 || monthIdx > 11) return isoDate;
+  return `${monthShort[monthIdx]} ${year}`;
 }
 
 /** Mapa de distinction key → label traducida. */
@@ -616,15 +628,31 @@ function PopupContent({
   const mapsHref = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
 
   /* Badges calculados por la lógica central (getCoachBadges):
-     - Solo los recomendados ven specialties verificadas + distinciones.
-     - Founder puede aparecer en cualquier tier (histórico). */
+     - Specialties solo si certificationActive.
+     - Distinctions solo si mentorActive.
+     - Founder es histórico, combinable con cualquier estado. */
   const badges = getCoachBadges(c);
-  const joinedYear = c.joinedAt.slice(0, 4);
-  const memberSinceText = labels.memberSince.replace("{year}", joinedYear);
   const isHqKind = kind === "lab" || kind === "academy";
 
-  /* Distinciones a mostrar: las almacenadas + "Decano J3" si aplica
-     (se computa desde joinedAt). */
+  /* Texto de antigüedad en plataforma — siempre presente para coaches. */
+  const memberSinceText = labels.memberSince.replace(
+    "{date}",
+    formatMonthYear(badges.joinedAt, labels.monthShort),
+  );
+
+  /* Texto de certificación según estado:
+     - certified-active → "Certificado desde {fecha}"
+     - ex-certified     → "Última certificación {fecha}"
+     - base / hq        → null (no se pinta línea) */
+  const certLine: { text: string; active: boolean } | null = badges.certifiedAt
+    ? badges.status === "certified-active"
+      ? { text: labels.certifiedSince.replace("{date}", formatMonthYear(badges.certifiedAt, labels.monthShort)), active: true }
+      : badges.status === "ex-certified"
+      ? { text: labels.lastCertification.replace("{date}", formatMonthYear(badges.certifiedAt, labels.monthShort)), active: false }
+      : null
+    : null;
+
+  /* Distinciones a mostrar: las almacenadas + "Decano J3" si aplica (computado). */
   const distinctionLines: string[] = [
     ...badges.distinctions.map((d) => distinctionLabel(d, labels)),
   ];
@@ -632,8 +660,8 @@ function PopupContent({
 
   return (
     <div style={{ minWidth: 220 }}>
-      {/* Header: foto + stack de badges + nombre + ubicación + antigüedad */}
-      <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 8 }}>
+      {/* Header: foto + badges (HQ/Founder) + nombre + ubicación */}
+      <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 6 }}>
         {c.photo ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -671,20 +699,13 @@ function PopupContent({
           </div>
         )}
         <div style={{ minWidth: 0, flex: 1 }}>
-          {/* Stack horizontal de badges. Orden: HQ > Recomendado > Founder.
-              Para certificados sin founder NO mostramos badge (el pin en el
-              mapa ya comunica "soy Coach360"). */}
-          {(isHqKind || badges.recomendado || badges.founder) && (
+          {/* Badges: solo HQ (para sedes) o Founder (histórico). El estado
+              del coach se comunica mediante las LÍNEAS DE FECHA de más abajo,
+              no con badge de "Recomendado". */}
+          {(isHqKind || badges.founder) && (
             <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 4 }}>
-              {isHqKind && (
-                <BadgeChip label={labels.badgeHq} tone="hq" />
-              )}
-              {!isHqKind && badges.recomendado && (
-                <BadgeChip label={labels.badgeRecommended} tone="recommended" />
-              )}
-              {!isHqKind && badges.founder && (
-                <BadgeChip label={labels.badgeFounder} tone="founder" />
-              )}
+              {isHqKind && <BadgeChip label={labels.badgeHq} tone="hq" />}
+              {!isHqKind && badges.founder && <BadgeChip label={labels.badgeFounder} tone="founder" />}
             </div>
           )}
           <div style={{ fontWeight: 700, fontSize: 16, lineHeight: 1.15, marginBottom: 2, letterSpacing: "-0.3px" }}>
@@ -692,15 +713,29 @@ function PopupContent({
           </div>
           <div style={{ fontSize: 11, opacity: 0.7 }}>
             {c.location.city}, {c.location.country}
-            {!isHqKind && (
-              <>
-                <span style={{ opacity: 0.5 }}> · </span>
-                <span style={{ opacity: 0.6, letterSpacing: 0.5 }}>{memberSinceText}</span>
-              </>
-            )}
           </div>
         </div>
       </div>
+
+      {/* Stack de fechas — el nuevo lenguaje del sistema.
+          Coach360 desde X (siempre para coaches)
+          + Certificado desde X (si activa) o Última certificación X (si histórica). */}
+      {!isHqKind && (
+        <div style={{ fontSize: 11, marginBottom: 8, lineHeight: 1.55 }}>
+          <div style={{ opacity: 0.72 }}>{memberSinceText}</div>
+          {certLine && (
+            <div
+              style={{
+                color: certLine.active ? "#dcaf64" : "rgba(245,240,232,0.62)",
+                fontWeight: certLine.active ? 600 : 400,
+                fontStyle: certLine.active ? "normal" : "italic",
+              }}
+            >
+              {certLine.text}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Especialista J3: [X, Y] — solo para recomendados con specialties.
           Es texto, no chips: comunica "J3 avala que este coach es especialista
@@ -1336,7 +1371,7 @@ function MapLegend({ labels }: { labels: PopupLabels }) {
               </div>
               <div class="j3-legend-row">
                 <span class="j3-legend-dot j3-legend-dot-coach" aria-hidden></span>
-                <span>${labels.legendRecommended} · ${labels.legendTrained}</span>
+                <span>${labels.legendCoach}</span>
               </div>
               <div class="j3-legend-row">
                 <span class="j3-legend-dot j3-legend-dot-cluster" aria-hidden>3</span>
