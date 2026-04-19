@@ -43,17 +43,12 @@ function CoachesCatalogContent() {
     router.replace(buildCoachesUrl(next), { scroll: false });
   };
 
-  const setCertifiedOnly = (value: boolean) => {
-    const next = { ...filters, certifiedOnly: value };
-    router.replace(buildCoachesUrl(next), { scroll: false });
-  };
-
   const resetFilters = () => {
     router.replace("/academy/coaches", { scroll: false });
   };
 
   const hasAnyFilter =
-    filters.country !== "all" || filters.language !== "all" || filters.specialty !== "all" || filters.certifiedOnly;
+    filters.country !== "all" || filters.language !== "all" || filters.specialty !== "all";
 
   const countriesCount = useMemo(
     () => new Set(allCoaches.filter(c => c.tier !== "hq").map(c => c.location.country)).size,
@@ -72,6 +67,7 @@ function CoachesCatalogContent() {
   const gridLabels = {
     badgeHq: t.academy.network.badgeHq,
     badgeFounder: t.academy.network.badgeFounder,
+    badgeGenOne: t.academy.network.badgeGenOne,
     specialtyLabel: t.academy.network.specialtyLabel,
     specialtyJuniors: t.academy.network.specialtyJuniors,
     specialtyAdultos: t.academy.network.specialtyAdultos,
@@ -152,36 +148,6 @@ function CoachesCatalogContent() {
             onChange={(v) => setFilter("specialty", v)}
             options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_SPECIALTIES.map(s => ({ value: s, label: specialtyLabel(s) }))]}
           />
-
-          {/* Toggle "Solo certificados" — oculta coaches base y ex-certificados. */}
-          <button
-            type="button"
-            role="switch"
-            aria-checked={filters.certifiedOnly}
-            onClick={() => setCertifiedOnly(!filters.certifiedOnly)}
-            className={`inline-flex items-center gap-2 px-3 py-1.5 text-[10px] tracking-[2px] uppercase font-bold transition-all ${
-              filters.certifiedOnly
-                ? "text-[#000] bg-gradient-to-br from-[#f0c478] to-[#dcaf64] hover:brightness-110"
-                : "text-[var(--g1)] border border-[var(--g1)]/50 hover:border-[var(--g1)] hover:bg-[var(--g1)]/10"
-            }`}
-            style={{ borderRadius: 2 }}
-          >
-            <span
-              aria-hidden
-              className={`inline-flex items-center justify-center w-3 h-3 border ${
-                filters.certifiedOnly ? "bg-[#000] border-[#000]" : "border-[var(--g1)]/70"
-              }`}
-              style={{ borderRadius: 1 }}
-            >
-              {filters.certifiedOnly && (
-                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="var(--g1)" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              )}
-            </span>
-            {t.academy.network.filterCertifiedOnly}
-          </button>
-
           {hasAnyFilter && (
             <button
               type="button"

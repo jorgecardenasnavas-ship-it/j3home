@@ -461,6 +461,8 @@ interface PopupLabels {
   badgeHq: string;
   /** Badge "Founder" — distinción histórica (puede combinarse con cualquier estado) */
   badgeFounder: string;
+  /** Badge "Gen ONE" — early adopter no-founder de 2025 */
+  badgeGenOne: string;
   /** Prefijo de especialidad. Ej: "Especialista:" → "Especialista: Juniors" */
   specialtyLabel: string;
   /** Especialidades traducidas (juniors / adultos / competicion / camps) */
@@ -531,11 +533,11 @@ function BadgeChip({
   tone,
 }: {
   label: string;
-  tone: "hq" | "recommended" | "founder";
+  tone: "hq" | "founder" | "genone";
 }) {
-  /* hq: dorado más denso (sede oficial)
-     recommended: dorado medio con fondo suave
-     founder: outline dorado elegante, transmite historia */
+  /* hq:     dorado denso (sede oficial), fill.
+     founder: outline dorado con asterisco serif ✦ — histórico irrepetible.
+     genone:  outline dorado con rombo ◆ — histórico, generación de 2025. */
   const palette =
     tone === "hq"
       ? {
@@ -544,17 +546,17 @@ function BadgeChip({
           color: "#f0c478",
           dot: "#f0c478",
         }
-      : tone === "recommended"
+      : tone === "founder"
       ? {
-          bg: "rgba(220,175,100,0.14)",
-          border: "rgba(220,175,100,0.42)",
-          color: "#dcaf64",
-          dot: "#dcaf64",
-        }
-      : {
           bg: "rgba(220,175,100,0.04)",
           border: "rgba(220,175,100,0.55)",
           color: "#dcaf64",
+          dot: "transparent",
+        }
+      : /* genone */ {
+          bg: "rgba(220,175,100,0.04)",
+          border: "rgba(220,175,100,0.35)",
+          color: "#c9a866",
           dot: "transparent",
         };
   return (
@@ -574,7 +576,7 @@ function BadgeChip({
         borderRadius: 2,
       }}
     >
-      {tone !== "founder" && (
+      {tone === "hq" && (
         <span
           aria-hidden
           style={{
@@ -582,12 +584,10 @@ function BadgeChip({
             height: 4,
             borderRadius: 999,
             background: palette.dot,
-            boxShadow: tone === "hq" ? `0 0 4px ${palette.dot}` : "none",
+            boxShadow: `0 0 4px ${palette.dot}`,
           }}
         />
       )}
-      {/* Para Founder usamos un mini-asterisco serif en lugar de dot, marca
-          visualmente la distinción histórica. */}
       {tone === "founder" && (
         <span
           aria-hidden
@@ -600,6 +600,14 @@ function BadgeChip({
           }}
         >
           ✦
+        </span>
+      )}
+      {tone === "genone" && (
+        <span
+          aria-hidden
+          style={{ fontSize: 7, lineHeight: 1, fontWeight: 400, opacity: 0.85 }}
+        >
+          ◆
         </span>
       )}
       {label}
@@ -699,13 +707,15 @@ function PopupContent({
           </div>
         )}
         <div style={{ minWidth: 0, flex: 1 }}>
-          {/* Badges: solo HQ (para sedes) o Founder (histórico). El estado
-              del coach se comunica mediante las LÍNEAS DE FECHA de más abajo,
-              no con badge de "Recomendado". */}
-          {(isHqKind || badges.founder) && (
+          {/* Badges históricos: HQ (sedes) / Founder (16 originales) /
+              Gen ONE (early adopter no-founder de 2025). El estado del
+              coach (activo vs ex-cert) se comunica con las LÍNEAS DE FECHA
+              de abajo, no con badge. */}
+          {(isHqKind || badges.founder || badges.genOne) && (
             <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 4 }}>
               {isHqKind && <BadgeChip label={labels.badgeHq} tone="hq" />}
               {!isHqKind && badges.founder && <BadgeChip label={labels.badgeFounder} tone="founder" />}
+              {!isHqKind && badges.genOne && !badges.founder && <BadgeChip label={labels.badgeGenOne} tone="genone" />}
             </div>
           )}
           <div style={{ fontWeight: 700, fontSize: 16, lineHeight: 1.15, marginBottom: 2, letterSpacing: "-0.3px" }}>

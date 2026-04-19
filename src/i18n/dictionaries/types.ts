@@ -444,8 +444,10 @@ export interface Dictionary {
       readonly specialtyAdultos: string;
       readonly specialtyCompeticion: string;
       readonly specialtyCamps: string;
-      /** Badge "Founder" — distinción histórica irrepetible */
+      /** Badge "Founder" — distinción histórica irrepetible (16 cohort original) */
       readonly badgeFounder: string;
+      /** Badge "Gen ONE" — early adopter no-founder de 2025 */
+      readonly badgeGenOne: string;
       /** Badge "Headquarter" — sedes J3 propias */
       readonly badgeHq: string;
       /** Prefijo antes de la especialidad en la card. Ej: "Especialista:" */
@@ -466,8 +468,6 @@ export interface Dictionary {
       readonly certifiedSince: string;
       /** Template certificación histórica. Ej: "Última certificación {date}" */
       readonly lastCertification: string;
-      /** Toggle "Solo certificados" en la UI de filtros */
-      readonly filterCertifiedOnly: string;
       readonly askChatbot: string;
       /** Título de la mini-leyenda del mapa (bottom-left) */
       readonly legendTitle: string;

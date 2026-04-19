@@ -27,6 +27,7 @@ interface CoachCardProps {
   labels: {
     badgeHq: string;
     badgeFounder: string;
+    badgeGenOne: string;
     specialtyLabel: string;
     specialtyJuniors: string;
     specialtyAdultos: string;
@@ -167,11 +168,11 @@ export default function CoachCard({ coach, labels, userCoords, onAsk }: CoachCar
           </div>
         )}
 
-        {/* Badges (top-left). Solo HQ o Founder — el estado del coach
-            (certificado activo / ex-cert / base) se comunica en el body
-            mediante las LÍNEAS DE FECHA. No se pinta "Recomendado" porque
-            "Recomendado" ya no existe como categoría. */}
-        {(isHq || badges.founder) && (
+        {/* Badges históricos top-left: HQ / Founder / Gen ONE. El estado
+            (cert activa / ex-cert) se comunica abajo con las líneas de
+            fecha. Founder y Gen ONE son excluyentes — si es Founder ya
+            lo lleva, no mostramos también Gen ONE. */}
+        {(isHq || badges.founder || badges.genOne) && (
           <div className="absolute top-3 left-3 flex flex-wrap items-center gap-1.5 max-w-[calc(100%-24px)]">
             {isHq && (
               <span
@@ -193,6 +194,17 @@ export default function CoachCard({ coach, labels, userCoords, onAsk }: CoachCar
                 <span className="font-[var(--font-serif)] italic text-[10px] leading-none text-[var(--g1)]" aria-hidden>✦</span>
                 <span className="text-[9px] font-bold tracking-[2px] uppercase text-[var(--g1)]">
                   {labels.badgeFounder}
+                </span>
+              </span>
+            )}
+            {!isHq && badges.genOne && !badges.founder && (
+              <span
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-black/70 backdrop-blur-sm border border-[var(--g1)]/40"
+                style={{ borderRadius: 2 }}
+              >
+                <span className="text-[7px] leading-none text-[var(--g1)] opacity-85" aria-hidden>◆</span>
+                <span className="text-[9px] font-bold tracking-[2px] uppercase text-[var(--g1)]">
+                  {labels.badgeGenOne}
                 </span>
               </span>
             )}

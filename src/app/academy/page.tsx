@@ -839,11 +839,11 @@ function HeroSection() {
 
   /* ── Filtros compartidos con NetworkSection via FilterContext ── */
   const allCoaches = useMemo(() => sortCoaches(COACHES), []);
-  const { country, setCountry, language, setLanguage, specialty, setSpecialty, certifiedOnly, setCertifiedOnly } = useFilters();
+  const { country, setCountry, language, setLanguage, specialty, setSpecialty } = useFilters();
 
   const filtered = useMemo(
-    () => filterCoaches(allCoaches, { country, language, specialty, certifiedOnly }),
-    [allCoaches, country, language, specialty, certifiedOnly],
+    () => filterCoaches(allCoaches, { country, language, specialty }),
+    [allCoaches, country, language, specialty],
   );
 
   const specialtyLabel = (s: CoachSpecialty) =>
@@ -858,6 +858,7 @@ function HeroSection() {
   const mapLabels = {
     badgeHq: t.academy.network.badgeHq,
     badgeFounder: t.academy.network.badgeFounder,
+    badgeGenOne: t.academy.network.badgeGenOne,
     specialtyLabel: t.academy.network.specialtyLabel,
     specialtyJuniors: t.academy.network.specialtyJuniors,
     specialtyAdultos: t.academy.network.specialtyAdultos,
@@ -2446,6 +2447,7 @@ function PorscheCoachCard({
   labels: {
     badgeHq: string;
     badgeFounder: string;
+    badgeGenOne: string;
     specialtyLabel: string;
     specialtyJuniors: string;
     specialtyAdultos: string;
@@ -2577,11 +2579,10 @@ function PorscheCoachCard({
         }}
       />
 
-      {/* Badges top-left. Solo HQ (sede) o Founder (histórico). El estado
-          del coach (certificado/ex-cert/base) se comunica abajo con las
-          líneas de fecha — no con badges. Así "Recomendado" no existe
-          como categoría y el mapa queda democrático. */}
-      {(isHq || badges.founder) && (
+      {/* Badges top-left. HQ / Founder / Gen ONE (mutuamente exclusivos
+          excepto HQ). El estado del coach (cert activa / ex-cert) se
+          comunica abajo con las líneas de fecha. */}
+      {(isHq || badges.founder || badges.genOne) && (
         <div className="absolute top-3 left-3 z-[10] flex flex-wrap items-center gap-1.5 max-w-[calc(100%-24px)]">
           {isHq && (
             <span className="inline-flex items-center gap-1 px-1.5 py-[2px] bg-black/55 backdrop-blur-[2px]" style={{ borderRadius: 2 }}>
@@ -2597,6 +2598,14 @@ function PorscheCoachCard({
               <span className="font-[var(--font-serif)] italic text-[9px] leading-none text-[var(--g1)]" aria-hidden>✦</span>
               <span className="text-[8px] font-bold tracking-[1.6px] uppercase text-[var(--g1)]">
                 {labels.badgeFounder}
+              </span>
+            </span>
+          )}
+          {!isHq && badges.genOne && !badges.founder && (
+            <span className="inline-flex items-center gap-1 px-1.5 py-[2px] bg-black/55 backdrop-blur-[2px] border border-[var(--g1)]/40" style={{ borderRadius: 2 }}>
+              <span className="text-[6px] leading-none text-[var(--g1)] opacity-85" aria-hidden>◆</span>
+              <span className="text-[8px] font-bold tracking-[1.6px] uppercase text-[var(--g1)]">
+                {labels.badgeGenOne}
               </span>
             </span>
           )}
@@ -2688,6 +2697,7 @@ function CoachesCarousel({
   labels: {
     badgeHq: string;
     badgeFounder: string;
+    badgeGenOne: string;
     specialtyLabel: string;
     specialtyJuniors: string;
     specialtyAdultos: string;
@@ -2803,7 +2813,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const allCoaches = useMemo(() => sortCoaches(COACHES).filter(c => c.tier !== "hq"), []);
 
   // Filtros compartidos con HeroSection via FilterContext.
-  const { country, setCountry, language, setLanguage, specialty, setSpecialty, certifiedOnly, setCertifiedOnly, hasAnyFilter, resetAll: resetFilters } = useFilters();
+  const { country, setCountry, language, setLanguage, specialty, setSpecialty, hasAnyFilter, resetAll: resetFilters } = useFilters();
 
   // Geolocalización opt-in compartida vía GeoContext. `coords` es null
   // hasta que el usuario pulsa "Cerca de mí" y el navegador concede
@@ -2812,7 +2822,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const geo = useGeo();
 
   const filtered = useMemo(() => {
-    const list = filterCoaches(allCoaches, { country, language, specialty, certifiedOnly });
+    const list = filterCoaches(allCoaches, { country, language, specialty });
     if (!geo.coords) return list;
     // Mutable copy para sort. Haversine es trivial computacionalmente.
     const withDistance = [...list].map((c) => ({
@@ -2821,7 +2831,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
     }));
     withDistance.sort((a, b) => a.km - b.km);
     return withDistance.map((x) => x.coach);
-  }, [allCoaches, country, language, specialty, certifiedOnly, geo.coords]);
+  }, [allCoaches, country, language, specialty, geo.coords]);
 
   // 6 destacados en desktop, 3 en mobile.
   /* En carrusel horizontal cabe más material que en grid — incrementamos
@@ -2836,6 +2846,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const gridLabels = {
     badgeHq: t.academy.network.badgeHq,
     badgeFounder: t.academy.network.badgeFounder,
+    badgeGenOne: t.academy.network.badgeGenOne,
     specialtyLabel: t.academy.network.specialtyLabel,
     specialtyJuniors: t.academy.network.specialtyJuniors,
     specialtyAdultos: t.academy.network.specialtyAdultos,
@@ -2871,7 +2882,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   };
 
   // CTA "ver todos": cambia de texto según haya filtros activos.
-  const viewAllHref = buildCoachesUrl({ country, language, specialty, certifiedOnly });
+  const viewAllHref = buildCoachesUrl({ country, language, specialty });
   const viewAllLabel = hasAnyFilter
     ? t.academy.network.viewFilteredCta.replace("{count}", filtered.length.toString())
     : t.academy.network.viewAllCta.replace("{count}", allCoaches.length.toString());
@@ -2945,37 +2956,6 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
             onChange={setSpecialty}
             options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_SPECIALTIES.map(s => ({ value: s, label: specialtyLabel(s) }))]}
           />
-
-          {/* Toggle "Solo certificados" — oculta coaches base y ex-certificados.
-              El jugador que busca en serio puede filtrar por calidad verificada.
-              El coach base sabe que existe este filtro → incentivo para certificarse. */}
-          <button
-            type="button"
-            role="switch"
-            aria-checked={certifiedOnly}
-            onClick={() => setCertifiedOnly(!certifiedOnly)}
-            className={`inline-flex items-center gap-2 px-3 py-1.5 text-[10px] tracking-[2px] uppercase font-bold transition-all ${
-              certifiedOnly
-                ? "text-[#000] bg-gradient-to-br from-[#f0c478] to-[#dcaf64] hover:brightness-110"
-                : "text-[var(--g1)] border border-[var(--g1)]/50 hover:border-[var(--g1)] hover:bg-[var(--g1)]/10"
-            }`}
-            style={{ borderRadius: 2 }}
-          >
-            <span
-              aria-hidden
-              className={`inline-flex items-center justify-center w-3 h-3 border ${
-                certifiedOnly ? "bg-[#000] border-[#000]" : "border-[var(--g1)]/70"
-              }`}
-              style={{ borderRadius: 1 }}
-            >
-              {certifiedOnly && (
-                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="var(--g1)" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              )}
-            </span>
-            {t.academy.network.filterCertifiedOnly}
-          </button>
 
           {/* Cerca de mí — botón de geolocalización opt-in. Cambia de
               aspecto según el estado del hook (idle/loading/success/error).
