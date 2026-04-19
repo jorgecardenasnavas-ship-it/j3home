@@ -472,8 +472,6 @@ interface PopupLabels {
   badgeFounder: string;
   /** Badge "Gen ONE" — early adopter no-founder de 2025 */
   badgeGenOne: string;
-  /** Prefijo de especialidad. Ej: "Especialista:" → "Especialista: Juniors" */
-  specialtyLabel: string;
   /** Especialidades traducidas (juniors / adultos / competicion / camps) */
   specialtyJuniors: string;
   specialtyAdultos: string;
@@ -752,23 +750,9 @@ function PopupContent({
         </div>
       )}
 
-      {/* Especialista J3: [X, Y] — solo para recomendados con specialties.
-          Es texto, no chips: comunica "J3 avala que este coach es especialista
-          en esto". Los chips de navegación (filtros) van aparte más abajo. */}
-      {badges.specialties.length > 0 && (
-        <div style={{ fontSize: 11, marginBottom: 6, lineHeight: 1.3 }}>
-          <span style={{ color: "#dcaf64", fontWeight: 600, letterSpacing: 0.3 }}>
-            {labels.specialtyLabel}
-          </span>
-          <span style={{ opacity: 0.88, marginLeft: 4 }}>
-            {badges.specialties.map((s) => specialtyLabelText(s, labels)).join(" · ")}
-          </span>
-        </div>
-      )}
-
       {/* Distinciones (Forma coaches / Jugadores en circuito / Multilingüe /
-          Decano). Solo para recomendados. Se pintan como lista suave con
-          bullets dorados. */}
+          Decano). Logros permanentes verificados por J3. Se pintan como
+          lista suave con bullets dorados. */}
       {distinctionLines.length > 0 && (
         <ul style={{ listStyle: "none", padding: 0, margin: "0 0 10px 0", fontSize: 11, lineHeight: 1.5 }}>
           {distinctionLines.map((line) => (

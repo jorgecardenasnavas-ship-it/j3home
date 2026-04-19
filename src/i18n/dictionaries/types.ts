@@ -450,8 +450,6 @@ export interface Dictionary {
       readonly badgeGenOne: string;
       /** Badge "Headquarter" — sedes J3 propias */
       readonly badgeHq: string;
-      /** Prefijo antes de la especialidad en la card. Ej: "Especialista:" */
-      readonly specialtyLabel: string;
       /** Distinción: "Forma coaches" */
       readonly distinctionFormaCoaches: string;
       /** Distinción: "Jugadores en circuito" */

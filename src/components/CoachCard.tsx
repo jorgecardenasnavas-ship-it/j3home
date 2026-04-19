@@ -28,7 +28,6 @@ interface CoachCardProps {
     badgeHq: string;
     badgeFounder: string;
     badgeGenOne: string;
-    specialtyLabel: string;
     specialtyJuniors: string;
     specialtyAdultos: string;
     specialtyCompeticion: string;
@@ -273,20 +272,8 @@ export default function CoachCard({ coach, labels, userCoords, onAsk }: CoachCar
           </div>
         )}
 
-        {/* Especialidad verificada — solo si certificación activa. */}
-        {badges.specialties.length > 0 && (
-          <p className="text-[11px] leading-[1.4] mt-1">
-            <span className="text-[var(--g1)] font-bold tracking-[0.5px] uppercase text-[10px]">
-              {labels.specialtyLabel}
-            </span>{" "}
-            <span className="theme-text opacity-85">
-              {badges.specialties.map((s) => specialtyText(s, labels)).join(" · ")}
-            </span>
-          </p>
-        )}
-
-        {/* Distinciones reseñables — lista con bullets dorados. Solo
-            Recomendados. Si hay 'Decano' computado se añade al final. */}
+        {/* Distinciones reseñables — logros permanentes verificados por J3.
+            Lista con bullets dorados. Si hay 'Decano' computado se añade al final. */}
         {distinctionLines.length > 0 && (
           <ul className="text-[11px] theme-text opacity-75 space-y-[3px] mt-[2px]">
             {distinctionLines.map((line) => (
@@ -312,17 +299,58 @@ export default function CoachCard({ coach, labels, userCoords, onAsk }: CoachCar
           </div>
         )}
 
-        <button
-          type="button"
-          onClick={() => onAsk?.(coach)}
-          className="mt-3 inline-flex items-center gap-2 text-[10px] font-bold tracking-[2.5px] uppercase text-[var(--g1)] hover:gap-3 transition-all duration-300"
-        >
-          {labels.askChatbot}
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-            <path d="M5 12h14" />
-            <path d="M12 5l7 7-7 7" />
-          </svg>
-        </button>
+        <div className="mt-3 flex items-center justify-between gap-2">
+          <button
+            type="button"
+            onClick={() => onAsk?.(coach)}
+            className="inline-flex items-center gap-2 text-[10px] font-bold tracking-[2.5px] uppercase text-[var(--g1)] hover:gap-3 transition-all duration-300"
+          >
+            {labels.askChatbot}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="M5 12h14" />
+              <path d="M12 5l7 7-7 7" />
+            </svg>
+          </button>
+
+          {/* Redes sociales — Instagram y Web del coach si las tiene.
+              Icons ghost dorados, se abren en nueva pestaña. */}
+          {(coach.socials?.instagram || coach.socials?.web) && (
+            <div className="flex items-center gap-2">
+              {coach.socials?.instagram && (
+                <a
+                  href={coach.socials.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Instagram de ${coach.name}`}
+                  className="inline-flex items-center justify-center w-7 h-7 border border-[var(--g1)]/30 text-[var(--g1)]/80 hover:border-[var(--g1)] hover:text-[var(--g1)] hover:bg-[var(--g1)]/10 transition-all"
+                  style={{ borderRadius: 2 }}
+                >
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                  </svg>
+                </a>
+              )}
+              {coach.socials?.web && !isHq && (
+                <a
+                  href={coach.socials.web}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Web de ${coach.name}`}
+                  className="inline-flex items-center justify-center w-7 h-7 border border-[var(--g1)]/30 text-[var(--g1)]/80 hover:border-[var(--g1)] hover:text-[var(--g1)] hover:bg-[var(--g1)]/10 transition-all"
+                  style={{ borderRadius: 2 }}
+                >
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="2" y1="12" x2="22" y2="12" />
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                  </svg>
+                </a>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </article>
   );

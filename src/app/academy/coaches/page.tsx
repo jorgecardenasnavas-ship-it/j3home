@@ -68,7 +68,6 @@ function CoachesCatalogContent() {
     badgeHq: t.academy.network.badgeHq,
     badgeFounder: t.academy.network.badgeFounder,
     badgeGenOne: t.academy.network.badgeGenOne,
-    specialtyLabel: t.academy.network.specialtyLabel,
     specialtyJuniors: t.academy.network.specialtyJuniors,
     specialtyAdultos: t.academy.network.specialtyAdultos,
     specialtyCompeticion: t.academy.network.specialtyCompeticion,

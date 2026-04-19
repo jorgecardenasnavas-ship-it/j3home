@@ -859,7 +859,6 @@ function HeroSection() {
     badgeHq: t.academy.network.badgeHq,
     badgeFounder: t.academy.network.badgeFounder,
     badgeGenOne: t.academy.network.badgeGenOne,
-    specialtyLabel: t.academy.network.specialtyLabel,
     specialtyJuniors: t.academy.network.specialtyJuniors,
     specialtyAdultos: t.academy.network.specialtyAdultos,
     specialtyCompeticion: t.academy.network.specialtyCompeticion,
@@ -2447,7 +2446,6 @@ function PorscheCoachCard({
     badgeHq: string;
     badgeFounder: string;
     badgeGenOne: string;
-    specialtyLabel: string;
     specialtyJuniors: string;
     specialtyAdultos: string;
     specialtyCompeticion: string;
@@ -2471,17 +2469,9 @@ function PorscheCoachCard({
      - Specialties solo si certificación activa (J3 solo avala actuales)
      - Distinctions permanentes (independientes del plan actual) */
   const badges = getCoachBadges(coach);
-  /* Label legible de la primera especialidad (máx. 1 en la card pequeña). */
-  const primarySpecialty = badges.specialties[0];
-  const primarySpecialtyLabel = primarySpecialty
-    ? primarySpecialty === "juniors"
-      ? labels.specialtyJuniors
-      : primarySpecialty === "adultos"
-      ? labels.specialtyAdultos
-      : primarySpecialty === "competicion"
-      ? labels.specialtyCompeticion
-      : labels.specialtyCamps
-    : null;
+  /* Primer club — info extra que ayuda a identificar al coach.
+     Máx. 1 en la card pequeña para no saturar. */
+  const primaryClub = coach.clubs && coach.clubs.length > 0 ? coach.clubs[0] : null;
   /* Solo los coaches con cert activa llegan a la card (filterCoaches los
      filtra). Mostramos "✓ Certificado" siempre que sea tier coach. */
   const showCertLine = !isHq && badges.status === "certified-active";
@@ -2642,14 +2632,13 @@ function PorscheCoachCard({
                 <span className="truncate">{labels.certifiedSince}</span>
               </p>
             )}
-            {/* Especialidad verificada — solo si hay certificación activa.
-                En la card pequeña mostramos una sola (la más fuerte). */}
-            {primarySpecialtyLabel && (
+            {/* Club principal — línea sutil debajo del certificado. */}
+            {primaryClub && (
               <p
-                className="mt-[4px] text-[9px] font-bold tracking-[1.4px] uppercase truncate text-[var(--g1)]/85"
+                className="mt-[3px] text-[10px] font-medium text-white/70 tracking-[0.2px] truncate"
                 style={{ textShadow: "0 1px 6px rgba(0,0,0,0.5)" }}
               >
-                {labels.specialtyLabel} {primarySpecialtyLabel}
+                {primaryClub}
               </p>
             )}
           </div>
@@ -2683,7 +2672,6 @@ function CoachesCarousel({
     badgeHq: string;
     badgeFounder: string;
     badgeGenOne: string;
-    specialtyLabel: string;
     specialtyJuniors: string;
     specialtyAdultos: string;
     specialtyCompeticion: string;
@@ -2831,7 +2819,6 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
     badgeHq: t.academy.network.badgeHq,
     badgeFounder: t.academy.network.badgeFounder,
     badgeGenOne: t.academy.network.badgeGenOne,
-    specialtyLabel: t.academy.network.specialtyLabel,
     specialtyJuniors: t.academy.network.specialtyJuniors,
     specialtyAdultos: t.academy.network.specialtyAdultos,
     specialtyCompeticion: t.academy.network.specialtyCompeticion,
