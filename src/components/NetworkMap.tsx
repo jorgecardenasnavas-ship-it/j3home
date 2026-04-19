@@ -38,7 +38,7 @@ import { MapContainer, TileLayer, useMap, ZoomControl } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import type { Coach, CoachDistinction } from "@/data/coaches";
-import { getCoachBadges } from "@/data/coaches";
+import { getCoachBadges, getCoachStatus } from "@/data/coaches";
 import type { LatLng } from "@/lib/geo";
 import { LanguageChip } from "@/components/LanguageChip";
 
@@ -102,9 +102,20 @@ const pinStyles = `
     inset: 7px;
   }
   /* Todos los coach pins son idénticos (democracia visual en el mapa).
-     La diferenciación entre Recomendado, Certificado, Founder o
-     distinciones vive EXCLUSIVAMENTE dentro de la card (popup), no
-     en el pin. Esto evita jerarquía visible en el mapa. */
+     Las distinciones, Founder y Gen ONE viven dentro de la card.
+     Excepción: los ex-certificados pierden un punto de peso visual
+     (opacidad + saturación reducidas) para que el jugador distinga
+     a simple vista quiénes están al día y quiénes no. Al hover se
+     recupera el peso completo — siguen siendo clickables con ganas. */
+  .j3-pin-inner.j3-pin-muted {
+    opacity: 0.55;
+    filter: saturate(0.5);
+  }
+  .j3-pin-inner.j3-pin-muted:hover,
+  .j3-pin-inner.j3-pin-muted.is-hovered {
+    opacity: 1;
+    filter: saturate(1);
+  }
   @keyframes j3PulseRing {
     0%   { transform: scale(0.8); opacity: 1; }
     100% { transform: scale(1.9); opacity: 0; }
@@ -435,10 +446,11 @@ function resolveKind(c: Coach): "lab" | "academy" | "coach" {
   return "coach";
 }
 
-function makeIcon(kind: "lab" | "academy" | "coach"): L.DivIcon {
-  /* Tres tamaños únicos — todos los coaches (recomendados, certificados,
-     founders, cualquier combinación de distinciones) comparten el mismo
-     pin 28px. La diferenciación se descubre al abrir la card. */
+function makeIcon(kind: "lab" | "academy" | "coach", muted = false): L.DivIcon {
+  /* Tres tamaños únicos — todos los coaches comparten pin 28px.
+     Excepción: los ex-certificados van con `muted=true` → mismo
+     tamaño pero un punto menos de peso visual (opacidad y saturación
+     reducidas). Al hover recuperan peso completo. */
   const size =
     kind === "lab" ? 48 :
     kind === "academy" ? 36 :
@@ -447,9 +459,10 @@ function makeIcon(kind: "lab" | "academy" | "coach"): L.DivIcon {
     kind === "lab" ? " j3-pin-lab" :
     kind === "academy" ? " j3-pin-academy" :
     "";
+  const mutedClass = muted ? " j3-pin-muted" : "";
   return L.divIcon({
     className: "j3-pin",
-    html: `<div class="j3-pin-inner${kindModifier}"></div>`,
+    html: `<div class="j3-pin-inner${kindModifier}${mutedClass}"></div>`,
     iconSize: [size, size],
     iconAnchor: [size / 2, size / 2],
     popupAnchor: [0, -size / 2],
@@ -1047,7 +1060,10 @@ function ClusteredMarkers({
       const popupHtml = renderToStaticMarkup(
         <PopupContent coach={c} labels={labels} kind={kind} />
       );
-      const m = L.marker(c.location.coordinates, { icon: makeIcon(kind) });
+      /* Ex-certificados: pin con menos peso visual para distinguirlos
+         a simple vista de los que están al día. Hover devuelve peso completo. */
+      const muted = getCoachStatus(c) === "ex-certified";
+      const m = L.marker(c.location.coordinates, { icon: makeIcon(kind, muted) });
       m.bindPopup(popupHtml, { maxWidth: 280, minWidth: 240 });
 
       // Al abrir el popup, reflejar el coach en el hash de la URL

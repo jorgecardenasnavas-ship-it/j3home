@@ -85,11 +85,14 @@ export default function CoachCard({ coach, labels, userCoords, onAsk }: CoachCar
   const [isHovered, setIsHovered] = useState(false);
   const badges = getCoachBadges(coach);
   /* Distinciones a renderizar — las almacenadas + 'Decano J3' computado
-     (5+ años en la red). Ambas solo aplican si recomendado. */
+     (5+ años en la red). Son permanentes, no dependen del plan actual. */
   const distinctionLines: string[] = [
     ...badges.distinctions.map((d) => distinctionText(d, labels)),
   ];
   if (badges.decano) distinctionLines.push(labels.distinctionDecano);
+  /* Ex-certificado: menos peso visual en la card.
+     Opacidad reducida + desaturación suave, recuperando peso al hover. */
+  const isExCert = badges.status === "ex-certified";
 
   // Escuchar eventos globales del mapa: si el pin del mismo slug
   // está siendo hovered, marcar este card como "is-hovered".
@@ -124,15 +127,20 @@ export default function CoachCard({ coach, labels, userCoords, onAsk }: CoachCar
       className="group relative flex flex-col theme-surface border theme-border hover:border-[var(--g1)]/40 transition-all duration-300 overflow-hidden"
       data-featured={coach.featured ? "true" : undefined}
       data-hovered={isHovered ? "true" : undefined}
-      style={
-        isHovered
+      style={{
+        /* Ex-cert: opacidad + desaturación suaves. Hover las cancela. */
+        ...(isExCert && !isHovered
+          ? { opacity: 0.72, filter: "saturate(0.65)" }
+          : {}),
+        transition: "opacity .3s ease, filter .3s ease, transform .3s ease, box-shadow .3s ease, border-color .3s ease",
+        ...(isHovered
           ? {
               borderColor: "rgba(220,175,100,0.85)",
               transform: "translateY(-2px)",
               boxShadow: "0 10px 32px rgba(220,175,100,0.18), 0 2px 8px rgba(0,0,0,0.35)",
             }
-          : undefined
-      }
+          : {}),
+      }}
     >
       {/* Badge superior — gradiente */}
       <span
