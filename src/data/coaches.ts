@@ -405,6 +405,83 @@ export const COACHES: readonly Coach[] = [
     featured: true,
     joinedAt: "2025-08-01",
   },
+
+  /* ── Trained · datos de muestra (Plan Plus) ──
+     Coaches que han pasado la formación Coach360 pero no están en
+     el tier Recommended editorial. Aparecen en el mapa sin badge y
+     con pin estándar (sin halo). */
+  {
+    slug: "carlos-merino-sevilla",
+    name: "Carlos Merino",
+    role: "Coach",
+    location: {
+      city: "Sevilla",
+      country: "España",
+      coordinates: [37.3891, -5.9845],
+    },
+    clubs: [],
+    languages: ["es"],
+    specialties: [],
+    socials: {},
+    tier: "trained",
+    type: "coach",
+    featured: true,
+    joinedAt: "2026-02-14",
+  },
+  {
+    slug: "lucia-santos-lisboa",
+    name: "Lucía Santos",
+    role: "Coach",
+    location: {
+      city: "Lisboa",
+      country: "Portugal",
+      coordinates: [38.7223, -9.1393],
+    },
+    clubs: [],
+    languages: ["pt", "es"],
+    specialties: [],
+    socials: {},
+    tier: "trained",
+    type: "coach",
+    featured: true,
+    joinedAt: "2026-03-05",
+  },
+  {
+    slug: "thomas-bernard-lyon",
+    name: "Thomas Bernard",
+    role: "Coach",
+    location: {
+      city: "Lyon",
+      country: "Francia",
+      coordinates: [45.7640, 4.8357],
+    },
+    clubs: [],
+    languages: ["fr", "en"],
+    specialties: [],
+    socials: {},
+    tier: "trained",
+    type: "coach",
+    featured: true,
+    joinedAt: "2026-01-20",
+  },
+  {
+    slug: "martina-rossi-milan",
+    name: "Martina Rossi",
+    role: "Coach",
+    location: {
+      city: "Milán",
+      country: "Italia",
+      coordinates: [45.4642, 9.1900],
+    },
+    clubs: [],
+    languages: ["it", "en"],
+    specialties: [],
+    socials: {},
+    tier: "trained",
+    type: "coach",
+    featured: true,
+    joinedAt: "2026-03-18",
+  },
 ] as const;
 
 /** Lista de países únicos (alfabético) — para filtros. */

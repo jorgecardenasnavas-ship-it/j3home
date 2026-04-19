@@ -749,6 +749,7 @@ export const en = {
       legendTitle: "The network",
       legendHq: "Headquarter",
       legendRecommended: "Recommended",
+      legendTrained: "Coach360",
       legendCluster: "Cluster",
       viewInMaps: "View in Maps",
       viewProfile: "Ver perfil",

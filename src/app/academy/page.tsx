@@ -861,6 +861,7 @@ function HeroSection() {
     legendTitle: t.academy.network.legendTitle,
     legendHq: t.academy.network.legendHq,
     legendRecommended: t.academy.network.legendRecommended,
+    legendTrained: t.academy.network.legendTrained,
     legendCluster: t.academy.network.legendCluster,
     viewInMaps: t.academy.network.viewInMaps,
     youAreHere: t.academy.network.youAreHere,
@@ -2718,7 +2719,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   /* En carrusel horizontal cabe más material que en grid — incrementamos
      el número de featured coaches mostrados. El CTA "ver todos" sigue
      apareciendo si hay más en la lista completa. */
-  const displayCount = isMobile ? 6 : 10;
+  const displayCount = isMobile ? 10 : 20;
   const display = useMemo(
     () => pickDisplayCoaches(filtered, displayCount),
     [filtered, displayCount],

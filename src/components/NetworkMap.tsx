@@ -363,9 +363,16 @@ const pinStyles = `
     height: 16px;
     box-shadow: 0 0 0 1.5px rgba(0,0,0,0.6), 0 2px 8px rgba(220,175,100,0.7);
   }
-  .j3-legend-dot-coach {
-    width: 10px;
-    height: 10px;
+  .j3-legend-dot-recommended {
+    width: 12px;
+    height: 12px;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.55), 0 0 6px rgba(220,175,100,0.5);
+  }
+  .j3-legend-dot-trained {
+    width: 9px;
+    height: 9px;
+    background: radial-gradient(circle at 50% 50%, rgba(240,196,120,0.55) 0%, rgba(220,175,100,0.45) 55%, rgba(184,148,62,0.5) 100%) !important;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.45);
   }
   .j3-legend-dot-cluster {
     width: 18px;
@@ -462,10 +469,11 @@ interface PopupLabels {
   badgeHq: string;
   badgeRecommended: string;
   askChatbot: string;
-  /** "Headquarter · Recommended · Cluster" (strings cortas para la mini-leyenda) */
+  /** Labels cortas para la mini-leyenda (Headquarter · Recommended · Trained · Cluster) */
   legendTitle: string;
   legendHq: string;
   legendRecommended: string;
+  legendTrained: string;
   legendCluster: string;
   /** Label del botón "Ver en Maps" */
   viewInMaps: string;
@@ -1156,8 +1164,12 @@ function MapLegend({ labels }: { labels: PopupLabels }) {
                 <span>${labels.legendHq}</span>
               </div>
               <div class="j3-legend-row">
-                <span class="j3-legend-dot j3-legend-dot-coach" aria-hidden></span>
+                <span class="j3-legend-dot j3-legend-dot-recommended" aria-hidden></span>
                 <span>${labels.legendRecommended}</span>
+              </div>
+              <div class="j3-legend-row">
+                <span class="j3-legend-dot j3-legend-dot-trained" aria-hidden></span>
+                <span>${labels.legendTrained}</span>
               </div>
               <div class="j3-legend-row">
                 <span class="j3-legend-dot j3-legend-dot-cluster" aria-hidden>3</span>

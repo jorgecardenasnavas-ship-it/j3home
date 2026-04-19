@@ -453,6 +453,8 @@ export interface Dictionary {
       readonly legendHq: string;
       /** Label de la fila "Recomendado" en la leyenda */
       readonly legendRecommended: string;
+      /** Label de la fila "Trained/Certified" en la leyenda */
+      readonly legendTrained: string;
       /** Label de la fila "Cluster (agrupación)" en la leyenda */
       readonly legendCluster: string;
       /** Label del botón "Ver en Maps" en el popup */

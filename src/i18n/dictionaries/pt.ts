@@ -749,6 +749,7 @@ export const pt = {
       legendTitle: "A rede",
       legendHq: "Headquarter",
       legendRecommended: "Recomendado",
+      legendTrained: "Coach360",
       legendCluster: "Agrupamento",
       viewInMaps: "Ver no Maps",
       viewProfile: "Ver perfil",

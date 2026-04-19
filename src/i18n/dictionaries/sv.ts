@@ -749,6 +749,7 @@ export const sv = {
       legendTitle: "N\u00E4tverket",
       legendHq: "Headquarter",
       legendRecommended: "Rekommenderad",
+      legendTrained: "Coach360",
       legendCluster: "Grupp",
       viewInMaps: "Visa i Maps",
       viewProfile: "Ver perfil",
