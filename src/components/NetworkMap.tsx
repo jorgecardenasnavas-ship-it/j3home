@@ -1399,12 +1399,12 @@ function MapLegend({ labels }: { labels: PopupLabels }) {
                 <span>${labels.legendHq}</span>
               </div>
               <div class="j3-legend-row">
-                <span class="j3-legend-dot j3-legend-dot-coach" aria-hidden></span>
-                <span>${labels.legendCoach}</span>
-              </div>
-              <div class="j3-legend-row">
                 <span class="j3-legend-dot j3-legend-dot-coach-rec" aria-hidden></span>
                 <span>${labels.legendCoachRecommended}</span>
+              </div>
+              <div class="j3-legend-row">
+                <span class="j3-legend-dot j3-legend-dot-coach" aria-hidden></span>
+                <span>${labels.legendCoach}</span>
               </div>
               <div class="j3-legend-row">
                 <span class="j3-legend-dot j3-legend-dot-cluster" aria-hidden>3</span>
