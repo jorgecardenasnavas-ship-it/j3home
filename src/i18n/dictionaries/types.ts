@@ -444,8 +444,24 @@ export interface Dictionary {
       readonly specialtyAdultos: string;
       readonly specialtyCompeticion: string;
       readonly specialtyCamps: string;
+      /** Badge "Recomendado J3" — coach en mentoría activa */
       readonly badgeRecommended: string;
+      /** Badge "Founder" — distinción histórica de la primera hornada */
+      readonly badgeFounder: string;
+      /** Badge "Headquarter" — sedes J3 propias */
       readonly badgeHq: string;
+      /** Prefijo antes de la especialidad verificada en la card. Ej: "Especialista:" */
+      readonly specialtyLabel: string;
+      /** Distinción: "Forma coaches" */
+      readonly distinctionFormaCoaches: string;
+      /** Distinción: "Jugadores en circuito" */
+      readonly distinctionJugadoresCircuito: string;
+      /** Distinción: "Multilingüe" */
+      readonly distinctionMultilingue: string;
+      /** Distinción computada: "Decano J3" (5+ años en la red) */
+      readonly distinctionDecano: string;
+      /** Template de antigüedad silenciosa. Ej: "Coach360 desde {year}" */
+      readonly memberSince: string;
       readonly askChatbot: string;
       /** Título de la mini-leyenda del mapa (bottom-left) */
       readonly legendTitle: string;
@@ -453,7 +469,7 @@ export interface Dictionary {
       readonly legendHq: string;
       /** Label de la fila "Recomendado" en la leyenda */
       readonly legendRecommended: string;
-      /** Label de la fila "Trained/Certified" en la leyenda */
+      /** Label de la fila "Certificado" en la leyenda (Coach360 certificado) */
       readonly legendTrained: string;
       /** Label de la fila "Cluster (agrupación)" en la leyenda */
       readonly legendCluster: string;

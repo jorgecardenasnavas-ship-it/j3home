@@ -37,7 +37,8 @@ import "leaflet.markercluster"; // side-effect: registra L.markerClusterGroup
 import { MapContainer, TileLayer, useMap, ZoomControl } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet.markercluster/dist/MarkerCluster.css";
-import type { Coach, CoachTier } from "@/data/coaches";
+import type { Coach, CoachDistinction } from "@/data/coaches";
+import { getCoachBadges } from "@/data/coaches";
 import type { LatLng } from "@/lib/geo";
 import { LanguageChip } from "@/components/LanguageChip";
 
@@ -100,30 +101,10 @@ const pinStyles = `
   .j3-pin-academy::after {
     inset: 7px;
   }
-  /* Coach Recommended: pin 32px con halo gold reforzado (intermedio
-     entre Trained y Lab). Sin pulse ring — ese queda reservado para
-     el Lab. */
-  .j3-pin-recommended {
-    width: 32px;
-    height: 32px;
-    box-shadow: 0 0 0 2px rgba(0,0,0,0.6), 0 6px 24px rgba(220,175,100,0.65);
-  }
-  .j3-pin-recommended::after {
-    inset: 6px;
-  }
-  /* Coach Trained: pin 22px "hollow" — sin halo gold, fondo tenue,
-     borde interior más sutil. Comunica presencia en la red sin
-     competir visualmente con los Recommended. */
-  .j3-pin-trained {
-    width: 22px;
-    height: 22px;
-    background: radial-gradient(circle at 50% 50%, rgba(220,175,100,0.45), rgba(220,175,100,0.15) 60%, rgba(220,175,100,0) 100%);
-    box-shadow: 0 0 0 1.5px rgba(0,0,0,0.5);
-  }
-  .j3-pin-trained::after {
-    inset: 4px;
-    border-color: rgba(220,175,100,0.55);
-  }
+  /* Todos los coach pins son idénticos (democracia visual en el mapa).
+     La diferenciación entre Recomendado, Certificado, Founder o
+     distinciones vive EXCLUSIVAMENTE dentro de la card (popup), no
+     en el pin. Esto evita jerarquía visible en el mapa. */
   @keyframes j3PulseRing {
     0%   { transform: scale(0.8); opacity: 1; }
     100% { transform: scale(1.9); opacity: 0; }
@@ -376,16 +357,12 @@ const pinStyles = `
     height: 16px;
     box-shadow: 0 0 0 1.5px rgba(0,0,0,0.6), 0 2px 8px rgba(220,175,100,0.7);
   }
-  .j3-legend-dot-recommended {
-    width: 12px;
-    height: 12px;
-    box-shadow: 0 0 0 1px rgba(0,0,0,0.55), 0 0 6px rgba(220,175,100,0.5);
-  }
-  .j3-legend-dot-trained {
-    width: 9px;
-    height: 9px;
-    background: radial-gradient(circle at 50% 50%, rgba(240,196,120,0.55) 0%, rgba(220,175,100,0.45) 55%, rgba(184,148,62,0.5) 100%) !important;
-    box-shadow: 0 0 0 1px rgba(0,0,0,0.45);
+  /* Un solo dot "coach" para todos los coaches del mapa (certificados
+     y recomendados). La diferenciación vive en la card, no en el pin. */
+  .j3-legend-dot-coach {
+    width: 10px;
+    height: 10px;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.55), 0 0 5px rgba(220,175,100,0.45);
   }
   .j3-legend-dot-cluster {
     width: 18px;
@@ -458,24 +435,18 @@ function resolveKind(c: Coach): "lab" | "academy" | "coach" {
   return "coach";
 }
 
-function makeIcon(kind: "lab" | "academy" | "coach", tier?: CoachTier): L.DivIcon {
-  /* Para coaches, el pin cambia de tamaño y estilo según tier:
-     - Recommended → 32px con halo gold reforzado (destaca)
-     - Trained     → 22px hollow, sin halo (presencia sin ruido)
-     - Default (sin tier conocido o hq sede) → tamaños base. */
-  const isRecommended = kind === "coach" && tier === "recommended";
-  const isTrained = kind === "coach" && tier === "trained";
+function makeIcon(kind: "lab" | "academy" | "coach"): L.DivIcon {
+  /* Tres tamaños únicos — todos los coaches (recomendados, certificados,
+     founders, cualquier combinación de distinciones) comparten el mismo
+     pin 28px. La diferenciación se descubre al abrir la card. */
   const size =
     kind === "lab" ? 48 :
     kind === "academy" ? 36 :
-    isRecommended ? 32 :
-    isTrained ? 22 :
     28;
   const kindModifier =
     kind === "lab" ? " j3-pin-lab" :
     kind === "academy" ? " j3-pin-academy" :
-    isRecommended ? " j3-pin-recommended" :
-    isTrained ? " j3-pin-trained" : "";
+    "";
   return L.divIcon({
     className: "j3-pin",
     html: `<div class="j3-pin-inner${kindModifier}"></div>`,
@@ -486,10 +457,28 @@ function makeIcon(kind: "lab" | "academy" | "coach", tier?: CoachTier): L.DivIco
 }
 
 interface PopupLabels {
+  /** Badge "Headquarter" — solo para tipo lab/academy */
   badgeHq: string;
+  /** Badge "Recomendado J3" — tier recommended */
   badgeRecommended: string;
+  /** Badge "Founder" — distinción histórica (puede combinarse con cualquier tier) */
+  badgeFounder: string;
+  /** Prefijo de especialidad. Ej: "Especialista:" → "Especialista: Juniors" */
+  specialtyLabel: string;
+  /** Especialidades traducidas (juniors / adultos / competicion / camps) */
+  specialtyJuniors: string;
+  specialtyAdultos: string;
+  specialtyCompeticion: string;
+  specialtyCamps: string;
+  /** Distinciones traducidas */
+  distinctionFormaCoaches: string;
+  distinctionJugadoresCircuito: string;
+  distinctionMultilingue: string;
+  distinctionDecano: string;
+  /** Template antigüedad: "Coach360 desde {year}" */
+  memberSince: string;
   askChatbot: string;
-  /** Labels cortas para la mini-leyenda (Headquarter · Recommended · Trained · Cluster) */
+  /** Labels cortas para la mini-leyenda (Headquarter · Coach · Cluster) */
   legendTitle: string;
   legendHq: string;
   legendRecommended: string;
@@ -499,6 +488,111 @@ interface PopupLabels {
   viewInMaps: string;
   /** Tooltip del pin del usuario: "Estás aquí" */
   youAreHere?: string;
+}
+
+/** Mapa de distinction key → label traducida. */
+function distinctionLabel(d: CoachDistinction, labels: PopupLabels): string {
+  switch (d) {
+    case "forma-coaches": return labels.distinctionFormaCoaches;
+    case "jugadores-circuito": return labels.distinctionJugadoresCircuito;
+    case "multilingue": return labels.distinctionMultilingue;
+  }
+}
+
+/** Mapa de specialty key → label traducida. */
+function specialtyLabelText(s: "juniors" | "adultos" | "competicion" | "camps", labels: PopupLabels): string {
+  switch (s) {
+    case "juniors": return labels.specialtyJuniors;
+    case "adultos": return labels.specialtyAdultos;
+    case "competicion": return labels.specialtyCompeticion;
+    case "camps": return labels.specialtyCamps;
+  }
+}
+
+/**
+ * BadgeChip — pequeño chip con dot y label. Se usa en el header del
+ * popup para mostrar el stack de badges (HQ / Recomendado / Founder).
+ * Tiene 3 tonos para diferenciarlos visualmente sin texto adicional.
+ */
+function BadgeChip({
+  label,
+  tone,
+}: {
+  label: string;
+  tone: "hq" | "recommended" | "founder";
+}) {
+  /* hq: dorado más denso (sede oficial)
+     recommended: dorado medio con fondo suave
+     founder: outline dorado elegante, transmite historia */
+  const palette =
+    tone === "hq"
+      ? {
+          bg: "rgba(220,175,100,0.20)",
+          border: "rgba(220,175,100,0.55)",
+          color: "#f0c478",
+          dot: "#f0c478",
+        }
+      : tone === "recommended"
+      ? {
+          bg: "rgba(220,175,100,0.14)",
+          border: "rgba(220,175,100,0.42)",
+          color: "#dcaf64",
+          dot: "#dcaf64",
+        }
+      : {
+          bg: "rgba(220,175,100,0.04)",
+          border: "rgba(220,175,100,0.55)",
+          color: "#dcaf64",
+          dot: "transparent",
+        };
+  return (
+    <span
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 4,
+        fontSize: 8.5,
+        fontWeight: 700,
+        letterSpacing: 1.6,
+        textTransform: "uppercase",
+        color: palette.color,
+        background: palette.bg,
+        border: `1px solid ${palette.border}`,
+        padding: "2.5px 6px",
+        borderRadius: 2,
+      }}
+    >
+      {tone !== "founder" && (
+        <span
+          aria-hidden
+          style={{
+            width: 4,
+            height: 4,
+            borderRadius: 999,
+            background: palette.dot,
+            boxShadow: tone === "hq" ? `0 0 4px ${palette.dot}` : "none",
+          }}
+        />
+      )}
+      {/* Para Founder usamos un mini-asterisco serif en lugar de dot, marca
+          visualmente la distinción histórica. */}
+      {tone === "founder" && (
+        <span
+          aria-hidden
+          style={{
+            fontFamily: "ui-serif, Georgia, serif",
+            fontStyle: "italic",
+            fontSize: 10,
+            lineHeight: 1,
+            fontWeight: 400,
+          }}
+        >
+          ✦
+        </span>
+      )}
+      {label}
+    </span>
+  );
 }
 
 /**
@@ -521,9 +615,24 @@ function PopupContent({
   const [lat, lng] = c.location.coordinates;
   const mapsHref = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
 
+  /* Badges calculados por la lógica central (getCoachBadges):
+     - Solo los recomendados ven specialties verificadas + distinciones.
+     - Founder puede aparecer en cualquier tier (histórico). */
+  const badges = getCoachBadges(c);
+  const joinedYear = c.joinedAt.slice(0, 4);
+  const memberSinceText = labels.memberSince.replace("{year}", joinedYear);
+  const isHqKind = kind === "lab" || kind === "academy";
+
+  /* Distinciones a mostrar: las almacenadas + "Decano J3" si aplica
+     (se computa desde joinedAt). */
+  const distinctionLines: string[] = [
+    ...badges.distinctions.map((d) => distinctionLabel(d, labels)),
+  ];
+  if (badges.decano) distinctionLines.push(labels.distinctionDecano);
+
   return (
     <div style={{ minWidth: 220 }}>
-      {/* Header: foto + nombre + tier */}
+      {/* Header: foto + stack de badges + nombre + ubicación + antigüedad */}
       <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 8 }}>
         {c.photo ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -531,11 +640,11 @@ function PopupContent({
             src={c.photo}
             alt=""
             style={{
-              width: 40,
-              height: 40,
+              width: 44,
+              height: 44,
               borderRadius: 999,
               objectFit: "cover",
-              border: kind !== "coach" ? "2px solid #dcaf64" : "1px solid rgba(220,175,100,0.3)",
+              border: isHqKind ? "2px solid #dcaf64" : "1px solid rgba(220,175,100,0.3)",
               flexShrink: 0,
             }}
           />
@@ -543,15 +652,15 @@ function PopupContent({
           <div
             aria-hidden
             style={{
-              width: 40,
-              height: 40,
+              width: 44,
+              height: 44,
               borderRadius: 999,
               background: "rgba(220,175,100,0.08)",
               border: "1px solid rgba(220,175,100,0.25)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: 14,
+              fontSize: 15,
               fontWeight: 700,
               color: "#dcaf64",
               letterSpacing: 1,
@@ -561,26 +670,74 @@ function PopupContent({
             {initials}
           </div>
         )}
-        <div style={{ minWidth: 0 }}>
-          <div
-            style={{
-              fontSize: 9,
-              letterSpacing: 2,
-              textTransform: "uppercase",
-              color: "#dcaf64",
-              marginBottom: 2,
-            }}
-          >
-            {kind === "lab" || kind === "academy" ? labels.badgeHq : labels.badgeRecommended}
-          </div>
+        <div style={{ minWidth: 0, flex: 1 }}>
+          {/* Stack horizontal de badges. Orden: HQ > Recomendado > Founder.
+              Para certificados sin founder NO mostramos badge (el pin en el
+              mapa ya comunica "soy Coach360"). */}
+          {(isHqKind || badges.recomendado || badges.founder) && (
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 4 }}>
+              {isHqKind && (
+                <BadgeChip label={labels.badgeHq} tone="hq" />
+              )}
+              {!isHqKind && badges.recomendado && (
+                <BadgeChip label={labels.badgeRecommended} tone="recommended" />
+              )}
+              {!isHqKind && badges.founder && (
+                <BadgeChip label={labels.badgeFounder} tone="founder" />
+              )}
+            </div>
+          )}
           <div style={{ fontWeight: 700, fontSize: 16, lineHeight: 1.15, marginBottom: 2, letterSpacing: "-0.3px" }}>
             {c.name}
           </div>
           <div style={{ fontSize: 11, opacity: 0.7 }}>
             {c.location.city}, {c.location.country}
+            {!isHqKind && (
+              <>
+                <span style={{ opacity: 0.5 }}> · </span>
+                <span style={{ opacity: 0.6, letterSpacing: 0.5 }}>{memberSinceText}</span>
+              </>
+            )}
           </div>
         </div>
       </div>
+
+      {/* Especialista J3: [X, Y] — solo para recomendados con specialties.
+          Es texto, no chips: comunica "J3 avala que este coach es especialista
+          en esto". Los chips de navegación (filtros) van aparte más abajo. */}
+      {badges.specialties.length > 0 && (
+        <div style={{ fontSize: 11, marginBottom: 6, lineHeight: 1.3 }}>
+          <span style={{ color: "#dcaf64", fontWeight: 600, letterSpacing: 0.3 }}>
+            {labels.specialtyLabel}
+          </span>
+          <span style={{ opacity: 0.88, marginLeft: 4 }}>
+            {badges.specialties.map((s) => specialtyLabelText(s, labels)).join(" · ")}
+          </span>
+        </div>
+      )}
+
+      {/* Distinciones (Forma coaches / Jugadores en circuito / Multilingüe /
+          Decano). Solo para recomendados. Se pintan como lista suave con
+          bullets dorados. */}
+      {distinctionLines.length > 0 && (
+        <ul style={{ listStyle: "none", padding: 0, margin: "0 0 10px 0", fontSize: 11, lineHeight: 1.5 }}>
+          {distinctionLines.map((line) => (
+            <li key={line} style={{ display: "flex", alignItems: "center", gap: 6, opacity: 0.82 }}>
+              <span
+                aria-hidden
+                style={{
+                  width: 4,
+                  height: 4,
+                  borderRadius: 999,
+                  background: "#dcaf64",
+                  flexShrink: 0,
+                }}
+              />
+              {line}
+            </li>
+          ))}
+        </ul>
+      )}
 
       {/* Clubs */}
       {c.clubs && c.clubs.length > 0 && (
@@ -598,18 +755,12 @@ function PopupContent({
         </div>
       )}
 
-      {/* Especialidades — chips dorados suaves, clickables.
-          El click se maneja vía event delegation en la page
-          (data-j3-specialty) porque este JSX se serializa a HTML dentro
-          del popup de Leaflet y pierde los onClick de React. */}
+      {/* Especialidades como chips de filtro — siempre clickables para
+          navegación cruzada. Event delegation en la page (data-j3-specialty). */}
       {c.specialties && c.specialties.length > 0 && (
         <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 12 }}>
           {c.specialties.map((s) => {
-            const lbl =
-              s === "juniors" ? "Juniors" :
-              s === "adultos" ? "Adultos" :
-              s === "competicion" ? "Competición" :
-              "Camps";
+            const lbl = specialtyLabelText(s, labels);
             return (
               <button
                 key={s}
@@ -851,7 +1002,7 @@ function ClusteredMarkers({
       const popupHtml = renderToStaticMarkup(
         <PopupContent coach={c} labels={labels} kind={kind} />
       );
-      const m = L.marker(c.location.coordinates, { icon: makeIcon(kind, c.tier) });
+      const m = L.marker(c.location.coordinates, { icon: makeIcon(kind) });
       m.bindPopup(popupHtml, { maxWidth: 280, minWidth: 240 });
 
       // Al abrir el popup, reflejar el coach en el hash de la URL
@@ -1184,12 +1335,8 @@ function MapLegend({ labels }: { labels: PopupLabels }) {
                 <span>${labels.legendHq}</span>
               </div>
               <div class="j3-legend-row">
-                <span class="j3-legend-dot j3-legend-dot-recommended" aria-hidden></span>
-                <span>${labels.legendRecommended}</span>
-              </div>
-              <div class="j3-legend-row">
-                <span class="j3-legend-dot j3-legend-dot-trained" aria-hidden></span>
-                <span>${labels.legendTrained}</span>
+                <span class="j3-legend-dot j3-legend-dot-coach" aria-hidden></span>
+                <span>${labels.legendRecommended} · ${labels.legendTrained}</span>
               </div>
               <div class="j3-legend-row">
                 <span class="j3-legend-dot j3-legend-dot-cluster" aria-hidden>3</span>

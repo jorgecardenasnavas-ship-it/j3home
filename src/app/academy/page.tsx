@@ -21,6 +21,7 @@ import {
   filterCoaches,
   pickDisplayCoaches,
   buildCoachesUrl,
+  getCoachBadges,
   type Coach,
   type CoachSpecialty,
 } from "@/data/coaches";
@@ -857,6 +858,17 @@ function HeroSection() {
   const mapLabels = {
     badgeHq: t.academy.network.badgeHq,
     badgeRecommended: t.academy.network.badgeRecommended,
+    badgeFounder: t.academy.network.badgeFounder,
+    specialtyLabel: t.academy.network.specialtyLabel,
+    specialtyJuniors: t.academy.network.specialtyJuniors,
+    specialtyAdultos: t.academy.network.specialtyAdultos,
+    specialtyCompeticion: t.academy.network.specialtyCompeticion,
+    specialtyCamps: t.academy.network.specialtyCamps,
+    distinctionFormaCoaches: t.academy.network.distinctionFormaCoaches,
+    distinctionJugadoresCircuito: t.academy.network.distinctionJugadoresCircuito,
+    distinctionMultilingue: t.academy.network.distinctionMultilingue,
+    distinctionDecano: t.academy.network.distinctionDecano,
+    memberSince: t.academy.network.memberSince,
     askChatbot: t.academy.network.askChatbot,
     legendTitle: t.academy.network.legendTitle,
     legendHq: t.academy.network.legendHq,
@@ -2430,7 +2442,18 @@ function PorscheCoachCard({
   onLeave,
 }: {
   coach: Coach;
-  labels: { badgeHq: string; badgeRecommended: string; askChatbot: string; kmFromYou?: string };
+  labels: {
+    badgeHq: string;
+    badgeRecommended: string;
+    badgeFounder: string;
+    specialtyLabel: string;
+    specialtyJuniors: string;
+    specialtyAdultos: string;
+    specialtyCompeticion: string;
+    specialtyCamps: string;
+    askChatbot: string;
+    kmFromYou?: string;
+  };
   userCoords?: LatLng | null;
   onAsk?: (c: Coach) => void;
   isHovered: boolean;
@@ -2439,6 +2462,23 @@ function PorscheCoachCard({
 }) {
   const isHq = coach.tier === "hq";
   const expanded = isHovered;
+  /* Badges normalizados por la lógica central (getCoachBadges):
+     - 'recomendado' solo para tier='recommended'
+     - 'founder' puede combinarse con cualquier tier
+     - specialties verificadas solo si recomendado (máx. 2) */
+  const badges = getCoachBadges(coach);
+  /* Label legible de la primera especialidad verificada — la mostramos
+     debajo del nombre cuando hay Recomendado. */
+  const primarySpecialty = badges.specialties[0];
+  const primarySpecialtyLabel = primarySpecialty
+    ? primarySpecialty === "juniors"
+      ? labels.specialtyJuniors
+      : primarySpecialty === "adultos"
+      ? labels.specialtyAdultos
+      : primarySpecialty === "competicion"
+      ? labels.specialtyCompeticion
+      : labels.specialtyCamps
+    : null;
   return (
     <button
       type="button"
@@ -2519,16 +2559,37 @@ function PorscheCoachCard({
         }}
       />
 
-      {/* Badge tier — top-left. Solo se pinta para HQ o Recommended.
-          'Trained' sale sin badge (su credencial es estar en el mapa). */}
-      {(isHq || coach.tier === "recommended") && (
-        <div className="absolute top-3 left-3 z-[10] flex items-center gap-1.5">
-          <span className="relative inline-flex shrink-0" aria-hidden>
-            <span className="w-[5px] h-[5px] rounded-full bg-[var(--g1)]" />
-          </span>
-          <span className="text-[8px] font-bold tracking-[1.8px] uppercase text-[var(--g1)]">
-            {isHq ? labels.badgeHq : labels.badgeRecommended}
-          </span>
+      {/* Stack de badges — top-left.
+          Orden: HQ > Recomendado > Founder.
+          Certificados sin Founder no ven badge aquí (su credencial es
+          estar en el mapa) — la card queda limpia y el nombre brilla. */}
+      {(isHq || badges.recomendado || badges.founder) && (
+        <div className="absolute top-3 left-3 z-[10] flex flex-wrap items-center gap-1.5 max-w-[calc(100%-24px)]">
+          {isHq && (
+            <span className="inline-flex items-center gap-1 px-1.5 py-[2px] bg-black/55 backdrop-blur-[2px]" style={{ borderRadius: 2 }}>
+              <span className="w-[4px] h-[4px] rounded-full bg-[var(--g1)]" aria-hidden
+                style={{ boxShadow: "0 0 4px var(--g1)" }} />
+              <span className="text-[8px] font-bold tracking-[1.6px] uppercase text-[var(--g1)]">
+                {labels.badgeHq}
+              </span>
+            </span>
+          )}
+          {!isHq && badges.recomendado && (
+            <span className="inline-flex items-center gap-1 px-1.5 py-[2px] bg-black/55 backdrop-blur-[2px]" style={{ borderRadius: 2 }}>
+              <span className="w-[4px] h-[4px] rounded-full bg-[var(--g1)]" aria-hidden />
+              <span className="text-[8px] font-bold tracking-[1.6px] uppercase text-[var(--g1)]">
+                {labels.badgeRecommended}
+              </span>
+            </span>
+          )}
+          {!isHq && badges.founder && (
+            <span className="inline-flex items-center gap-1 px-1.5 py-[2px] bg-black/55 backdrop-blur-[2px] border border-[var(--g1)]/55" style={{ borderRadius: 2 }}>
+              <span className="font-[var(--font-serif)] italic text-[9px] leading-none text-[var(--g1)]" aria-hidden>✦</span>
+              <span className="text-[8px] font-bold tracking-[1.6px] uppercase text-[var(--g1)]">
+                {labels.badgeFounder}
+              </span>
+            </span>
+          )}
         </div>
       )}
 
@@ -2548,7 +2609,7 @@ function PorscheCoachCard({
         </div>
       )}
 
-      {/* Bottom — name + ubicación + CTA arrow */}
+      {/* Bottom — name + ubicación + especialidad verificada + CTA arrow */}
       <div className="absolute bottom-0 left-0 right-0 z-[13] p-[14px] min-[640px]:p-[16px]">
         <div className="flex items-end justify-between gap-2">
           <div className="min-w-0 flex-1">
@@ -2564,6 +2625,18 @@ function PorscheCoachCard({
             >
               {coach.location.city} · {coach.location.country}
             </p>
+            {/* Especialidad verificada — solo Recomendados. Un único chip
+                compacto debajo de la ubicación. En la card pequeña no
+                tiene sentido listar todas: con la primera (la más fuerte)
+                ya queda claro el territorio en el que J3 lo avala. */}
+            {primarySpecialtyLabel && (
+              <p
+                className="mt-[6px] text-[9px] font-bold tracking-[1.4px] uppercase truncate text-[var(--g1)]"
+                style={{ textShadow: "0 1px 6px rgba(0,0,0,0.5)" }}
+              >
+                {labels.specialtyLabel} {primarySpecialtyLabel}
+              </p>
+            )}
           </div>
           <span
             className="shrink-0 text-[var(--g1)]"
@@ -2591,7 +2664,18 @@ function CoachesCarousel({
   onAsk,
 }: {
   coaches: readonly Coach[];
-  labels: { badgeHq: string; badgeRecommended: string; askChatbot: string; kmFromYou?: string };
+  labels: {
+    badgeHq: string;
+    badgeRecommended: string;
+    badgeFounder: string;
+    specialtyLabel: string;
+    specialtyJuniors: string;
+    specialtyAdultos: string;
+    specialtyCompeticion: string;
+    specialtyCamps: string;
+    askChatbot: string;
+    kmFromYou?: string;
+  };
   userCoords?: LatLng | null;
   onAsk?: (c: Coach) => void;
 }) {
@@ -2728,6 +2812,12 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const gridLabels = {
     badgeHq: t.academy.network.badgeHq,
     badgeRecommended: t.academy.network.badgeRecommended,
+    badgeFounder: t.academy.network.badgeFounder,
+    specialtyLabel: t.academy.network.specialtyLabel,
+    specialtyJuniors: t.academy.network.specialtyJuniors,
+    specialtyAdultos: t.academy.network.specialtyAdultos,
+    specialtyCompeticion: t.academy.network.specialtyCompeticion,
+    specialtyCamps: t.academy.network.specialtyCamps,
     askChatbot: t.academy.network.askChatbot,
     kmFromYou: t.academy.network.kmFromYou,
   };

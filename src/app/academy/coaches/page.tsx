@@ -67,6 +67,16 @@ function CoachesCatalogContent() {
   const gridLabels = {
     badgeHq: t.academy.network.badgeHq,
     badgeRecommended: t.academy.network.badgeRecommended,
+    badgeFounder: t.academy.network.badgeFounder,
+    specialtyLabel: t.academy.network.specialtyLabel,
+    specialtyJuniors: t.academy.network.specialtyJuniors,
+    specialtyAdultos: t.academy.network.specialtyAdultos,
+    specialtyCompeticion: t.academy.network.specialtyCompeticion,
+    specialtyCamps: t.academy.network.specialtyCamps,
+    distinctionFormaCoaches: t.academy.network.distinctionFormaCoaches,
+    distinctionJugadoresCircuito: t.academy.network.distinctionJugadoresCircuito,
+    distinctionMultilingue: t.academy.network.distinctionMultilingue,
+    distinctionDecano: t.academy.network.distinctionDecano,
     askChatbot: t.academy.network.askChatbot,
   };
 

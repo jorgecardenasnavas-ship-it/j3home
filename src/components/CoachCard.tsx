@@ -17,7 +17,8 @@
    ────────────────────────────────────────────── */
 
 import { useEffect, useState } from "react";
-import type { Coach } from "@/data/coaches";
+import type { Coach, CoachDistinction } from "@/data/coaches";
+import { getCoachBadges } from "@/data/coaches";
 import { LanguageChip } from "@/components/LanguageChip";
 import { formatDistance, haversineKm, type LatLng } from "@/lib/geo";
 
@@ -26,6 +27,16 @@ interface CoachCardProps {
   labels: {
     badgeHq: string;
     badgeRecommended: string;
+    badgeFounder: string;
+    specialtyLabel: string;
+    specialtyJuniors: string;
+    specialtyAdultos: string;
+    specialtyCompeticion: string;
+    specialtyCamps: string;
+    distinctionFormaCoaches: string;
+    distinctionJugadoresCircuito: string;
+    distinctionMultilingue: string;
+    distinctionDecano: string;
     askChatbot: string;
     /** Template "a {km} km de ti". Opcional: solo se muestra si hay userCoords. */
     kmFromYou?: string;
@@ -35,9 +46,37 @@ interface CoachCardProps {
   onAsk?: (coach: Coach) => void;
 }
 
+function specialtyText(
+  s: "juniors" | "adultos" | "competicion" | "camps",
+  labels: CoachCardProps["labels"],
+): string {
+  return s === "juniors"
+    ? labels.specialtyJuniors
+    : s === "adultos"
+    ? labels.specialtyAdultos
+    : s === "competicion"
+    ? labels.specialtyCompeticion
+    : labels.specialtyCamps;
+}
+
+function distinctionText(d: CoachDistinction, labels: CoachCardProps["labels"]): string {
+  switch (d) {
+    case "forma-coaches": return labels.distinctionFormaCoaches;
+    case "jugadores-circuito": return labels.distinctionJugadoresCircuito;
+    case "multilingue": return labels.distinctionMultilingue;
+  }
+}
+
 export default function CoachCard({ coach, labels, userCoords, onAsk }: CoachCardProps) {
   const isHq = coach.tier === "hq";
   const [isHovered, setIsHovered] = useState(false);
+  const badges = getCoachBadges(coach);
+  /* Distinciones a renderizar — las almacenadas + 'Decano J3' computado
+     (5+ años en la red). Ambas solo aplican si recomendado. */
+  const distinctionLines: string[] = [
+    ...badges.distinctions.map((d) => distinctionText(d, labels)),
+  ];
+  if (badges.decano) distinctionLines.push(labels.distinctionDecano);
 
   // Escuchar eventos globales del mapa: si el pin del mismo slug
   // está siendo hovered, marcar este card como "is-hovered".
@@ -116,18 +155,47 @@ export default function CoachCard({ coach, labels, userCoords, onAsk }: CoachCar
           </div>
         )}
 
-        {/* Badge tier — HQ y Recommended. Trained no lleva badge:
-            su credencial es aparecer en la red J3. */}
-        {(isHq || coach.tier === "recommended") && (
-          <span
-            className="absolute top-3 left-3 inline-flex items-center gap-2 px-2.5 py-1 bg-black/70 backdrop-blur-sm border border-[var(--g1)]/40"
-            style={{ borderRadius: 2 }}
-          >
-            <span className="w-[5px] h-[5px] rounded-full bg-[var(--g1)]" aria-hidden />
-            <span className="text-[9px] font-bold tracking-[2px] uppercase text-[var(--g1)]">
-              {isHq ? labels.badgeHq : labels.badgeRecommended}
-            </span>
-          </span>
+        {/* Stack de badges (top-left). Orden: HQ > Recomendado > Founder.
+            Certificados sin Founder no ven badge: su credencial es estar
+            en el mapa. Layout con flex-wrap para permitir apilado si la
+            card es estrecha. */}
+        {(isHq || badges.recomendado || badges.founder) && (
+          <div className="absolute top-3 left-3 flex flex-wrap items-center gap-1.5 max-w-[calc(100%-24px)]">
+            {isHq && (
+              <span
+                className="inline-flex items-center gap-2 px-2.5 py-1 bg-black/70 backdrop-blur-sm border border-[var(--g1)]/40"
+                style={{ borderRadius: 2 }}
+              >
+                <span className="w-[5px] h-[5px] rounded-full bg-[var(--g1)]" aria-hidden
+                  style={{ boxShadow: "0 0 4px var(--g1)" }} />
+                <span className="text-[9px] font-bold tracking-[2px] uppercase text-[var(--g1)]">
+                  {labels.badgeHq}
+                </span>
+              </span>
+            )}
+            {!isHq && badges.recomendado && (
+              <span
+                className="inline-flex items-center gap-2 px-2.5 py-1 bg-black/70 backdrop-blur-sm border border-[var(--g1)]/40"
+                style={{ borderRadius: 2 }}
+              >
+                <span className="w-[5px] h-[5px] rounded-full bg-[var(--g1)]" aria-hidden />
+                <span className="text-[9px] font-bold tracking-[2px] uppercase text-[var(--g1)]">
+                  {labels.badgeRecommended}
+                </span>
+              </span>
+            )}
+            {!isHq && badges.founder && (
+              <span
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-black/70 backdrop-blur-sm border border-[var(--g1)]/55"
+                style={{ borderRadius: 2 }}
+              >
+                <span className="font-[var(--font-serif)] italic text-[10px] leading-none text-[var(--g1)]" aria-hidden>✦</span>
+                <span className="text-[9px] font-bold tracking-[2px] uppercase text-[var(--g1)]">
+                  {labels.badgeFounder}
+                </span>
+              </span>
+            )}
+          </div>
         )}
 
         {/* Badge de distancia — solo visible cuando el usuario ha
@@ -174,6 +242,33 @@ export default function CoachCard({ coach, labels, userCoords, onAsk }: CoachCar
           <span className="opacity-50">·</span>
           <span className="opacity-70">{coach.location.country}</span>
         </div>
+
+        {/* Especialidad verificada — solo Recomendados. Texto no clickable
+            (comunica "J3 avala esto"). Los chips de filtro existen en
+            otros lugares; aquí el mensaje es editorial. */}
+        {badges.specialties.length > 0 && (
+          <p className="text-[11px] leading-[1.4]">
+            <span className="text-[var(--g1)] font-bold tracking-[0.5px] uppercase text-[10px]">
+              {labels.specialtyLabel}
+            </span>{" "}
+            <span className="theme-text opacity-85">
+              {badges.specialties.map((s) => specialtyText(s, labels)).join(" · ")}
+            </span>
+          </p>
+        )}
+
+        {/* Distinciones reseñables — lista con bullets dorados. Solo
+            Recomendados. Si hay 'Decano' computado se añade al final. */}
+        {distinctionLines.length > 0 && (
+          <ul className="text-[11px] theme-text opacity-75 space-y-[3px] mt-[2px]">
+            {distinctionLines.map((line) => (
+              <li key={line} className="flex items-center gap-2">
+                <span aria-hidden className="w-[4px] h-[4px] rounded-full bg-[var(--g1)] shrink-0" />
+                <span>{line}</span>
+              </li>
+            ))}
+          </ul>
+        )}
 
         {coach.clubs && coach.clubs.length > 0 && (
           <p className="text-[11px] theme-text opacity-55 leading-[1.45]">
