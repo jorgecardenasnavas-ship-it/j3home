@@ -758,7 +758,7 @@ export const sv = {
       askChatbot: "Fr\u00E5ga J3",
       legendTitle: "N\u00E4tverket",
       legendHq: "Headquarter",
-      legendCoach: "Certifierad",
+      legendCoach: "Certifierad \u00B7 aktiv",
       legendCoachEx: "Ej f\u00F6rnyad",
       legendCluster: "Grupp",
       viewInMaps: "Visa i Maps",

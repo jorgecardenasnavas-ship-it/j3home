@@ -758,7 +758,7 @@ export const en = {
       askChatbot: "Ask J3",
       legendTitle: "The network",
       legendHq: "Headquarter",
-      legendCoach: "Certified",
+      legendCoach: "Certified \u00B7 up to date",
       legendCoachEx: "Not renewed",
       legendCluster: "Cluster",
       viewInMaps: "View in Maps",
