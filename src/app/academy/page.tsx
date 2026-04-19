@@ -2446,10 +2446,6 @@ function PorscheCoachCard({
     badgeHq: string;
     badgeFounder: string;
     badgeGenOne: string;
-    specialtyJuniors: string;
-    specialtyAdultos: string;
-    specialtyCompeticion: string;
-    specialtyCamps: string;
     monthShort: readonly string[];
     memberSince: string;
     certifiedSince: string;
@@ -2672,10 +2668,6 @@ function CoachesCarousel({
     badgeHq: string;
     badgeFounder: string;
     badgeGenOne: string;
-    specialtyJuniors: string;
-    specialtyAdultos: string;
-    specialtyCompeticion: string;
-    specialtyCamps: string;
     monthShort: readonly string[];
     memberSince: string;
     certifiedSince: string;
@@ -2819,10 +2811,6 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
     badgeHq: t.academy.network.badgeHq,
     badgeFounder: t.academy.network.badgeFounder,
     badgeGenOne: t.academy.network.badgeGenOne,
-    specialtyJuniors: t.academy.network.specialtyJuniors,
-    specialtyAdultos: t.academy.network.specialtyAdultos,
-    specialtyCompeticion: t.academy.network.specialtyCompeticion,
-    specialtyCamps: t.academy.network.specialtyCamps,
     monthShort: t.academy.network.monthShort,
     memberSince: t.academy.network.memberSince,
     certifiedSince: t.academy.network.certifiedSince,

@@ -375,34 +375,6 @@ const pinStyles = `
     letter-spacing: 0;
   }
 
-  /* ── Popup: pills de especialidad clickables con hover ── */
-  .j3-popup-spec {
-    position: relative;
-    transition: background .18s ease, border-color .18s ease, color .18s ease, padding .18s ease;
-  }
-  .j3-popup-spec:hover {
-    background: rgba(220,175,100,0.22) !important;
-    border-color: rgba(220,175,100,0.7) !important;
-    color: #f0c478 !important;
-    padding-right: 14px !important;
-  }
-  .j3-popup-spec::after {
-    content: "→";
-    position: absolute;
-    right: 4px;
-    top: 50%;
-    transform: translateY(-50%) translateX(-2px);
-    font-size: 10px;
-    line-height: 1;
-    opacity: 0;
-    transition: opacity .18s ease, transform .18s ease;
-    pointer-events: none;
-  }
-  .j3-popup-spec:hover::after {
-    opacity: 1;
-    transform: translateY(-50%) translateX(0);
-  }
-
   /* ── Popup: iconos sociales ghost con hover ── */
   .j3-popup-social {
     transition: background .18s ease, color .18s ease, border-color .18s ease;
@@ -472,11 +444,6 @@ interface PopupLabels {
   badgeFounder: string;
   /** Badge "Gen ONE" — early adopter no-founder de 2025 */
   badgeGenOne: string;
-  /** Especialidades traducidas (juniors / adultos / competicion / camps) */
-  specialtyJuniors: string;
-  specialtyAdultos: string;
-  specialtyCompeticion: string;
-  specialtyCamps: string;
   /** Distinciones traducidas */
   distinctionFormaCoaches: string;
   distinctionJugadoresCircuito: string;
@@ -521,15 +488,6 @@ function distinctionLabel(d: CoachDistinction, labels: PopupLabels): string {
   }
 }
 
-/** Mapa de specialty key → label traducida. */
-function specialtyLabelText(s: "juniors" | "adultos" | "competicion" | "camps", labels: PopupLabels): string {
-  switch (s) {
-    case "juniors": return labels.specialtyJuniors;
-    case "adultos": return labels.specialtyAdultos;
-    case "competicion": return labels.specialtyCompeticion;
-    case "camps": return labels.specialtyCamps;
-  }
-}
 
 /**
  * BadgeChip — pequeño chip con dot y label. Se usa en el header del
@@ -786,51 +744,6 @@ function PopupContent({
           {c.languages.map((l) => (
             <LanguageChip key={l} code={l} variant="popup" />
           ))}
-        </div>
-      )}
-
-      {/* Especialidades como chips de filtro — siempre clickables para
-          navegación cruzada. Event delegation en la page (data-j3-specialty). */}
-      {c.specialties && c.specialties.length > 0 && (
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 12 }}>
-          {c.specialties.map((s) => {
-            const lbl = specialtyLabelText(s, labels);
-            return (
-              <button
-                key={s}
-                type="button"
-                data-j3-specialty={s}
-                className="j3-popup-spec"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 4,
-                  fontSize: 9,
-                  letterSpacing: 1.5,
-                  textTransform: "uppercase",
-                  fontWeight: 600,
-                  color: "#dcaf64",
-                  background: "rgba(220,175,100,0.08)",
-                  border: "1px solid rgba(220,175,100,0.25)",
-                  padding: "3px 8px",
-                  borderRadius: 2,
-                  cursor: "pointer",
-                  font: "inherit",
-                }}
-              >
-                <span
-                  aria-hidden
-                  style={{
-                    width: 3,
-                    height: 3,
-                    borderRadius: 999,
-                    background: "#dcaf64",
-                  }}
-                />
-                {lbl}
-              </button>
-            );
-          })}
         </div>
       )}
 
@@ -1096,9 +1009,8 @@ function ClusteredMarkers({
     // Sync inicial por si el mapa arranca ya a zoom >= 5
     syncHqBreakout();
 
-    // Event delegation para el botón "Pregunta a J3" y las pills
-    // de especialidades (data-j3-specialty) — el JSX del popup se
-    // serializa a HTML y los onClick de React no sobreviven.
+    // Event delegation para el botón "Pregunta a J3" — el JSX del
+    // popup se serializa a HTML y los onClick de React no sobreviven.
     const container = map.getContainer();
     const onContainerClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement | null;
@@ -1125,18 +1037,6 @@ function ClusteredMarkers({
         return;
       }
 
-      const specBtn = target.closest("[data-j3-specialty]") as HTMLElement | null;
-      if (specBtn) {
-        const s = specBtn.getAttribute("data-j3-specialty");
-        if (!s) return;
-        /* Map especialidad → anchor de sección en /academy. */
-        const anchor =
-          s === "adultos" ? "adultos" :
-          s === "camps" ? "intensive" :
-          /* juniors + competicion */ "juniors";
-        window.dispatchEvent(new CustomEvent("j3:academy:goto", { detail: { anchor } }));
-        return;
-      }
     };
     container.addEventListener("click", onContainerClick);
 

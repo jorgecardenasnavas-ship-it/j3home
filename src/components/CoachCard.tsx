@@ -28,10 +28,6 @@ interface CoachCardProps {
     badgeHq: string;
     badgeFounder: string;
     badgeGenOne: string;
-    specialtyJuniors: string;
-    specialtyAdultos: string;
-    specialtyCompeticion: string;
-    specialtyCamps: string;
     distinctionFormaCoaches: string;
     distinctionJugadoresCircuito: string;
     distinctionMultilingue: string;
@@ -47,19 +43,6 @@ interface CoachCardProps {
   /** Coordenadas del usuario. Si están presentes, se muestra badge de distancia. */
   userCoords?: LatLng | null;
   onAsk?: (coach: Coach) => void;
-}
-
-function specialtyText(
-  s: "juniors" | "adultos" | "competicion" | "camps",
-  labels: CoachCardProps["labels"],
-): string {
-  return s === "juniors"
-    ? labels.specialtyJuniors
-    : s === "adultos"
-    ? labels.specialtyAdultos
-    : s === "competicion"
-    ? labels.specialtyCompeticion
-    : labels.specialtyCamps;
 }
 
 function distinctionText(d: CoachDistinction, labels: CoachCardProps["labels"]): string {
