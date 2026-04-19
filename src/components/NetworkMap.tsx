@@ -455,6 +455,16 @@ const pinStyles = `
       transition: opacity .2s ease !important;
     }
   }
+
+  /* Cuando la leyenda del mapa está expandida, ocultamos las chevrons
+     de scroll-down del hero (.hero-rise-6) para evitar solapamiento.
+     Usamos body:has() porque legend y chevrons viven en árboles DOM
+     distintos (legend dentro de Leaflet, chevrons en la page). */
+  body:has(.j3-legend-details[open]) .hero-rise-6 {
+    opacity: 0 !important;
+    pointer-events: none;
+    transition: opacity .3s ease !important;
+  }
 `;
 
 function resolveKind(c: Coach): "lab" | "academy" | "coach" {

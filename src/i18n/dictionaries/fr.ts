@@ -754,7 +754,7 @@ export const fr = {
       monthShort: ["Janv","F\u00E9v","Mars","Avr","Mai","Juin","Juil","Ao\u00FBt","Sept","Oct","Nov","D\u00E9c"],
       memberSince: "Membre depuis {date}",
       certifiedSince: "Certifi\u00E9",
-      lastCertification: "Non renouvel\u00E9 depuis {date}",
+      lastCertification: "Derni\u00E8re certification \u00B7 {date}",
       askChatbot: "Demander \u00E0 J3",
       legendTitle: "Le r\u00E9seau",
       legendHq: "Headquarter",

@@ -754,7 +754,7 @@ export const pt = {
       monthShort: ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"],
       memberSince: "Membro desde {date}",
       certifiedSince: "Certificado",
-      lastCertification: "Sem renovar desde {date}",
+      lastCertification: "\u00DAltima certifica\u00E7\u00E3o \u00B7 {date}",
       askChatbot: "Pergunta ao J3",
       legendTitle: "A rede",
       legendHq: "Headquarter",

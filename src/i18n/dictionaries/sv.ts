@@ -754,7 +754,7 @@ export const sv = {
       monthShort: ["Jan","Feb","Mar","Apr","Maj","Jun","Jul","Aug","Sep","Okt","Nov","Dec"],
       memberSince: "Medlem sedan {date}",
       certifiedSince: "Certifierad",
-      lastCertification: "Ej f\u00F6rnyad sedan {date}",
+      lastCertification: "Senaste certifiering \u00B7 {date}",
       askChatbot: "Fr\u00E5ga J3",
       legendTitle: "N\u00E4tverket",
       legendHq: "Headquarter",
