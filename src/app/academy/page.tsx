@@ -2512,11 +2512,11 @@ function PorscheCoachCard({
       className="relative overflow-hidden rounded-lg cursor-pointer block h-full w-full group text-left"
       style={{
         background: "#000",
-        /* Ex-cert: opacidad + desaturación suaves. Hover recupera
-           parcialmente el peso para que se sienta viva al interactuar. */
-        opacity: isExCert && !expanded ? 0.7 : 1,
-        filter: isExCert && !expanded ? "saturate(0.65)" : "none",
-        transition: "opacity .45s cubic-bezier(.16,1,.3,1), filter .45s cubic-bezier(.16,1,.3,1)",
+        /* Ex-cert: ligero descenso de opacidad (sin desaturar) — coherente
+           con el pin hollow del mapa. Más claro a la vista sin sensación
+           de "roto". Hover la recupera. */
+        opacity: isExCert && !expanded ? 0.88 : 1,
+        transition: "opacity .45s cubic-bezier(.16,1,.3,1)",
       }}
     >
       {/* Media — foto si existe; si no, placeholder con iniciales gold.

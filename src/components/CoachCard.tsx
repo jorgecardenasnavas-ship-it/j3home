@@ -128,11 +128,10 @@ export default function CoachCard({ coach, labels, userCoords, onAsk }: CoachCar
       data-featured={coach.featured ? "true" : undefined}
       data-hovered={isHovered ? "true" : undefined}
       style={{
-        /* Ex-cert: opacidad + desaturación suaves. Hover las cancela. */
-        ...(isExCert && !isHovered
-          ? { opacity: 0.72, filter: "saturate(0.65)" }
-          : {}),
-        transition: "opacity .3s ease, filter .3s ease, transform .3s ease, box-shadow .3s ease, border-color .3s ease",
+        /* Ex-cert: ligera pérdida de peso (sin desaturar) coherente
+           con el pin hollow del mapa. Hover recupera peso completo. */
+        ...(isExCert && !isHovered ? { opacity: 0.88 } : {}),
+        transition: "opacity .3s ease, transform .3s ease, box-shadow .3s ease, border-color .3s ease",
         ...(isHovered
           ? {
               borderColor: "rgba(220,175,100,0.85)",

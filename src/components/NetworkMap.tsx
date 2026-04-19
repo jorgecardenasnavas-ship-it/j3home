@@ -103,18 +103,28 @@ const pinStyles = `
   }
   /* Todos los coach pins son idénticos (democracia visual en el mapa).
      Las distinciones, Founder y Gen ONE viven dentro de la card.
-     Excepción: los ex-certificados pierden un punto de peso visual
-     (opacidad + saturación reducidas) para que el jugador distinga
-     a simple vista quiénes están al día y quiénes no. Al hover se
-     recupera el peso completo — siguen siendo clickables con ganas. */
+     Excepción: los ex-certificados llevan pin HOLLOW (anillo vacío)
+     — misma forma y tamaño pero sin relleno gold, solo un ring.
+     Comunica "la certificación ya no está activa" sin parecer un
+     pin a medio renderizar. Al hover se rellena parcialmente. */
   .j3-pin-inner.j3-pin-muted {
-    opacity: 0.55;
-    filter: saturate(0.5);
+    background: transparent;
+    box-shadow: 0 0 0 1.5px rgba(220,175,100,0.45), 0 2px 8px rgba(0,0,0,0.45);
+  }
+  .j3-pin-inner.j3-pin-muted::after {
+    background: transparent;
+    border: 1.5px solid rgba(220,175,100,0.7);
+    inset: 5px;
   }
   .j3-pin-inner.j3-pin-muted:hover,
   .j3-pin-inner.j3-pin-muted.is-hovered {
-    opacity: 1;
-    filter: saturate(1);
+    background: radial-gradient(circle at 50% 50%, rgba(220,175,100,0.55), rgba(220,175,100,0.2) 60%, rgba(220,175,100,0) 100%);
+    box-shadow: 0 0 0 2px rgba(220,175,100,0.65), 0 4px 14px rgba(220,175,100,0.35);
+  }
+  .j3-pin-inner.j3-pin-muted:hover::after,
+  .j3-pin-inner.j3-pin-muted.is-hovered::after {
+    background: #0a0a0a;
+    border-color: rgba(220,175,100,0.9);
   }
   @keyframes j3PulseRing {
     0%   { transform: scale(0.8); opacity: 1; }
