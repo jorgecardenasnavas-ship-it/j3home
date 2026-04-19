@@ -752,7 +752,7 @@ export const pt = {
       distinctionMultilingue: "Multil\u00EDngue",
       distinctionDecano: "Decano J3",
       monthShort: ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"],
-      memberSince: "Coach360 desde {date}",
+      memberSince: "Membro desde {date}",
       certifiedSince: "Certificado",
       lastCertification: "\u00DAltima certifica\u00E7\u00E3o {date}",
       askChatbot: "Pergunta ao J3",

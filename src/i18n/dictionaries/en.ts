@@ -752,7 +752,7 @@ export const en = {
       distinctionMultilingue: "Multilingual",
       distinctionDecano: "J3 Veteran",
       monthShort: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
-      memberSince: "Coach360 since {date}",
+      memberSince: "Member since {date}",
       certifiedSince: "Certified",
       lastCertification: "Last certified {date}",
       askChatbot: "Ask J3",

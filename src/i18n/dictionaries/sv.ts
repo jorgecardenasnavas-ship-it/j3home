@@ -752,7 +752,7 @@ export const sv = {
       distinctionMultilingue: "Flerspr\u00E5kig",
       distinctionDecano: "J3-veteran",
       monthShort: ["Jan","Feb","Mar","Apr","Maj","Jun","Jul","Aug","Sep","Okt","Nov","Dec"],
-      memberSince: "Coach360 sedan {date}",
+      memberSince: "Medlem sedan {date}",
       certifiedSince: "Certifierad",
       lastCertification: "Senaste certifiering {date}",
       askChatbot: "Fr\u00E5ga J3",
