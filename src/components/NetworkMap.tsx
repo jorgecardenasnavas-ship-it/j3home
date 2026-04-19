@@ -345,6 +345,46 @@ const pinStyles = `
     color: rgba(245,240,232,0.85);
     font-weight: 500;
   }
+  /* Sección distinciones — glosario del sistema dentro de la leyenda. */
+  .j3-legend-separator {
+    margin: 10px 0 4px 0;
+    height: 1px;
+    background: rgba(220,175,100,0.2);
+  }
+  .j3-legend-subtitle {
+    color: #dcaf64;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+    font-size: 9px;
+  }
+  .j3-legend-group {
+    margin-top: 7px;
+    letter-spacing: 1.2px;
+    font-size: 8.5px;
+    text-transform: uppercase;
+    color: rgba(220,175,100,0.72);
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .j3-legend-dist {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 3px;
+    color: rgba(245,240,232,0.78);
+    font-size: 9.5px;
+    letter-spacing: 0.5px;
+    text-transform: none;
+    font-weight: 500;
+  }
+  .j3-legend-dist-dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 999px;
+    background: #dcaf64;
+    flex-shrink: 0;
+  }
   .j3-legend-dot {
     display: inline-block;
     border-radius: 999px;
@@ -444,11 +484,22 @@ interface PopupLabels {
   badgeFounder: string;
   /** Badge "Gen ONE" — early adopter no-founder de 2025 */
   badgeGenOne: string;
-  /** Distinciones traducidas */
+  /** Distinciones — trayectoria profesional */
   distinctionFormaCoaches: string;
   distinctionJugadoresCircuito: string;
   distinctionMultilingue: string;
   distinctionDecano: string;
+  /** Distinciones — kids & juniors */
+  distinctionKidsIniciacion: string;
+  distinctionJuniorsTecnificacion: string;
+  distinctionProtocoloFamiliar: string;
+  /** Distinciones — amateur adulto */
+  distinctionIniciacionAdulto: string;
+  distinctionReeducacionTecnica: string;
+  distinctionGruposMixtos: string;
+  /** Distinciones — vacacional / grupo */
+  distinctionBautismoPadel: string;
+  distinctionExperienciaFamiliar: string;
   /** Meses abreviados, índice 0 = Enero. */
   monthShort: readonly string[];
   /** Template "Miembro desde {date}" — placeholder {date} → "Ago 2025" */
@@ -459,9 +510,19 @@ interface PopupLabels {
   /** Labels de la mini-leyenda (Headquarter · Coach · Cluster) */
   legendTitle: string;
   legendHq: string;
-  /** Coach con certificación activa. Ej: "Certificado al día" */
+  /** Coach con certificación activa. Ej: "Coach recomendado" */
   legendCoach: string;
   legendCluster: string;
+  /** Subtítulo: "Distinciones" — separa pin-meanings de la glosa de skills. */
+  legendDistinctionsTitle: string;
+  /** Subtítulo de categoría: trayectoria profesional */
+  legendDistGroupProfesional: string;
+  /** Subtítulo de categoría: kids & juniors */
+  legendDistGroupKids: string;
+  /** Subtítulo de categoría: amateur adulto */
+  legendDistGroupAmateur: string;
+  /** Subtítulo de categoría: vacacional / grupo */
+  legendDistGroupVacacional: string;
   /** Label del botón "Ver en Maps" */
   viewInMaps: string;
   /** Tooltip del pin del usuario: "Estás aquí" */
@@ -482,9 +543,21 @@ function formatMonthYear(isoDate: string, monthShort: readonly string[]): string
 /** Mapa de distinction key → label traducida. */
 function distinctionLabel(d: CoachDistinction, labels: PopupLabels): string {
   switch (d) {
+    // Trayectoria profesional
     case "forma-coaches": return labels.distinctionFormaCoaches;
     case "jugadores-circuito": return labels.distinctionJugadoresCircuito;
     case "multilingue": return labels.distinctionMultilingue;
+    // Kids & juniors
+    case "kids-iniciacion": return labels.distinctionKidsIniciacion;
+    case "juniors-tecnificacion": return labels.distinctionJuniorsTecnificacion;
+    case "protocolo-familiar": return labels.distinctionProtocoloFamiliar;
+    // Amateur adulto
+    case "iniciacion-adulto": return labels.distinctionIniciacionAdulto;
+    case "reeducacion-tecnica": return labels.distinctionReeducacionTecnica;
+    case "grupos-mixtos": return labels.distinctionGruposMixtos;
+    // Vacacional / grupo
+    case "bautismo-padel": return labels.distinctionBautismoPadel;
+    case "experiencia-familiar": return labels.distinctionExperienciaFamiliar;
   }
 }
 
@@ -1276,6 +1349,29 @@ function MapLegend({ labels }: { labels: PopupLabels }) {
                 <span class="j3-legend-dot j3-legend-dot-cluster" aria-hidden>3</span>
                 <span>${labels.legendCluster}</span>
               </div>
+
+              <div class="j3-legend-separator"></div>
+              <div class="j3-legend-subtitle">${labels.legendDistinctionsTitle}</div>
+
+              <div class="j3-legend-group">${labels.legendDistGroupProfesional}</div>
+              <div class="j3-legend-dist"><span class="j3-legend-dist-dot" aria-hidden></span><span>${labels.distinctionFormaCoaches}</span></div>
+              <div class="j3-legend-dist"><span class="j3-legend-dist-dot" aria-hidden></span><span>${labels.distinctionJugadoresCircuito}</span></div>
+              <div class="j3-legend-dist"><span class="j3-legend-dist-dot" aria-hidden></span><span>${labels.distinctionMultilingue}</span></div>
+              <div class="j3-legend-dist"><span class="j3-legend-dist-dot" aria-hidden></span><span>${labels.distinctionDecano}</span></div>
+
+              <div class="j3-legend-group">${labels.legendDistGroupKids}</div>
+              <div class="j3-legend-dist"><span class="j3-legend-dist-dot" aria-hidden></span><span>${labels.distinctionKidsIniciacion}</span></div>
+              <div class="j3-legend-dist"><span class="j3-legend-dist-dot" aria-hidden></span><span>${labels.distinctionJuniorsTecnificacion}</span></div>
+              <div class="j3-legend-dist"><span class="j3-legend-dist-dot" aria-hidden></span><span>${labels.distinctionProtocoloFamiliar}</span></div>
+
+              <div class="j3-legend-group">${labels.legendDistGroupAmateur}</div>
+              <div class="j3-legend-dist"><span class="j3-legend-dist-dot" aria-hidden></span><span>${labels.distinctionIniciacionAdulto}</span></div>
+              <div class="j3-legend-dist"><span class="j3-legend-dist-dot" aria-hidden></span><span>${labels.distinctionReeducacionTecnica}</span></div>
+              <div class="j3-legend-dist"><span class="j3-legend-dist-dot" aria-hidden></span><span>${labels.distinctionGruposMixtos}</span></div>
+
+              <div class="j3-legend-group">${labels.legendDistGroupVacacional}</div>
+              <div class="j3-legend-dist"><span class="j3-legend-dist-dot" aria-hidden></span><span>${labels.distinctionBautismoPadel}</span></div>
+              <div class="j3-legend-dist"><span class="j3-legend-dist-dot" aria-hidden></span><span>${labels.distinctionExperienciaFamiliar}</span></div>
             </div>
           </details>
         `;

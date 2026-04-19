@@ -450,6 +450,7 @@ export interface Dictionary {
       readonly badgeGenOne: string;
       /** Badge "Headquarter" — sedes J3 propias */
       readonly badgeHq: string;
+      /* ── Distinciones: trayectoria profesional ── */
       /** Distinción: "Forma coaches" */
       readonly distinctionFormaCoaches: string;
       /** Distinción: "Jugadores en circuito" */
@@ -458,6 +459,28 @@ export interface Dictionary {
       readonly distinctionMultilingue: string;
       /** Distinción computada: "Decano J3" (5+ años en la red) */
       readonly distinctionDecano: string;
+
+      /* ── Distinciones: kids & juniors ── */
+      /** Distinción: "Kids · Iniciación" (didáctica 4-8 años) */
+      readonly distinctionKidsIniciacion: string;
+      /** Distinción: "Juniors · Tecnificación" */
+      readonly distinctionJuniorsTecnificacion: string;
+      /** Distinción: "Protocolo familiar" (comunicación con padres) */
+      readonly distinctionProtocoloFamiliar: string;
+
+      /* ── Distinciones: amateur adulto ── */
+      /** Distinción: "Iniciación adulto" */
+      readonly distinctionIniciacionAdulto: string;
+      /** Distinción: "Reeducación técnica" (corrige vicios) */
+      readonly distinctionReeducacionTecnica: string;
+      /** Distinción: "Grupos mixtos" (niveles heterogéneos) */
+      readonly distinctionGruposMixtos: string;
+
+      /* ── Distinciones: vacacional / grupo ── */
+      /** Distinción: "Bautismo de padel" (intro para novatos) */
+      readonly distinctionBautismoPadel: string;
+      /** Distinción: "Experiencia familiar" (padres + hijos) */
+      readonly distinctionExperienciaFamiliar: string;
       /** Nombres abreviados de mes (Ene, Feb, Mar…) — índice 0 = enero. 12 items. */
       readonly monthShort: readonly [string, string, string, string, string, string, string, string, string, string, string, string];
       /** Template antigüedad. Ej: "Coach360 desde {date}" — se sustituye por "Ago 2025". */
@@ -469,10 +492,20 @@ export interface Dictionary {
       readonly legendTitle: string;
       /** Label de la fila "Headquarter" en la leyenda */
       readonly legendHq: string;
-      /** Fila "Certificado al día" — pin gold lleno. Ej: "Certificado" */
+      /** Fila "Coach recomendado" — pin gold lleno. */
       readonly legendCoach: string;
       /** Label de la fila "Cluster (agrupación)" en la leyenda */
       readonly legendCluster: string;
+      /** Subtítulo de la sección distinciones dentro de la leyenda. */
+      readonly legendDistinctionsTitle: string;
+      /** Subtítulo de grupo: trayectoria profesional. */
+      readonly legendDistGroupProfesional: string;
+      /** Subtítulo de grupo: kids & juniors. */
+      readonly legendDistGroupKids: string;
+      /** Subtítulo de grupo: amateur adulto. */
+      readonly legendDistGroupAmateur: string;
+      /** Subtítulo de grupo: vacacional / grupo ocasional. */
+      readonly legendDistGroupVacacional: string;
       /** Label del botón "Ver en Maps" en el popup */
       readonly viewInMaps: string;
       readonly viewProfile: string;

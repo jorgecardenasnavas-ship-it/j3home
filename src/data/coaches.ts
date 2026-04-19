@@ -29,19 +29,46 @@ export type CoachSpecialty = "juniors" | "adultos" | "competicion" | "camps";
 export type CoachTier = "hq" | "coach";
 
 /**
- * Distinciones reseñables que J3 ha verificado del coach. Son LOGROS
- * GANADOS: una vez conseguidas se quedan, incluso si el coach baja
+ * Distinciones reseñables que J3 ratifica del coach. Son SKILLS
+ * VERIFICADAS que J3 le ha enseñado / le ha certificado durante su
+ * formación Mentor. Una vez ganadas se quedan — aunque el coach baje
  * del Plan Mentor a Plus o 19€. Mentor sirve para GANAR nuevas, no
  * para mantener las que ya tienes.
  *
- *  - 'forma-coaches'      → Enseña el método J3 a otros entrenadores.
- *  - 'jugadores-circuito' → Tiene alumnos activos en rankings nacionales o pro.
- *  - 'multilingue'        → Trabaja profesionalmente en 3+ idiomas.
+ *  Trayectoria profesional:
+ *    - 'forma-coaches'      → Enseña el método J3 a otros entrenadores.
+ *    - 'jugadores-circuito' → Tiene alumnos activos en rankings nacionales o pro.
+ *    - 'multilingue'        → Trabaja profesionalmente en 3+ idiomas.
+ *
+ *  Kids & Juniors (para padres con hijos):
+ *    - 'kids-iniciacion'        → Domina didáctica con 4-8 años.
+ *    - 'juniors-tecnificacion'  → Desarrolla jóvenes promesas hacia competición.
+ *    - 'protocolo-familiar'     → Protocolo de comunicación con padres.
+ *
+ *  Amateur adulto:
+ *    - 'iniciacion-adulto'   → Especialista en enseñar desde cero a adultos.
+ *    - 'reeducacion-tecnica' → Corrige vicios técnicos adquiridos.
+ *    - 'grupos-mixtos'       → Maneja clases con niveles heterogéneos.
+ *
+ *  Vacacional / grupo ocasional:
+ *    - 'bautismo-padel'      → Intro divertida y efectiva para novatos.
+ *    - 'experiencia-familiar'→ Sesiones mixtas padres + hijos.
  *
  *  El 'decano' (5+ años en la red) se computa desde joinedAt, no se
  *  almacena.
  */
-export type CoachDistinction = "forma-coaches" | "jugadores-circuito" | "multilingue";
+export type CoachDistinction =
+  | "forma-coaches"
+  | "jugadores-circuito"
+  | "multilingue"
+  | "kids-iniciacion"
+  | "juniors-tecnificacion"
+  | "protocolo-familiar"
+  | "iniciacion-adulto"
+  | "reeducacion-tecnica"
+  | "grupos-mixtos"
+  | "bautismo-padel"
+  | "experiencia-familiar";
 
 /**
  * Tipo de nodo en la red J3:
@@ -243,7 +270,8 @@ export const COACHES: readonly Coach[] = [
     joinedAt: "2025-08-01",
   },
 
-  // 5 · Founder + Mentor + 2 distinciones (la card más rica)
+  // 5 · Founder + Mentor + muchas distinciones (la card más rica —
+  //      mezcla skills profesionales + skills de perfiles de alumno)
   {
     slug: "nacho-gonzalez-sevilla",
     name: "Nacho González",
@@ -263,11 +291,16 @@ export const COACHES: readonly Coach[] = [
     certifiedAt: "2026-02-15",
     certificationActive: true,
     mentorActive: true,
-    distinctions: ["forma-coaches", "jugadores-circuito"],
+    distinctions: [
+      "forma-coaches",
+      "jugadores-circuito",
+      "juniors-tecnificacion",
+      "reeducacion-tecnica",
+    ],
     joinedAt: "2025-08-01",
   },
 
-  // 6 · Gen ONE + Mentor + 1 distinción
+  // 6 · Gen ONE + Mentor + distinciones mixtas (adultos + multilingüe)
   {
     slug: "giulia-rossi-milano",
     name: "Giulia Rossi",
@@ -286,7 +319,7 @@ export const COACHES: readonly Coach[] = [
     certifiedAt: "2026-01-28",
     certificationActive: true,
     mentorActive: true,
-    distinctions: ["multilingue"],
+    distinctions: ["multilingue", "iniciacion-adulto", "grupos-mixtos"],
     joinedAt: "2025-11-03",
   },
 

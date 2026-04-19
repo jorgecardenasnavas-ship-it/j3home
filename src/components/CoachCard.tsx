@@ -32,6 +32,14 @@ interface CoachCardProps {
     distinctionJugadoresCircuito: string;
     distinctionMultilingue: string;
     distinctionDecano: string;
+    distinctionKidsIniciacion: string;
+    distinctionJuniorsTecnificacion: string;
+    distinctionProtocoloFamiliar: string;
+    distinctionIniciacionAdulto: string;
+    distinctionReeducacionTecnica: string;
+    distinctionGruposMixtos: string;
+    distinctionBautismoPadel: string;
+    distinctionExperienciaFamiliar: string;
     /** Meses abreviados (Ene, Feb…) — índice 0=enero. 12 items. */
     monthShort: readonly string[];
     memberSince: string;
@@ -50,6 +58,14 @@ function distinctionText(d: CoachDistinction, labels: CoachCardProps["labels"]):
     case "forma-coaches": return labels.distinctionFormaCoaches;
     case "jugadores-circuito": return labels.distinctionJugadoresCircuito;
     case "multilingue": return labels.distinctionMultilingue;
+    case "kids-iniciacion": return labels.distinctionKidsIniciacion;
+    case "juniors-tecnificacion": return labels.distinctionJuniorsTecnificacion;
+    case "protocolo-familiar": return labels.distinctionProtocoloFamiliar;
+    case "iniciacion-adulto": return labels.distinctionIniciacionAdulto;
+    case "reeducacion-tecnica": return labels.distinctionReeducacionTecnica;
+    case "grupos-mixtos": return labels.distinctionGruposMixtos;
+    case "bautismo-padel": return labels.distinctionBautismoPadel;
+    case "experiencia-familiar": return labels.distinctionExperienciaFamiliar;
   }
 }
 
