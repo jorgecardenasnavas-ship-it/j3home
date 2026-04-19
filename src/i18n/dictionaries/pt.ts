@@ -756,7 +756,7 @@ export const pt = {
       askChatbot: "Pergunta ao J3",
       legendTitle: "A rede",
       legendHq: "Headquarter",
-      legendCoach: "Certificado",
+      legendCoach: "Coach recomendado",
       legendCluster: "Agrupamento",
       viewInMaps: "Ver no Maps",
       viewProfile: "Ver perfil",

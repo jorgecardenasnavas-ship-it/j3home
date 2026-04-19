@@ -749,7 +749,7 @@ export const es = {
       askChatbot: "Pregunta a J3",
       legendTitle: "La red",
       legendHq: "Headquarter",
-      legendCoach: "Certificado",
+      legendCoach: "Coach recomendado",
       legendCluster: "Agrupaci\u00F3n",
       viewInMaps: "Ver en Maps",
       viewProfile: "Ver perfil",

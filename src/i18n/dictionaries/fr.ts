@@ -756,7 +756,7 @@ export const fr = {
       askChatbot: "Demander \u00E0 J3",
       legendTitle: "Le r\u00E9seau",
       legendHq: "Headquarter",
-      legendCoach: "Certifi\u00E9",
+      legendCoach: "Coach recommand\u00E9",
       legendCluster: "Groupe",
       viewInMaps: "Voir sur Maps",
       viewProfile: "Ver perfil",
