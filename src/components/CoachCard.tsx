@@ -274,7 +274,7 @@ export default function CoachCard({ coach, labels, userCoords, onAsk }: CoachCar
             </span>
             {badges.certifiedAt && badges.status === "certified-active" && (
               <span className="text-[11px] font-semibold text-[var(--g1)] tracking-[0.2px]">
-                {labels.certifiedSince.replace("{date}", formatMonthYear(badges.certifiedAt, labels.monthShort))}
+                {labels.certifiedSince}
               </span>
             )}
             {badges.certifiedAt && badges.status === "ex-certified" && (

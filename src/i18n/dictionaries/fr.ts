@@ -753,7 +753,7 @@ export const fr = {
       distinctionDecano: "V\u00E9t\u00E9ran J3",
       monthShort: ["Janv","F\u00E9v","Mars","Avr","Mai","Juin","Juil","Ao\u00FBt","Sept","Oct","Nov","D\u00E9c"],
       memberSince: "Coach360 depuis {date}",
-      certifiedSince: "Certifi\u00E9 depuis {date}",
+      certifiedSince: "Certifi\u00E9",
       lastCertification: "Derni\u00E8re certification {date}",
       askChatbot: "Demander \u00E0 J3",
       legendTitle: "Le r\u00E9seau",

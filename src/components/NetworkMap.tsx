@@ -672,12 +672,12 @@ function PopupContent({
   );
 
   /* Texto de certificación según estado:
-     - certified-active → "Certificado desde {fecha}"
-     - ex-certified     → "Última certificación {fecha}"
-     - base / hq        → null (no se pinta línea) */
+     - certified-active → solo "Certificado" (sin fecha — es implícito: está al día)
+     - ex-certified     → "Última certificación · {fecha}" (la fecha es lo relevante aquí)
+     - hq               → null (no se pinta línea) */
   const certLine: { text: string; active: boolean } | null = badges.certifiedAt
     ? badges.status === "certified-active"
-      ? { text: labels.certifiedSince.replace("{date}", formatMonthYear(badges.certifiedAt, labels.monthShort)), active: true }
+      ? { text: labels.certifiedSince, active: true }
       : badges.status === "ex-certified"
       ? { text: labels.lastCertification.replace("{date}", formatMonthYear(badges.certifiedAt, labels.monthShort)), active: false }
       : null

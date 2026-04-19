@@ -2498,7 +2498,7 @@ function PorscheCoachCard({
   };
   const certText: { text: string; active: boolean } | null = badges.certifiedAt
     ? badges.status === "certified-active"
-      ? { text: labels.certifiedSince.replace("{date}", formatMonthYear(badges.certifiedAt)), active: true }
+      ? { text: labels.certifiedSince, active: true }
       : badges.status === "ex-certified"
       ? { text: labels.lastCertification.replace("{date}", formatMonthYear(badges.certifiedAt)), active: false }
       : null
