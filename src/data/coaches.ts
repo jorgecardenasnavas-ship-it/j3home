@@ -466,6 +466,10 @@ export function isDecano(coach: Coach, referenceDate: Date = new Date()): boolea
 export interface CoachBadgeView {
   /** Estado computado del coach (certified-active / ex-certified / hq). */
   status: CoachStatus;
+  /** Nivel superior: "Recomendado J3" — J3 ha verificado aplicación real del
+   *  método con criterio (sesiones grabadas, seguimiento 1:1). Se deriva de
+   *  mentorActive: si paga Mentor, J3 mantiene contacto directo y lo avala. */
+  recommended: boolean;
   /** ¿Mostrar badge "Founder"? (distinción histórica). */
   founder: boolean;
   /** ¿Mostrar badge "Gen ONE"? (early adopter no-founder de 2025). */
@@ -503,6 +507,7 @@ export function getCoachBadges(coach: Coach, referenceDate: Date = new Date()): 
   const certActive = status === "certified-active";
   return {
     status,
+    recommended: certActive && !!coach.mentorActive,
     founder: !!coach.founder,
     genOne: !!coach.genOne,
     specialties: certActive ? (coach.specialties ?? []).slice(0, 2) : [],

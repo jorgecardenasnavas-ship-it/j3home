@@ -448,6 +448,8 @@ export interface Dictionary {
       readonly badgeFounder: string;
       /** Badge "Gen ONE" — early adopter no-founder de 2025 */
       readonly badgeGenOne: string;
+      /** Badge "Recomendado J3" — coach verificado en práctica real (mentorActive) */
+      readonly badgeRecommended: string;
       /** Badge "Headquarter" — sedes J3 propias */
       readonly badgeHq: string;
       /* ── Distinciones: trayectoria profesional ── */
@@ -492,8 +494,10 @@ export interface Dictionary {
       readonly legendTitle: string;
       /** Label de la fila "Headquarter" en la leyenda */
       readonly legendHq: string;
-      /** Fila "Coach recomendado" — pin gold lleno. */
+      /** Fila "Coach certificado" — pin gold lleno (sin anillo). */
       readonly legendCoach: string;
+      /** Fila "Coach recomendado J3" — pin con anillo exterior. */
+      readonly legendCoachRecommended: string;
       /** Label de la fila "Cluster (agrupación)" en la leyenda */
       readonly legendCluster: string;
       /** Subtítulo de la sección distinciones dentro de la leyenda. */

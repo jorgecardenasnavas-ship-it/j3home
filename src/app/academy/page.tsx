@@ -859,10 +859,7 @@ function HeroSection() {
     badgeHq: t.academy.network.badgeHq,
     badgeFounder: t.academy.network.badgeFounder,
     badgeGenOne: t.academy.network.badgeGenOne,
-    specialtyJuniors: t.academy.network.specialtyJuniors,
-    specialtyAdultos: t.academy.network.specialtyAdultos,
-    specialtyCompeticion: t.academy.network.specialtyCompeticion,
-    specialtyCamps: t.academy.network.specialtyCamps,
+    badgeRecommended: t.academy.network.badgeRecommended,
     distinctionFormaCoaches: t.academy.network.distinctionFormaCoaches,
     distinctionJugadoresCircuito: t.academy.network.distinctionJugadoresCircuito,
     distinctionMultilingue: t.academy.network.distinctionMultilingue,
@@ -882,6 +879,7 @@ function HeroSection() {
     legendTitle: t.academy.network.legendTitle,
     legendHq: t.academy.network.legendHq,
     legendCoach: t.academy.network.legendCoach,
+    legendCoachRecommended: t.academy.network.legendCoachRecommended,
     legendCluster: t.academy.network.legendCluster,
     legendDistinctionsTitle: t.academy.network.legendDistinctionsTitle,
     legendDistGroupProfesional: t.academy.network.legendDistGroupProfesional,
@@ -2459,6 +2457,7 @@ function PorscheCoachCard({
     badgeHq: string;
     badgeFounder: string;
     badgeGenOne: string;
+    badgeRecommended: string;
     monthShort: readonly string[];
     memberSince: string;
     certifiedSince: string;
@@ -2641,6 +2640,17 @@ function PorscheCoachCard({
                 <span className="truncate">{labels.certifiedSince}</span>
               </p>
             )}
+            {/* ★ Recomendado J3 — nivel superior (mentorActive). Solo si está
+                certificado activo; se lee debajo del ✓ Certificado. */}
+            {badges.recommended && (
+              <p
+                className="mt-[2px] text-[9.5px] tracking-[0.3px] truncate flex items-center gap-1 font-bold text-[#f0c478]"
+                style={{ textShadow: "0 1px 6px rgba(0,0,0,0.5)" }}
+              >
+                <span aria-hidden className="shrink-0 text-[10px] leading-none">★</span>
+                <span className="truncate">{labels.badgeRecommended}</span>
+              </p>
+            )}
             {/* Club principal — línea sutil debajo del certificado. */}
             {primaryClub && (
               <p
@@ -2681,6 +2691,7 @@ function CoachesCarousel({
     badgeHq: string;
     badgeFounder: string;
     badgeGenOne: string;
+    badgeRecommended: string;
     monthShort: readonly string[];
     memberSince: string;
     certifiedSince: string;
@@ -2824,6 +2835,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
     badgeHq: t.academy.network.badgeHq,
     badgeFounder: t.academy.network.badgeFounder,
     badgeGenOne: t.academy.network.badgeGenOne,
+    badgeRecommended: t.academy.network.badgeRecommended,
     monthShort: t.academy.network.monthShort,
     memberSince: t.academy.network.memberSince,
     certifiedSince: t.academy.network.certifiedSince,

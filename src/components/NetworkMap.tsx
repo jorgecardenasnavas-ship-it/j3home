@@ -101,10 +101,27 @@ const pinStyles = `
   .j3-pin-academy::after {
     inset: 7px;
   }
-  /* Todos los coach pins son idénticos (democracia visual en el mapa).
-     Las distinciones, Founder y Gen ONE viven dentro de la card. Los
-     que no están al día no aparecen en el mapa — si bajan a 19€
-     pierden visibilidad hasta que renueven Plus/Mentor. */
+  /* Coach certificado: pin estándar 28px gold. Los que no están al día
+     no aparecen en el mapa — si bajan a 19€ pierden visibilidad hasta
+     que renueven Plus/Mentor.
+
+     Coach recomendado: mismo pin + anillo exterior dorado sutil. El
+     anillo comunica "J3 avala personalmente su práctica" sin competir
+     con el tamaño del HQ ni romper la lectura del mapa. */
+  .j3-pin-inner.j3-pin-recommended::before {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: 999px;
+    border: 1.5px solid rgba(220,175,100,0.55);
+    box-shadow: 0 0 8px rgba(220,175,100,0.3);
+    pointer-events: none;
+  }
+  .j3-pin-inner.j3-pin-recommended:hover::before,
+  .j3-pin-inner.j3-pin-recommended.is-hovered::before {
+    border-color: rgba(240,196,120,0.9);
+    box-shadow: 0 0 12px rgba(220,175,100,0.55);
+  }
   @keyframes j3PulseRing {
     0%   { transform: scale(0.8); opacity: 1; }
     100% { transform: scale(1.9); opacity: 0; }
@@ -397,11 +414,27 @@ const pinStyles = `
     height: 16px;
     box-shadow: 0 0 0 1.5px rgba(0,0,0,0.6), 0 2px 8px rgba(220,175,100,0.7);
   }
-  /* Dot "coach" — gold lleno, espejo del pin del mapa. */
+  /* Dot "coach certificado" — gold lleno, espejo del pin estándar. */
   .j3-legend-dot-coach {
     width: 10px;
     height: 10px;
     box-shadow: 0 0 0 1px rgba(0,0,0,0.55), 0 0 5px rgba(220,175,100,0.45);
+  }
+  /* Dot "coach recomendado" — gold lleno + anillo exterior, espejo
+     del pin recomendado. */
+  .j3-legend-dot-coach-rec {
+    width: 10px;
+    height: 10px;
+    position: relative;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.55), 0 0 5px rgba(220,175,100,0.55);
+  }
+  .j3-legend-dot-coach-rec::before {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    border-radius: 999px;
+    border: 1px solid rgba(220,175,100,0.55);
+    pointer-events: none;
   }
   .j3-legend-dot-cluster {
     width: 18px;
@@ -456,10 +489,11 @@ function resolveKind(c: Coach): "lab" | "academy" | "coach" {
   return "coach";
 }
 
-function makeIcon(kind: "lab" | "academy" | "coach"): L.DivIcon {
+function makeIcon(kind: "lab" | "academy" | "coach", recommended = false): L.DivIcon {
   /* Tres tamaños únicos — todos los coaches del mapa comparten pin 28px.
-     Las distinciones viven en la card, no en el pin. Los coaches que
-     no están al día nunca llegan aquí: se filtran en filterCoaches. */
+     Los recomendados llevan además un anillo exterior sutil (clase
+     .j3-pin-recommended). Los coaches que no están al día nunca llegan
+     aquí: se filtran en filterCoaches. */
   const size =
     kind === "lab" ? 48 :
     kind === "academy" ? 36 :
@@ -468,9 +502,10 @@ function makeIcon(kind: "lab" | "academy" | "coach"): L.DivIcon {
     kind === "lab" ? " j3-pin-lab" :
     kind === "academy" ? " j3-pin-academy" :
     "";
+  const recommendedModifier = recommended && kind === "coach" ? " j3-pin-recommended" : "";
   return L.divIcon({
     className: "j3-pin",
-    html: `<div class="j3-pin-inner${kindModifier}"></div>`,
+    html: `<div class="j3-pin-inner${kindModifier}${recommendedModifier}"></div>`,
     iconSize: [size, size],
     iconAnchor: [size / 2, size / 2],
     popupAnchor: [0, -size / 2],
@@ -484,6 +519,8 @@ interface PopupLabels {
   badgeFounder: string;
   /** Badge "Gen ONE" — early adopter no-founder de 2025 */
   badgeGenOne: string;
+  /** Badge "Recomendado J3" — nivel superior al Certificado (mentorActive) */
+  badgeRecommended: string;
   /** Distinciones — trayectoria profesional */
   distinctionFormaCoaches: string;
   distinctionJugadoresCircuito: string;
@@ -510,8 +547,10 @@ interface PopupLabels {
   /** Labels de la mini-leyenda (Headquarter · Coach · Cluster) */
   legendTitle: string;
   legendHq: string;
-  /** Coach con certificación activa. Ej: "Coach recomendado" */
+  /** Fila "Coach certificado" — pin gold lleno. */
   legendCoach: string;
+  /** Fila "Coach recomendado J3" — pin con anillo exterior. */
+  legendCoachRecommended: string;
   legendCluster: string;
   /** Subtítulo: "Distinciones" — separa pin-meanings de la glosa de skills. */
   legendDistinctionsTitle: string;
@@ -758,7 +797,8 @@ function PopupContent({
         </div>
       </div>
 
-      {/* Miembro desde... + ✓ Certificado. Solo para coaches activos. */}
+      {/* Miembro desde... + ✓ Certificado [+ ★ Recomendado J3]. Solo coaches activos.
+          El Recomendado es nivel superior al Certificado (J3 ha verificado práctica). */}
       {!isHqKind && (
         <div style={{ fontSize: 11, marginBottom: 8, lineHeight: 1.55 }}>
           <div style={{ opacity: 0.72 }}>{memberSinceText}</div>
@@ -776,6 +816,21 @@ function PopupContent({
                 <polyline points="20 6 9 17 4 12" />
               </svg>
               <span>{labels.certifiedSince}</span>
+            </div>
+          )}
+          {badges.recommended && (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 5,
+                color: "#f0c478",
+                fontWeight: 700,
+                letterSpacing: 0.3,
+              }}
+            >
+              <span aria-hidden style={{ fontSize: 11, lineHeight: 1 }}>★</span>
+              <span>{labels.badgeRecommended}</span>
             </div>
           )}
         </div>
@@ -1022,7 +1077,9 @@ function ClusteredMarkers({
       const popupHtml = renderToStaticMarkup(
         <PopupContent coach={c} labels={labels} kind={kind} />
       );
-      const m = L.marker(c.location.coordinates, { icon: makeIcon(kind) });
+      /* Pin con anillo exterior si el coach es Recomendado (mentorActive). */
+      const isRecommended = kind === "coach" && !!c.mentorActive && c.certificationActive !== false && !!c.certifiedAt;
+      const m = L.marker(c.location.coordinates, { icon: makeIcon(kind, isRecommended) });
       m.bindPopup(popupHtml, { maxWidth: 280, minWidth: 240 });
 
       // Al abrir el popup, reflejar el coach en el hash de la URL
@@ -1344,6 +1401,10 @@ function MapLegend({ labels }: { labels: PopupLabels }) {
               <div class="j3-legend-row">
                 <span class="j3-legend-dot j3-legend-dot-coach" aria-hidden></span>
                 <span>${labels.legendCoach}</span>
+              </div>
+              <div class="j3-legend-row">
+                <span class="j3-legend-dot j3-legend-dot-coach-rec" aria-hidden></span>
+                <span>${labels.legendCoachRecommended}</span>
               </div>
               <div class="j3-legend-row">
                 <span class="j3-legend-dot j3-legend-dot-cluster" aria-hidden>3</span>
