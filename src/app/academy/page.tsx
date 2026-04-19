@@ -2241,6 +2241,7 @@ type Sede = {
   readonly href: string;
   readonly video?: string;
   readonly openingSoon?: string;
+  readonly schedule?: string;
 };
 
 function SedeCard({
