@@ -700,10 +700,10 @@ export const sv = {
     },
 
     network: {
-      eyebrow: "Dela m\u00E5nggl\u00F6r",
-      headingPre: "En metod, ",
-      headingAccent: "m\u00E5nga banor.",
-      headingSub: "Tr\u00E4nare som vi personligen godk\u00E4nner. Samma kriterium i varje stad.",
+      eyebrow: "Anl\u00E4ggningar i M\u00E1laga",
+      headingPre: "Outdoor \u00B7 ",
+      headingAccent: "Indoor.",
+      headingSub: "",
       sedesLabel: "Headquarter",
       sedes: [
         {
@@ -712,6 +712,7 @@ export const sv = {
           cta: "Bes\u00F6k basen",
           href: "https://valssportlimoneros.com",
           openingSoon: "Kommande \u00F6ppning \u00B7 1 juni 2026",
+          schedule: "\u00D6ppet hela dagen",
         },
         {
           name: "Finura Padel",
@@ -719,6 +720,7 @@ export const sv = {
           cta: "Bes\u00F6k Finura",
           href: "https://finurapadelgym.com",
           video: "https://finurapadelgym.com/wp-content/uploads/2025/10/home-2.webm",
+          schedule: "Till 17:00",
         },
       ],
       mapLabel: "Kartan",

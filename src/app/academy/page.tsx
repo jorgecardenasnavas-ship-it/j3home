@@ -2385,6 +2385,17 @@ function SedeCard({
         <span className="mt-[3px] text-[10px] max-[640px]:text-[9px] font-normal tracking-[1.5px] uppercase text-white/65">
           {sede.flag}
         </span>
+        {/* Horario de la sede — icono de reloj + texto. Se lee debajo de la
+            ubicación sin competir con el nombre de la sede. */}
+        {sede.schedule && (
+          <span className="mt-[8px] inline-flex items-center gap-1.5 text-[10px] max-[640px]:text-[9px] font-normal tracking-[1.2px] text-[var(--g1)]/85">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+            {sede.schedule}
+          </span>
+        )}
       </div>
 
       {/* Bottom — openingSoon badge (izquierda) + CTA arrow (derecha) */}
@@ -2895,9 +2906,11 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
             {t.academy.network.headingAccent}
           </span>
         </h2>
-        <p className="max-w-[640px] mt-4 text-[14px] max-[960px]:text-[13px] opacity-75 leading-[1.55] theme-text">
-          {t.academy.network.headingSub}
-        </p>
+        {t.academy.network.headingSub && (
+          <p className="max-w-[640px] mt-4 text-[14px] max-[960px]:text-[13px] opacity-75 leading-[1.55] theme-text">
+            {t.academy.network.headingSub}
+          </p>
+        )}
       </div>
 
       {/* Sedes block — eyebrow "Coach360" + 2 cards (Los Limoneros + Finura).

@@ -700,10 +700,10 @@ export const en = {
     },
 
     network: {
-      eyebrow: "Sharing multiplies",
-      headingPre: "One method, ",
-      headingAccent: "many courts.",
-      headingSub: "Coaches we personally validate. Same criterion in every city.",
+      eyebrow: "Sedes in M\u00E1laga",
+      headingPre: "Outdoor \u00B7 ",
+      headingAccent: "Indoor.",
+      headingSub: "",
       sedesLabel: "Headquarter",
       sedes: [
         {
@@ -712,6 +712,7 @@ export const en = {
           cta: "Visit the venue",
           href: "https://valssportlimoneros.com",
           openingSoon: "Opening soon \u00B7 June 1, 2026",
+          schedule: "Open all day",
         },
         {
           name: "Finura Padel",
@@ -719,6 +720,7 @@ export const en = {
           cta: "Visit Finura",
           href: "https://finurapadelgym.com",
           video: "https://finurapadelgym.com/wp-content/uploads/2025/10/home-2.webm",
+          schedule: "Until 17:00",
         },
       ],
       mapLabel: "The map",

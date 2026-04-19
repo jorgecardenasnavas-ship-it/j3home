@@ -400,7 +400,8 @@ export interface Dictionary {
       readonly eyebrow: string;
       readonly headingPre: string;
       readonly headingAccent: string;
-      readonly headingSub: string;
+      /** Sub opcional. Si es "", no se renderiza. */
+      readonly headingSub?: string;
       /** Eyebrow del bloque de sedes físicas del Lab (Coach360 / el Lab). */
       readonly sedesLabel: string;
       /** Array de sedes físicas. Se pintan en scroll horizontal. */
@@ -413,6 +414,8 @@ export interface Dictionary {
         readonly video?: string;
         /** Badge opcional de "próxima apertura" — se pinta top-right de la card. */
         readonly openingSoon?: string;
+        /** Horario de acceso a la sede. Ej: "Apertura a cierre" / "Hasta las 17:00". */
+        readonly schedule?: string;
       }[];
       readonly mapLabel: string;
       readonly mapHint: string;
