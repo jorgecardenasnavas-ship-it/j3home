@@ -41,7 +41,6 @@ interface CoachCardProps {
     monthShort: readonly string[];
     memberSince: string;
     certifiedSince: string;
-    lastCertification: string;
     askChatbot: string;
     /** Template "a {km} km de ti". Opcional: solo se muestra si hay userCoords. */
     kmFromYou?: string;
@@ -90,9 +89,6 @@ export default function CoachCard({ coach, labels, userCoords, onAsk }: CoachCar
     ...badges.distinctions.map((d) => distinctionText(d, labels)),
   ];
   if (badges.decano) distinctionLines.push(labels.distinctionDecano);
-  /* Ex-certificado: menos peso visual en la card.
-     Opacidad reducida + desaturación suave, recuperando peso al hover. */
-  const isExCert = badges.status === "ex-certified";
 
   // Escuchar eventos globales del mapa: si el pin del mismo slug
   // está siendo hovered, marcar este card como "is-hovered".
@@ -127,19 +123,15 @@ export default function CoachCard({ coach, labels, userCoords, onAsk }: CoachCar
       className="group relative flex flex-col theme-surface border theme-border hover:border-[var(--g1)]/40 transition-all duration-300 overflow-hidden"
       data-featured={coach.featured ? "true" : undefined}
       data-hovered={isHovered ? "true" : undefined}
-      style={{
-        /* Ex-cert: ligera pérdida de peso (sin desaturar) coherente
-           con el pin hollow del mapa. Hover recupera peso completo. */
-        ...(isExCert && !isHovered ? { opacity: 0.88 } : {}),
-        transition: "opacity .3s ease, transform .3s ease, box-shadow .3s ease, border-color .3s ease",
-        ...(isHovered
+      style={
+        isHovered
           ? {
               borderColor: "rgba(220,175,100,0.85)",
               transform: "translateY(-2px)",
               boxShadow: "0 10px 32px rgba(220,175,100,0.18), 0 2px 8px rgba(0,0,0,0.35)",
             }
-          : {}),
-      }}
+          : undefined
+      }
     >
       {/* Badge superior — gradiente */}
       <span
@@ -263,26 +255,19 @@ export default function CoachCard({ coach, labels, userCoords, onAsk }: CoachCar
           <span className="opacity-70">{coach.location.country}</span>
         </div>
 
-        {/* Stack de fechas — comunica el estado del coach sin badge.
-            "Coach360 desde Ago 2025" siempre para coaches.
-            "Certificado desde Feb 2026" si cert activa (dorado, destacado).
-            "Última certificación Feb 2026" si histórica (itálica, apagado). */}
+        {/* Miembro desde + ✓ Certificado. Solo para coaches activos;
+            los ex-certificados no llegan a pintarse por el filtro. */}
         {!isHq && (
           <div className="flex flex-col gap-[2px] -mt-1">
             <span className="text-[11px] theme-text opacity-65 tracking-[0.2px]">
               {labels.memberSince.replace("{date}", formatMonthYear(badges.joinedAt, labels.monthShort))}
             </span>
-            {badges.certifiedAt && badges.status === "certified-active" && (
+            {badges.status === "certified-active" && (
               <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[var(--g1)] tracking-[0.2px]">
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="shrink-0">
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
                 {labels.certifiedSince}
-              </span>
-            )}
-            {badges.certifiedAt && badges.status === "ex-certified" && (
-              <span className="text-[11px] italic theme-text opacity-55 tracking-[0.2px]">
-                {labels.lastCertification.replace("{date}", formatMonthYear(badges.certifiedAt, labels.monthShort))}
               </span>
             )}
           </div>

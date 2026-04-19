@@ -137,16 +137,19 @@ export interface Coach {
    del modelo Coach360. Se reemplazarán por datos reales conforme
    cada coach confirme los suyos.
 
-   Cobertura:
+   Cobertura VISIBLE en el mapa (6 coaches):
      1. HQ — J3 Lab Málaga
      2. Certificado activo · sin extras (baseline limpio, entró 2026)
      3. Certificado activo + Gen ONE
      4. Certificado activo + Founder
      5. Founder + Mentor + 2 distinciones (la card más rica)
      6. Gen ONE + Mentor + 1 distinción
-     7. Gen ONE + Ex-certificado (entró 2025, no Founder)
-     8. Ex-certificado + Founder
-     9. Gen ONE + Ex-certificado + 2 distinciones (logros permanentes)
+
+   Cobertura OCULTA — ex-certificados (los datos se conservan pero
+   no se muestran hasta que renueven Plus/Mentor):
+     7. Gen ONE + Ex-certificado (Lyon)
+     8. Ex-certificado + Founder (Lisboa)
+     9. Gen ONE + Ex-certificado + 2 distinciones (London)
 
    Regla Gen ONE: entró entre Sep 1 y Dic 31 de 2025 (no-founder).
    Los Founders son la cohorte específica del 2025-08-01.
@@ -512,17 +515,20 @@ export function parseCoachesFilters(params: URLSearchParams | ReadonlyURLSearchP
  * Aplica filtros a una lista de coaches.
  * "all" en cualquier dimensión = sin filtro en esa dimensión.
  *
- * Regla de oro (siempre aplicada): en el mapa solo aparecen coaches
- * certificados (activos o ex-certificados). Los que nunca pasaron el
- * examen no son visibles — han pagado por contenido, no por visibilidad.
+ * Regla de oro (siempre aplicada): en el mapa SOLO aparecen coaches
+ * con certificación ACTIVA. Los que bajaron de plan (ex-certificados)
+ * se ocultan hasta que renueven — sus datos (distinciones, Founder,
+ * fechas, etc.) se conservan para cuando vuelvan. Los que nunca
+ * pasaron el examen nunca han sido visibles.
+ *
+ * Esto hace el mapa brutalmente honesto con el jugador: todos los
+ * coaches que ve están activamente en el sistema J3 hoy.
  */
 export function filterCoaches(coaches: readonly Coach[], filters: CoachFilters): Coach[] {
   return coaches.filter(c => {
-    // Regla de oro: solo certificados aparecen. HQ siempre pasa.
+    // Regla de oro: solo HQ + certificados activos aparecen.
     const status = getCoachStatus(c);
-    if (status !== "hq" && status !== "certified-active" && status !== "ex-certified") {
-      return false;
-    }
+    if (status !== "hq" && status !== "certified-active") return false;
     if (filters.country !== "all" && c.location.country !== filters.country) return false;
     if (filters.language !== "all" && !(c.languages ?? []).includes(filters.language)) return false;
     if (filters.specialty !== "all" && !(c.specialties ?? []).includes(filters.specialty as CoachSpecialty)) return false;

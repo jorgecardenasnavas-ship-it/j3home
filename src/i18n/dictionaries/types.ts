@@ -464,10 +464,8 @@ export interface Dictionary {
       readonly monthShort: readonly [string, string, string, string, string, string, string, string, string, string, string, string];
       /** Template antigüedad. Ej: "Coach360 desde {date}" — se sustituye por "Ago 2025". */
       readonly memberSince: string;
-      /** Template certificación activa. Ej: "Certificado desde {date}" */
+      /** Label "Certificado" (sin fecha — el mapa solo muestra certificados activos). */
       readonly certifiedSince: string;
-      /** Template certificación histórica. Ej: "Última certificación {date}" */
-      readonly lastCertification: string;
       readonly askChatbot: string;
       /** Título de la mini-leyenda del mapa (bottom-left) */
       readonly legendTitle: string;
@@ -475,8 +473,6 @@ export interface Dictionary {
       readonly legendHq: string;
       /** Fila "Certificado al día" — pin gold lleno. Ej: "Certificado" */
       readonly legendCoach: string;
-      /** Fila "Ex-certificado" — pin hollow. Ej: "Ex-certificado" */
-      readonly legendCoachEx: string;
       /** Label de la fila "Cluster (agrupación)" en la leyenda */
       readonly legendCluster: string;
       /** Label del botón "Ver en Maps" en el popup */

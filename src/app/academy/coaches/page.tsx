@@ -80,7 +80,6 @@ function CoachesCatalogContent() {
     monthShort: t.academy.network.monthShort,
     memberSince: t.academy.network.memberSince,
     certifiedSince: t.academy.network.certifiedSince,
-    lastCertification: t.academy.network.lastCertification,
     askChatbot: t.academy.network.askChatbot,
   };
 

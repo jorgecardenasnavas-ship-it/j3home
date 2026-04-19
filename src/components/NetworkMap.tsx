@@ -38,7 +38,7 @@ import { MapContainer, TileLayer, useMap, ZoomControl } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import type { Coach, CoachDistinction } from "@/data/coaches";
-import { getCoachBadges, getCoachStatus } from "@/data/coaches";
+import { getCoachBadges } from "@/data/coaches";
 import type { LatLng } from "@/lib/geo";
 import { LanguageChip } from "@/components/LanguageChip";
 
@@ -102,30 +102,9 @@ const pinStyles = `
     inset: 7px;
   }
   /* Todos los coach pins son idénticos (democracia visual en el mapa).
-     Las distinciones, Founder y Gen ONE viven dentro de la card.
-     Excepción: los ex-certificados llevan pin HOLLOW (anillo vacío)
-     — misma forma y tamaño pero sin relleno gold, solo un ring.
-     Comunica "la certificación ya no está activa" sin parecer un
-     pin a medio renderizar. Al hover se rellena parcialmente. */
-  .j3-pin-inner.j3-pin-muted {
-    background: transparent;
-    box-shadow: 0 0 0 1.5px rgba(220,175,100,0.45), 0 2px 8px rgba(0,0,0,0.45);
-  }
-  .j3-pin-inner.j3-pin-muted::after {
-    background: transparent;
-    border: 1.5px solid rgba(220,175,100,0.7);
-    inset: 5px;
-  }
-  .j3-pin-inner.j3-pin-muted:hover,
-  .j3-pin-inner.j3-pin-muted.is-hovered {
-    background: radial-gradient(circle at 50% 50%, rgba(220,175,100,0.55), rgba(220,175,100,0.2) 60%, rgba(220,175,100,0) 100%);
-    box-shadow: 0 0 0 2px rgba(220,175,100,0.65), 0 4px 14px rgba(220,175,100,0.35);
-  }
-  .j3-pin-inner.j3-pin-muted:hover::after,
-  .j3-pin-inner.j3-pin-muted.is-hovered::after {
-    background: #0a0a0a;
-    border-color: rgba(220,175,100,0.9);
-  }
+     Las distinciones, Founder y Gen ONE viven dentro de la card. Los
+     que no están al día no aparecen en el mapa — si bajan a 19€
+     pierden visibilidad hasta que renueven Plus/Mentor. */
   @keyframes j3PulseRing {
     0%   { transform: scale(0.8); opacity: 1; }
     100% { transform: scale(1.9); opacity: 0; }
@@ -378,20 +357,11 @@ const pinStyles = `
     height: 16px;
     box-shadow: 0 0 0 1.5px rgba(0,0,0,0.6), 0 2px 8px rgba(220,175,100,0.7);
   }
-  /* Dot "coach activo" — gold lleno, igual que el pin del certificado al día. */
+  /* Dot "coach" — gold lleno, espejo del pin del mapa. */
   .j3-legend-dot-coach {
     width: 10px;
     height: 10px;
     box-shadow: 0 0 0 1px rgba(0,0,0,0.55), 0 0 5px rgba(220,175,100,0.45);
-  }
-  /* Dot "ex-certificado" — hollow ring, espejo del pin del mapa para los
-     que bajaron del plan de certificación. */
-  .j3-legend-dot-coach-ex {
-    width: 10px;
-    height: 10px;
-    background: transparent !important;
-    border: 1.5px solid rgba(220,175,100,0.6);
-    box-shadow: 0 0 0 1px rgba(0,0,0,0.4);
   }
   .j3-legend-dot-cluster {
     width: 18px;
@@ -474,11 +444,10 @@ function resolveKind(c: Coach): "lab" | "academy" | "coach" {
   return "coach";
 }
 
-function makeIcon(kind: "lab" | "academy" | "coach", muted = false): L.DivIcon {
-  /* Tres tamaños únicos — todos los coaches comparten pin 28px.
-     Excepción: los ex-certificados van con `muted=true` → mismo
-     tamaño pero un punto menos de peso visual (opacidad y saturación
-     reducidas). Al hover recuperan peso completo. */
+function makeIcon(kind: "lab" | "academy" | "coach"): L.DivIcon {
+  /* Tres tamaños únicos — todos los coaches del mapa comparten pin 28px.
+     Las distinciones viven en la card, no en el pin. Los coaches que
+     no están al día nunca llegan aquí: se filtran en filterCoaches. */
   const size =
     kind === "lab" ? 48 :
     kind === "academy" ? 36 :
@@ -487,10 +456,9 @@ function makeIcon(kind: "lab" | "academy" | "coach", muted = false): L.DivIcon {
     kind === "lab" ? " j3-pin-lab" :
     kind === "academy" ? " j3-pin-academy" :
     "";
-  const mutedClass = muted ? " j3-pin-muted" : "";
   return L.divIcon({
     className: "j3-pin",
-    html: `<div class="j3-pin-inner${kindModifier}${mutedClass}"></div>`,
+    html: `<div class="j3-pin-inner${kindModifier}"></div>`,
     iconSize: [size, size],
     iconAnchor: [size / 2, size / 2],
     popupAnchor: [0, -size / 2],
@@ -518,18 +486,16 @@ interface PopupLabels {
   distinctionDecano: string;
   /** Meses abreviados, índice 0 = Enero. */
   monthShort: readonly string[];
-  /** Templates con placeholder {date} → "Ago 2025" */
+  /** Template "Miembro desde {date}" — placeholder {date} → "Ago 2025" */
   memberSince: string;
+  /** Label "Certificado" (sin fecha, solo aparece para coaches activos) */
   certifiedSince: string;
-  lastCertification: string;
   askChatbot: string;
   /** Labels de la mini-leyenda (Headquarter · Coach · Cluster) */
   legendTitle: string;
   legendHq: string;
-  /** Coach con certificación activa — pin gold lleno. Ej: "Certificado" */
+  /** Coach con certificación activa. Ej: "Certificado al día" */
   legendCoach: string;
-  /** Coach ex-certificado (bajó a 19€) — pin hollow. Ej: "Ex-certificado" */
-  legendCoachEx: string;
   legendCluster: string;
   /** Label del botón "Ver en Maps" */
   viewInMaps: string;
@@ -692,17 +658,9 @@ function PopupContent({
     formatMonthYear(badges.joinedAt, labels.monthShort),
   );
 
-  /* Texto de certificación según estado:
-     - certified-active → solo "Certificado" (sin fecha — es implícito: está al día)
-     - ex-certified     → "Última certificación · {fecha}" (la fecha es lo relevante aquí)
-     - hq               → null (no se pinta línea) */
-  const certLine: { text: string; active: boolean } | null = badges.certifiedAt
-    ? badges.status === "certified-active"
-      ? { text: labels.certifiedSince, active: true }
-      : badges.status === "ex-certified"
-      ? { text: labels.lastCertification.replace("{date}", formatMonthYear(badges.certifiedAt, labels.monthShort)), active: false }
-      : null
-    : null;
+  /* Línea "✓ Certificado" — solo para coaches (no HQ) con cert activa.
+     Los ex-certificados no llegan aquí porque filterCoaches los oculta. */
+  const showCertLine = !isHqKind && badges.status === "certified-active";
 
   /* Distinciones a mostrar: las almacenadas + "Decano J3" si aplica (computado). */
   const distinctionLines: string[] = [
@@ -771,29 +729,24 @@ function PopupContent({
         </div>
       </div>
 
-      {/* Stack de fechas — el nuevo lenguaje del sistema.
-          Coach360 desde X (siempre para coaches)
-          + Certificado desde X (si activa) o Última certificación X (si histórica). */}
+      {/* Miembro desde... + ✓ Certificado. Solo para coaches activos. */}
       {!isHqKind && (
         <div style={{ fontSize: 11, marginBottom: 8, lineHeight: 1.55 }}>
           <div style={{ opacity: 0.72 }}>{memberSinceText}</div>
-          {certLine && (
+          {showCertLine && (
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
                 gap: 5,
-                color: certLine.active ? "#dcaf64" : "rgba(245,240,232,0.62)",
-                fontWeight: certLine.active ? 600 : 400,
-                fontStyle: certLine.active ? "normal" : "italic",
+                color: "#dcaf64",
+                fontWeight: 600,
               }}
             >
-              {certLine.active && (
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden style={{ flexShrink: 0 }}>
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              )}
-              <span>{certLine.text}</span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden style={{ flexShrink: 0 }}>
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              <span>{labels.certifiedSince}</span>
             </div>
           )}
         </div>
@@ -1099,10 +1052,7 @@ function ClusteredMarkers({
       const popupHtml = renderToStaticMarkup(
         <PopupContent coach={c} labels={labels} kind={kind} />
       );
-      /* Ex-certificados: pin con menos peso visual para distinguirlos
-         a simple vista de los que están al día. Hover devuelve peso completo. */
-      const muted = getCoachStatus(c) === "ex-certified";
-      const m = L.marker(c.location.coordinates, { icon: makeIcon(kind, muted) });
+      const m = L.marker(c.location.coordinates, { icon: makeIcon(kind) });
       m.bindPopup(popupHtml, { maxWidth: 280, minWidth: 240 });
 
       // Al abrir el popup, reflejar el coach en el hash de la URL
@@ -1437,10 +1387,6 @@ function MapLegend({ labels }: { labels: PopupLabels }) {
               <div class="j3-legend-row">
                 <span class="j3-legend-dot j3-legend-dot-coach" aria-hidden></span>
                 <span>${labels.legendCoach}</span>
-              </div>
-              <div class="j3-legend-row">
-                <span class="j3-legend-dot j3-legend-dot-coach-ex" aria-hidden></span>
-                <span>${labels.legendCoachEx}</span>
               </div>
               <div class="j3-legend-row">
                 <span class="j3-legend-dot j3-legend-dot-cluster" aria-hidden>3</span>

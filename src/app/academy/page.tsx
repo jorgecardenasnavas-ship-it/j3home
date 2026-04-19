@@ -871,12 +871,10 @@ function HeroSection() {
     monthShort: t.academy.network.monthShort,
     memberSince: t.academy.network.memberSince,
     certifiedSince: t.academy.network.certifiedSince,
-    lastCertification: t.academy.network.lastCertification,
     askChatbot: t.academy.network.askChatbot,
     legendTitle: t.academy.network.legendTitle,
     legendHq: t.academy.network.legendHq,
     legendCoach: t.academy.network.legendCoach,
-    legendCoachEx: t.academy.network.legendCoachEx,
     legendCluster: t.academy.network.legendCluster,
     viewInMaps: t.academy.network.viewInMaps,
     youAreHere: t.academy.network.youAreHere,
@@ -2457,7 +2455,6 @@ function PorscheCoachCard({
     monthShort: readonly string[];
     memberSince: string;
     certifiedSince: string;
-    lastCertification: string;
     askChatbot: string;
     kmFromYou?: string;
   };
@@ -2470,15 +2467,10 @@ function PorscheCoachCard({
   const isHq = coach.tier === "hq";
   const expanded = isHovered;
   /* Badges normalizados por la lógica central:
-     - Founder es histórico, combinable con cualquier estado
+     - Founder / Gen ONE históricos, combinables con cualquier estado
      - Specialties solo si certificación activa (J3 solo avala actuales)
-     - Distinctions permanentes (independientes del plan actual)
-     - Status computado (hq / certified-active / ex-certified) */
+     - Distinctions permanentes (independientes del plan actual) */
   const badges = getCoachBadges(coach);
-  /* Ex-certificado: card con menos peso visual. Opacidad reducida
-     + ligera desaturación. Al hacer hover recupera peso parcial
-     para que sea clickable sin frustración. */
-  const isExCert = badges.status === "ex-certified";
   /* Label legible de la primera especialidad (máx. 1 en la card pequeña). */
   const primarySpecialty = badges.specialties[0];
   const primarySpecialtyLabel = primarySpecialty
@@ -2490,20 +2482,9 @@ function PorscheCoachCard({
       ? labels.specialtyCompeticion
       : labels.specialtyCamps
     : null;
-  /* Línea de certificación en el bottom: activa (dorado) o histórica (itálica). */
-  const formatMonthYear = (iso: string) => {
-    const m = /^(\d{4})-(\d{2})/.exec(iso);
-    if (!m) return iso;
-    const idx = parseInt(m[2], 10) - 1;
-    return idx >= 0 && idx < 12 ? `${labels.monthShort[idx]} ${m[1]}` : iso;
-  };
-  const certText: { text: string; active: boolean } | null = badges.certifiedAt
-    ? badges.status === "certified-active"
-      ? { text: labels.certifiedSince, active: true }
-      : badges.status === "ex-certified"
-      ? { text: labels.lastCertification.replace("{date}", formatMonthYear(badges.certifiedAt)), active: false }
-      : null
-    : null;
+  /* Solo los coaches con cert activa llegan a la card (filterCoaches los
+     filtra). Mostramos "✓ Certificado" siempre que sea tier coach. */
+  const showCertLine = !isHq && badges.status === "certified-active";
   return (
     <button
       type="button"
@@ -2511,14 +2492,7 @@ function PorscheCoachCard({
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
       className="relative overflow-hidden rounded-lg cursor-pointer block h-full w-full group text-left"
-      style={{
-        background: "#000",
-        /* Ex-cert: ligero descenso de opacidad (sin desaturar) — coherente
-           con el pin hollow del mapa. Más claro a la vista sin sensación
-           de "roto". Hover la recupera. */
-        opacity: isExCert && !expanded ? 0.88 : 1,
-        transition: "opacity .45s cubic-bezier(.16,1,.3,1)",
-      }}
+      style={{ background: "#000" }}
     >
       {/* Media — foto si existe; si no, placeholder con iniciales gold.
           Las iniciales (p.ej. 'AC' para Alejandro Coscollano) sobre un
@@ -2656,22 +2630,16 @@ function PorscheCoachCard({
             >
               {coach.location.city} · {coach.location.country}
             </p>
-            {/* Línea de certificación — tick dorado + "Certificado" si activa,
-                itálica apagada con fecha si histórica. Justo debajo de la ubicación,
-                por encima de la especialidad porque es el dato de mayor autoridad. */}
-            {certText && (
+            {/* ✓ Certificado — tick dorado + palabra. Solo coaches activos. */}
+            {showCertLine && (
               <p
-                className={`mt-[4px] text-[9.5px] tracking-[0.3px] truncate flex items-center gap-1 ${
-                  certText.active ? "font-bold text-[var(--g1)]" : "italic text-white/55"
-                }`}
+                className="mt-[4px] text-[9.5px] tracking-[0.3px] truncate flex items-center gap-1 font-bold text-[var(--g1)]"
                 style={{ textShadow: "0 1px 6px rgba(0,0,0,0.5)" }}
               >
-                {certText.active && (
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="shrink-0">
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                )}
-                <span className="truncate">{certText.text}</span>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="shrink-0">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                <span className="truncate">{labels.certifiedSince}</span>
               </p>
             )}
             {/* Especialidad verificada — solo si hay certificación activa.
@@ -2723,7 +2691,6 @@ function CoachesCarousel({
     monthShort: readonly string[];
     memberSince: string;
     certifiedSince: string;
-    lastCertification: string;
     askChatbot: string;
     kmFromYou?: string;
   };
@@ -2872,7 +2839,6 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
     monthShort: t.academy.network.monthShort,
     memberSince: t.academy.network.memberSince,
     certifiedSince: t.academy.network.certifiedSince,
-    lastCertification: t.academy.network.lastCertification,
     askChatbot: t.academy.network.askChatbot,
     kmFromYou: t.academy.network.kmFromYou,
   };
