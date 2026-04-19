@@ -100,16 +100,29 @@ const pinStyles = `
   .j3-pin-academy::after {
     inset: 7px;
   }
-  /* Coach Recommended: pin 32px con halo gold sutil (no tan intenso
-     como Lab, pero diferenciable de Trained). Sin pulse ring — ese
-     queda reservado para el Lab. */
+  /* Coach Recommended: pin 32px con halo gold reforzado (intermedio
+     entre Trained y Lab). Sin pulse ring — ese queda reservado para
+     el Lab. */
   .j3-pin-recommended {
     width: 32px;
     height: 32px;
-    box-shadow: 0 0 0 1.5px rgba(0,0,0,0.55), 0 4px 16px rgba(220,175,100,0.45);
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.6), 0 6px 24px rgba(220,175,100,0.65);
   }
   .j3-pin-recommended::after {
     inset: 6px;
+  }
+  /* Coach Trained: pin 22px "hollow" — sin halo gold, fondo tenue,
+     borde interior más sutil. Comunica presencia en la red sin
+     competir visualmente con los Recommended. */
+  .j3-pin-trained {
+    width: 22px;
+    height: 22px;
+    background: radial-gradient(circle at 50% 50%, rgba(220,175,100,0.45), rgba(220,175,100,0.15) 60%, rgba(220,175,100,0) 100%);
+    box-shadow: 0 0 0 1.5px rgba(0,0,0,0.5);
+  }
+  .j3-pin-trained::after {
+    inset: 4px;
+    border-color: rgba(220,175,100,0.55);
   }
   @keyframes j3PulseRing {
     0%   { transform: scale(0.8); opacity: 1; }
@@ -446,16 +459,23 @@ function resolveKind(c: Coach): "lab" | "academy" | "coach" {
 }
 
 function makeIcon(kind: "lab" | "academy" | "coach", tier?: CoachTier): L.DivIcon {
-  /* Tamaños base por kind. Los coaches Recommended ganan 4px de
-     tamaño + halo gold (via clase) para priorizar visualmente sobre
-     Trained sin crear 3 sizes distintos arbitrarios. */
-  const baseSize = { lab: 48, academy: 36, coach: 28 }[kind];
+  /* Para coaches, el pin cambia de tamaño y estilo según tier:
+     - Recommended → 32px con halo gold reforzado (destaca)
+     - Trained     → 22px hollow, sin halo (presencia sin ruido)
+     - Default (sin tier conocido o hq sede) → tamaños base. */
   const isRecommended = kind === "coach" && tier === "recommended";
-  const size = isRecommended ? baseSize + 4 : baseSize;
+  const isTrained = kind === "coach" && tier === "trained";
+  const size =
+    kind === "lab" ? 48 :
+    kind === "academy" ? 36 :
+    isRecommended ? 32 :
+    isTrained ? 22 :
+    28;
   const kindModifier =
     kind === "lab" ? " j3-pin-lab" :
     kind === "academy" ? " j3-pin-academy" :
-    isRecommended ? " j3-pin-recommended" : "";
+    isRecommended ? " j3-pin-recommended" :
+    isTrained ? " j3-pin-trained" : "";
   return L.divIcon({
     className: "j3-pin",
     html: `<div class="j3-pin-inner${kindModifier}"></div>`,
