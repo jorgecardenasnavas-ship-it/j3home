@@ -538,7 +538,7 @@ export const sv = {
       headingPre: "Hitta tr\u00E4nare med ",
       headingAccent: "omd\u00F6me, metod och ordning.",
       headingPost: "",
-      sub: "Tr\u00E4nare som vi personligen godk\u00E4nner. Hitta din n\u00E4ra dig.",
+      sub: "Vi certifierar dem som kan metoden. Vi rekommenderar dem vi vet till\u00E4mpar den med omd\u00F6me.",
       ctaPrimary: "Hitta en coach n\u00E4ra dig",
       ctaSecondary: "Kom och tr\u00E4na \u00B7 M\u00E1laga",
       filtersTitle: "Filtrera",

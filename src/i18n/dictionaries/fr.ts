@@ -538,7 +538,7 @@ export const fr = {
       headingPre: "Trouve des coachs avec ",
       headingAccent: "crit\u00E8re, m\u00E9thode et rigueur.",
       headingPost: "",
-      sub: "Des coachs que nous validons personnellement. Trouve le tien pr\u00E8s de chez toi.",
+      sub: "Nous certifions ceux qui connaissent la m\u00E9thode. Nous recommandons ceux dont nous savons qu\u2019ils l\u2019appliquent avec rigueur.",
       ctaPrimary: "Trouver un coach proche",
       ctaSecondary: "Viens t\u2019entra\u00EEner \u00B7 M\u00E1laga",
       filtersTitle: "Filtrer",
