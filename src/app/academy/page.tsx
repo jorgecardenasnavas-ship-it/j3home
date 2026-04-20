@@ -906,7 +906,8 @@ function HeroSection() {
     youAreHere: t.academy.network.youAreHere,
     inProgressBadge: t.academy.network.inProgressBadge,
     inProgressNote: t.academy.network.inProgressNote,
-    stageFormacion: t.academy.network.stageFormacion,
+    stageCoach: t.academy.network.stageCoach,
+    stageCoach360: t.academy.network.stageCoach360,
     stageCertificado: t.academy.network.stageCertificado,
     stageVerificado: t.academy.network.stageVerificado,
   };

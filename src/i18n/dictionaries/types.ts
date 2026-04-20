@@ -511,8 +511,14 @@ export interface Dictionary {
        *  Template: "+{count} entrenadores en la red J3" */
       readonly baseCoachesLine: string;
       /** Estaciones del viaje J3 — micro-labels del progress bar en el popup
-       *  "en proceso". "Formación" (actual), "Certificado" (futuro), "Verificado" (futuro). */
-      readonly stageFormacion: string;
+       *  "en proceso". Viaje de 4 peldaños:
+       *   1. Coach        → pre-J3 (raw, past)
+       *   2. Coach360     → ya dentro del sistema (current para PLUS en proceso)
+       *   3. Certificado  → futuro próximo
+       *   4. Verificado   → futuro lejano (trabajo 1:1 con J3)
+       */
+      readonly stageCoach: string;
+      readonly stageCoach360: string;
       readonly stageCertificado: string;
       readonly stageVerificado: string;
       /** Label de la fila "Cluster (agrupación)" en la leyenda */

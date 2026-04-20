@@ -637,8 +637,10 @@ interface PopupLabels {
   inProgressBadge: string;
   /** Nota al pie del popup "en proceso": "Disponible cuando obtenga su certificación" (legacy) */
   inProgressNote: string;
-  /** Estaciones del viaje J3 — labels micro bajo los dots del progress bar. */
-  stageFormacion: string;
+  /** Estaciones del viaje J3 — labels micro bajo los dots del progress bar.
+   *  4 peldaños: Coach (pre-J3) → Coach360 → Certificado → Verificado. */
+  stageCoach: string;
+  stageCoach360: string;
   stageCertificado: string;
   stageVerificado: string;
 }
@@ -1114,13 +1116,18 @@ function InProgressPopupContent({ coach: c, labels }: { coach: Coach; labels: Po
     formatMonthYear(c.joinedAt, labels.monthShort),
   );
 
-  /* Estaciones del viaje del coach dentro de J3.
-     El popup en proceso siempre se pinta en la estación 1 (Formación).
-     Las futuras se muestran atenuadas — camino visible, no ausencia. */
+  /* Viaje J3 en 4 estaciones. Los PLUS en proceso están en la
+     estación 2 (Coach360): ya pasaron de Coach a Coach360, y
+     ahora van camino a Certificarse.
+       - past    → ya lo completó (filled muted)
+       - current → aquí está ahora (filled bright + pulse)
+       - future  → aún por alcanzar (hollow dim)
+     Así la card cuenta "de dónde vengo, dónde estoy, hacia dónde voy". */
   const STAGES = [
-    { key: "formacion" as const, label: labels.stageFormacion, current: true },
-    { key: "certificado" as const, label: labels.stageCertificado, current: false },
-    { key: "verificado" as const, label: labels.stageVerificado, current: false },
+    { key: "coach"       as const, label: labels.stageCoach,       state: "past"    as const },
+    { key: "coach360"    as const, label: labels.stageCoach360,    state: "current" as const },
+    { key: "certificado" as const, label: labels.stageCertificado, state: "future"  as const },
+    { key: "verificado"  as const, label: labels.stageVerificado,  state: "future"  as const },
   ];
 
   return (
@@ -1198,52 +1205,74 @@ function InProgressPopupContent({ coach: c, labels }: { coach: Coach; labels: Po
           style={{
             display: "flex",
             alignItems: "center",
-            gap: 4,
+            gap: 3,
             marginBottom: 8,
-            padding: "0 4px",
+            padding: "0 2px",
           }}
         >
-          {STAGES.map((stage, i) => (
-            <React.Fragment key={stage.key}>
-              <span
-                aria-hidden
-                className={stage.current ? "j3-stage-active" : undefined}
-                style={{
-                  width: 10,
-                  height: 10,
-                  borderRadius: 999,
-                  border: stage.current
-                    ? "1.5px solid rgba(220,175,100,0.9)"
-                    : "1px solid rgba(220,175,100,0.32)",
-                  background: stage.current
-                    ? "rgba(220,175,100,0.35)"
-                    : "transparent",
-                  flexShrink: 0,
-                }}
-              />
-              {i < STAGES.length - 1 && (
+          {STAGES.map((stage, i) => {
+            /* Estilo por estado:
+                past    → filled muted (lo tiene completado, pero no brilla)
+                current → filled bright + pulse (aquí está ahora, vivo)
+                future  → hollow dim (meta por alcanzar) */
+            const dotStyle: React.CSSProperties =
+              stage.state === "current"
+                ? {
+                    border: "1.5px solid rgba(220,175,100,0.95)",
+                    background: "rgba(220,175,100,0.35)",
+                  }
+                : stage.state === "past"
+                ? {
+                    border: "1px solid rgba(220,175,100,0.55)",
+                    background: "rgba(220,175,100,0.38)",
+                  }
+                : {
+                    border: "1px solid rgba(220,175,100,0.3)",
+                    background: "transparent",
+                  };
+            return (
+              <React.Fragment key={stage.key}>
                 <span
                   aria-hidden
+                  className={stage.state === "current" ? "j3-stage-active" : undefined}
                   style={{
-                    flex: 1,
-                    height: 1,
-                    background:
-                      "linear-gradient(90deg, rgba(220,175,100,0.28), rgba(220,175,100,0.12))",
+                    width: 10,
+                    height: 10,
+                    borderRadius: 999,
+                    flexShrink: 0,
+                    ...dotStyle,
                   }}
                 />
-              )}
-            </React.Fragment>
-          ))}
+                {i < STAGES.length - 1 && (
+                  <span
+                    aria-hidden
+                    style={{
+                      flex: 1,
+                      height: 1,
+                      /* Línea entre past-past brilla más que entre future-future,
+                         comunica "ya recorrido" vs "por recorrer". */
+                      background:
+                        stage.state !== "future" && STAGES[i + 1].state !== "future"
+                          ? "rgba(220,175,100,0.45)"
+                          : "rgba(220,175,100,0.18)",
+                    }}
+                  />
+                )}
+              </React.Fragment>
+            );
+          })}
         </div>
 
-        {/* Etiquetas bajo las estaciones — la actual en gold bright,
-            las futuras muted. Tamaño tipo micro-label. */}
+        {/* Etiquetas bajo las estaciones. Estilo por estado:
+            past    → gold muted (lo hiciste)
+            current → gold bright (aquí estás)
+            future  → gris tenue (meta) */}
         <div
           style={{
             display: "flex",
             justifyContent: "space-between",
-            fontSize: 8,
-            letterSpacing: 1.3,
+            fontSize: 7.5,
+            letterSpacing: 0.8,
             textTransform: "uppercase",
             fontWeight: 700,
           }}
@@ -1252,7 +1281,12 @@ function InProgressPopupContent({ coach: c, labels }: { coach: Coach; labels: Po
             <span
               key={stage.key}
               style={{
-                color: stage.current ? "#f0c478" : "rgba(245,240,232,0.38)",
+                color:
+                  stage.state === "current"
+                    ? "#f0c478"
+                    : stage.state === "past"
+                    ? "rgba(220,175,100,0.7)"
+                    : "rgba(245,240,232,0.38)",
                 flex: "0 0 auto",
               }}
             >
