@@ -507,9 +507,14 @@ export interface Dictionary {
       readonly inProgressBadge: string;
       /** Nota al pie del popup "en proceso": "Disponible cuando obtenga su certificación" */
       readonly inProgressNote: string;
-      /** Línea junto al mapa contando los Coach360 base (19€, siguen el método sin map pin).
-       *  Template: "+{count} coaches más siguiendo el método en {countries} países" */
+      /** Línea junto al mapa con el total de coaches en la red J3 (suma de todos los tiers).
+       *  Template: "+{count} entrenadores en la red J3" */
       readonly baseCoachesLine: string;
+      /** Estaciones del viaje J3 — micro-labels del progress bar en el popup
+       *  "en proceso". "Formación" (actual), "Certificado" (futuro), "Verificado" (futuro). */
+      readonly stageFormacion: string;
+      readonly stageCertificado: string;
+      readonly stageVerificado: string;
       /** Label de la fila "Cluster (agrupación)" en la leyenda */
       readonly legendCluster: string;
       /** Subtítulo de la sección distinciones dentro de la leyenda. */

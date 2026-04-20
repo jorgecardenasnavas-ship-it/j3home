@@ -854,15 +854,12 @@ function HeroSection() {
     [allCoaches],
   );
 
-  /* Contador de Coach360 base (19€, consumen método sin PLUS ni cert).
-     NO aparecen en el mapa — se muestra solo su número para comunicar
-     escala de la red sin diluir el sello de calidad del mapa.
-     Valores manuales que iremos actualizando conforme crezca la red. */
-  const BASE_COACHES_COUNT = 47;
-  const BASE_COACHES_COUNTRIES = 12;
+  /* Total de entrenadores en la red J3 (suma de todos los tiers: base +
+     PLUS en proceso + certificados + verificados). Señal de escala/
+     crecimiento junto al mapa. Hardcoded — actualizar conforme crezca. */
+  const TOTAL_COACHES_COUNT = 100;
   const baseCoachesLine = t.academy.network.baseCoachesLine
-    .replace("{count}", String(BASE_COACHES_COUNT))
-    .replace("{countries}", String(BASE_COACHES_COUNTRIES));
+    .replace("{count}", String(TOTAL_COACHES_COUNT));
 
   const specialtyLabel = (s: CoachSpecialty) =>
     s === "juniors"
@@ -909,6 +906,9 @@ function HeroSection() {
     youAreHere: t.academy.network.youAreHere,
     inProgressBadge: t.academy.network.inProgressBadge,
     inProgressNote: t.academy.network.inProgressNote,
+    stageFormacion: t.academy.network.stageFormacion,
+    stageCertificado: t.academy.network.stageCertificado,
+    stageVerificado: t.academy.network.stageVerificado,
   };
 
   const handleScrollToNetwork = () => {

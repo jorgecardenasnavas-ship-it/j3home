@@ -29,7 +29,7 @@
    - coach    → Recomendado individual. Sobrio.
    ────────────────────────────────────────────── */
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { renderToStaticMarkup } from "react-dom/server";
 import L from "leaflet";
@@ -163,6 +163,19 @@ const pinStyles = `
     0%, 100% { opacity: 0;    transform: scale(0.8); }
     40%      { opacity: 0.75; transform: scale(1.5); }
     70%      { opacity: 0;    transform: scale(2.2); }
+  }
+
+  /* ── Progress bar del popup "en proceso" ──
+     Tres estaciones (Formación → Certificado → Verificado). La
+     estación actual (Formación) pulsa en gold intenso; las
+     futuras quedan atenuadas en hollow dim. Comunica viaje,
+     no ausencia. */
+  .j3-stage-active {
+    animation: j3StageActivePulse 2.2s ease-in-out infinite;
+  }
+  @keyframes j3StageActivePulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(220,175,100,0.45), 0 0 6px rgba(220,175,100,0.4); }
+    50%      { box-shadow: 0 0 0 3px rgba(220,175,100,0), 0 0 12px rgba(220,175,100,0.7); }
   }
   @keyframes j3PulseRing {
     0%   { transform: scale(0.8); opacity: 1; }
@@ -620,10 +633,14 @@ interface PopupLabels {
   viewInMaps: string;
   /** Tooltip del pin del usuario: "Estás aquí" */
   youAreHere?: string;
-  /** Chip del popup "en proceso": "En proceso de certificación" */
+  /** Chip del popup "en proceso": "En proceso de certificación" (legacy, ahora no usado) */
   inProgressBadge: string;
-  /** Nota al pie del popup "en proceso": "Disponible cuando obtenga su certificación" */
+  /** Nota al pie del popup "en proceso": "Disponible cuando obtenga su certificación" (legacy) */
   inProgressNote: string;
+  /** Estaciones del viaje J3 — labels micro bajo los dots del progress bar. */
+  stageFormacion: string;
+  stageCertificado: string;
+  stageVerificado: string;
 }
 
 /** Formatea una fecha ISO (YYYY-MM-DD) a "Mes Año" legible usando los
@@ -1090,105 +1107,159 @@ function makeClusterIcon(count: number): L.DivIcon {
  * popup de certificados — menos gold, más muted.
  */
 function InProgressPopupContent({ coach: c, labels }: { coach: Coach; labels: PopupLabels }) {
-  const initials = c.name.split(" ").map((w) => w[0]).slice(0, 2).join("");
   /* Antigüedad en la red — credibilidad incluso sin certificación
      ("lleva X meses en el sistema, comprometido con el proceso"). */
   const memberSinceText = labels.memberSince.replace(
     "{date}",
     formatMonthYear(c.joinedAt, labels.monthShort),
   );
-  return (
-    <div style={{ minWidth: 200, maxWidth: 240 }}>
-      {/* Header compacto: avatar iniciales (sin foto) + nombre + ciudad + miembro desde */}
-      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
-        <div
-          aria-hidden
-          style={{
-            width: 36,
-            height: 36,
-            borderRadius: 999,
-            background: "rgba(220,175,100,0.06)",
-            border: "1px dashed rgba(220,175,100,0.45)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: 13,
-            fontWeight: 700,
-            color: "#dcaf64",
-            letterSpacing: 1,
-            flexShrink: 0,
-          }}
-        >
-          {initials}
-        </div>
-        <div style={{ minWidth: 0, flex: 1 }}>
-          <div style={{ fontWeight: 700, fontSize: 14, lineHeight: 1.2, marginBottom: 2, letterSpacing: "-0.2px" }}>
-            {c.name}
-          </div>
-          <div style={{ fontSize: 10.5, opacity: 0.65, lineHeight: 1.35 }}>
-            {c.location.city}, {c.location.country}
-          </div>
-          <div style={{ fontSize: 10, opacity: 0.55, lineHeight: 1.35, marginTop: 1 }}>
-            {memberSinceText}
-          </div>
-        </div>
-      </div>
 
-      {/* Chip "En proceso de certificación" — tono muted, estilo hollow
-          consistente con el dot del mapa. */}
+  /* Estaciones del viaje del coach dentro de J3.
+     El popup en proceso siempre se pinta en la estación 1 (Formación).
+     Las futuras se muestran atenuadas — camino visible, no ausencia. */
+  const STAGES = [
+    { key: "formacion" as const, label: labels.stageFormacion, current: true },
+    { key: "certificado" as const, label: labels.stageCertificado, current: false },
+    { key: "verificado" as const, label: labels.stageVerificado, current: false },
+  ];
+
+  return (
+    <div style={{ minWidth: 230, maxWidth: 260 }}>
+      {/* Wordmark Coach360 con sprout dot — identidad de tier clara.
+          Echoes el dot del mapa: mismo tamaño, misma paleta hollow. */}
       <div
         style={{
-          display: "inline-flex",
+          display: "flex",
           alignItems: "center",
-          gap: 5,
+          gap: 6,
           fontSize: 8.5,
           fontWeight: 700,
-          letterSpacing: 1.6,
+          letterSpacing: 2,
           textTransform: "uppercase",
           color: "#dcaf64",
-          background: "rgba(220,175,100,0.08)",
-          border: "1px dashed rgba(220,175,100,0.55)",
-          padding: "3px 7px",
-          borderRadius: 2,
           marginBottom: 10,
         }}
       >
         <span
           aria-hidden
           style={{
-            width: 6,
-            height: 6,
+            width: 8,
+            height: 8,
             borderRadius: 999,
-            border: "1.5px solid rgba(220,175,100,0.75)",
+            border: "1.5px solid rgba(220,175,100,0.78)",
             background: "rgba(220,175,100,0.18)",
             flexShrink: 0,
           }}
         />
-        {labels.inProgressBadge}
+        Coach360
       </div>
 
-      {/* Idiomas — misma tipografía que el popup principal */}
+      {/* Nombre — hero del popup, peso fuerte sin competir con identidad */}
+      <div
+        style={{
+          fontWeight: 700,
+          fontSize: 17,
+          lineHeight: 1.15,
+          letterSpacing: "-0.3px",
+          marginBottom: 4,
+        }}
+      >
+        {c.name}
+      </div>
+
+      {/* Línea 2: ciudad · país. Línea 3: antigüedad. Jerarquía descendente. */}
+      <div style={{ fontSize: 11.5, opacity: 0.72, marginBottom: 2 }}>
+        {c.location.city}, {c.location.country}
+      </div>
+      <div style={{ fontSize: 10.5, opacity: 0.5, marginBottom: 12 }}>
+        {memberSinceText}
+      </div>
+
+      {/* Idiomas */}
       {c.languages && c.languages.length > 0 && (
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 10 }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 14 }}>
           {c.languages.map((l) => (
             <LanguageChip key={l} code={l} variant="popup" />
           ))}
         </div>
       )}
 
-      {/* Nota final: "Disponible cuando obtenga su certificación" —
-          tipografía muted, sin CTA. Cierra el popup con claridad. */}
+      {/* ── Visualización de viaje: Formación → Certificado → Verificado ──
+          La estación actual (Formación) pulsa en gold intenso. Las
+          futuras quedan hollow dim. Línea conectora atenuada. Esto
+          comunica de un golpe: "está en peldaño 1 de 3, hay un camino". */}
       <div
         style={{
-          fontSize: 10.5,
-          lineHeight: 1.4,
-          color: "rgba(245,240,232,0.55)",
-          fontStyle: "italic",
-          paddingTop: 8,
-          borderTop: "1px solid rgba(220,175,100,0.15)",
+          paddingTop: 12,
+          borderTop: "1px solid rgba(220,175,100,0.18)",
         }}
       >
-        {labels.inProgressNote}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 4,
+            marginBottom: 8,
+            padding: "0 4px",
+          }}
+        >
+          {STAGES.map((stage, i) => (
+            <React.Fragment key={stage.key}>
+              <span
+                aria-hidden
+                className={stage.current ? "j3-stage-active" : undefined}
+                style={{
+                  width: 10,
+                  height: 10,
+                  borderRadius: 999,
+                  border: stage.current
+                    ? "1.5px solid rgba(220,175,100,0.9)"
+                    : "1px solid rgba(220,175,100,0.32)",
+                  background: stage.current
+                    ? "rgba(220,175,100,0.35)"
+                    : "transparent",
+                  flexShrink: 0,
+                }}
+              />
+              {i < STAGES.length - 1 && (
+                <span
+                  aria-hidden
+                  style={{
+                    flex: 1,
+                    height: 1,
+                    background:
+                      "linear-gradient(90deg, rgba(220,175,100,0.28), rgba(220,175,100,0.12))",
+                  }}
+                />
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+
+        {/* Etiquetas bajo las estaciones — la actual en gold bright,
+            las futuras muted. Tamaño tipo micro-label. */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            fontSize: 8,
+            letterSpacing: 1.3,
+            textTransform: "uppercase",
+            fontWeight: 700,
+          }}
+        >
+          {STAGES.map((stage) => (
+            <span
+              key={stage.key}
+              style={{
+                color: stage.current ? "#f0c478" : "rgba(245,240,232,0.38)",
+                flex: "0 0 auto",
+              }}
+            >
+              {stage.label}
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );
