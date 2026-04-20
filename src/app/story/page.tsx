@@ -2542,24 +2542,50 @@ export default function StoryPage() {
           </h1>
         </div>
 
-        {/* Scroll indicator — "Más de" + animated chevrons (hidden once scroll starts) */}
+        {/* Scroll indicator — mismo patrón que /academy: trío de chevrons
+            gold pulsantes con stagger 0.18s. Solo desktop (en móvil el
+            scroll es obvio). Se oculta en cuanto el usuario empieza el
+            pin-scroll (flyT >= 0.08) para no distraer durante la animación.
+            Preservamos el keyframe local (j3ChevPulse) para que sea
+            auto-contenido sin tocar globals. */}
+        <style>{`
+          @keyframes j3ChevPulse {
+            0%, 100% { opacity: 0.18; }
+            50%      { opacity: 1;    }
+          }
+        `}</style>
         {flyT < 0.08 && pinReady && (
-        <div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 animate-[fadeInSoft_1s_1.8s_ease_both]"
-        >
-          <span className="hidden min-[960px]:block text-[13px] font-bold tracking-[4px] uppercase text-[var(--gy2)/90]">{t.story.hero.prefix}</span>
-          <div className="scroll-arrows">
-            <svg width="16" height="9" viewBox="0 0 16 9" fill="none" className="scroll-arrow scroll-arrow-1">
-              <path d="M1 1l7 7 7-7" stroke="var(--g1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            <svg width="16" height="9" viewBox="0 0 16 9" fill="none" className="scroll-arrow scroll-arrow-2">
-              <path d="M1 1l7 7 7-7" stroke="var(--g1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            <svg width="16" height="9" viewBox="0 0 16 9" fill="none" className="scroll-arrow scroll-arrow-3">
-              <path d="M1 1l7 7 7-7" stroke="var(--g1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+          <div
+            className="hidden min-[961px]:flex absolute bottom-5 left-1/2 -translate-x-1/2 z-[12] flex-col items-center gap-2 p-2 pointer-events-none animate-[fadeInSoft_1s_1.8s_ease_both]"
+          >
+            {/* "Más de" — prefix narrativo que conecta con el contenido scroll abajo */}
+            <span className="text-[11px] font-bold tracking-[4px] uppercase text-[var(--g1)]/85">
+              {t.story.hero.prefix}
+            </span>
+            {/* Trío de chevrons gold pulsantes — mismo patrón visual que /academy */}
+            <div aria-hidden className="flex flex-col items-center gap-[2px]">
+              {[0, 1, 2].map((i) => (
+                <svg
+                  key={i}
+                  width="20"
+                  height="10"
+                  viewBox="0 0 20 10"
+                  fill="none"
+                  stroke="#f0c478"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden
+                  style={{
+                    animation: "j3ChevPulse 1.6s cubic-bezier(.4,0,.6,1) infinite",
+                    animationDelay: `${i * 0.18}s`,
+                  }}
+                >
+                  <path d="M2 2 L10 8 L18 2" />
+                </svg>
+              ))}
+            </div>
           </div>
-        </div>
         )}
 
         {/* Bridge text — WHITE bg, dark text (inverted). Appears when logo fades. */}
