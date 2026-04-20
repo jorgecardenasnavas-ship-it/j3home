@@ -105,10 +105,10 @@ const pinStyles = `
      no aparecen en el mapa — si bajan a 19€ pierden visibilidad hasta
      que renueven Plus/Mentor.
 
-     Coach recomendado: mismo pin + anillo exterior dorado sutil. El
-     anillo comunica "J3 avala personalmente su práctica" sin competir
+     Coach Verificado: mismo pin + anillo exterior dorado sutil. El
+     anillo comunica "J3 trabaja 1:1 con este coach" sin competir
      con el tamaño del HQ ni romper la lectura del mapa. */
-  .j3-pin-inner.j3-pin-recommended::before {
+  .j3-pin-inner.j3-pin-verified::before {
     content: "";
     position: absolute;
     inset: -4px;
@@ -117,10 +117,45 @@ const pinStyles = `
     box-shadow: 0 0 8px rgba(220,175,100,0.3);
     pointer-events: none;
   }
-  .j3-pin-inner.j3-pin-recommended:hover::before,
-  .j3-pin-inner.j3-pin-recommended.is-hovered::before {
+  .j3-pin-inner.j3-pin-verified:hover::before,
+  .j3-pin-inner.j3-pin-verified.is-hovered::before {
     border-color: rgba(240,196,120,0.9);
     box-shadow: 0 0 12px rgba(220,175,100,0.55);
+  }
+
+  /* Coach en proceso de certificación: dot fantasma pulsante.
+     Muy pequeño (7px), hueco, sin interacción. Comunica crecimiento
+     de la red sin diluir el sello de calidad de los pins gold. */
+  .j3-pin-sprout {
+    background: transparent !important;
+    border: none !important;
+    pointer-events: none !important;
+  }
+  .j3-pin-sprout-inner {
+    position: relative;
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    border: 1.5px solid rgba(220,175,100,0.5);
+    background: rgba(220,175,100,0.08);
+    animation: j3SproutPulse 3.8s ease-in-out infinite;
+  }
+  .j3-pin-sprout-inner::before {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    border-radius: 999px;
+    border: 1px solid rgba(220,175,100,0.18);
+    animation: j3SproutRing 3.8s ease-in-out infinite;
+  }
+  @keyframes j3SproutPulse {
+    0%, 100% { opacity: 0.38; transform: scale(1); }
+    50%       { opacity: 0.78; transform: scale(1.18); }
+  }
+  @keyframes j3SproutRing {
+    0%, 100% { opacity: 0;   transform: scale(0.8); }
+    40%      { opacity: 0.6; transform: scale(1.6); }
+    70%      { opacity: 0;   transform: scale(2.4); }
   }
   @keyframes j3PulseRing {
     0%   { transform: scale(0.8); opacity: 1; }
@@ -420,8 +455,8 @@ const pinStyles = `
     height: 10px;
     box-shadow: 0 0 0 1px rgba(0,0,0,0.55), 0 0 5px rgba(220,175,100,0.45);
   }
-  /* Dot "coach recomendado" — gold lleno + anillo exterior, espejo
-     del pin recomendado. */
+  /* Dot "coach verificado" — gold lleno + anillo exterior, espejo
+     del pin verificado. */
   .j3-legend-dot-coach-rec {
     width: 10px;
     height: 10px;
@@ -446,6 +481,16 @@ const pinStyles = `
     color: #0a0a0a;
     font-weight: 800;
     letter-spacing: 0;
+  }
+  /* Dot "en proceso de certificación" — hueco, muted, espejo del dot
+     fantasma del mapa. */
+  .j3-legend-dot-sprout {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    border: 1.5px solid rgba(220,175,100,0.52);
+    background: rgba(220,175,100,0.07);
+    flex-shrink: 0;
   }
 
   /* ── Popup: iconos sociales ghost con hover ── */
@@ -492,7 +537,7 @@ function resolveKind(c: Coach): "lab" | "academy" | "coach" {
 function makeIcon(kind: "lab" | "academy" | "coach", recommended = false): L.DivIcon {
   /* Tres tamaños únicos — todos los coaches del mapa comparten pin 28px.
      Los recomendados llevan además un anillo exterior sutil (clase
-     .j3-pin-recommended). Los coaches que no están al día nunca llegan
+     .j3-pin-verified). Los coaches que no están al día nunca llegan
      aquí: se filtran en filterCoaches. */
   const size =
     kind === "lab" ? 48 :
@@ -502,7 +547,7 @@ function makeIcon(kind: "lab" | "academy" | "coach", recommended = false): L.Div
     kind === "lab" ? " j3-pin-lab" :
     kind === "academy" ? " j3-pin-academy" :
     "";
-  const recommendedModifier = recommended && kind === "coach" ? " j3-pin-recommended" : "";
+  const recommendedModifier = recommended && kind === "coach" ? " j3-pin-verified" : "";
   return L.divIcon({
     className: "j3-pin",
     html: `<div class="j3-pin-inner${kindModifier}${recommendedModifier}"></div>`,
@@ -519,8 +564,8 @@ interface PopupLabels {
   badgeFounder: string;
   /** Badge "Gen ONE" — early adopter no-founder de 2025 */
   badgeGenOne: string;
-  /** Badge "Recomendado J3" — nivel superior al Certificado (mentorActive) */
-  badgeRecommended: string;
+  /** Badge "Verificado J3" — J3 trabaja 1:1 con este coach (mentorActive) */
+  badgeVerified: string;
   /** Distinciones — trayectoria profesional */
   distinctionFormaCoaches: string;
   distinctionJugadoresCircuito: string;
@@ -549,8 +594,10 @@ interface PopupLabels {
   legendHq: string;
   /** Fila "Coach certificado" — pin gold lleno. */
   legendCoach: string;
-  /** Fila "Coach recomendado J3" — pin con anillo exterior. */
-  legendCoachRecommended: string;
+  /** Fila "Coach Verificado J3" — pin con anillo exterior. */
+  legendCoachVerified: string;
+  /** Fila "En proceso de certificación" — dot fantasma pulsante. */
+  legendCoachInProgress: string;
   legendCluster: string;
   /** Subtítulo: "Distinciones" — separa pin-meanings de la glosa de skills. */
   legendDistinctionsTitle: string;
@@ -788,8 +835,29 @@ function PopupContent({
               {!isHqKind && badges.genOne && !badges.founder && <BadgeChip label={labels.badgeGenOne} tone="genone" />}
             </div>
           )}
-          <div style={{ fontWeight: 700, fontSize: 16, lineHeight: 1.15, marginBottom: 2, letterSpacing: "-0.3px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 5, fontWeight: 700, fontSize: 16, lineHeight: 1.15, marginBottom: 2, letterSpacing: "-0.3px" }}>
             {c.name}
+            {badges.verified && (
+              <span
+                aria-label={labels.badgeVerified}
+                title={labels.badgeVerified}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: 14,
+                  height: 14,
+                  borderRadius: 999,
+                  background: "linear-gradient(135deg, #f0c478, #b8943e)",
+                  flexShrink: 0,
+                  marginTop: 1,
+                }}
+              >
+                <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </span>
+            )}
           </div>
           <div style={{ fontSize: 11, opacity: 0.7 }}>
             {c.location.city}, {c.location.country}
@@ -816,21 +884,6 @@ function PopupContent({
                 <polyline points="20 6 9 17 4 12" />
               </svg>
               <span>{labels.certifiedSince}</span>
-            </div>
-          )}
-          {badges.recommended && (
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 5,
-                color: "#f0c478",
-                fontWeight: 700,
-                letterSpacing: 0.3,
-              }}
-            >
-              <span aria-hidden style={{ fontSize: 11, lineHeight: 1 }}>★</span>
-              <span>{labels.badgeRecommended}</span>
             </div>
           )}
         </div>
@@ -1017,6 +1070,45 @@ function makeClusterIcon(count: number): L.DivIcon {
  * provocar reload (replaceState). Así compartir un coach es
  * copiar la URL del navegador.
  */
+
+/**
+ * SproutingMarkers — capa de dots fantasma para coaches en proceso
+ * de certificación (plusActive sin certifiedAt).
+ *
+ * Los dots son completamente no-interactivos (pointer-events:none)
+ * y no se agrupan en clusters — representan potencial geográfico,
+ * no coaches contactables. Se añaden directamente al mapa como
+ * un L.layerGroup aparte del cluster group de coaches certificados.
+ */
+function SproutingMarkers({ coaches }: { coaches: readonly Coach[] }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (coaches.length === 0) return;
+    const layer = L.layerGroup();
+    coaches.forEach((c) => {
+      const icon = L.divIcon({
+        className: "j3-pin-sprout",
+        html: `<div class="j3-pin-sprout-inner"></div>`,
+        iconSize: [7, 7],
+        iconAnchor: [3.5, 3.5],
+      });
+      const m = L.marker(c.location.coordinates, {
+        icon,
+        interactive: false,
+        keyboard: false,
+      });
+      layer.addLayer(m);
+    });
+    map.addLayer(layer);
+    return () => {
+      map.removeLayer(layer);
+    };
+  }, [map, coaches]);
+
+  return null;
+}
+
 function ClusteredMarkers({
   coaches,
   labels,
@@ -1077,9 +1169,9 @@ function ClusteredMarkers({
       const popupHtml = renderToStaticMarkup(
         <PopupContent coach={c} labels={labels} kind={kind} />
       );
-      /* Pin con anillo exterior si el coach es Recomendado (mentorActive). */
-      const isRecommended = kind === "coach" && !!c.mentorActive && c.certificationActive !== false && !!c.certifiedAt;
-      const m = L.marker(c.location.coordinates, { icon: makeIcon(kind, isRecommended) });
+      /* Pin con anillo exterior si el coach es Verificado (mentorActive). */
+      const isVerified = kind === "coach" && !!c.mentorActive && c.certificationActive !== false && !!c.certifiedAt;
+      const m = L.marker(c.location.coordinates, { icon: makeIcon(kind, isVerified) });
       m.bindPopup(popupHtml, { maxWidth: 280, minWidth: 240 });
 
       // Al abrir el popup, reflejar el coach en el hash de la URL
@@ -1395,20 +1487,24 @@ function MapLegend({ labels }: { labels: PopupLabels }) {
             </summary>
             <div class="j3-legend-body">
               <div class="j3-legend-row">
-                <span class="j3-legend-dot j3-legend-dot-hq" aria-hidden></span>
-                <span>${labels.legendHq}</span>
+                <span class="j3-legend-dot j3-legend-dot-cluster" aria-hidden>3</span>
+                <span>${labels.legendCluster}</span>
               </div>
               <div class="j3-legend-row">
-                <span class="j3-legend-dot j3-legend-dot-coach-rec" aria-hidden></span>
-                <span>${labels.legendCoachRecommended}</span>
+                <span class="j3-legend-dot-sprout" aria-hidden></span>
+                <span>${labels.legendCoachInProgress}</span>
               </div>
               <div class="j3-legend-row">
                 <span class="j3-legend-dot j3-legend-dot-coach" aria-hidden></span>
                 <span>${labels.legendCoach}</span>
               </div>
               <div class="j3-legend-row">
-                <span class="j3-legend-dot j3-legend-dot-cluster" aria-hidden>3</span>
-                <span>${labels.legendCluster}</span>
+                <span class="j3-legend-dot j3-legend-dot-coach-rec" aria-hidden></span>
+                <span>${labels.legendCoachVerified}</span>
+              </div>
+              <div class="j3-legend-row">
+                <span class="j3-legend-dot j3-legend-dot-hq" aria-hidden></span>
+                <span>${labels.legendHq}</span>
               </div>
             </div>
           </details>
@@ -1653,8 +1749,14 @@ function FloatingZoomControls({
 }
 
 interface NetworkMapProps {
-  /** Lista de coaches a pintar. La página pasa la lista ya filtrada. */
+  /** Lista de coaches a pintar. La página pasa la lista ya filtrada (certificados activos). */
   coaches: readonly Coach[];
+  /**
+   * Lista de coaches en proceso de certificación (plusActive, sin certifiedAt).
+   * Se pintan como dots fantasma pulsantes — sin popup, sin interacción.
+   * No se filtran por país/idioma: representan la red en crecimiento.
+   */
+  inProgressCoaches?: readonly Coach[];
   /** Override opcional del handler del botón "Pregunta a J3". Default: dispara evento j3:chat:open. */
   onAsk?: (coach: Coach) => void;
   /** Centro inicial [lat, lng]. Default: Europa occidental. Ignorado si autoFitBounds=true. */
@@ -1696,6 +1798,7 @@ interface NetworkMapProps {
 
 export default function NetworkMap({
   coaches: coachesProp,
+  inProgressCoaches: inProgressProp = [],
   onAsk,
   center = [42, 5],
   zoom = 4,
@@ -1709,6 +1812,7 @@ export default function NetworkMap({
   labels,
 }: NetworkMapProps) {
   const coaches = useMemo(() => [...coachesProp], [coachesProp]);
+  const inProgressCoaches = useMemo(() => [...inProgressProp], [inProgressProp]);
 
   return (
     <>
@@ -1747,6 +1851,7 @@ export default function NetworkMap({
           />
         )}
         {showLegend && <MapLegend labels={labels} />}
+        {inProgressCoaches.length > 0 && <SproutingMarkers coaches={inProgressCoaches} />}
         <ClusteredMarkers coaches={coaches} labels={labels} onAsk={onAsk} />
       </MapContainer>
     </>

@@ -68,7 +68,7 @@ function CoachesCatalogContent() {
     badgeHq: t.academy.network.badgeHq,
     badgeFounder: t.academy.network.badgeFounder,
     badgeGenOne: t.academy.network.badgeGenOne,
-    badgeRecommended: t.academy.network.badgeRecommended,
+    badgeVerified: t.academy.network.badgeVerified,
     distinctionFormaCoaches: t.academy.network.distinctionFormaCoaches,
     distinctionJugadoresCircuito: t.academy.network.distinctionJugadoresCircuito,
     distinctionMultilingue: t.academy.network.distinctionMultilingue,

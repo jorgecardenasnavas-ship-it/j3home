@@ -142,9 +142,20 @@ export interface Coach {
    */
   certificationActive?: boolean;
   /**
-   * Plan Mentor activo. Relevante a nivel producto (quien está en Mentor
-   * puede ganar NUEVAS distinciones). No afecta al display: las distinciones
-   * ya ganadas se muestran siempre, independientemente del plan actual.
+   * Plan Plus activo SIN certificación aún. El coach está en proceso de
+   * conseguir su primera certificación J3. Aparece en el mapa como un
+   * dot fantasma pulsante (sin popup ni interacción) — comunica
+   * crecimiento de la red sin diluir el sello de calidad de los pins gold.
+   * Una vez obtenida la certificación, `certifiedAt` + `certificationActive`
+   * toman el relevo y este campo pierde relevancia.
+   */
+  plusActive?: boolean;
+  /**
+   * Plan Verificado activo (anteriormente "Mentor"). J3 trabaja con este
+   * coach 1:1, verifica su práctica real mediante sesiones grabadas y
+   * seguimiento continuo. Relevante a nivel producto: quien está en
+   * Verificado puede ganar NUEVAS distinciones. No afecta al display
+   * de distinciones ya ganadas (permanentes).
    */
   mentorActive?: boolean;
   /**
@@ -159,21 +170,25 @@ export interface Coach {
 }
 
 /* ──────────────────────────────────────────────
-   Dataset de prueba · v1
-   9 casuísticas inventadas que cubren todos los estados visibles
-   del modelo Coach360. Se reemplazarán por datos reales conforme
-   cada coach confirme los suyos.
+   Dataset de prueba · v2
+   12 casuísticas inventadas que cubren todos los estados del modelo
+   Coach360. Se reemplazarán por datos reales conforme cada coach
+   confirme los suyos.
 
-   Cobertura VISIBLE en el mapa (6 coaches):
+   Cobertura VISIBLE en el mapa como pin gold (6 coaches):
      1. HQ — J3 Lab Málaga
      2. Certificado activo · sin extras (baseline limpio, entró 2026)
      3. Certificado activo + Gen ONE
      4. Certificado activo + Founder
-     5. Founder + Mentor + 2 distinciones (la card más rica)
-     6. Gen ONE + Mentor + 1 distinción
+     5. Founder + Verificado + 4 distinciones (la card más rica)
+     6. Gen ONE + Verificado + 3 distinciones
 
-   Cobertura OCULTA — ex-certificados (los datos se conservan pero
-   no se muestran hasta que renueven Plus/Mentor):
+   Cobertura VISIBLE como dot fantasma "en proceso" (3 coaches):
+     10. Plus en proceso · Berlín
+     11. Plus en proceso · Ámsterdam
+     12. Plus en proceso · Varsovia
+
+   Cobertura OCULTA — ex-certificados (datos conservados):
      7. Gen ONE + Ex-certificado (Lyon)
      8. Ex-certificado + Founder (Lisboa)
      9. Gen ONE + Ex-certificado + 2 distinciones (London)
@@ -382,6 +397,55 @@ export const COACHES: readonly Coach[] = [
     distinctions: ["forma-coaches", "multilingue"],
     joinedAt: "2025-09-22",
   },
+
+  // ── Coaches en proceso de certificación (plusActive, sin certifiedAt) ──
+  // Aparecen en el mapa como dots fantasma — sin popup, sin interacción.
+  // Datos reales pendientes de confirmar; coordenadas reales de ciudad.
+
+  // 10 · Plus en proceso · Berlin
+  {
+    slug: "felix-wagner-berlin",
+    name: "Felix Wagner",
+    role: "Coach",
+    location: { city: "Berlín", country: "Alemania", coordinates: [52.52, 13.405] },
+    languages: ["de", "en"],
+    specialties: [],
+    socials: {},
+    tier: "coach",
+    type: "coach",
+    plusActive: true,
+    joinedAt: "2026-01-15",
+  },
+
+  // 11 · Plus en proceso · Amsterdam
+  {
+    slug: "sophie-van-dijk-amsterdam",
+    name: "Sophie van Dijk",
+    role: "Coach",
+    location: { city: "Ámsterdam", country: "Países Bajos", coordinates: [52.3702, 4.8952] },
+    languages: ["nl", "en"],
+    specialties: [],
+    socials: {},
+    tier: "coach",
+    type: "coach",
+    plusActive: true,
+    joinedAt: "2026-02-10",
+  },
+
+  // 12 · Plus en proceso · Varsovia
+  {
+    slug: "marta-kowalski-warsaw",
+    name: "Marta Kowalski",
+    role: "Coach",
+    location: { city: "Varsovia", country: "Polonia", coordinates: [52.2297, 21.0122] },
+    languages: ["pl", "en"],
+    specialties: [],
+    socials: {},
+    tier: "coach",
+    type: "coach",
+    plusActive: true,
+    joinedAt: "2026-03-01",
+  },
 ] as const;
 
 /** Lista de países únicos (alfabético) — para filtros. */
@@ -418,22 +482,31 @@ export const COACH_SPECIALTIES: readonly CoachSpecialty[] = [
 /**
  * Estado derivado del coach. 0 = mejor posicionado.
  * No se almacena — se computa en cada render. Los campos de verdad
- * son `tier`, `certifiedAt` y `certificationActive`.
+ * son `tier`, `certifiedAt`, `certificationActive` y `plusActive`.
+ *
+ *  - hq              → Sede J3 propia (Málaga Lab).
+ *  - certified-active → Plus o Verificado activo con certificación vigente.
+ *  - plus-in-progress → En Plan Plus, persiguiendo la certificación (sin obtenerla aún).
+ *                        Aparece en el mapa como dot fantasma — sin popup, sin interacción.
+ *  - ex-certified    → Tuvo certificación pero bajó de plan. No aparece en mapa.
+ *  - base            → Plan 19€. Nunca tuvo certificación. No aparece en mapa.
  */
-export type CoachStatus = "hq" | "certified-active" | "ex-certified" | "base";
+export type CoachStatus = "hq" | "certified-active" | "plus-in-progress" | "ex-certified" | "base";
 
 export function getCoachStatus(coach: Coach): CoachStatus {
   if (coach.tier === "hq") return "hq";
   if (coach.certifiedAt && coach.certificationActive) return "certified-active";
   if (coach.certifiedAt && !coach.certificationActive) return "ex-certified";
+  if (coach.plusActive) return "plus-in-progress";
   return "base";
 }
 
 const STATUS_ORDER: Record<CoachStatus, number> = {
   "hq": 0,
   "certified-active": 1,
-  "ex-certified": 2,
-  "base": 3,
+  "plus-in-progress": 2,
+  "ex-certified": 3,
+  "base": 4,
 };
 
 /** Devuelve una copia ordenada por (status) → (founder) → (joinedAt). */
@@ -466,10 +539,10 @@ export function isDecano(coach: Coach, referenceDate: Date = new Date()): boolea
 export interface CoachBadgeView {
   /** Estado computado del coach (certified-active / ex-certified / hq). */
   status: CoachStatus;
-  /** Nivel superior: "Recomendado J3" — J3 ha verificado aplicación real del
-   *  método con criterio (sesiones grabadas, seguimiento 1:1). Se deriva de
-   *  mentorActive: si paga Mentor, J3 mantiene contacto directo y lo avala. */
-  recommended: boolean;
+  /** Nivel superior: "Verificado J3" — J3 trabaja con este coach 1:1,
+   *  verifica su práctica real mediante sesiones grabadas y seguimiento
+   *  continuo. Se deriva de mentorActive (plan Verificado activo). */
+  verified: boolean;
   /** ¿Mostrar badge "Founder"? (distinción histórica). */
   founder: boolean;
   /** ¿Mostrar badge "Gen ONE"? (early adopter no-founder de 2025). */
@@ -507,7 +580,7 @@ export function getCoachBadges(coach: Coach, referenceDate: Date = new Date()): 
   const certActive = status === "certified-active";
   return {
     status,
-    recommended: certActive && !!coach.mentorActive,
+    verified: certActive && !!coach.mentorActive,
     founder: !!coach.founder,
     genOne: !!coach.genOne,
     specialties: certActive ? (coach.specialties ?? []).slice(0, 2) : [],
@@ -584,6 +657,17 @@ export function filterCoaches(coaches: readonly Coach[], filters: CoachFilters):
     if (filters.specialty !== "all" && !(c.specialties ?? []).includes(filters.specialty as CoachSpecialty)) return false;
     return true;
   });
+}
+
+/**
+ * Devuelve los coaches en proceso de certificación (plusActive sin certifiedAt).
+ * Estos no pasan por filterCoaches — son una capa visual aparte en el mapa
+ * (dots fantasma pulsantes, sin popup ni interacción).
+ * No se aplican filtros de país/idioma: los dots representan la red en
+ * crecimiento, no coaches contactables — siempre se ven todos.
+ */
+export function filterInProgressCoaches(coaches: readonly Coach[]): Coach[] {
+  return coaches.filter(c => getCoachStatus(c) === "plus-in-progress");
 }
 
 /**

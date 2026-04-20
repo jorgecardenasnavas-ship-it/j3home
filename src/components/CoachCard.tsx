@@ -28,7 +28,7 @@ interface CoachCardProps {
     badgeHq: string;
     badgeFounder: string;
     badgeGenOne: string;
-    badgeRecommended: string;
+    badgeVerified: string;
     distinctionFormaCoaches: string;
     distinctionJugadoresCircuito: string;
     distinctionMultilingue: string;
@@ -267,12 +267,6 @@ export default function CoachCard({ coach, labels, userCoords, onAsk }: CoachCar
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
                 {labels.certifiedSince}
-              </span>
-            )}
-            {badges.recommended && (
-              <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-[#f0c478] tracking-[0.3px]">
-                <span aria-hidden className="shrink-0 text-[12px] leading-none">★</span>
-                {labels.badgeRecommended}
               </span>
             )}
           </div>
