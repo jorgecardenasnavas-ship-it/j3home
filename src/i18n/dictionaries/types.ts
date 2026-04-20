@@ -558,18 +558,45 @@ export interface Dictionary {
         readonly cta: string;
         readonly href: string;
       };
-      /** Sección editorial "Coach del mes" — destaca un coach activo
-       *  elegido manualmente por J3. Se coloca entre la grid y el CTA
-       *  Coach360 como climax emocional de la sección de red. */
-      readonly coachOfMonth: {
-        readonly eyebrow: string;          // "Coach del mes"
+      /** Top 3 del mes — ranking mensual con #1 como hero editorial y
+       *  #2/#3 como cards satélite. Climax emocional entre la grid y
+       *  el CTA Coach360.
+       *
+       *  ESTADO ACTUAL: data hardcoded en i18n (actualización manual
+       *  mensual). El motor XP todavía se está definiendo.
+       *
+       *  ROADMAP API:
+       *    1. Cuando el sistema de XP esté maduro, la fuente de esta
+       *       estructura pasa de i18n a un hook useMonthlyRanking()
+       *       que llama a /api/rankings/current (real-time).
+       *    2. El backend deriva `outcomes` cualitativos desde el XP
+       *       crudo (sessions contributed, certifications, horas, etc.).
+       *       El número XP raw NUNCA se expone en UI — solo outcomes.
+       *    3. `outcomes` llega traducido según Accept-Language.
+       *    4. La UI (MonthlyRankingBlock) no cambia — solo la fuente.
+       *
+       *  POR DEFINIR (cuando toque):
+       *    - ¿Mensual calendario o rolling 30 días?
+       *    - ¿Snapshot diario o update en tiempo real en página?
+       *    - ¿Qué tipos de XP cuentan para ranking?
+       *    - Reglas anti-gaming (cooldowns, verificación manual, etc.).
+       */
+      readonly monthlyRanking: {
+        readonly eyebrow: string;           // "Top del mes"
         readonly period: string;            // "Abril 2026"
         readonly edition: string;           // "Nº 01"
-        readonly achievementLabel: string;  // "Logro del mes"
-        readonly achievement: string;       // texto editorial del logro
+        readonly achievementLabel: string;  // "Logro del mes" (solo #1)
+        readonly outcomesLabel: string;     // "Destacados" (#2 y #3)
         readonly ctaLabel: string;          // "Pregunta a J3"
-        /** Slug del coach a destacar. Debe existir en COACHES. */
-        readonly coachSlug: string;
+        /** Exactamente 3 entradas. Orden = ranking (índice 0 = #1, 1 = #2, 2 = #3). */
+        readonly top3: readonly {
+          /** Slug del coach en COACHES. Si no existe, la entrada se omite. */
+          readonly coachSlug: string;
+          /** Texto editorial largo (pull-quote). Solo usado por #1. */
+          readonly achievement?: string;
+          /** Outcomes cualitativos del mes. 2-3 bullets cortos por coach. */
+          readonly outcomes: readonly string[];
+        }[];
       };
     };
 

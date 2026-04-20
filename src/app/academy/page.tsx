@@ -2978,34 +2978,69 @@ function SedesBlock({ sedes, eyebrow }: { sedes: readonly Sede[]; eyebrow: strin
 }
 
 /**
- * CoachOfMonthBlock — sección editorial "Coach del mes".
- *
- * Destaca un coach activo elegido manualmente por J3 cada mes (vía i18n:
- * `coachOfMonth.coachSlug`). Actúa como climax emocional entre la grid
- * J3 Recommended y el CTA Coach360.
- *
- * Layout:
- *   Desktop: foto (55%) izquierda + contenido editorial (45%) derecha.
- *   Mobile:  stacked — foto arriba, contenido debajo.
- *
- * Diseño editorial:
- *   - Eyebrow con periodo a la derecha (thin gold rule entre ambos)
- *   - "Nº 01" en serif italic huge (feeling colecionable, revista)
- *   - Nombre en clamp grande (la tipografía más grande del bloque)
- *   - Logro como pull-quote con barra gold lateral
- *   - CTA → dispara chat-open event (consistente con popup del mapa)
- *
- * Si no se encuentra el coach (slug roto), renderiza null sin romper.
+ * TopOfMonthBadge — chip con el counter histórico "veces Top del mes".
+ * Reconoce la RECURRENCIA: los coaches que vuelven al podio mes a mes
+ * son pilares de la red, no flashes de un momento. Solo se renderiza
+ * si el counter > 0.
  */
-function CoachOfMonthBlock() {
+function TopOfMonthBadge({ count }: { count: number | undefined }) {
+  if (!count || count < 1) return null;
+  return (
+    <span
+      className="inline-flex items-center gap-1 px-2 py-[4px] backdrop-blur-sm"
+      style={{
+        background: "rgba(10,10,10,0.72)",
+        border: "1px solid rgba(220,175,100,0.45)",
+        borderRadius: 2,
+      }}
+      title={`${count}× Top del mes`}
+    >
+      {/* Icono corona minimalista — refleja "recurrencia en el podio" */}
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden style={{ color: "var(--g1)" }}>
+        <path d="M3 18h18" />
+        <path d="M4 9l4 4 4-7 4 7 4-4-1 9H5z" />
+      </svg>
+      <span className="text-[9px] font-bold tracking-[2px] uppercase text-[var(--g1)]">
+        {count}× Top
+      </span>
+    </span>
+  );
+}
+
+/**
+ * MonthlyRankingBlock — Top 3 del mes.
+ *
+ * Estructura:
+ *   - Eyebrow row: "TOP DEL MES" ── rule ── "ABRIL 2026"
+ *   - Hero #1: tratamiento editorial completo (foto grande, Nº 01,
+ *     nombre huge, achievement pull-quote, CTA gold, outcomes bullets)
+ *   - Satélites #2 y #3: cards más compactas, horizontal, con foto
+ *     mediana, nombre, ciudad, outcomes cortos. Sin achievement.
+ *
+ * DATA SOURCE: i18n (`network.monthlyRanking.top3`). Cuando la API de
+ * XP esté lista, sustituir por useMonthlyRanking() sin tocar la UI.
+ *
+ * ROADMAP (cuando el sistema XP esté definido):
+ *   - Outcomes derivados de XP crudo (sessions, hours, certs, etc.)
+ *   - Real-time update (hoy: snapshot manual mensual)
+ *   - timesTopOfMonth se deriva automáticamente del histórico
+ *   - XP raw nunca se expone — solo outcomes cualitativos
+ */
+function MonthlyRankingBlock() {
   const { t } = useI18n();
-  const s = t.academy.network.coachOfMonth;
-  const coach = COACHES.find((c) => c.slug === s.coachSlug);
-  if (!coach) return null;
+  const s = t.academy.network.monthlyRanking;
 
-  const badges = getCoachBadges(coach);
+  /* Resolver coaches de cada posición a partir del slug. Si algún
+     slug no existe en COACHES, se filtra (no rompe el render). */
+  const ranked = s.top3
+    .map((entry) => ({ entry, coach: COACHES.find((c) => c.slug === entry.coachSlug) }))
+    .filter((x): x is { entry: typeof s.top3[number]; coach: Coach } => !!x.coach);
 
-  const handleAsk = () => {
+  if (ranked.length === 0) return null;
+
+  const [first, ...rest] = ranked;
+
+  const handleAsk = (coach: Coach) => {
     window.dispatchEvent(
       new CustomEvent("j3:chat:open", {
         detail: {
@@ -3018,19 +3053,18 @@ function CoachOfMonthBlock() {
 
   return (
     <div className="relative border-t border-white/[.07]">
-      {/* Gradient radial sutil de fondo — da un 'halo' al featured coach
-          sin romper el dark continuo de la sección. */}
+      {/* Halo radial sutil — da énfasis al bloque sin romper el dark continuo. */}
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle at 25% 45%, rgba(220,175,100,0.05), transparent 55%)",
+            "radial-gradient(circle at 25% 40%, rgba(220,175,100,0.05), transparent 55%)",
         }}
       />
 
       <div className="relative px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-20 max-[960px]:py-14">
-        {/* Eyebrow row: "COACH DEL MES" · ruleline · "ABRIL 2026" */}
+        {/* Eyebrow row con rule gold separando eyebrow y periodo */}
         <div className="flex items-center gap-4 mb-10 max-[640px]:mb-7">
           <span className="text-[10px] font-bold tracking-[5px] uppercase text-[var(--g1)]">
             {s.eyebrow}
@@ -3041,165 +3075,346 @@ function CoachOfMonthBlock() {
           </span>
         </div>
 
-        <div className="grid min-[960px]:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] gap-10 max-[960px]:gap-7 min-[960px]:items-stretch">
-          {/* PHOTO column */}
-          <div className="relative overflow-hidden aspect-[4/3] min-[960px]:aspect-auto min-[960px]:min-h-[520px]" style={{ background: "#000" }}>
-            {coach.photo ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={coach.photo}
-                alt={coach.name}
-                className="absolute inset-0 w-full h-full object-cover"
-                style={{ filter: "saturate(0.92) contrast(0.98)" }}
+        {/* ═══ HERO #1 — Editorial completo ═══ */}
+        <MonthlyRankingHero
+          coach={first.coach}
+          entry={first.entry}
+          labels={{
+            edition: s.edition,
+            achievementLabel: s.achievementLabel,
+            outcomesLabel: s.outcomesLabel,
+            ctaLabel: s.ctaLabel,
+            badgeVerified: t.academy.network.badgeVerified,
+          }}
+          onAsk={handleAsk}
+        />
+
+        {/* ═══ SATÉLITES #2 y #3 — Cards más sobrias ═══ */}
+        {rest.length > 0 && (
+          <div className="mt-10 max-[640px]:mt-7 grid min-[960px]:grid-cols-2 gap-6 max-[640px]:gap-5">
+            {rest.map((r, i) => (
+              <MonthlyRankingSatellite
+                key={r.coach.slug}
+                rank={i + 2}
+                coach={r.coach}
+                entry={r.entry}
+                labels={{
+                  outcomesLabel: s.outcomesLabel,
+                  badgeVerified: t.academy.network.badgeVerified,
+                }}
+                onAsk={handleAsk}
               />
-            ) : (
-              <div
-                aria-hidden
-                className="absolute inset-0 flex items-center justify-center"
-                style={{
-                  background:
-                    "radial-gradient(circle at 50% 40%, rgba(220,175,100,0.15) 0%, rgba(18,18,20,1) 65%)",
-                }}
-              >
-                <span
-                  className="j3-grad-text font-bold font-[var(--font-serif)] italic normal-case select-none"
-                  style={{
-                    fontSize: "clamp(80px, 14vw, 140px)",
-                    letterSpacing: "-3px",
-                    filter: "drop-shadow(0 6px 24px rgba(0,0,0,0.55))",
-                  }}
-                >
-                  {getInitials(coach.name)}
-                </span>
-              </div>
-            )}
-
-            {/* Vignette bottom para lectura si hay texto superpuesto futuramente */}
-            <div
-              aria-hidden
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background:
-                  "linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.45) 100%)",
-              }}
-            />
-
-            {/* Tier badge overlay top-left (Certificado J3 si aplica) */}
-            {badges.verified && (
-              <div
-                className="absolute top-5 left-5 inline-flex items-center gap-1.5 px-2.5 py-[5px] backdrop-blur-sm"
-                style={{
-                  background: "rgba(10,10,10,0.72)",
-                  border: "1px solid rgba(220,175,100,0.6)",
-                  borderRadius: 2,
-                }}
-              >
-                <span
-                  aria-hidden
-                  style={{
-                    width: 14,
-                    height: 14,
-                    borderRadius: 999,
-                    background: "linear-gradient(135deg, #f0c478, #b8943e)",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                </span>
-                <span className="text-[9px] font-bold tracking-[2px] uppercase text-[var(--g1)]">
-                  {t.academy.network.badgeVerified}
-                </span>
-              </div>
-            )}
+            ))}
           </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
-          {/* CONTENT column */}
-          <div className="flex flex-col justify-between gap-8 max-[960px]:gap-6 py-2">
-            <div>
-              {/* Número de edición — serif italic huge, feeling magazine */}
-              <span
-                className="block j3-grad-text font-[var(--font-serif)] italic leading-[0.85]"
-                style={{
-                  fontSize: "clamp(64px, 7vw, 104px)",
-                  letterSpacing: "-3px",
-                }}
-              >
-                {s.edition}
-              </span>
-
-              {/* Nombre del coach — la tipografía más grande del bloque.
-                  Sin uppercase: el serif italic del Nº ya es el "acento",
-                  el nombre sobrio en sans remarca su presencia. */}
-              <h3
-                className="mt-5 font-bold leading-[1] tracking-[-1.5px]"
-                style={{
-                  color: "var(--wh)",
-                  fontSize: "clamp(34px, 3.8vw, 56px)",
-                }}
-              >
-                {coach.name}
-              </h3>
-
-              {/* Ciudad + país con separador · */}
-              <p className="mt-3 text-[14px] font-medium tracking-[0.4px] text-white/70">
-                {coach.location.city} · {coach.location.country}
-              </p>
-            </div>
-
-            {/* Logro del mes — pull-quote con barra gold lateral */}
-            <div
-              className="relative pl-5 py-1"
+/** Hero #1 del ranking — foto grande + editorial completo. */
+function MonthlyRankingHero({
+  coach,
+  entry,
+  labels,
+  onAsk,
+}: {
+  coach: Coach;
+  entry: { achievement?: string; outcomes: readonly string[] };
+  labels: {
+    edition: string;
+    achievementLabel: string;
+    outcomesLabel: string;
+    ctaLabel: string;
+    badgeVerified: string;
+  };
+  onAsk: (c: Coach) => void;
+}) {
+  const badges = getCoachBadges(coach);
+  return (
+    <div className="grid min-[960px]:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] gap-10 max-[960px]:gap-7 min-[960px]:items-stretch">
+      {/* FOTO */}
+      <div className="relative overflow-hidden aspect-[4/3] min-[960px]:aspect-auto min-[960px]:min-h-[520px]" style={{ background: "#000" }}>
+        {coach.photo ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={coach.photo}
+            alt={coach.name}
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ filter: "saturate(0.92) contrast(0.98)" }}
+          />
+        ) : (
+          <div
+            aria-hidden
+            className="absolute inset-0 flex items-center justify-center"
+            style={{
+              background:
+                "radial-gradient(circle at 50% 40%, rgba(220,175,100,0.15) 0%, rgba(18,18,20,1) 65%)",
+            }}
+          >
+            <span
+              className="j3-grad-text font-bold font-[var(--font-serif)] italic normal-case select-none"
               style={{
-                borderLeft: "2px solid rgba(220,175,100,0.55)",
+                fontSize: "clamp(80px, 14vw, 140px)",
+                letterSpacing: "-3px",
+                filter: "drop-shadow(0 6px 24px rgba(0,0,0,0.55))",
               }}
             >
-              <span className="block text-[9px] font-bold tracking-[3px] uppercase text-[var(--g1)] mb-2">
-                {s.achievementLabel}
-              </span>
-              <p
-                className="text-[14px] max-[960px]:text-[13px] leading-[1.55] italic"
-                style={{ color: "rgba(245,240,232,0.88)" }}
-              >
-                {s.achievement}
-              </p>
-            </div>
+              {getInitials(coach.name)}
+            </span>
+          </div>
+        )}
 
-            {/* CTA — consistente con "Pregunta a J3" del popup del mapa.
-                Abre el chat con contexto del coach (mismo flujo). */}
-            <button
-              type="button"
-              onClick={handleAsk}
-              className="group inline-flex items-center gap-2 text-[11px] font-bold tracking-[2.5px] uppercase text-[#000] px-6 py-3 self-start transition-all duration-300"
+        <div
+          aria-hidden
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.45) 100%)",
+          }}
+        />
+
+        {/* Badges overlay top-left: Certificado + Veces Top (histórico) */}
+        <div className="absolute top-5 left-5 flex flex-wrap gap-1.5 max-w-[calc(100%-40px)]">
+          {badges.verified && (
+            <div
+              className="inline-flex items-center gap-1.5 px-2.5 py-[5px] backdrop-blur-sm"
               style={{
-                background: "linear-gradient(135deg, #f0c478, #dcaf64)",
+                background: "rgba(10,10,10,0.72)",
+                border: "1px solid rgba(220,175,100,0.6)",
                 borderRadius: 2,
-                boxShadow: "0 4px 16px rgba(220,175,100,0.25)",
               }}
             >
-              {s.ctaLabel}
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+              <span
                 aria-hidden
-                className="transition-transform duration-300 group-hover:translate-x-1"
+                style={{
+                  width: 14,
+                  height: 14,
+                  borderRadius: 999,
+                  background: "linear-gradient(135deg, #f0c478, #b8943e)",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
               >
-                <path d="M5 12h14" />
-                <path d="M12 5l7 7-7 7" />
-              </svg>
-            </button>
-          </div>
+                <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </span>
+              <span className="text-[9px] font-bold tracking-[2px] uppercase text-[var(--g1)]">
+                {labels.badgeVerified}
+              </span>
+            </div>
+          )}
+          <TopOfMonthBadge count={coach.timesTopOfMonth} />
         </div>
       </div>
+
+      {/* CONTENIDO */}
+      <div className="flex flex-col justify-between gap-8 max-[960px]:gap-6 py-2">
+        <div>
+          <span
+            className="block j3-grad-text font-[var(--font-serif)] italic leading-[0.85]"
+            style={{ fontSize: "clamp(64px, 7vw, 104px)", letterSpacing: "-3px" }}
+          >
+            {labels.edition}
+          </span>
+          <h3
+            className="mt-5 font-bold leading-[1] tracking-[-1.5px]"
+            style={{ color: "var(--wh)", fontSize: "clamp(34px, 3.8vw, 56px)" }}
+          >
+            {coach.name}
+          </h3>
+          <p className="mt-3 text-[14px] font-medium tracking-[0.4px] text-white/70">
+            {coach.location.city} · {coach.location.country}
+          </p>
+        </div>
+
+        {/* Logro del mes — pull-quote (solo #1). Si no hay achievement
+            en i18n, caemos a listar outcomes como bullet. */}
+        {entry.achievement ? (
+          <div className="relative pl-5 py-1" style={{ borderLeft: "2px solid rgba(220,175,100,0.55)" }}>
+            <span className="block text-[9px] font-bold tracking-[3px] uppercase text-[var(--g1)] mb-2">
+              {labels.achievementLabel}
+            </span>
+            <p className="text-[14px] max-[960px]:text-[13px] leading-[1.55] italic" style={{ color: "rgba(245,240,232,0.88)" }}>
+              {entry.achievement}
+            </p>
+          </div>
+        ) : entry.outcomes.length > 0 ? (
+          <OutcomesList label={labels.outcomesLabel} outcomes={entry.outcomes} />
+        ) : null}
+
+        {/* CTA gold lleno */}
+        <button
+          type="button"
+          onClick={() => onAsk(coach)}
+          className="group inline-flex items-center gap-2 text-[11px] font-bold tracking-[2.5px] uppercase text-[#000] px-6 py-3 self-start transition-all duration-300"
+          style={{
+            background: "linear-gradient(135deg, #f0c478, #dcaf64)",
+            borderRadius: 2,
+            boxShadow: "0 4px 16px rgba(220,175,100,0.25)",
+          }}
+        >
+          {labels.ctaLabel}
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
+            <path d="M5 12h14" />
+            <path d="M12 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/** Satélite #2/#3 — card compacta horizontal (foto 40% + contenido 60%). */
+function MonthlyRankingSatellite({
+  rank,
+  coach,
+  entry,
+  labels,
+  onAsk,
+}: {
+  rank: number;
+  coach: Coach;
+  entry: { outcomes: readonly string[] };
+  labels: { outcomesLabel: string; badgeVerified: string };
+  onAsk: (c: Coach) => void;
+}) {
+  const badges = getCoachBadges(coach);
+  const editionLabel = `Nº 0${rank}`;
+  return (
+    <button
+      type="button"
+      onClick={() => onAsk(coach)}
+      className="group relative overflow-hidden border border-white/[.08] hover:border-[var(--g1)]/40 transition-colors duration-500 text-left"
+      style={{ borderRadius: 2, background: "#0a0a0a" }}
+    >
+      <div className="grid grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] min-h-[220px] max-[640px]:min-h-[180px]">
+        {/* FOTO izquierda */}
+        <div className="relative overflow-hidden" style={{ background: "#000" }}>
+          {coach.photo ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={coach.photo}
+              alt={coach.name}
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{ filter: "saturate(0.9) contrast(0.98) brightness(0.92)" }}
+            />
+          ) : (
+            <div
+              aria-hidden
+              className="absolute inset-0 flex items-center justify-center"
+              style={{
+                background:
+                  "radial-gradient(circle at 50% 40%, rgba(220,175,100,0.14) 0%, rgba(18,18,20,1) 65%)",
+              }}
+            >
+              <span
+                className="j3-grad-text font-bold font-[var(--font-serif)] italic normal-case"
+                style={{
+                  fontSize: "clamp(48px, 6vw, 72px)",
+                  letterSpacing: "-2px",
+                }}
+              >
+                {getInitials(coach.name)}
+              </span>
+            </div>
+          )}
+          <div
+            aria-hidden
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.4) 100%)",
+            }}
+          />
+          {/* Badges overlay top-left: Certificado + Veces Top */}
+          <div className="absolute top-3 left-3 flex flex-wrap gap-1 max-w-[calc(100%-24px)]">
+            {badges.verified && (
+              <span
+                className="inline-flex items-center gap-1 px-1.5 py-[3px] backdrop-blur-sm"
+                style={{
+                  background: "rgba(10,10,10,0.72)",
+                  border: "1px solid rgba(220,175,100,0.55)",
+                  borderRadius: 2,
+                }}
+                title={labels.badgeVerified}
+              >
+                <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden style={{ color: "var(--g1)" }}>
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </span>
+            )}
+            <TopOfMonthBadge count={coach.timesTopOfMonth} />
+          </div>
+        </div>
+
+        {/* CONTENIDO derecha */}
+        <div className="flex flex-col justify-between gap-4 p-5 max-[640px]:p-4">
+          <div>
+            <span
+              className="block j3-grad-text font-[var(--font-serif)] italic leading-[0.9]"
+              style={{ fontSize: "clamp(28px, 3vw, 40px)", letterSpacing: "-1.5px" }}
+            >
+              {editionLabel}
+            </span>
+            <h4
+              className="mt-2 font-bold leading-[1.1] tracking-[-0.5px]"
+              style={{ color: "var(--wh)", fontSize: "clamp(18px, 2vw, 22px)" }}
+            >
+              {coach.name}
+            </h4>
+            <p className="mt-1 text-[11px] font-medium tracking-[0.3px] text-white/60">
+              {coach.location.city} · {coach.location.country}
+            </p>
+          </div>
+
+          {entry.outcomes.length > 0 && (
+            <OutcomesList label={labels.outcomesLabel} outcomes={entry.outcomes} compact />
+          )}
+        </div>
+      </div>
+    </button>
+  );
+}
+
+/** Lista compartida de outcomes — bullets gold con texto muted. */
+function OutcomesList({
+  label,
+  outcomes,
+  compact = false,
+}: {
+  label: string;
+  outcomes: readonly string[];
+  compact?: boolean;
+}) {
+  return (
+    <div>
+      <span className={`block font-bold tracking-[2.5px] uppercase text-[var(--g1)] mb-2 ${compact ? "text-[8px] mb-1" : "text-[9px]"}`}>
+        {label}
+      </span>
+      <ul className="flex flex-col gap-[3px]">
+        {outcomes.map((o, i) => (
+          <li
+            key={i}
+            className={`flex items-start gap-2 leading-[1.45] ${compact ? "text-[11px]" : "text-[13px]"}`}
+            style={{ color: "rgba(245,240,232,0.82)" }}
+          >
+            <span
+              aria-hidden
+              className="shrink-0 mt-[6px]"
+              style={{
+                width: 4,
+                height: 4,
+                borderRadius: 999,
+                background: "var(--g1)",
+              }}
+            />
+            <span>{o}</span>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -3612,10 +3827,13 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
         )}
       </div>
 
-      {/* Coach del mes — pieza editorial que cierra la sección con emoción
-          antes del CTA Coach360. Se actualiza manualmente vía i18n
-          (coachSlug + achievement). */}
-      <CoachOfMonthBlock />
+      {/* Top 3 del mes — ranking editorial que cierra la sección con
+          emoción antes del CTA Coach360. #1 con tratamiento hero
+          completo, #2 y #3 como cards satélite más sobrias. Se
+          actualiza vía i18n (top3 + outcomes); pasará a fuente API
+          cuando el sistema XP esté listo — ver comentario en el
+          componente MonthlyRankingBlock. */}
+      <MonthlyRankingBlock />
 
       {/* Coach360 CTA */}
       <div id="coach360" className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto pb-[80px] max-[960px]:pb-[56px] scroll-mt-[120px]">

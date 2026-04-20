@@ -796,14 +796,28 @@ export const en = {
         cta: "Entrar a Coach360",
         href: "https://j3padel.com/join",
       },
-      coachOfMonth: {
-        eyebrow: "Coach of the month",
+      monthlyRanking: {
+        eyebrow: "Top of the month",
         period: "April 2026",
         edition: "N\u00BA 01",
         achievementLabel: "Achievement of the month",
-        achievement: "Unlocked the Trains other coaches distinction this month. His session with Marc Torres set the methodological standard for the J3 network.",
+        outcomesLabel: "Highlights",
         ctaLabel: "Ask J3",
-        coachSlug: "nacho-gonzalez-sevilla",
+        top3: [
+          {
+            coachSlug: "nacho-gonzalez-sevilla",
+            achievement: "Unlocked the Trains other coaches distinction this month. His session with Marc Torres set the methodological standard for the J3 network.",
+            outcomes: ["4 sessions contributed", "12 coaches trained"],
+          },
+          {
+            coachSlug: "giulia-rossi-milano",
+            outcomes: ["Top multilingual contributor", "3 students certified"],
+          },
+          {
+            coachSlug: "laura-vega-valencia",
+            outcomes: ["Most watched competition session", "48 h taught"],
+          },
+        ],
       },
     },
 

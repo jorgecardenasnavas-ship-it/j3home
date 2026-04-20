@@ -796,14 +796,28 @@ export const sv = {
         cta: "Entrar a Coach360",
         href: "https://j3padel.com/join",
       },
-      coachOfMonth: {
-        eyebrow: "M\u00E5nadens coach",
+      monthlyRanking: {
+        eyebrow: "M\u00E5nadens topp",
         period: "April 2026",
         edition: "N\u00BA 01",
         achievementLabel: "M\u00E5nadens prestation",
-        achievement: "L\u00E5ste upp utm\u00E4rkelsen Utbildar andra tr\u00E4nare denna m\u00E5nad. Hans session med Marc Torres satte metodisk standard f\u00F6r J3-n\u00E4tverket.",
+        outcomesLabel: "H\u00F6jdpunkter",
         ctaLabel: "Fr\u00E5ga J3",
-        coachSlug: "nacho-gonzalez-sevilla",
+        top3: [
+          {
+            coachSlug: "nacho-gonzalez-sevilla",
+            achievement: "L\u00E5ste upp utm\u00E4rkelsen Utbildar andra tr\u00E4nare denna m\u00E5nad. Hans session med Marc Torres satte metodisk standard f\u00F6r J3-n\u00E4tverket.",
+            outcomes: ["4 bidragna sessioner", "12 tr\u00E4nare utbildade"],
+          },
+          {
+            coachSlug: "giulia-rossi-milano",
+            outcomes: ["Topp flerspr\u00E5kig bidragsgivare", "3 elever certifierade"],
+          },
+          {
+            coachSlug: "laura-vega-valencia",
+            outcomes: ["Mest sedda t\u00E4vlingssession", "48 h undervisade"],
+          },
+        ],
       },
     },
 

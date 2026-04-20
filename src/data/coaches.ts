@@ -164,6 +164,16 @@ export interface Coach {
    * independientemente de si el coach sigue o no en Plan Mentor.
    */
   distinctions?: CoachDistinction[];
+  /**
+   * Nº de veces que el coach ha aparecido en el Top 3 del mes
+   * (cualquier posición). Contador histórico acumulado que comunica
+   * recurrencia: quien entra 3+ veces es un pilar constante de la red.
+   *
+   * TODO: cuando el sistema XP esté integrado via API, este campo se
+   * deriva automáticamente del historial de rankings. Por ahora se
+   * rellena a mano en el dataset.
+   */
+  timesTopOfMonth?: number;
   /** Fecha ISO (YYYY-MM-DD) de alta en la plataforma. Inmutable.
    *  La card la muestra como "Coach360 desde {mes año}". */
   joinedAt: string;
@@ -282,6 +292,7 @@ export const COACHES: readonly Coach[] = [
     founder: true,
     certifiedAt: "2026-02-15",
     certificationActive: true,
+    timesTopOfMonth: 1,
     joinedAt: "2025-08-01",
   },
 
@@ -312,6 +323,7 @@ export const COACHES: readonly Coach[] = [
       "juniors-tecnificacion",
       "reeducacion-tecnica",
     ],
+    timesTopOfMonth: 3,
     joinedAt: "2025-08-01",
   },
 
@@ -335,6 +347,7 @@ export const COACHES: readonly Coach[] = [
     certificationActive: true,
     mentorActive: true,
     distinctions: ["multilingue", "iniciacion-adulto", "grupos-mixtos"],
+    timesTopOfMonth: 2,
     joinedAt: "2025-11-03",
   },
 

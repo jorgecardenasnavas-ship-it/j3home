@@ -796,14 +796,28 @@ export const fr = {
         cta: "Entrar a Coach360",
         href: "https://j3padel.com/join",
       },
-      coachOfMonth: {
-        eyebrow: "Coach du mois",
+      monthlyRanking: {
+        eyebrow: "Top du mois",
         period: "Avril 2026",
         edition: "N\u00BA 01",
         achievementLabel: "R\u00E9ussite du mois",
-        achievement: "A d\u00E9bloqu\u00E9 la distinction Forme d\u2019autres coachs ce mois-ci. Sa session avec Marc Torres a d\u00E9fini la r\u00E9f\u00E9rence m\u00E9thodologique du r\u00E9seau J3.",
+        outcomesLabel: "Points forts",
         ctaLabel: "Demander \u00E0 J3",
-        coachSlug: "nacho-gonzalez-sevilla",
+        top3: [
+          {
+            coachSlug: "nacho-gonzalez-sevilla",
+            achievement: "A d\u00E9bloqu\u00E9 la distinction Forme d\u2019autres coachs ce mois-ci. Sa session avec Marc Torres a d\u00E9fini la r\u00E9f\u00E9rence m\u00E9thodologique du r\u00E9seau J3.",
+            outcomes: ["4 sessions contribu\u00E9es", "12 coachs form\u00E9s"],
+          },
+          {
+            coachSlug: "giulia-rossi-milano",
+            outcomes: ["Meilleur contributeur multilingue", "3 \u00E9l\u00E8ves certifi\u00E9s"],
+          },
+          {
+            coachSlug: "laura-vega-valencia",
+            outcomes: ["Session de comp\u00E9tition la plus vue", "48 h enseign\u00E9es"],
+          },
+        ],
       },
     },
 
