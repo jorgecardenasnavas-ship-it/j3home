@@ -727,6 +727,7 @@ export const pt = {
       mapHint: "Rede Coach360 \u00B7 certificados e recomendados pelo mundo",
       gridLabel: "J3 Recommended",
       gridHeading: "Encontra o teu coach.",
+      statsLine: "{showing} de {total} coaches \u00B7 {countries} pa\u00EDses \u00B7 {languages} idiomas",
       filterAll: "Todos",
       filterCountry: "País",
       filterLanguage: "Idioma",

@@ -7,6 +7,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import CoachCard from "@/components/CoachCard";
 import { FilterSelect } from "@/components/FilterSelect";
+import { FilterChips } from "@/components/FilterChips";
 import { useI18n } from "@/i18n/context";
 import { languageLabel } from "@/lib/languages";
 import { haversineKm, formatDistance, type LatLng } from "@/lib/geo";
@@ -3095,38 +3096,78 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
 
       {/* Coaches grid */}
       <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto pb-12 max-[960px]:pb-10">
-        <div className="flex items-baseline flex-wrap gap-x-5 gap-y-1 mb-6">
+        {/* Header de la grid: eyebrow + heading (sin contador, ahora vive
+            en la stat-line más abajo junto a los filtros). */}
+        <div className="flex items-baseline flex-wrap gap-x-5 gap-y-1 mb-3">
           <span className="text-[10px] font-bold tracking-[4px] uppercase text-[var(--g1)]">
             {t.academy.network.gridLabel}
           </span>
           <h3 className="font-[var(--font-serif)] italic text-[clamp(18px,1.5vw,22px)] j3-grad-text">
             {t.academy.network.gridHeading}
           </h3>
-          <span className="ml-auto text-[11px] opacity-55 tracking-[2px] uppercase" style={{ color: "var(--wh)" }}>
-            {filtered.length} / {allCoaches.length}
-          </span>
         </div>
 
-        {/* Filtros */}
-        <div className="flex flex-wrap items-center gap-3 max-[960px]:gap-2 mb-6 text-[12px] max-[960px]:text-[11px]" style={{ color: "var(--wh)" }}>
+        {/* Stat-line — conecta los filtros con su resultado. Se actualiza
+            reactivamente conforme cambian país/idioma/especialidad. Los
+            números van en gold bold para destacar sobre el texto muted.
+            Template con 4 placeholders: {showing} {total} {countries} {languages}. */}
+        <p className="text-[11px] tracking-[1.8px] uppercase text-white/55 mb-5">
+          {(() => {
+            const values: Record<string, string> = {
+              showing: filtered.length.toString(),
+              total: allCoaches.length.toString(),
+              countries: new Set(filtered.map(c => c.location.country)).size.toString(),
+              languages: new Set(filtered.flatMap(c => c.languages ?? [])).size.toString(),
+            };
+            /* Split en cualquier placeholder {xxx}, devolviendo una lista
+               intercalada de texto plano y tokens a sustituir. Render como
+               spans para poder estilar los números en gold. */
+            return t.academy.network.statsLine.split(/(\{[^}]+\})/).map((part, i) => {
+              const m = part.match(/^\{([^}]+)\}$/);
+              if (m) {
+                return (
+                  <span key={i} className="font-bold text-[var(--g1)]">
+                    {values[m[1]] ?? part}
+                  </span>
+                );
+              }
+              return <span key={i}>{part}</span>;
+            });
+          })()}
+        </p>
+
+        {/* Filtros — fila unificada con estados activos visibles */}
+        <div className="flex flex-wrap items-center gap-2.5 max-[960px]:gap-2 mb-6 text-[12px] max-[960px]:text-[11px]" style={{ color: "var(--wh)" }}>
           <FilterSelect
             label={t.academy.network.filterCountry}
             value={country}
             onChange={setCountry}
+            isActive={country !== "all"}
             options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_COUNTRIES.map(c => ({ value: c, label: c }))]}
           />
           <FilterSelect
             label={t.academy.network.filterLanguage}
             value={language}
             onChange={setLanguage}
+            isActive={language !== "all"}
             options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_LANGUAGES.map(l => ({ value: l, label: languageLabel(l) }))]}
           />
-          <FilterSelect
+
+          {/* Especialidad como chips — 5 opciones, tap directo sin abrir
+              dropdown. Más táctil y rápido que un <select> para pocas opciones. */}
+          <FilterChips
             label={t.academy.network.filterSpecialty}
             value={specialty}
             onChange={setSpecialty}
-            options={[{ value: "all", label: t.academy.network.filterAll }, ...COACH_SPECIALTIES.map(s => ({ value: s, label: specialtyLabel(s) }))]}
+            options={[
+              { value: "all", label: t.academy.network.filterAll },
+              ...COACH_SPECIALTIES.map(s => ({ value: s, label: specialtyLabel(s) })),
+            ]}
           />
+
+          {/* Divider sutil antes de las acciones (geo + reset) — separa
+              "filtros de contenido" de "acciones globales". */}
+          <span aria-hidden className="h-5 w-px bg-white/15 max-[960px]:hidden" />
 
           {/* Cerca de mí — botón de geolocalización opt-in. Cambia de
               aspecto según el estado del hook (idle/loading/success/error).
@@ -3136,8 +3177,8 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
             <button
               type="button"
               onClick={geo.clear}
-              className="group inline-flex items-center gap-2 px-3 py-1.5 text-[10px] tracking-[2px] uppercase font-bold text-[#000] bg-gradient-to-br from-[#f0c478] to-[#dcaf64] hover:brightness-110 transition-all"
-              style={{ borderRadius: 2 }}
+              className="group inline-flex items-center gap-2 px-3 py-[7px] text-[10px] tracking-[2px] uppercase font-bold text-[#000] bg-gradient-to-br from-[#f0c478] to-[#dcaf64] hover:brightness-110 transition-all"
+              style={{ borderRadius: 2, boxShadow: "0 2px 10px rgba(220,175,100,0.25)" }}
               aria-label={t.academy.network.nearMeActive}
             >
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
@@ -3159,7 +3200,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
               type="button"
               onClick={geo.request}
               disabled={geo.status === "loading"}
-              className="inline-flex items-center gap-2 px-3 py-1.5 text-[10px] tracking-[2px] uppercase font-bold text-[var(--g1)] border border-[var(--g1)]/50 hover:border-[var(--g1)] hover:bg-[var(--g1)]/10 disabled:opacity-60 transition-all"
+              className="inline-flex items-center gap-2 px-3 py-[7px] text-[10px] tracking-[2px] uppercase font-bold text-[var(--g1)] border border-[var(--g1)]/50 hover:border-[var(--g1)] hover:bg-[var(--g1)]/10 disabled:opacity-60 transition-all"
               style={{ borderRadius: 2 }}
             >
               {geo.status === "loading" ? (
@@ -3181,13 +3222,21 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
               </span>
             </button>
           )}
+
+          {/* Reset — botón con forma consistente (no link) cuando hay filtros
+              activos. Icono 'undo' para señalizar "deshacer filtros". */}
           {hasAnyFilter && (
             <button
               type="button"
               onClick={resetFilters}
-              className="text-[10px] tracking-[2px] uppercase text-[var(--g1)] hover:underline underline-offset-4"
+              className="inline-flex items-center gap-1.5 px-3 py-[7px] text-[10px] tracking-[2px] uppercase font-bold text-[var(--g1)] border border-[var(--g1)]/30 hover:border-[var(--g1)]/70 hover:bg-[var(--g1)]/5 transition-all"
+              style={{ borderRadius: 2 }}
             >
-              {t.academy.network.filterReset}
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <path d="M3 12a9 9 0 0 1 15-6.7L21 8" />
+                <path d="M21 3v5h-5" />
+              </svg>
+              <span>{t.academy.network.filterReset}</span>
             </button>
           )}
         </div>

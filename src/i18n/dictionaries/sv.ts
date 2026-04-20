@@ -727,6 +727,7 @@ export const sv = {
       mapHint: "Coach360-n\u00E4tverket \u00B7 certifierade och rekommenderade v\u00E4rlden \u00F6ver",
       gridLabel: "J3 Recommended",
       gridHeading: "Hitta din coach.",
+      statsLine: "{showing} av {total} coacher \u00B7 {countries} l\u00E4nder \u00B7 {languages} spr\u00E5k",
       filterAll: "Todos",
       filterCountry: "País",
       filterLanguage: "Idioma",

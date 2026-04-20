@@ -421,6 +421,11 @@ export interface Dictionary {
       readonly mapHint: string;
       readonly gridLabel: string;
       readonly gridHeading: string;
+      /** Línea de estadísticas arriba de los filtros. Template con 4 placeholders:
+       *  {showing} = coaches filtrados, {total} = total, {countries} = países en el
+       *  resultado filtrado, {languages} = idiomas en el resultado filtrado.
+       *  Ej: "9 de 12 coaches · 6 países · 4 idiomas" */
+      readonly statsLine: string;
       readonly filterAll: string;
       readonly filterCountry: string;
       readonly filterLanguage: string;

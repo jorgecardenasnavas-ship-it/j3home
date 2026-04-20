@@ -727,6 +727,7 @@ export const en = {
       mapHint: "Coach360 network \u00B7 certified and recommended worldwide",
       gridLabel: "J3 Recommended",
       gridHeading: "Find your coach.",
+      statsLine: "{showing} of {total} coaches \u00B7 {countries} countries \u00B7 {languages} languages",
       filterAll: "Todos",
       filterCountry: "País",
       filterLanguage: "Idioma",
