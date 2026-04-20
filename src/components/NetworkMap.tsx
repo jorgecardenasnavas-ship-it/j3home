@@ -1091,9 +1091,15 @@ function makeClusterIcon(count: number): L.DivIcon {
  */
 function InProgressPopupContent({ coach: c, labels }: { coach: Coach; labels: PopupLabels }) {
   const initials = c.name.split(" ").map((w) => w[0]).slice(0, 2).join("");
+  /* Antigüedad en la red — credibilidad incluso sin certificación
+     ("lleva X meses en el sistema, comprometido con el proceso"). */
+  const memberSinceText = labels.memberSince.replace(
+    "{date}",
+    formatMonthYear(c.joinedAt, labels.monthShort),
+  );
   return (
     <div style={{ minWidth: 200, maxWidth: 240 }}>
-      {/* Header compacto: avatar iniciales (sin foto) + nombre + ciudad */}
+      {/* Header compacto: avatar iniciales (sin foto) + nombre + ciudad + miembro desde */}
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
         <div
           aria-hidden
@@ -1119,8 +1125,11 @@ function InProgressPopupContent({ coach: c, labels }: { coach: Coach; labels: Po
           <div style={{ fontWeight: 700, fontSize: 14, lineHeight: 1.2, marginBottom: 2, letterSpacing: "-0.2px" }}>
             {c.name}
           </div>
-          <div style={{ fontSize: 10.5, opacity: 0.65 }}>
+          <div style={{ fontSize: 10.5, opacity: 0.65, lineHeight: 1.35 }}>
             {c.location.city}, {c.location.country}
+          </div>
+          <div style={{ fontSize: 10, opacity: 0.55, lineHeight: 1.35, marginTop: 1 }}>
+            {memberSinceText}
           </div>
         </div>
       </div>
