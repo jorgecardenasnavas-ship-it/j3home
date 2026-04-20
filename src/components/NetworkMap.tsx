@@ -2039,6 +2039,14 @@ export default function NetworkMap({
 }: NetworkMapProps) {
   const coaches = useMemo(() => [...coachesProp], [coachesProp]);
   const inProgressCoaches = useMemo(() => [...inProgressProp], [inProgressProp]);
+  /* Lista unificada para encuadres — AutoFitBounds y Reset view deben
+     ver todo lo pintado en el mapa (pins gold + dots hollow), no solo
+     los certificados. Así el primer pantallazo incluye a Coach360 en
+     proceso como Berlín/Ámsterdam/Varsovia. */
+  const allMapCoaches = useMemo(
+    () => [...coaches, ...inProgressCoaches],
+    [coaches, inProgressCoaches],
+  );
 
   return (
     <>
@@ -2057,7 +2065,7 @@ export default function NetworkMap({
             cuando el mapa está bajo un sticky nav que lo taparía; nativos
             de Leaflet (topright dentro del mapa) en cualquier otro caso. */}
         {floatingZoomControls ? (
-          <FloatingZoomControls topOffset={floatingZoomTopOffset} coaches={coaches} initialZoom={zoom} />
+          <FloatingZoomControls topOffset={floatingZoomTopOffset} coaches={allMapCoaches} initialZoom={zoom} />
         ) : (
           <ZoomControl position="topright" />
         )}
@@ -2065,7 +2073,7 @@ export default function NetworkMap({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
         />
-        {autoFitBounds && !userLocation && <AutoFitBounds coaches={coaches} />}
+        {autoFitBounds && !userLocation && <AutoFitBounds coaches={allMapCoaches} />}
         {focusKey !== undefined && !userLocation && (
           <FocusOnFilter coaches={coaches} trigger={focusKey} />
         )}
