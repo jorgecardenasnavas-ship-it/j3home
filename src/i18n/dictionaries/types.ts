@@ -501,8 +501,15 @@ export interface Dictionary {
       readonly legendCoach: string;
       /** Fila "Coach Verificado J3" — pin con anillo exterior. */
       readonly legendCoachVerified: string;
-      /** Fila "En proceso de certificación" — dot fantasma pulsante, sin popup. */
+      /** Fila "Coach360" — dot hollow pulsante para los PLUS en proceso. */
       readonly legendCoachInProgress: string;
+      /** Chip del popup "en proceso": "En proceso de certificación" */
+      readonly inProgressBadge: string;
+      /** Nota al pie del popup "en proceso": "Disponible cuando obtenga su certificación" */
+      readonly inProgressNote: string;
+      /** Línea junto al mapa contando los Coach360 base (19€, siguen el método sin map pin).
+       *  Template: "+{count} coaches más siguiendo el método en {countries} países" */
+      readonly baseCoachesLine: string;
       /** Label de la fila "Cluster (agrupación)" en la leyenda */
       readonly legendCluster: string;
       /** Subtítulo de la sección distinciones dentro de la leyenda. */

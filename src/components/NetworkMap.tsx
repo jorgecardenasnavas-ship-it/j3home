@@ -123,13 +123,14 @@ const pinStyles = `
     box-shadow: 0 0 12px rgba(220,175,100,0.55);
   }
 
-  /* Coach en proceso de certificación: dot fantasma pulsante.
-     Muy pequeño (7px), hueco, sin interacción. Comunica crecimiento
-     de la red sin diluir el sello de calidad de los pins gold. */
+  /* Coach en proceso de certificación: dot hollow pulsante.
+     Clicable — abre popup minimalista (nombre, ciudad, idiomas,
+     nota "disponible cuando se certifique"). Diseño distinto al
+     pin gold: hueco, más pequeño, sin foto. Comunica "vida futura". */
   .j3-pin-sprout {
     background: transparent !important;
     border: none !important;
-    pointer-events: none !important;
+    cursor: pointer;
   }
   .j3-pin-sprout-inner {
     position: relative;
@@ -139,6 +140,12 @@ const pinStyles = `
     border: 2px solid rgba(220,175,100,0.75);
     background: rgba(220,175,100,0.18);
     animation: j3SproutPulse 3.2s ease-in-out infinite;
+    transition: transform .25s cubic-bezier(.16,1,.3,1);
+  }
+  .j3-pin-sprout-inner:hover {
+    transform: scale(1.4);
+    background: rgba(220,175,100,0.3);
+    border-color: rgba(240,196,120,0.95);
   }
   .j3-pin-sprout-inner::before {
     content: "";
@@ -613,6 +620,10 @@ interface PopupLabels {
   viewInMaps: string;
   /** Tooltip del pin del usuario: "Estás aquí" */
   youAreHere?: string;
+  /** Chip del popup "en proceso": "En proceso de certificación" */
+  inProgressBadge: string;
+  /** Nota al pie del popup "en proceso": "Disponible cuando obtenga su certificación" */
+  inProgressNote: string;
 }
 
 /** Formatea una fecha ISO (YYYY-MM-DD) a "Mes Año" legible usando los
@@ -1072,15 +1083,118 @@ function makeClusterIcon(count: number): L.DivIcon {
  */
 
 /**
- * SproutingMarkers — capa de dots fantasma para coaches en proceso
- * de certificación (plusActive sin certifiedAt).
- *
- * Los dots son completamente no-interactivos (pointer-events:none)
- * y no se agrupan en clusters — representan potencial geográfico,
- * no coaches contactables. Se añaden directamente al mapa como
- * un L.layerGroup aparte del cluster group de coaches certificados.
+ * InProgressPopupContent — popup minimalista para coaches en proceso
+ * de certificación. No muestra foto grande, no tiene botón "Pregunta
+ * a J3" ni distinciones. Solo nombre + ciudad + idiomas + nota que
+ * aclara que aún no es contactable. Visualmente más apagado que el
+ * popup de certificados — menos gold, más muted.
  */
-function SproutingMarkers({ coaches }: { coaches: readonly Coach[] }) {
+function InProgressPopupContent({ coach: c, labels }: { coach: Coach; labels: PopupLabels }) {
+  const initials = c.name.split(" ").map((w) => w[0]).slice(0, 2).join("");
+  return (
+    <div style={{ minWidth: 200, maxWidth: 240 }}>
+      {/* Header compacto: avatar iniciales (sin foto) + nombre + ciudad */}
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+        <div
+          aria-hidden
+          style={{
+            width: 36,
+            height: 36,
+            borderRadius: 999,
+            background: "rgba(220,175,100,0.06)",
+            border: "1px dashed rgba(220,175,100,0.45)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: 13,
+            fontWeight: 700,
+            color: "#dcaf64",
+            letterSpacing: 1,
+            flexShrink: 0,
+          }}
+        >
+          {initials}
+        </div>
+        <div style={{ minWidth: 0, flex: 1 }}>
+          <div style={{ fontWeight: 700, fontSize: 14, lineHeight: 1.2, marginBottom: 2, letterSpacing: "-0.2px" }}>
+            {c.name}
+          </div>
+          <div style={{ fontSize: 10.5, opacity: 0.65 }}>
+            {c.location.city}, {c.location.country}
+          </div>
+        </div>
+      </div>
+
+      {/* Chip "En proceso de certificación" — tono muted, estilo hollow
+          consistente con el dot del mapa. */}
+      <div
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 5,
+          fontSize: 8.5,
+          fontWeight: 700,
+          letterSpacing: 1.6,
+          textTransform: "uppercase",
+          color: "#dcaf64",
+          background: "rgba(220,175,100,0.08)",
+          border: "1px dashed rgba(220,175,100,0.55)",
+          padding: "3px 7px",
+          borderRadius: 2,
+          marginBottom: 10,
+        }}
+      >
+        <span
+          aria-hidden
+          style={{
+            width: 6,
+            height: 6,
+            borderRadius: 999,
+            border: "1.5px solid rgba(220,175,100,0.75)",
+            background: "rgba(220,175,100,0.18)",
+            flexShrink: 0,
+          }}
+        />
+        {labels.inProgressBadge}
+      </div>
+
+      {/* Idiomas — misma tipografía que el popup principal */}
+      {c.languages && c.languages.length > 0 && (
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 10 }}>
+          {c.languages.map((l) => (
+            <LanguageChip key={l} code={l} variant="popup" />
+          ))}
+        </div>
+      )}
+
+      {/* Nota final: "Disponible cuando obtenga su certificación" —
+          tipografía muted, sin CTA. Cierra el popup con claridad. */}
+      <div
+        style={{
+          fontSize: 10.5,
+          lineHeight: 1.4,
+          color: "rgba(245,240,232,0.55)",
+          fontStyle: "italic",
+          paddingTop: 8,
+          borderTop: "1px solid rgba(220,175,100,0.15)",
+        }}
+      >
+        {labels.inProgressNote}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * SproutingMarkers — capa de dots hollow para coaches en proceso de
+ * certificación (plusActive sin certifiedAt).
+ *
+ * Son clicables y abren un popup minimalista (sin foto, sin "Pregunta
+ * a J3"): nombre + ciudad + idiomas + nota que aclara que todavía no
+ * es contactable. No se agrupan en clusters — van directamente al mapa
+ * como L.layerGroup aparte del cluster de certificados.
+ */
+function SproutingMarkers({ coaches, labels }: { coaches: readonly Coach[]; labels: PopupLabels }) {
   const map = useMap();
 
   useEffect(() => {
@@ -1093,18 +1207,16 @@ function SproutingMarkers({ coaches }: { coaches: readonly Coach[] }) {
         iconSize: [12, 12],
         iconAnchor: [6, 6],
       });
-      const m = L.marker(c.location.coordinates, {
-        icon,
-        interactive: false,
-        keyboard: false,
-      });
+      const popupHtml = renderToStaticMarkup(<InProgressPopupContent coach={c} labels={labels} />);
+      const m = L.marker(c.location.coordinates, { icon, keyboard: false });
+      m.bindPopup(popupHtml, { maxWidth: 260, minWidth: 220 });
       layer.addLayer(m);
     });
     map.addLayer(layer);
     return () => {
       map.removeLayer(layer);
     };
-  }, [map, coaches]);
+  }, [map, coaches, labels]);
 
   return null;
 }
@@ -1851,7 +1963,7 @@ export default function NetworkMap({
           />
         )}
         {showLegend && <MapLegend labels={labels} />}
-        {inProgressCoaches.length > 0 && <SproutingMarkers coaches={inProgressCoaches} />}
+        {inProgressCoaches.length > 0 && <SproutingMarkers coaches={inProgressCoaches} labels={labels} />}
         <ClusteredMarkers coaches={coaches} labels={labels} onAsk={onAsk} />
       </MapContainer>
     </>

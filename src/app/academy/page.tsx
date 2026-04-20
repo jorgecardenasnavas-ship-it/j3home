@@ -847,12 +847,22 @@ function HeroSection() {
     [allCoaches, country, language, specialty],
   );
 
-  /* Coaches en proceso de certificación — dots fantasma en el mapa.
-     No se filtran por país/idioma: representan la red en crecimiento. */
+  /* Coaches en proceso de certificación — dots hollow en el mapa,
+     con popup minimalista. No se filtran por país/idioma. */
   const inProgressCoaches = useMemo(
     () => filterInProgressCoaches(allCoaches),
     [allCoaches],
   );
+
+  /* Contador de Coach360 base (19€, consumen método sin PLUS ni cert).
+     NO aparecen en el mapa — se muestra solo su número para comunicar
+     escala de la red sin diluir el sello de calidad del mapa.
+     Valores manuales que iremos actualizando conforme crezca la red. */
+  const BASE_COACHES_COUNT = 47;
+  const BASE_COACHES_COUNTRIES = 12;
+  const baseCoachesLine = t.academy.network.baseCoachesLine
+    .replace("{count}", String(BASE_COACHES_COUNT))
+    .replace("{countries}", String(BASE_COACHES_COUNTRIES));
 
   const specialtyLabel = (s: CoachSpecialty) =>
     s === "juniors"
@@ -897,6 +907,8 @@ function HeroSection() {
     legendDistGroupVacacional: t.academy.network.legendDistGroupVacacional,
     viewInMaps: t.academy.network.viewInMaps,
     youAreHere: t.academy.network.youAreHere,
+    inProgressBadge: t.academy.network.inProgressBadge,
+    inProgressNote: t.academy.network.inProgressNote,
   };
 
   const handleScrollToNetwork = () => {
@@ -1121,6 +1133,29 @@ function HeroSection() {
                 {t.academy.network.nearMeError}
               </p>
             )}
+
+            {/* Contador de Coach360 base — señal de escala/crecimiento.
+                Estos coaches consumen el método (plan 19€) pero no están
+                certificados, por lo que NO aparecen en el mapa. Mostrar
+                su número aquí comunica "la red es más grande que el mapa"
+                sin poner ruido visual entre los pines certificados. */}
+            <p
+              className="hero-rise hero-rise-4 mt-5 flex items-center gap-2 text-[11px] tracking-[0.4px] text-white/55"
+              aria-label={baseCoachesLine}
+            >
+              <span
+                aria-hidden
+                className="inline-block shrink-0"
+                style={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: 999,
+                  border: "1.5px solid rgba(220,175,100,0.55)",
+                  background: "rgba(220,175,100,0.1)",
+                }}
+              />
+              <span>{baseCoachesLine}</span>
+            </p>
 
           </div>
         </div>
