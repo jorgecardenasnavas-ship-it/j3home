@@ -607,8 +607,11 @@ interface PopupLabels {
   /** Template "Miembro desde {date}" — placeholder {date} → "Ago 2025" */
   memberSince: string;
   /** Label "Cualificado" — coach que demostró conocimiento del método (examen).
-   *  Distinto de Verificado, que añade verificación 1:1 de la práctica. */
+   *  Se muestra cuando el coach NO es Verificado internamente. */
   qualifiedSince: string;
+  /** Label "Certificado" — se muestra cuando el coach es Verificado internamente.
+   *  Públicamente la máxima atestación J3 se llama "Certificado". */
+  certifiedSince: string;
   askChatbot: string;
   /** Labels de la mini-leyenda (Headquarter · Coach · Cluster) */
   legendTitle: string;
@@ -914,7 +917,7 @@ function PopupContent({
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden style={{ flexShrink: 0 }}>
                 <polyline points="20 6 9 17 4 12" />
               </svg>
-              <span>{labels.qualifiedSince}</span>
+              <span>{badges.verified ? labels.certifiedSince : labels.qualifiedSince}</span>
             </div>
           )}
         </div>

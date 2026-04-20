@@ -84,6 +84,7 @@ function CoachesCatalogContent() {
     monthShort: t.academy.network.monthShort,
     memberSince: t.academy.network.memberSince,
     qualifiedSince: t.academy.network.qualifiedSince,
+    certifiedSince: t.academy.network.certifiedSince,
     askChatbot: t.academy.network.askChatbot,
   };
 

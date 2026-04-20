@@ -890,6 +890,7 @@ function HeroSection() {
     monthShort: t.academy.network.monthShort,
     memberSince: t.academy.network.memberSince,
     qualifiedSince: t.academy.network.qualifiedSince,
+    certifiedSince: t.academy.network.certifiedSince,
     askChatbot: t.academy.network.askChatbot,
     legendTitle: t.academy.network.legendTitle,
     legendHq: t.academy.network.legendHq,
@@ -2529,6 +2530,7 @@ function PorscheCoachCard({
     monthShort: readonly string[];
     memberSince: string;
     qualifiedSince: string;
+    certifiedSince: string;
     askChatbot: string;
     kmFromYou?: string;
   };
@@ -2705,7 +2707,7 @@ function PorscheCoachCard({
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="shrink-0">
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
-                <span className="truncate">{labels.qualifiedSince}</span>
+                <span className="truncate">{badges.verified ? labels.certifiedSince : labels.qualifiedSince}</span>
               </p>
             )}
             {/* Club principal — línea sutil debajo del certificado. */}
@@ -2752,6 +2754,7 @@ function CoachesCarousel({
     monthShort: readonly string[];
     memberSince: string;
     qualifiedSince: string;
+    certifiedSince: string;
     askChatbot: string;
     kmFromYou?: string;
   };
@@ -2896,6 +2899,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
     monthShort: t.academy.network.monthShort,
     memberSince: t.academy.network.memberSince,
     qualifiedSince: t.academy.network.qualifiedSince,
+    certifiedSince: t.academy.network.certifiedSince,
     askChatbot: t.academy.network.askChatbot,
     kmFromYou: t.academy.network.kmFromYou,
   };

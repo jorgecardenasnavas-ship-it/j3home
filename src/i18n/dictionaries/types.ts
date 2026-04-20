@@ -491,9 +491,13 @@ export interface Dictionary {
       /** Template antigüedad. Ej: "Coach360 desde {date}" — se sustituye por "Ago 2025". */
       readonly memberSince: string;
       /** Label "Cualificado" — coach que ha demostrado conocimiento del método
-       *  (examen + trabajo académico). Distinto de Verificado, que añade
-       *  verificación práctica 1:1 por parte de J3. */
+       *  (examen). Mostrado en la card cuando el coach NO es Verificado.
+       *  Distinto de Certificado, que añade verificación práctica 1:1. */
       readonly qualifiedSince: string;
+      /** Label "Certificado" — mostrado en la card cuando el coach es
+       *  Verificado internamente. Públicamente la máxima atestación J3
+       *  se llama "Certificado" (verificar + cualificar = certificar). */
+      readonly certifiedSince: string;
       readonly askChatbot: string;
       /** Título de la mini-leyenda del mapa (bottom-left) */
       readonly legendTitle: string;
@@ -517,7 +521,9 @@ export interface Dictionary {
        *   1. Coach        → pre-J3 (raw, past)
        *   2. Coach360     → ya dentro del sistema (current para PLUS en proceso)
        *   3. Cualificado  → conocimiento del método atestiguado (examen)
-       *   4. Verificado   → J3 verifica la práctica 1:1 (también cualificado)
+       *   4. Certificado  → J3 certifica la práctica 1:1 (verificar + cualificar)
+       *      (la clave sigue llamándose `stageVerificado` por compatibilidad
+       *       interna; el VALOR público es "Certificado".)
        */
       readonly stageCoach: string;
       readonly stageCoach360: string;
