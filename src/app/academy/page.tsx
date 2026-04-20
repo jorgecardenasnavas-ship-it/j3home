@@ -1861,6 +1861,50 @@ function PorscheRow({ children, hoveredIdx }: { children: React.ReactNode[]; hov
   );
 }
 
+/**
+ * PorscheCoachRow — variante del PorscheRow pensada para N cards (4-6).
+ *
+ * Diferencia con PorscheRow: éste ajusta las proporciones en función de
+ * N para mantener un ratio de expansión de 1.5x entre la card hover y
+ * las no-hover, independientemente del número de items. Útil para la
+ * grid de coaches destacados, donde PorscheRow se quedaba corto (su
+ * ratio efectivo colapsa al 1.22x cuando N>2).
+ *
+ * Fórmula: basis del hovered = 150/(N+0.5), basis de los otros = 100/(N+0.5).
+ * Suman 150 + 100*(N-1) y flex los normaliza a 100%, dejando al hovered
+ * siempre ~1.5x los demás.
+ */
+function PorscheCoachRow({ children, hoveredIdx }: { children: React.ReactNode[]; hoveredIdx: number | null }) {
+  const n = children.length;
+  const hoveredBasis = 150 / (n + 0.5);
+  const otherBasis  = 100 / (n + 0.5);
+  return (
+    <div className="hidden min-[961px]:flex gap-3">
+      {children.map((child, i) => {
+        const basis =
+          hoveredIdx === null
+            ? 100 / n
+            : hoveredIdx === i
+            ? hoveredBasis
+            : otherBasis;
+        return (
+          <div
+            key={i}
+            style={{
+              flex: `1 1 ${basis}%`,
+              height: "clamp(340px, 28vw, 460px)",
+              transition: "flex 0.6s cubic-bezier(0, 0, 0.2, 1)",
+              minWidth: 0,
+            }}
+          >
+            {child}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 function PerfilesSection() {
   const { t } = useI18n();
   const { ref, visible } = useReveal(0.1);
@@ -2573,11 +2617,11 @@ function PorscheCoachCard({
           loading="lazy"
           className="absolute inset-0 w-full h-full object-cover"
           style={{
-            transform: expanded ? "scale3d(1.035,1.035,1.035)" : "scale3d(1,1,1)",
-            transition: "transform 0.9s cubic-bezier(0,0,0.2,1), filter 0.9s cubic-bezier(.16,1,.3,1)",
+            transform: expanded ? "scale3d(1.08,1.08,1.08)" : "scale3d(1,1,1)",
+            transition: "transform 1.2s cubic-bezier(.16,1,.3,1), filter 0.8s cubic-bezier(.16,1,.3,1)",
             filter: expanded
-              ? "saturate(0.95) brightness(1.01) contrast(0.98)"
-              : "saturate(0.88) brightness(0.95) contrast(0.96)",
+              ? "saturate(1.02) brightness(1.05) contrast(1)"
+              : "saturate(0.82) brightness(0.85) contrast(0.95)",
           }}
         />
       ) : (
@@ -2624,12 +2668,14 @@ function PorscheCoachCard({
           background: "linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.55) 30%, rgba(0,0,0,0.2) 60%, transparent 100%)",
         }}
       />
-      {/* Bottom gradient */}
+      {/* Bottom gradient — crece al hover para dar más espacio al reveal sin
+          perder legibilidad. Transición lenta para sentir la transformación. */}
       <div
         className="absolute bottom-0 left-0 w-full z-[5] pointer-events-none"
         style={{
-          height: "55%",
-          background: "linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.65) 25%, rgba(0,0,0,0.3) 55%, transparent 100%)",
+          height: expanded ? "72%" : "50%",
+          background: "linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.7) 30%, rgba(0,0,0,0.35) 65%, transparent 100%)",
+          transition: "height 0.7s cubic-bezier(.16,1,.3,1)",
         }}
       />
 
@@ -2682,53 +2728,88 @@ function PorscheCoachCard({
         </div>
       )}
 
-      {/* Bottom — name + ubicación + fechas + especialidad + CTA arrow */}
-      <div className="absolute bottom-0 left-0 right-0 z-[13] p-[14px] min-[640px]:p-[16px]">
-        <div className="flex items-end justify-between gap-2">
+      {/* Bottom content — estilo Porsche editorial:
+          Default (no hover): solo nombre + ciudad. Minimalista.
+          Hover: se revela ✓ Cualificado/Certificado + club con slide-up.
+          El CTA arrow crece y aparece un label gold.
+          Esta progresión convierte el hover en un "momento" de card. */}
+      <div className="absolute bottom-0 left-0 right-0 z-[13] p-[14px] min-[640px]:p-[18px]">
+        <div className="flex items-end justify-between gap-3">
           <div className="min-w-0 flex-1">
             <h3
-              className="font-bold text-[15px] min-[640px]:text-[16px] text-white leading-[1.1] tracking-[-0.3px] truncate"
-              style={{ textShadow: "0 2px 10px rgba(0,0,0,0.6), 0 1px 3px rgba(0,0,0,0.4)" }}
+              className="font-bold text-[16px] min-[640px]:text-[18px] text-white leading-[1.05] tracking-[-0.4px] truncate"
+              style={{
+                textShadow: "0 2px 14px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.4)",
+                transform: expanded ? "translateY(-2px)" : "translateY(0)",
+                transition: "transform 0.5s cubic-bezier(.16,1,.3,1)",
+              }}
             >
               {coach.name}
             </h3>
             <p
-              className="mt-[3px] text-[10px] font-medium text-white/70 tracking-[0.5px] truncate"
-              style={{ textShadow: "0 1px 6px rgba(0,0,0,0.5)" }}
+              className="mt-[4px] text-[10.5px] font-medium text-white/75 tracking-[0.4px] truncate"
+              style={{ textShadow: "0 1px 6px rgba(0,0,0,0.6)" }}
             >
               {coach.location.city} · {coach.location.country}
             </p>
-            {/* ✓ Certificado — tick dorado + palabra. Solo coaches activos. */}
-            {showCertLine && (
-              <p
-                className="mt-[4px] text-[9.5px] tracking-[0.3px] truncate flex items-center gap-1 font-bold text-[var(--g1)]"
-                style={{ textShadow: "0 1px 6px rgba(0,0,0,0.5)" }}
-              >
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="shrink-0">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-                <span className="truncate">{badges.verified ? labels.certifiedSince : labels.qualifiedSince}</span>
-              </p>
-            )}
-            {/* Club principal — línea sutil debajo del certificado. */}
-            {primaryClub && (
-              <p
-                className="mt-[3px] text-[10px] font-medium text-white/70 tracking-[0.2px] truncate"
-                style={{ textShadow: "0 1px 6px rgba(0,0,0,0.5)" }}
-              >
-                {primaryClub}
-              </p>
-            )}
+
+            {/* Reveal area — hidden por default, slide-up al hover.
+                Alberga la línea ✓ Cualificado/Certificado y el club principal.
+                max-height animado para transición suave sin flicker. */}
+            <div
+              className="overflow-hidden"
+              style={{
+                maxHeight: expanded ? "90px" : "0px",
+                opacity: expanded ? 1 : 0,
+                transition: expanded
+                  ? "max-height 0.55s cubic-bezier(.16,1,.3,1), opacity 0.4s ease 0.1s"
+                  : "max-height 0.35s cubic-bezier(.16,1,.3,1), opacity 0.2s ease",
+              }}
+            >
+              {showCertLine && (
+                <p
+                  className="mt-[10px] text-[10px] tracking-[0.5px] truncate flex items-center gap-[5px] font-bold text-[var(--g1)]"
+                  style={{ textShadow: "0 1px 6px rgba(0,0,0,0.6)" }}
+                >
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="shrink-0">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  <span className="truncate uppercase">{badges.verified ? labels.certifiedSince : labels.qualifiedSince}</span>
+                </p>
+              )}
+              {primaryClub && (
+                <p
+                  className="mt-[4px] text-[10px] font-medium text-white/60 tracking-[0.2px] truncate"
+                  style={{ textShadow: "0 1px 4px rgba(0,0,0,0.5)" }}
+                >
+                  {primaryClub}
+                </p>
+              )}
+            </div>
           </div>
+
+          {/* CTA arrow — crece y se acompaña de label en hover.
+              El label "conocer" aparece con un pequeño delay para
+              que primero veas el zoom de foto, luego la llamada. */}
           <span
-            className="shrink-0 text-[var(--g1)]"
-            style={{
-              transform: expanded ? "translateX(3px)" : "translateX(0)",
-              transition: "transform .5s cubic-bezier(.16,1,.3,1)",
-            }}
+            className="shrink-0 inline-flex items-center gap-1.5 text-[var(--g1)] self-end"
             aria-label={labels.askChatbot}
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <svg
+              width={expanded ? 20 : 16}
+              height={expanded ? 20 : 16}
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden
+              style={{
+                transform: expanded ? "translateX(4px)" : "translateX(0)",
+                transition: "transform 0.55s cubic-bezier(.16,1,.3,1), width 0.4s ease, height 0.4s ease",
+              }}
+            >
               <path d="M5 12h14" />
               <path d="M12 5l7 7-7 7" />
             </svg>
@@ -2739,6 +2820,16 @@ function PorscheCoachCard({
   );
 }
 
+/**
+ * CoachesCarousel — wrapper que conmuta entre dos layouts según viewport:
+ *   - Desktop (≥961px): PorscheCoachRow con flex-expand al hover. Hasta
+ *     6 cards destacadas visibles a la vez, la hovered crece ~1.5x.
+ *   - Mobile  (<961px): scroll carrusel horizontal drag-to-scroll con
+ *     snap + progress bar. Funciona bien en touch.
+ *
+ * Ambos comparten el mismo hoveredSlug (aunque en mobile el hover no
+ * se dispara de forma fiable) y renderizan el mismo PorscheCoachCard.
+ */
 function CoachesCarousel({
   coaches,
   labels,
@@ -2761,48 +2852,82 @@ function CoachesCarousel({
   userCoords?: LatLng | null;
   onAsk?: (c: Coach) => void;
 }) {
-  const { scrollRef, progress } = useDragScroll(coaches.length);
   const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
-  const showRightFade = progress < 0.98;
+  const hoveredIdx = hoveredSlug
+    ? coaches.findIndex((c) => c.slug === hoveredSlug)
+    : null;
+
+  /* Las cards son las mismas en desktop y mobile — renderizadas una
+     vez para evitar duplicación. Cada wrapper (PorscheCoachRow /
+     mobile scroll) les da su container y dimensiones propias. */
+  const cards = coaches.map((c) => (
+    <PorscheCoachCard
+      key={c.slug}
+      coach={c}
+      labels={labels}
+      userCoords={userCoords}
+      onAsk={onAsk}
+      isHovered={hoveredSlug === c.slug}
+      onHover={() => setHoveredSlug(c.slug)}
+      onLeave={() => setHoveredSlug(null)}
+    />
+  ));
+
   return (
     <div className="relative">
+      {/* Desktop — fila flex-expand estilo Porsche */}
+      <PorscheCoachRow hoveredIdx={hoveredIdx === -1 ? null : hoveredIdx}>
+        {cards}
+      </PorscheCoachRow>
+
+      {/* Mobile — carrusel drag con snap */}
+      <CoachesMobileCarousel coaches={coaches}>{cards}</CoachesMobileCarousel>
+    </div>
+  );
+}
+
+/**
+ * CoachesMobileCarousel — versión mobile del carrusel de coaches.
+ * Scroll horizontal con drag, snap al inicio de cada card, fade a la
+ * derecha como hint de "hay más", y progress bar debajo. Solo se
+ * pinta bajo 961px.
+ */
+function CoachesMobileCarousel({
+  coaches,
+  children,
+}: {
+  coaches: readonly Coach[];
+  children: React.ReactNode[];
+}) {
+  const { scrollRef, progress } = useDragScroll(coaches.length);
+  const showRightFade = progress < 0.98;
+  return (
+    <div className="min-[961px]:hidden relative">
       <div
         ref={scrollRef}
-        className="flex gap-4 max-[960px]:gap-3 overflow-x-auto scrollbar-hide snap-x snap-mandatory -mx-4 max-[960px]:-mx-3 px-4 max-[960px]:px-3"
-        style={{ cursor: "grab", scrollPadding: "0 16px" }}
+        className="flex gap-3 overflow-x-auto scrollbar-hide snap-x snap-mandatory -mx-3 px-3"
+        style={{ cursor: "grab", scrollPadding: "0 12px" }}
       >
-        {coaches.map((c) => (
+        {children.map((child, i) => (
           <div
-            key={c.slug}
+            key={i}
             className="shrink-0 snap-start"
-            style={{ width: "clamp(210px, 22vw, 250px)", aspectRatio: "3 / 4" }}
+            style={{ width: "clamp(220px, 70vw, 280px)", aspectRatio: "3 / 4" }}
           >
-            <PorscheCoachCard
-              coach={c}
-              labels={labels}
-              userCoords={userCoords}
-              onAsk={onAsk}
-              isHovered={hoveredSlug === c.slug}
-              onHover={() => setHoveredSlug(c.slug)}
-              onLeave={() => setHoveredSlug(null)}
-            />
+            {child}
           </div>
         ))}
         <div className="shrink-0 w-1" aria-hidden />
       </div>
       <div
         aria-hidden
-        className="pointer-events-none absolute top-0 bottom-0 right-0 w-14 max-[960px]:w-10 z-[2] transition-opacity duration-300"
+        className="pointer-events-none absolute top-0 bottom-0 right-0 w-10 z-[2] transition-opacity duration-300"
         style={{
           background:
             "linear-gradient(to left, rgba(12,12,14,1), rgba(12,12,14,0))",
           opacity: showRightFade ? 1 : 0,
         }}
       />
-
-      {/* Progress bar Porsche-style — indica cuánto del carrusel has
-          recorrido. Da discoverabilidad de "hay más contenido a la
-          derecha" tanto en desktop como en móvil. */}
       <CarouselProgress progress={progress} />
     </div>
   );
@@ -2881,11 +3006,11 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
     return withDistance.map((x) => x.coach);
   }, [allCoaches, country, language, specialty, geo.coords]);
 
-  // 6 destacados en desktop, 3 en mobile.
-  /* En carrusel horizontal cabe más material que en grid — incrementamos
-     el número de featured coaches mostrados. El CTA "ver todos" sigue
-     apareciendo si hay más en la lista completa. */
-  const displayCount = isMobile ? 10 : 20;
+  /* Desktop (PorscheRow flex-expand): 6 destacadas es el máximo que se
+     lee bien sin que las cards queden demasiado estrechas. Mobile
+     (scroll carrusel): 10 para dar sensación de abundancia al swipe.
+     El CTA "Ver los X coaches" lleva al listado completo. */
+  const displayCount = isMobile ? 10 : 6;
   const display = useMemo(
     () => pickDisplayCoaches(filtered, displayCount),
     [filtered, displayCount],
