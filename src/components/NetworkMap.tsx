@@ -1659,8 +1659,24 @@ function AutoFitBounds({ coaches, padding = 48 }: { coaches: readonly Coach[]; p
     if (coaches.length < 2) return;
     const bounds = L.latLngBounds(coaches.map((c) => c.location.coordinates));
     if (!bounds.isValid()) return;
-    map.fitBounds(bounds, { padding: [padding, padding], animate: false, maxZoom: 7 });
-    done.current = true;
+    /* Diferimos el fitBounds con un rAF + setTimeout corto para que
+       el contenedor del mapa termine de resolver layout (flex column +
+       min-h-full puede dar dimensiones 0 en el primer paint). Con
+       bounds amplios (Málaga → Varsovia) la imprecisión es crítica;
+       sin delay el fit se ejecuta contra un mapa sin dimensiones y
+       no se nota hasta que el usuario pulsa "reset view". */
+    let timer: number | undefined;
+    const raf = requestAnimationFrame(() => {
+      timer = window.setTimeout(() => {
+        map.invalidateSize();
+        map.fitBounds(bounds, { padding: [padding, padding], animate: false, maxZoom: 7 });
+        done.current = true;
+      }, 120);
+    });
+    return () => {
+      cancelAnimationFrame(raf);
+      if (timer !== undefined) window.clearTimeout(timer);
+    };
   }, [map, coaches, padding]);
 
   return null;
