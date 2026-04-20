@@ -133,29 +133,29 @@ const pinStyles = `
   }
   .j3-pin-sprout-inner {
     position: relative;
-    width: 7px;
-    height: 7px;
+    width: 12px;
+    height: 12px;
     border-radius: 999px;
-    border: 1.5px solid rgba(220,175,100,0.5);
-    background: rgba(220,175,100,0.08);
-    animation: j3SproutPulse 3.8s ease-in-out infinite;
+    border: 2px solid rgba(220,175,100,0.75);
+    background: rgba(220,175,100,0.18);
+    animation: j3SproutPulse 3.2s ease-in-out infinite;
   }
   .j3-pin-sprout-inner::before {
     content: "";
     position: absolute;
-    inset: -5px;
+    inset: -7px;
     border-radius: 999px;
-    border: 1px solid rgba(220,175,100,0.18);
-    animation: j3SproutRing 3.8s ease-in-out infinite;
+    border: 1px solid rgba(220,175,100,0.3);
+    animation: j3SproutRing 3.2s ease-in-out infinite;
   }
   @keyframes j3SproutPulse {
-    0%, 100% { opacity: 0.38; transform: scale(1); }
-    50%       { opacity: 0.78; transform: scale(1.18); }
+    0%, 100% { opacity: 0.55; transform: scale(1); }
+    50%       { opacity: 1;   transform: scale(1.15); }
   }
   @keyframes j3SproutRing {
-    0%, 100% { opacity: 0;   transform: scale(0.8); }
-    40%      { opacity: 0.6; transform: scale(1.6); }
-    70%      { opacity: 0;   transform: scale(2.4); }
+    0%, 100% { opacity: 0;    transform: scale(0.8); }
+    40%      { opacity: 0.75; transform: scale(1.5); }
+    70%      { opacity: 0;    transform: scale(2.2); }
   }
   @keyframes j3PulseRing {
     0%   { transform: scale(0.8); opacity: 1; }
@@ -485,11 +485,11 @@ const pinStyles = `
   /* Dot "en proceso de certificación" — hueco, muted, espejo del dot
      fantasma del mapa. */
   .j3-legend-dot-sprout {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
     border-radius: 999px;
-    border: 1.5px solid rgba(220,175,100,0.52);
-    background: rgba(220,175,100,0.07);
+    border: 2px solid rgba(220,175,100,0.7);
+    background: rgba(220,175,100,0.15);
     flex-shrink: 0;
   }
 
@@ -1090,8 +1090,8 @@ function SproutingMarkers({ coaches }: { coaches: readonly Coach[] }) {
       const icon = L.divIcon({
         className: "j3-pin-sprout",
         html: `<div class="j3-pin-sprout-inner"></div>`,
-        iconSize: [7, 7],
-        iconAnchor: [3.5, 3.5],
+        iconSize: [12, 12],
+        iconAnchor: [6, 6],
       });
       const m = L.marker(c.location.coordinates, {
         icon,
