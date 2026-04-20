@@ -1134,29 +1134,6 @@ function HeroSection() {
               </p>
             )}
 
-            {/* Contador de Coach360 base — señal de escala/crecimiento.
-                Estos coaches consumen el método (plan 19€) pero no están
-                certificados, por lo que NO aparecen en el mapa. Mostrar
-                su número aquí comunica "la red es más grande que el mapa"
-                sin poner ruido visual entre los pines certificados. */}
-            <p
-              className="hero-rise hero-rise-4 mt-5 flex items-center gap-2 text-[11px] tracking-[0.4px] text-white/55"
-              aria-label={baseCoachesLine}
-            >
-              <span
-                aria-hidden
-                className="inline-block shrink-0"
-                style={{
-                  width: 8,
-                  height: 8,
-                  borderRadius: 999,
-                  border: "1.5px solid rgba(220,175,100,0.55)",
-                  background: "rgba(220,175,100,0.1)",
-                }}
-              />
-              <span>{baseCoachesLine}</span>
-            </p>
-
           </div>
         </div>
 
@@ -1181,6 +1158,39 @@ function HeroSection() {
             userLocation={geo.coords}
             focusKey={`${country}|${language}`}
           />
+
+          {/* ── Contador de Coach360 base — dentro del mapa, esquina
+              inferior derecha. Balancea visualmente con la leyenda
+              (inferior izquierda) y pertenece al relato del mapa:
+              "lo que ves + lo que viene detrás". Se queda por encima
+              de la atribución de Leaflet sin tapar los tiles. */}
+          <div
+            className="pointer-events-none absolute bottom-[26px] right-[10px] z-[4] max-w-[min(70vw,300px)] hidden min-[420px]:block"
+            aria-label={baseCoachesLine}
+          >
+            <div
+              className="inline-flex items-center gap-2 text-[10.5px] leading-[1.25] tracking-[0.3px] text-white/72 px-[10px] py-[7px] rounded-[2px]"
+              style={{
+                background: "rgba(10,10,10,0.78)",
+                backdropFilter: "blur(6px)",
+                border: "1px solid rgba(220,175,100,0.28)",
+                boxShadow: "0 4px 14px rgba(0,0,0,0.4)",
+              }}
+            >
+              <span
+                aria-hidden
+                className="inline-block shrink-0"
+                style={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: 999,
+                  border: "1.5px solid rgba(220,175,100,0.6)",
+                  background: "rgba(220,175,100,0.12)",
+                }}
+              />
+              <span>{baseCoachesLine}</span>
+            </div>
+          </div>
 
           {/* ── Floating filter pills over the map ── */}
           <div className="hero-rise hero-rise-5 absolute top-[16px] min-[961px]:top-[96px] left-3 right-3 z-[10] flex flex-wrap items-center gap-2">
