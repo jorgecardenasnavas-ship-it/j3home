@@ -539,7 +539,7 @@ export const es = {
       headingPre: "Encuentra entrenadores con ",
       headingAccent: "criterio, m\u00E9todo y orden.",
       headingPost: "",
-      sub: "Certificamos a los que saben el m\u00E9todo. Recomendamos a los que sabemos que lo aplican con criterio.",
+      sub: "Certificamos a los que saben el m\u00E9todo. Verificamos a los que sabemos que lo aplican con criterio.",
       ctaPrimary: "Buscar coach cerca",
       ctaSecondary: "Ven a entrenar \u00B7 M\u00E1laga",
       filtersTitle: "Filtrar",

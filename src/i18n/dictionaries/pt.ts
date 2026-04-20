@@ -538,7 +538,7 @@ export const pt = {
       headingPre: "Encontra treinadores com ",
       headingAccent: "crit\u00E9rio, m\u00E9todo e rigor.",
       headingPost: "",
-      sub: "Certificamos os que sabem o m\u00E9todo. Recomendamos aqueles que sabemos que o aplicam com crit\u00E9rio.",
+      sub: "Certificamos os que sabem o m\u00E9todo. Verificamos aqueles que sabemos que o aplicam com crit\u00E9rio.",
       ctaPrimary: "Encontrar coach perto",
       ctaSecondary: "Vem treinar \u00B7 M\u00E1laga",
       filtersTitle: "Filtrar",
