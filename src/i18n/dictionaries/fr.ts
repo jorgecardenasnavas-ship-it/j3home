@@ -790,10 +790,10 @@ export const fr = {
       viewAllCta: "Ver los {count} coaches",
       viewFilteredCta: "Ver los {count} resultados completos",
       coachCta: {
-        eyebrow: "\u00BFEres coach?",
-        title: "Sube al sello J3.",
-        description: "Entra en Coach360, entrena con nuestro m\u00E9todo y opta a ser recomendado en esta red.",
-        cta: "Entrar a Coach360",
+        eyebrow: "Tu es entra\u00EEneur ?",
+        title: "Trace ton chemin avec Coach360.",
+        description: "De la m\u00E9thode \u00E0 la qualification. De la qualification \u00E0 Certifi\u00E9 J3. Le N\u00BA 01 du mois prochain pourrait porter ton nom.",
+        cta: "Commencer avec Coach360",
         href: "https://j3padel.com/join",
       },
       monthlyRanking: {
