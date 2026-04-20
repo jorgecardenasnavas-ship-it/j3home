@@ -4271,9 +4271,19 @@ function ClubesHandoffBanner() {
           />
           <div className="flex items-center justify-between gap-6 flex-wrap">
             <div>
-              <span className="text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)] block mb-1.5">
-                {c.eyebrow}
-              </span>
+              {/* Preguntas paralelas como eyebrow — cada una con su línea,
+                  mismo peso visual. Amplía la red a ya-tienes-club vs
+                  quieres-montarlo sin un copy pesado. */}
+              <div className="mb-2 leading-[1.55]">
+                {c.questions.map((q, i) => (
+                  <span
+                    key={i}
+                    className="text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)] block"
+                  >
+                    {q}
+                  </span>
+                ))}
+              </div>
               <p className="text-[14px] max-[640px]:text-[13px] text-white/85 leading-[1.4] max-w-[640px]">
                 {c.body}
               </p>

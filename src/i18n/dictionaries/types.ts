@@ -675,9 +675,12 @@ export interface Dictionary {
 
     /** Mini-banner al final de /academy que redirige a /clubes.
      *  Teaser corto con hooks de plug & play + 3 meses + otro nivel.
-     *  Detalles (método, software, automatizaciones) viven en /clubes. */
+     *  `questions` casta la red amplia: ya tienes club/academia vs
+     *  quieres montarla. Detalles (método, software, automatizaciones)
+     *  viven en /clubes. */
     clubesHandoff: {
-      readonly eyebrow: string;
+      /** Lista de preguntas paralelas como eyebrow. Típicamente 2. */
+      readonly questions: readonly string[];
       readonly body: string;
       readonly cta: string;
     };

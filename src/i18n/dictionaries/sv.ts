@@ -946,8 +946,11 @@ export const sv = {
     },
 
     clubesHandoff: {
-      eyebrow: "Har du en klubb?",
-      body: "Plug & play. P\u00E5 3 m\u00E5nader lyfts din klubb och akademi till n\u00E4sta niv\u00E5.",
+      questions: [
+        "Har du en klubb eller akademi?",
+        "Eller vill du starta en?",
+      ],
+      body: "Plug & play. P\u00E5 3 m\u00E5nader, till n\u00E4sta niv\u00E5.",
       cta: "Uppt\u00E4ck",
     },
   },

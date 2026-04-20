@@ -939,8 +939,11 @@ export const es = {
     },
 
     clubesHandoff: {
-      eyebrow: "\u00BFEres club?",
-      body: "Plug & play. En 3 meses, tu club y tu academia en otro nivel.",
+      questions: [
+        "\u00BFTienes un club o academia?",
+        "\u00BFO quieres montar el tuyo?",
+      ],
+      body: "Plug & play. En 3 meses, en otro nivel.",
       cta: "Descubrir",
     },
   },
