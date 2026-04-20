@@ -789,6 +789,15 @@ export const es = {
         cta: "Entrar a Coach360",
         href: "https://j3padel.com/join",
       },
+      coachOfMonth: {
+        eyebrow: "Coach del mes",
+        period: "Abril 2026",
+        edition: "N\u00BA 01",
+        achievementLabel: "Logro del mes",
+        achievement: "Desbloque\u00F3 la distinci\u00F3n Forma coaches este mes. Su sesi\u00F3n con Marc Torres marc\u00F3 la pauta metodol\u00F3gica de la red J3.",
+        ctaLabel: "Pregunta a J3",
+        coachSlug: "nacho-gonzalez-sevilla",
+      },
     },
 
     coachesPage: {

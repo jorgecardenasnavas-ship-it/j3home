@@ -796,6 +796,15 @@ export const sv = {
         cta: "Entrar a Coach360",
         href: "https://j3padel.com/join",
       },
+      coachOfMonth: {
+        eyebrow: "M\u00E5nadens coach",
+        period: "April 2026",
+        edition: "N\u00BA 01",
+        achievementLabel: "M\u00E5nadens prestation",
+        achievement: "L\u00E5ste upp utm\u00E4rkelsen Utbildar andra tr\u00E4nare denna m\u00E5nad. Hans session med Marc Torres satte metodisk standard f\u00F6r J3-n\u00E4tverket.",
+        ctaLabel: "Fr\u00E5ga J3",
+        coachSlug: "nacho-gonzalez-sevilla",
+      },
     },
 
     coachesPage: {

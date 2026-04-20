@@ -796,6 +796,15 @@ export const en = {
         cta: "Entrar a Coach360",
         href: "https://j3padel.com/join",
       },
+      coachOfMonth: {
+        eyebrow: "Coach of the month",
+        period: "April 2026",
+        edition: "N\u00BA 01",
+        achievementLabel: "Achievement of the month",
+        achievement: "Unlocked the Trains other coaches distinction this month. His session with Marc Torres set the methodological standard for the J3 network.",
+        ctaLabel: "Ask J3",
+        coachSlug: "nacho-gonzalez-sevilla",
+      },
     },
 
     coachesPage: {

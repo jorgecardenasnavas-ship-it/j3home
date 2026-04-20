@@ -2977,6 +2977,233 @@ function SedesBlock({ sedes, eyebrow }: { sedes: readonly Sede[]; eyebrow: strin
   );
 }
 
+/**
+ * CoachOfMonthBlock — sección editorial "Coach del mes".
+ *
+ * Destaca un coach activo elegido manualmente por J3 cada mes (vía i18n:
+ * `coachOfMonth.coachSlug`). Actúa como climax emocional entre la grid
+ * J3 Recommended y el CTA Coach360.
+ *
+ * Layout:
+ *   Desktop: foto (55%) izquierda + contenido editorial (45%) derecha.
+ *   Mobile:  stacked — foto arriba, contenido debajo.
+ *
+ * Diseño editorial:
+ *   - Eyebrow con periodo a la derecha (thin gold rule entre ambos)
+ *   - "Nº 01" en serif italic huge (feeling colecionable, revista)
+ *   - Nombre en clamp grande (la tipografía más grande del bloque)
+ *   - Logro como pull-quote con barra gold lateral
+ *   - CTA → dispara chat-open event (consistente con popup del mapa)
+ *
+ * Si no se encuentra el coach (slug roto), renderiza null sin romper.
+ */
+function CoachOfMonthBlock() {
+  const { t } = useI18n();
+  const s = t.academy.network.coachOfMonth;
+  const coach = COACHES.find((c) => c.slug === s.coachSlug);
+  if (!coach) return null;
+
+  const badges = getCoachBadges(coach);
+
+  const handleAsk = () => {
+    window.dispatchEvent(
+      new CustomEvent("j3:chat:open", {
+        detail: {
+          coachName: coach.name,
+          coachLocation: `${coach.location.city}, ${coach.location.country}`,
+        },
+      }),
+    );
+  };
+
+  return (
+    <div className="relative border-t border-white/[.07]">
+      {/* Gradient radial sutil de fondo — da un 'halo' al featured coach
+          sin romper el dark continuo de la sección. */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(circle at 25% 45%, rgba(220,175,100,0.05), transparent 55%)",
+        }}
+      />
+
+      <div className="relative px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-20 max-[960px]:py-14">
+        {/* Eyebrow row: "COACH DEL MES" · ruleline · "ABRIL 2026" */}
+        <div className="flex items-center gap-4 mb-10 max-[640px]:mb-7">
+          <span className="text-[10px] font-bold tracking-[5px] uppercase text-[var(--g1)]">
+            {s.eyebrow}
+          </span>
+          <span aria-hidden className="h-px flex-1 bg-[var(--g1)]/25" />
+          <span className="text-[10px] tracking-[3px] uppercase text-white/45 font-medium">
+            {s.period}
+          </span>
+        </div>
+
+        <div className="grid min-[960px]:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] gap-10 max-[960px]:gap-7 min-[960px]:items-stretch">
+          {/* PHOTO column */}
+          <div className="relative overflow-hidden aspect-[4/3] min-[960px]:aspect-auto min-[960px]:min-h-[520px]" style={{ background: "#000" }}>
+            {coach.photo ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={coach.photo}
+                alt={coach.name}
+                className="absolute inset-0 w-full h-full object-cover"
+                style={{ filter: "saturate(0.92) contrast(0.98)" }}
+              />
+            ) : (
+              <div
+                aria-hidden
+                className="absolute inset-0 flex items-center justify-center"
+                style={{
+                  background:
+                    "radial-gradient(circle at 50% 40%, rgba(220,175,100,0.15) 0%, rgba(18,18,20,1) 65%)",
+                }}
+              >
+                <span
+                  className="j3-grad-text font-bold font-[var(--font-serif)] italic normal-case select-none"
+                  style={{
+                    fontSize: "clamp(80px, 14vw, 140px)",
+                    letterSpacing: "-3px",
+                    filter: "drop-shadow(0 6px 24px rgba(0,0,0,0.55))",
+                  }}
+                >
+                  {getInitials(coach.name)}
+                </span>
+              </div>
+            )}
+
+            {/* Vignette bottom para lectura si hay texto superpuesto futuramente */}
+            <div
+              aria-hidden
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.45) 100%)",
+              }}
+            />
+
+            {/* Tier badge overlay top-left (Certificado J3 si aplica) */}
+            {badges.verified && (
+              <div
+                className="absolute top-5 left-5 inline-flex items-center gap-1.5 px-2.5 py-[5px] backdrop-blur-sm"
+                style={{
+                  background: "rgba(10,10,10,0.72)",
+                  border: "1px solid rgba(220,175,100,0.6)",
+                  borderRadius: 2,
+                }}
+              >
+                <span
+                  aria-hidden
+                  style={{
+                    width: 14,
+                    height: 14,
+                    borderRadius: 999,
+                    background: "linear-gradient(135deg, #f0c478, #b8943e)",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </span>
+                <span className="text-[9px] font-bold tracking-[2px] uppercase text-[var(--g1)]">
+                  {t.academy.network.badgeVerified}
+                </span>
+              </div>
+            )}
+          </div>
+
+          {/* CONTENT column */}
+          <div className="flex flex-col justify-between gap-8 max-[960px]:gap-6 py-2">
+            <div>
+              {/* Número de edición — serif italic huge, feeling magazine */}
+              <span
+                className="block j3-grad-text font-[var(--font-serif)] italic leading-[0.85]"
+                style={{
+                  fontSize: "clamp(64px, 7vw, 104px)",
+                  letterSpacing: "-3px",
+                }}
+              >
+                {s.edition}
+              </span>
+
+              {/* Nombre del coach — la tipografía más grande del bloque.
+                  Sin uppercase: el serif italic del Nº ya es el "acento",
+                  el nombre sobrio en sans remarca su presencia. */}
+              <h3
+                className="mt-5 font-bold leading-[1] tracking-[-1.5px]"
+                style={{
+                  color: "var(--wh)",
+                  fontSize: "clamp(34px, 3.8vw, 56px)",
+                }}
+              >
+                {coach.name}
+              </h3>
+
+              {/* Ciudad + país con separador · */}
+              <p className="mt-3 text-[14px] font-medium tracking-[0.4px] text-white/70">
+                {coach.location.city} · {coach.location.country}
+              </p>
+            </div>
+
+            {/* Logro del mes — pull-quote con barra gold lateral */}
+            <div
+              className="relative pl-5 py-1"
+              style={{
+                borderLeft: "2px solid rgba(220,175,100,0.55)",
+              }}
+            >
+              <span className="block text-[9px] font-bold tracking-[3px] uppercase text-[var(--g1)] mb-2">
+                {s.achievementLabel}
+              </span>
+              <p
+                className="text-[14px] max-[960px]:text-[13px] leading-[1.55] italic"
+                style={{ color: "rgba(245,240,232,0.88)" }}
+              >
+                {s.achievement}
+              </p>
+            </div>
+
+            {/* CTA — consistente con "Pregunta a J3" del popup del mapa.
+                Abre el chat con contexto del coach (mismo flujo). */}
+            <button
+              type="button"
+              onClick={handleAsk}
+              className="group inline-flex items-center gap-2 text-[11px] font-bold tracking-[2.5px] uppercase text-[#000] px-6 py-3 self-start transition-all duration-300"
+              style={{
+                background: "linear-gradient(135deg, #f0c478, #dcaf64)",
+                borderRadius: 2,
+                boxShadow: "0 4px 16px rgba(220,175,100,0.25)",
+              }}
+            >
+              {s.ctaLabel}
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              >
+                <path d="M5 12h14" />
+                <path d="M12 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const { t } = useI18n();
   const { ref, visible } = useReveal(0.15);
@@ -3384,6 +3611,11 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
           </>
         )}
       </div>
+
+      {/* Coach del mes — pieza editorial que cierra la sección con emoción
+          antes del CTA Coach360. Se actualiza manualmente vía i18n
+          (coachSlug + achievement). */}
+      <CoachOfMonthBlock />
 
       {/* Coach360 CTA */}
       <div id="coach360" className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto pb-[80px] max-[960px]:pb-[56px] scroll-mt-[120px]">

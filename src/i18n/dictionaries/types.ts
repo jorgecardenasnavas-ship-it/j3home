@@ -558,6 +558,19 @@ export interface Dictionary {
         readonly cta: string;
         readonly href: string;
       };
+      /** Sección editorial "Coach del mes" — destaca un coach activo
+       *  elegido manualmente por J3. Se coloca entre la grid y el CTA
+       *  Coach360 como climax emocional de la sección de red. */
+      readonly coachOfMonth: {
+        readonly eyebrow: string;          // "Coach del mes"
+        readonly period: string;            // "Abril 2026"
+        readonly edition: string;           // "Nº 01"
+        readonly achievementLabel: string;  // "Logro del mes"
+        readonly achievement: string;       // texto editorial del logro
+        readonly ctaLabel: string;          // "Pregunta a J3"
+        /** Slug del coach a destacar. Debe existir en COACHES. */
+        readonly coachSlug: string;
+      };
     };
 
     coachesPage: {
