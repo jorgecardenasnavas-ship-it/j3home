@@ -937,6 +937,12 @@ export const es = {
       note: "Sin compromiso \u00B7 Sin formularios \u00B7 Respuesta directa",
       waMsg: "Hola J3P\u00E1del, quiero informaci\u00F3n sobre vuestros programas.",
     },
+
+    clubesHandoff: {
+      eyebrow: "\u00BFEres club?",
+      body: "Plug & play. En 3 meses, tu club y tu academia en otro nivel.",
+      cta: "Descubrir",
+    },
   },
 
   /* ── Experience page ── */

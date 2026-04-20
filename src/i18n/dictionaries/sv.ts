@@ -944,6 +944,12 @@ export const sv = {
       note: "Utan f\u00F6rpliktelse \u00B7 Inga formul\u00E4r \u00B7 Direkt svar",
       waMsg: "Hej J3P\u00E1del, jag vill ha information om era program.",
     },
+
+    clubesHandoff: {
+      eyebrow: "Har du en klubb?",
+      body: "Plug & play. P\u00E5 3 m\u00E5nader lyfts din klubb och akademi till n\u00E4sta niv\u00E5.",
+      cta: "Uppt\u00E4ck",
+    },
   },
 
   /* ── Experience page ── */

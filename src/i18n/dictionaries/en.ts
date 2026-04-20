@@ -944,6 +944,12 @@ export const en = {
       note: "No commitment \u00B7 No forms \u00B7 Direct reply",
       waMsg: "Hi J3P\u00E1del, I\u2019d like information about your programs.",
     },
+
+    clubesHandoff: {
+      eyebrow: "Own a club?",
+      body: "Plug & play. In 3 months, your club and academy at another level.",
+      cta: "Discover",
+    },
   },
 
   /* ── Experience page ── */

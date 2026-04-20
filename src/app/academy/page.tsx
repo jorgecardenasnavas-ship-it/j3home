@@ -4255,6 +4255,8 @@ export default function AcademyV2Page() {
  * visual — no compite con el CTA anterior.
  */
 function ClubesHandoffBanner() {
+  const { t } = useI18n();
+  const c = t.academy.clubesHandoff;
   return (
     <section className="border-t border-white/[.06] bg-[var(--bk)]">
       <div className="max-w-[1600px] mx-auto px-4 max-[960px]:px-3 py-10 max-[960px]:py-8">
@@ -4270,14 +4272,14 @@ function ClubesHandoffBanner() {
           <div className="flex items-center justify-between gap-6 flex-wrap">
             <div>
               <span className="text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)] block mb-1.5">
-                ¿Eres club?
+                {c.eyebrow}
               </span>
-              <p className="text-[14px] max-[640px]:text-[13px] text-white/85 leading-[1.4]">
-                Lleva J3 a tu espacio. Modelo llave en mano para clubes.
+              <p className="text-[14px] max-[640px]:text-[13px] text-white/85 leading-[1.4] max-w-[640px]">
+                {c.body}
               </p>
             </div>
-            <span className="inline-flex items-center gap-2 text-[11px] font-bold tracking-[2.5px] uppercase text-[var(--g1)] group-hover:gap-3 transition-all duration-500">
-              Descubrir
+            <span className="inline-flex items-center gap-2 text-[11px] font-bold tracking-[2.5px] uppercase text-[var(--g1)] group-hover:gap-3 transition-all duration-500 shrink-0">
+              {c.cta}
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                 <path d="M5 12h14" />
                 <path d="M12 5l7 7-7 7" />

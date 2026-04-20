@@ -672,6 +672,15 @@ export interface Dictionary {
       readonly note: string;
       readonly waMsg: string;
     };
+
+    /** Mini-banner al final de /academy que redirige a /clubes.
+     *  Teaser corto con hooks de plug & play + 3 meses + otro nivel.
+     *  Detalles (método, software, automatizaciones) viven en /clubes. */
+    clubesHandoff: {
+      readonly eyebrow: string;
+      readonly body: string;
+      readonly cta: string;
+    };
   };
 
   /* ── Experience page ── */
