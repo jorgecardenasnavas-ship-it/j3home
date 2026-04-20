@@ -936,13 +936,13 @@ export const pt = {
     },
 
     cta: {
-      eyebrow: "Primeiro contacto",
-      titlePre: "Come\u00E7a",
-      titleAccent: "hoje.",
-      subtitle: "Conta-nos o teu n\u00EDvel, os teus objetivos e a tua disponibilidade. Respondemos em menos de 24\u00A0horas.",
+      eyebrow: "Come\u00E7a hoje",
+      titlePre: "O m\u00E9todo n\u00E3o se explica. ",
+      titleAccent: "Treina-se.",
+      subtitle: "Juniors, Adultos ou Intensive Training \u2014 tr\u00EAs caminhos, um m\u00E9todo. Em M\u00E1laga, desde 2004.",
       button: "Escrever por WhatsApp",
       note: "Sem compromisso \u00B7 Sem formul\u00E1rios \u00B7 Resposta direta",
-      waMsg: "Ol\u00E1, quero informa\u00E7\u00E3o sobre a J3Academy",
+      waMsg: "Ol\u00E1 J3P\u00E1del, quero informa\u00E7\u00E3o sobre os vossos programas.",
     },
   },
 

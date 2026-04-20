@@ -936,13 +936,13 @@ export const sv = {
     },
 
     cta: {
-      eyebrow: "F\u00F6rsta kontakt",
-      titlePre: "B\u00F6rja",
-      titleAccent: "idag.",
-      subtitle: "Ber\u00E4tta om din niv\u00E5, dina m\u00E5l och n\u00E4r du kan. Vi svarar p\u00E5 mindre \u00E4n 24\u00A0timmar.",
+      eyebrow: "B\u00F6rja idag",
+      titlePre: "Metoden f\u00F6rklaras inte. ",
+      titleAccent: "Den tr\u00E4nas.",
+      subtitle: "Juniors, vuxna eller Intensive Training \u2014 tre v\u00E4gar, en metod. I M\u00E1laga, sedan 2004.",
       button: "Skriv p\u00E5 WhatsApp",
       note: "Utan f\u00F6rpliktelse \u00B7 Inga formul\u00E4r \u00B7 Direkt svar",
-      waMsg: "Hej, jag vill ha information om J3Academy",
+      waMsg: "Hej J3P\u00E1del, jag vill ha information om era program.",
     },
   },
 

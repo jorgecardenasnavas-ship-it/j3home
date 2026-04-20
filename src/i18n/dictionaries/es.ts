@@ -929,13 +929,13 @@ export const es = {
     },
 
     cta: {
-      eyebrow: "Primera toma de contacto",
-      titlePre: "Empieza",
-      titleAccent: "hoy.",
-      subtitle: "Cu\u00E9ntanos tu nivel, tus objetivos y tu disponibilidad. Te respondemos en menos de 24\u00A0horas.",
+      eyebrow: "Empieza hoy",
+      titlePre: "El m\u00E9todo no se explica. ",
+      titleAccent: "Se entrena.",
+      subtitle: "Juniors, Adultos o Intensive Training \u2014 tres caminos, un mismo m\u00E9todo. En M\u00E1laga, desde 2004.",
       button: "Escribir por WhatsApp",
       note: "Sin compromiso \u00B7 Sin formularios \u00B7 Respuesta directa",
-      waMsg: "Hola, quiero informaci\u00F3n sobre J3Academy",
+      waMsg: "Hola J3P\u00E1del, quiero informaci\u00F3n sobre vuestros programas.",
     },
   },
 

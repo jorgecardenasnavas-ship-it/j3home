@@ -936,13 +936,13 @@ export const fr = {
     },
 
     cta: {
-      eyebrow: "Premier contact",
-      titlePre: "Commence",
-      titleAccent: "aujourd\u2019hui.",
-      subtitle: "Dites-nous votre niveau, vos objectifs et vos disponibilit\u00E9s. Nous vous r\u00E9pondons en moins de 24\u00A0heures.",
+      eyebrow: "Commence aujourd\u2019hui",
+      titlePre: "La m\u00E9thode ne s\u2019explique pas. ",
+      titleAccent: "Elle s\u2019entra\u00EEne.",
+      subtitle: "Juniors, Adultes ou Intensive Training \u2014 trois chemins, une m\u00E9thode. \u00C0 M\u00E1laga, depuis 2004.",
       button: "\u00C9crire sur WhatsApp",
       note: "Sans engagement \u00B7 Sans formulaires \u00B7 R\u00E9ponse directe",
-      waMsg: "Bonjour, je souhaite des informations sur J3Academy",
+      waMsg: "Bonjour J3P\u00E1del, je souhaite des informations sur vos programmes.",
     },
   },
 

@@ -4,14 +4,17 @@ import Link from "next/link";
 import { useI18n } from "@/i18n/context";
 
 
+/* Footer navigation. Priorizamos las rutas que tienen página real
+   (no 404). Las que están pendientes de desarrollo (Business, Partner,
+   J3PTV) se reintroducirán cuando sus páginas existan — mejor no
+   publicar links rotos. */
 const footerLinks = [
-  { label: "Coach360", href: "https://j3padel.com/join", external: true },
   { label: "Academy", href: "/academy", external: false },
-  { label: "Business", href: "/business", external: false },
+  { label: "El Sello", href: "/sello", external: false },
+  { label: "Para Clubes", href: "/clubes", external: false },
   { label: "Experience", href: "/experience", external: false },
-  { label: "Partner", href: "/partner", external: false },
-  { label: "J3PTV", href: "/j3ptv", external: false },
   { label: "Story", href: "/story", external: false },
+  { label: "Coach360", href: "https://j3padel.com/join", external: true },
 ] as const;
 
 export function Footer() {
