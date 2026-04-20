@@ -490,14 +490,16 @@ export interface Dictionary {
       readonly monthShort: readonly [string, string, string, string, string, string, string, string, string, string, string, string];
       /** Template antigüedad. Ej: "Coach360 desde {date}" — se sustituye por "Ago 2025". */
       readonly memberSince: string;
-      /** Label "Certificado" (sin fecha — el mapa solo muestra certificados activos). */
-      readonly certifiedSince: string;
+      /** Label "Cualificado" — coach que ha demostrado conocimiento del método
+       *  (examen + trabajo académico). Distinto de Verificado, que añade
+       *  verificación práctica 1:1 por parte de J3. */
+      readonly qualifiedSince: string;
       readonly askChatbot: string;
       /** Título de la mini-leyenda del mapa (bottom-left) */
       readonly legendTitle: string;
       /** Label de la fila "Headquarter" en la leyenda */
       readonly legendHq: string;
-      /** Fila "Coach certificado" — pin gold lleno (sin anillo). */
+      /** Fila "Coach360 cualificado" — pin gold lleno (sin anillo). */
       readonly legendCoach: string;
       /** Fila "Coach Verificado J3" — pin con anillo exterior. */
       readonly legendCoachVerified: string;
@@ -514,12 +516,12 @@ export interface Dictionary {
        *  "en proceso". Viaje de 4 peldaños:
        *   1. Coach        → pre-J3 (raw, past)
        *   2. Coach360     → ya dentro del sistema (current para PLUS en proceso)
-       *   3. Certificado  → futuro próximo
-       *   4. Verificado   → futuro lejano (trabajo 1:1 con J3)
+       *   3. Cualificado  → conocimiento del método atestiguado (examen)
+       *   4. Verificado   → J3 verifica la práctica 1:1 (también cualificado)
        */
       readonly stageCoach: string;
       readonly stageCoach360: string;
-      readonly stageCertificado: string;
+      readonly stageCualificado: string;
       readonly stageVerificado: string;
       /** Label de la fila "Cluster (agrupación)" en la leyenda */
       readonly legendCluster: string;

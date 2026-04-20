@@ -889,7 +889,7 @@ function HeroSection() {
     distinctionExperienciaFamiliar: t.academy.network.distinctionExperienciaFamiliar,
     monthShort: t.academy.network.monthShort,
     memberSince: t.academy.network.memberSince,
-    certifiedSince: t.academy.network.certifiedSince,
+    qualifiedSince: t.academy.network.qualifiedSince,
     askChatbot: t.academy.network.askChatbot,
     legendTitle: t.academy.network.legendTitle,
     legendHq: t.academy.network.legendHq,
@@ -908,7 +908,7 @@ function HeroSection() {
     inProgressNote: t.academy.network.inProgressNote,
     stageCoach: t.academy.network.stageCoach,
     stageCoach360: t.academy.network.stageCoach360,
-    stageCertificado: t.academy.network.stageCertificado,
+    stageCualificado: t.academy.network.stageCualificado,
     stageVerificado: t.academy.network.stageVerificado,
   };
 
@@ -2528,7 +2528,7 @@ function PorscheCoachCard({
     badgeVerified: string;
     monthShort: readonly string[];
     memberSince: string;
-    certifiedSince: string;
+    qualifiedSince: string;
     askChatbot: string;
     kmFromYou?: string;
   };
@@ -2705,7 +2705,7 @@ function PorscheCoachCard({
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="shrink-0">
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
-                <span className="truncate">{labels.certifiedSince}</span>
+                <span className="truncate">{labels.qualifiedSince}</span>
               </p>
             )}
             {/* Club principal — línea sutil debajo del certificado. */}
@@ -2751,7 +2751,7 @@ function CoachesCarousel({
     badgeVerified: string;
     monthShort: readonly string[];
     memberSince: string;
-    certifiedSince: string;
+    qualifiedSince: string;
     askChatbot: string;
     kmFromYou?: string;
   };
@@ -2895,7 +2895,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
     badgeVerified: t.academy.network.badgeVerified,
     monthShort: t.academy.network.monthShort,
     memberSince: t.academy.network.memberSince,
-    certifiedSince: t.academy.network.certifiedSince,
+    qualifiedSince: t.academy.network.qualifiedSince,
     askChatbot: t.academy.network.askChatbot,
     kmFromYou: t.academy.network.kmFromYou,
   };

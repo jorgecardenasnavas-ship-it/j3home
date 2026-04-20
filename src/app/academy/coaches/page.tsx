@@ -83,7 +83,7 @@ function CoachesCatalogContent() {
     distinctionExperienciaFamiliar: t.academy.network.distinctionExperienciaFamiliar,
     monthShort: t.academy.network.monthShort,
     memberSince: t.academy.network.memberSince,
-    certifiedSince: t.academy.network.certifiedSince,
+    qualifiedSince: t.academy.network.qualifiedSince,
     askChatbot: t.academy.network.askChatbot,
   };
 

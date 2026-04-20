@@ -606,13 +606,14 @@ interface PopupLabels {
   monthShort: readonly string[];
   /** Template "Miembro desde {date}" — placeholder {date} → "Ago 2025" */
   memberSince: string;
-  /** Label "Certificado" (sin fecha, solo aparece para coaches activos) */
-  certifiedSince: string;
+  /** Label "Cualificado" — coach que demostró conocimiento del método (examen).
+   *  Distinto de Verificado, que añade verificación 1:1 de la práctica. */
+  qualifiedSince: string;
   askChatbot: string;
   /** Labels de la mini-leyenda (Headquarter · Coach · Cluster) */
   legendTitle: string;
   legendHq: string;
-  /** Fila "Coach certificado" — pin gold lleno. */
+  /** Fila "Coach360 cualificado" — pin gold lleno. */
   legendCoach: string;
   /** Fila "Coach Verificado J3" — pin con anillo exterior. */
   legendCoachVerified: string;
@@ -638,10 +639,10 @@ interface PopupLabels {
   /** Nota al pie del popup "en proceso": "Disponible cuando obtenga su certificación" (legacy) */
   inProgressNote: string;
   /** Estaciones del viaje J3 — labels micro bajo los dots del progress bar.
-   *  4 peldaños: Coach (pre-J3) → Coach360 → Certificado → Verificado. */
+   *  4 peldaños: Coach (pre-J3) → Coach360 → Cualificado → Verificado. */
   stageCoach: string;
   stageCoach360: string;
-  stageCertificado: string;
+  stageCualificado: string;
   stageVerificado: string;
 }
 
@@ -913,7 +914,7 @@ function PopupContent({
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden style={{ flexShrink: 0 }}>
                 <polyline points="20 6 9 17 4 12" />
               </svg>
-              <span>{labels.certifiedSince}</span>
+              <span>{labels.qualifiedSince}</span>
             </div>
           )}
         </div>
@@ -1126,7 +1127,7 @@ function InProgressPopupContent({ coach: c, labels }: { coach: Coach; labels: Po
   const STAGES = [
     { key: "coach"       as const, label: labels.stageCoach,       state: "past"    as const },
     { key: "coach360"    as const, label: labels.stageCoach360,    state: "current" as const },
-    { key: "certificado" as const, label: labels.stageCertificado, state: "future"  as const },
+    { key: "cualificado" as const, label: labels.stageCualificado, state: "future"  as const },
     { key: "verificado"  as const, label: labels.stageVerificado,  state: "future"  as const },
   ];
 

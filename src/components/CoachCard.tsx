@@ -44,7 +44,7 @@ interface CoachCardProps {
     /** Meses abreviados (Ene, Feb…) — índice 0=enero. 12 items. */
     monthShort: readonly string[];
     memberSince: string;
-    certifiedSince: string;
+    qualifiedSince: string;
     askChatbot: string;
     /** Template "a {km} km de ti". Opcional: solo se muestra si hay userCoords. */
     kmFromYou?: string;
@@ -266,7 +266,7 @@ export default function CoachCard({ coach, labels, userCoords, onAsk }: CoachCar
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="shrink-0">
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
-                {labels.certifiedSince}
+                {labels.qualifiedSince}
               </span>
             )}
           </div>
