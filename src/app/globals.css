@@ -664,12 +664,14 @@ html[data-theme="light"] .theme-eyebrow {
   }
 }
 
-/* Coach360 signature overflow — flagship tile only */
-.pc-card[data-flagship="true"] {
-  overflow: visible !important;
-}
-.pc-card[data-flagship="true"] .tile-bg {
-  inset: -8%;
+/* Coach360 signature overflow — flagship tile only, desktop only */
+@media (min-width: 961px) {
+  .pc-card[data-flagship="true"] {
+    overflow: visible !important;
+  }
+  .pc-card[data-flagship="true"] .tile-bg {
+    inset: -8%;
+  }
 }
 
 /* ─── CatalogIntro — numeral 08 + label ─── */

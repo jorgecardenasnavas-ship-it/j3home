@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type RefObject } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 
 type UseScrollScrubOptions = {
   framePathBuilder: (idx: number) => string;
@@ -22,6 +22,7 @@ export function useScrollScrub({
   preloadTimeoutMs = 8000,
 }: UseScrollScrubOptions): ScrubState {
   const [state, setState] = useState<ScrubState>("idle");
+  const imagesRef = useRef<HTMLImageElement[]>([]);
 
   useEffect(() => {
     if (!enabled) return;
@@ -32,7 +33,7 @@ export function useScrollScrub({
 
     setState("loading");
 
-    const images: HTMLImageElement[] = [];
+    imagesRef.current = [];
     let cancelled = false;
     let loadedCount = 0;
 
@@ -60,7 +61,7 @@ export function useScrollScrub({
         window.clearTimeout(timeoutId);
         setState("failed");
       };
-      images.push(img);
+      imagesRef.current.push(img);
     }
 
     return () => {
@@ -79,12 +80,7 @@ export function useScrollScrub({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const images: HTMLImageElement[] = [];
-    for (let i = 0; i < frameCount; i++) {
-      const img = new Image();
-      img.src = framePathBuilder(i);
-      images.push(img);
-    }
+    const images = imagesRef.current;
 
     let rafId = 0;
     let lastFrameIdx = -1;
@@ -96,7 +92,7 @@ export function useScrollScrub({
       canvas!.height = rect.height * dpr;
       canvas!.style.width = `${rect.width}px`;
       canvas!.style.height = `${rect.height}px`;
-      ctx!.scale(dpr, dpr);
+      ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
     function drawFrame(idx: number) {
@@ -154,7 +150,7 @@ export function useScrollScrub({
       window.removeEventListener("resize", resizeCanvas);
       if (rafId) window.cancelAnimationFrame(rafId);
     };
-  }, [state, frameCount, framePathBuilder, canvasRef, sectionRef]);
+  }, [state, frameCount, canvasRef, sectionRef]);
 
   return state;
 }

@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { useI18n } from "@/i18n/context";
 import { useScrollScrub } from "@/hooks/useScrollScrub";
 
+const FRAME_PATH = (i: number) => `/videos/frames/f${String(i + 1).padStart(3, "0")}.jpg`;
+
 export function HeroSection() {
   const heroRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -56,7 +58,7 @@ export function HeroSection() {
   }, []);
 
   const scrubState = useScrollScrub({
-    framePathBuilder: (i) => `/videos/frames/f${String(i + 1).padStart(3, "0")}.jpg`,
+    framePathBuilder: FRAME_PATH,
     frameCount: 193,
     canvasRef,
     sectionRef: heroRef,
