@@ -674,65 +674,6 @@ html[data-theme="light"] .theme-eyebrow {
   }
 }
 
-/* ─── CatalogIntro — numeral 08 + label ─── */
-.catalog-intro {
-  height: 50vh;
-  min-height: 280px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 24px;
-  background: #000;
-}
-@media (max-width: 960px) {
-  .catalog-intro {
-    height: 35vh;
-    min-height: 200px;
-  }
-}
-.catalog-intro-label {
-  font-size: 10px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.3);
-  opacity: 0;
-  transform: translateY(10px);
-  transition:
-    opacity 0.8s var(--ease-out),
-    transform 0.8s var(--ease-out);
-}
-.catalog-intro-label.in {
-  opacity: 1;
-  transform: translateY(0);
-}
-.catalog-intro-number {
-  font-size: clamp(120px, 16vw, 240px);
-  font-weight: 200;
-  letter-spacing: -8px;
-  line-height: 1;
-  background: linear-gradient(135deg, var(--g1) 0%, var(--g2) 45%, #b8943e 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  opacity: 0;
-  transform: translateY(30px);
-  transition:
-    opacity 1.2s var(--ease-out),
-    transform 1.2s var(--ease-out);
-  transition-delay: 200ms;
-}
-.catalog-intro-number.in {
-  opacity: 1;
-  transform: translateY(0);
-}
-@media (max-width: 960px) {
-  .catalog-intro-number {
-    font-size: clamp(80px, 20vw, 160px);
-    letter-spacing: -5px;
-  }
-}
-
 /* ─── FooterClose — tagline + gold line scroll-drawn ─── */
 .footer-close {
   padding-block: 18vh;
@@ -781,22 +722,6 @@ html[data-theme="light"] .theme-eyebrow {
   .footer-close-line.in {
     width: 80%;
   }
-}
-
-/* ─── Hero scroll-scrub canvas ─── */
-.hero-scrub-canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 0.8s var(--ease-out);
-  z-index: 1;
-  pointer-events: none;
-}
-.hero-scrub-canvas.active {
-  opacity: 1;
 }
 
 /* ─── Nike pill button hover glow ─── */
@@ -977,9 +902,7 @@ html[data-theme="light"] .theme-eyebrow {
   .sponsor-logo,
   .sponsor-line,
   .tile-bg > img,
-  .tile-bg > video,
-  .catalog-intro-label,
-  .catalog-intro-number {
+  .tile-bg > video {
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;
@@ -988,10 +911,6 @@ html[data-theme="light"] .theme-eyebrow {
   .footer-close-line {
     width: 60% !important;
     transition: none !important;
-  }
-
-  .hero-scrub-canvas {
-    display: none !important;
   }
 
   .hero-word {

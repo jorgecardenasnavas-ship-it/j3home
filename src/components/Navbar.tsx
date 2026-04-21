@@ -317,7 +317,7 @@ export function Navbar() {
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`fixed inset-0 z-90 bg-black/95 backdrop-blur-[30px] flex flex-col items-center justify-center gap-7 transition-all duration-500 min-[961px]:hidden ${
+        className={`fixed inset-0 z-[90] bg-black/95 backdrop-blur-[30px] flex flex-col items-center justify-center gap-7 transition-all duration-500 min-[961px]:hidden ${
           menuOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"

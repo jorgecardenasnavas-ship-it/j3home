@@ -27,7 +27,7 @@ const TILES: TileConfig[] = [
     isExternal: true,
     soon: false,
     fullWidth: false,
-    asset: { type: "video", src: "/videos/empresas-bg.mp4", poster: "/images/academy/empresas.jpeg" },
+    asset: { type: "image", src: "/images/academy/empresas.jpeg" },
   },
   {
     nameParts: [{ text: "Training", gold: true }, { text: "\u00A0Camp", gold: false }],
@@ -39,7 +39,7 @@ const TILES: TileConfig[] = [
     isExternal: false,
     soon: false,
     fullWidth: false,
-    asset: { type: "image", src: "/images/academy/pro.jpeg" },
+    asset: { type: "image", src: "/images/academy/stage-group.jpeg" },
   },
   {
     nameParts: [{ text: "J3\u00A0", gold: true }, { text: "Adults", gold: false }],
@@ -87,7 +87,7 @@ const TILES: TileConfig[] = [
     isExternal: false,
     soon: true,
     fullWidth: false,
-    asset: { type: "image", src: "/images/academy/stage-group.jpeg" },
+    asset: { type: "image", src: "/images/academy/pro.jpeg" },
   },
   {
     nameParts: [{ text: "J3\u00A0", gold: true }, { text: "Experience", gold: false }],
@@ -99,7 +99,7 @@ const TILES: TileConfig[] = [
     isExternal: false,
     soon: true,
     fullWidth: true,
-    asset: { type: "video", src: "/videos/j3-brand-evolution.mp4" },
+    asset: { type: "video", src: "/videos/empresas-bg.mp4" },
   },
   {
     nameParts: [{ text: "J3\u00A0", gold: true }, { text: "Partner", gold: false }],
@@ -329,7 +329,7 @@ export function ProductsGrid() {
                 <div className="pc-glow absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-500 z-0" />
                 {topAccent}
                 {watermark}
-                <div className="relative z-10 flex items-center justify-between gap-16 max-[960px]:flex-col max-[960px]:items-start max-[960px]:gap-6 py-14 px-12 max-[960px]:py-12 max-[960px]:px-8">
+                <div className="relative z-10 flex items-center justify-between gap-16 max-[960px]:flex-col max-[960px]:items-start max-[960px]:gap-6 py-24 px-14 max-[960px]:py-16 max-[960px]:px-8">
                   <div>
                     {tagLine}
                     {productName}
@@ -366,13 +366,13 @@ export function ProductsGrid() {
               <div className="pc-glow absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-500 z-0" />
               {topAccent}
               {watermark}
-              <div className="relative z-10 flex flex-col justify-between min-h-[280px] max-[960px]:min-h-0 py-14 px-10 max-[960px]:py-12 max-[960px]:px-8">
+              <div className="relative z-10 flex flex-col justify-between min-h-[400px] max-[960px]:min-h-[320px] py-24 px-12 max-[960px]:py-16 max-[960px]:px-8">
                 <div>
                   {tagLine}
                   {productName}
                   {forLabel}
                 </div>
-                <div className="mt-8 max-[960px]:mt-6">{ctaEl}</div>
+                <div className="mt-14 max-[960px]:mt-10">{ctaEl}</div>
               </div>
             </div>
             {divider}
