@@ -71,6 +71,9 @@ export const es = {
     line1: "Un entorno completo para aficionados, jugadores y entrenadores exigentes.",
     line2: "Un sistema de gesti\u00F3n integral para academias y clubes de p\u00E1del.",
     closer: "Optimizar. Automatizar. Escalar.",
+    catalogIntro: {
+      label: "productos",
+    },
   },
 
   products: {

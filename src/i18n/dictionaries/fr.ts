@@ -71,6 +71,9 @@ export const fr = {
     line1: "Un environnement complet pour les passionn\u00E9s, joueurs et entra\u00EEneurs exigeants.",
     line2: "Un syst\u00E8me de gestion int\u00E9gral pour acad\u00E9mies et clubs de padel.",
     closer: "Optimiser. Automatiser. D\u00E9velopper.",
+    catalogIntro: {
+      label: "produits",
+    },
   },
 
   products: {

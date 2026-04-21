@@ -71,6 +71,9 @@ export const en = {
     line1: "A complete environment for demanding enthusiasts, players and coaches.",
     line2: "An end-to-end management system for padel academies and clubs.",
     closer: "Optimize. Automate. Scale.",
+    catalogIntro: {
+      label: "products",
+    },
   },
 
   products: {

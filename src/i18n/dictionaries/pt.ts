@@ -71,6 +71,9 @@ export const pt = {
     line1: "Um ambiente completo para amadores, jogadores e treinadores exigentes.",
     line2: "Um sistema de gestão integral para academias e clubes de padel.",
     closer: "Otimizar. Automatizar. Escalar.",
+    catalogIntro: {
+      label: "produtos",
+    },
   },
 
   products: {

@@ -71,6 +71,9 @@ export const sv = {
     line1: "En komplett miljö för entusiaster, spelare och krävande tränare.",
     line2: "Ett helhetssystem för förvaltning av padelakademier och klubbar.",
     closer: "Optimera. Automatisera. Skala upp.",
+    catalogIntro: {
+      label: "produkter",
+    },
   },
 
   products: {
