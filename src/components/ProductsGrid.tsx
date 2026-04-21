@@ -13,6 +13,7 @@ interface TileConfig {
   isExternal: boolean;
   soon: boolean;
   fullWidth: boolean;
+  asset: { type: "image" | "video"; src: string; poster?: string };
 }
 
 const TILES: TileConfig[] = [
@@ -26,6 +27,7 @@ const TILES: TileConfig[] = [
     isExternal: true,
     soon: false,
     fullWidth: false,
+    asset: { type: "video", src: "/videos/empresas-bg.mp4", poster: "/images/academy/empresas.jpeg" },
   },
   {
     nameParts: [{ text: "Training", gold: true }, { text: "\u00A0Camp", gold: false }],
@@ -37,6 +39,7 @@ const TILES: TileConfig[] = [
     isExternal: false,
     soon: false,
     fullWidth: false,
+    asset: { type: "image", src: "/images/academy/pro.jpeg" },
   },
   {
     nameParts: [{ text: "J3\u00A0", gold: true }, { text: "Adults", gold: false }],
@@ -48,6 +51,7 @@ const TILES: TileConfig[] = [
     isExternal: false,
     soon: false,
     fullWidth: false,
+    asset: { type: "image", src: "/images/academy/amateur.jpeg" },
   },
   {
     nameParts: [{ text: "J3\u00A0", gold: true }, { text: "Juniors", gold: false }],
@@ -59,6 +63,7 @@ const TILES: TileConfig[] = [
     isExternal: false,
     soon: false,
     fullWidth: false,
+    asset: { type: "image", src: "/images/academy/kids.jpeg" },
   },
   {
     nameParts: [{ text: "J3P", gold: true }, { text: "TV", gold: false }],
@@ -70,6 +75,7 @@ const TILES: TileConfig[] = [
     isExternal: false,
     soon: true,
     fullWidth: false,
+    asset: { type: "video", src: "/videos/play_1080.webm" },
   },
   {
     nameParts: [{ text: "Business", gold: true }, { text: "\u00A0Plan", gold: false }],
@@ -81,6 +87,7 @@ const TILES: TileConfig[] = [
     isExternal: false,
     soon: true,
     fullWidth: false,
+    asset: { type: "image", src: "/images/academy/stage-group.jpeg" },
   },
   {
     nameParts: [{ text: "J3\u00A0", gold: true }, { text: "Experience", gold: false }],
@@ -92,6 +99,7 @@ const TILES: TileConfig[] = [
     isExternal: false,
     soon: true,
     fullWidth: true,
+    asset: { type: "video", src: "/videos/j3-brand-evolution.mp4" },
   },
   {
     nameParts: [{ text: "J3\u00A0", gold: true }, { text: "Partner", gold: false }],
@@ -103,8 +111,33 @@ const TILES: TileConfig[] = [
     isExternal: false,
     soon: true,
     fullWidth: true,
+    asset: { type: "image", src: "/images/j3/alquilavisual.jpg" },
   },
 ];
+
+function TileBackground({ asset }: { asset: TileConfig["asset"] }) {
+  if (asset.type === "video") {
+    return (
+      <div className="tile-bg">
+        <video
+          src={asset.src}
+          poster={asset.poster}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-hidden="true"
+        />
+      </div>
+    );
+  }
+  return (
+    <div className="tile-bg">
+      <img src={asset.src} alt="" aria-hidden="true" />
+    </div>
+  );
+}
 
 const DIVIDER_AFTER_INDEX = 1;
 
@@ -287,10 +320,12 @@ export function ProductsGrid() {
             <React.Fragment key={tile.watermark}>
               <div
                 data-idx={idx}
+                data-flagship={idx === 0 ? "true" : undefined}
                 className={`pc-card group relative overflow-hidden col-span-2 max-[960px]:col-span-1 border-t border-white/[.06] transition-all duration-300 ${
                   isDark ? "bg-black hover:bg-[rgba(220,175,100,.02)]" : "bg-[#f5f5f7] hover:bg-[#efefef]"
                 }`}
               >
+                <TileBackground asset={tile.asset} />
                 <div className="pc-glow absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-500 z-0" />
                 {topAccent}
                 {watermark}
@@ -312,6 +347,7 @@ export function ProductsGrid() {
           <React.Fragment key={tile.watermark}>
             <div
               data-idx={idx}
+              data-flagship={idx === 0 ? "true" : undefined}
               className={`pc-card group relative overflow-hidden border-t border-white/[.06] transition-all duration-300 ${
                 tile.featured
                   ? isDark
@@ -326,6 +362,7 @@ export function ProductsGrid() {
                   : ""
               }`}
             >
+              <TileBackground asset={tile.asset} />
               <div className="pc-glow absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-500 z-0" />
               {topAccent}
               {watermark}
