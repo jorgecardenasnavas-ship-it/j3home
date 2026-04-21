@@ -276,7 +276,7 @@ export function ProductsGrid() {
           idx === DIVIDER_AFTER_INDEX ? (
             <div
               key="academy-divider"
-              className="col-span-2 max-[960px]:col-span-1 px-12 max-[960px]:px-6 py-[14px] border-b border-white/[.06] bg-white/[.01] text-[9px] font-normal tracking-[4px] uppercase text-white/[.18]"
+              className="col-span-2 max-[960px]:col-span-1 px-12 max-[960px]:px-6 py-[14px] border-white/[.06] bg-white/[.01] text-[9px] font-normal tracking-[4px] uppercase text-white/[.18]"
             >
               {t.products.academyDivider}
             </div>
@@ -285,7 +285,6 @@ export function ProductsGrid() {
         if (tile.fullWidth) {
           return (
             <React.Fragment key={tile.watermark}>
-              {divider}
               <div
                 data-idx={idx}
                 className={`pc-card group relative overflow-hidden col-span-2 max-[960px]:col-span-1 border-t border-white/[.06] transition-all duration-300 ${
@@ -304,13 +303,13 @@ export function ProductsGrid() {
                   <div className="shrink-0">{ctaEl}</div>
                 </div>
               </div>
+              {divider}
             </React.Fragment>
           );
         }
 
         return (
           <React.Fragment key={tile.watermark}>
-            {divider}
             <div
               data-idx={idx}
               className={`pc-card group relative overflow-hidden border-t border-white/[.06] transition-all duration-300 ${
@@ -339,6 +338,7 @@ export function ProductsGrid() {
                 <div className="mt-8 max-[960px]:mt-6">{ctaEl}</div>
               </div>
             </div>
+            {divider}
           </React.Fragment>
         );
       })}
