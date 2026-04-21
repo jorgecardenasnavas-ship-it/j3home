@@ -62,11 +62,11 @@ export interface Dictionary {
   };
 
   products: {
+    academyDivider: string;
     cards: readonly {
       tag: string;
       forLabel: string;
-      description?: string;
-      buttons: readonly string[];
+      cta: string;
     }[];
   };
 
