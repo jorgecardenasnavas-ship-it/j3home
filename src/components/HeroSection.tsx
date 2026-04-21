@@ -45,7 +45,7 @@ export function HeroSection() {
     <section
       id="hero"
       ref={heroRef}
-      className="h-[82vh] min-h-[600px] relative overflow-hidden flex flex-col justify-end"
+      className="h-[58vh] min-h-[460px] relative overflow-hidden flex flex-col justify-end"
     >
       {/* Background — solid black */}
       <div className="absolute inset-0 bg-black" />

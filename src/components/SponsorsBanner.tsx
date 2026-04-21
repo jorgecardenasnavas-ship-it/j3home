@@ -38,7 +38,7 @@ export function SponsorsBanner() {
     <div
       id="partners"
       ref={bannerRef}
-      className="mt-[20vh] max-[960px]:mt-[12vh] bg-white w-full py-10 max-[960px]:py-6 px-14 max-[960px]:px-6 flex flex-col items-center justify-center border-t border-black/[.06] overflow-hidden z-10"
+      className="mt-[3vh] max-[960px]:mt-[4vh] bg-white w-full py-8 max-[960px]:py-5 px-14 max-[960px]:px-6 flex flex-col items-center justify-center border-t border-black/[.06] overflow-hidden z-10"
     >
       {/* Gold line */}
       <div
