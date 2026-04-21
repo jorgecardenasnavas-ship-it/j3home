@@ -139,6 +139,32 @@ function TileBackground({ asset }: { asset: TileConfig["asset"] }) {
   );
 }
 
+function Coach360Feature() {
+  return (
+    <div className="absolute top-6 right-6 z-30 max-[960px]:top-4 max-[960px]:right-4 pointer-events-none">
+      <div className="flex items-center gap-3 bg-black/55 backdrop-blur-md border border-[rgba(212,169,74,0.3)] rounded-md pl-2 pr-4 py-2 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+        <div
+          className="w-11 h-11 rounded-full flex items-center justify-center font-bold text-[14px] shrink-0"
+          style={{ background: "var(--j3-grad)", color: "#000" }}
+        >
+          MV
+        </div>
+        <div className="flex flex-col gap-[2px]">
+          <span className="text-[8px] tracking-[2.5px] uppercase font-bold j3-grad-text">
+            Coach del mes
+          </span>
+          <span className="text-[13px] font-bold text-white leading-tight">
+            Martín Vega
+          </span>
+          <span className="text-[9px] text-white/50 leading-tight">
+            Marbella · ★ 4.9
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const DIVIDER_AFTER_INDEX = 1;
 
 export function ProductsGrid() {
@@ -366,6 +392,7 @@ export function ProductsGrid() {
               <div className="pc-glow absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-500 z-0" />
               {topAccent}
               {watermark}
+              {idx === 0 && <Coach360Feature />}
               <div className="relative z-10 flex flex-col justify-between min-h-[400px] max-[960px]:min-h-[320px] py-24 px-12 max-[960px]:py-16 max-[960px]:px-8">
                 <div>
                   {tagLine}
