@@ -74,40 +74,47 @@ export const en = {
   },
 
   products: {
+    academyDivider: "Academy · Also available for",
     cards: [
       {
-        tag: "Online \u00B7 Training",
+        tag: "Online · Training",
         forLabel: "Padel coaches",
-        description: "Insight, method and community. New content every week.",
-        buttons: ["Enter Coach360"],
+        cta: "Enter",
       },
       {
-        tag: "Online \u00B7 Content \u00B7 Entertainment",
+        tag: "Academy · Premium",
+        forLabel: "Players of all levels",
+        cta: "Book",
+      },
+      {
+        tag: "Academy · Amateur",
+        forLabel: "Adult players",
+        cta: "Enter",
+      },
+      {
+        tag: "Academy · Youth",
+        forLabel: "Young players",
+        cta: "Enter",
+      },
+      {
+        tag: "Online · Content",
         forLabel: "All profiles",
-        description: "Analysis, debate and the modern game \u2014 no noise.",
-        buttons: ["Learn more", "Sign in"],
+        cta: "Coming soon",
       },
       {
-        tag: "Headquarters \u00B7 Stages \u00B7 Camps",
-        forLabel: "Kids \u00B7 Amateur \u00B7 Junior",
-        description: "The same system used on the pro circuit, adapted to you.",
-        buttons: ["Train with us"],
-      },
-      {
-        tag: "Automation \u00B7 Management \u00B7 Optimization",
+        tag: "Automation · Management",
         forLabel: "Academies and clubs",
-        description: "Boost performance with our know-how and 1:1 support.",
-        buttons: ["Learn more", "Book a call"],
+        cta: "Coming soon",
       },
       {
-        tag: "Service \u00B7 On-site",
+        tag: "Service · In-person",
         forLabel: "Clubs, academies and groups",
-        buttons: ["Request"],
+        cta: "Coming soon",
       },
       {
-        tag: "Expansion \u00B7 Turnkey",
+        tag: "Expansion · Turnkey",
         forLabel: "Clubs and academies",
-        buttons: ["Learn more"],
+        cta: "Coming soon",
       },
     ],
   },

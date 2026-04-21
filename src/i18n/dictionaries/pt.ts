@@ -74,40 +74,47 @@ export const pt = {
   },
 
   products: {
+    academyDivider: "Academy · Também disponível para",
     cards: [
       {
         tag: "Online · Formação",
         forLabel: "Treinadores de padel",
-        description: "Critério, método e comunidade. Conteúdo novo todas as semanas.",
-        buttons: ["Entrar no Coach360"],
+        cta: "Entrar",
       },
       {
-        tag: "Online · Conteúdo · Entretenimento",
+        tag: "Academy · Premium",
+        forLabel: "Jogadores de todos os níveis",
+        cta: "Reservar",
+      },
+      {
+        tag: "Academy · Amateur",
+        forLabel: "Jogadores adultos",
+        cta: "Entrar",
+      },
+      {
+        tag: "Academy · Jovens",
+        forLabel: "Jovens jogadores",
+        cta: "Entrar",
+      },
+      {
+        tag: "Online · Conteúdo",
         forLabel: "Todos os perfis",
-        description: "Análise, debate e o jogo moderno sem ruído.",
-        buttons: ["Ver mais", "Entrar"],
+        cta: "Em breve",
       },
       {
-        tag: "Headquarters · Stages · Camps",
-        forLabel: "Kids · Amateur · Junior",
-        description: "O mesmo sistema do circuito profissional, adaptado a si.",
-        buttons: ["Treine connosco"],
-      },
-      {
-        tag: "Automatização · Gestão · Otimização",
+        tag: "Automação · Gestão",
         forLabel: "Academias e clubes",
-        description: "Aumente o rendimento com o nosso know-how e acompanhamento 1:1.",
-        buttons: ["Saber mais", "Agendar chamada"],
+        cta: "Em breve",
       },
       {
         tag: "Serviço · Presencial",
         forLabel: "Clubes, academias e grupos",
-        buttons: ["Solicitar"],
+        cta: "Em breve",
       },
       {
         tag: "Expansão · Chave na mão",
         forLabel: "Clubes e academias",
-        buttons: ["Saber mais"],
+        cta: "Em breve",
       },
     ],
   },

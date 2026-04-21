@@ -74,40 +74,47 @@ export const sv = {
   },
 
   products: {
+    academyDivider: "Academy · Även tillgängligt för",
     cards: [
       {
-        tag: "Online \u00B7 Utbildning",
+        tag: "Online · Utbildning",
         forLabel: "Padeltränare",
-        description: "Omdöme, metod och gemenskap. Nytt innehåll varje vecka.",
-        buttons: ["Gå till Coach360"],
+        cta: "Gå in",
       },
       {
-        tag: "Online \u00B7 Innehåll \u00B7 Underhållning",
+        tag: "Academy · Premium",
+        forLabel: "Spelare på alla nivåer",
+        cta: "Boka",
+      },
+      {
+        tag: "Academy · Amateur",
+        forLabel: "Vuxna spelare",
+        cta: "Gå in",
+      },
+      {
+        tag: "Academy · Unga",
+        forLabel: "Unga spelare",
+        cta: "Gå in",
+      },
+      {
+        tag: "Online · Innehåll",
         forLabel: "Alla profiler",
-        description: "Analys, debatt och det moderna spelet utan brus.",
-        buttons: ["Läs mer", "Logga in"],
+        cta: "Snart",
       },
       {
-        tag: "Headquarters \u00B7 Stages \u00B7 Camps",
-        forLabel: "Kids \u00B7 Amateur \u00B7 Junior",
-        description: "Samma system som på proffstouren, anpassat för dig.",
-        buttons: ["Träna med oss"],
-      },
-      {
-        tag: "Automatisering \u00B7 Förvaltning \u00B7 Optimering",
+        tag: "Automatisering · Hantering",
         forLabel: "Akademier och klubbar",
-        description: "Öka prestationen med vår expertis och personlig 1:1-coachning.",
-        buttons: ["Läs mer", "Boka ett samtal"],
+        cta: "Snart",
       },
       {
-        tag: "Tjänst \u00B7 På plats",
+        tag: "Tjänst · Personlig",
         forLabel: "Klubbar, akademier och grupper",
-        buttons: ["Begär offert"],
+        cta: "Snart",
       },
       {
-        tag: "Expansion \u00B7 Nyckelfärdigt",
+        tag: "Expansion · Nyckelklar",
         forLabel: "Klubbar och akademier",
-        buttons: ["Läs mer"],
+        cta: "Snart",
       },
     ],
   },

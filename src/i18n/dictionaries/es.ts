@@ -74,40 +74,47 @@ export const es = {
   },
 
   products: {
+    academyDivider: "Academy · También disponible para",
     cards: [
       {
-        tag: "Online \u00B7 Formaci\u00F3n",
-        forLabel: "Entrenadores de p\u00E1del",
-        description: "Criterio, m\u00E9todo y comunidad. Contenido nuevo cada semana.",
-        buttons: ["Entrar a Coach360"],
+        tag: "Online · Formación",
+        forLabel: "Entrenadores de pádel",
+        cta: "Entrar",
       },
       {
-        tag: "Online \u00B7 Contenido \u00B7 Entretenimiento",
+        tag: "Academy · Premium",
+        forLabel: "Jugadores de todos los niveles",
+        cta: "Reservar",
+      },
+      {
+        tag: "Academy · Amateur",
+        forLabel: "Jugadores adultos",
+        cta: "Entrar",
+      },
+      {
+        tag: "Academy · Jóvenes",
+        forLabel: "Jóvenes promesas",
+        cta: "Entrar",
+      },
+      {
+        tag: "Online · Contenido",
         forLabel: "Todos los perfiles",
-        description: "An\u00E1lisis, debate y el juego moderno sin ruido.",
-        buttons: ["Ver m\u00E1s", "Acceder"],
+        cta: "Próximamente",
       },
       {
-        tag: "Headquarters \u00B7 Stages \u00B7 Camps",
-        forLabel: "Kids \u00B7 Amateur \u00B7 Junior",
-        description: "El mismo sistema del circuito profesional, adaptado a ti.",
-        buttons: ["Entrena con nosotros"],
-      },
-      {
-        tag: "Automatizaci\u00F3n \u00B7 Gesti\u00F3n \u00B7 Optimizaci\u00F3n",
+        tag: "Automatización · Gestión",
         forLabel: "Academias y clubes",
-        description: "Aumenta el rendimiento con nuestro know-how y acompa\u00F1amiento 1:1.",
-        buttons: ["Saber m\u00E1s", "Agendar llamada"],
+        cta: "Próximamente",
       },
       {
-        tag: "Servicio \u00B7 Presencial",
+        tag: "Servicio · Presencial",
         forLabel: "Clubes, academias y grupos",
-        buttons: ["Solicitar"],
+        cta: "Próximamente",
       },
       {
-        tag: "Expansi\u00F3n \u00B7 Llave en mano",
+        tag: "Expansión · Llave en mano",
         forLabel: "Clubes y academias",
-        buttons: ["Saber m\u00E1s"],
+        cta: "Próximamente",
       },
     ],
   },
