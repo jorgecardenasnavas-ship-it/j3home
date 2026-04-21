@@ -609,6 +609,19 @@ html[data-theme="light"] .theme-eyebrow {
     transform 0.3s var(--ease-out);
 }
 
+/* ─── Hero manifesto overlay — fades in after shimmer ─── */
+.hero-manifesto {
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 1.4s var(--ease-out),
+    transform 1.4s var(--ease-out);
+}
+.hero-manifesto.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* ─── Nike pill button hover glow ─── */
 .btn-glow {
   transition: transform 0.2s var(--ease-out),
