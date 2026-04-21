@@ -1,11 +1,22 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useI18n } from "@/i18n/context";
+import { useScrollScrub } from "@/hooks/useScrollScrub";
 
 export function HeroSection() {
   const heroRef = useRef<HTMLElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [entranceDone, setEntranceDone] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
   const { t } = useI18n();
+
+  useEffect(() => {
+    const check = () => setIsDesktop(window.matchMedia("(min-width: 961px)").matches);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   useEffect(() => {
     const section = heroRef.current;
@@ -31,6 +42,7 @@ export function HeroSection() {
             const wordsEnd = 900 + words.length * 500;
             setTimeout(() => shimmer?.classList.add("in"), wordsEnd + 300);
             setTimeout(() => manifesto?.classList.add("in"), wordsEnd + 900);
+            setTimeout(() => setEntranceDone(true), wordsEnd + 1400);
 
             observer.disconnect();
           }
@@ -43,6 +55,14 @@ export function HeroSection() {
     return () => observer.disconnect();
   }, []);
 
+  const scrubState = useScrollScrub({
+    framePathBuilder: (i) => `/videos/frames/f${String(i + 1).padStart(3, "0")}.jpg`,
+    frameCount: 193,
+    canvasRef,
+    sectionRef: heroRef,
+    enabled: entranceDone && isDesktop,
+  });
+
   return (
     <>
       <section
@@ -50,6 +70,12 @@ export function HeroSection() {
         ref={heroRef}
         className="h-[92vh] min-h-[640px] relative overflow-hidden flex flex-col justify-end"
       >
+        {/* Scroll-scrub canvas — only active post-entrance on desktop, when frames loaded */}
+        <canvas
+          ref={canvasRef}
+          className={`hero-scrub-canvas ${scrubState === "ready" ? "active" : ""}`}
+          aria-hidden="true"
+        />
         {/* Background — solid black (video removed) */}
         <div className="absolute inset-0 bg-black" />
 
