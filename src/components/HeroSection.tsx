@@ -15,6 +15,7 @@ export function HeroSection() {
     const video = section.querySelector<HTMLVideoElement>(".hero-video");
     const words = section.querySelectorAll<HTMLElement>(".hero-word");
     const shimmer = section.querySelector<HTMLElement>(".hero-shimmer");
+    const manifesto = section.querySelector<HTMLElement>(".hero-manifesto");
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -29,6 +30,7 @@ export function HeroSection() {
 
             const wordsEnd = 900 + words.length * 500;
             setTimeout(() => shimmer?.classList.add("in"), wordsEnd + 300);
+            setTimeout(() => manifesto?.classList.add("in"), wordsEnd + 900);
 
             observer.disconnect();
           }
@@ -73,6 +75,30 @@ export function HeroSection() {
             </span>
             <span className="hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] j3-stroke-gold">
               {t.hero.manage}
+            </span>
+          </div>
+        </div>
+
+        {/* Manifesto overlay — bottom-right, reveals after shimmer */}
+        <div className="hero-manifesto absolute bottom-[72px] max-[960px]:bottom-[40px] right-12 max-[960px]:right-6 z-[5] text-right pointer-events-none">
+          {t.system.blocks.map((block, i) => (
+            <div key={i} className={i > 0 ? "mt-[3px]" : ""}>
+              <span className="text-[clamp(12px,1.2vw,14px)] font-light text-[rgba(255,255,255,0.22)]">
+                {block.line1}{" "}
+              </span>
+              <span
+                className={`text-[clamp(12px,1.2vw,14px)] font-bold ${
+                  i === 1 ? "j3-grad-text" : "text-[rgba(255,255,255,0.52)]"
+                }`}
+              >
+                {block.line2}
+              </span>
+            </div>
+          ))}
+          <div className="flex items-center gap-3 justify-end mt-3">
+            <span className="w-4 h-px bg-[rgba(212,169,74,0.3)]" />
+            <span className="text-[9px] font-bold tracking-[3.5px] uppercase text-[rgba(255,255,255,0.18)]">
+              {t.home.closer}
             </span>
           </div>
         </div>
