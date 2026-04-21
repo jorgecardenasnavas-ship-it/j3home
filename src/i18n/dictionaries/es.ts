@@ -74,6 +74,12 @@ export const es = {
     catalogIntro: {
       label: "productos",
     },
+    coachFinder: {
+      label: "La red",
+      title: "Encuentra a tu coach",
+      subtitle: "Entrenadores certificados J3 cerca de ti.",
+      cta: "Explorar la red",
+    },
   },
 
   products: {

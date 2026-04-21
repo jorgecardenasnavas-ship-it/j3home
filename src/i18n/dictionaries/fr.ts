@@ -74,6 +74,12 @@ export const fr = {
     catalogIntro: {
       label: "produits",
     },
+    coachFinder: {
+      label: "Le r\u00E9seau",
+      title: "Trouve ton coach",
+      subtitle: "Entra\u00EEneurs certifi\u00E9s J3 pr\u00E8s de chez toi.",
+      cta: "Explorer le r\u00E9seau",
+    },
   },
 
   products: {

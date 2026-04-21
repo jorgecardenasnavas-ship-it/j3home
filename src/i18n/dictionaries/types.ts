@@ -62,6 +62,12 @@ export interface Dictionary {
     catalogIntro: {
       label: string;
     };
+    coachFinder: {
+      label: string;
+      title: string;
+      subtitle: string;
+      cta: string;
+    };
   };
 
   products: {

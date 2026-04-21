@@ -74,6 +74,12 @@ export const sv = {
     catalogIntro: {
       label: "produkter",
     },
+    coachFinder: {
+      label: "N\u00E4tverket",
+      title: "Hitta din coach",
+      subtitle: "J3-certifierade tr\u00E4nare n\u00E4ra dig.",
+      cta: "Utforska n\u00E4tverket",
+    },
   },
 
   products: {

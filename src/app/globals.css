@@ -674,6 +674,20 @@ html[data-theme="light"] .theme-eyebrow {
   }
 }
 
+/* ─── CoachFinder — hide Leaflet controls (decorative map) ─── */
+#coach-finder .leaflet-control,
+#coach-finder .leaflet-control-zoom,
+#coach-finder .leaflet-control-attribution,
+#coach-finder .leaflet-control-container,
+#coach-finder .leaflet-top,
+#coach-finder .leaflet-bottom {
+  display: none !important;
+  visibility: hidden !important;
+}
+#coach-finder .leaflet-container {
+  background: #0a0a0a;
+}
+
 /* ─── FooterClose — tagline + gold line scroll-drawn ─── */
 .footer-close {
   padding-block: 18vh;

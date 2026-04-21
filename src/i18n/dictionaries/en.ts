@@ -74,6 +74,12 @@ export const en = {
     catalogIntro: {
       label: "products",
     },
+    coachFinder: {
+      label: "The network",
+      title: "Find your coach",
+      subtitle: "J3 certified coaches near you.",
+      cta: "Explore the network",
+    },
   },
 
   products: {
