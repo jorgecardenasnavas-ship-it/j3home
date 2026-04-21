@@ -21,7 +21,7 @@ El claim deja de ser decoración tipográfica y se vuelve el índice contextual 
 | J3 Juniors | Play |
 | J3PTV | Play |
 | Business Plan | Manage |
-| J3 Experience | Play |
+| J3 Experience | Manage |
 | J3 Partner | Manage |
 
 ## Layout (desktop ≥961px)
@@ -34,7 +34,7 @@ El claim deja de ser decoración tipográfica y se vuelve el índice contextual 
 ### Claim
 
 - Palabra activa: oro gradiente (`.j3-grad-text`), opacity 1
-- Palabras inactivas: solo stroke (outline, igual que `.j3-stroke-gold` actual), opacity 25%
+- Palabras inactivas: solo stroke (outline, igual que `.j3-stroke-gold` actual), opacity 35%
 - Crossfade al cambiar: 500ms, curve `cubic-bezier(0.22,1,0.36,1)`
 - El cambio del claim ocurre **200ms DESPUÉS** de que empieza la rotación, para que visualmente el nuevo activo aparezca primero y luego la palabra reaccione
 
@@ -50,13 +50,14 @@ El claim deja de ser decoración tipográfica y se vuelve el índice contextual 
 
 ### Card activa (1 slot, pegada al claim)
 
-- **Tamaño**: 220×300px
+- **Tamaño**: 220×240px (reducida desde 300 de altura para caber con aire en el hero de 460px min-height)
 - **Contenido**:
   - Título del producto (32-40px, bold, primera parte en oro gradiente ej. "Training Camp")
   - CTA ("Entrar →", "Reservar →", etc., 11px bold uppercase oro)
 - **Sin tag superior, sin línea de audiencia**: ese rol lo cumple ya el claim (PLAY/COACH/MANAGE indica la audiencia)
 - **Fondo**: mismo asset que la tile correspondiente en `ProductsGrid`, a 28-35% opacity, con blur-into-focus al aparecer
 - **Borde**: 1px oro 35% opacity
+- **Lazy-load**: solo se precargan los assets de la card activa + las 2 siguientes en la cola. El resto se carga cuando toca mostrarse (ahorra peso en la carga inicial)
 
 ### Cards pequeñas (7 en el arco)
 
@@ -72,14 +73,14 @@ El claim deja de ser decoración tipográfica y se vuelve el índice contextual 
 ### Arco y progress indicator
 
 - Arco visual: 1px oro 15% opacity, como línea continua curva uniendo centros de las 7 cards pequeñas
-- **Segmento de progreso**: el tramo del arco entre la card activa y la siguiente en la rotación se rellena con oro sólido a lo largo de los 5s del timer
+- **Segmento de progreso**: el tramo del arco entre la card activa y la siguiente en la rotación se rellena con oro sólido a lo largo de los 4s del timer
 - Al completarse el relleno = rotación. Se resetea al segmento entre la nueva activa y la siguiente
 
 ## Motion
 
 ### Auto-advance (desktop)
 
-- Intervalo: 5s entre rotaciones
+- Intervalo: 4s entre rotaciones
 - **Solo 2 cards animan por rotación** (no las 8):
   - La activa que sale encoge a su slot del arco (800ms)
   - La siguiente card crece al slot activo (800ms)
@@ -111,18 +112,18 @@ Total post-claim: ~2s de revelado del orbital.
 
 ## Orden inicial del anillo
 
-Scattered (no agrupado por audiencia) para que los cambios del claim se sientan vivos. Sequence clockwise desde activa:
+Alternando audiencias al máximo para que cada rotación cambie la palabra iluminada del claim. Distribución: 4 Play / 1 Coach / 3 Manage. Sequence clockwise desde activa:
 
-1. **J3 Adults** (Play) — ACTIVA AL INICIO
+1. **Training Camp** (Play) — ACTIVA AL INICIO
 2. Coach360 (Coach)
-3. J3 Juniors (Play)
+3. J3 Adults (Play)
 4. Business Plan (Manage)
-5. Training Camp (Play)
-6. J3 Experience (Play)
-7. J3 Partner (Manage)
-8. J3PTV (Play)
+5. J3 Juniors (Play)
+6. J3 Experience (Manage)
+7. J3PTV (Play)
+8. J3 Partner (Manage)
 
-Transiciones del claim al rotar: PLAY → COACH → PLAY → MANAGE → PLAY → PLAY → MANAGE → PLAY → (loop). Mezcla cambios y estabilidad.
+Transiciones del claim al rotar: PLAY → COACH → PLAY → MANAGE → PLAY → MANAGE → PLAY → MANAGE → (loop a PLAY). 8 transiciones, todas cambian palabra — máximo dinamismo del claim.
 
 ## Mobile (<961px)
 
@@ -177,7 +178,7 @@ El orbital radial no cabe ni se lee en mobile. Se adapta conceptualmente preserv
 ## Criterios de éxito
 
 - Al cargar la home: claim grande con una palabra iluminada, las otras en stroke al 25%. A la derecha, orbital con activa grande + 7 pequeñas en el arco
-- Cada 5s: swap entre activa y siguiente. Claim reacciona 200ms después
+- Cada 4s: swap entre activa y siguiente. Claim reacciona 200ms después
 - Hover pausa, click salta, mouseleave reanuda
 - Mobile: claim arriba, carrusel abajo, swipe manual, dots indicator
 - Keyboard + screen reader funcionales
