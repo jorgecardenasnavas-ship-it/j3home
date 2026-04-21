@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useI18n } from "@/i18n/context";
 
 interface TileConfig {
@@ -284,10 +284,9 @@ export function ProductsGrid() {
 
         if (tile.fullWidth) {
           return (
-            <>
+            <React.Fragment key={tile.watermark}>
               {divider}
               <div
-                key={tile.watermark}
                 data-idx={idx}
                 className={`pc-card group relative overflow-hidden col-span-2 max-[960px]:col-span-1 border-t border-white/[.06] transition-all duration-300 ${
                   isDark ? "bg-black hover:bg-[rgba(220,175,100,.02)]" : "bg-[#f5f5f7] hover:bg-[#efefef]"
@@ -305,15 +304,14 @@ export function ProductsGrid() {
                   <div className="shrink-0">{ctaEl}</div>
                 </div>
               </div>
-            </>
+            </React.Fragment>
           );
         }
 
         return (
-          <>
+          <React.Fragment key={tile.watermark}>
             {divider}
             <div
-              key={tile.watermark}
               data-idx={idx}
               className={`pc-card group relative overflow-hidden border-t border-white/[.06] transition-all duration-300 ${
                 tile.featured
@@ -341,7 +339,7 @@ export function ProductsGrid() {
                 <div className="mt-8 max-[960px]:mt-6">{ctaEl}</div>
               </div>
             </div>
-          </>
+          </React.Fragment>
         );
       })}
     </section>
