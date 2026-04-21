@@ -54,6 +54,7 @@ export function Navbar() {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
+  const [offHero, setOffHero] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Language — connected to i18n context
@@ -65,7 +66,9 @@ export function Navbar() {
 
   useEffect(() => {
     function handleScroll() {
-      setScrolled(window.scrollY > 10);
+      const y = window.scrollY;
+      setScrolled(y > 10);
+      setOffHero(y > window.innerHeight * 0.9);
     }
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -104,8 +107,8 @@ export function Navbar() {
           scrolled
             ? "border-white/[.07] shadow-[0_1px_20px_rgba(0,0,0,.5)]"
             : "border-white/[.04]"
-        }`}
-        style={{ backgroundColor: "#0a0a0b" }}
+        } ${offHero ? "navbar-scrolled" : ""}`}
+        style={{ backgroundColor: offHero ? "transparent" : "#0a0a0b" }}
       >
         {/* Logo — solo tipografía */}
         <Link href="/" className="flex items-center no-underline" aria-label="J3Pádel — Inicio">
