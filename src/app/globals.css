@@ -622,6 +622,181 @@ html[data-theme="light"] .theme-eyebrow {
   transform: translateY(0);
 }
 
+/* ─── Navbar scrolled — blur + dark background when off-hero ─── */
+.navbar-scrolled {
+  background-color: rgba(0, 0, 0, 0.72) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom-color: rgba(212, 169, 74, 0.08) !important;
+}
+
+/* ─── Tile background — blur-into-focus on reveal ─── */
+.tile-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+.tile-bg > img,
+.tile-bg > video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.15;
+  filter: blur(20px);
+  transition:
+    opacity 1.8s var(--ease-out),
+    filter 1.8s var(--ease-out),
+    transform 0.6s var(--ease-out);
+  will-change: filter, opacity, transform;
+}
+.pc-card.in .tile-bg > img,
+.pc-card.in .tile-bg > video {
+  opacity: 0.22;
+  filter: blur(0);
+}
+@media (hover: hover) and (min-width: 961px) {
+  .pc-card:hover .tile-bg > img,
+  .pc-card:hover .tile-bg > video {
+    opacity: 0.32;
+    transform: scale(1.04);
+  }
+}
+
+/* Coach360 signature overflow — flagship tile only */
+.pc-card[data-flagship="true"] {
+  overflow: visible !important;
+}
+.pc-card[data-flagship="true"] .tile-bg {
+  inset: -8%;
+}
+
+/* ─── CatalogIntro — numeral 08 + label ─── */
+.catalog-intro {
+  height: 50vh;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  background: #000;
+}
+@media (max-width: 960px) {
+  .catalog-intro {
+    height: 35vh;
+    min-height: 200px;
+  }
+}
+.catalog-intro-label {
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 0.8s var(--ease-out),
+    transform 0.8s var(--ease-out);
+}
+.catalog-intro-label.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+.catalog-intro-number {
+  font-size: clamp(120px, 16vw, 240px);
+  font-weight: 200;
+  letter-spacing: -8px;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--g1) 0%, var(--g2) 45%, #b8943e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 1.2s var(--ease-out),
+    transform 1.2s var(--ease-out);
+  transition-delay: 200ms;
+}
+.catalog-intro-number.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (max-width: 960px) {
+  .catalog-intro-number {
+    font-size: clamp(80px, 20vw, 160px);
+    letter-spacing: -5px;
+  }
+}
+
+/* ─── FooterClose — tagline + gold line scroll-drawn ─── */
+.footer-close {
+  padding-block: 18vh;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+@media (max-width: 960px) {
+  .footer-close {
+    padding-block: 12vh;
+    gap: 28px;
+  }
+}
+.footer-close-tagline {
+  font-size: clamp(40px, 5vw, 72px);
+  font-weight: 900;
+  letter-spacing: -1px;
+  line-height: 1.05;
+  text-align: center;
+  background: linear-gradient(135deg, var(--g1) 0%, var(--g2) 45%, #b8943e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+@media (max-width: 960px) {
+  .footer-close-tagline {
+    font-size: clamp(32px, 7vw, 52px);
+  }
+}
+.footer-close-line {
+  height: 1px;
+  width: 0;
+  max-width: 60%;
+  background: linear-gradient(90deg, transparent, var(--g1), transparent);
+  transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.footer-close-line.in {
+  width: 60%;
+}
+@media (max-width: 960px) {
+  .footer-close-line {
+    max-width: 80%;
+  }
+  .footer-close-line.in {
+    width: 80%;
+  }
+}
+
+/* ─── Hero scroll-scrub canvas ─── */
+.hero-scrub-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.8s var(--ease-out);
+  z-index: 1;
+  pointer-events: none;
+}
+.hero-scrub-canvas.active {
+  opacity: 1;
+}
+
 /* ─── Nike pill button hover glow ─── */
 .btn-glow {
   transition: transform 0.2s var(--ease-out),
@@ -798,10 +973,23 @@ html[data-theme="light"] .theme-eyebrow {
   .pc-card,
   .sp-logo,
   .sponsor-logo,
-  .sponsor-line {
+  .sponsor-line,
+  .tile-bg > img,
+  .tile-bg > video,
+  .catalog-intro-label,
+  .catalog-intro-number {
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;
+  }
+
+  .footer-close-line {
+    width: 60% !important;
+    transition: none !important;
+  }
+
+  .hero-scrub-canvas {
+    display: none !important;
   }
 
   .hero-word {
