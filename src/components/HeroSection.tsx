@@ -24,10 +24,10 @@ export function HeroSection() {
             setTimeout(() => video?.classList.add("in"), 600);
 
             words.forEach((word, i) => {
-              setTimeout(() => word.classList.add("in"), 900 + i * 450);
+              setTimeout(() => word.classList.add("in"), 900 + i * 500);
             });
 
-            const wordsEnd = 900 + words.length * 450;
+            const wordsEnd = 900 + words.length * 500;
             setTimeout(() => shimmer?.classList.add("in"), wordsEnd + 300);
 
             observer.disconnect();
@@ -45,7 +45,7 @@ export function HeroSection() {
     <section
       id="hero"
       ref={heroRef}
-      className="h-[92vh] min-h-[640px] relative overflow-hidden flex flex-col justify-end"
+      className="h-[82vh] min-h-[600px] relative overflow-hidden flex flex-col justify-end"
     >
       {/* Background — solid black */}
       <div className="absolute inset-0 bg-black" />
@@ -61,28 +61,18 @@ export function HeroSection() {
         <div className="hero-shimmer-bar absolute top-0 left-0 w-full h-full" />
       </div>
 
-      {/* Main content — manifesto as main claim */}
-      <div className="absolute top-1/2 left-0 right-0 -translate-y-[52%] z-[5] px-12 max-[960px]:px-6">
-        <div className="pointer-events-none flex flex-col gap-[6px] max-[960px]:gap-[4px]">
-          {t.system.blocks.map((block, i) => (
-            <div
-              key={i}
-              className="hero-word block text-[clamp(40px,6.4vw,96px)] font-black leading-[0.98] tracking-[-2.5px] max-[960px]:tracking-[-1.5px]"
-            >
-              <span className="font-light text-white/60 tracking-[-1px]">
-                {block.line1}{" "}
-              </span>
-              <span
-                className={
-                  i === 1
-                    ? "j3-grad-text font-black"
-                    : "text-white font-black"
-                }
-              >
-                {block.line2}
-              </span>
-            </div>
-          ))}
+      {/* Main content — Play · Coach · Manage as hero claim */}
+      <div className="absolute top-1/2 left-0 right-0 -translate-y-[55%] z-[5] px-12 max-[960px]:px-6">
+        <div className="pointer-events-none">
+          <span className="hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] j3-grad-text">
+            {t.hero.play}
+          </span>
+          <span className="hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] text-[var(--wh)]">
+            {t.hero.coach}
+          </span>
+          <span className="hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] j3-stroke-gold">
+            {t.hero.manage}
+          </span>
         </div>
       </div>
     </section>
