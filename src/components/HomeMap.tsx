@@ -93,10 +93,15 @@ function MapLayers({
     }).addTo(map);
     hqMarker.on("click", () => router.push("/academy"));
 
-    /* ── Curves + dots (staggered reveal) ── */
+    /* ── Curves + dots (staggered reveal triggered on viewport enter) ── */
     const curves: L.Polyline[] = [];
     const dots: L.Marker[] = [];
     const revealTimers: number[] = [];
+    const revealTargets: Array<{
+      pl: L.Polyline | null;
+      dm: L.Marker;
+      idx: number;
+    }> = [];
 
     sortedOthers.forEach((c, i) => {
       // Determine status: verified, qualified, plus — basic was already filtered out upstream
@@ -179,29 +184,59 @@ function MapLayers({
       dm.on("mouseout", () => onDotHover(null));
       dots.push(dm);
 
-      // Stagger reveal — 30ms between each, starts after 150ms initial delay
-      const delay = 150 + i * 30;
-      const t = window.setTimeout(() => {
-        if (pl) {
-          const curveEl = pl.getElement() as SVGPathElement | null;
-          if (curveEl) curveEl.classList.add("in");
-        }
-        const dotEl = dm.getElement();
-        if (dotEl) dotEl.classList.add("in");
-      }, delay);
-      revealTimers.push(t);
+      // Store reveal target (fired later via IntersectionObserver)
+      revealTargets.push({ pl, dm, idx: i });
     });
 
-    /* ── HQ breathing — starts after all curves are drawn ── */
-    const totalReveal = 150 + sortedOthers.length * 30 + 1000;
-    const breatheTimer = window.setTimeout(() => {
-      const hqEl = hqMarker.getElement();
-      if (hqEl) hqEl.classList.add("breathing");
-    }, totalReveal);
+    /* ── Defer the stagger until the section enters the viewport ──
+     * Map layers are created on mount (so they're ready the moment the user
+     * scrolls there), but the animated reveal only kicks off when the map
+     * is actually visible. Prevents the animation from finishing silently
+     * while the user is still looking at the hero.
+     */
+    const container = map.getContainer();
+    let revealed = false;
+
+    const triggerReveal = () => {
+      if (revealed) return;
+      revealed = true;
+      revealTargets.forEach(({ pl, dm, idx }) => {
+        const delay = 150 + idx * 30;
+        const t = window.setTimeout(() => {
+          if (pl) {
+            const curveEl = pl.getElement() as SVGPathElement | null;
+            if (curveEl) curveEl.classList.add("in");
+          }
+          const dotEl = dm.getElement();
+          if (dotEl) dotEl.classList.add("in");
+        }, delay);
+        revealTimers.push(t);
+      });
+      // HQ breathing starts after all the items have finished drawing
+      const breatheDelay = 150 + revealTargets.length * 30 + 1000;
+      const breatheT = window.setTimeout(() => {
+        const hqEl = hqMarker.getElement();
+        if (hqEl) hqEl.classList.add("breathing");
+      }, breatheDelay);
+      revealTimers.push(breatheT);
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            triggerReveal();
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2 },
+    );
+    observer.observe(container);
 
     return () => {
+      observer.disconnect();
       revealTimers.forEach((t) => window.clearTimeout(t));
-      window.clearTimeout(breatheTimer);
       curves.forEach((c) => map.removeLayer(c));
       dots.forEach((d) => map.removeLayer(d));
       map.removeLayer(hqMarker);
