@@ -9,7 +9,11 @@ export function StickyClaim() {
 
   useEffect(() => {
     function handleScroll() {
-      setShow(window.scrollY > window.innerHeight * 0.7);
+      const y = window.scrollY;
+      const vh = window.innerHeight;
+      // Hysteresis: appears at 70vh, disappears only when back above 40vh.
+      // Avoids flicker on fast scrolls around the threshold.
+      setShow((prev) => (prev ? y > vh * 0.4 : y > vh * 0.7));
     }
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });

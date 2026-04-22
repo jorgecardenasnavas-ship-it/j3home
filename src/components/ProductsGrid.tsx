@@ -11,9 +11,12 @@ import { ACADEMY_PROGRAMS } from "@/data/academy-programs";
 function TileBackground({
   asset,
   objectPosition,
+  eager = false,
 }: {
   asset: HomeProduct["asset"];
   objectPosition?: string;
+  /** If true, video/image preloads immediately. Default lazy via preload="none" / loading="lazy". */
+  eager?: boolean;
 }) {
   const style = objectPosition ? { objectPosition } : undefined;
   if (asset.type === "video") {
@@ -26,7 +29,7 @@ function TileBackground({
           muted
           loop
           playsInline
-          preload="metadata"
+          preload={eager ? "metadata" : "none"}
           aria-hidden="true"
           style={style}
         />
@@ -35,7 +38,13 @@ function TileBackground({
   }
   return (
     <div className="tile-bg">
-      <img src={asset.src} alt="" aria-hidden="true" style={style} />
+      <img
+        src={asset.src}
+        alt=""
+        aria-hidden="true"
+        style={style}
+        loading={eager ? "eager" : "lazy"}
+      />
     </div>
   );
 }
@@ -75,6 +84,7 @@ function FeaturedBlock({
   showCoachBadge = false,
   tall = false,
   imagePosition,
+  eager = false,
 }: {
   product: HomeProduct;
   tCard: { tag: string; forLabel: string; cta: string };
@@ -82,6 +92,7 @@ function FeaturedBlock({
   showCoachBadge?: boolean;
   tall?: boolean;
   imagePosition?: string;
+  eager?: boolean;
 }) {
   const isDark = product.dark;
 
@@ -90,7 +101,11 @@ function FeaturedBlock({
       data-flagship={flagship ? "true" : undefined}
       className="pc-card group relative overflow-hidden border-t border-white/[.06] transition-all duration-300 bg-black hover:bg-[rgba(220,175,100,.03)]"
     >
-      <TileBackground asset={product.asset} objectPosition={imagePosition} />
+      <TileBackground
+        asset={product.asset}
+        objectPosition={imagePosition}
+        eager={eager}
+      />
       <div className="pc-glow absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-500 z-0" />
       {/* Top accent line */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[2px] bg-gradient-to-r from-transparent via-[var(--g1)] to-transparent transition-all duration-700 ease-[var(--ease-out)] w-[60%] opacity-60 group-hover:w-full group-hover:opacity-90" />
@@ -593,6 +608,7 @@ export function ProductsGrid() {
         product={coach360}
         tCard={tCardOf("coach360")}
         showCoachBadge
+        eager
       />
 
       {/* ── Training Camp — featured standalone (taller so image breathes) ── */}
@@ -605,6 +621,15 @@ export function ProductsGrid() {
 
       {/* ── Academy horizontal scroll ── */}
       <AcademyScroller />
+
+      {/* ── Próximamente header ── */}
+      <div className="proximamente-header">
+        <span className="proximamente-eyebrow">Próximamente</span>
+        <h3 className="proximamente-title">Lo que viene</h3>
+        <p className="proximamente-sub">
+          Construyendo el ecosistema J3. Cada trimestre lanzamos una pieza.
+        </p>
+      </div>
 
       {/* ── J3PTV + Business Plan (2-col) ── */}
       <div className="grid grid-cols-2 max-[960px]:grid-cols-1">

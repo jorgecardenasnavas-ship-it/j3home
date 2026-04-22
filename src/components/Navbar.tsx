@@ -97,6 +97,16 @@ export function Navbar() {
     setMobileLangOpen(false);
   }
 
+  /** If clicking a link that points to the current page, scroll to top instead of doing nothing. */
+  function handleNavClick(href: string) {
+    return (e: React.MouseEvent<HTMLAnchorElement>) => {
+      if (pathname === href) {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    };
+  }
+
   // All links for mobile (show all, highlight active)
   const mobileLinks = allNavLinks;
 
@@ -111,7 +121,12 @@ export function Navbar() {
         style={{ backgroundColor: offHero ? "transparent" : "#0a0a0b" }}
       >
         {/* Logo — solo tipografía */}
-        <Link href="/" className="flex items-center no-underline" aria-label="J3Pádel — Inicio">
+        <Link
+          href="/"
+          onClick={handleNavClick("/")}
+          className="flex items-center no-underline"
+          aria-label="J3Pádel — Inicio"
+        >
           <img
             src="/images/j3padel-text-gold.svg"
             alt="J3Pádel"
@@ -136,6 +151,7 @@ export function Navbar() {
               ) : (
                 <Link
                   href={link.href}
+                  onClick={handleNavClick(link.href)}
                   className={`text-[12px] font-normal tracking-[1px] no-underline uppercase transition-colors duration-300 ${
                     pathname === link.href
                       ? "text-[var(--g1)]"
@@ -152,6 +168,7 @@ export function Navbar() {
           <li>
             <Link
               href="/"
+              onClick={handleNavClick("/")}
               className="transition-opacity duration-300 hover:opacity-80"
               aria-label="Inicio"
             >
@@ -178,6 +195,7 @@ export function Navbar() {
               ) : (
                 <Link
                   href={link.href}
+                  onClick={handleNavClick(link.href)}
                   className={`text-[12px] font-normal tracking-[1px] no-underline uppercase transition-colors duration-300 ${
                     pathname === link.href
                       ? "text-[var(--g1)]"
@@ -326,7 +344,13 @@ export function Navbar() {
         {/* Home link — always visible, gold when active */}
         <Link
           href="/"
-          onClick={() => setMenuOpen(false)}
+          onClick={(e) => {
+            if (pathname === "/") {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+            setMenuOpen(false);
+          }}
           className={`text-[18px] font-bold tracking-[3px] uppercase no-underline transition-colors duration-300 flex items-center gap-3 ${
             isHome ? "text-[var(--g1)]" : "text-[var(--wh)] hover:text-[var(--g1)]"
           }`}
@@ -352,7 +376,13 @@ export function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              onClick={() => setMenuOpen(false)}
+              onClick={(e) => {
+                if (pathname === link.href) {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+                setMenuOpen(false);
+              }}
               className={`text-[18px] font-bold tracking-[3px] uppercase no-underline transition-colors duration-300 ${
                 pathname === link.href ? "text-[var(--g1)]" : "text-[var(--wh)] hover:text-[var(--g1)]"
               }`}
