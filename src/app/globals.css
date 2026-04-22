@@ -964,6 +964,150 @@ html[data-theme="light"] .theme-eyebrow {
   background: #0a0a0a;
 }
 
+/* ─── Academy horizontal scroller (Apple-style) ─── */
+.academy-scroller {
+  background: #000;
+  padding: 14vh 0 16vh;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+@media (max-width: 960px) {
+  .academy-scroller {
+    padding: 10vh 0 12vh;
+  }
+}
+.academy-scroller-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 0 48px 48px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+@media (max-width: 960px) {
+  .academy-scroller-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 0 24px 32px;
+  }
+}
+.academy-scroller-eyebrow {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(220, 175, 100, 0.6);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.academy-scroller-title {
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  line-height: 1;
+  color: var(--wh);
+  max-width: 680px;
+}
+.academy-scroller-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--g1);
+  text-decoration: none;
+  transition: gap 0.2s var(--ease-out);
+  white-space: nowrap;
+}
+.academy-scroller-cta:hover {
+  gap: 16px;
+}
+.academy-scroller-track {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 48px;
+  scroll-padding-left: 48px;
+}
+.academy-scroller-track::-webkit-scrollbar {
+  display: none;
+}
+@media (max-width: 960px) {
+  .academy-scroller-track {
+    padding: 0 24px;
+    scroll-padding-left: 24px;
+    gap: 14px;
+  }
+}
+.academy-scroller-card {
+  flex: 0 0 320px;
+  scroll-snap-align: start;
+  background: #0a0a0b;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 18px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition:
+    transform 0.5s var(--ease-out),
+    border-color 0.3s var(--ease-out),
+    box-shadow 0.5s var(--ease-out);
+  display: flex;
+  flex-direction: column;
+}
+@media (max-width: 960px) {
+  .academy-scroller-card {
+    flex: 0 0 260px;
+    border-radius: 14px;
+  }
+}
+.academy-scroller-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(220, 175, 100, 0.35);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+.academy-scroller-card-img {
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #111;
+  position: relative;
+}
+.academy-scroller-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s var(--ease-out);
+}
+.academy-scroller-card:hover .academy-scroller-card-img img {
+  transform: scale(1.04);
+}
+.academy-scroller-card-body {
+  padding: 20px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.academy-scroller-card-tag {
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: rgba(220, 175, 100, 0.6);
+  font-weight: 600;
+}
+.academy-scroller-card-name {
+  font-size: clamp(22px, 2vw, 28px);
+  font-weight: 900;
+  letter-spacing: -1px;
+  color: var(--wh);
+  line-height: 1;
+}
+
 /* ─── HomeManifesto — white section after the map ─── */
 .home-manifesto {
   padding-block: 18vh;
