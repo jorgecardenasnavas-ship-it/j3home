@@ -964,13 +964,10 @@ function PopupContent({
         </div>
       )}
 
-      {/* CTA principal + iconos sociales (IG, Web, Maps).
-          El botón "Pregunta a J3" usa data-j3-ask-slug para event delegation
-          (no podemos poner onClick porque el HTML está serializado). */}
+      {/* CTA principal: "Ver más" → página del coach. Iconos sociales a la derecha. */}
       <div style={{ display: "flex", gap: 6, alignItems: "stretch" }}>
-        <button
-          type="button"
-          data-j3-ask-slug={c.slug}
+        <a
+          href={`/coach/${c.slug}`}
           style={{
             flex: 1,
             fontSize: 10,
@@ -980,13 +977,20 @@ function PopupContent({
             color: "#000",
             background: "linear-gradient(135deg, #dcaf64, #b8943e)",
             border: "none",
-            padding: "8px 12px",
+            padding: "10px 12px",
             cursor: "pointer",
             borderRadius: 2,
+            textDecoration: "none",
+            textAlign: "center",
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 8,
           }}
         >
-          {labels.askChatbot}
-        </button>
+          Ver más
+          <span style={{ fontSize: 14, fontWeight: 300 }}>→</span>
+        </a>
         {c.socials?.instagram && (
           <a
             href={c.socials.instagram}
@@ -1352,10 +1356,12 @@ function ClusteredMarkers({
   coaches,
   labels,
   onAsk,
+  onMarkerClick,
 }: {
   coaches: readonly Coach[];
   labels: PopupLabels;
   onAsk?: (coach: Coach) => void;
+  onMarkerClick?: (coach: Coach) => void;
 }) {
   const map = useMap();
 
@@ -1409,7 +1415,7 @@ function ClusteredMarkers({
       const isVerified = kind === "coach" && !!c.mentorActive && c.certificationActive !== false && !!c.certifiedAt;
       const m = L.marker(c.location.coordinates, { icon: makeIcon(kind, isVerified) });
 
-      // Hover tooltip con nombre + ciudad (preview ligero). Clic → navega a /coach/[slug].
+      // Hover tooltip con nombre + ciudad (preview ligero antes del clic).
       m.bindTooltip(`${c.name} · ${c.location.city}`, {
         direction: "top",
         offset: [0, -16],
@@ -1417,10 +1423,31 @@ function ClusteredMarkers({
         opacity: 0.95,
       });
 
-      m.on("click", () => {
-        if (typeof window === "undefined") return;
-        window.location.href = `/coach/${c.slug}`;
-      });
+      if (onMarkerClick) {
+        // Modo externo (ej. home map): clic → callback del padre, sin popup.
+        m.on("click", () => onMarkerClick(c));
+      } else {
+        // Modo default (academy): clic → popup rico.
+        const popupHtml = renderToStaticMarkup(
+          <PopupContent coach={c} labels={labels} kind={kind} />
+        );
+        m.bindPopup(popupHtml, { maxWidth: 280, minWidth: 240, autoPan: false, keepInView: false });
+
+        // Reflejar el coach seleccionado en la URL para que sea compartible.
+        m.on("popupopen", () => {
+          if (typeof window === "undefined") return;
+          const next = `#coach=${c.slug}`;
+          if (window.location.hash !== next) {
+            window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}${next}`);
+          }
+        });
+        m.on("popupclose", () => {
+          if (typeof window === "undefined") return;
+          if (window.location.hash === `#coach=${c.slug}`) {
+            window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+          }
+        });
+      }
 
       // Hover bidireccional — emite eventos globales al pasar
       // el cursor por encima del pin. Las cards escuchan estos
@@ -2006,6 +2033,12 @@ interface NetworkMapProps {
   inProgressCoaches?: readonly Coach[];
   /** Override opcional del handler del botón "Pregunta a J3". Default: dispara evento j3:chat:open. */
   onAsk?: (coach: Coach) => void;
+  /**
+   * Si se provee, al hacer clic en un marker se llama a este callback en lugar
+   * de abrir el popup. Útil para el mapa de la home (clic → navega a la sección
+   * de coaches con el coach seleccionado). Los tooltips hover se mantienen.
+   */
+  onMarkerClick?: (coach: Coach) => void;
   /** Centro inicial [lat, lng]. Default: Europa occidental. Ignorado si autoFitBounds=true. */
   center?: [number, number];
   /** Zoom inicial. Default: 4. Ignorado si autoFitBounds=true. */
@@ -2047,6 +2080,7 @@ export default function NetworkMap({
   coaches: coachesProp,
   inProgressCoaches: inProgressProp = [],
   onAsk,
+  onMarkerClick,
   center = [42, 5],
   zoom = 4,
   scrollWheelZoom = false,
@@ -2107,7 +2141,12 @@ export default function NetworkMap({
         )}
         {showLegend && <MapLegend labels={labels} />}
         {inProgressCoaches.length > 0 && <SproutingMarkers coaches={inProgressCoaches} labels={labels} />}
-        <ClusteredMarkers coaches={coaches} labels={labels} onAsk={onAsk} />
+        <ClusteredMarkers
+          coaches={coaches}
+          labels={labels}
+          onAsk={onAsk}
+          onMarkerClick={onMarkerClick}
+        />
       </MapContainer>
     </>
   );

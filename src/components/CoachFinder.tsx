@@ -2,8 +2,9 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useI18n } from "@/i18n/context";
-import { COACHES } from "@/data/coaches";
+import { COACHES, type Coach } from "@/data/coaches";
 
 const NetworkMap = dynamic(() => import("@/components/NetworkMap"), {
   ssr: false,
@@ -21,6 +22,11 @@ const NetworkMap = dynamic(() => import("@/components/NetworkMap"), {
 
 export function CoachFinder() {
   const { t } = useI18n();
+  const router = useRouter();
+
+  const handleMarkerClick = (coach: Coach) => {
+    router.push(`/academy#coach=${coach.slug}`);
+  };
 
   const mapLabels = {
     badgeHq: t.academy.network.badgeHq,
@@ -70,15 +76,15 @@ export function CoachFinder() {
       id="coach-finder"
       className="relative w-full h-[70vh] min-h-[520px] max-[960px]:h-[60vh] max-[960px]:min-h-[460px] overflow-hidden bg-black border-t border-white/[0.06]"
     >
-      {/* NetworkMap as background — non-interactive on the home */}
-      <div className="absolute inset-0 pointer-events-none">
+      {/* NetworkMap — clickable, pins navigate to /academy#coach=slug */}
+      <div className="absolute inset-0">
         <NetworkMap
           coaches={COACHES}
           labels={mapLabels}
-          center={[40, -3]}
-          zoom={5}
+          autoFitBounds
           scrollWheelZoom={false}
           showLegend={false}
+          onMarkerClick={handleMarkerClick}
         />
       </div>
 
