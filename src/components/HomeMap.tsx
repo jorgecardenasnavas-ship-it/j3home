@@ -147,31 +147,66 @@ function MapLayers({
       });
       const dm = L.marker(c.location.coordinates, { icon: dotIcon }).addTo(map);
 
-      // Pill content: verification badge + name + invitation + CTA to /academy#coach=slug
+      // Click: detecta si hay otros coaches cercanos (misma zona visual).
+      // Si sí → pill agregada "N coaches en [Ciudad]". Si no → pill individual.
+      // Pixel-distance en el zoom actual: así se adapta automáticamente cuando
+      // el usuario hace zoom (a más zoom, pines separados → pill individual).
+      const ZONE_RADIUS_PX = 30;
       const badgeHtml = isVerified
         ? '<svg class="home-map-pill-badge" viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#dcaf64"/><path d="M7.5 12.5l3 3 6-6" stroke="#0a0a0a" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'
         : isQualified
           ? '<svg class="home-map-pill-badge" viewBox="0 0 24 24" width="11" height="11" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="#dcaf64" stroke-width="2.5"/><circle cx="12" cy="12" r="4" fill="#dcaf64"/></svg>'
           : "";
-      const pillHtml = `
-        <div class="home-map-pill">
-          <div class="home-map-pill-header">
-            <span class="home-map-pill-name">${c.name}</span>
-            ${badgeHtml}
-          </div>
-          <p class="home-map-pill-question">¿Buscar coach por esta zona?</p>
-          <a class="home-map-pill-cta" href="/academy#coach=${c.slug}">
-            Sí, llévame
-            <span class="home-map-pill-cta-arrow">→</span>
-          </a>
-        </div>
-      `;
-      dm.bindPopup(pillHtml, {
-        closeButton: true,
-        autoPan: false,
-        keepInView: false,
-        className: "home-map-pill-popup",
-        offset: [0, -6],
+
+      dm.on("click", () => {
+        const clickedPoint = map.latLngToContainerPoint(c.location.coordinates);
+        const nearbyCount = sortedOthers.reduce((count, other) => {
+          if (other.slug === c.slug) return count;
+          const p = map.latLngToContainerPoint(other.location.coordinates);
+          const dx = p.x - clickedPoint.x;
+          const dy = p.y - clickedPoint.y;
+          if (Math.sqrt(dx * dx + dy * dy) <= ZONE_RADIUS_PX) return count + 1;
+          return count;
+        }, 0);
+
+        const html =
+          nearbyCount > 0
+            ? `
+              <div class="home-map-pill home-map-pill-zone">
+                <div class="home-map-pill-header">
+                  <span class="home-map-pill-name">${nearbyCount + 1} coaches en ${c.location.city}</span>
+                </div>
+                <p class="home-map-pill-question">Explora esta zona en el buscador detallado.</p>
+                <a class="home-map-pill-cta" href="/academy#coach=${c.slug}">
+                  Abrir mapa completo
+                  <span class="home-map-pill-cta-arrow">→</span>
+                </a>
+              </div>
+            `
+            : `
+              <div class="home-map-pill">
+                <div class="home-map-pill-header">
+                  <span class="home-map-pill-name">${c.name}</span>
+                  ${badgeHtml}
+                </div>
+                <p class="home-map-pill-question">¿Buscar coach por esta zona?</p>
+                <a class="home-map-pill-cta" href="/academy#coach=${c.slug}">
+                  Sí, llévame
+                  <span class="home-map-pill-cta-arrow">→</span>
+                </a>
+              </div>
+            `;
+
+        L.popup({
+          closeButton: true,
+          autoPan: false,
+          keepInView: false,
+          className: "home-map-pill-popup",
+          offset: [0, -6],
+        })
+          .setLatLng(c.location.coordinates)
+          .setContent(html)
+          .openOn(map);
       });
 
       // Double-click = shortcut directo (para quien ya entiende la mecánica).
