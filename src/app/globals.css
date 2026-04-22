@@ -622,6 +622,283 @@ html[data-theme="light"] .theme-eyebrow {
   transform: translateY(0);
 }
 
+/* ─── Hero Orbital — claim + radial cards (desktop) / swipe (mobile) ─── */
+
+/* Claim word states */
+.hero-claim-word {
+  transition:
+    opacity 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    -webkit-text-fill-color 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.hero-claim-word.inactive {
+  opacity: 0.35;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.35);
+}
+
+/* Orbital container */
+.hero-orbital {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Arc line SVG (desktop) */
+.hero-orbital-arc {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 800ms var(--ease-out);
+}
+.hero-orbital-arc.in {
+  opacity: 1;
+}
+.hero-orbital-arc path {
+  fill: none;
+  stroke: rgba(220, 175, 100, 0.15);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+.hero-orbital-arc .hero-orbital-arc-progress {
+  stroke: rgba(220, 175, 100, 0.85);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  transition: none;
+}
+
+/* Active card */
+.hero-orbital-active {
+  position: absolute;
+  width: 220px;
+  height: 240px;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #0a0a0b;
+  border: 1px solid rgba(220, 175, 100, 0.35);
+  border-radius: 2px;
+  overflow: hidden;
+  opacity: 0;
+  transition:
+    opacity 500ms var(--ease-out),
+    transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.hero-orbital-active.in {
+  opacity: 1;
+}
+.hero-orbital-active-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+.hero-orbital-active-bg > img,
+.hero-orbital-active-bg > video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.32;
+  filter: blur(20px);
+  transition:
+    opacity 1.2s var(--ease-out),
+    filter 1.2s var(--ease-out);
+}
+.hero-orbital-active.in .hero-orbital-active-bg > img,
+.hero-orbital-active.in .hero-orbital-active-bg > video {
+  filter: blur(0);
+}
+.hero-orbital-active-content {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 28px 24px;
+}
+.hero-orbital-active-title {
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.hero-orbital-active-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--g1);
+  text-decoration: none;
+  transition: gap 200ms var(--ease-out);
+}
+.hero-orbital-active-cta:hover {
+  gap: 16px;
+}
+
+/* Small cards on the arc */
+.hero-orbital-small {
+  position: absolute;
+  width: 60px;
+  height: 80px;
+  background: #0a0a0b;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  padding: 8px 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.9);
+  transition:
+    opacity 400ms var(--ease-out),
+    transform 800ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 200ms var(--ease-out);
+}
+.hero-orbital-small.in {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+.hero-orbital-small:hover,
+.hero-orbital-small:focus-visible {
+  transform: translate(-50%, -50%) scale(1.1);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+.hero-orbital-small.active-hidden {
+  opacity: 0 !important;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.7);
+  transition:
+    opacity 500ms var(--ease-out),
+    transform 500ms var(--ease-out);
+}
+.hero-orbital-small-watermark {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: rgba(220, 175, 100, 0.45);
+  text-transform: uppercase;
+}
+.hero-orbital-small-name {
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* Hide desktop orbital on mobile */
+@media (max-width: 960px) {
+  .hero-orbital-desktop {
+    display: none;
+  }
+}
+
+/* Mobile swipe carousel */
+.hero-orbital-mobile {
+  display: none;
+}
+@media (max-width: 960px) {
+  .hero-orbital-mobile {
+    display: block;
+    width: 100%;
+  }
+  .hero-orbital-mobile-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 16px;
+    gap: 12px;
+  }
+  .hero-orbital-mobile-track::-webkit-scrollbar {
+    display: none;
+  }
+  .hero-orbital-mobile-card {
+    flex: 0 0 calc(100% - 32px);
+    scroll-snap-align: center;
+    height: 200px;
+    background: #0a0a0b;
+    border: 1px solid rgba(220, 175, 100, 0.25);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .hero-orbital-mobile-card-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .hero-orbital-mobile-card-bg > img,
+  .hero-orbital-mobile-card-bg > video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.28;
+  }
+  .hero-orbital-mobile-card > * {
+    position: relative;
+    z-index: 1;
+  }
+  .hero-orbital-mobile-card-title {
+    font-size: clamp(22px, 6vw, 32px);
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  .hero-orbital-mobile-card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--g1);
+    text-decoration: none;
+  }
+  .hero-orbital-mobile-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 16px;
+  }
+  .hero-orbital-mobile-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.2);
+    transition: background 300ms var(--ease-out);
+  }
+  .hero-orbital-mobile-dot.active {
+    background: var(--g1);
+  }
+  .hero-orbital-mobile-track.hint {
+    animation: hero-orbital-nudge 600ms var(--ease-out) 800ms 1;
+  }
+  @keyframes hero-orbital-nudge {
+    0%   { transform: translateX(0); }
+    40%  { transform: translateX(-30px); }
+    100% { transform: translateX(0); }
+  }
+}
+
 /* ─── Navbar scrolled — blur + dark background when off-hero ─── */
 .navbar-scrolled {
   background-color: rgba(0, 0, 0, 0.72) !important;
@@ -952,7 +1229,10 @@ html[data-theme="light"] .theme-eyebrow {
   .tile-bg > img,
   .tile-bg > video,
   .footer-close-manifesto > div,
-  .footer-close-tagline {
+  .footer-close-tagline,
+  .hero-orbital-active,
+  .hero-orbital-small,
+  .hero-orbital-arc {
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;
@@ -971,6 +1251,12 @@ html[data-theme="light"] .theme-eyebrow {
 
   .hero-curtain {
     opacity: 0 !important;
+  }
+  .hero-orbital-mobile-track.hint {
+    animation: none !important;
+  }
+  .hero-orbital-arc-progress {
+    stroke-dasharray: none !important;
   }
 }
 
