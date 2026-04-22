@@ -65,11 +65,13 @@ function FeaturedBlock({
   tCard,
   flagship = false,
   showCoachBadge = false,
+  tall = false,
 }: {
   product: HomeProduct;
   tCard: { tag: string; forLabel: string; cta: string };
   flagship?: boolean;
   showCoachBadge?: boolean;
+  tall?: boolean;
 }) {
   const isDark = product.dark;
 
@@ -101,7 +103,13 @@ function FeaturedBlock({
           Premium
         </span>
       )}
-      <div className="relative z-10 min-h-[62vh] max-[960px]:min-h-[58vh] flex flex-col justify-end py-20 px-12 max-[960px]:py-14 max-[960px]:px-6">
+      <div
+        className={`relative z-10 flex flex-col justify-end py-20 px-12 max-[960px]:py-14 max-[960px]:px-6 ${
+          tall
+            ? "min-h-[88vh] max-[960px]:min-h-[75vh]"
+            : "min-h-[62vh] max-[960px]:min-h-[58vh]"
+        }`}
+      >
         <div className="max-w-[640px]">
           <div
             className={`text-[10px] font-normal tracking-[3.5px] uppercase mb-4 ${
@@ -577,10 +585,11 @@ export function ProductsGrid() {
         showCoachBadge
       />
 
-      {/* ── Training Camp — split: image protagonist + content aside ── */}
-      <FeaturedSplitBlock
+      {/* ── Training Camp — featured standalone (taller so image breathes) ── */}
+      <FeaturedBlock
         product={trainingCamp}
         tCard={tCardOf("training-camp")}
+        tall
       />
 
       {/* ── Academy horizontal scroll ── */}
