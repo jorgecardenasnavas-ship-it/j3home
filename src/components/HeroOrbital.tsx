@@ -22,9 +22,9 @@ const RING_PRODUCTS: HomeProduct[] = ORBITAL_RING_ORDER.map((id) => {
 });
 
 // Desktop arc geometry
-const ARC_CENTER_X_PCT = 72;
+const ARC_CENTER_X_PCT = 55;
 const ARC_CENTER_Y_PCT = 50;
-const ARC_RADIUS_PCT = 42;
+const ARC_RADIUS_PCT = 35;
 const RING_SIZE = 8;
 
 function smallCardPositions(): { xPct: number; yPct: number }[] {
@@ -35,7 +35,7 @@ function smallCardPositions(): { xPct: number; yPct: number }[] {
   for (let i = 0; i < RING_SIZE; i++) {
     const angleDeg = startDeg + step * i;
     const angleRad = (angleDeg * Math.PI) / 180;
-    const xPct = ARC_CENTER_X_PCT + ARC_RADIUS_PCT * 1.5 * Math.cos(angleRad);
+    const xPct = ARC_CENTER_X_PCT + ARC_RADIUS_PCT * Math.cos(angleRad);
     const yPct = ARC_CENTER_Y_PCT + ARC_RADIUS_PCT * Math.sin(angleRad);
     positions.push({ xPct, yPct });
   }
@@ -116,7 +116,7 @@ export function HeroOrbital({ onActiveChange }: HeroOrbitalProps) {
   const arcPath = useMemo(() => {
     const cx = ARC_CENTER_X_PCT;
     const cy = ARC_CENTER_Y_PCT;
-    const r = ARC_RADIUS_PCT * 1.5;
+    const r = ARC_RADIUS_PCT;
     const startX = cx + r * Math.cos((-80 * Math.PI) / 180);
     const startY = cy + r * Math.sin((-80 * Math.PI) / 180);
     const endX = cx + r * Math.cos((80 * Math.PI) / 180);
