@@ -1407,39 +1407,93 @@ html[data-theme="light"] .theme-eyebrow {
   stroke-width: 1.5;
 }
 
-/* Small gold dots for each coach */
+/* ── Coach dots — differentiated by status ──
+ * Verified: large solid gold dot + outer ring (max distinction)
+ * Qualified: mid solid gold dot (standard J3 pin)
+ * Plus (in-progress): small hollow gold dot (growing, not yet there)
+ * All three render centered in a 14x14 divIcon frame.
+ */
 .home-map-dot {
   background: transparent !important;
   border: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .home-map-dot-inner {
-  width: 6px;
-  height: 6px;
   border-radius: 999px;
-  background: rgba(220, 175, 100, 0.65);
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
   transform: scale(0);
   transition:
     transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
     background 0.2s,
-    box-shadow 0.2s;
+    box-shadow 0.2s,
+    border-color 0.2s;
   cursor: pointer;
 }
 .leaflet-marker-icon.home-map-dot.in .home-map-dot-inner {
   transform: scale(1);
 }
-.home-map-dot:hover .home-map-dot-inner {
+
+/* Verified — biggest, with outer ring */
+.home-map-dot--verified .home-map-dot-inner {
+  width: 9px;
+  height: 9px;
+  background: rgba(220, 175, 100, 0.85);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.6),
+    0 0 0 3px rgba(220, 175, 100, 0.35),
+    0 0 0 4px rgba(0, 0, 0, 0.4);
+}
+.home-map-dot--verified:hover .home-map-dot-inner {
+  transform: scale(1.5);
+  background: #f0d080;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.7),
+    0 0 0 3px rgba(220, 175, 100, 0.65),
+    0 0 0 4px rgba(0, 0, 0, 0.45),
+    0 0 16px rgba(220, 175, 100, 0.6);
+}
+
+/* Qualified — standard gold dot */
+.home-map-dot--qualified .home-map-dot-inner {
+  width: 6px;
+  height: 6px;
+  background: rgba(220, 175, 100, 0.65);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+}
+.home-map-dot--qualified:hover .home-map-dot-inner {
   transform: scale(1.8);
   background: #f0d080;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 0 12px rgba(220, 175, 100, 0.65);
 }
+
+/* Plus (in-progress) — hollow, muted, smaller */
+.home-map-dot--plus .home-map-dot-inner {
+  width: 6px;
+  height: 6px;
+  background: rgba(220, 175, 100, 0.15);
+  border: 1.5px solid rgba(220, 175, 100, 0.55);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.45);
+}
+.home-map-dot--plus:hover .home-map-dot-inner {
+  transform: scale(1.6);
+  background: rgba(220, 175, 100, 0.25);
+  border-color: rgba(240, 208, 128, 0.9);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.55), 0 0 10px rgba(220, 175, 100, 0.5);
+}
+
 @media (max-width: 960px) {
-  .home-map-dot-inner {
+  .home-map-dot--verified .home-map-dot-inner {
+    width: 10px;
+    height: 10px;
+  }
+  .home-map-dot--qualified .home-map-dot-inner {
     width: 7px;
     height: 7px;
   }
-  .leaflet-marker-icon.home-map-dot.in .home-map-dot-inner {
-    transform: scale(1);
+  .home-map-dot--plus .home-map-dot-inner {
+    width: 7px;
+    height: 7px;
   }
 }
 

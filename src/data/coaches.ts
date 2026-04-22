@@ -207,7 +207,7 @@ export interface Coach {
    Los Founders son la cohorte específica del 2025-08-01.
    ────────────────────────────────────────────── */
 
-export const COACHES: readonly Coach[] = [
+const REAL_COACHES: readonly Coach[] = [
   // 1 · HQ — J3 Lab Málaga
   {
     slug: "j3-hq-malaga",
@@ -460,6 +460,16 @@ export const COACHES: readonly Coach[] = [
     joinedAt: "2026-03-01",
   },
 ] as const;
+
+/* ─────────────────────────────────────────────────────────────
+   Simulated coaches — 100 fake entries for map visualization
+   (20 verified · 30 qualified · 20 plus · 30 basic). Appended
+   to the real list via spread. Remove the import when ready to
+   go fully live with real data only.
+   ───────────────────────────────────────────────────────────── */
+import { SIMULATED_COACHES } from "./simulated-coaches";
+
+export const COACHES: readonly Coach[] = [...REAL_COACHES, ...SIMULATED_COACHES];
 
 /** Lista de países únicos (alfabético) — para filtros. */
 export const COACH_COUNTRIES = Array.from(

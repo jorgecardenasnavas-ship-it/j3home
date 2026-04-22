@@ -99,30 +99,7 @@ function MapLayers({
     const revealTimers: number[] = [];
 
     sortedOthers.forEach((c, i) => {
-      // Curve
-      const points = computeCurve(
-        hq.location.coordinates,
-        c.location.coordinates,
-      );
-      const pl = L.polyline(points, {
-        color: "#dcaf64",
-        weight: 1,
-        opacity: 1, // CSS controls visibility via .home-map-curve rules
-        interactive: false,
-        className: `home-map-curve home-map-curve-${c.slug}`,
-      }).addTo(map);
-      curves.push(pl);
-
-      // Dot
-      const dotIcon = L.divIcon({
-        className: "home-map-dot",
-        html: `<div class="home-map-dot-inner"></div>`,
-        iconSize: [10, 10],
-        iconAnchor: [5, 5],
-      });
-      const dm = L.marker(c.location.coordinates, { icon: dotIcon }).addTo(map);
-
-      // Pill content: verification badge + name + invitation + CTA to /academy#coach=slug
+      // Determine status: verified, qualified, plus — basic was already filtered out upstream
       const isVerified =
         !!c.mentorActive &&
         !!c.certifiedAt &&
@@ -131,6 +108,41 @@ function MapLayers({
         !!c.certifiedAt &&
         c.certificationActive !== false &&
         !c.mentorActive;
+      const isPlus = !!c.plusActive && !c.certifiedAt;
+      const status: "verified" | "qualified" | "plus" = isVerified
+        ? "verified"
+        : isQualified
+          ? "qualified"
+          : "plus";
+
+      // Curve — only for established connections (verified + qualified). Plus
+      // coaches show as hollow dots without lines (still in progress).
+      let pl: L.Polyline | null = null;
+      if (status !== "plus") {
+        const points = computeCurve(
+          hq.location.coordinates,
+          c.location.coordinates,
+        );
+        pl = L.polyline(points, {
+          color: "#dcaf64",
+          weight: 1,
+          opacity: 1, // CSS controls visibility via .home-map-curve rules
+          interactive: false,
+          className: `home-map-curve home-map-curve-${c.slug}`,
+        }).addTo(map);
+        curves.push(pl);
+      }
+
+      // Dot — styled per status
+      const dotIcon = L.divIcon({
+        className: `home-map-dot home-map-dot--${status}`,
+        html: `<div class="home-map-dot-inner"></div>`,
+        iconSize: [14, 14],
+        iconAnchor: [7, 7],
+      });
+      const dm = L.marker(c.location.coordinates, { icon: dotIcon }).addTo(map);
+
+      // Pill content: verification badge + name + invitation + CTA to /academy#coach=slug
       const badgeHtml = isVerified
         ? '<svg class="home-map-pill-badge" viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#dcaf64"/><path d="M7.5 12.5l3 3 6-6" stroke="#0a0a0a" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'
         : isQualified
@@ -170,8 +182,10 @@ function MapLayers({
       // Stagger reveal — 30ms between each, starts after 150ms initial delay
       const delay = 150 + i * 30;
       const t = window.setTimeout(() => {
-        const curveEl = pl.getElement() as SVGPathElement | null;
-        if (curveEl) curveEl.classList.add("in");
+        if (pl) {
+          const curveEl = pl.getElement() as SVGPathElement | null;
+          if (curveEl) curveEl.classList.add("in");
+        }
         const dotEl = dm.getElement();
         if (dotEl) dotEl.classList.add("in");
       }, delay);
@@ -226,7 +240,25 @@ export function HomeMap() {
   const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
 
   const hq = useMemo(() => COACHES.find((c) => c.type === "lab"), []);
-  const others = useMemo(() => COACHES.filter((c) => c.type !== "lab"), []);
+  /* Filter out:
+   *  - HQ (rendered separately with its own pin)
+   *  - Basic coaches (no certification, no plusActive): invisible per spec
+   * Show:
+   *  - Verified (mentorActive + cert + certActive)
+   *  - Qualified (cert + certActive, no mentor)
+   *  - Plus active (plusActive, no cert) — as "in-progress" hollow dots
+   */
+  const others = useMemo(
+    () =>
+      COACHES.filter((c) => {
+        if (c.type === "lab") return false;
+        const isCertified =
+          !!c.certifiedAt && c.certificationActive !== false;
+        const isInProgress = !!c.plusActive && !c.certifiedAt;
+        return isCertified || isInProgress;
+      }),
+    [],
+  );
 
   if (!hq) return null;
 
