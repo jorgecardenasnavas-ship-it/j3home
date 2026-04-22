@@ -1408,7 +1408,7 @@ function SproutingMarkers({ coaches, labels }: { coaches: readonly Coach[]; labe
       });
       const popupHtml = renderToStaticMarkup(<InProgressPopupContent coach={c} labels={labels} />);
       const m = L.marker(c.location.coordinates, { icon, keyboard: false });
-      m.bindPopup(popupHtml, { maxWidth: 260, minWidth: 220 });
+      m.bindPopup(popupHtml, { maxWidth: 260, minWidth: 220, autoPan: false, keepInView: false });
       layer.addLayer(m);
     });
     map.addLayer(layer);
@@ -1483,7 +1483,7 @@ function ClusteredMarkers({
       /* Pin con anillo exterior si el coach es Verificado (mentorActive). */
       const isVerified = kind === "coach" && !!c.mentorActive && c.certificationActive !== false && !!c.certifiedAt;
       const m = L.marker(c.location.coordinates, { icon: makeIcon(kind, isVerified) });
-      m.bindPopup(popupHtml, { maxWidth: 280, minWidth: 240 });
+      m.bindPopup(popupHtml, { maxWidth: 280, minWidth: 240, autoPan: false, keepInView: false });
 
       // Al abrir el popup, reflejar el coach en el hash de la URL
       // para que sea compartible. Al cerrar, limpiar.
