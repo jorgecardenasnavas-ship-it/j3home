@@ -159,6 +159,11 @@ function MapLayers({
           : "";
 
       dm.on("click", () => {
+        // En mobile el popup se pisa con el resto del layout — navegar directo.
+        if (window.matchMedia("(max-width: 960px)").matches) {
+          router.push(`/academy#coach=${c.slug}`);
+          return;
+        }
         const clickedPoint = map.latLngToContainerPoint(c.location.coordinates);
         const nearbyCount = sortedOthers.reduce((count, other) => {
           if (other.slug === c.slug) return count;
