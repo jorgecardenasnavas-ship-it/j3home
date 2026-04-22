@@ -108,7 +108,7 @@ function MapLayers({
       const pl = L.polyline(points, {
         color: "#dcaf64",
         weight: 1,
-        opacity: 0,
+        opacity: 1, // CSS controls visibility via .home-map-curve rules
         interactive: false,
         className: `home-map-curve home-map-curve-${c.slug}`,
       }).addTo(map);
