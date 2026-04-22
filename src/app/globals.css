@@ -632,10 +632,9 @@ html[data-theme="light"] .theme-eyebrow {
     -webkit-text-fill-color 500ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 .hero-claim-word.inactive {
-  opacity: 0.35;
+  -webkit-text-stroke: 2.5px rgba(220, 175, 100, 0.5);
   color: transparent;
   -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.35);
 }
 
 /* Orbital container */

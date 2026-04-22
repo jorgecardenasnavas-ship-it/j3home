@@ -24,7 +24,6 @@ export function HeroSection() {
     if (!section) return;
 
     const curtain = section.querySelector<HTMLElement>(".hero-curtain");
-    const words = section.querySelectorAll<HTMLElement>(".hero-word");
     const shimmer = section.querySelector<HTMLElement>(".hero-shimmer");
 
     const observer = new IntersectionObserver(
@@ -32,14 +31,9 @@ export function HeroSection() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             curtain?.classList.add("in");
-
-            words.forEach((word, i) => {
-              setTimeout(() => word.classList.add("in"), 900 + i * 500);
-            });
-
-            const wordsEnd = 900 + words.length * 500;
-            setTimeout(() => shimmer?.classList.add("in"), wordsEnd + 300);
-
+            // HeroClaim manages its own word stagger (900, 1400, 1900ms post-mount)
+            // Shimmer fires after the last word (~2400ms)
+            setTimeout(() => shimmer?.classList.add("in"), 2400);
             observer.disconnect();
           }
         });
