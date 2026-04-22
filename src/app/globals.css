@@ -1372,6 +1372,178 @@ html[data-theme="light"] .theme-eyebrow {
   font-weight: 600;
 }
 
+/* ─── HomeMap — HQ hub + curved lines to all coaches ─── */
+
+/* Curve polylines: animated draw-in from Málaga outward */
+.home-map-curve {
+  stroke: #dcaf64;
+  fill: none;
+  stroke-width: 1;
+  stroke-dasharray: 3000;
+  stroke-dashoffset: 3000;
+  opacity: 0;
+  transition:
+    stroke-dashoffset 1s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.5s ease-out,
+    stroke-width 0.3s ease-out;
+  pointer-events: none;
+}
+.home-map-curve.in {
+  stroke-dashoffset: 0;
+  opacity: 0.22;
+}
+@media (max-width: 960px) {
+  .home-map-curve.in {
+    opacity: 0.15;
+  }
+}
+
+/* Hover state: when any dot is hovered, dim all curves and highlight the hovered one */
+.home-map-dim .home-map-curve.in {
+  opacity: 0.08;
+}
+.home-map-dim .home-map-curve.home-map-highlighted {
+  opacity: 0.7 !important;
+  stroke-width: 1.5;
+}
+
+/* Small gold dots for each coach */
+.home-map-dot {
+  background: transparent !important;
+  border: none !important;
+}
+.home-map-dot-inner {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(220, 175, 100, 0.65);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+  transform: scale(0);
+  transition:
+    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background 0.2s,
+    box-shadow 0.2s;
+  cursor: pointer;
+}
+.leaflet-marker-icon.home-map-dot.in .home-map-dot-inner {
+  transform: scale(1);
+}
+.home-map-dot:hover .home-map-dot-inner {
+  transform: scale(1.8);
+  background: #f0d080;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 0 12px rgba(220, 175, 100, 0.65);
+}
+@media (max-width: 960px) {
+  .home-map-dot-inner {
+    width: 7px;
+    height: 7px;
+  }
+  .leaflet-marker-icon.home-map-dot.in .home-map-dot-inner {
+    transform: scale(1);
+  }
+}
+
+/* HQ pin — big halo + center dot + permanent label */
+.home-map-hq {
+  background: transparent !important;
+  border: none !important;
+  position: relative;
+}
+.home-map-hq-halo {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(220, 175, 100, 0.5) 0%,
+    rgba(220, 175, 100, 0.15) 45%,
+    rgba(220, 175, 100, 0) 80%
+  );
+  pointer-events: none;
+}
+.home-map-hq-pin {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+  background: radial-gradient(circle at 50% 50%, #f0d080, #dcaf64 60%, #b8943e 100%);
+  box-shadow:
+    0 0 0 2px rgba(0, 0, 0, 0.65),
+    0 4px 18px rgba(220, 175, 100, 0.55);
+  cursor: pointer;
+}
+.home-map-hq-pin::before {
+  content: "";
+  position: absolute;
+  inset: -10px;
+  border-radius: 999px;
+  border: 1px solid rgba(220, 175, 100, 0.4);
+  animation: home-map-pulse 2.4s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes home-map-pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+.home-map-hq-label {
+  position: absolute;
+  top: calc(50% + 24px);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  padding: 4px 10px;
+  background: rgba(10, 10, 10, 0.9);
+  border: 1px solid rgba(220, 175, 100, 0.35);
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--g1);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+/* HQ breathing (post-animation) */
+.home-map-hq.breathing .home-map-hq-halo {
+  animation: home-map-breathe 4s ease-in-out infinite;
+}
+@keyframes home-map-breathe {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.65;
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .home-map-curve {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+    opacity: 0.22;
+    transition: none;
+  }
+  .home-map-hq-pin::before,
+  .home-map-hq.breathing .home-map-hq-halo {
+    animation: none;
+  }
+  .home-map-dot-inner {
+    transform: scale(1);
+    transition: none;
+  }
+}
+
 /* ─── CoachFinder — hide Leaflet controls (decorative map) ─── */
 #coach-finder .leaflet-control,
 #coach-finder .leaflet-control-zoom,
