@@ -181,104 +181,25 @@ const pinStyles = `
     0%   { transform: scale(0.8); opacity: 1; }
     100% { transform: scale(1.9); opacity: 0; }
   }
-  /* ── Panel-style popup: fixed panel (desktop) / bottom sheet (mobile) ── */
-  .leaflet-popup {
-    position: fixed !important;
-    transform: none !important;
-    margin: 0 !important;
-    z-index: 1050 !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    animation-duration: 0.42s;
-    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-    animation-fill-mode: both;
-  }
-  .leaflet-popup-tip-container { display: none !important; }
-  .leaflet-popup-content-wrapper {
-    background: #0a0a0a !important;
-    color: #f5f0e8 !important;
-    border: 1px solid rgba(220,175,100,0.2);
-    border-radius: 0 !important;
-    box-shadow: 0 10px 60px rgba(0,0,0,0.75) !important;
-    padding: 0 !important;
-  }
-  .leaflet-popup-content {
-    margin: 32px 28px !important;
-    font-family: inherit;
-    line-height: 1.45;
-  }
-  .leaflet-popup-tip { display: none !important; }
-
-  @media (min-width: 961px) {
-    .leaflet-popup {
-      top: 52px !important;
-      right: 0 !important;
-      bottom: 0 !important;
-      left: auto !important;
-      width: 420px !important;
-      max-width: 420px !important;
-      height: calc(100vh - 52px) !important;
-      animation-name: j3PopupSlideRight;
-    }
-    .leaflet-popup-content-wrapper {
-      min-height: 100%;
-      border-left: 1px solid rgba(220,175,100,0.25);
-      border-top: none;
-      border-bottom: none;
-      border-right: none;
-    }
-  }
-  @media (max-width: 960px) {
-    .leaflet-popup {
-      bottom: 0 !important;
-      left: 0 !important;
-      right: 0 !important;
-      top: auto !important;
-      width: 100% !important;
-      max-width: none !important;
-      max-height: 75vh !important;
-      animation-name: j3PopupSlideUp;
-    }
-    .leaflet-popup-content-wrapper {
-      border-top-left-radius: 18px !important;
-      border-top-right-radius: 18px !important;
-      border-bottom: none !important;
-    }
-    .leaflet-popup-content {
-      margin: 24px 20px !important;
-    }
-  }
-  @keyframes j3PopupSlideRight {
-    from { transform: translateX(100%); opacity: 0; }
-    to   { transform: translateX(0);    opacity: 1; }
-  }
-  @keyframes j3PopupSlideUp {
-    from { transform: translateY(100%); opacity: 0; }
-    to   { transform: translateY(0);    opacity: 1; }
-  }
-
-  /* Close button — bigger, gold pill */
-  .leaflet-popup-close-button {
-    width: 36px !important;
-    height: 36px !important;
-    padding: 0 !important;
-    font-size: 22px !important;
-    font-weight: 300 !important;
-    line-height: 36px !important;
-    text-align: center !important;
-    color: var(--g1) !important;
-    background: rgba(10,10,10,0.85) !important;
+  /* ── Hover tooltip on markers ── */
+  .j3-marker-tooltip {
+    background: rgba(10,10,10,0.92) !important;
+    color: var(--wh) !important;
     border: 1px solid rgba(220,175,100,0.35) !important;
     border-radius: 999px !important;
-    top: 18px !important;
-    right: 18px !important;
-    transition: background 0.2s, color 0.2s, border-color 0.2s !important;
-    z-index: 2;
+    padding: 6px 14px !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.5px !important;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.5) !important;
+    white-space: nowrap;
   }
-  .leaflet-popup-close-button:hover {
-    background: rgba(220,175,100,0.15) !important;
-    color: var(--g2) !important;
-    border-color: rgba(220,175,100,0.7) !important;
+  .j3-marker-tooltip::before {
+    border-top-color: rgba(220,175,100,0.4) !important;
+  }
+  /* Markers now navigate on click — show pointer cursor */
+  .j3-pin, .j3-pin-sprout {
+    cursor: pointer !important;
   }
   .leaflet-container {
     background: #0f0f0f;
@@ -1406,9 +1327,16 @@ function SproutingMarkers({ coaches, labels }: { coaches: readonly Coach[]; labe
         iconSize: [12, 12],
         iconAnchor: [6, 6],
       });
-      const popupHtml = renderToStaticMarkup(<InProgressPopupContent coach={c} labels={labels} />);
       const m = L.marker(c.location.coordinates, { icon, keyboard: false });
-      m.bindPopup(popupHtml, { maxWidth: 260, minWidth: 220, autoPan: false, keepInView: false });
+      m.bindTooltip(
+        `${c.name} · ${c.location.city} · ${labels.legendCoachInProgress}`,
+        {
+          direction: "top",
+          offset: [0, -8],
+          className: "j3-marker-tooltip",
+          opacity: 0.95,
+        },
+      );
       layer.addLayer(m);
     });
     map.addLayer(layer);
@@ -1477,28 +1405,21 @@ function ClusteredMarkers({
     coaches.forEach((c) => {
       const kind = resolveKind(c);
       const isHq = kind === "lab";
-      const popupHtml = renderToStaticMarkup(
-        <PopupContent coach={c} labels={labels} kind={kind} />
-      );
       /* Pin con anillo exterior si el coach es Verificado (mentorActive). */
       const isVerified = kind === "coach" && !!c.mentorActive && c.certificationActive !== false && !!c.certifiedAt;
       const m = L.marker(c.location.coordinates, { icon: makeIcon(kind, isVerified) });
-      m.bindPopup(popupHtml, { maxWidth: 280, minWidth: 240, autoPan: false, keepInView: false });
 
-      // Al abrir el popup, reflejar el coach en el hash de la URL
-      // para que sea compartible. Al cerrar, limpiar.
-      m.on("popupopen", () => {
-        if (typeof window === "undefined") return;
-        const next = `#coach=${c.slug}`;
-        if (window.location.hash !== next) {
-          window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}${next}`);
-        }
+      // Hover tooltip con nombre + ciudad (preview ligero). Clic → navega a /coach/[slug].
+      m.bindTooltip(`${c.name} · ${c.location.city}`, {
+        direction: "top",
+        offset: [0, -16],
+        className: "j3-marker-tooltip",
+        opacity: 0.95,
       });
-      m.on("popupclose", () => {
+
+      m.on("click", () => {
         if (typeof window === "undefined") return;
-        if (window.location.hash === `#coach=${c.slug}`) {
-          window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
-        }
+        window.location.href = `/coach/${c.slug}`;
       });
 
       // Hover bidireccional — emite eventos globales al pasar
@@ -2050,26 +1971,25 @@ function FloatingZoomControls({
       >
         −
       </button>
-      {/* Reset view: solo aparece cuando hay zoom significativo. Devuelve
-          el mapa a la vista general (fitBounds de todos los coaches). */}
-      {zoomedIn && (
-        <button
-          type="button"
-          onClick={handleResetView}
-          aria-label="Ver toda la red"
-          title="Ver toda la red"
-          style={{ ...btnBase, borderTop: "1px solid rgba(220,175,100,0.15)" }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(220,175,100,0.14)"; e.currentTarget.style.color = "#f0c478"; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(10,10,10,0.92)"; e.currentTarget.style.color = "#dcaf64"; }}
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden style={{ display: "inline-block", verticalAlign: "middle" }}>
-            <path d="M3 8V5a2 2 0 0 1 2-2h3" />
-            <path d="M21 8V5a2 2 0 0 0-2-2h-3" />
-            <path d="M3 16v3a2 2 0 0 0 2 2h3" />
-            <path d="M21 16v3a2 2 0 0 1-2 2h-3" />
-          </svg>
-        </button>
-      )}
+      {/* Reset view: siempre visible. Devuelve el mapa a la vista general
+          (fitBounds de todos los coaches). El usuario siempre sabe cómo
+          volver a ver toda la red, incluso si no recuerda haber zooméado. */}
+      <button
+        type="button"
+        onClick={handleResetView}
+        aria-label="Ver toda la red"
+        title="Ver toda la red"
+        style={{ ...btnBase, borderTop: "1px solid rgba(220,175,100,0.15)" }}
+        onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(220,175,100,0.14)"; e.currentTarget.style.color = "#f0c478"; }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(10,10,10,0.92)"; e.currentTarget.style.color = "#dcaf64"; }}
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden style={{ display: "inline-block", verticalAlign: "middle" }}>
+          <path d="M3 8V5a2 2 0 0 1 2-2h3" />
+          <path d="M21 8V5a2 2 0 0 0-2-2h-3" />
+          <path d="M3 16v3a2 2 0 0 0 2 2h3" />
+          <path d="M21 16v3a2 2 0 0 1-2 2h-3" />
+        </svg>
+      </button>
     </div>,
     document.body,
   );
@@ -2121,25 +2041,6 @@ interface NetworkMapProps {
    */
   userLocation?: LatLng | null;
   labels: PopupLabels;
-}
-
-/**
- * ESC key closes any open popup on this map. Mounted inside MapContainer so it
- * has access to the map instance via useMap(). Also closes when clicking on the
- * backdrop area of the popup (outside the content-wrapper).
- */
-function EscClosePopup() {
-  const map = useMap();
-  useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        map.closePopup();
-      }
-    };
-    window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
-  }, [map]);
-  return null;
 }
 
 export default function NetworkMap({
@@ -2207,7 +2108,6 @@ export default function NetworkMap({
         {showLegend && <MapLegend labels={labels} />}
         {inProgressCoaches.length > 0 && <SproutingMarkers coaches={inProgressCoaches} labels={labels} />}
         <ClusteredMarkers coaches={coaches} labels={labels} onAsk={onAsk} />
-        <EscClosePopup />
       </MapContainer>
     </>
   );
