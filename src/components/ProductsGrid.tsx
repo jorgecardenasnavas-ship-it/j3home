@@ -164,6 +164,102 @@ function FeaturedBlock({
   );
 }
 
+/* ──── Split featured block: image full on one side, content on other ──── */
+
+function FeaturedSplitBlock({
+  product,
+  tCard,
+}: {
+  product: HomeProduct;
+  tCard: { tag: string; forLabel: string; cta: string };
+}) {
+  return (
+    <article className="pc-card group relative overflow-hidden border-t border-white/[.06] bg-black">
+      <div className="grid grid-cols-[55%_45%] max-[960px]:grid-cols-1 min-h-[68vh] max-[960px]:min-h-0">
+        {/* Image side — full, no crop tricks */}
+        <div className="relative overflow-hidden max-[960px]:aspect-[4/3] bg-[#0a0a0b]">
+          {product.asset.type === "video" ? (
+            <video
+              src={product.asset.src}
+              poster={product.asset.poster}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              aria-hidden="true"
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <img
+              src={product.asset.src}
+              alt=""
+              aria-hidden="true"
+              className="w-full h-full object-cover"
+            />
+          )}
+          {/* Premium badge on the image corner */}
+          {product.premiumBadge && (
+            <span
+              className="absolute top-8 left-8 max-[960px]:top-5 max-[960px]:left-5 z-10 px-[9px] py-[3px] rounded-[999px] text-[9px] font-bold tracking-[2px] uppercase border border-[rgba(212,169,74,.5)] backdrop-blur-md"
+              style={{ background: "rgba(10,10,10,.6)", color: "var(--g1)" }}
+            >
+              Premium
+            </span>
+          )}
+        </div>
+        {/* Content side */}
+        <div className="relative flex flex-col justify-between py-16 px-14 max-[960px]:py-14 max-[960px]:px-6 max-[960px]:min-h-[360px]">
+          {/* Top accent — subtle gold line growing on hover */}
+          <div className="absolute top-0 left-0 h-[2px] bg-gradient-to-r from-[var(--g1)] to-transparent transition-all duration-700 ease-[var(--ease-out)] w-[25%] opacity-60 group-hover:w-[70%] group-hover:opacity-90" />
+          <div>
+            <div className="text-[10px] font-normal tracking-[3.5px] uppercase mb-5 text-[rgba(220,175,100,.7)]">
+              {tCard.tag}
+            </div>
+            <h3 className="font-bold uppercase tracking-[-2.5px] leading-[0.95] text-[clamp(48px,5.5vw,84px)] max-[960px]:text-[clamp(40px,10vw,60px)]">
+              {product.nameParts.map((part, i) =>
+                part.gold ? (
+                  <span key={i} className="j3-grad-text">
+                    {part.text}
+                  </span>
+                ) : (
+                  <span key={i} className="text-[var(--wh)]">
+                    {part.text}
+                  </span>
+                ),
+              )}
+            </h3>
+            <div className="text-[10px] font-light tracking-[2px] uppercase mt-5 text-white/45 max-w-[400px] leading-[1.6]">
+              {tCard.forLabel}
+            </div>
+          </div>
+          <div className="mt-10 max-[960px]:mt-8">
+            {product.isExternal ? (
+              <a
+                href={product.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-[10px] text-[11px] font-bold tracking-[2px] uppercase no-underline transition-[gap] duration-200 hover:gap-[18px] text-[var(--g1)]"
+              >
+                {tCard.cta}
+                <span className="text-[16px] font-light">→</span>
+              </a>
+            ) : (
+              <Link
+                href={product.href}
+                className="inline-flex items-center gap-[10px] text-[11px] font-bold tracking-[2px] uppercase no-underline transition-[gap] duration-200 hover:gap-[18px] text-[var(--g1)]"
+              >
+                {tCard.cta}
+                <span className="text-[16px] font-light">→</span>
+              </Link>
+            )}
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
+
 /* ─────────── Academy horizontal scroll (Apple-style) ─────────── */
 
 function AcademyScroller() {
@@ -481,8 +577,8 @@ export function ProductsGrid() {
         showCoachBadge
       />
 
-      {/* ── Training Camp — featured standalone ── */}
-      <FeaturedBlock
+      {/* ── Training Camp — split: image protagonist + content aside ── */}
+      <FeaturedSplitBlock
         product={trainingCamp}
         tCard={tCardOf("training-camp")}
       />
