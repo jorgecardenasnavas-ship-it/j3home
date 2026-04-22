@@ -181,23 +181,104 @@ const pinStyles = `
     0%   { transform: scale(0.8); opacity: 1; }
     100% { transform: scale(1.9); opacity: 0; }
   }
+  /* ── Panel-style popup: fixed panel (desktop) / bottom sheet (mobile) ── */
+  .leaflet-popup {
+    position: fixed !important;
+    transform: none !important;
+    margin: 0 !important;
+    z-index: 1050 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    animation-duration: 0.42s;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    animation-fill-mode: both;
+  }
+  .leaflet-popup-tip-container { display: none !important; }
   .leaflet-popup-content-wrapper {
     background: #0a0a0a !important;
     color: #f5f0e8 !important;
-    border: 1px solid rgba(220,175,100,0.25);
-    border-radius: 2px !important;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.6) !important;
+    border: 1px solid rgba(220,175,100,0.2);
+    border-radius: 0 !important;
+    box-shadow: 0 10px 60px rgba(0,0,0,0.75) !important;
     padding: 0 !important;
   }
   .leaflet-popup-content {
-    margin: 14px 16px !important;
+    margin: 32px 28px !important;
     font-family: inherit;
-    line-height: 1.4;
+    line-height: 1.45;
   }
-  .leaflet-popup-tip {
-    background: #0a0a0a !important;
-    border-left: 1px solid rgba(220,175,100,0.25);
-    border-bottom: 1px solid rgba(220,175,100,0.25);
+  .leaflet-popup-tip { display: none !important; }
+
+  @media (min-width: 961px) {
+    .leaflet-popup {
+      top: 52px !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      left: auto !important;
+      width: 420px !important;
+      max-width: 420px !important;
+      height: calc(100vh - 52px) !important;
+      animation-name: j3PopupSlideRight;
+    }
+    .leaflet-popup-content-wrapper {
+      min-height: 100%;
+      border-left: 1px solid rgba(220,175,100,0.25);
+      border-top: none;
+      border-bottom: none;
+      border-right: none;
+    }
+  }
+  @media (max-width: 960px) {
+    .leaflet-popup {
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      top: auto !important;
+      width: 100% !important;
+      max-width: none !important;
+      max-height: 75vh !important;
+      animation-name: j3PopupSlideUp;
+    }
+    .leaflet-popup-content-wrapper {
+      border-top-left-radius: 18px !important;
+      border-top-right-radius: 18px !important;
+      border-bottom: none !important;
+    }
+    .leaflet-popup-content {
+      margin: 24px 20px !important;
+    }
+  }
+  @keyframes j3PopupSlideRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to   { transform: translateX(0);    opacity: 1; }
+  }
+  @keyframes j3PopupSlideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+  }
+
+  /* Close button — bigger, gold pill */
+  .leaflet-popup-close-button {
+    width: 36px !important;
+    height: 36px !important;
+    padding: 0 !important;
+    font-size: 22px !important;
+    font-weight: 300 !important;
+    line-height: 36px !important;
+    text-align: center !important;
+    color: var(--g1) !important;
+    background: rgba(10,10,10,0.85) !important;
+    border: 1px solid rgba(220,175,100,0.35) !important;
+    border-radius: 999px !important;
+    top: 18px !important;
+    right: 18px !important;
+    transition: background 0.2s, color 0.2s, border-color 0.2s !important;
+    z-index: 2;
+  }
+  .leaflet-popup-close-button:hover {
+    background: rgba(220,175,100,0.15) !important;
+    color: var(--g2) !important;
+    border-color: rgba(220,175,100,0.7) !important;
   }
   .leaflet-container {
     background: #0f0f0f;
@@ -2042,6 +2123,25 @@ interface NetworkMapProps {
   labels: PopupLabels;
 }
 
+/**
+ * ESC key closes any open popup on this map. Mounted inside MapContainer so it
+ * has access to the map instance via useMap(). Also closes when clicking on the
+ * backdrop area of the popup (outside the content-wrapper).
+ */
+function EscClosePopup() {
+  const map = useMap();
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        map.closePopup();
+      }
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [map]);
+  return null;
+}
+
 export default function NetworkMap({
   coaches: coachesProp,
   inProgressCoaches: inProgressProp = [],
@@ -2107,6 +2207,7 @@ export default function NetworkMap({
         {showLegend && <MapLegend labels={labels} />}
         {inProgressCoaches.length > 0 && <SproutingMarkers coaches={inProgressCoaches} labels={labels} />}
         <ClusteredMarkers coaches={coaches} labels={labels} onAsk={onAsk} />
+        <EscClosePopup />
       </MapContainer>
     </>
   );
