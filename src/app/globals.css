@@ -1494,25 +1494,6 @@ html[data-theme="light"] .theme-eyebrow {
     opacity: 0;
   }
 }
-.home-map-hq-label {
-  position: absolute;
-  top: calc(50% + 24px);
-  left: 50%;
-  transform: translateX(-50%);
-  white-space: nowrap;
-  padding: 4px 10px;
-  background: rgba(10, 10, 10, 0.9);
-  border: 1px solid rgba(220, 175, 100, 0.35);
-  border-radius: 999px;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--g1);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
-  pointer-events: none;
-}
-
 /* HQ breathing (post-animation) */
 .home-map-hq.breathing .home-map-hq-halo {
   animation: home-map-breathe 4s ease-in-out infinite;
@@ -1524,6 +1505,92 @@ html[data-theme="light"] .theme-eyebrow {
   50% {
     opacity: 0.65;
   }
+}
+
+/* Pill popup on dot click — invitation to explore area */
+.home-map-pill-popup .leaflet-popup-content-wrapper {
+  background: rgba(10, 10, 10, 0.95) !important;
+  color: var(--wh) !important;
+  border: 1px solid rgba(220, 175, 100, 0.35) !important;
+  border-radius: 10px !important;
+  padding: 0 !important;
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(220, 175, 100, 0.1) !important;
+}
+.home-map-pill-popup .leaflet-popup-content {
+  margin: 16px 18px !important;
+  min-width: 220px;
+  font-family: inherit;
+}
+.home-map-pill-popup .leaflet-popup-tip {
+  background: rgba(10, 10, 10, 0.95) !important;
+  border-left: 1px solid rgba(220, 175, 100, 0.25);
+  border-bottom: 1px solid rgba(220, 175, 100, 0.25);
+}
+.home-map-pill-popup .leaflet-popup-close-button {
+  width: 24px !important;
+  height: 24px !important;
+  padding: 0 !important;
+  font-size: 18px !important;
+  font-weight: 300 !important;
+  line-height: 24px !important;
+  text-align: center !important;
+  color: rgba(255, 255, 255, 0.5) !important;
+  background: transparent !important;
+  border: none !important;
+  top: 6px !important;
+  right: 6px !important;
+  transition: color 0.2s;
+}
+.home-map-pill-popup .leaflet-popup-close-button:hover {
+  color: var(--g1) !important;
+}
+
+.home-map-pill-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.home-map-pill-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--wh);
+  letter-spacing: 0.3px;
+}
+.home-map-pill-badge {
+  flex-shrink: 0;
+}
+.home-map-pill-question {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0 0 14px 0;
+  letter-spacing: 0.2px;
+  line-height: 1.4;
+}
+.home-map-pill-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--g1), var(--g2));
+  color: #0a0a0a !important;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-decoration: none !important;
+  transition: gap 0.2s var(--ease-out), box-shadow 0.2s;
+}
+.home-map-pill-cta:hover {
+  gap: 12px;
+  box-shadow: 0 4px 16px rgba(220, 175, 100, 0.35);
+}
+.home-map-pill-cta-arrow {
+  font-size: 14px;
+  font-weight: 300;
 }
 
 /* Respect reduced motion */

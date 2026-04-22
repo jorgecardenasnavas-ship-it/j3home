@@ -83,7 +83,6 @@ function MapLayers({
       html: `
         <div class="home-map-hq-halo"></div>
         <div class="home-map-hq-pin"></div>
-        <div class="home-map-hq-label">HQ · ${hq.location.city}</div>
       `,
       iconSize: [44, 44],
       iconAnchor: [22, 22],
@@ -122,7 +121,48 @@ function MapLayers({
         iconAnchor: [5, 5],
       });
       const dm = L.marker(c.location.coordinates, { icon: dotIcon }).addTo(map);
-      dm.on("click", () => router.push(`/academy#coach=${c.slug}`));
+
+      // Pill content: verification badge + name + invitation + CTA to /academy#coach=slug
+      const isVerified =
+        !!c.mentorActive &&
+        !!c.certifiedAt &&
+        c.certificationActive !== false;
+      const isQualified =
+        !!c.certifiedAt &&
+        c.certificationActive !== false &&
+        !c.mentorActive;
+      const badgeHtml = isVerified
+        ? '<svg class="home-map-pill-badge" viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#dcaf64"/><path d="M7.5 12.5l3 3 6-6" stroke="#0a0a0a" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+        : isQualified
+          ? '<svg class="home-map-pill-badge" viewBox="0 0 24 24" width="11" height="11" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="#dcaf64" stroke-width="2.5"/><circle cx="12" cy="12" r="4" fill="#dcaf64"/></svg>'
+          : "";
+      const pillHtml = `
+        <div class="home-map-pill">
+          <div class="home-map-pill-header">
+            <span class="home-map-pill-name">${c.name}</span>
+            ${badgeHtml}
+          </div>
+          <p class="home-map-pill-question">¿Buscar coach por esta zona?</p>
+          <a class="home-map-pill-cta" href="/academy#coach=${c.slug}">
+            Sí, llévame
+            <span class="home-map-pill-cta-arrow">→</span>
+          </a>
+        </div>
+      `;
+      dm.bindPopup(pillHtml, {
+        closeButton: true,
+        autoPan: false,
+        keepInView: false,
+        className: "home-map-pill-popup",
+        offset: [0, -6],
+      });
+
+      // Double-click = shortcut directo (para quien ya entiende la mecánica).
+      dm.on("dblclick", (e) => {
+        L.DomEvent.stopPropagation(e);
+        router.push(`/academy#coach=${c.slug}`);
+      });
+
       dm.on("mouseover", () => onDotHover(c.slug));
       dm.on("mouseout", () => onDotHover(null));
       dots.push(dm);
