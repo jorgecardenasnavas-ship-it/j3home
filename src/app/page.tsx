@@ -4,7 +4,6 @@ import { HeroSection } from "@/components/HeroSection";
 import { SponsorsBanner } from "@/components/SponsorsBanner";
 import { CoachFinder } from "@/components/CoachFinder";
 import { StatsBar } from "@/components/StatsBar";
-import { Testimonials } from "@/components/Testimonials";
 import { HomeManifesto } from "@/components/HomeManifesto";
 import { ProductsGrid } from "@/components/ProductsGrid";
 import { StoryTeaser } from "@/components/StoryTeaser";
@@ -22,7 +21,6 @@ export default function Home() {
         <SponsorsBanner />
         <CoachFinder />
         <StatsBar />
-        <Testimonials />
         <HomeManifesto />
         <ProductsGrid />
         <StoryTeaser />
