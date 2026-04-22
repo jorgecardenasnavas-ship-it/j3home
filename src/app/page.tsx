@@ -3,6 +3,7 @@ import { StickyClaim } from "@/components/StickyClaim";
 import { HeroSection } from "@/components/HeroSection";
 import { SponsorsBanner } from "@/components/SponsorsBanner";
 import { CoachFinder } from "@/components/CoachFinder";
+import { HomeManifesto } from "@/components/HomeManifesto";
 import { ProductsGrid } from "@/components/ProductsGrid";
 import { FooterClose } from "@/components/FooterClose";
 import { Footer } from "@/components/Footer";
@@ -16,6 +17,7 @@ export default function Home() {
         <HeroSection />
         <SponsorsBanner />
         <CoachFinder />
+        <HomeManifesto />
         <ProductsGrid />
         <FooterClose />
       </main>
