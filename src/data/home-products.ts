@@ -29,7 +29,7 @@ export const HOME_PRODUCTS: HomeProduct[] = [
     isExternal: true,
     soon: false,
     fullWidth: false,
-    asset: { type: "image", src: "/images/academy/empresas.jpeg" },
+    asset: { type: "video", src: "/videos/play_1080.webm" },
     audience: "coach",
   },
   {
