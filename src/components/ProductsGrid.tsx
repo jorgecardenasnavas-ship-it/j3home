@@ -8,7 +8,14 @@ import { ACADEMY_PROGRAMS } from "@/data/academy-programs";
 
 /* ───────────────────────── helpers ───────────────────────── */
 
-function TileBackground({ asset }: { asset: HomeProduct["asset"] }) {
+function TileBackground({
+  asset,
+  objectPosition,
+}: {
+  asset: HomeProduct["asset"];
+  objectPosition?: string;
+}) {
+  const style = objectPosition ? { objectPosition } : undefined;
   if (asset.type === "video") {
     return (
       <div className="tile-bg">
@@ -21,13 +28,14 @@ function TileBackground({ asset }: { asset: HomeProduct["asset"] }) {
           playsInline
           preload="metadata"
           aria-hidden="true"
+          style={style}
         />
       </div>
     );
   }
   return (
     <div className="tile-bg">
-      <img src={asset.src} alt="" aria-hidden="true" />
+      <img src={asset.src} alt="" aria-hidden="true" style={style} />
     </div>
   );
 }
@@ -66,12 +74,14 @@ function FeaturedBlock({
   flagship = false,
   showCoachBadge = false,
   tall = false,
+  imagePosition,
 }: {
   product: HomeProduct;
   tCard: { tag: string; forLabel: string; cta: string };
   flagship?: boolean;
   showCoachBadge?: boolean;
   tall?: boolean;
+  imagePosition?: string;
 }) {
   const isDark = product.dark;
 
@@ -80,7 +90,7 @@ function FeaturedBlock({
       data-flagship={flagship ? "true" : undefined}
       className="pc-card group relative overflow-hidden border-t border-white/[.06] transition-all duration-300 bg-black hover:bg-[rgba(220,175,100,.03)]"
     >
-      <TileBackground asset={product.asset} />
+      <TileBackground asset={product.asset} objectPosition={imagePosition} />
       <div className="pc-glow absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-500 z-0" />
       {/* Top accent line */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[2px] bg-gradient-to-r from-transparent via-[var(--g1)] to-transparent transition-all duration-700 ease-[var(--ease-out)] w-[60%] opacity-60 group-hover:w-full group-hover:opacity-90" />
@@ -590,6 +600,7 @@ export function ProductsGrid() {
         product={trainingCamp}
         tCard={tCardOf("training-camp")}
         tall
+        imagePosition="center 25%"
       />
 
       {/* ── Academy horizontal scroll ── */}
