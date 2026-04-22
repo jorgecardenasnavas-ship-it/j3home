@@ -125,6 +125,11 @@ export const en = {
         forLabel: "Clubs and academies",
         cta: "Coming soon",
       },
+      {
+        tag: "Brand · J3 Seal",
+        forLabel: "Clubs and academies",
+        cta: "Discover",
+      },
     ],
   },
 

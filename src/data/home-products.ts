@@ -137,17 +137,35 @@ export const HOME_PRODUCTS: HomeProduct[] = [
     asset: { type: "image", src: "/images/j3/alquilavisual.jpg" },
     audience: "manage",
   },
+  {
+    id: "sello",
+    nameParts: [{ text: "Sello", gold: true }, { text: "\u00A0J3Pádel", gold: false }],
+    watermark: "SLL",
+    shortName: "Sello",
+    dark: true,
+    featured: false,
+    premiumBadge: false,
+    href: "/sello",
+    isExternal: false,
+    soon: false,
+    fullWidth: false,
+    asset: { type: "image", src: "/images/academy/empresas.jpeg" },
+    audience: "manage",
+  },
 ];
 
 // Orbital ring order: alternates audiences for maximum claim dynamism.
 // Index 0 is the initial active. Rotation advances clockwise (next index).
+// Hero orbital shows 7 products across 3 audiences (Play · Coach · Manage).
+// Experience and J3PTV are intentionally EXCLUDED from the hero orbital —
+// they still appear in ProductsGrid under "Próximamente". The hero is a
+// positioning statement (3 ways into J3), not the full catalog.
 export const ORBITAL_RING_ORDER: string[] = [
   "training-camp", // Play — initial active
+  "business-plan", // Manage
   "coach360",      // Coach
   "adults",        // Play
-  "business-plan", // Manage
+  "sello",         // Manage
   "juniors",       // Play
-  "experience",    // Manage
-  "j3ptv",         // Play
   "partner",       // Manage
 ];

@@ -125,6 +125,11 @@ export const pt = {
         forLabel: "Clubes e academias",
         cta: "Em breve",
       },
+      {
+        tag: "Marca · Selo J3",
+        forLabel: "Clubes e academias",
+        cta: "Descobrir",
+      },
     ],
   },
 

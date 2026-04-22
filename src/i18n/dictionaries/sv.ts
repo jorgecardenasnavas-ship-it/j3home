@@ -125,6 +125,11 @@ export const sv = {
         forLabel: "Klubbar och akademier",
         cta: "Snart",
       },
+      {
+        tag: "Varumärke · J3-märke",
+        forLabel: "Klubbar och akademier",
+        cta: "Upptäck",
+      },
     ],
   },
 

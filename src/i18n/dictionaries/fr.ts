@@ -125,6 +125,11 @@ export const fr = {
         forLabel: "Clubs et académies",
         cta: "Bientôt",
       },
+      {
+        tag: "Marque · Label J3",
+        forLabel: "Clubs et académies",
+        cta: "Découvrir",
+      },
     ],
   },
 
