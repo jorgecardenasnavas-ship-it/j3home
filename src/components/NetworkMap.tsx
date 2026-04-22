@@ -183,19 +183,31 @@ const pinStyles = `
   }
   /* ── Hover tooltip on markers ── */
   .j3-marker-tooltip {
-    background: rgba(10,10,10,0.92) !important;
+    background: rgba(10,10,10,0.95) !important;
     color: var(--wh) !important;
     border: 1px solid rgba(220,175,100,0.35) !important;
     border-radius: 999px !important;
     padding: 6px 14px !important;
     font-size: 11px !important;
     font-weight: 600 !important;
-    letter-spacing: 0.5px !important;
+    letter-spacing: 0.3px !important;
     box-shadow: 0 4px 18px rgba(0,0,0,0.5) !important;
     white-space: nowrap;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
   }
   .j3-marker-tooltip::before {
     border-top-color: rgba(220,175,100,0.4) !important;
+  }
+  .j3-tt-name {
+    display: inline-block;
+    letter-spacing: 0.3px;
+  }
+  .j3-tt-badge {
+    flex-shrink: 0;
+    display: inline-block;
+    vertical-align: middle;
   }
   /* Markers now navigate on click — show pointer cursor */
   .j3-pin, .j3-pin-sprout {
@@ -1332,15 +1344,13 @@ function SproutingMarkers({ coaches, labels }: { coaches: readonly Coach[]; labe
         iconAnchor: [6, 6],
       });
       const m = L.marker(c.location.coordinates, { icon, keyboard: false });
-      m.bindTooltip(
-        `${c.name} · ${c.location.city} · ${labels.legendCoachInProgress}`,
-        {
-          direction: "top",
-          offset: [0, -8],
-          className: "j3-marker-tooltip",
-          opacity: 0.95,
-        },
-      );
+      // In-progress: solo el nombre, sin insignia (aún no certificado).
+      m.bindTooltip(`<span class="j3-tt-name">${c.name}</span>`, {
+        direction: "top",
+        offset: [0, -8],
+        className: "j3-marker-tooltip",
+        opacity: 0.95,
+      });
       layer.addLayer(m);
     });
     map.addLayer(layer);
@@ -1415,13 +1425,22 @@ function ClusteredMarkers({
       const isVerified = kind === "coach" && !!c.mentorActive && c.certificationActive !== false && !!c.certifiedAt;
       const m = L.marker(c.location.coordinates, { icon: makeIcon(kind, isVerified) });
 
-      // Hover tooltip con nombre + ciudad (preview ligero antes del clic).
-      m.bindTooltip(`${c.name} · ${c.location.city}`, {
-        direction: "top",
-        offset: [0, -16],
-        className: "j3-marker-tooltip",
-        opacity: 0.95,
-      });
+      // Hover tooltip: nombre + insignia si Verificado/Cualificado (sin ciudad
+      // — redundante, los pines ya están sobre el mapa).
+      const tooltipBadge = isVerified
+        ? '<svg class="j3-tt-badge j3-tt-badge-verified" viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#dcaf64"/><path d="M7.5 12.5l3 3 6-6" stroke="#0a0a0a" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+        : (c.certifiedAt && c.certificationActive !== false
+          ? '<svg class="j3-tt-badge j3-tt-badge-qualified" viewBox="0 0 24 24" width="11" height="11" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="#dcaf64" stroke-width="2.5"/><circle cx="12" cy="12" r="4" fill="#dcaf64"/></svg>'
+          : "");
+      m.bindTooltip(
+        `<span class="j3-tt-name">${c.name}</span>${tooltipBadge}`,
+        {
+          direction: "top",
+          offset: [0, -16],
+          className: "j3-marker-tooltip",
+          opacity: 0.95,
+        },
+      );
 
       if (onMarkerClick) {
         // Modo externo (ej. home map): clic → callback del padre, sin popup.
