@@ -13,12 +13,12 @@ export function CoachFinder() {
       className="relative w-full h-[70vh] min-h-[520px] max-[960px]:h-[60vh] max-[960px]:min-h-[460px] overflow-hidden bg-black border-t border-white/[0.06]"
     >
       {/* Home map — HQ Málaga hub + curved lines + dots */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 z-0">
         <HomeMap />
       </div>
 
       {/* Dark gradient overlay for text legibility (left side) */}
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-r from-black/85 via-black/40 to-transparent max-[960px]:from-black/92 max-[960px]:via-black/65 max-[960px]:to-black/30" />
+      <div className="absolute inset-0 z-[5] pointer-events-none bg-gradient-to-r from-black/85 via-black/40 to-transparent max-[960px]:from-black/92 max-[960px]:via-black/65 max-[960px]:to-black/30" />
 
       {/* Content — left-aligned on desktop, centered on mobile */}
       <div className="relative z-10 h-full flex flex-col justify-center gap-5 max-w-[620px] px-12 max-[960px]:px-6 max-[960px]:max-w-full pointer-events-none">
