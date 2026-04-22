@@ -478,7 +478,6 @@ export function ProductsGrid() {
       <FeaturedBlock
         product={coach360}
         tCard={tCardOf("coach360")}
-        flagship
         showCoachBadge
       />
 
