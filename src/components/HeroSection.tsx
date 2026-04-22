@@ -1,18 +1,29 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { useI18n } from "@/i18n/context";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { HeroClaim } from "@/components/HeroClaim";
+import { HeroOrbital } from "@/components/HeroOrbital";
+import {
+  HOME_PRODUCTS,
+  type HomeProduct,
+  type HomeProductAudience,
+} from "@/data/home-products";
 
 export function HeroSection() {
   const heroRef = useRef<HTMLElement>(null);
-  const { t } = useI18n();
+  const [activeAudience, setActiveAudience] = useState<HomeProductAudience>(
+    () => HOME_PRODUCTS.find((p) => p.id === "training-camp")?.audience ?? "play",
+  );
+
+  const handleActiveChange = useCallback((product: HomeProduct) => {
+    setActiveAudience(product.audience);
+  }, []);
 
   useEffect(() => {
     const section = heroRef.current;
     if (!section) return;
 
     const curtain = section.querySelector<HTMLElement>(".hero-curtain");
-    const video = section.querySelector<HTMLVideoElement>(".hero-video");
     const words = section.querySelectorAll<HTMLElement>(".hero-word");
     const shimmer = section.querySelector<HTMLElement>(".hero-shimmer");
 
@@ -21,7 +32,6 @@ export function HeroSection() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             curtain?.classList.add("in");
-            setTimeout(() => video?.classList.add("in"), 600);
 
             words.forEach((word, i) => {
               setTimeout(() => word.classList.add("in"), 900 + i * 500);
@@ -45,7 +55,7 @@ export function HeroSection() {
     <section
       id="hero"
       ref={heroRef}
-      className="h-[58vh] min-h-[460px] relative overflow-hidden flex flex-col justify-end"
+      className="h-[58vh] min-h-[460px] relative overflow-hidden flex flex-col justify-end max-[960px]:h-[65vh]"
     >
       {/* Background — solid black */}
       <div className="absolute inset-0 bg-black" />
@@ -61,18 +71,15 @@ export function HeroSection() {
         <div className="hero-shimmer-bar absolute top-0 left-0 w-full h-full" />
       </div>
 
-      {/* Main content — Play · Coach · Manage as hero claim */}
-      <div className="absolute top-1/2 left-0 right-0 -translate-y-[55%] z-[5] px-12 max-[960px]:px-6">
-        <div className="pointer-events-none">
-          <span className="hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] j3-grad-text">
-            {t.hero.play}
-          </span>
-          <span className="hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] text-[var(--wh)]">
-            {t.hero.coach}
-          </span>
-          <span className="hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] j3-stroke-gold">
-            {t.hero.manage}
-          </span>
+      {/* Content grid — claim left, orbital right (desktop) / stacked (mobile) */}
+      <div className="relative z-[5] w-full h-full grid grid-cols-[45%_55%] max-[960px]:grid-cols-1 items-center px-12 max-[960px]:px-6">
+        {/* Claim */}
+        <div className="flex items-center max-[960px]:mb-4">
+          <HeroClaim activeAudience={activeAudience} />
+        </div>
+        {/* Orbital */}
+        <div className="relative h-full max-[960px]:h-auto">
+          <HeroOrbital onActiveChange={handleActiveChange} />
         </div>
       </div>
     </section>
