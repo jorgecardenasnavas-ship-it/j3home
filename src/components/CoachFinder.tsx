@@ -17,10 +17,8 @@ export function CoachFinder() {
       id="coach-finder"
       className="relative w-full h-[70vh] min-h-[520px] max-[960px]:h-[65vh] max-[960px]:min-h-[480px] overflow-hidden bg-black border-t border-white/[0.06]"
     >
-      {/* Globe 3D */}
-      <div className="absolute inset-0 z-0">
-        <HomeGlobe />
-      </div>
+      {/* Globe 3D — posicionado desde el propio componente */}
+      <HomeGlobe />
 
       {/* Desktop gradient — horizontal, darkens left side for text */}
       <div className="absolute inset-0 z-[5] pointer-events-none bg-gradient-to-r from-black/85 via-black/40 to-transparent max-[960px]:hidden" />
