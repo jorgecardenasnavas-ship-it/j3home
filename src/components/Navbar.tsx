@@ -112,7 +112,7 @@ export function Navbar() {
           <img
             src="/images/j3padel-text-dark.svg"
             alt="J3Pádel"
-            className="h-[26px] w-auto select-none"
+            className="h-[30px] w-auto select-none"
             draggable={false}
           />
         </Link>
@@ -126,7 +126,7 @@ export function Navbar() {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[12px] font-semibold tracking-[1.5px] no-underline uppercase transition-colors duration-300 text-[rgba(27,61,47,0.55)] hover:text-[var(--verde)]"
+                  className="text-[13px] font-semibold tracking-[1.5px] no-underline uppercase transition-colors duration-300 text-[rgba(27,61,47,0.55)] hover:text-[var(--verde)]"
                 >
                   {link.label}
                 </a>
@@ -134,7 +134,7 @@ export function Navbar() {
                 <Link
                   href={link.href}
                   onClick={handleNavClick(link.href)}
-                  className={`text-[12px] font-normal tracking-[1px] no-underline uppercase transition-colors duration-300 ${
+                  className={`text-[13px] font-semibold tracking-[1.5px] no-underline uppercase transition-colors duration-300 ${
                     pathname === link.href
                       ? "text-[var(--g1)]"
                       : "text-[rgba(27,61,47,0.55)] hover:text-[var(--verde)]"
@@ -157,7 +157,7 @@ export function Navbar() {
               <img
                 src="/images/j3-ball-gold.svg"
                 alt="J3"
-                className="h-[20px] w-auto select-none"
+                className="h-[22px] w-auto select-none"
                 draggable={false}
               />
             </Link>
@@ -170,7 +170,7 @@ export function Navbar() {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[12px] font-semibold tracking-[1.5px] no-underline uppercase transition-colors duration-300 text-[rgba(27,61,47,0.55)] hover:text-[var(--verde)]"
+                  className="text-[13px] font-semibold tracking-[1.5px] no-underline uppercase transition-colors duration-300 text-[rgba(27,61,47,0.55)] hover:text-[var(--verde)]"
                 >
                   {link.label}
                 </a>
@@ -178,7 +178,7 @@ export function Navbar() {
                 <Link
                   href={link.href}
                   onClick={handleNavClick(link.href)}
-                  className={`text-[12px] font-normal tracking-[1px] no-underline uppercase transition-colors duration-300 ${
+                  className={`text-[13px] font-semibold tracking-[1.5px] no-underline uppercase transition-colors duration-300 ${
                     pathname === link.href
                       ? "text-[var(--g1)]"
                       : "text-[rgba(27,61,47,0.55)] hover:text-[var(--verde)]"
