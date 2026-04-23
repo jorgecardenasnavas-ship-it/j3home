@@ -17,11 +17,11 @@ export default function Home() {
       <StickyClaim />
       <main className="bg-white">
         <HeroSection />
-        <SponsorsBanner />
         <CoachFinder />
         <HomeManifesto />
         <ProductsGrid />
         <StoryTeaser />
+        <SponsorsBanner />
         <FooterClose />
       </main>
       <Footer />
