@@ -36,9 +36,9 @@ export function HeroSection() {
     <section
       id="hero"
       ref={heroRef}
-      className="h-[84vh] max-[960px]:h-[80vh] relative flex flex-col items-center justify-end pb-20 max-[960px]:pb-14 overflow-hidden bg-[var(--negro-v)]"
+      className="h-[84vh] max-[960px]:h-[80vh] relative flex flex-col items-center justify-end pb-20 max-[960px]:pb-14 overflow-hidden"
     >
-      {/* Video recortado ±20px arriba y abajo para eliminar franjas oscuras */}
+      {/* Video — scale 1.08 recorta los bordes oscuros sin efectos */}
       <video
         ref={videoRef}
         src="/videos/coach360-higueron.mp4"
@@ -46,7 +46,7 @@ export function HeroSection() {
         muted
         loop
         playsInline
-        style={{ position: "absolute", top: "-20px", bottom: "-20px", left: 0, right: 0, width: "100%", objectFit: "cover", backgroundColor: "var(--negro-v)" }}
+        className="absolute inset-0 w-full h-full object-cover scale-[1.08]"
         onLoadedMetadata={() => { if (videoRef.current) videoRef.current.currentTime = VIDEO_START; }}
         onSeeked={() => { videoRef.current?.play().catch(() => {}); }}
       />
