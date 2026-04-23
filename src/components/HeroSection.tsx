@@ -24,16 +24,12 @@ export function HeroSection() {
     if (!section) return;
 
     const curtain = section.querySelector<HTMLElement>(".hero-curtain");
-    const shimmer = section.querySelector<HTMLElement>(".hero-shimmer");
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             curtain?.classList.add("in");
-            // HeroClaim manages its own word stagger (900, 1400, 1900ms post-mount)
-            // Shimmer fires after the last word (~2400ms)
-            setTimeout(() => shimmer?.classList.add("in"), 2400);
             observer.disconnect();
           }
         });
@@ -51,19 +47,25 @@ export function HeroSection() {
       ref={heroRef}
       className="h-[58vh] min-h-[460px] relative overflow-hidden flex flex-col justify-end max-[960px]:h-[65vh]"
     >
-      {/* Background — solid black */}
-      <div className="absolute inset-0 bg-black" />
+      {/* Background photo */}
+      <img
+        src="/images/hero.jpeg"
+        alt=""
+        aria-hidden
+        className="absolute inset-0 w-full h-full object-cover object-center"
+      />
 
-      {/* Black curtain */}
-      <div className="hero-curtain absolute inset-0 z-[4] bg-black pointer-events-none" />
+      {/* Verde Academia overlay */}
+      <div className="absolute inset-0" style={{ background: "rgba(27,61,47,0.58)" }} />
 
-      {/* Gold accent line top */}
-      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[var(--g1)]/20 to-transparent z-[5]" />
+      {/* Bottom fade — blends into next section */}
+      <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[var(--bk3)] to-transparent" />
 
-      {/* Golden shimmer sweep */}
-      <div className="hero-shimmer absolute inset-0 z-[3] pointer-events-none opacity-0">
-        <div className="hero-shimmer-bar absolute top-0 left-0 w-full h-full" />
-      </div>
+      {/* Curtain reveal */}
+      <div className="hero-curtain absolute inset-0 z-[4] bg-[var(--bk3)] pointer-events-none" />
+
+      {/* Champán accent line top */}
+      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[var(--g1)]/30 to-transparent z-[5]" />
 
       {/* Content grid — claim left, orbital right (desktop) / stacked (mobile) */}
       <div className="relative z-[5] w-full h-full grid grid-cols-[45%_55%] max-[960px]:grid-cols-1 items-center px-12 max-[960px]:px-6">
