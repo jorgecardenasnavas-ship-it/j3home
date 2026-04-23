@@ -22,13 +22,24 @@ export function HeroClaim() {
 
   return (
     <div className="pointer-events-none text-center">
+      {/* PLAY — gradiente champán */}
       <span className={`hero-claim-word hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] j3-grad-text ${visible[0] ? "in" : ""}`}>
         {t.hero.play}
       </span>
-      <span className={`hero-claim-word hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] text-[var(--wh)] ${visible[1] ? "in" : ""}`}>
+
+      {/* COACH — serif itálica blanca */}
+      <span
+        className={`hero-claim-word hero-word block text-j3-hero leading-[.88] italic text-[var(--wh)] ${visible[1] ? "in" : ""}`}
+        style={{ fontFamily: "var(--font-serif)", letterSpacing: "-1px" }}
+      >
         {t.hero.coach}
       </span>
-      <span className={`hero-claim-word hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] j3-grad-text ${visible[2] ? "in" : ""}`}>
+
+      {/* MANAGE — contorno champán, sin relleno */}
+      <span
+        className={`hero-claim-word hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] ${visible[2] ? "in" : ""}`}
+        style={{ WebkitTextStroke: "2px var(--g1)", color: "transparent" }}
+      >
         {t.hero.manage}
       </span>
     </div>
