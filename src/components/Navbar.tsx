@@ -118,7 +118,7 @@ export function Navbar() {
             ? "border-white/[.07] shadow-[0_1px_20px_rgba(0,0,0,.5)]"
             : "border-white/[.04]"
         } ${offHero ? "navbar-scrolled" : ""}`}
-        style={{ backgroundColor: offHero ? "transparent" : "#0a0a0b" }}
+        style={{ backgroundColor: offHero ? "transparent" : "#1B3D2F" }}
       >
         {/* Logo — solo tipografía */}
         <Link
@@ -227,7 +227,7 @@ export function Navbar() {
 
             {/* Language dropdown */}
             <div
-              className={`absolute top-full right-0 mt-[10px] min-w-[150px] py-2 px-1 rounded-lg bg-black/90 backdrop-blur-[20px] border border-white/[.08] shadow-[0_8px_32px_rgba(0,0,0,.6)] transition-all duration-200 ${
+              className={`absolute top-full right-0 mt-[10px] min-w-[150px] py-2 px-1 rounded-lg bg-[rgba(14,28,22,0.95)] backdrop-blur-[20px] border border-white/[.08] shadow-[0_8px_32px_rgba(0,0,0,.6)] transition-all duration-200 ${
                 langOpen
                   ? "opacity-100 translate-y-0 pointer-events-auto"
                   : "opacity-0 -translate-y-1 pointer-events-none"
@@ -286,7 +286,7 @@ export function Navbar() {
 
             {/* Mobile lang dropdown */}
             <div
-              className={`absolute top-full right-0 mt-3 min-w-[140px] py-2 px-1 rounded-lg bg-black/95 backdrop-blur-[20px] border border-white/[.08] shadow-[0_8px_32px_rgba(0,0,0,.6)] transition-all duration-200 ${
+              className={`absolute top-full right-0 mt-3 min-w-[140px] py-2 px-1 rounded-lg bg-[rgba(14,28,22,0.95)] backdrop-blur-[20px] border border-white/[.08] shadow-[0_8px_32px_rgba(0,0,0,.6)] transition-all duration-200 ${
                 mobileLangOpen
                   ? "opacity-100 translate-y-0 pointer-events-auto"
                   : "opacity-0 -translate-y-1 pointer-events-none"
@@ -335,7 +335,7 @@ export function Navbar() {
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`fixed inset-0 z-[90] bg-black/95 backdrop-blur-[30px] flex flex-col items-center justify-center gap-7 transition-all duration-500 min-[961px]:hidden ${
+        className={`fixed inset-0 z-[90] bg-[rgba(14,28,22,0.97)] backdrop-blur-[30px] flex flex-col items-center justify-center gap-7 transition-all duration-500 min-[961px]:hidden ${
           menuOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
