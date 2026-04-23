@@ -54,6 +54,19 @@ export function HeroSection() {
       {/* Curtain reveal */}
       <div className="hero-curtain absolute inset-0 z-[4] bg-[var(--bk3)] pointer-events-none" />
 
+      {/* Scroll indicator */}
+      <div aria-hidden className="scroll-arrows absolute bottom-8 left-1/2 -translate-x-1/2 z-[5]">
+        <svg className="scroll-arrow scroll-arrow-1" width="22" height="11" viewBox="0 0 20 10" fill="none" stroke="#C9A96E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M2 2 L10 8 L18 2" />
+        </svg>
+        <svg className="scroll-arrow scroll-arrow-2" width="22" height="11" viewBox="0 0 20 10" fill="none" stroke="#C9A96E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M2 2 L10 8 L18 2" />
+        </svg>
+        <svg className="scroll-arrow scroll-arrow-3" width="22" height="11" viewBox="0 0 20 10" fill="none" stroke="#C9A96E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M2 2 L10 8 L18 2" />
+        </svg>
+      </div>
+
       {/* Content */}
       <div className="relative z-[5] flex flex-col items-center text-center gap-6">
         <span className="text-[11px] font-normal tracking-[5px] uppercase text-[var(--g1)]">
