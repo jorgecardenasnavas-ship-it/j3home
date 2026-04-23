@@ -22,19 +22,14 @@ export function HomeGlobe() {
     const hqLat = hq?.location.coordinates[0] ?? 36.73;
     const hqLng = hq?.location.coordinates[1] ?? -4.48;
 
-    // Jerarquía de puntos: HQ > verificado > cualificado > en proceso
     const pts = [
       { lat: hqLat, lng: hqLng, size: 0.6, color: CHAMPAN_BRIGHT },
-      ...others.map((c) => {
-        const isVerified = !!c.mentorActive && !!c.certifiedAt && c.certificationActive !== false;
-        const isQualified = !!c.certifiedAt && c.certificationActive !== false && !c.mentorActive;
-        return {
-          lat: c.location.coordinates[0],
-          lng: c.location.coordinates[1],
-          size: isVerified ? 0.38 : isQualified ? 0.28 : 0.18,
-          color: isVerified ? CHAMPAN_BRIGHT : isQualified ? CHAMPAN : CHAMPAN_DIM,
-        };
-      }),
+      ...others.map((c) => ({
+        lat: c.location.coordinates[0],
+        lng: c.location.coordinates[1],
+        size: 0.28,
+        color: CHAMPAN,
+      })),
     ];
 
     // Arcos con velocidades variadas — más orgánico
