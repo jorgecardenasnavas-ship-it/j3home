@@ -80,7 +80,7 @@ const NetworkMap = dynamic(() => import("@/components/NetworkMap"), {
           aria-hidden
           className="block w-3 h-3 rounded-full"
           style={{
-            background: "radial-gradient(circle at 50% 50%, #f0c478, #C9A96E 60%, #b8943e 100%)",
+            background: "radial-gradient(circle at 50% 50%, #d4b882, #C9A96E 60%, #C9A96E 100%)",
             boxShadow: "0 0 0 2px rgba(0,0,0,0.55), 0 0 16px rgba(201,169,110,0.5)",
             animation: "j3PulseDot 1.6s ease-in-out infinite",
           }}
@@ -1245,7 +1245,7 @@ function HeroSection() {
             height="10"
             viewBox="0 0 20 10"
             fill="none"
-            stroke="#f0c478"
+            stroke="#d4b882"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -2508,7 +2508,7 @@ function SedeCard({
             <span
               className="inline-flex items-center px-2.5 py-[5px] text-[9px] font-bold tracking-[1.5px] uppercase text-black"
               style={{
-                background: "linear-gradient(135deg, #f0c478 0%, #C9A96E 100%)",
+                background: "#C9A96E",
                 borderRadius: 2,
               }}
             >
@@ -3191,7 +3191,7 @@ function MonthlyRankingHero({
                   width: 14,
                   height: 14,
                   borderRadius: 999,
-                  background: "linear-gradient(135deg, #f0c478, #b8943e)",
+                  background: "#C9A96E",
                   display: "inline-flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -3251,7 +3251,7 @@ function MonthlyRankingHero({
           onClick={() => onAsk(coach)}
           className="group inline-flex items-center gap-2 text-[11px] font-bold tracking-[2.5px] uppercase text-[#000] px-6 py-3 self-start transition-all duration-300"
           style={{
-            background: "linear-gradient(135deg, #f0c478, #C9A96E)",
+            background: "#C9A96E",
             borderRadius: 2,
             boxShadow: "0 4px 16px rgba(201,169,110,0.25)",
           }}
@@ -3619,7 +3619,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
             <button
               type="button"
               onClick={geo.clear}
-              className="group inline-flex items-center gap-2 px-3 py-[7px] text-[10px] tracking-[2px] uppercase font-bold text-[#000] bg-gradient-to-br from-[#f0c478] to-[#C9A96E] hover:brightness-110 transition-all"
+              className="group inline-flex items-center gap-2 px-3 py-[7px] text-[10px] tracking-[2px] uppercase font-bold text-[#0E1C16] bg-[#C9A96E] hover:brightness-110 transition-all"
               style={{ borderRadius: 2, boxShadow: "0 2px 10px rgba(201,169,110,0.25)" }}
               aria-label={t.academy.network.nearMeActive}
             >
@@ -3785,7 +3785,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
                     }),
                   )
                 }
-                className="inline-flex items-center gap-2 text-[10px] font-bold tracking-[2.5px] uppercase text-[#000] bg-gradient-to-br from-[#f0c478] to-[#b8943e] hover:brightness-110 px-5 py-2.5 transition-all duration-300"
+                className="inline-flex items-center gap-2 text-[10px] font-bold tracking-[2.5px] uppercase text-[#0E1C16] bg-[#C9A96E] hover:brightness-110 px-5 py-2.5 transition-all duration-300"
                 style={{ borderRadius: 2 }}
               >
                 {t.academy.network.askChatbot}

@@ -1,8 +1,13 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useI18n } from "@/i18n/context";
-import { HomeMap } from "@/components/HomeMap";
+
+const HomeMap = dynamic(
+  () => import("@/components/HomeMap").then((m) => ({ default: m.HomeMap })),
+  { ssr: false },
+);
 
 export function CoachFinder() {
   const { t } = useI18n();

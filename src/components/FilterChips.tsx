@@ -48,7 +48,7 @@ export function FilterChips({ label, value, onChange, options }: FilterChipsProp
                  una "selección" sin ambigüedad. Inactiva: borde sutil con
                  hover que sube al gold.  */
               background: isActive
-                ? "linear-gradient(135deg, #f0c478, #C9A96E)"
+                ? "#C9A96E"
                 : "transparent",
               color: isActive ? "#0a0a0a" : "var(--wh)",
               border: `1px solid ${isActive ? "var(--g1)" : "rgba(255,255,255,0.15)"}`,

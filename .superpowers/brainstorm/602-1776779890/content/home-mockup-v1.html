@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>J3Pádel — Home Mockup</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #000; color: #fff; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; overflow-x: hidden; }
+
+  /* ── NAVBAR ── */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: 52px; display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    background: rgba(0,0,0,0.9);
+    backdrop-filter: blur(20px);
+  }
+  .nav-logo { font-size: 15px; font-weight: 800; letter-spacing: 3px; color: #d4a94a; text-transform: uppercase; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.5); text-decoration: none; }
+  .nav-links a:hover { color: #fff; }
+
+  /* ── HERO ── */
+  .hero {
+    height: 100vh; min-height: 640px;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 48px 72px;
+    position: relative; background: #000;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .hero-play {
+    font-size: clamp(72px, 12vw, 160px);
+    font-weight: 900; text-transform: uppercase;
+    letter-spacing: -4px; line-height: 0.88;
+  }
+  .grad { background: linear-gradient(135deg, #d4a94a 0%, #f0d080 40%, #b8943e 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .stroke { -webkit-text-stroke: 1.5px rgba(255,255,255,0.2); color: transparent; }
+  .hero-scroll {
+    position: absolute; bottom: 28px; right: 48px;
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.3);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .hero-scroll::before { content: ''; display: block; width: 24px; height: 1px; background: rgba(212,169,74,0.4); }
+
+  /* ── EDITORIAL STATEMENT ── */
+  .statement {
+    padding: 120px 48px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: flex-start; gap: 80px;
+  }
+  .stmt-label {
+    font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+    color: rgba(212,169,74,0.7); padding-top: 10px; min-width: 100px;
+  }
+  .stmt-text {
+    flex: 1;
+  }
+  .stmt-line {
+    display: block;
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 300; line-height: 1.1;
+    letter-spacing: -1px;
+    color: rgba(255,255,255,0.85);
+  }
+  .stmt-line.bold { font-weight: 800; color: #fff; }
+  .stmt-line.gold { font-weight: 800; background: linear-gradient(135deg, #d4a94a, #f0d080); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    padding: 80px 48px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; gap: 32px;
+  }
+  .div-line { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(212,169,74,0.5), transparent); }
+  .div-text {
+    font-size: clamp(16px, 2.5vw, 26px);
+    font-weight: 700; text-transform: uppercase; letter-spacing: 4px;
+    color: rgba(255,255,255,0.5);
+    white-space: nowrap;
+  }
+  .div-text span { color: #d4a94a; }
+  .div-line-r { flex: 1; height: 1px; background: linear-gradient(270deg, rgba(212,169,74,0.5), transparent); }
+
+  /* ── 3 PORTALS ── */
+  .portals {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .portal {
+    padding: 80px 48px 72px;
+    border-right: 1px solid rgba(255,255,255,0.06);
+    display: flex; flex-direction: column; gap: 32px;
+    cursor: pointer; transition: background 0.4s;
+    position: relative; overflow: hidden;
+  }
+  .portal:last-child { border-right: none; }
+  .portal:hover { background: rgba(212,169,74,0.03); }
+  .portal-num {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: rgba(212,169,74,0.5);
+  }
+  .portal-title {
+    font-size: clamp(28px, 3.5vw, 48px);
+    font-weight: 800; text-transform: uppercase;
+    letter-spacing: -1px; line-height: 1;
+  }
+  .portal-title .gold { background: linear-gradient(135deg, #d4a94a, #f0d080); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .portal-desc {
+    font-size: 14px; font-weight: 300; line-height: 1.6;
+    color: rgba(255,255,255,0.45); max-width: 260px;
+  }
+  .portal-cta {
+    margin-top: auto;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    color: #d4a94a; text-decoration: none;
+    transition: gap 0.2s;
+  }
+  .portal-cta:hover { gap: 14px; }
+  .portal-featured { background: rgba(212,169,74,0.04); }
+  .portal-featured .portal-title { color: #fff; }
+  .portal-accent {
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, #d4a94a, transparent);
+    opacity: 0.5;
+  }
+  .portal-featured .portal-accent { opacity: 1; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 40px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .footer-logo { font-size: 12px; font-weight: 800; letter-spacing: 3px; color: rgba(212,169,74,0.6); text-transform: uppercase; }
+  .footer-copy { font-size: 11px; letter-spacing: 1px; color: rgba(255,255,255,0.2); }
+
+  /* Annotation overlay */
+  .anno {
+    position: absolute; right: 16px;
+    background: rgba(212,169,74,0.15); border: 1px solid rgba(212,169,74,0.3);
+    border-radius: 6px; padding: 4px 10px;
+    font-size: 10px; color: #d4a94a; letter-spacing: 1px; text-transform: uppercase;
+    pointer-events: none;
+  }
+  .section-label {
+    position: absolute; left: 48px;
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.15);
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="nav">
+  <div class="nav-logo">J3Pádel</div>
+  <ul class="nav-links">
+    <li><a href="#">Coach360</a></li>
+    <li><a href="#">Academy</a></li>
+    <li><a href="#">Story</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="anno" style="top: 60px">Sección 1 — Hero (existente, sin cambios)</div>
+  <div class="hero-play">
+    <span class="grad" style="display:block">Play.</span>
+    <span style="display:block; color: rgba(255,255,255,0.9)">Coach.</span>
+    <span class="stroke" style="display:block">Manage.</span>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- EDITORIAL STATEMENT -->
+<section class="statement" style="position:relative">
+  <div class="anno" style="top: 24px">Sección 2 — Copy editorial (existente, rediseñado)</div>
+  <div class="stmt-label">Manifiesto</div>
+  <div class="stmt-text">
+    <span class="stmt-line">El juego</span>
+    <span class="stmt-line bold">ha cambiado.</span>
+    <span class="stmt-line" style="margin-top:16px">El coach</span>
+    <span class="stmt-line gold">evolucionado.</span>
+    <span class="stmt-line" style="margin-top:16px">La gestión</span>
+    <span class="stmt-line bold">optimizada.</span>
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="divider">
+  <div class="div-line"></div>
+  <div class="div-text">
+    <span>Optimizar.</span> &nbsp;Automatizar. &nbsp;<span>Escalar.</span>
+  </div>
+  <div class="div-line-r"></div>
+</div>
+
+<!-- 3 PORTALS -->
+<section class="portals" style="position:relative">
+  <div class="anno" style="top: 16px">Sección 3 — 3 Portales de entrada (nuevo)</div>
+
+  <!-- Coach360 — featured -->
+  <div class="portal portal-featured">
+    <div class="portal-accent"></div>
+    <div class="portal-num">01</div>
+    <div class="portal-title"><span class="gold">Coach</span> 360</div>
+    <div class="portal-desc">Formación y comunidad para coaches profesionales. El sistema completo para escalar tu negocio.</div>
+    <a class="portal-cta" href="#">Unirse ahora →</a>
+  </div>
+
+  <!-- Academy -->
+  <div class="portal">
+    <div class="portal-accent"></div>
+    <div class="portal-num">02</div>
+    <div class="portal-title"><span class="gold">J3</span> Academy</div>
+    <div class="portal-desc">Metodología, técnica y conocimiento del pádel al más alto nivel. Para jugadores y entrenadores.</div>
+    <a class="portal-cta" href="#">Explorar →</a>
+  </div>
+
+  <!-- Story -->
+  <div class="portal">
+    <div class="portal-accent"></div>
+    <div class="portal-num">03</div>
+    <div class="portal-title">Nuestra<br><span class="gold">Story</span></div>
+    <div class="portal-desc">Quiénes somos, de dónde venimos y a dónde va el pádel profesional. El origen del sistema.</div>
+    <a class="portal-cta" href="#">Descubrir →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">J3Pádel</div>
+  <div class="footer-copy">© 2025 J3Pádel</div>
+</footer>
+
+</body>
+</html>

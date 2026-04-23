@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>J3Pádel — Home v3</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #000; color: #fff; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; overflow-x: hidden; }
+
+  .grad { background: linear-gradient(135deg, #d4a94a 0%, #f0d080 45%, #b8943e 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .grad-bg { background: linear-gradient(135deg, #d4a94a 0%, #f0d080 45%, #b8943e 100%); }
+
+  /* NAVBAR */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: 52px; display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    background: rgba(0,0,0,0.92); backdrop-filter: blur(20px);
+  }
+  .nav-logo { font-size: 14px; font-weight: 800; letter-spacing: 3px; color: #d4a94a; text-transform: uppercase; }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
+  .nav-links a { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.45); text-decoration: none; }
+
+  /* ════════════════════
+     SECCIÓN 1 — HERO
+     Full screen claim + producto C360 peeking
+  ════════════════════ */
+  .hero {
+    height: 100vh; min-height: 640px;
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 48px 0;
+    padding-top: 52px;
+    position: relative; overflow: hidden;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .hero-claim {
+    font-size: clamp(80px, 13vw, 170px);
+    font-weight: 900; text-transform: uppercase;
+    letter-spacing: -5px; line-height: 0.86;
+    padding-bottom: 60px;
+    position: relative; z-index: 2;
+  }
+  /* Producto asomando desde abajo */
+  .hero-peek {
+    position: absolute; bottom: 0; right: 0;
+    width: 46%; height: 72%;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 48px 64px;
+    background: rgba(212,169,74,0.04);
+    border-left: 1px solid rgba(212,169,74,0.1);
+    z-index: 1;
+  }
+  .hero-peek::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, #d4a94a, rgba(212,169,74,0.15));
+  }
+  .peek-label { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: rgba(212,169,74,0.6); margin-bottom: 16px; }
+  .peek-title {
+    font-size: clamp(48px, 7vw, 88px);
+    font-weight: 900; text-transform: uppercase;
+    letter-spacing: -3px; line-height: 0.9;
+    margin-bottom: 20px;
+  }
+  .peek-desc { font-size: 14px; font-weight: 300; line-height: 1.6; color: rgba(255,255,255,0.4); max-width: 300px; margin-bottom: 32px; }
+  .btn-gold {
+    display: inline-block; padding: 13px 32px; border-radius: 999px;
+    background: linear-gradient(135deg, #d4a94a, #f0d080);
+    color: #000; font-size: 11px; font-weight: 800;
+    letter-spacing: 2.5px; text-transform: uppercase; text-decoration: none;
+    width: fit-content;
+  }
+  .peek-wm {
+    position: absolute; bottom: -12px; right: 16px;
+    font-size: 160px; font-weight: 900; letter-spacing: -8px;
+    color: rgba(255,255,255,0.018); pointer-events: none; user-select: none; line-height: 1;
+  }
+
+  /* ════════════════════
+     MANIFIESTO — entre hero y academy
+     Copy editorial compacto
+  ════════════════════ */
+  .manifesto {
+    padding: 72px 48px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; gap: 0;
+    overflow: hidden;
+  }
+  .mfst-left {
+    flex: 0 0 auto; width: 3px; align-self: stretch;
+    background: linear-gradient(to bottom, #d4a94a 0%, rgba(212,169,74,0.08) 100%);
+    margin-right: 40px;
+  }
+  .mfst-phrases {
+    display: flex; gap: 48px; flex-wrap: wrap; align-items: baseline;
+  }
+  .mfst-phrase {
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .mfst-thin { font-size: clamp(22px, 3.5vw, 44px); font-weight: 300; color: rgba(255,255,255,0.4); line-height: 1.05; }
+  .mfst-bold { font-size: clamp(22px, 3.5vw, 44px); font-weight: 900; color: #fff; line-height: 1.05; }
+  .mfst-gold { font-size: clamp(22px, 3.5vw, 44px); font-weight: 900; line-height: 1.05; }
+  .mfst-dividers {
+    display: flex; align-items: center; margin: 0 0 0 auto; gap: 16px; padding-left: 48px;
+  }
+  .mfst-tag { font-size: 10px; letter-spacing: 3.5px; text-transform: uppercase; color: rgba(255,255,255,0.2); white-space: nowrap; }
+
+  /* ════════════════════
+     SECCIÓN 2 — ACADEMY como producto
+     No es "la sección academy", es el producto Academy
+  ════════════════════ */
+  .product-academy {
+    display: grid; grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    min-height: 480px;
+  }
+  .acad-left {
+    padding: 72px 48px;
+    border-right: 1px solid rgba(255,255,255,0.06);
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .acad-eyebrow { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: rgba(212,169,74,0.6); }
+  .acad-title {
+    font-size: clamp(52px, 7vw, 88px);
+    font-weight: 900; text-transform: uppercase;
+    letter-spacing: -3px; line-height: 0.9;
+    margin: 24px 0;
+  }
+  .acad-desc { font-size: 15px; font-weight: 300; line-height: 1.65; color: rgba(255,255,255,0.45); max-width: 380px; }
+  .btn-ghost {
+    display: inline-block; margin-top: 36px; padding: 13px 32px; border-radius: 999px;
+    border: 1px solid rgba(212,169,74,0.35); color: #d4a94a;
+    font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; text-decoration: none;
+    width: fit-content;
+  }
+
+  .acad-right {
+    padding: 72px 48px;
+    background: rgba(255,255,255,0.012);
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .acad-right-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 32px; }
+  .feature-row {
+    padding: 20px 0;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: flex-start; gap: 16px;
+  }
+  .feature-row:last-child { border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .feature-num { font-size: 11px; font-weight: 700; color: rgba(212,169,74,0.5); letter-spacing: 1px; min-width: 24px; margin-top: 2px; }
+  .feature-name { font-size: 15px; font-weight: 600; color: rgba(255,255,255,0.8); }
+  .feature-sub { font-size: 12px; font-weight: 300; color: rgba(255,255,255,0.35); margin-top: 3px; line-height: 1.4; }
+
+  /* FOOTER */
+  footer {
+    padding: 36px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-logo { font-size: 12px; font-weight: 800; letter-spacing: 3px; color: rgba(212,169,74,0.45); text-transform: uppercase; }
+  .footer-copy { font-size: 11px; color: rgba(255,255,255,0.15); letter-spacing: 0.5px; }
+
+  /* Annotation */
+  .ann {
+    font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(212,169,74,0.45); background: rgba(212,169,74,0.08);
+    border: 1px solid rgba(212,169,74,0.18); border-radius: 4px;
+    padding: 2px 8px; display: inline-block; vertical-align: middle; margin-left: 8px;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">J3Pádel</div>
+  <ul class="nav-links">
+    <li><a href="#">Coach360</a></li>
+    <li><a href="#">Academy</a></li>
+    <li><a href="#">Story</a></li>
+  </ul>
+</nav>
+
+<!-- ══ SECCIÓN 1: HERO + C360 PEEKING ══ -->
+<section class="hero">
+  <div class="hero-claim" style="position:relative; z-index:2">
+    <span class="grad" style="display:block">Play.</span>
+    <span style="display:block; color:rgba(255,255,255,0.88)">Coach.</span>
+    <span style="display:block; -webkit-text-stroke:1.5px rgba(255,255,255,0.18); color:transparent">Manage.</span>
+  </div>
+
+  <!-- Coach360 asoma desde la derecha desde el primer scroll -->
+  <div class="hero-peek">
+    <div class="peek-label">Producto principal <span class="ann">C360</span></div>
+    <div class="peek-title">
+      <span class="grad">Coach</span><br>
+      <span style="color:#fff">360</span>
+    </div>
+    <p class="peek-desc">Formación, comunidad y herramientas para coaches de pádel que quieren escalar su negocio.</p>
+    <a class="btn-gold" href="#">Unirse ahora</a>
+    <div class="peek-wm">C360</div>
+  </div>
+</section>
+
+<!-- ══ MANIFIESTO — entre productos ══ -->
+<section class="manifesto">
+  <div class="mfst-left"></div>
+  <div class="mfst-phrases">
+    <div class="mfst-phrase">
+      <span class="mfst-thin">El juego</span>
+      <span class="mfst-bold">ha cambiado.</span>
+    </div>
+    <div class="mfst-phrase">
+      <span class="mfst-thin">El coach</span>
+      <span class="mfst-gold grad">evolucionado.</span>
+    </div>
+    <div class="mfst-phrase">
+      <span class="mfst-thin">La gestión</span>
+      <span class="mfst-bold">optimizada.</span>
+    </div>
+  </div>
+  <div class="mfst-dividers">
+    <span class="mfst-tag">Optimizar · Automatizar · Escalar</span>
+  </div>
+</section>
+
+<!-- ══ SECCIÓN 2: ACADEMY COMO PRODUCTO ══ -->
+<section class="product-academy">
+  <div class="acad-left">
+    <div>
+      <div class="acad-eyebrow">02 · Formación <span class="ann">Academy</span></div>
+      <div class="acad-title">
+        <span class="grad">J3</span><br>
+        <span style="color:#fff">Academy</span>
+      </div>
+      <p class="acad-desc">Metodología, técnica y conocimiento del pádel de élite. Programas diseñados por los mejores coaches del circuito.</p>
+      <a class="btn-ghost" href="#">Ver programas</a>
+    </div>
+  </div>
+  <div class="acad-right">
+    <div class="acad-right-label">Lo que encontrarás</div>
+    <div class="feature-row">
+      <span class="feature-num">01</span>
+      <div>
+        <div class="feature-name">Metodología J3</div>
+        <div class="feature-sub">El sistema de entrenamiento usado en el circuito profesional</div>
+      </div>
+    </div>
+    <div class="feature-row">
+      <span class="feature-num">02</span>
+      <div>
+        <div class="feature-name">Programas técnicos</div>
+        <div class="feature-sub">Golpes, táctica, físico y mental — todo estructurado</div>
+      </div>
+    </div>
+    <div class="feature-row">
+      <span class="feature-num">03</span>
+      <div>
+        <div class="feature-name">Acceso a coaches de élite</div>
+        <div class="feature-sub">Aprende directamente de los mejores del circuito</div>
+      </div>
+    </div>
+    <div class="feature-row">
+      <span class="feature-num">04</span>
+      <div>
+        <div class="feature-name">Progresión medible</div>
+        <div class="feature-sub">Seguimiento real de tu evolución técnica y táctica</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">J3Pádel</div>
+  <div class="footer-copy">© 2025 J3Pádel</div>
+</footer>
+
+</body>
+</html>

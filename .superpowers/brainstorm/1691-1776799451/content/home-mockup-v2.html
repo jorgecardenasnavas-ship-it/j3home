@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>J3Pádel — Home Mockup v2</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #000; color: #fff; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; overflow-x: hidden; }
+
+  /* ── NAVBAR ── */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: 52px; display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    background: rgba(0,0,0,0.92); backdrop-filter: blur(20px);
+  }
+  .nav-logo { font-size: 15px; font-weight: 800; letter-spacing: 3px; color: #d4a94a; text-transform: uppercase; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.5); text-decoration: none; }
+
+  .grad { background: linear-gradient(135deg, #d4a94a 0%, #f0d080 40%, #b8943e 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+  /* ════════════════════════════════════════
+     SECCIÓN 1 — HERO SPLIT
+     Izquierda: claim. Derecha: Coach360 featured
+  ════════════════════════════════════════ */
+  .hero-split {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding-top: 52px; /* navbar */
+  }
+
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 64px 48px 72px;
+    border-right: 1px solid rgba(255,255,255,0.06);
+    position: relative;
+  }
+  .hero-claim {
+    font-size: clamp(60px, 8vw, 110px);
+    font-weight: 900; text-transform: uppercase;
+    letter-spacing: -4px; line-height: 0.88;
+  }
+  .hero-sub {
+    margin-top: 32px;
+    font-size: 13px; letter-spacing: 0.5px; line-height: 1.6;
+    color: rgba(255,255,255,0.35); font-weight: 300;
+    max-width: 340px;
+  }
+
+  .hero-right {
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 64px 48px 72px;
+    background: rgba(212,169,74,0.03);
+    position: relative;
+  }
+  .hero-right::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, #d4a94a, rgba(212,169,74,0.2));
+  }
+  .product-eyebrow {
+    font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+    color: rgba(212,169,74,0.6); margin-bottom: 20px;
+  }
+  .product-hero-title {
+    font-size: clamp(52px, 7vw, 96px);
+    font-weight: 900; text-transform: uppercase;
+    letter-spacing: -3px; line-height: 0.9;
+  }
+  .product-hero-desc {
+    margin-top: 28px; font-size: 14px; font-weight: 300;
+    line-height: 1.65; color: rgba(255,255,255,0.45); max-width: 320px;
+  }
+  .product-hero-cta {
+    margin-top: 40px; display: inline-block;
+    padding: 14px 36px; border-radius: 999px;
+    background: linear-gradient(135deg, #d4a94a, #f0d080);
+    color: #000; font-size: 11px; font-weight: 800;
+    letter-spacing: 2.5px; text-transform: uppercase; text-decoration: none;
+  }
+  .product-wm {
+    position: absolute; bottom: -10px; right: 24px;
+    font-size: 140px; font-weight: 900; text-transform: uppercase;
+    letter-spacing: -6px; color: rgba(255,255,255,0.02);
+    pointer-events: none; line-height: 1; user-select: none;
+  }
+
+  /* ════════════════════════════════════════
+     SECCIÓN 2 — ACADEMY + STORY (2 columnas)
+  ════════════════════════════════════════ */
+  .two-portals {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .portal-half {
+    padding: 72px 48px;
+    border-right: 1px solid rgba(255,255,255,0.06);
+    display: flex; flex-direction: column; gap: 24px;
+    position: relative; transition: background 0.4s;
+  }
+  .portal-half:hover { background: rgba(255,255,255,0.015); }
+  .portal-half:last-child { border-right: none; }
+  .portal-num { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: rgba(212,169,74,0.5); }
+  .portal-title-sm {
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 900; text-transform: uppercase;
+    letter-spacing: -2px; line-height: 0.92;
+  }
+  .portal-desc-sm {
+    font-size: 14px; font-weight: 300; line-height: 1.65;
+    color: rgba(255,255,255,0.4); max-width: 300px;
+  }
+  .portal-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    color: #d4a94a; text-decoration: none; margin-top: 12px;
+  }
+
+  /* ════════════════════════════════════════
+     SECCIÓN 3 — MANIFESTO STRIP
+     Copy editorial como separador/cierre
+  ════════════════════════════════════════ */
+  .manifesto-strip {
+    padding: 80px 48px 72px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: flex-start; gap: 64px;
+  }
+  .mfst-accent {
+    width: 2px; min-height: 160px; flex-shrink: 0;
+    background: linear-gradient(to bottom, #d4a94a, rgba(212,169,74,0.1));
+    margin-top: 8px;
+  }
+  .mfst-block { display: flex; flex-direction: column; gap: 4px; }
+  .mfst-line {
+    font-size: clamp(28px, 4vw, 52px);
+    font-weight: 300; line-height: 1.05; letter-spacing: -0.5px;
+    color: rgba(255,255,255,0.5);
+  }
+  .mfst-line.strong { font-weight: 800; color: #fff; }
+  .mfst-line.gold-line { font-weight: 800; background: linear-gradient(135deg, #d4a94a, #f0d080); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .mfst-closer {
+    margin-top: 40px; padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; gap: 24px;
+  }
+  .mfst-closer-text {
+    font-size: clamp(16px, 2.2vw, 24px);
+    font-weight: 700; text-transform: uppercase; letter-spacing: 3px;
+    color: rgba(255,255,255,0.3);
+  }
+  .mfst-closer-text span { color: #d4a94a; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 36px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-logo { font-size: 12px; font-weight: 800; letter-spacing: 3px; color: rgba(212,169,74,0.5); text-transform: uppercase; }
+  .footer-copy { font-size: 11px; letter-spacing: 1px; color: rgba(255,255,255,0.15); }
+
+  /* Annotation chips */
+  .chip {
+    display: inline-block;
+    background: rgba(212,169,74,0.12); border: 1px solid rgba(212,169,74,0.25);
+    border-radius: 4px; padding: 3px 9px;
+    font-size: 10px; color: rgba(212,169,74,0.8); letter-spacing: 1px; text-transform: uppercase;
+    font-weight: 600; vertical-align: middle; margin-left: 10px;
+  }
+  .section-tag {
+    font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+    color: rgba(255,255,255,0.12); margin-bottom: 0;
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">J3Pádel</div>
+  <ul class="nav-links">
+    <li><a href="#">Coach360</a></li>
+    <li><a href="#">Academy</a></li>
+    <li><a href="#">Story</a></li>
+  </ul>
+</nav>
+
+<!-- ════ SECCIÓN 1: HERO SPLIT ════ -->
+<section class="hero-split">
+
+  <div class="hero-left">
+    <div class="section-tag">Sección 1 — Hero <span class="chip">Existente · adaptado</span></div>
+    <div style="margin-top: 24px">
+      <div class="hero-claim">
+        <span class="grad" style="display:block">Play.</span>
+        <span style="display:block; color: rgba(255,255,255,0.9)">Coach.</span>
+        <span style="display:block; -webkit-text-stroke: 1.5px rgba(255,255,255,0.2); color: transparent">Manage.</span>
+      </div>
+      <p class="hero-sub">El sistema que conecta jugadores, entrenadores y gestores del pádel profesional.</p>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="section-tag">Producto destacado <span class="chip">Coach360</span></div>
+    <div style="margin-top: 24px; position: relative">
+      <div class="product-eyebrow">Formación · Comunidad · Sistema</div>
+      <div class="product-hero-title">
+        <span class="grad">Coach</span><br>
+        <span style="color:#fff">360</span>
+      </div>
+      <p class="product-hero-desc">Todo lo que necesita un coach profesional para formarse, conectar y escalar su negocio de pádel.</p>
+      <a class="product-hero-cta" href="#">Unirse ahora</a>
+      <div class="product-wm">C360</div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ════ SECCIÓN 2: ACADEMY + STORY ════ -->
+<section class="two-portals">
+
+  <div class="portal-half">
+    <div class="portal-num">02 · Academy <span class="chip">Disponible</span></div>
+    <div class="portal-title-sm">
+      <span class="grad">J3</span><br>
+      <span style="color:#fff">Academy</span>
+    </div>
+    <p class="portal-desc-sm">Metodología y conocimiento del pádel al más alto nivel. Para jugadores y entrenadores que quieren ir más lejos.</p>
+    <a class="portal-link" href="#">Explorar Academy →</a>
+  </div>
+
+  <div class="portal-half">
+    <div class="portal-num">03 · Story <span class="chip">Disponible</span></div>
+    <div class="portal-title-sm">
+      <span style="color: rgba(255,255,255,0.9)">Nuestra</span><br>
+      <span class="grad">Story</span>
+    </div>
+    <p class="portal-desc-sm">Quiénes somos, de dónde venimos y por qué creamos el sistema. El origen del método J3.</p>
+    <a class="portal-link" href="#">Leer la historia →</a>
+  </div>
+
+</section>
+
+<!-- ════ SECCIÓN 3: MANIFESTO ════ -->
+<section class="manifesto-strip">
+  <div class="mfst-accent"></div>
+  <div class="mfst-block">
+    <div class="section-tag" style="margin-bottom:20px">Manifiesto <span class="chip">Copy editorial · entre secciones</span></div>
+    <span class="mfst-line">El juego</span>
+    <span class="mfst-line strong">ha cambiado.</span>
+    <span class="mfst-line" style="margin-top:12px">El coach</span>
+    <span class="mfst-line gold-line">evolucionado.</span>
+    <span class="mfst-line" style="margin-top:12px">La gestión</span>
+    <span class="mfst-line strong">optimizada.</span>
+
+    <div class="mfst-closer">
+      <div class="mfst-closer-text">
+        <span>Optimizar.</span> &nbsp;Automatizar. &nbsp;<span>Escalar.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">J3Pádel</div>
+  <div class="footer-copy">© 2025 J3Pádel</div>
+</footer>
+
+</body>
+</html>

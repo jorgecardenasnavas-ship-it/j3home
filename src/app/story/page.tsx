@@ -1816,12 +1816,12 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
           <svg viewBox="0 0 150 150" style={{ width: "28vw", height: "28vw", overflow: "visible" }}>
             <defs>
               <linearGradient id="j3goldMob" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#DCAF64" />
-                <stop offset="20%" stopColor="#EDDB7E" />
-                <stop offset="40%" stopColor="#FFF1B4" />
-                <stop offset="60%" stopColor="#EEDE80" />
-                <stop offset="80%" stopColor="#E6C772" />
-                <stop offset="100%" stopColor="#DCAF64" />
+                <stop offset="0%" stopColor="#C9A96E" />
+                <stop offset="20%" stopColor="#d4b882" />
+                <stop offset="40%" stopColor="#e8d4a8" />
+                <stop offset="60%" stopColor="#d4b882" />
+                <stop offset="80%" stopColor="#C9A96E" />
+                <stop offset="100%" stopColor="#C9A96E" />
               </linearGradient>
               <clipPath id="ball-clip-mob">
                 <circle cx="74" cy="75" r="58" />
@@ -1909,10 +1909,10 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
             <svg viewBox={svgViewBox} className="w-full h-full" preserveAspectRatio="xMidYMid meet">
               <defs>
                 <linearGradient id="j3gold" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#F0DC82" />
-                  <stop offset="35%" stopColor="#EDDA8A" />
-                  <stop offset="65%" stopColor="#E4C46C" />
-                  <stop offset="100%" stopColor="#DBA55A" />
+                  <stop offset="0%" stopColor="#d4b882" />
+                  <stop offset="35%" stopColor="#d4b882" />
+                  <stop offset="65%" stopColor="#C9A96E" />
+                  <stop offset="100%" stopColor="#C9A96E" />
                 </linearGradient>
                 <clipPath id="ball-inner-clip">
                   <circle cx="74" cy="75" r="58" />
@@ -1953,7 +1953,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
                       <path
                         d={ringPath}
                         fillRule="evenodd"
-                        fill="#FFF0C0"
+                        fill="#F0E4D0"
                         filter="url(#trail-glow)"
                         opacity={0.6}
                       />
@@ -1982,7 +1982,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
                         {p > 0 && !settled && (
                           <path
                             d={d}
-                            fill="#FFF0C0"
+                            fill="#F0E4D0"
                             filter="url(#trail-glow)"
                             opacity={clamp(p * 2.5) * (1 - clamp((p - 0.7) / 0.3))}
                             transform={`translate(${dx}, ${dy}) scale(${0.5 + 0.5 * e})`}
@@ -1992,7 +1992,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
                         {/* Stripe — stays iridescent gold until flash solidifies it */}
                         <path
                           d={d}
-                          fill={settled ? "url(#j3gold)" : "#FFEDB3"}
+                          fill={settled ? "url(#j3gold)" : "#e8d4a8"}
                           filter={settled ? undefined : "url(#energy-glow)"}
                           opacity={p > 0 ? clamp(p * 3) : 0}
                           transform={`translate(${dx}, ${dy}) scale(${0.5 + 0.5 * e})`}
@@ -2016,7 +2016,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
                       {p > 0 && !settled && (
                         <path
                           d={d}
-                          fill="#FFF0C0"
+                          fill="#F0E4D0"
                           filter="url(#trail-glow)"
                           opacity={clamp(p * 2.5) * (1 - clamp((p - 0.6) / 0.4))}
                           transform={`translate(${dx}, ${dy})`}
@@ -2025,7 +2025,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
                       {/* Solid leg — iridescent until settled */}
                       <path
                         d={d}
-                        fill={settled ? "url(#j3gold)" : "#FFEDB3"}
+                        fill={settled ? "url(#j3gold)" : "#e8d4a8"}
                         filter={settled ? undefined : "url(#energy-glow)"}
                         opacity={p > 0 ? clamp(p * 3) : 0}
                         transform={`translate(${dx}, ${dy})`}
@@ -2571,7 +2571,7 @@ export default function StoryPage() {
                   height="10"
                   viewBox="0 0 20 10"
                   fill="none"
-                  stroke="#f0c478"
+                  stroke="#d4b882"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"

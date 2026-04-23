@@ -74,7 +74,7 @@ const pinStyles = `
   }
   /* Cuando el hover viene desde una card (sync externo), destacar más */
   .j3-pin-inner.is-hovered::after {
-    border-color: #f0c478;
+    border-color: #d4b882;
     background: #1a1408;
   }
   .j3-pin-lab {
@@ -251,7 +251,7 @@ const pinStyles = `
   }
   .leaflet-control-zoom a:hover {
     background: rgba(201,169,110,0.12) !important;
-    color: #f0c478 !important;
+    color: #d4b882 !important;
   }
   .leaflet-control-zoom a.leaflet-disabled {
     opacity: 0.35 !important;
@@ -273,7 +273,7 @@ const pinStyles = `
     font-weight: 800;
     letter-spacing: -0.5px;
     font-variant-numeric: tabular-nums;
-    background: radial-gradient(circle at 50% 50%, #f0c478 0%, #C9A96E 55%, #b8943e 100%);
+    background: radial-gradient(circle at 50% 50%, #d4b882 0%, #C9A96E 55%, #C9A96E 100%);
     transition: transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s ease;
     cursor: pointer;
   }
@@ -475,7 +475,7 @@ const pinStyles = `
     display: inline-block;
     border-radius: 999px;
     flex-shrink: 0;
-    background: radial-gradient(circle at 50% 50%, #f0c478 0%, #C9A96E 55%, #b8943e 100%);
+    background: radial-gradient(circle at 50% 50%, #d4b882 0%, #C9A96E 55%, #C9A96E 100%);
     box-shadow: 0 0 0 1px rgba(0,0,0,0.55), 0 1px 4px rgba(201,169,110,0.4);
   }
   .j3-legend-dot-hq {
@@ -533,7 +533,7 @@ const pinStyles = `
   }
   .j3-popup-social:hover {
     background: rgba(201,169,110,0.18) !important;
-    color: #f0c478 !important;
+    color: #d4b882 !important;
     border-color: rgba(201,169,110,0.55) !important;
   }
 
@@ -716,8 +716,8 @@ function BadgeChip({
       ? {
           bg: "rgba(201,169,110,0.20)",
           border: "rgba(201,169,110,0.55)",
-          color: "#f0c478",
-          dot: "#f0c478",
+          color: "#d4b882",
+          dot: "#d4b882",
         }
       : tone === "founder"
       ? {
@@ -896,7 +896,7 @@ function PopupContent({
                   width: 14,
                   height: 14,
                   borderRadius: 999,
-                  background: "linear-gradient(135deg, #f0c478, #b8943e)",
+                  background: "#C9A96E",
                   flexShrink: 0,
                   marginTop: 1,
                 }}
@@ -987,7 +987,7 @@ function PopupContent({
             letterSpacing: 2,
             textTransform: "uppercase",
             color: "#000",
-            background: "linear-gradient(135deg, #C9A96E, #b8943e)",
+            background: "#C9A96E",
             border: "none",
             padding: "10px 12px",
             cursor: "pointer",
@@ -1305,7 +1305,7 @@ function InProgressPopupContent({ coach: c, labels }: { coach: Coach; labels: Po
               style={{
                 color:
                   stage.state === "current"
-                    ? "#f0c478"
+                    ? "#d4b882"
                     : stage.state === "past"
                     ? "rgba(201,169,110,0.7)"
                     : "rgba(245,240,232,0.38)",
@@ -2002,7 +2002,7 @@ function FloatingZoomControls({
         onClick={() => map.zoomIn()}
         aria-label="Acercar"
         style={{ ...btnBase, borderBottom: "1px solid rgba(201,169,110,0.15)" }}
-        onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(201,169,110,0.14)"; e.currentTarget.style.color = "#f0c478"; }}
+        onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(201,169,110,0.14)"; e.currentTarget.style.color = "#d4b882"; }}
         onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(10,10,10,0.92)"; e.currentTarget.style.color = "#C9A96E"; }}
       >
         +
@@ -2012,7 +2012,7 @@ function FloatingZoomControls({
         onClick={() => map.zoomOut()}
         aria-label="Alejar"
         style={btnBase}
-        onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(201,169,110,0.14)"; e.currentTarget.style.color = "#f0c478"; }}
+        onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(201,169,110,0.14)"; e.currentTarget.style.color = "#d4b882"; }}
         onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(10,10,10,0.92)"; e.currentTarget.style.color = "#C9A96E"; }}
       >
         −
@@ -2026,7 +2026,7 @@ function FloatingZoomControls({
         aria-label="Ver toda la red"
         title="Ver toda la red"
         style={{ ...btnBase, borderTop: "1px solid rgba(201,169,110,0.15)" }}
-        onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(201,169,110,0.14)"; e.currentTarget.style.color = "#f0c478"; }}
+        onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(201,169,110,0.14)"; e.currentTarget.style.color = "#d4b882"; }}
         onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(10,10,10,0.92)"; e.currentTarget.style.color = "#C9A96E"; }}
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden style={{ display: "inline-block", verticalAlign: "middle" }}>

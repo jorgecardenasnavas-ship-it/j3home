@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>J3Pádel — Home v4</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #000; color: #fff; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; overflow-x: hidden; }
+
+  .grad { background: linear-gradient(135deg, #d4a94a 0%, #f0d080 45%, #b8943e 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+  /* NAVBAR */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: 52px; display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    background: rgba(0,0,0,0.92); backdrop-filter: blur(20px);
+  }
+  .nav-logo { font-size: 14px; font-weight: 800; letter-spacing: 3px; color: #d4a94a; text-transform: uppercase; }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
+  .nav-links a { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.45); text-decoration: none; }
+
+  /* ══════════════════════════════
+     HERO — compacto, no full screen
+     El scroll lleva rápido a productos
+  ══════════════════════════════ */
+  .hero {
+    padding-top: 52px;
+    height: 60vh; min-height: 400px;
+    display: flex; align-items: flex-end;
+    padding-left: 48px; padding-right: 48px; padding-bottom: 56px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    position: relative; overflow: hidden;
+  }
+  .hero-claim {
+    font-size: clamp(72px, 11vw, 148px);
+    font-weight: 900; text-transform: uppercase;
+    letter-spacing: -5px; line-height: 0.86;
+    position: relative; z-index: 2;
+  }
+  .hero-right {
+    margin-left: auto; padding-bottom: 4px;
+    display: flex; flex-direction: column; align-items: flex-end; gap: 6px;
+    position: relative; z-index: 2;
+  }
+  .hero-tag { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.25); }
+  .hero-scroll-hint {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: rgba(212,169,74,0.5);
+  }
+  .hero-scroll-hint::after { content: '↓'; font-size: 12px; }
+
+  /* ══════════════════════════════
+     MANIFIESTO — franja horizontal
+     Entre hero y productos
+  ══════════════════════════════ */
+  .manifesto-bar {
+    padding: 28px 48px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; gap: 40px;
+    overflow: hidden;
+  }
+  .mbar-item { display: flex; flex-direction: column; gap: 1px; }
+  .mbar-thin { font-size: clamp(18px, 2.2vw, 28px); font-weight: 300; color: rgba(255,255,255,0.38); line-height: 1.05; white-space: nowrap; }
+  .mbar-bold { font-size: clamp(18px, 2.2vw, 28px); font-weight: 800; color: #fff; line-height: 1.05; white-space: nowrap; }
+  .mbar-gold { font-size: clamp(18px, 2.2vw, 28px); font-weight: 800; line-height: 1.05; white-space: nowrap; }
+  .mbar-sep { width: 1px; height: 48px; background: rgba(255,255,255,0.08); flex-shrink: 0; }
+  .mbar-closer {
+    margin-left: auto; font-size: 10px; letter-spacing: 3.5px; text-transform: uppercase;
+    color: rgba(255,255,255,0.2); white-space: nowrap;
+  }
+  .mbar-closer span { color: rgba(212,169,74,0.55); }
+
+  /* ══════════════════════════════
+     PRODUCTOS — grid 2 columnas
+  ══════════════════════════════ */
+  .products {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .prod {
+    padding: 64px 48px 60px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    border-right: 1px solid rgba(255,255,255,0.06);
+    display: flex; flex-direction: column;
+    position: relative; overflow: hidden;
+    transition: background 0.4s;
+  }
+  .prod:hover { background: rgba(212,169,74,0.025); }
+  .prod:nth-child(even) { border-right: none; }
+  .prod.light { background: #f5f5f7; color: #1d1d1f; }
+  .prod.light:hover { background: #efefef; }
+  .prod.light .prod-tag { color: rgba(0,0,0,0.35); }
+  .prod.light .prod-title { color: #1d1d1f; }
+  .prod.light .prod-title .gold-dark { color: #b8943e; }
+  .prod.light .prod-desc { color: rgba(0,0,0,0.5); }
+  .prod.light .prod-top-line { background: rgba(0,0,0,0.08); }
+  .prod.light .btn-ghost-light { border-color: rgba(0,0,0,0.2); color: rgba(0,0,0,0.6); }
+  .prod.light .prod-wm { color: rgba(0,0,0,0.03); }
+  .prod.featured { background: rgba(212,169,74,0.04); }
+
+  .prod-top-line { height: 1px; background: rgba(255,255,255,0.06); margin-bottom: 0; position: absolute; top: 0; left: 0; right: 0; }
+  .prod.featured .prod-top-line { background: linear-gradient(90deg, #d4a94a 0%, rgba(212,169,74,0.15) 100%); height: 2px; }
+
+  .prod-tag { font-size: 10px; letter-spacing: 3.5px; text-transform: uppercase; color: rgba(212,169,74,0.6); margin-bottom: 20px; }
+  .prod-title {
+    font-size: clamp(40px, 4.5vw, 60px);
+    font-weight: 900; text-transform: uppercase;
+    letter-spacing: -2px; line-height: 1;
+    margin-bottom: 16px;
+  }
+  .prod-for { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.28); margin-bottom: 20px; }
+  .prod.light .prod-for { color: rgba(0,0,0,0.3); }
+  .prod-desc { font-size: 14px; font-weight: 300; line-height: 1.65; color: rgba(255,255,255,0.42); max-width: 340px; flex: 1; }
+
+  .prod-actions { margin-top: 36px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-gold {
+    display: inline-block; padding: 12px 28px; border-radius: 999px;
+    background: linear-gradient(135deg, #d4a94a, #f0d080);
+    color: #000; font-size: 11px; font-weight: 800;
+    letter-spacing: 2px; text-transform: uppercase; text-decoration: none;
+  }
+  .btn-ghost-dark {
+    display: inline-block; padding: 12px 28px; border-radius: 999px;
+    border: 1px solid rgba(212,169,74,0.3); color: #d4a94a;
+    font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; text-decoration: none;
+  }
+  .btn-ghost-light {
+    display: inline-block; padding: 12px 28px; border-radius: 999px;
+    border: 1px solid rgba(0,0,0,0.2); color: rgba(0,0,0,0.6);
+    font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; text-decoration: none;
+  }
+  .badge-soon {
+    display: inline-block; padding: 3px 10px; border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.3);
+    font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-left: 8px;
+    vertical-align: middle;
+  }
+  .prod-wm {
+    position: absolute; bottom: -10px; right: 16px;
+    font-size: 120px; font-weight: 900; letter-spacing: -5px;
+    color: rgba(255,255,255,0.018); pointer-events: none; user-select: none; line-height: 1;
+  }
+  .prod.light .prod-wm { color: rgba(0,0,0,0.03); }
+
+  /* Producto full-width */
+  .prod.full { grid-column: span 2; border-right: none; }
+  .prod.full .inner { display: flex; align-items: center; justify-content: space-between; gap: 48px; }
+  .prod.full .prod-title { font-size: clamp(40px, 5vw, 68px); }
+
+  /* FOOTER */
+  footer {
+    padding: 36px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .footer-logo { font-size: 12px; font-weight: 800; letter-spacing: 3px; color: rgba(212,169,74,0.45); text-transform: uppercase; }
+  .footer-copy { font-size: 11px; color: rgba(255,255,255,0.15); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">J3Pádel</div>
+  <ul class="nav-links">
+    <li><a href="#">Coach360</a></li>
+    <li><a href="#">Academy</a></li>
+    <li><a href="#">Story</a></li>
+  </ul>
+</nav>
+
+<!-- HERO compacto -->
+<section class="hero">
+  <div class="hero-claim">
+    <span class="grad" style="display:block">Play.</span>
+    <span style="display:block; color:rgba(255,255,255,0.88)">Coach.</span>
+    <span style="display:block; -webkit-text-stroke:1.5px rgba(255,255,255,0.15); color:transparent">Manage.</span>
+  </div>
+  <div class="hero-right">
+    <div class="hero-tag">El sistema del pádel profesional</div>
+    <div class="hero-scroll-hint">Descubre</div>
+  </div>
+</section>
+
+<!-- MANIFIESTO franja -->
+<div class="manifesto-bar">
+  <div class="mbar-item"><span class="mbar-thin">El juego</span><span class="mbar-bold">ha cambiado.</span></div>
+  <div class="mbar-sep"></div>
+  <div class="mbar-item"><span class="mbar-thin">El coach</span><span class="mbar-gold grad">evolucionado.</span></div>
+  <div class="mbar-sep"></div>
+  <div class="mbar-item"><span class="mbar-thin">La gestión</span><span class="mbar-bold">optimizada.</span></div>
+  <div class="mbar-closer"><span>Optimizar</span> · <span>Automatizar</span> · <span>Escalar</span></div>
+</div>
+
+<!-- PRODUCTOS -->
+<section class="products">
+
+  <!-- 1. Coach360 — featured, dark -->
+  <div class="prod featured">
+    <div class="prod-top-line"></div>
+    <div class="prod-tag">Formación · Comunidad</div>
+    <div class="prod-title"><span class="grad">Coach</span><span style="color:#fff"> 360</span></div>
+    <div class="prod-for">Para coaches profesionales</div>
+    <p class="prod-desc">El sistema completo para coaches de pádel: formación, comunidad y herramientas para escalar tu negocio.</p>
+    <div class="prod-actions">
+      <a class="btn-gold" href="#">Unirse ahora</a>
+    </div>
+    <div class="prod-wm">C360</div>
+  </div>
+
+  <!-- 2. J3PTV — light -->
+  <div class="prod light">
+    <div class="prod-top-line"></div>
+    <div class="prod-tag" style="color:rgba(0,0,0,0.35)">Contenido · Análisis</div>
+    <div class="prod-title"><span style="color:#b8943e">J3P</span><span>TV</span></div>
+    <div class="prod-for">Para jugadores y aficionados</div>
+    <p class="prod-desc">La plataforma de contenido del pádel profesional. Análisis, técnica y entretenimiento de élite.</p>
+    <div class="prod-actions">
+      <a class="btn-ghost-light" href="#">Próximamente <span class="badge-soon" style="border-color:rgba(0,0,0,0.12); color:rgba(0,0,0,0.3)">Soon</span></a>
+    </div>
+    <div class="prod-wm">TV</div>
+  </div>
+
+  <!-- 3. Academy — dark -->
+  <div class="prod">
+    <div class="prod-top-line"></div>
+    <div class="prod-tag">Metodología · Técnica</div>
+    <div class="prod-title"><span class="grad">J3 </span><span style="color:#fff">Academy</span></div>
+    <div class="prod-for">Para jugadores y entrenadores</div>
+    <p class="prod-desc">Metodología y conocimiento del pádel al más alto nivel. Programas diseñados desde el circuito profesional.</p>
+    <div class="prod-actions">
+      <a class="btn-gold" href="#">Explorar</a>
+    </div>
+    <div class="prod-wm">ACA</div>
+  </div>
+
+  <!-- 4. Business Plan — light -->
+  <div class="prod light">
+    <div class="prod-top-line"></div>
+    <div class="prod-tag" style="color:rgba(0,0,0,0.35)">Estrategia · Gestión</div>
+    <div class="prod-title"><span style="color:#b8943e">Business</span><span> Plan</span></div>
+    <div class="prod-for">Para gestores y clubes</div>
+    <p class="prod-desc">Optimiza la gestión de tu club o negocio de pádel. Estrategia, operaciones y rentabilidad.</p>
+    <div class="prod-actions">
+      <a class="btn-ghost-light" href="#">Próximamente <span class="badge-soon" style="border-color:rgba(0,0,0,0.12); color:rgba(0,0,0,0.3)">Soon</span></a>
+    </div>
+    <div class="prod-wm">BIZ</div>
+  </div>
+
+  <!-- 5. J3 Experience — full width, dark -->
+  <div class="prod full">
+    <div class="prod-top-line"></div>
+    <div class="inner">
+      <div>
+        <div class="prod-tag">Vivencias · Élite</div>
+        <div class="prod-title"><span class="grad">J3 </span><span style="color:#fff">Experience</span></div>
+        <div class="prod-for">Para los que quieren vivirlo</div>
+        <p class="prod-desc" style="max-width:440px">Experiencias únicas junto a los mejores jugadores del circuito profesional. Pádel en su máxima expresión.</p>
+      </div>
+      <div class="prod-actions" style="margin-top:0; flex-shrink:0">
+        <a class="btn-ghost-dark" href="#">Próximamente</a>
+      </div>
+    </div>
+    <div class="prod-wm">EXP</div>
+  </div>
+
+  <!-- 6. J3 Partner — full width, light -->
+  <div class="prod full light">
+    <div class="prod-top-line"></div>
+    <div class="inner">
+      <div>
+        <div class="prod-tag" style="color:rgba(0,0,0,0.35)">Colaboración · Red</div>
+        <div class="prod-title"><span class="gold-dark" style="color:#b8943e">J3 </span><span>Partner</span></div>
+        <div class="prod-for" style="color:rgba(0,0,0,0.3)">Para marcas y organizaciones</div>
+        <p class="prod-desc" style="max-width:440px">Forma parte del ecosistema J3Pádel. Colaboraciones estratégicas con el sistema del pádel profesional.</p>
+      </div>
+      <div class="prod-actions" style="margin-top:0; flex-shrink:0">
+        <a class="btn-ghost-light" href="#">Próximamente</a>
+      </div>
+    </div>
+    <div class="prod-wm" style="color:rgba(0,0,0,0.025)">PTR</div>
+  </div>
+
+</section>
+
+<footer>
+  <div class="footer-logo">J3Pádel</div>
+  <div class="footer-copy">© 2025 J3Pádel</div>
+</footer>
+
+</body>
+</html>
