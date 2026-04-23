@@ -118,7 +118,7 @@ export function Navbar() {
             ? "border-white/[.07] shadow-[0_1px_20px_rgba(0,0,0,.5)]"
             : "border-white/[.04]"
         } ${offHero ? "navbar-scrolled" : ""}`}
-        style={{ backgroundColor: offHero ? "transparent" : "#1B3D2F" }}
+        style={{ backgroundColor: offHero ? "transparent" : "var(--verde)" }}
       >
         {/* Logo — solo tipografía */}
         <Link
