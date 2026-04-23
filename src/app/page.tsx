@@ -8,8 +8,6 @@ import { ProductsGrid } from "@/components/ProductsGrid";
 import { StoryTeaser } from "@/components/StoryTeaser";
 import { FooterClose } from "@/components/FooterClose";
 import { Footer } from "@/components/Footer";
-import { FloatingCTA } from "@/components/FloatingCTA";
-
 export default function Home() {
   return (
     <>
@@ -25,7 +23,6 @@ export default function Home() {
         <FooterClose />
       </main>
       <Footer />
-      <FloatingCTA />
     </>
   );
 }
