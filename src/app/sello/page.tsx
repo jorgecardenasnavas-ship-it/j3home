@@ -39,7 +39,7 @@ function SelloSection() {
         className="absolute inset-x-0 top-0 h-[420px] pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle at 50% 0%, rgba(220,175,100,0.08) 0%, rgba(220,175,100,0) 60%)",
+            "radial-gradient(circle at 50% 0%, rgba(201,169,110,0.08) 0%, rgba(201,169,110,0) 60%)",
         }}
       />
 
@@ -87,7 +87,7 @@ function SelloSection() {
                   background:
                     tier.key === "hq"
                       ? "linear-gradient(90deg, transparent, var(--g1), transparent)"
-                      : "linear-gradient(90deg, transparent, rgba(220,175,100,0.35), transparent)",
+                      : "linear-gradient(90deg, transparent, rgba(201,169,110,0.35), transparent)",
                   opacity: tier.key === "hq" ? 1 : 0.6,
                 }}
               />

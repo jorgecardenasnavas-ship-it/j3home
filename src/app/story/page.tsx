@@ -230,7 +230,7 @@ function HeroCredentials() {
         className="absolute inset-0 pointer-events-none transition-opacity duration-[2s]"
         style={{
           opacity: sectionVisible ? 1 : 0,
-          background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(220,175,100,.05) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(201,169,110,.05) 0%, transparent 70%)",
         }}
       />
 
@@ -239,7 +239,7 @@ function HeroCredentials() {
         className="absolute inset-0 pointer-events-none"
         style={{
           opacity: sectionVisible ? 1 : 0,
-          background: "linear-gradient(105deg, transparent 40%, rgba(220,175,100,.04) 45%, rgba(220,175,100,.08) 50%, rgba(220,175,100,.04) 55%, transparent 60%)",
+          background: "linear-gradient(105deg, transparent 40%, rgba(201,169,110,.04) 45%, rgba(201,169,110,.08) 50%, rgba(201,169,110,.04) 55%, transparent 60%)",
           backgroundSize: "200% 100%",
           animation: sectionVisible ? "shimmer-sweep 3s 0.5s ease both" : "none",
         }}
@@ -262,10 +262,10 @@ function HeroCredentials() {
                 filter: revealed[i] ? "blur(0px)" : "blur(8px)",
                 transition: `all .9s cubic-bezier(.16,1,.3,1) ${i * 0.05}s`,
                 background: revealed[i]
-                  ? "linear-gradient(160deg, rgba(220,175,100,.06) 0%, rgba(220,175,100,.01) 50%, rgba(0,0,0,.2) 100%)"
+                  ? "linear-gradient(160deg, rgba(201,169,110,.06) 0%, rgba(201,169,110,.01) 50%, rgba(0,0,0,.2) 100%)"
                   : "transparent",
                 border: "0.5px solid",
-                borderColor: revealed[i] ? "rgba(220,175,100,.15)" : "transparent",
+                borderColor: revealed[i] ? "rgba(201,169,110,.15)" : "transparent",
               }}
             >
               {/* Glow dot top-left */}
@@ -273,7 +273,7 @@ function HeroCredentials() {
                 className="absolute top-0 left-0 w-24 h-24 pointer-events-none transition-opacity duration-1000"
                 style={{
                   opacity: revealed[i] ? 1 : 0,
-                  background: "radial-gradient(circle at top left, rgba(220,175,100,.12) 0%, transparent 70%)",
+                  background: "radial-gradient(circle at top left, rgba(201,169,110,.12) 0%, transparent 70%)",
                 }}
               />
 
@@ -337,7 +337,7 @@ function StatsSection() {
       {/* Subtle radial glow */}
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{ background: "radial-gradient(ellipse 70% 50% at 50% 40%, rgba(220,175,100,.04) 0%, transparent 70%)" }}
+        style={{ background: "radial-gradient(ellipse 70% 50% at 50% 40%, rgba(201,169,110,.04) 0%, transparent 70%)" }}
       />
 
       {/* Header */}
@@ -377,7 +377,7 @@ function StatsSection() {
                   }`}
                 />
                 {isHero && (
-                  <div className="absolute -inset-8 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(220,175,100,.06) 0%, transparent 70%)" }} />
+                  <div className="absolute -inset-8 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(201,169,110,.06) 0%, transparent 70%)" }} />
                 )}
               </div>
               <span className="text-[10px] max-[960px]:text-[11px] font-light tracking-[2px] uppercase leading-[1.6] whitespace-pre-line block text-[var(--gy2)]">{s.lbl}</span>
@@ -629,7 +629,7 @@ function AccentManifesto() {
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "linear-gradient(180deg, transparent 0%, transparent 55%, rgba(220,175,100,0.025) 65%, transparent 85%), repeating-linear-gradient(180deg, transparent 0px, transparent 78px, rgba(220,175,100,0.018) 79px, transparent 80px)",
+              "linear-gradient(180deg, transparent 0%, transparent 55%, rgba(201,169,110,0.025) 65%, transparent 85%), repeating-linear-gradient(180deg, transparent 0px, transparent 78px, rgba(201,169,110,0.018) 79px, transparent 80px)",
             maskImage:
               "radial-gradient(ellipse 60% 45% at 50% 75%, black 0%, transparent 70%)",
             WebkitMaskImage:
@@ -667,7 +667,7 @@ function AccentManifesto() {
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "radial-gradient(ellipse 65% 55% at 30% 50%, rgba(220,175,100,0.22) 0%, transparent 65%)",
+              "radial-gradient(ellipse 65% 55% at 30% 50%, rgba(201,169,110,0.22) 0%, transparent 65%)",
             opacity: 0,
             animation: "ambientPulse 6s ease-in-out infinite",
             transformOrigin: "30% 50%",
@@ -680,7 +680,7 @@ function AccentManifesto() {
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "radial-gradient(ellipse 45% 45% at 75% 60%, rgba(220,175,100,0.16) 0%, transparent 70%)",
+              "radial-gradient(ellipse 45% 45% at 75% 60%, rgba(201,169,110,0.16) 0%, transparent 70%)",
             opacity: 0,
             animation: "ambientPulse 8s ease-in-out infinite 1.5s",
             transformOrigin: "75% 60%",
@@ -695,7 +695,7 @@ function AccentManifesto() {
           style={{
             height: "100%",
             background:
-              "linear-gradient(to bottom, transparent 0%, rgba(220,175,100,.55) 15%, rgba(220,175,100,.55) 85%, transparent 100%)",
+              "linear-gradient(to bottom, transparent 0%, rgba(201,169,110,.55) 15%, rgba(201,169,110,.55) 85%, transparent 100%)",
             clipPath: "inset(0 0 100% 0)",
             opacity: 0,
           }}
@@ -743,7 +743,7 @@ function AccentManifesto() {
                   width: "0.18em",
                   height: "0.075em",
                   background:
-                    "linear-gradient(135deg, #dcaf64 0%, #fff1b4 50%, #dcaf64 100%)",
+                    "linear-gradient(135deg, #C9A96E 0%, #e8d4a8 50%, #C9A96E 100%)",
                   borderRadius: "0.015em",
                   transformOrigin: "center center",
                   transform: "translate(-50%, -60vh) rotate(-60deg) scale(0.15)",
@@ -983,7 +983,7 @@ function TimelineSection() {
                       : `${isHL ? "w-[7px] h-[7px]" : "w-[5px] h-[5px]"} bg-white/[.12]`
                 }`}
                 style={{
-                  boxShadow: isActive ? "0 0 10px rgba(220,175,100,.5)" : "none",
+                  boxShadow: isActive ? "0 0 10px rgba(201,169,110,.5)" : "none",
                 }}
               />
               {/* Show era label next to first dot of each era */}
@@ -1022,7 +1022,7 @@ function TimelineSection() {
               {/* Progress bar — at the bottom of the banner */}
               <div className="h-[5px] w-full bg-black rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] rounded-full shadow-[0_0_8px_rgba(220,175,100,0.4)]"
+                  className="h-full bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] rounded-full shadow-[0_0_8px_rgba(201,169,110,0.4)]"
                   style={{ width: `${scrollProgress * 100}%`, transition: "width .15s linear" }}
                 />
               </div>
@@ -1051,7 +1051,7 @@ function TimelineSection() {
 
       <div className="relative pl-8 max-[640px]:pl-4 w-full max-w-[1180px] mx-auto break-words">
         {/* Track line */}
-        <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[rgba(220,175,100,.2)] to-transparent" />
+        <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[rgba(201,169,110,.2)] to-transparent" />
 
         {timeline.map((item, i) => {
           const isHL = item.highlight;
@@ -1072,7 +1072,7 @@ function TimelineSection() {
               <div
                 className={`relative pl-12 max-[640px]:pl-5 min-w-0 group ${
                   isHL
-                    ? "pb-10 mb-4 ml-[-1px] border-l-[2px] border-[rgba(220,175,100,.25)] bg-gradient-to-r from-[rgba(220,175,100,.04)] to-transparent rounded-r-lg pr-6 pt-6 max-[640px]:pr-2 max-[640px]:pt-4 max-[640px]:pb-7"
+                    ? "pb-10 mb-4 ml-[-1px] border-l-[2px] border-[rgba(201,169,110,.25)] bg-gradient-to-r from-[rgba(201,169,110,.04)] to-transparent rounded-r-lg pr-6 pt-6 max-[640px]:pr-2 max-[640px]:pt-4 max-[640px]:pb-7"
                     : "pb-12 max-[640px]:pb-8 max-[640px]:pr-1"
                 }`}
                 style={{
@@ -1090,7 +1090,7 @@ function TimelineSection() {
                   }`}
                   style={{
                     top: isHL ? "30px" : "6px",
-                    boxShadow: isHL && visible ? "0 0 14px rgba(220,175,100,.5)" : "none",
+                    boxShadow: isHL && visible ? "0 0 14px rgba(201,169,110,.5)" : "none",
                   }}
                 />
                 <div className={item.image ? "min-[960px]:flex min-[960px]:gap-10 min-[960px]:items-start" : ""}>
@@ -1105,8 +1105,8 @@ function TimelineSection() {
                     {item.badge && (
                       <span className={`inline-block text-[9px] max-[640px]:text-[8px] font-bold tracking-[2px] max-[640px]:tracking-[1.5px] uppercase px-3 max-[640px]:px-2.5 py-1 rounded-full mt-3 max-[640px]:mt-2 ${
                         isHL
-                          ? "bg-[rgba(220,175,100,.1)] border border-[rgba(220,175,100,.35)] text-[var(--g1)]"
-                          : "border border-[rgba(220,175,100,.2)] text-[var(--g1)]/80"
+                          ? "bg-[rgba(201,169,110,.1)] border border-[rgba(201,169,110,.35)] text-[var(--g1)]"
+                          : "border border-[rgba(201,169,110,.2)] text-[var(--g1)]/80"
                       }`}>
                         {item.badge}
                       </span>
@@ -1195,7 +1195,7 @@ function HeroPlayerCard({ p, index }: { p: { first: string; last: string; info: 
       {/* Animated gold accent line at top */}
       <div className="absolute top-0 left-0 h-[2px] bg-gradient-to-r from-[var(--g1)] via-[var(--g2)] to-[var(--g1)] w-0 group-hover/hero:w-full transition-all duration-700 ease-out" />
       {/* Glow on hover */}
-      <div className="absolute -inset-px rounded-sm opacity-0 group-hover/hero:opacity-100 transition-opacity duration-700 pointer-events-none" style={{ background: "radial-gradient(ellipse at 30% 0%, rgba(220,175,100,0.06) 0%, transparent 70%)" }} />
+      <div className="absolute -inset-px rounded-sm opacity-0 group-hover/hero:opacity-100 transition-opacity duration-700 pointer-events-none" style={{ background: "radial-gradient(ellipse at 30% 0%, rgba(201,169,110,0.06) 0%, transparent 70%)" }} />
       <span className="text-[9px] font-bold tracking-[3px] uppercase text-[var(--g1)]/70 block mb-4">{p.tag}</span>
       <h4 className="font-bold text-[clamp(28px,3.5vw,42px)] uppercase tracking-[-1px] leading-[1] mb-3">
         <span className="j3-grad-text">{p.first}</span>
@@ -1224,7 +1224,7 @@ function NextGenRow({ p, index }: { p: { first: string; last: string; tag: strin
       <div className="absolute bottom-0 left-0 h-[1px] bg-gradient-to-r from-[var(--g1)] to-transparent w-0 group-hover/ng:w-full transition-all duration-500 ease-out" />
       <div className="flex items-baseline gap-3 min-w-0">
         {/* Pulsing dot */}
-        <span className="w-[5px] h-[5px] rounded-full bg-[var(--gy)]/30 group-hover/ng:bg-[var(--g1)] transition-colors duration-300 flex-shrink-0 group-hover/ng:shadow-[0_0_6px_rgba(220,175,100,0.5)]" />
+        <span className="w-[5px] h-[5px] rounded-full bg-[var(--gy)]/30 group-hover/ng:bg-[var(--g1)] transition-colors duration-300 flex-shrink-0 group-hover/ng:shadow-[0_0_6px_rgba(201,169,110,0.5)]" />
         <h4 className="font-bold text-[16px] max-[640px]:text-[14px] uppercase tracking-[-0.3px] leading-[1] whitespace-nowrap group-hover/ng:translate-x-1 transition-transform duration-300">
           <span className="j3-grad-text">{p.first}</span> <span className="text-[var(--wh)]/80">{p.last}</span>
         </h4>
@@ -1380,7 +1380,7 @@ function HigueronHero() {
             <span className="text-[var(--wh)]">{"Higuer\u00F3n"}</span>
           </h3>
           <p className="text-[14px] font-light text-[var(--gy2)] leading-[1.8] max-w-[560px] mb-5">{clubHero.detail}</p>
-          <span className="inline-block text-[9px] max-[640px]:text-[8px] font-bold tracking-[2px] max-[640px]:tracking-[1px] uppercase px-3 py-[5px] rounded-full bg-[rgba(220,175,100,.1)] text-[var(--g1)] border border-[rgba(220,175,100,.25)]">{clubHero.highlight}</span>
+          <span className="inline-block text-[9px] max-[640px]:text-[8px] font-bold tracking-[2px] max-[640px]:tracking-[1px] uppercase px-3 py-[5px] rounded-full bg-[rgba(201,169,110,.1)] text-[var(--g1)] border border-[rgba(201,169,110,.25)]">{clubHero.highlight}</span>
         </div>
       </div>
     </>
@@ -1404,7 +1404,7 @@ function ClubCard({ c, index }: { c: { flag: string; name: string; detail: strin
       <h4 className="font-bold text-[20px] max-[640px]:text-[18px] uppercase tracking-[-0.5px] leading-[1.1] mb-2 group-hover/club:text-[var(--g1)] transition-colors">{c.name}</h4>
       <p className="text-[12px] font-light text-[var(--gy2)] leading-[1.6]">{c.detail}</p>
       {c.highlight && (
-        <span className="inline-block text-[9px] max-[640px]:text-[8px] font-bold tracking-[1.5px] max-[640px]:tracking-[1px] uppercase px-[10px] py-[3px] rounded-full bg-[rgba(220,175,100,.08)] text-[var(--g1)] border border-[rgba(220,175,100,.2)] mt-3">{c.highlight}</span>
+        <span className="inline-block text-[9px] max-[640px]:text-[8px] font-bold tracking-[1.5px] max-[640px]:tracking-[1px] uppercase px-[10px] py-[3px] rounded-full bg-[rgba(201,169,110,.08)] text-[var(--g1)] border border-[rgba(201,169,110,.2)] mt-3">{c.highlight}</span>
       )}
     </div>
   );
@@ -1477,7 +1477,7 @@ function StoryImpact() {
         {/* Subtle radial glow */}
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: `radial-gradient(ellipse 70% 50% at 50% 50%, rgba(220,175,100,${0.04 * p3}) 0%, transparent 70%)` }}
+          style={{ background: `radial-gradient(ellipse 70% 50% at 50% 50%, rgba(201,169,110,${0.04 * p3}) 0%, transparent 70%)` }}
         />
 
         <div className="w-full max-w-[1100px] px-12 max-[960px]:px-5 text-center">
@@ -1602,8 +1602,8 @@ function StoryImpact() {
                       className="w-[10px] h-[10px] rounded-full border transition-all duration-500"
                       style={{
                         borderColor: stepP > 0.5 ? "var(--g1)" : "rgba(255,255,255,.12)",
-                        background: stepP > 0.8 ? "rgba(220,175,100,.2)" : "transparent",
-                        boxShadow: stepP > 0.8 ? "0 0 8px rgba(220,175,100,.15)" : "none",
+                        background: stepP > 0.8 ? "rgba(201,169,110,.2)" : "transparent",
+                        boxShadow: stepP > 0.8 ? "0 0 8px rgba(201,169,110,.15)" : "none",
                       }}
                     />
                   </div>
@@ -1787,7 +1787,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
         <div
           className="fixed inset-0 z-[61] pointer-events-none"
           style={{
-            background: "radial-gradient(circle at 50% 50%, rgba(220,175,100,0.6) 0%, rgba(220,175,100,0) 55%)",
+            background: "radial-gradient(circle at 50% 50%, rgba(201,169,110,0.6) 0%, rgba(201,169,110,0) 55%)",
             opacity: pulseOp,
           }}
         />
@@ -2666,7 +2666,7 @@ export default function StoryPage() {
           {/* Subtle radial glow */}
           <div
             className="absolute inset-0 pointer-events-none"
-            style={{ background: "radial-gradient(ellipse 70% 50% at 50% 40%, rgba(220,175,100,.06) 0%, transparent 70%)" }}
+            style={{ background: "radial-gradient(ellipse 70% 50% at 50% 40%, rgba(201,169,110,.06) 0%, transparent 70%)" }}
           />
           <div className="text-center w-full max-w-[1000px] px-6 md:px-12">
             {/* Header */}
@@ -2698,7 +2698,7 @@ export default function StoryPage() {
                         {s.label || "0"}
                       </span>
                       {isHero && (
-                        <div className="absolute -inset-8 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(220,175,100,.06) 0%, transparent 70%)" }} />
+                        <div className="absolute -inset-8 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(201,169,110,.06) 0%, transparent 70%)" }} />
                       )}
                     </div>
                     <span className="text-[10px] max-[960px]:text-[11px] font-light tracking-[2px] uppercase leading-[1.6] whitespace-pre-line block text-[var(--gy2)]">{s.lbl}</span>
@@ -2948,13 +2948,13 @@ export default function StoryPage() {
           <a href="/#contacto" className="text-[12px] font-bold tracking-[2px] uppercase px-[30px] py-[13px] rounded-full bg-[image:var(--j3-grad)] text-black no-underline transition-all hover:opacity-85 hover:scale-105">
             {t.story.cta.buttons[0]}
           </a>
-          <a href="https://j3padel.com/join" target="_blank" rel="noopener noreferrer" className="text-[12px] font-bold tracking-[2px] uppercase px-[30px] py-[13px] rounded-full border border-[rgba(220,175,100,.3)] text-[var(--g1)] bg-transparent no-underline transition-all hover:bg-[rgba(220,175,100,.07)] hover:scale-105">
+          <a href="https://j3padel.com/join" target="_blank" rel="noopener noreferrer" className="text-[12px] font-bold tracking-[2px] uppercase px-[30px] py-[13px] rounded-full border border-[rgba(201,169,110,.3)] text-[var(--g1)] bg-transparent no-underline transition-all hover:bg-[rgba(201,169,110,.07)] hover:scale-105">
             {t.story.cta.buttons[1]}
           </a>
-          <a href="/academy" className="text-[12px] font-bold tracking-[2px] uppercase px-[30px] py-[13px] rounded-full border border-[rgba(220,175,100,.3)] text-[var(--g1)] bg-transparent no-underline transition-all hover:bg-[rgba(220,175,100,.07)] hover:scale-105">
+          <a href="/academy" className="text-[12px] font-bold tracking-[2px] uppercase px-[30px] py-[13px] rounded-full border border-[rgba(201,169,110,.3)] text-[var(--g1)] bg-transparent no-underline transition-all hover:bg-[rgba(201,169,110,.07)] hover:scale-105">
             {t.story.cta.buttons[2]}
           </a>
-          <a href="/business" className="text-[12px] font-bold tracking-[2px] uppercase px-[30px] py-[13px] rounded-full border border-[rgba(220,175,100,.3)] text-[var(--g1)] bg-transparent no-underline transition-all hover:bg-[rgba(220,175,100,.07)] hover:scale-105">
+          <a href="/business" className="text-[12px] font-bold tracking-[2px] uppercase px-[30px] py-[13px] rounded-full border border-[rgba(201,169,110,.3)] text-[var(--g1)] bg-transparent no-underline transition-all hover:bg-[rgba(201,169,110,.07)] hover:scale-105">
             {t.story.cta.buttons[3]}
           </a>
         </div>

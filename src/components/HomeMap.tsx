@@ -129,7 +129,7 @@ function MapLayers({
           c.location.coordinates,
         );
         pl = L.polyline(points, {
-          color: "#dcaf64",
+          color: "#C9A96E",
           weight: 1,
           opacity: 1, // CSS controls visibility via .home-map-curve rules
           interactive: false,
@@ -153,9 +153,9 @@ function MapLayers({
       // el usuario hace zoom (a más zoom, pines separados → pill individual).
       const ZONE_RADIUS_PX = 30;
       const badgeHtml = isVerified
-        ? '<svg class="home-map-pill-badge" viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#dcaf64"/><path d="M7.5 12.5l3 3 6-6" stroke="#0a0a0a" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+        ? '<svg class="home-map-pill-badge" viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#C9A96E"/><path d="M7.5 12.5l3 3 6-6" stroke="#0a0a0a" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'
         : isQualified
-          ? '<svg class="home-map-pill-badge" viewBox="0 0 24 24" width="11" height="11" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="#dcaf64" stroke-width="2.5"/><circle cx="12" cy="12" r="4" fill="#dcaf64"/></svg>'
+          ? '<svg class="home-map-pill-badge" viewBox="0 0 24 24" width="11" height="11" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="#C9A96E" stroke-width="2.5"/><circle cx="12" cy="12" r="4" fill="#C9A96E"/></svg>'
           : "";
 
       dm.on("click", () => {

@@ -99,7 +99,7 @@ function FeaturedBlock({
   return (
     <article
       data-flagship={flagship ? "true" : undefined}
-      className="pc-card group relative overflow-hidden border-t border-white/[.06] transition-all duration-300 bg-black hover:bg-[rgba(220,175,100,.03)]"
+      className="pc-card group relative overflow-hidden border-t border-white/[.06] transition-all duration-300 bg-black hover:bg-[rgba(201,169,110,.03)]"
     >
       <TileBackground
         asset={product.asset}
@@ -138,7 +138,7 @@ function FeaturedBlock({
         <div className="max-w-[640px]">
           <div
             className={`text-[10px] font-normal tracking-[3.5px] uppercase mb-4 ${
-              isDark ? "text-[rgba(220,175,100,.7)]" : "text-black/40"
+              isDark ? "text-[rgba(201,169,110,.7)]" : "text-black/40"
             }`}
           >
             {tCard.tag}
@@ -246,7 +246,7 @@ function FeaturedSplitBlock({
           {/* Top accent — subtle gold line growing on hover */}
           <div className="absolute top-0 left-0 h-[2px] bg-gradient-to-r from-[var(--g1)] to-transparent transition-all duration-700 ease-[var(--ease-out)] w-[25%] opacity-60 group-hover:w-[70%] group-hover:opacity-90" />
           <div>
-            <div className="text-[10px] font-normal tracking-[3.5px] uppercase mb-5 text-[rgba(220,175,100,.7)]">
+            <div className="text-[10px] font-normal tracking-[3.5px] uppercase mb-5 text-[rgba(201,169,110,.7)]">
               {tCard.tag}
             </div>
             <h3 className="font-bold uppercase tracking-[-2.5px] leading-[0.95] text-[clamp(48px,5.5vw,84px)] max-[960px]:text-[clamp(40px,10vw,60px)]">
@@ -368,7 +368,7 @@ function StandardTile({
     <div
       data-idx={idx}
       className={`pc-card group relative overflow-hidden border-t border-white/[.06] transition-all duration-300 ${
-        isDark ? "bg-black hover:bg-[rgba(220,175,100,.02)]" : "bg-[#f5f5f7] hover:bg-[#efefef]"
+        isDark ? "bg-black hover:bg-[rgba(201,169,110,.02)]" : "bg-[#f5f5f7] hover:bg-[#efefef]"
       } ${idx % 2 === 0 ? "border-r border-r-white/[.06] max-[960px]:border-r-0" : ""}`}
     >
       <TileBackground asset={product.asset} />
@@ -389,7 +389,7 @@ function StandardTile({
         <div>
           <div
             className={`text-[10px] font-normal tracking-[3.5px] uppercase mb-3 ${
-              isDark ? "text-[rgba(220,175,100,.6)]" : "text-black/35"
+              isDark ? "text-[rgba(201,169,110,.6)]" : "text-black/35"
             }`}
           >
             {tCard.tag}
@@ -463,7 +463,7 @@ function FullWidthTile({
     <div
       data-idx={idx}
       className={`pc-card group relative overflow-hidden border-t border-white/[.06] transition-all duration-300 ${
-        isDark ? "bg-black hover:bg-[rgba(220,175,100,.02)]" : "bg-[#f5f5f7] hover:bg-[#efefef]"
+        isDark ? "bg-black hover:bg-[rgba(201,169,110,.02)]" : "bg-[#f5f5f7] hover:bg-[#efefef]"
       }`}
     >
       <TileBackground asset={product.asset} />
@@ -482,7 +482,7 @@ function FullWidthTile({
         <div>
           <div
             className={`text-[10px] font-normal tracking-[3.5px] uppercase mb-3 ${
-              isDark ? "text-[rgba(220,175,100,.6)]" : "text-black/35"
+              isDark ? "text-[rgba(201,169,110,.6)]" : "text-black/35"
             }`}
           >
             {tCard.tag}
@@ -566,7 +566,7 @@ export function ProductsGrid() {
         card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`;
         if (glow) {
           glow.style.opacity = "1";
-          glow.style.background = `radial-gradient(600px circle at ${e.clientX - rect.left}px ${e.clientY - rect.top}px, rgba(220,175,100,0.06), transparent 60%)`;
+          glow.style.background = `radial-gradient(600px circle at ${e.clientX - rect.left}px ${e.clientY - rect.top}px, rgba(201,169,110,0.06), transparent 60%)`;
         }
       };
       const leave = () => {

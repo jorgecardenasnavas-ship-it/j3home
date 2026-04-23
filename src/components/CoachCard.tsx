@@ -126,9 +126,9 @@ export default function CoachCard({ coach, labels, userCoords, onAsk }: CoachCar
       style={
         isHovered
           ? {
-              borderColor: "rgba(220,175,100,0.85)",
+              borderColor: "rgba(201,169,110,0.85)",
               transform: "translateY(-2px)",
-              boxShadow: "0 10px 32px rgba(220,175,100,0.18), 0 2px 8px rgba(0,0,0,0.35)",
+              boxShadow: "0 10px 32px rgba(201,169,110,0.18), 0 2px 8px rgba(0,0,0,0.35)",
             }
           : undefined
       }

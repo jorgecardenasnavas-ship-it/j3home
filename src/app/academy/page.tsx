@@ -39,7 +39,7 @@ const NetworkMap = dynamic(() => import("@/components/NetworkMap"), {
       className="absolute inset-0 overflow-hidden"
       style={{
         background:
-          "radial-gradient(circle at 30% 40%, rgba(220,175,100,0.06), transparent 55%), linear-gradient(180deg, #0a0a0a 0%, #0f0f0f 100%)",
+          "radial-gradient(circle at 30% 40%, rgba(201,169,110,0.06), transparent 55%), linear-gradient(180deg, #0a0a0a 0%, #0f0f0f 100%)",
       }}
       aria-label="Cargando mapa de la red J3"
       role="status"
@@ -50,7 +50,7 @@ const NetworkMap = dynamic(() => import("@/components/NetworkMap"), {
         className="absolute inset-0 opacity-40"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(220,175,100,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(220,175,100,0.05) 1px, transparent 1px)",
+            "linear-gradient(rgba(201,169,110,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(201,169,110,0.05) 1px, transparent 1px)",
           backgroundSize: "60px 60px",
         }}
       />
@@ -60,7 +60,7 @@ const NetworkMap = dynamic(() => import("@/components/NetworkMap"), {
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(90deg, transparent 0%, transparent 35%, rgba(220,175,100,0.08) 50%, transparent 65%, transparent 100%)",
+            "linear-gradient(90deg, transparent 0%, transparent 35%, rgba(201,169,110,0.08) 50%, transparent 65%, transparent 100%)",
           animation: "j3ShimmerMap 2.2s linear infinite",
         }}
       />
@@ -80,14 +80,14 @@ const NetworkMap = dynamic(() => import("@/components/NetworkMap"), {
           aria-hidden
           className="block w-3 h-3 rounded-full"
           style={{
-            background: "radial-gradient(circle at 50% 50%, #f0c478, #dcaf64 60%, #b8943e 100%)",
-            boxShadow: "0 0 0 2px rgba(0,0,0,0.55), 0 0 16px rgba(220,175,100,0.5)",
+            background: "radial-gradient(circle at 50% 50%, #f0c478, #C9A96E 60%, #b8943e 100%)",
+            boxShadow: "0 0 0 2px rgba(0,0,0,0.55), 0 0 16px rgba(201,169,110,0.5)",
             animation: "j3PulseDot 1.6s ease-in-out infinite",
           }}
         />
         <span
           className="text-[9px] tracking-[4px] uppercase font-semibold"
-          style={{ color: "rgba(220,175,100,0.85)" }}
+          style={{ color: "rgba(201,169,110,0.85)" }}
         >
           Buscando coaches J3
         </span>
@@ -617,9 +617,9 @@ function ProgramBar() {
                     opacity: compact ? 0 : 1,
                     marginBottom: compact ? "0px" : "7px",
                     transition: "all 0.6s cubic-bezier(.4,0,.2,1)",
-                    border: "2px solid rgba(220,175,100,1)",
-                    boxShadow: "0 0 16px rgba(220,175,100,.35), 0 0 4px rgba(220,175,100,.4)",
-                    background: "radial-gradient(circle at 30% 30%, rgba(220,175,100,.12) 0%, rgba(18,18,20,1) 70%)",
+                    border: "2px solid rgba(201,169,110,1)",
+                    boxShadow: "0 0 16px rgba(201,169,110,.35), 0 0 4px rgba(201,169,110,.4)",
+                    background: "radial-gradient(circle at 30% 30%, rgba(201,169,110,.12) 0%, rgba(18,18,20,1) 70%)",
                   }}
                 >
                   <div
@@ -660,7 +660,7 @@ function ProgramBar() {
                 width: "1px",
                 height: compact ? "24px" : "64px",
                 margin: compact ? "0 12px" : "0 16px",
-                background: "linear-gradient(to bottom, transparent, rgba(220,175,100,.4), transparent)",
+                background: "linear-gradient(to bottom, transparent, rgba(201,169,110,.4), transparent)",
                 transition: "height 0.6s cubic-bezier(.4,0,.2,1), margin 0.6s cubic-bezier(.4,0,.2,1)",
               }}
             />
@@ -748,9 +748,9 @@ function ProgramBar() {
                     transition: "all 0.6s cubic-bezier(.4,0,.2,1)",
                     pointerEvents: compact ? "none" : "auto",
                     boxShadow: isSelected
-                      ? "0 0 0 2px rgba(220,175,100,.9), 0 0 20px rgba(220,175,100,.3)"
+                      ? "0 0 0 2px rgba(201,169,110,.9), 0 0 20px rgba(201,169,110,.3)"
                       : hoveredCard === card.name
-                        ? "0 0 0 1.5px rgba(220,175,100,.7), 0 0 12px rgba(220,175,100,.2)"
+                        ? "0 0 0 1.5px rgba(201,169,110,.7), 0 0 12px rgba(201,169,110,.2)"
                         : "0 0 0 1px rgba(255,255,255,.1)",
                   }}
                 >
@@ -810,7 +810,7 @@ function ProgramBar() {
                     className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] rounded-full transition-all duration-500"
                     style={{
                       width: isActive ? "60%" : "0%",
-                      background: "linear-gradient(90deg, transparent, rgba(220,175,100,.85), transparent)",
+                      background: "linear-gradient(90deg, transparent, rgba(201,169,110,.85), transparent)",
                       opacity: isActive ? 1 : 0,
                     }}
                   />
@@ -1004,7 +1004,7 @@ function HeroSection() {
             className="hero-sidebar-line hidden min-[961px]:block absolute left-0 top-[10%] bottom-[10%] w-px"
             style={{
               background:
-                "linear-gradient(180deg, transparent 0%, rgba(220,175,100,0.45) 30%, rgba(220,175,100,0.6) 50%, rgba(220,175,100,0.45) 70%, transparent 100%)",
+                "linear-gradient(180deg, transparent 0%, rgba(201,169,110,0.45) 30%, rgba(201,169,110,0.6) 50%, rgba(201,169,110,0.45) 70%, transparent 100%)",
             }}
           />
 
@@ -1015,7 +1015,7 @@ function HeroSection() {
 
             <h1
               className="hero-rise hero-rise-2 font-bold max-[960px]:font-bold min-[961px]:font-medium tracking-[-1px] min-[961px]:tracking-[-1.5px] leading-[1.08] text-white text-[clamp(28px,3.2vw,44px)] max-[960px]:text-[clamp(28px,8.5vw,48px)]"
-              style={{ textShadow: "0 0 60px rgba(220,175,100,0.15), 0 2px 12px rgba(0,0,0,0.4)" }}
+              style={{ textShadow: "0 0 60px rgba(201,169,110,0.15), 0 2px 12px rgba(0,0,0,0.4)" }}
             >
               {t.academy.hero.headingAccent ? (
                 <>
@@ -1040,7 +1040,7 @@ function HeroSection() {
               className="hero-rise hero-rise-3 block mt-6 mb-5 h-px w-[56px]"
               style={{
                 background:
-                  "linear-gradient(90deg, rgba(220,175,100,0.85), rgba(220,175,100,0.15) 100%)",
+                  "linear-gradient(90deg, rgba(201,169,110,0.85), rgba(201,169,110,0.15) 100%)",
               }}
             />
 
@@ -1176,7 +1176,7 @@ function HeroSection() {
               style={{
                 background: "rgba(10,10,10,0.78)",
                 backdropFilter: "blur(6px)",
-                border: "1px solid rgba(220,175,100,0.28)",
+                border: "1px solid rgba(201,169,110,0.28)",
                 boxShadow: "0 4px 14px rgba(0,0,0,0.4)",
               }}
             >
@@ -1187,8 +1187,8 @@ function HeroSection() {
                   width: 8,
                   height: 8,
                   borderRadius: 999,
-                  border: "1.5px solid rgba(220,175,100,0.6)",
-                  background: "rgba(220,175,100,0.12)",
+                  border: "1.5px solid rgba(201,169,110,0.6)",
+                  background: "rgba(201,169,110,0.12)",
                 }}
               />
               <span>{baseCoachesLine}</span>
@@ -1603,9 +1603,9 @@ function WaCtaPill({ label, size = "md", expanded = false }: { label: string; si
       className="j3-wa-cta relative inline-flex items-center rounded-full transition-all duration-700 ease-out"
       style={{
         padding: pad,
-        background: "linear-gradient(135deg, rgba(220,175,100,.08) 0%, rgba(220,175,100,.02) 100%)",
-        border: "1px solid rgba(220,175,100,.28)",
-        boxShadow: expanded ? "0 0 22px rgba(220,175,100,.18)" : "none",
+        background: "linear-gradient(135deg, rgba(201,169,110,.08) 0%, rgba(201,169,110,.02) 100%)",
+        border: "1px solid rgba(201,169,110,.28)",
+        boxShadow: expanded ? "0 0 22px rgba(201,169,110,.18)" : "none",
       }}
     >
       {/* Reveal group: collapses to 0 width when !expanded, text sits to the LEFT of the circle */}
@@ -1640,7 +1640,7 @@ function WaCtaPill({ label, size = "md", expanded = false }: { label: string; si
         style={{
           width: circleSz,
           height: circleSz,
-          background: "linear-gradient(135deg, rgba(220,175,100,.22) 0%, rgba(220,175,100,.06) 100%)",
+          background: "linear-gradient(135deg, rgba(201,169,110,.22) 0%, rgba(201,169,110,.06) 100%)",
         }}
       >
         <svg width={iconSz} height={iconSz} viewBox="0 0 24 24" fill="var(--g1)" className="shrink-0">
@@ -2395,7 +2395,7 @@ function SedeCard({
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(140% 90% at 50% 100%, rgba(220,175,100,0.12) 0%, rgba(220,175,100,0.02) 45%, #050505 85%)",
+              "radial-gradient(140% 90% at 50% 100%, rgba(201,169,110,0.12) 0%, rgba(201,169,110,0.02) 45%, #050505 85%)",
             transform: expanded ? "scale3d(1.03,1.03,1.03)" : "scale3d(1,1,1)",
             transition: "transform 0.9s cubic-bezier(0,0,0.2,1)",
           }}
@@ -2409,11 +2409,11 @@ function SedeCard({
           >
             <defs>
               <linearGradient id="blueprint-lines" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="rgba(220,175,100,0.35)" />
-                <stop offset="100%" stopColor="rgba(220,175,100,0.08)" />
+                <stop offset="0%" stopColor="rgba(201,169,110,0.35)" />
+                <stop offset="100%" stopColor="rgba(201,169,110,0.08)" />
               </linearGradient>
               <pattern id="blueprint-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(220,175,100,0.06)" strokeWidth="0.5" />
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(201,169,110,0.06)" strokeWidth="0.5" />
               </pattern>
             </defs>
             {/* Grid técnico sutil */}
@@ -2427,13 +2427,13 @@ function SedeCard({
               <line x1="100" y1="70" x2="100" y2="190" strokeDasharray="4 4" />
             </g>
             {/* Medidas — estética de plano técnico */}
-            <g stroke="rgba(220,175,100,0.28)" strokeWidth="0.8" fill="none">
+            <g stroke="rgba(201,169,110,0.28)" strokeWidth="0.8" fill="none">
               <line x1="80" y1="130" x2="95" y2="130" />
               <line x1="305" y1="130" x2="320" y2="130" />
               <line x1="80" y1="125" x2="80" y2="135" />
               <line x1="320" y1="125" x2="320" y2="135" />
             </g>
-            <text x="200" y="120" textAnchor="middle" fill="rgba(220,175,100,0.45)" fontSize="10" fontFamily="ui-monospace, monospace" letterSpacing="2">20m</text>
+            <text x="200" y="120" textAnchor="middle" fill="rgba(201,169,110,0.45)" fontSize="10" fontFamily="ui-monospace, monospace" letterSpacing="2">20m</text>
           </svg>
           {/* Code chip bottom-left — estética técnica */}
           <span
@@ -2508,7 +2508,7 @@ function SedeCard({
             <span
               className="inline-flex items-center px-2.5 py-[5px] text-[9px] font-bold tracking-[1.5px] uppercase text-black"
               style={{
-                background: "linear-gradient(135deg, #f0c478 0%, #dcaf64 100%)",
+                background: "linear-gradient(135deg, #f0c478 0%, #C9A96E 100%)",
                 borderRadius: 2,
               }}
             >
@@ -2630,7 +2630,7 @@ function PorscheCoachCard({
           className="absolute inset-0 flex items-center justify-center"
           style={{
             background:
-              "radial-gradient(circle at 50% 42%, rgba(220,175,100,0.14) 0%, rgba(18,18,20,1) 65%)",
+              "radial-gradient(circle at 50% 42%, rgba(201,169,110,0.14) 0%, rgba(18,18,20,1) 65%)",
             transform: expanded ? "scale3d(1.03,1.03,1.03)" : "scale3d(1,1,1)",
             transition: "transform 0.9s cubic-bezier(0,0,0.2,1)",
           }}
@@ -2944,7 +2944,7 @@ function CarouselProgress({ progress }: { progress: number }) {
         style={{
           width: "28%",
           transform: `translateX(${progress * (100 / 0.28 - 100)}%)`,
-          background: "linear-gradient(to right, rgba(220,175,100,0.25), var(--g1), rgba(220,175,100,0.25))",
+          background: "linear-gradient(to right, rgba(201,169,110,0.25), var(--g1), rgba(201,169,110,0.25))",
           transition: "transform .18s cubic-bezier(.4,0,.2,1)",
         }}
       />
@@ -2990,7 +2990,7 @@ function TopOfMonthBadge({ count }: { count: number | undefined }) {
       className="inline-flex items-center gap-1 px-2 py-[4px] backdrop-blur-sm"
       style={{
         background: "rgba(10,10,10,0.72)",
-        border: "1px solid rgba(220,175,100,0.45)",
+        border: "1px solid rgba(201,169,110,0.45)",
         borderRadius: 2,
       }}
       title={`${count}× Top del mes`}
@@ -3059,7 +3059,7 @@ function MonthlyRankingBlock() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle at 25% 40%, rgba(220,175,100,0.05), transparent 55%)",
+            "radial-gradient(circle at 25% 40%, rgba(201,169,110,0.05), transparent 55%)",
         }}
       />
 
@@ -3149,7 +3149,7 @@ function MonthlyRankingHero({
             className="absolute inset-0 flex items-center justify-center"
             style={{
               background:
-                "radial-gradient(circle at 50% 40%, rgba(220,175,100,0.15) 0%, rgba(18,18,20,1) 65%)",
+                "radial-gradient(circle at 50% 40%, rgba(201,169,110,0.15) 0%, rgba(18,18,20,1) 65%)",
             }}
           >
             <span
@@ -3181,7 +3181,7 @@ function MonthlyRankingHero({
               className="inline-flex items-center gap-1.5 px-2.5 py-[5px] backdrop-blur-sm"
               style={{
                 background: "rgba(10,10,10,0.72)",
-                border: "1px solid rgba(220,175,100,0.6)",
+                border: "1px solid rgba(201,169,110,0.6)",
                 borderRadius: 2,
               }}
             >
@@ -3233,7 +3233,7 @@ function MonthlyRankingHero({
         {/* Logro del mes — pull-quote (solo #1). Si no hay achievement
             en i18n, caemos a listar outcomes como bullet. */}
         {entry.achievement ? (
-          <div className="relative pl-5 py-1" style={{ borderLeft: "2px solid rgba(220,175,100,0.55)" }}>
+          <div className="relative pl-5 py-1" style={{ borderLeft: "2px solid rgba(201,169,110,0.55)" }}>
             <span className="block text-[9px] font-bold tracking-[3px] uppercase text-[var(--g1)] mb-2">
               {labels.achievementLabel}
             </span>
@@ -3251,9 +3251,9 @@ function MonthlyRankingHero({
           onClick={() => onAsk(coach)}
           className="group inline-flex items-center gap-2 text-[11px] font-bold tracking-[2.5px] uppercase text-[#000] px-6 py-3 self-start transition-all duration-300"
           style={{
-            background: "linear-gradient(135deg, #f0c478, #dcaf64)",
+            background: "linear-gradient(135deg, #f0c478, #C9A96E)",
             borderRadius: 2,
-            boxShadow: "0 4px 16px rgba(220,175,100,0.25)",
+            boxShadow: "0 4px 16px rgba(201,169,110,0.25)",
           }}
         >
           {labels.ctaLabel}
@@ -3307,7 +3307,7 @@ function MonthlyRankingSatellite({
               className="absolute inset-0 flex items-center justify-center"
               style={{
                 background:
-                  "radial-gradient(circle at 50% 40%, rgba(220,175,100,0.14) 0%, rgba(18,18,20,1) 65%)",
+                  "radial-gradient(circle at 50% 40%, rgba(201,169,110,0.14) 0%, rgba(18,18,20,1) 65%)",
               }}
             >
               <span
@@ -3336,7 +3336,7 @@ function MonthlyRankingSatellite({
                 className="inline-flex items-center gap-1 px-1.5 py-[3px] backdrop-blur-sm"
                 style={{
                   background: "rgba(10,10,10,0.72)",
-                  border: "1px solid rgba(220,175,100,0.55)",
+                  border: "1px solid rgba(201,169,110,0.55)",
                   borderRadius: 2,
                 }}
                 title={labels.badgeVerified}
@@ -3619,8 +3619,8 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
             <button
               type="button"
               onClick={geo.clear}
-              className="group inline-flex items-center gap-2 px-3 py-[7px] text-[10px] tracking-[2px] uppercase font-bold text-[#000] bg-gradient-to-br from-[#f0c478] to-[#dcaf64] hover:brightness-110 transition-all"
-              style={{ borderRadius: 2, boxShadow: "0 2px 10px rgba(220,175,100,0.25)" }}
+              className="group inline-flex items-center gap-2 px-3 py-[7px] text-[10px] tracking-[2px] uppercase font-bold text-[#000] bg-gradient-to-br from-[#f0c478] to-[#C9A96E] hover:brightness-110 transition-all"
+              style={{ borderRadius: 2, boxShadow: "0 2px 10px rgba(201,169,110,0.25)" }}
               aria-label={t.academy.network.nearMeActive}
             >
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
@@ -3719,7 +3719,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
             style={{
               color: "var(--wh)",
               background:
-                "radial-gradient(circle at 50% 30%, rgba(220,175,100,0.06), transparent 60%)",
+                "radial-gradient(circle at 50% 30%, rgba(201,169,110,0.06), transparent 60%)",
             }}
             role="status"
             aria-live="polite"
@@ -3733,8 +3733,8 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
                 height: 64,
                 borderRadius: 999,
                 background:
-                  "radial-gradient(circle at 50% 50%, rgba(220,175,100,0.12), rgba(220,175,100,0.04) 60%, transparent 100%)",
-                border: "1px solid rgba(220,175,100,0.3)",
+                  "radial-gradient(circle at 50% 50%, rgba(201,169,110,0.12), rgba(201,169,110,0.04) 60%, transparent 100%)",
+                border: "1px solid rgba(201,169,110,0.3)",
               }}
             >
               <svg
@@ -4009,7 +4009,7 @@ function StatsSection() {
   return (
     <section className="relative bg-[var(--bk2)] py-[100px] max-[960px]:py-[72px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-b border-white/[.07] overflow-hidden">
       {/* Subtle glow */}
-      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(220,175,100,.03) 0%, transparent 70%)" }} />
+      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(201,169,110,.03) 0%, transparent 70%)" }} />
 
       <div className="max-w-[1200px] mx-auto grid grid-cols-5 max-[960px]:grid-cols-2 gap-y-12 relative z-10">
         {stats.map((s, i) => (
@@ -4060,7 +4060,7 @@ function CtaFinalSection() {
       {/* Radial gold glow */}
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{ background: "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(220,175,100,.07) 0%, transparent 70%)" }}
+        style={{ background: "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(201,169,110,.07) 0%, transparent 70%)" }}
       />
 
       <div

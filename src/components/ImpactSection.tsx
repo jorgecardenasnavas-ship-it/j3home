@@ -51,7 +51,7 @@ export function ImpactSection() {
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: `radial-gradient(ellipse 70% 50% at 50% 50%, rgba(220,175,100,${0.05 * p4}) 0%, transparent 70%)`,
+            background: `radial-gradient(ellipse 70% 50% at 50% 50%, rgba(201,169,110,${0.05 * p4}) 0%, transparent 70%)`,
           }}
         />
 

@@ -129,9 +129,9 @@ export function ChatBubble() {
           width: "min(360px, calc(100vw - 24px))",
           maxHeight: "min(520px, calc(100vh - 140px))",
           background: "#0a0a0a",
-          border: "1px solid rgba(220,175,100,0.25)",
+          border: "1px solid rgba(201,169,110,0.25)",
           borderRadius: 2,
-          boxShadow: "0 20px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(220,175,100,0.08)",
+          boxShadow: "0 20px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(201,169,110,0.08)",
           opacity: open ? 1 : 0,
           transform: open ? "translateY(0) scale(1)" : "translateY(16px) scale(0.96)",
           transformOrigin: "bottom right",
@@ -255,7 +255,7 @@ export function ChatBubble() {
         </span>
 
         <div
-          className="relative w-[52px] h-[52px] max-[960px]:w-[44px] max-[960px]:h-[44px] rounded-full flex items-center justify-center shadow-[0_4px_24px_rgba(220,175,100,.3)] transition-[transform,box-shadow] duration-300 ease-[var(--ease-out)] group-hover:shadow-[0_4px_32px_rgba(220,175,100,.45)] group-hover:scale-105"
+          className="relative w-[52px] h-[52px] max-[960px]:w-[44px] max-[960px]:h-[44px] rounded-full flex items-center justify-center shadow-[0_4px_24px_rgba(201,169,110,.3)] transition-[transform,box-shadow] duration-300 ease-[var(--ease-out)] group-hover:shadow-[0_4px_32px_rgba(201,169,110,.45)] group-hover:scale-105"
           style={{ background: "var(--j3-grad)" }}
         >
           {open ? (

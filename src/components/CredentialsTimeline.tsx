@@ -41,7 +41,7 @@ export function CredentialsTimeline() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 50% 60% at 80% 50%, rgba(220,175,100,.05) 0%, transparent 70%)",
+            "radial-gradient(ellipse 50% 60% at 80% 50%, rgba(201,169,110,.05) 0%, transparent 70%)",
         }}
       />
 

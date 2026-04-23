@@ -127,7 +127,7 @@ export function NosotrosSection() {
               {/* Hover glow */}
               <div
                 className="absolute inset-y-0 -left-2 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-md"
-                style={{ background: "linear-gradient(90deg, rgba(220,175,100,.06) 0%, transparent 80%)" }}
+                style={{ background: "linear-gradient(90deg, rgba(201,169,110,.06) 0%, transparent 80%)" }}
               />
 
               {/* Value + label row */}

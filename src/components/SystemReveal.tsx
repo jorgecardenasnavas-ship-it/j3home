@@ -54,7 +54,7 @@ export function SystemReveal() {
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: `radial-gradient(ellipse 60% 40% at 50% 50%, rgba(220,175,100,${0.04 * line1}) 0%, transparent 70%)`,
+            background: `radial-gradient(ellipse 60% 40% at 50% 50%, rgba(201,169,110,${0.04 * line1}) 0%, transparent 70%)`,
           }}
         />
 

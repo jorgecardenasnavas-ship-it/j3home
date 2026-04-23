@@ -38,7 +38,7 @@ export function HomeTextBlock() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(220,175,100,.04) 0%, transparent 70%)",
+            "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(201,169,110,.04) 0%, transparent 70%)",
         }}
       />
 

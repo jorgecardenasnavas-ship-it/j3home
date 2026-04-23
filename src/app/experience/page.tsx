@@ -141,8 +141,8 @@ function HeroSection() {
           className="absolute inset-0"
           style={{
             background: [
-              "radial-gradient(ellipse 80% 60% at 75% 25%, rgba(220,175,100,.13) 0%, transparent 60%)",
-              "radial-gradient(ellipse 60% 80% at 15% 75%, rgba(220,175,100,.07) 0%, transparent 55%)",
+              "radial-gradient(ellipse 80% 60% at 75% 25%, rgba(201,169,110,.13) 0%, transparent 60%)",
+              "radial-gradient(ellipse 60% 80% at 15% 75%, rgba(201,169,110,.07) 0%, transparent 55%)",
               "radial-gradient(ellipse 100% 100% at 50% 50%, #0d0d0d 0%, #000 100%)",
             ].join(","),
           }}
@@ -151,7 +151,7 @@ function HeroSection() {
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: "linear-gradient(rgba(220,175,100,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(220,175,100,.025) 1px, transparent 1px)",
+            backgroundImage: "linear-gradient(rgba(201,169,110,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(201,169,110,.025) 1px, transparent 1px)",
             backgroundSize: "80px 80px",
             maskImage: "radial-gradient(ellipse 90% 80% at 65% 35%, rgba(0,0,0,1) 0%, transparent 70%)",
             WebkitMaskImage: "radial-gradient(ellipse 90% 80% at 65% 35%, rgba(0,0,0,1) 0%, transparent 70%)",
@@ -319,7 +319,7 @@ function StatementSection() {
   return (
     <section className="relative bg-[var(--bk2)] py-32 max-[960px]:py-24 px-12 max-[960px]:px-6 border-b border-[var(--g1)]/15 overflow-hidden">
       {/* Subtle radial glow */}
-      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 70% 60% at 50% 40%, rgba(220,175,100,.04) 0%, transparent 70%)" }} />
+      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 70% 60% at 50% 40%, rgba(201,169,110,.04) 0%, transparent 70%)" }} />
 
       <div className="max-w-[1200px] mx-auto relative z-10">
         {/* Eyebrow */}
@@ -415,7 +415,7 @@ function CampCard({
       {/* Hover glow */}
       <div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-500"
-        style={{ background: "radial-gradient(600px circle at 50% 30%, rgba(220,175,100,0.05), transparent 50%)" }}
+        style={{ background: "radial-gradient(600px circle at 50% 30%, rgba(201,169,110,0.05), transparent 50%)" }}
       />
 
       <span className="text-[9px] font-bold tracking-[4px] uppercase text-[var(--g1)]/60 block mb-3">{label}</span>
@@ -436,7 +436,7 @@ function FlowCampSection() {
   const { itemRefs: aRefs, visibleItems: aVis } = useStaggerReveal(adultosCards.length, 0.15);
 
   return (
-    <section className="relative bg-[var(--bk)] overflow-hidden border-t border-[rgba(220,175,100,.2)]">
+    <section className="relative bg-[var(--bk)] overflow-hidden border-t border-[rgba(201,169,110,.2)]">
       {/* Section header */}
       <div
         ref={ref}
@@ -487,7 +487,7 @@ function FlowCampSection() {
       </div>
 
       {/* Gold separator */}
-      <div className="h-[3px] bg-[rgba(220,175,100,.15)]" />
+      <div className="h-[3px] bg-[rgba(201,169,110,.15)]" />
 
       {/* Sub-block B: Players Camp - Adultos */}
       <div>
@@ -526,7 +526,7 @@ function FlowCampSection() {
             href={waLink(t.experience.flowCamp.waMsg)}
             target="_blank"
             rel="noopener noreferrer"
-            className="j3-press btn-ghost inline-flex items-center gap-2 px-6 py-3 rounded-full border border-[var(--g1)]/35 text-[12px] font-bold tracking-[2px] uppercase text-[var(--g1)] hover:bg-[rgba(220,175,100,.07)]"
+            className="j3-press btn-ghost inline-flex items-center gap-2 px-6 py-3 rounded-full border border-[var(--g1)]/35 text-[12px] font-bold tracking-[2px] uppercase text-[var(--g1)] hover:bg-[rgba(201,169,110,.07)]"
           >
             <WaIcon size={13} />
             {t.experience.flowCamp.ctaButton}
@@ -552,7 +552,7 @@ function EmpresasSection() {
   const leftReveal = useReveal(0.15);
 
   return (
-    <section className="relative bg-[var(--bk)] overflow-hidden border-t border-[rgba(220,175,100,.2)]">
+    <section className="relative bg-[var(--bk)] overflow-hidden border-t border-[rgba(201,169,110,.2)]">
       {/* Section header */}
       <div
         ref={ref}
@@ -601,7 +601,7 @@ function EmpresasSection() {
               href={waLink(t.experience.empresas.waMsg)}
               target="_blank"
               rel="noopener noreferrer"
-              className="j3-press btn-ghost inline-flex items-center gap-2 px-6 py-3 rounded-full border border-[var(--g1)]/35 text-[12px] font-bold tracking-[2px] uppercase text-[var(--g1)] hover:bg-[rgba(220,175,100,.07)] self-start"
+              className="j3-press btn-ghost inline-flex items-center gap-2 px-6 py-3 rounded-full border border-[var(--g1)]/35 text-[12px] font-bold tracking-[2px] uppercase text-[var(--g1)] hover:bg-[rgba(201,169,110,.07)] self-start"
             >
               <WaIcon size={13} />
               {t.experience.empresas.ctaButton}
@@ -781,9 +781,9 @@ function StatsSection() {
   const { itemRefs, visibleItems } = useStaggerReveal(stats.length, 0.3);
 
   return (
-    <section className="relative bg-[var(--bk)] py-24 max-[960px]:py-16 px-12 max-[960px]:px-6 border-t border-[rgba(220,175,100,.2)] border-b border-b-[rgba(220,175,100,.2)] overflow-hidden">
+    <section className="relative bg-[var(--bk)] py-24 max-[960px]:py-16 px-12 max-[960px]:px-6 border-t border-[rgba(201,169,110,.2)] border-b border-b-[rgba(201,169,110,.2)] overflow-hidden">
       {/* Subtle glow */}
-      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(220,175,100,.03) 0%, transparent 70%)" }} />
+      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(201,169,110,.03) 0%, transparent 70%)" }} />
 
       <div className="max-w-[1200px] mx-auto grid grid-cols-4 max-[960px]:grid-cols-2 gap-y-12 relative z-10">
         {stats.map((s, i) => (
@@ -833,7 +833,7 @@ function CtaFinalSection() {
       {/* Radial gold glow */}
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{ background: "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(220,175,100,.07) 0%, transparent 70%)" }}
+        style={{ background: "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(201,169,110,.07) 0%, transparent 70%)" }}
       />
 
       <div

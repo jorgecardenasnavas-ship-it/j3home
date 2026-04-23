@@ -38,7 +38,7 @@ function FranquiciasSection() {
         className="absolute inset-x-0 bottom-0 h-[340px] pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse at 50% 100%, rgba(220,175,100,0.12) 0%, rgba(220,175,100,0) 65%)",
+            "radial-gradient(ellipse at 50% 100%, rgba(201,169,110,0.12) 0%, rgba(201,169,110,0) 65%)",
         }}
       />
 
@@ -102,7 +102,7 @@ function FranquiciasSection() {
           className="relative border border-[var(--g1)]/30 overflow-hidden"
           style={{
             background:
-              "linear-gradient(135deg, rgba(220,175,100,0.06) 0%, rgba(10,10,10,0.4) 55%, rgba(220,175,100,0.08) 100%)",
+              "linear-gradient(135deg, rgba(201,169,110,0.06) 0%, rgba(10,10,10,0.4) 55%, rgba(201,169,110,0.08) 100%)",
             borderRadius: 2,
           }}
         >
@@ -126,7 +126,7 @@ function FranquiciasSection() {
               <a
                 href={f.ctaPrimaryHref}
                 className="inline-flex items-center justify-center gap-2 text-[11px] font-bold tracking-[2.5px] uppercase text-black px-6 py-3.5 hover:gap-3 transition-all duration-300"
-                style={{ background: "linear-gradient(135deg, #dcaf64, #b8943e)", borderRadius: 2 }}
+                style={{ background: "linear-gradient(135deg, #C9A96E, #b8943e)", borderRadius: 2 }}
               >
                 {f.ctaPrimary}
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>

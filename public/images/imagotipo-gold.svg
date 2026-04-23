@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 205">
-  <defs>
-    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0" stop-color="#dcaf64"/>
-      <stop offset=".23" stop-color="#eddb7e"/>
-      <stop offset=".29" stop-color="#fff1b4"/>
-      <stop offset=".59" stop-color="#eede80"/>
-      <stop offset=".78" stop-color="#deb065"/>
-      <stop offset="1" stop-color="#dcaf64"/>
-    </linearGradient>
-  </defs>
-  <g fill="url(#g)">
+  <g fill="#C9A96E">
     <!-- Outer ring -->
     <path d="M74.13,0c-99.18,1.72-98.49,148.91-.03,150.44,99.53-2.75,98.92-148.04.03-150.44ZM131.88,86.77c-14.47,68.36-115.43,59.57-116.69-11.57C17.88-9.88,145.93,2.79,131.88,86.77Z"/>
     <!-- Inner quadrants -->

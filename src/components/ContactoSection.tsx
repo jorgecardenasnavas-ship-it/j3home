@@ -72,7 +72,7 @@ export function ContactoSection() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 60% 50% at 50% 30%, rgba(220,175,100,.05) 0%, transparent 70%)",
+            "radial-gradient(ellipse 60% 50% at 50% 30%, rgba(201,169,110,.05) 0%, transparent 70%)",
         }}
       />
 
@@ -106,7 +106,7 @@ export function ContactoSection() {
               className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-500"
               style={{
                 background:
-                  "radial-gradient(ellipse at 50% 30%, rgba(220,175,100,.06) 0%, transparent 70%)",
+                  "radial-gradient(ellipse at 50% 30%, rgba(201,169,110,.06) 0%, transparent 70%)",
               }}
             />
 

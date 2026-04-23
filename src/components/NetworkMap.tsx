@@ -52,11 +52,11 @@ const pinStyles = `
     width: 28px;
     height: 28px;
     border-radius: 999px;
-    background: radial-gradient(circle at 50% 50%, rgba(220,175,100,0.95), rgba(220,175,100,0.55) 60%, rgba(220,175,100,0) 100%);
+    background: radial-gradient(circle at 50% 50%, rgba(201,169,110,0.95), rgba(201,169,110,0.55) 60%, rgba(201,169,110,0) 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 0 2px rgba(0,0,0,0.55), 0 4px 16px rgba(220,175,100,0.4);
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.55), 0 4px 16px rgba(201,169,110,0.4);
     transition: transform .3s cubic-bezier(.16,1,.3,1);
   }
   .j3-pin-inner::after {
@@ -65,12 +65,12 @@ const pinStyles = `
     inset: 6px;
     border-radius: 999px;
     background: #0a0a0a;
-    border: 1px solid rgba(220,175,100,0.9);
+    border: 1px solid rgba(201,169,110,0.9);
   }
   .j3-pin-inner:hover,
   .j3-pin-inner.is-hovered {
     transform: scale(1.25);
-    box-shadow: 0 0 0 3px rgba(0,0,0,0.6), 0 8px 28px rgba(220,175,100,0.7);
+    box-shadow: 0 0 0 3px rgba(0,0,0,0.6), 0 8px 28px rgba(201,169,110,0.7);
   }
   /* Cuando el hover viene desde una card (sync externo), destacar más */
   .j3-pin-inner.is-hovered::after {
@@ -80,7 +80,7 @@ const pinStyles = `
   .j3-pin-lab {
     width: 48px;
     height: 48px;
-    box-shadow: 0 0 0 3px rgba(0,0,0,0.6), 0 6px 28px rgba(220,175,100,0.75);
+    box-shadow: 0 0 0 3px rgba(0,0,0,0.6), 0 6px 28px rgba(201,169,110,0.75);
   }
   .j3-pin-lab::after {
     inset: 10px;
@@ -90,13 +90,13 @@ const pinStyles = `
     position: absolute;
     inset: -8px;
     border-radius: 999px;
-    border: 1px solid rgba(220,175,100,0.4);
+    border: 1px solid rgba(201,169,110,0.4);
     animation: j3PulseRing 2.4s ease-out infinite;
   }
   .j3-pin-academy {
     width: 36px;
     height: 36px;
-    box-shadow: 0 0 0 2px rgba(0,0,0,0.55), 0 5px 20px rgba(220,175,100,0.55);
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.55), 0 5px 20px rgba(201,169,110,0.55);
   }
   .j3-pin-academy::after {
     inset: 7px;
@@ -113,14 +113,14 @@ const pinStyles = `
     position: absolute;
     inset: -4px;
     border-radius: 999px;
-    border: 1.5px solid rgba(220,175,100,0.55);
-    box-shadow: 0 0 8px rgba(220,175,100,0.3);
+    border: 1.5px solid rgba(201,169,110,0.55);
+    box-shadow: 0 0 8px rgba(201,169,110,0.3);
     pointer-events: none;
   }
   .j3-pin-inner.j3-pin-verified:hover::before,
   .j3-pin-inner.j3-pin-verified.is-hovered::before {
     border-color: rgba(240,196,120,0.9);
-    box-shadow: 0 0 12px rgba(220,175,100,0.55);
+    box-shadow: 0 0 12px rgba(201,169,110,0.55);
   }
 
   /* Coach en proceso de certificación: dot hollow pulsante.
@@ -137,14 +137,14 @@ const pinStyles = `
     width: 12px;
     height: 12px;
     border-radius: 999px;
-    border: 2px solid rgba(220,175,100,0.75);
-    background: rgba(220,175,100,0.18);
+    border: 2px solid rgba(201,169,110,0.75);
+    background: rgba(201,169,110,0.18);
     animation: j3SproutPulse 3.2s ease-in-out infinite;
     transition: transform .25s cubic-bezier(.16,1,.3,1);
   }
   .j3-pin-sprout-inner:hover {
     transform: scale(1.4);
-    background: rgba(220,175,100,0.3);
+    background: rgba(201,169,110,0.3);
     border-color: rgba(240,196,120,0.95);
   }
   .j3-pin-sprout-inner::before {
@@ -152,7 +152,7 @@ const pinStyles = `
     position: absolute;
     inset: -7px;
     border-radius: 999px;
-    border: 1px solid rgba(220,175,100,0.3);
+    border: 1px solid rgba(201,169,110,0.3);
     animation: j3SproutRing 3.2s ease-in-out infinite;
   }
   @keyframes j3SproutPulse {
@@ -174,8 +174,8 @@ const pinStyles = `
     animation: j3StageActivePulse 2.2s ease-in-out infinite;
   }
   @keyframes j3StageActivePulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(220,175,100,0.45), 0 0 6px rgba(220,175,100,0.4); }
-    50%      { box-shadow: 0 0 0 3px rgba(220,175,100,0), 0 0 12px rgba(220,175,100,0.7); }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(201,169,110,0.45), 0 0 6px rgba(201,169,110,0.4); }
+    50%      { box-shadow: 0 0 0 3px rgba(201,169,110,0), 0 0 12px rgba(201,169,110,0.7); }
   }
   @keyframes j3PulseRing {
     0%   { transform: scale(0.8); opacity: 1; }
@@ -185,7 +185,7 @@ const pinStyles = `
   .j3-marker-tooltip {
     background: rgba(10,10,10,0.95) !important;
     color: var(--wh) !important;
-    border: 1px solid rgba(220,175,100,0.35) !important;
+    border: 1px solid rgba(201,169,110,0.35) !important;
     border-radius: 999px !important;
     padding: 6px 14px !important;
     font-size: 11px !important;
@@ -198,7 +198,7 @@ const pinStyles = `
     gap: 6px !important;
   }
   .j3-marker-tooltip::before {
-    border-top-color: rgba(220,175,100,0.4) !important;
+    border-top-color: rgba(201,169,110,0.4) !important;
   }
   .j3-tt-name {
     display: inline-block;
@@ -225,20 +225,20 @@ const pinStyles = `
     font-size: 10px !important;
   }
   .leaflet-control-attribution a {
-    color: rgba(220,175,100,0.75) !important;
+    color: rgba(201,169,110,0.75) !important;
   }
   /* Controles de zoom (+/-) con estética J3 dark+gold */
   .leaflet-control-zoom {
-    border: 1px solid rgba(220,175,100,0.3) !important;
+    border: 1px solid rgba(201,169,110,0.3) !important;
     box-shadow: 0 4px 16px rgba(0,0,0,0.4) !important;
     border-radius: 2px !important;
     overflow: hidden !important;
   }
   .leaflet-control-zoom a {
     background: rgba(10,10,10,0.9) !important;
-    color: #dcaf64 !important;
+    color: #C9A96E !important;
     border: none !important;
-    border-bottom: 1px solid rgba(220,175,100,0.15) !important;
+    border-bottom: 1px solid rgba(201,169,110,0.15) !important;
     font-size: 18px !important;
     font-weight: 300 !important;
     width: 32px !important;
@@ -250,7 +250,7 @@ const pinStyles = `
     border-bottom: none !important;
   }
   .leaflet-control-zoom a:hover {
-    background: rgba(220,175,100,0.12) !important;
+    background: rgba(201,169,110,0.12) !important;
     color: #f0c478 !important;
   }
   .leaflet-control-zoom a.leaflet-disabled {
@@ -273,7 +273,7 @@ const pinStyles = `
     font-weight: 800;
     letter-spacing: -0.5px;
     font-variant-numeric: tabular-nums;
-    background: radial-gradient(circle at 50% 50%, #f0c478 0%, #dcaf64 55%, #b8943e 100%);
+    background: radial-gradient(circle at 50% 50%, #f0c478 0%, #C9A96E 55%, #b8943e 100%);
     transition: transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s ease;
     cursor: pointer;
   }
@@ -282,7 +282,7 @@ const pinStyles = `
     position: absolute;
     inset: -3px;
     border-radius: 999px;
-    border: 1px solid rgba(220,175,100,0.55);
+    border: 1px solid rgba(201,169,110,0.55);
     pointer-events: none;
   }
   .j3-cluster-inner:hover {
@@ -292,23 +292,23 @@ const pinStyles = `
     width: 32px;
     height: 32px;
     font-size: 13px;
-    box-shadow: 0 0 0 2px rgba(0,0,0,0.55), 0 3px 14px rgba(220,175,100,0.45);
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.55), 0 3px 14px rgba(201,169,110,0.45);
   }
   .j3-cluster-md {
     width: 40px;
     height: 40px;
     font-size: 15px;
-    box-shadow: 0 0 0 2px rgba(0,0,0,0.6), 0 5px 20px rgba(220,175,100,0.6);
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.6), 0 5px 20px rgba(201,169,110,0.6);
   }
   .j3-cluster-lg {
     width: 52px;
     height: 52px;
     font-size: 17px;
-    box-shadow: 0 0 0 3px rgba(0,0,0,0.65), 0 7px 28px rgba(220,175,100,0.75);
+    box-shadow: 0 0 0 3px rgba(0,0,0,0.65), 0 7px 28px rgba(201,169,110,0.75);
   }
   /* Spiderfy: líneas doradas suaves */
   .leaflet-cluster-spider-leg {
-    stroke: rgba(220,175,100,0.55) !important;
+    stroke: rgba(201,169,110,0.55) !important;
     stroke-width: 1.2 !important;
     stroke-opacity: 0.8 !important;
   }
@@ -353,7 +353,7 @@ const pinStyles = `
   .j3-legend {
     background: rgba(10,10,10,0.78) !important;
     backdrop-filter: blur(6px);
-    border: 1px solid rgba(220,175,100,0.28) !important;
+    border: 1px solid rgba(201,169,110,0.28) !important;
     border-radius: 2px !important;
     box-shadow: 0 6px 20px rgba(0,0,0,0.4) !important;
     padding: 10px 12px !important;
@@ -378,9 +378,9 @@ const pinStyles = `
     width: 18px;
     height: 18px;
     border-radius: 999px;
-    background: rgba(220,175,100,0.12);
-    border: 1px solid rgba(220,175,100,0.45);
-    color: #dcaf64;
+    background: rgba(201,169,110,0.12);
+    border: 1px solid rgba(201,169,110,0.45);
+    color: #C9A96E;
     font-family: ui-serif, Georgia, serif;
     font-style: italic;
     font-size: 11px;
@@ -391,7 +391,7 @@ const pinStyles = `
     letter-spacing: 0;
   }
   .j3-legend-title {
-    color: #dcaf64;
+    color: #C9A96E;
     font-weight: 700;
     letter-spacing: 2px;
     margin-bottom: 8px;
@@ -435,10 +435,10 @@ const pinStyles = `
   .j3-legend-separator {
     margin: 10px 0 4px 0;
     height: 1px;
-    background: rgba(220,175,100,0.2);
+    background: rgba(201,169,110,0.2);
   }
   .j3-legend-subtitle {
-    color: #dcaf64;
+    color: #C9A96E;
     font-weight: 700;
     letter-spacing: 2px;
     margin-bottom: 4px;
@@ -449,7 +449,7 @@ const pinStyles = `
     letter-spacing: 1.2px;
     font-size: 8.5px;
     text-transform: uppercase;
-    color: rgba(220,175,100,0.72);
+    color: rgba(201,169,110,0.72);
     font-weight: 600;
     margin-bottom: 2px;
   }
@@ -468,26 +468,26 @@ const pinStyles = `
     width: 3px;
     height: 3px;
     border-radius: 999px;
-    background: #dcaf64;
+    background: #C9A96E;
     flex-shrink: 0;
   }
   .j3-legend-dot {
     display: inline-block;
     border-radius: 999px;
     flex-shrink: 0;
-    background: radial-gradient(circle at 50% 50%, #f0c478 0%, #dcaf64 55%, #b8943e 100%);
-    box-shadow: 0 0 0 1px rgba(0,0,0,0.55), 0 1px 4px rgba(220,175,100,0.4);
+    background: radial-gradient(circle at 50% 50%, #f0c478 0%, #C9A96E 55%, #b8943e 100%);
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.55), 0 1px 4px rgba(201,169,110,0.4);
   }
   .j3-legend-dot-hq {
     width: 16px;
     height: 16px;
-    box-shadow: 0 0 0 1.5px rgba(0,0,0,0.6), 0 2px 8px rgba(220,175,100,0.7);
+    box-shadow: 0 0 0 1.5px rgba(0,0,0,0.6), 0 2px 8px rgba(201,169,110,0.7);
   }
   /* Dot "coach certificado" — gold lleno, espejo del pin estándar. */
   .j3-legend-dot-coach {
     width: 10px;
     height: 10px;
-    box-shadow: 0 0 0 1px rgba(0,0,0,0.55), 0 0 5px rgba(220,175,100,0.45);
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.55), 0 0 5px rgba(201,169,110,0.45);
   }
   /* Dot "coach verificado" — gold lleno + anillo exterior, espejo
      del pin verificado. */
@@ -495,14 +495,14 @@ const pinStyles = `
     width: 10px;
     height: 10px;
     position: relative;
-    box-shadow: 0 0 0 1px rgba(0,0,0,0.55), 0 0 5px rgba(220,175,100,0.55);
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.55), 0 0 5px rgba(201,169,110,0.55);
   }
   .j3-legend-dot-coach-rec::before {
     content: "";
     position: absolute;
     inset: -3px;
     border-radius: 999px;
-    border: 1px solid rgba(220,175,100,0.55);
+    border: 1px solid rgba(201,169,110,0.55);
     pointer-events: none;
   }
   .j3-legend-dot-cluster {
@@ -522,8 +522,8 @@ const pinStyles = `
     width: 10px;
     height: 10px;
     border-radius: 999px;
-    border: 2px solid rgba(220,175,100,0.7);
-    background: rgba(220,175,100,0.15);
+    border: 2px solid rgba(201,169,110,0.7);
+    background: rgba(201,169,110,0.15);
     flex-shrink: 0;
   }
 
@@ -532,9 +532,9 @@ const pinStyles = `
     transition: background .18s ease, color .18s ease, border-color .18s ease;
   }
   .j3-popup-social:hover {
-    background: rgba(220,175,100,0.18) !important;
+    background: rgba(201,169,110,0.18) !important;
     color: #f0c478 !important;
-    border-color: rgba(220,175,100,0.55) !important;
+    border-color: rgba(201,169,110,0.55) !important;
   }
 
   /* En móvil la fila de filtros (hero-rise-5) vive a top-[16px] del
@@ -714,21 +714,21 @@ function BadgeChip({
   const palette =
     tone === "hq"
       ? {
-          bg: "rgba(220,175,100,0.20)",
-          border: "rgba(220,175,100,0.55)",
+          bg: "rgba(201,169,110,0.20)",
+          border: "rgba(201,169,110,0.55)",
           color: "#f0c478",
           dot: "#f0c478",
         }
       : tone === "founder"
       ? {
-          bg: "rgba(220,175,100,0.04)",
-          border: "rgba(220,175,100,0.55)",
-          color: "#dcaf64",
+          bg: "rgba(201,169,110,0.04)",
+          border: "rgba(201,169,110,0.55)",
+          color: "#C9A96E",
           dot: "transparent",
         }
       : /* genone */ {
-          bg: "rgba(220,175,100,0.04)",
-          border: "rgba(220,175,100,0.35)",
+          bg: "rgba(201,169,110,0.04)",
+          border: "rgba(201,169,110,0.35)",
           color: "#c9a866",
           dot: "transparent",
         };
@@ -845,7 +845,7 @@ function PopupContent({
               height: 44,
               borderRadius: 999,
               objectFit: "cover",
-              border: isHqKind ? "2px solid #dcaf64" : "1px solid rgba(220,175,100,0.3)",
+              border: isHqKind ? "2px solid #C9A96E" : "1px solid rgba(201,169,110,0.3)",
               flexShrink: 0,
             }}
           />
@@ -856,14 +856,14 @@ function PopupContent({
               width: 44,
               height: 44,
               borderRadius: 999,
-              background: "rgba(220,175,100,0.08)",
-              border: "1px solid rgba(220,175,100,0.25)",
+              background: "rgba(201,169,110,0.08)",
+              border: "1px solid rgba(201,169,110,0.25)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               fontSize: 15,
               fontWeight: 700,
-              color: "#dcaf64",
+              color: "#C9A96E",
               letterSpacing: 1,
               flexShrink: 0,
             }}
@@ -924,7 +924,7 @@ function PopupContent({
                 display: "flex",
                 alignItems: "center",
                 gap: 5,
-                color: "#dcaf64",
+                color: "#C9A96E",
                 fontWeight: 600,
               }}
             >
@@ -950,7 +950,7 @@ function PopupContent({
                   width: 4,
                   height: 4,
                   borderRadius: 999,
-                  background: "#dcaf64",
+                  background: "#C9A96E",
                   flexShrink: 0,
                 }}
               />
@@ -987,7 +987,7 @@ function PopupContent({
             letterSpacing: 2,
             textTransform: "uppercase",
             color: "#000",
-            background: "linear-gradient(135deg, #dcaf64, #b8943e)",
+            background: "linear-gradient(135deg, #C9A96E, #b8943e)",
             border: "none",
             padding: "10px 12px",
             cursor: "pointer",
@@ -1016,8 +1016,8 @@ function PopupContent({
               justifyContent: "center",
               width: 30,
               background: "transparent",
-              border: "1px solid rgba(220,175,100,0.2)",
-              color: "rgba(220,175,100,0.75)",
+              border: "1px solid rgba(201,169,110,0.2)",
+              color: "rgba(201,169,110,0.75)",
               borderRadius: 2,
             }}
           >
@@ -1043,8 +1043,8 @@ function PopupContent({
               justifyContent: "center",
               width: 30,
               background: "transparent",
-              border: "1px solid rgba(220,175,100,0.2)",
-              color: "rgba(220,175,100,0.75)",
+              border: "1px solid rgba(201,169,110,0.2)",
+              color: "rgba(201,169,110,0.75)",
               borderRadius: 2,
             }}
           >
@@ -1069,8 +1069,8 @@ function PopupContent({
             justifyContent: "center",
             width: 30,
             background: "transparent",
-            border: "1px solid rgba(220,175,100,0.2)",
-            color: "rgba(220,175,100,0.75)",
+            border: "1px solid rgba(201,169,110,0.2)",
+            color: "rgba(201,169,110,0.75)",
             borderRadius: 2,
           }}
         >
@@ -1165,7 +1165,7 @@ function InProgressPopupContent({ coach: c, labels }: { coach: Coach; labels: Po
           fontWeight: 700,
           letterSpacing: 2,
           textTransform: "uppercase",
-          color: "#dcaf64",
+          color: "#C9A96E",
           marginBottom: 10,
         }}
       >
@@ -1175,8 +1175,8 @@ function InProgressPopupContent({ coach: c, labels }: { coach: Coach; labels: Po
             width: 8,
             height: 8,
             borderRadius: 999,
-            border: "1.5px solid rgba(220,175,100,0.78)",
-            background: "rgba(220,175,100,0.18)",
+            border: "1.5px solid rgba(201,169,110,0.78)",
+            background: "rgba(201,169,110,0.18)",
             flexShrink: 0,
           }}
         />
@@ -1220,7 +1220,7 @@ function InProgressPopupContent({ coach: c, labels }: { coach: Coach; labels: Po
       <div
         style={{
           paddingTop: 12,
-          borderTop: "1px solid rgba(220,175,100,0.18)",
+          borderTop: "1px solid rgba(201,169,110,0.18)",
         }}
       >
         <div
@@ -1240,16 +1240,16 @@ function InProgressPopupContent({ coach: c, labels }: { coach: Coach; labels: Po
             const dotStyle: React.CSSProperties =
               stage.state === "current"
                 ? {
-                    border: "1.5px solid rgba(220,175,100,0.95)",
-                    background: "rgba(220,175,100,0.35)",
+                    border: "1.5px solid rgba(201,169,110,0.95)",
+                    background: "rgba(201,169,110,0.35)",
                   }
                 : stage.state === "past"
                 ? {
-                    border: "1px solid rgba(220,175,100,0.55)",
-                    background: "rgba(220,175,100,0.38)",
+                    border: "1px solid rgba(201,169,110,0.55)",
+                    background: "rgba(201,169,110,0.38)",
                   }
                 : {
-                    border: "1px solid rgba(220,175,100,0.3)",
+                    border: "1px solid rgba(201,169,110,0.3)",
                     background: "transparent",
                   };
             return (
@@ -1275,8 +1275,8 @@ function InProgressPopupContent({ coach: c, labels }: { coach: Coach; labels: Po
                          comunica "ya recorrido" vs "por recorrer". */
                       background:
                         stage.state !== "future" && STAGES[i + 1].state !== "future"
-                          ? "rgba(220,175,100,0.45)"
-                          : "rgba(220,175,100,0.18)",
+                          ? "rgba(201,169,110,0.45)"
+                          : "rgba(201,169,110,0.18)",
                     }}
                   />
                 )}
@@ -1307,7 +1307,7 @@ function InProgressPopupContent({ coach: c, labels }: { coach: Coach; labels: Po
                   stage.state === "current"
                     ? "#f0c478"
                     : stage.state === "past"
-                    ? "rgba(220,175,100,0.7)"
+                    ? "rgba(201,169,110,0.7)"
                     : "rgba(245,240,232,0.38)",
                 flex: "0 0 auto",
               }}
@@ -1428,9 +1428,9 @@ function ClusteredMarkers({
       // Hover tooltip: nombre + insignia si Verificado/Cualificado (sin ciudad
       // — redundante, los pines ya están sobre el mapa).
       const tooltipBadge = isVerified
-        ? '<svg class="j3-tt-badge j3-tt-badge-verified" viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#dcaf64"/><path d="M7.5 12.5l3 3 6-6" stroke="#0a0a0a" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+        ? '<svg class="j3-tt-badge j3-tt-badge-verified" viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#C9A96E"/><path d="M7.5 12.5l3 3 6-6" stroke="#0a0a0a" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'
         : (c.certifiedAt && c.certificationActive !== false
-          ? '<svg class="j3-tt-badge j3-tt-badge-qualified" viewBox="0 0 24 24" width="11" height="11" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="#dcaf64" stroke-width="2.5"/><circle cx="12" cy="12" r="4" fill="#dcaf64"/></svg>'
+          ? '<svg class="j3-tt-badge j3-tt-badge-qualified" viewBox="0 0 24 24" width="11" height="11" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="#C9A96E" stroke-width="2.5"/><circle cx="12" cy="12" r="4" fill="#C9A96E"/></svg>'
           : "");
       m.bindTooltip(
         `<span class="j3-tt-name">${c.name}</span>${tooltipBadge}`,
@@ -1969,7 +1969,7 @@ function FloatingZoomControls({
     width: 36,
     height: 36,
     background: "rgba(10,10,10,0.92)",
-    color: "#dcaf64",
+    color: "#C9A96E",
     border: "none",
     cursor: "pointer",
     fontSize: 18,
@@ -1990,7 +1990,7 @@ function FloatingZoomControls({
         zIndex: 95,
         display: "flex",
         flexDirection: "column",
-        border: "1px solid rgba(220,175,100,0.3)",
+        border: "1px solid rgba(201,169,110,0.3)",
         borderRadius: 2,
         overflow: "hidden",
         boxShadow: "0 4px 18px rgba(0,0,0,0.5)",
@@ -2001,9 +2001,9 @@ function FloatingZoomControls({
         type="button"
         onClick={() => map.zoomIn()}
         aria-label="Acercar"
-        style={{ ...btnBase, borderBottom: "1px solid rgba(220,175,100,0.15)" }}
-        onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(220,175,100,0.14)"; e.currentTarget.style.color = "#f0c478"; }}
-        onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(10,10,10,0.92)"; e.currentTarget.style.color = "#dcaf64"; }}
+        style={{ ...btnBase, borderBottom: "1px solid rgba(201,169,110,0.15)" }}
+        onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(201,169,110,0.14)"; e.currentTarget.style.color = "#f0c478"; }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(10,10,10,0.92)"; e.currentTarget.style.color = "#C9A96E"; }}
       >
         +
       </button>
@@ -2012,8 +2012,8 @@ function FloatingZoomControls({
         onClick={() => map.zoomOut()}
         aria-label="Alejar"
         style={btnBase}
-        onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(220,175,100,0.14)"; e.currentTarget.style.color = "#f0c478"; }}
-        onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(10,10,10,0.92)"; e.currentTarget.style.color = "#dcaf64"; }}
+        onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(201,169,110,0.14)"; e.currentTarget.style.color = "#f0c478"; }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(10,10,10,0.92)"; e.currentTarget.style.color = "#C9A96E"; }}
       >
         −
       </button>
@@ -2025,9 +2025,9 @@ function FloatingZoomControls({
         onClick={handleResetView}
         aria-label="Ver toda la red"
         title="Ver toda la red"
-        style={{ ...btnBase, borderTop: "1px solid rgba(220,175,100,0.15)" }}
-        onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(220,175,100,0.14)"; e.currentTarget.style.color = "#f0c478"; }}
-        onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(10,10,10,0.92)"; e.currentTarget.style.color = "#dcaf64"; }}
+        style={{ ...btnBase, borderTop: "1px solid rgba(201,169,110,0.15)" }}
+        onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(201,169,110,0.14)"; e.currentTarget.style.color = "#f0c478"; }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(10,10,10,0.92)"; e.currentTarget.style.color = "#C9A96E"; }}
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden style={{ display: "inline-block", verticalAlign: "middle" }}>
           <path d="M3 8V5a2 2 0 0 1 2-2h3" />
