@@ -129,16 +129,17 @@ export function HomeGlobe() {
     };
   }, [points, arcs, rings]);
 
+  const isMobile = typeof window !== "undefined" && window.innerWidth <= 960;
+
   return (
     <div
       ref={containerRef}
       className="absolute"
-      style={{
-        right: "-8%",
-        top: "-18%",
-        width: "72%",
-        height: "136%",
-      }}
+      style={
+        isMobile
+          ? { left: "-25%", bottom: "-12%", width: "150%", height: "80%" }
+          : { right: "-8%", top: "-18%", width: "72%", height: "136%" }
+      }
     />
   );
 }
