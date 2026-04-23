@@ -54,17 +54,37 @@ export function HeroSection() {
       {/* Curtain reveal */}
       <div className="hero-curtain absolute inset-0 z-[4] bg-[var(--bk3)] pointer-events-none" />
 
-      {/* Scroll indicator */}
-      <div aria-hidden className="scroll-arrows absolute bottom-8 left-1/2 -translate-x-1/2 z-[5]">
-        <svg className="scroll-arrow scroll-arrow-1" width="22" height="11" viewBox="0 0 20 10" fill="none" stroke="#C9A96E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M2 2 L10 8 L18 2" />
-        </svg>
-        <svg className="scroll-arrow scroll-arrow-2" width="22" height="11" viewBox="0 0 20 10" fill="none" stroke="#C9A96E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M2 2 L10 8 L18 2" />
-        </svg>
-        <svg className="scroll-arrow scroll-arrow-3" width="22" height="11" viewBox="0 0 20 10" fill="none" stroke="#C9A96E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M2 2 L10 8 L18 2" />
-        </svg>
+      {/* Scroll indicator — igual que /academy */}
+      <style>{`
+        @keyframes j3ChevPulse {
+          0%, 100% { opacity: 0.18; }
+          50%      { opacity: 1;    }
+        }
+      `}</style>
+      <div
+        aria-hidden
+        className="absolute bottom-5 left-1/2 -translate-x-1/2 z-[5] flex flex-col items-center gap-[2px] p-2 pointer-events-none"
+      >
+        {[0, 1, 2].map((i) => (
+          <svg
+            key={i}
+            width="20"
+            height="10"
+            viewBox="0 0 20 10"
+            fill="none"
+            stroke="#d4b882"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden
+            style={{
+              animation: "j3ChevPulse 1.6s cubic-bezier(.4,0,.6,1) infinite",
+              animationDelay: `${i * 0.18}s`,
+            }}
+          >
+            <path d="M2 2 L10 8 L18 2" />
+          </svg>
+        ))}
       </div>
 
       {/* Content */}
