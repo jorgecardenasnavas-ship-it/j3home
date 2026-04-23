@@ -33,7 +33,7 @@ export function HeroSection() {
     <section
       id="hero"
       ref={heroRef}
-      className="min-h-[88vh] relative flex flex-col items-center justify-end pb-20 max-[960px]:pb-14 overflow-hidden"
+      className="h-screen relative flex flex-col items-center justify-end pb-20 max-[960px]:pb-14 overflow-hidden"
     >
       {/* Background video */}
       <video
