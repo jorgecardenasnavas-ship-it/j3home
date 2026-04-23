@@ -27,19 +27,13 @@ export function HeroClaim() {
         {t.hero.play}
       </span>
 
-      {/* COACH — serif itálica blanca */}
-      <span
-        className={`hero-claim-word hero-word block text-j3-hero leading-[.88] italic text-[var(--wh)] ${visible[1] ? "in" : ""}`}
-        style={{ fontFamily: "var(--font-serif)", letterSpacing: "-1px" }}
-      >
+      {/* COACH — blanco puro */}
+      <span className={`hero-claim-word hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] text-[var(--wh)] ${visible[1] ? "in" : ""}`}>
         {t.hero.coach}
       </span>
 
-      {/* MANAGE — contorno champán, sin relleno */}
-      <span
-        className={`hero-claim-word hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] ${visible[2] ? "in" : ""}`}
-        style={{ WebkitTextStroke: "2px var(--g1)", color: "transparent" }}
-      >
+      {/* MANAGE — crema cálida */}
+      <span className={`hero-claim-word hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] text-[#E8D9B8] ${visible[2] ? "in" : ""}`}>
         {t.hero.manage}
       </span>
     </div>
