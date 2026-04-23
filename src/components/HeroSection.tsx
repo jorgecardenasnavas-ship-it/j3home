@@ -4,7 +4,8 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { HeroClaim } from "@/components/HeroClaim";
 
-const VIDEO_START = 3;
+const VIDEO_START = 16.4;
+const VIDEO_END = 35.1;
 
 export function HeroSection() {
   const heroRef = useRef<HTMLElement>(null);
@@ -41,14 +42,18 @@ export function HeroSection() {
       {/* Video */}
       <video
         ref={videoRef}
-        src="/videos/coach360-higueron.mp4"
+        src="/videos/higueron-hero.mp4"
         autoPlay
         muted
-        loop
         playsInline
         className="absolute inset-0 w-full h-full object-cover scale-[1.08]"
         onLoadedMetadata={() => { if (videoRef.current) videoRef.current.currentTime = VIDEO_START; }}
         onSeeked={() => { videoRef.current?.play().catch(() => {}); }}
+        onTimeUpdate={() => {
+          if (videoRef.current && videoRef.current.currentTime >= VIDEO_END) {
+            videoRef.current.currentTime = VIDEO_START;
+          }
+        }}
       />
 
       {/* Overlay */}
