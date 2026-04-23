@@ -15,19 +15,52 @@ function TileBackground({
 }: {
   asset: HomeProduct["asset"];
   objectPosition?: string;
-  /** If true, video/image preloads immediately. Default lazy via preload="none" / loading="lazy". */
   eager?: boolean;
 }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
   const style = objectPosition ? { objectPosition } : undefined;
+
+  useEffect(() => {
+    if (asset.type !== "video") return;
+    const { videoStart, videoEnd } = asset;
+    if (videoStart === undefined) return;
+    const video = videoRef.current;
+    if (!video) return;
+
+    const startPlayback = () => {
+      video.currentTime = videoStart;
+      video.play().catch(() => {});
+    };
+    const onTimeUpdate = () => {
+      if (videoEnd !== undefined && video.currentTime >= videoEnd) {
+        video.currentTime = videoStart;
+      }
+    };
+
+    if (video.readyState >= 1) {
+      startPlayback();
+    } else {
+      video.addEventListener("loadedmetadata", startPlayback);
+    }
+    video.addEventListener("timeupdate", onTimeUpdate);
+    return () => {
+      video.removeEventListener("loadedmetadata", startPlayback);
+      video.removeEventListener("timeupdate", onTimeUpdate);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   if (asset.type === "video") {
+    const hasSegment = asset.videoStart !== undefined;
     return (
       <div className="tile-bg">
         <video
+          ref={hasSegment ? videoRef : undefined}
           src={asset.src}
           poster={asset.poster}
-          autoPlay
+          autoPlay={!hasSegment}
           muted
-          loop
+          loop={!hasSegment}
           playsInline
           preload={eager ? "metadata" : "none"}
           aria-hidden="true"

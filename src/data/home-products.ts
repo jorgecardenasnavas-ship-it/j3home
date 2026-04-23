@@ -12,7 +12,7 @@ export interface HomeProduct {
   isExternal: boolean;
   soon: boolean;
   fullWidth: boolean;
-  asset: { type: "image" | "video"; src: string; poster?: string };
+  asset: { type: "image" | "video"; src: string; poster?: string; videoStart?: number; videoEnd?: number };
   audience: HomeProductAudience;
 }
 
@@ -29,7 +29,7 @@ export const HOME_PRODUCTS: HomeProduct[] = [
     isExternal: true,
     soon: false,
     fullWidth: false,
-    asset: { type: "video", src: "/videos/coach360-higueron.mp4" },
+    asset: { type: "video", src: "/videos/higueron-hero.mp4", videoStart: 3.8, videoEnd: 16.6 },
     audience: "coach",
   },
   {
