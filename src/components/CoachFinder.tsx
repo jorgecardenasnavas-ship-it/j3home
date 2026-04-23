@@ -15,7 +15,7 @@ export function CoachFinder() {
   return (
     <section
       id="coach-finder"
-      className="relative w-full h-[70vh] min-h-[520px] max-[960px]:h-[65vh] max-[960px]:min-h-[480px] overflow-hidden bg-black border-t border-white/[0.06]"
+      className="relative w-full h-[70vh] min-h-[520px] max-[960px]:h-[65vh] max-[960px]:min-h-[480px] overflow-hidden bg-[var(--bk)] border-t border-white/[0.06]"
     >
       {/* Globe 3D — posicionado desde el propio componente */}
       <HomeGlobe />
