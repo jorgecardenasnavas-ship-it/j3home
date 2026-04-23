@@ -4,8 +4,8 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useI18n } from "@/i18n/context";
 
-const HomeMap = dynamic(
-  () => import("@/components/HomeMap").then((m) => ({ default: m.HomeMap })),
+const HomeGlobe = dynamic(
+  () => import("@/components/HomeGlobe").then((m) => ({ default: m.HomeGlobe })),
   { ssr: false },
 );
 
@@ -17,9 +17,9 @@ export function CoachFinder() {
       id="coach-finder"
       className="relative w-full h-[70vh] min-h-[520px] max-[960px]:h-[65vh] max-[960px]:min-h-[480px] overflow-hidden bg-black border-t border-white/[0.06]"
     >
-      {/* Home map — HQ Málaga hub + curved lines + dots */}
+      {/* Globe 3D */}
       <div className="absolute inset-0 z-0">
-        <HomeMap />
+        <HomeGlobe />
       </div>
 
       {/* Desktop gradient — horizontal, darkens left side for text */}
