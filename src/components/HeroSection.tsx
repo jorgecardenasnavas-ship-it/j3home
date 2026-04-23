@@ -48,9 +48,6 @@ export function HeroSection() {
       {/* Overlay */}
       <div className="absolute inset-0" style={{ background: "rgba(14,28,22,0.52)" }} />
 
-      {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 w-full h-28 bg-gradient-to-t from-[var(--bk3)] to-transparent" />
-
       {/* Curtain reveal */}
       <div className="hero-curtain absolute inset-0 z-[4] bg-[var(--bk3)] pointer-events-none" />
 
