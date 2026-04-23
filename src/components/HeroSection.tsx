@@ -36,9 +36,9 @@ export function HeroSection() {
     <section
       id="hero"
       ref={heroRef}
-      className="h-[84vh] max-[960px]:h-[62vh] relative flex flex-col items-center justify-end pb-20 max-[960px]:pb-4 overflow-hidden"
+      className="h-[84vh] max-[960px]:h-[62vh] relative flex flex-col items-center justify-end pb-16 max-[960px]:pb-8 overflow-hidden"
     >
-      {/* Video — scale 1.08 recorta los bordes oscuros sin efectos */}
+      {/* Video */}
       <video
         ref={videoRef}
         src="/videos/coach360-higueron.mp4"
@@ -57,40 +57,13 @@ export function HeroSection() {
       {/* Curtain reveal */}
       <div className="hero-curtain absolute inset-0 z-[4] bg-[var(--bk3)] pointer-events-none" />
 
-      {/* Scroll indicator */}
+      {/* Content + chevrons en flujo */}
       <style>{`
         @keyframes j3ChevPulse {
           0%, 100% { opacity: 0.18; }
           50%      { opacity: 1;    }
         }
       `}</style>
-      <div
-        aria-hidden
-        className="absolute bottom-5 left-1/2 -translate-x-1/2 z-[5] flex flex-col items-center gap-[2px] p-2 pointer-events-none"
-      >
-        {[0, 1, 2].map((i) => (
-          <svg
-            key={i}
-            width="20"
-            height="10"
-            viewBox="0 0 20 10"
-            fill="none"
-            stroke="#d4b882"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden
-            style={{
-              animation: "j3ChevPulse 1.6s cubic-bezier(.4,0,.6,1) infinite",
-              animationDelay: `${i * 0.18}s`,
-            }}
-          >
-            <path d="M2 2 L10 8 L18 2" />
-          </svg>
-        ))}
-      </div>
-
-      {/* Content */}
       <div className="relative z-[5] flex flex-col items-center text-center gap-6">
         <span className="text-[11px] font-normal tracking-[5px] uppercase text-[var(--g1)]">
           J3 ACADEMY
@@ -104,6 +77,30 @@ export function HeroSection() {
         >
           Descúbrenos
         </Link>
+
+        {/* Chevrons debajo del botón, en flujo */}
+        <div aria-hidden className="flex flex-col items-center gap-[2px] pointer-events-none mt-[-8px]">
+          {[0, 1, 2].map((i) => (
+            <svg
+              key={i}
+              width="20"
+              height="10"
+              viewBox="0 0 20 10"
+              fill="none"
+              stroke="#d4b882"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden
+              style={{
+                animation: "j3ChevPulse 1.6s cubic-bezier(.4,0,.6,1) infinite",
+                animationDelay: `${i * 0.18}s`,
+              }}
+            >
+              <path d="M2 2 L10 8 L18 2" />
+            </svg>
+          ))}
+        </div>
       </div>
     </section>
   );
