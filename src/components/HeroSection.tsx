@@ -14,23 +14,46 @@ export function HeroSection() {
   useEffect(() => {
     const section = heroRef.current;
     if (!section) return;
-
     const curtain = section.querySelector<HTMLElement>(".hero-curtain");
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            curtain?.classList.add("in");
-            observer.disconnect();
-          }
+          if (entry.isIntersecting) { curtain?.classList.add("in"); observer.disconnect(); }
         });
       },
       { threshold: 0.1 },
     );
-
     observer.observe(section);
     return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const startPlayback = () => {
+      video.currentTime = VIDEO_START;
+      video.play().catch(() => {});
+    };
+
+    const onTimeUpdate = () => {
+      if (video.currentTime >= VIDEO_END) {
+        video.currentTime = VIDEO_START;
+      }
+    };
+
+    // readyState >= 1 means metadata already loaded (common on cached/fast loads)
+    if (video.readyState >= 1) {
+      startPlayback();
+    } else {
+      video.addEventListener("loadedmetadata", startPlayback);
+    }
+
+    video.addEventListener("timeupdate", onTimeUpdate);
+    return () => {
+      video.removeEventListener("loadedmetadata", startPlayback);
+      video.removeEventListener("timeupdate", onTimeUpdate);
+    };
   }, []);
 
   return (
@@ -43,17 +66,10 @@ export function HeroSection() {
       <video
         ref={videoRef}
         src="/videos/higueron-hero.mp4"
-        autoPlay
         muted
         playsInline
+        preload="auto"
         className="absolute inset-0 w-full h-full object-cover scale-[1.08]"
-        onLoadedMetadata={() => { if (videoRef.current) videoRef.current.currentTime = VIDEO_START; }}
-        onSeeked={() => { videoRef.current?.play().catch(() => {}); }}
-        onTimeUpdate={() => {
-          if (videoRef.current && videoRef.current.currentTime >= VIDEO_END) {
-            videoRef.current.currentTime = VIDEO_START;
-          }
-        }}
       />
 
       {/* Overlay */}
