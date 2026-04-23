@@ -635,6 +635,7 @@ html[data-theme="light"] .theme-eyebrow {
 
 /* Claim word states */
 .hero-claim-word {
+  color: var(--champan);
   transition:
     opacity 500ms cubic-bezier(0.22, 1, 0.36, 1),
     color 500ms cubic-bezier(0.22, 1, 0.36, 1),
