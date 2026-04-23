@@ -75,9 +75,9 @@ export const sv = {
       label: "produkter",
     },
     coachFinder: {
-      label: "N\u00E4tverket",
+      label: "Rekommenderade coacher",
       title: "Hitta din coach",
-      subtitle: "J3-certifierade tr\u00E4nare n\u00E4ra dig.",
+      subtitle: "Engagerade, certifierade och verifierade coacher nära dig.",
       cta: "Utforska n\u00E4tverket",
     },
   },

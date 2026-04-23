@@ -75,9 +75,9 @@ export const en = {
       label: "products",
     },
     coachFinder: {
-      label: "The network",
+      label: "Recommended coaches",
       title: "Find your coach",
-      subtitle: "J3 certified coaches near you.",
+      subtitle: "Committed, certified and verified coaches near you.",
       cta: "Explore the network",
     },
   },

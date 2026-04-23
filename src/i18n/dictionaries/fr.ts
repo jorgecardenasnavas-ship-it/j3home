@@ -75,9 +75,9 @@ export const fr = {
       label: "produits",
     },
     coachFinder: {
-      label: "Le r\u00E9seau",
+      label: "Coachs recommandés",
       title: "Trouve ton coach",
-      subtitle: "Entra\u00EEneurs certifi\u00E9s J3 pr\u00E8s de chez toi.",
+      subtitle: "Coachs engagés, certifiés et vérifiés près de chez toi.",
       cta: "Explorer le r\u00E9seau",
     },
   },

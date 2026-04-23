@@ -75,9 +75,9 @@ export const es = {
       label: "productos",
     },
     coachFinder: {
-      label: "La red",
+      label: "Entrenadores recomendados",
       title: "Encuentra a tu coach",
-      subtitle: "Entrenadores certificados J3 cerca de ti.",
+      subtitle: "Entrenadores comprometidos, certificados y verificados cerca de ti.",
       cta: "Explorar la red",
     },
   },
