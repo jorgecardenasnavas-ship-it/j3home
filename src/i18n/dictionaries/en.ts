@@ -28,9 +28,9 @@ export const en = {
   /* ── Home page ── */
 
   hero: {
-    play: "Play.",
-    coach: "Coach.",
-    manage: "Manage.",
+    play: "Play",
+    coach: "Coach",
+    manage: "Manage",
     milestones: [
       { year: "2004", text: "The journey begins" },
       { year: "2014", text: "World Padel Tour host" },

@@ -28,9 +28,9 @@ export const sv = {
   /* ── Home page ── */
 
   hero: {
-    play: "Play.",
-    coach: "Coach.",
-    manage: "Manage.",
+    play: "Play",
+    coach: "Coach",
+    manage: "Manage",
     milestones: [
       { year: "2004", text: "Resan börjar" },
       { year: "2014", text: "Värd för World Padel Tour" },
