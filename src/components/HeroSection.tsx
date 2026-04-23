@@ -36,7 +36,7 @@ export function HeroSection() {
     <section
       id="hero"
       ref={heroRef}
-      className="h-[84vh] max-[960px]:h-[75vh] relative flex flex-col items-center justify-end pb-20 max-[960px]:pb-14 overflow-hidden"
+      className="h-[84vh] max-[960px]:h-[68vh] relative flex flex-col items-center justify-end pb-20 max-[960px]:pb-14 overflow-hidden"
     >
       {/* Video — scale 1.08 recorta los bordes oscuros sin efectos */}
       <video
