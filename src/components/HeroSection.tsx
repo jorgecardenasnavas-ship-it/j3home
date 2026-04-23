@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { HeroClaim } from "@/components/HeroClaim";
 
-const VIDEO_START = 16.4;
+const VIDEO_START = 16.6;
 const VIDEO_END = 35.1;
 
 export function HeroSection() {
