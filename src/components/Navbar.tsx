@@ -95,7 +95,7 @@ export function Navbar() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-[110] h-[52px] flex items-center justify-between px-12 max-[960px]:px-6 border-b transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-[110] h-[64px] flex items-center justify-between px-12 max-[960px]:px-6 border-b transition-all duration-300 ${
           scrolled
             ? "border-[rgba(27,61,47,0.12)] shadow-[0_1px_16px_rgba(27,61,47,0.08)]"
             : "border-[rgba(27,61,47,0.07)]"
@@ -112,7 +112,7 @@ export function Navbar() {
           <img
             src="/images/j3padel-text-dark.svg"
             alt="J3Pádel"
-            className="h-[22px] w-auto select-none"
+            className="h-[26px] w-auto select-none"
             draggable={false}
           />
         </Link>
@@ -126,7 +126,7 @@ export function Navbar() {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[12px] font-normal tracking-[1px] no-underline uppercase transition-colors duration-300 text-[rgba(27,61,47,0.5)] hover:text-[var(--verde)]"
+                  className="text-[12px] font-semibold tracking-[1.5px] no-underline uppercase transition-colors duration-300 text-[rgba(27,61,47,0.55)] hover:text-[var(--verde)]"
                 >
                   {link.label}
                 </a>
@@ -137,7 +137,7 @@ export function Navbar() {
                   className={`text-[12px] font-normal tracking-[1px] no-underline uppercase transition-colors duration-300 ${
                     pathname === link.href
                       ? "text-[var(--g1)]"
-                      : "text-[rgba(27,61,47,0.5)] hover:text-[var(--verde)]"
+                      : "text-[rgba(27,61,47,0.55)] hover:text-[var(--verde)]"
                   }`}
                 >
                   {link.label}
@@ -170,7 +170,7 @@ export function Navbar() {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[12px] font-normal tracking-[1px] no-underline uppercase transition-colors duration-300 text-[rgba(27,61,47,0.5)] hover:text-[var(--verde)]"
+                  className="text-[12px] font-semibold tracking-[1.5px] no-underline uppercase transition-colors duration-300 text-[rgba(27,61,47,0.55)] hover:text-[var(--verde)]"
                 >
                   {link.label}
                 </a>
@@ -181,7 +181,7 @@ export function Navbar() {
                   className={`text-[12px] font-normal tracking-[1px] no-underline uppercase transition-colors duration-300 ${
                     pathname === link.href
                       ? "text-[var(--g1)]"
-                      : "text-[rgba(27,61,47,0.5)] hover:text-[var(--verde)]"
+                      : "text-[rgba(27,61,47,0.55)] hover:text-[var(--verde)]"
                   }`}
                 >
                   {link.label}
@@ -197,7 +197,7 @@ export function Navbar() {
           <div ref={langRef} className="relative">
             <button
               onClick={() => setLangOpen(prev => !prev)}
-              className="flex items-center gap-[5px] text-[12px] font-normal tracking-[1px] uppercase text-[rgba(27,61,47,0.5)] hover:text-[var(--verde)] transition-colors duration-300 bg-transparent border-none cursor-pointer"
+              className="flex items-center gap-[5px] text-[12px] font-semibold tracking-[1.5px] uppercase text-[rgba(27,61,47,0.55)] hover:text-[var(--verde)] transition-colors duration-300 bg-transparent border-none cursor-pointer"
             >
               <GlobeIcon />
               <span>{currentLang.code.toUpperCase()}</span>
