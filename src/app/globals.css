@@ -1487,7 +1487,7 @@ html[data-theme="light"] .theme-eyebrow {
 .home-map-dot--plus:hover .home-map-dot-inner {
   transform: scale(1.6);
   background: rgba(201, 169, 110, 0.25);
-  border-color: rgba(240, 208, 128, 0.9);
+  border-color: rgba(223, 194, 138, 0.9);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.55), 0 0 10px rgba(201, 169, 110, 0.5);
 }
 
@@ -2047,7 +2047,7 @@ html[data-theme="light"] .theme-eyebrow {
   color: #1d1d1f;
 }
 .home-manifesto-accent {
-  color: #C9A96E;
+  color: var(--champan);
 }
 @media (max-width: 960px) {
   .home-manifesto-line {
