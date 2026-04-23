@@ -71,7 +71,7 @@ export function HeroSection() {
       <div className="relative z-[5] w-full h-full grid grid-cols-[45%_55%] max-[960px]:grid-cols-1 items-center px-12 max-[960px]:px-6">
         {/* Claim */}
         <div className="flex items-center max-[960px]:mb-4">
-          <HeroClaim activeAudience={activeAudience} />
+          <HeroClaim />
         </div>
         {/* Orbital */}
         <div className="relative h-full max-[960px]:h-auto">
