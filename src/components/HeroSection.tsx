@@ -36,7 +36,7 @@ export function HeroSection() {
     <section
       id="hero"
       ref={heroRef}
-      className="h-screen relative flex flex-col items-center justify-end pb-20 max-[960px]:pb-14 overflow-hidden"
+      className="h-[84vh] relative flex flex-col items-center justify-end pb-20 max-[960px]:pb-14 overflow-hidden bg-[var(--negro-v)]"
     >
       {/* Background video */}
       <video
@@ -47,6 +47,7 @@ export function HeroSection() {
         loop
         playsInline
         className="absolute inset-0 w-full h-full object-cover"
+        style={{ backgroundColor: "var(--negro-v)" }}
         onLoadedMetadata={() => { if (videoRef.current) videoRef.current.currentTime = VIDEO_START; }}
         onSeeked={() => { videoRef.current?.play().catch(() => {}); }}
       />
