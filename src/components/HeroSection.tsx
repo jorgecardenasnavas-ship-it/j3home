@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { HeroClaim } from "@/components/HeroClaim";
 import { HeroOrbital } from "@/components/HeroOrbital";
+import { HeroVideoMontage } from "@/components/HeroVideoMontage";
 import {
   HOME_PRODUCTS,
   type HomeProduct,
@@ -47,7 +48,7 @@ export function HeroSection() {
       ref={heroRef}
       className="h-[58vh] min-h-[460px] relative overflow-hidden flex flex-col justify-end max-[960px]:h-[65vh]"
     >
-      {/* Background photo */}
+      {/* Fallback whilst videos load */}
       <img
         src="/images/hero.jpeg"
         alt=""
@@ -55,8 +56,11 @@ export function HeroSection() {
         className="absolute inset-0 w-full h-full object-cover object-center"
       />
 
+      {/* Video montage */}
+      <HeroVideoMontage />
+
       {/* Verde Academia overlay */}
-      <div className="absolute inset-0" style={{ background: "rgba(27,61,47,0.58)" }} />
+      <div className="absolute inset-0" style={{ background: "rgba(27,61,47,0.55)" }} />
 
       {/* Bottom fade — blends into next section */}
       <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[var(--bk3)] to-transparent" />
