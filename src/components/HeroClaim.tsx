@@ -38,7 +38,7 @@ export function HeroClaim() {
       {/* MANAGE — crema cálida */}
       <span
         className={`hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] ${visible[2] ? "in" : ""}`}
-        style={{ color: "#E8D9B8", WebkitTextFillColor: "#E8D9B8" }}
+        style={{ color: "#52B788", WebkitTextFillColor: "#52B788" }}
       >
         {t.hero.manage}
       </span>
