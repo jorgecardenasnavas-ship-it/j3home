@@ -72,11 +72,14 @@ El equipo no genera el contenido del base — lo generan los coaches que se cert
 | **Cómo** | Superar umbral XP en el 360 | Portfolio completo + evaluación | Programa Verificación 90 días + evaluación 3 fundadores |
 | **Coste** | Incluido en 360 | 347 € + renovación 97 €/año | 1.500 € · máximo 10 plazas año 1 |
 | **Re-evaluación** | — | — | 300-400 € tras mínimo 3 meses |
-| **Ficha pública** | Completa | Verificada | Premium · posición preferente en ranking |
+| **Ficha pública** | Completa | Badge "Certificado" visible | Badge "Certificado" + insignia "Verificado" + posición preferente en ranking (activo mientras esté al día con la renovación anual) |
 
-### Badge especial: Fundador
+### Badges especiales de pertenencia
 
-Los 87 coaches que forman parte del Coach 360 antes del lanzamiento del nuevo plan base reciben el badge **"Fundador"** de forma automática y permanente. No se puede conseguir después. Reconoce a los early adopters y refuerza su lealtad al ecosistema.
+| Badge | Quién lo recibe | Cómo se obtiene |
+|---|---|---|
+| **Founders** | Los 87 coaches del Coach 360 en el momento del lanzamiento del plan base | Automático y permanente. No se puede conseguir después. |
+| **Gen ONE** | Coaches que entraron a la plataforma antes de 2026 | Automático y permanente. No se puede conseguir después. |
 
 ---
 
@@ -157,8 +160,8 @@ Un coach certificado o verificado que quiere montar academia es el cliente más 
 |---|---|
 | Coach (19€) | Sin descuento |
 | Coach 360 (49€) | Sin descuento |
-| J3 Certified | 10% descuento → 1.620 € |
-| J3 Verified | 15% descuento → 1.530 € |
+| J3 Certified | 20% descuento → 1.440 € |
+| J3 Verified | 40% descuento → 1.080 € |
 
 Solo aplica al Step 1, no al Step 2.
 
@@ -170,14 +173,20 @@ Solo aplica al Step 1, no al Step 2.
 
 | Producto | Precio | Duración | Entregable |
 |---|---|---|---|
-| **Step 1** · Diseña tu academia | 1.800 € (1.620 € Certified / 1.530 € Verified) | 3 semanas · 4 sesiones 1-a-1 | Plan de negocio + decisión go/no-go |
-| **Step 2** · Construimos tu academia | 4.500 € | 10 semanas · 10 sesiones 1-a-1 | Academia abierta · 15-30 alumnos activos |
+| **Step 1** · Diseña tu academia | 1.800 € (1.440 € Certified / 1.080 € Verified) | 3 semanas · 4 sesiones 1-a-1 | Plan de negocio + decisión go/no-go |
+| **Pack Step 1 + Step 2** · Programa completo | 4.500 € total | 13 semanas · 14 sesiones 1-a-1 | Academia abierta · 15-30 alumnos activos |
+| **Step 2** · si contrató Step 1 antes | 4.500 − 1.800 = **2.700 €** | 10 semanas · 10 sesiones 1-a-1 | Academia abierta · 15-30 alumnos activos |
 | **Business Pro** · Franquicia | Por definir | Por definir | Franquicia J3Padel Academy |
+
+**Lógica de precio del Step 2:**
+- Si el cliente contrata el pack completo desde el inicio: 4.500 € total
+- Si contrató el Step 1 primero (1.800 €) y luego quiere continuar: paga 2.700 € por el Step 2 (4.500 − 1.800)
+- En ambos casos el coste total del recorrido completo es 4.500 €
 
 **Reglas operativas:**
 - Ningún cliente entra al Step 2 sin haber completado el Step 1
 - Ningún Step 1 se cierra sin call previa (20 min estándar · 10 min para Certified/Verified)
-- El primer alumno del Step 2 paga 3.600 € como beta-tester documentado
+- El primer alumno del Step 2 paga 3.600 € como beta-tester documentado (pack completo) o 2.160 € si ya pagó el Step 1
 
 ---
 
