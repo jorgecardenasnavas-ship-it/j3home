@@ -22,7 +22,7 @@ export function StickyClaim() {
 
   return (
     <div
-      className={`fixed top-[52px] left-0 right-0 z-[80] h-[32px] max-[960px]:hidden bg-black/55 backdrop-blur-md border-b border-white/[0.04] flex items-center justify-center pointer-events-none transition-opacity duration-500 ${
+      className={`fixed top-[64px] left-0 right-0 z-[80] h-[32px] max-[960px]:hidden bg-black/55 backdrop-blur-md border-b border-white/[0.04] flex items-center justify-center pointer-events-none transition-opacity duration-500 ${
         show ? "opacity-100" : "opacity-0"
       }`}
     >

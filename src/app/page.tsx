@@ -15,7 +15,7 @@ export default function Home() {
     <>
       <Navbar />
       <StickyClaim />
-      <main>
+      <main className="bg-white">
         <HeroSection />
         <SponsorsBanner />
         <CoachFinder />
