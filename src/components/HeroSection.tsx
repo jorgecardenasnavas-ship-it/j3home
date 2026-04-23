@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { HeroClaim } from "@/components/HeroClaim";
 
-const VIDEO_START = 3; // segundos — arranca en el momento bueno del clip
+const VIDEO_START = 3;
 
 export function HeroSection() {
   const heroRef = useRef<HTMLElement>(null);
@@ -36,9 +36,9 @@ export function HeroSection() {
     <section
       id="hero"
       ref={heroRef}
-      className="h-[84vh] max-[960px]:h-[80vh] max-[960px]:mt-[64px] relative flex flex-col items-center justify-end pb-20 max-[960px]:pb-14 overflow-hidden bg-[var(--negro-v)]"
+      className="h-[84vh] max-[960px]:h-[80vh] relative flex flex-col items-center justify-end pb-20 max-[960px]:pb-14 overflow-hidden bg-[var(--negro-v)]"
     >
-      {/* Background video */}
+      {/* Video recortado ±20px arriba y abajo para eliminar franjas oscuras */}
       <video
         ref={videoRef}
         src="/videos/coach360-higueron.mp4"
@@ -46,8 +46,7 @@ export function HeroSection() {
         muted
         loop
         playsInline
-        className="absolute inset-0 w-full h-full object-cover"
-        style={{ backgroundColor: "var(--negro-v)" }}
+        style={{ position: "absolute", top: "-20px", bottom: "-20px", left: 0, right: 0, width: "100%", objectFit: "cover", backgroundColor: "var(--negro-v)" }}
         onLoadedMetadata={() => { if (videoRef.current) videoRef.current.currentTime = VIDEO_START; }}
         onSeeked={() => { videoRef.current?.play().catch(() => {}); }}
       />
@@ -55,13 +54,10 @@ export function HeroSection() {
       {/* Overlay */}
       <div className="absolute inset-0" style={{ background: "rgba(14,28,22,0.52)" }} />
 
-      {/* Fade top → transparent (móvil) */}
-      <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-white to-transparent z-[3] min-[961px]:hidden" />
-
       {/* Curtain reveal */}
       <div className="hero-curtain absolute inset-0 z-[4] bg-[var(--bk3)] pointer-events-none" />
 
-      {/* Scroll indicator — igual que /academy */}
+      {/* Scroll indicator */}
       <style>{`
         @keyframes j3ChevPulse {
           0%, 100% { opacity: 0.18; }
