@@ -37,13 +37,6 @@ const GlobeIcon = ({ size = 14 }: { size?: number }) => (
   </svg>
 );
 
-const HomeIcon = ({ size = 14 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M3 10.5L10 3.5L17 10.5" />
-    <path d="M5 9v7.5a1 1 0 001 1h3v-4.5h2v4.5h3a1 1 0 001-1V9" />
-  </svg>
-);
-
 const ChevronDown = () => (
   <svg width="8" height="8" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-[3px] mt-[1px]">
     <path d="M3 4.5L6 7.5L9 4.5" />
@@ -54,10 +47,8 @@ export function Navbar() {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
-  const [offHero, setOffHero] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Language — connected to i18n context
   const { locale, setLocale, t } = useI18n();
   const [langOpen, setLangOpen] = useState(false);
   const [mobileLangOpen, setMobileLangOpen] = useState(false);
@@ -66,16 +57,13 @@ export function Navbar() {
 
   useEffect(() => {
     function handleScroll() {
-      const y = window.scrollY;
-      setScrolled(y > 10);
-      setOffHero(y > window.innerHeight * 0.9);
+      setScrolled(window.scrollY > 10);
     }
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  /* Close desktop lang dropdown on outside click */
   useEffect(() => {
     if (!langOpen) return;
     function handleClickOutside(e: MouseEvent) {
@@ -87,17 +75,12 @@ export function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [langOpen]);
 
-  // Mobile: filter out current page; Desktop: show all (highlight active)
-  const visibleLeft = leftLinks;
-  const visibleRight = rightLinks;
-
   function selectLang(lang: (typeof languages)[number]) {
     setLocale(lang.code as Locale);
     setLangOpen(false);
     setMobileLangOpen(false);
   }
 
-  /** If clicking a link that points to the current page, scroll to top instead of doing nothing. */
   function handleNavClick(href: string) {
     return (e: React.MouseEvent<HTMLAnchorElement>) => {
       if (pathname === href) {
@@ -107,20 +90,19 @@ export function Navbar() {
     };
   }
 
-  // All links for mobile (show all, highlight active)
   const mobileLinks = allNavLinks;
 
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-[110] h-[52px] flex items-center justify-between px-12 max-[960px]:px-6 border-b transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-[110] h-[52px] flex items-center justify-between px-12 max-[960px]:px-6 border-b transition-all duration-300 ${
           scrolled
-            ? "border-white/[.07] shadow-[0_1px_20px_rgba(0,0,0,.5)]"
-            : "border-white/[.04]"
-        } ${offHero ? "navbar-scrolled" : ""}`}
-        style={{ backgroundColor: offHero ? "transparent" : "var(--verde)" }}
+            ? "border-[rgba(27,61,47,0.12)] shadow-[0_1px_16px_rgba(27,61,47,0.08)]"
+            : "border-[rgba(27,61,47,0.07)]"
+        }`}
+        style={{ background: "#fff" }}
       >
-        {/* Logo — solo tipografía */}
+        {/* Logo */}
         <Link
           href="/"
           onClick={handleNavClick("/")}
@@ -128,7 +110,7 @@ export function Navbar() {
           aria-label="J3Pádel — Inicio"
         >
           <img
-            src="/images/j3padel-text-gold.svg"
+            src="/images/j3padel-text-dark.svg"
             alt="J3Pádel"
             className="h-[22px] w-auto select-none"
             draggable={false}
@@ -137,14 +119,14 @@ export function Navbar() {
 
         {/* Desktop Nav Links */}
         <ul className="hidden min-[961px]:flex gap-8 list-none items-center">
-          {visibleLeft.map((link) => (
+          {[...leftLinks].map((link) => (
             <li key={link.href}>
               {link.external ? (
                 <a
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[12px] font-normal tracking-[1px] no-underline uppercase transition-colors duration-300 text-[var(--gy2)] hover:text-[var(--wh)]"
+                  className="text-[12px] font-normal tracking-[1px] no-underline uppercase transition-colors duration-300 text-[rgba(27,61,47,0.5)] hover:text-[var(--verde)]"
                 >
                   {link.label}
                 </a>
@@ -155,7 +137,7 @@ export function Navbar() {
                   className={`text-[12px] font-normal tracking-[1px] no-underline uppercase transition-colors duration-300 ${
                     pathname === link.href
                       ? "text-[var(--g1)]"
-                      : "text-[var(--gy2)] hover:text-[var(--wh)]"
+                      : "text-[rgba(27,61,47,0.5)] hover:text-[var(--verde)]"
                   }`}
                 >
                   {link.label}
@@ -164,12 +146,12 @@ export function Navbar() {
             </li>
           ))}
 
-          {/* Home — J3 ball logo, always centered */}
+          {/* Home — J3 ball logo, centered */}
           <li>
             <Link
               href="/"
               onClick={handleNavClick("/")}
-              className="transition-opacity duration-300 hover:opacity-80"
+              className="transition-opacity duration-300 hover:opacity-70"
               aria-label="Inicio"
             >
               <img
@@ -181,14 +163,14 @@ export function Navbar() {
             </Link>
           </li>
 
-          {visibleRight.map((link) => (
+          {[...rightLinks].map((link) => (
             <li key={link.href}>
               {link.external ? (
                 <a
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[12px] font-normal tracking-[1px] no-underline uppercase transition-colors duration-300 text-[var(--gy2)] hover:text-[var(--wh)]"
+                  className="text-[12px] font-normal tracking-[1px] no-underline uppercase transition-colors duration-300 text-[rgba(27,61,47,0.5)] hover:text-[var(--verde)]"
                 >
                   {link.label}
                 </a>
@@ -199,7 +181,7 @@ export function Navbar() {
                   className={`text-[12px] font-normal tracking-[1px] no-underline uppercase transition-colors duration-300 ${
                     pathname === link.href
                       ? "text-[var(--g1)]"
-                      : "text-[var(--gy2)] hover:text-[var(--wh)]"
+                      : "text-[rgba(27,61,47,0.5)] hover:text-[var(--verde)]"
                   }`}
                 >
                   {link.label}
@@ -212,13 +194,10 @@ export function Navbar() {
         {/* Right side: Language + Auth */}
         <div className="hidden min-[961px]:flex items-center gap-5">
           {/* Language selector */}
-          <div
-            ref={langRef}
-            className="relative"
-          >
+          <div ref={langRef} className="relative">
             <button
               onClick={() => setLangOpen(prev => !prev)}
-              className="flex items-center gap-[5px] text-[12px] font-normal tracking-[1px] uppercase text-[var(--gy2)] hover:text-[var(--wh)] transition-colors duration-300 bg-transparent border-none cursor-pointer"
+              className="flex items-center gap-[5px] text-[12px] font-normal tracking-[1px] uppercase text-[rgba(27,61,47,0.5)] hover:text-[var(--verde)] transition-colors duration-300 bg-transparent border-none cursor-pointer"
             >
               <GlobeIcon />
               <span>{currentLang.code.toUpperCase()}</span>
@@ -227,7 +206,7 @@ export function Navbar() {
 
             {/* Language dropdown */}
             <div
-              className={`absolute top-full right-0 mt-[10px] min-w-[150px] py-2 px-1 rounded-lg bg-[rgba(14,28,22,0.95)] backdrop-blur-[20px] border border-white/[.08] shadow-[0_8px_32px_rgba(0,0,0,.6)] transition-all duration-200 ${
+              className={`absolute top-full right-0 mt-[10px] min-w-[150px] py-2 px-1 rounded-lg bg-[rgba(14,28,22,0.95)] backdrop-blur-[20px] border border-white/[.08] shadow-[0_8px_32px_rgba(0,0,0,.4)] transition-all duration-200 ${
                 langOpen
                   ? "opacity-100 translate-y-0 pointer-events-auto"
                   : "opacity-0 -translate-y-1 pointer-events-none"
@@ -256,12 +235,12 @@ export function Navbar() {
           </div>
 
           {/* Divider */}
-          <span className="w-px h-4 bg-white/10" />
+          <span className="w-px h-4 bg-[rgba(27,61,47,0.15)]" />
 
           {/* Auth CTA — icon only */}
           <Link
             href="/login"
-            className="flex items-center text-[var(--g1)] no-underline hover:text-[var(--g2)] transition-colors duration-300"
+            className="flex items-center text-[var(--verde)] no-underline hover:text-[var(--g1)] transition-colors duration-300"
             aria-label={t.nav.acceder}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -273,11 +252,11 @@ export function Navbar() {
 
         {/* Mobile: Lang + Hamburger */}
         <div className="min-[961px]:hidden flex items-center gap-4">
-          {/* Mobile lang selector with dropdown */}
+          {/* Mobile lang selector */}
           <div className="relative">
             <button
               onClick={() => { setMobileLangOpen(!mobileLangOpen); setMenuOpen(false); }}
-              className="flex items-center gap-[4px] text-[11px] font-normal tracking-[1px] uppercase text-[var(--gy2)] bg-transparent border-none cursor-pointer"
+              className="flex items-center gap-[4px] text-[11px] font-normal tracking-[1px] uppercase text-[rgba(27,61,47,0.55)] bg-transparent border-none cursor-pointer"
               aria-label="Cambiar idioma"
             >
               <GlobeIcon size={13} />
@@ -286,7 +265,7 @@ export function Navbar() {
 
             {/* Mobile lang dropdown */}
             <div
-              className={`absolute top-full right-0 mt-3 min-w-[140px] py-2 px-1 rounded-lg bg-[rgba(14,28,22,0.95)] backdrop-blur-[20px] border border-white/[.08] shadow-[0_8px_32px_rgba(0,0,0,.6)] transition-all duration-200 ${
+              className={`absolute top-full right-0 mt-3 min-w-[140px] py-2 px-1 rounded-lg bg-[rgba(14,28,22,0.95)] backdrop-blur-[20px] border border-white/[.08] shadow-[0_8px_32px_rgba(0,0,0,.4)] transition-all duration-200 ${
                 mobileLangOpen
                   ? "opacity-100 translate-y-0 pointer-events-auto"
                   : "opacity-0 -translate-y-1 pointer-events-none"
@@ -320,16 +299,10 @@ export function Navbar() {
             onClick={() => { setMenuOpen(!menuOpen); setLangOpen(false); setMobileLangOpen(false); }}
             aria-label="Menu"
           >
-          <span
-            className={`block w-5 h-[1.5px] bg-[var(--wh)] transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-[6.5px]" : ""}`}
-          />
-          <span
-            className={`block w-5 h-[1.5px] bg-[var(--wh)] transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`}
-          />
-          <span
-            className={`block w-5 h-[1.5px] bg-[var(--wh)] transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-[6.5px]" : ""}`}
-          />
-        </button>
+            <span className={`block w-5 h-[1.5px] bg-[var(--verde)] transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-[6.5px]" : ""}`} />
+            <span className={`block w-5 h-[1.5px] bg-[var(--verde)] transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
+            <span className={`block w-5 h-[1.5px] bg-[var(--verde)] transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-[6.5px]" : ""}`} />
+          </button>
         </div>
       </nav>
 
@@ -341,7 +314,7 @@ export function Navbar() {
             : "opacity-0 pointer-events-none"
         }`}
       >
-        {/* Home link — always visible, gold when active */}
+        {/* Home link */}
         <Link
           href="/"
           onClick={(e) => {
@@ -359,7 +332,6 @@ export function Navbar() {
           {t.nav.inicio}
         </Link>
 
-        {/* Main links — gold when active */}
         {mobileLinks.map((link) =>
           link.external ? (
             <a
@@ -392,7 +364,7 @@ export function Navbar() {
           ),
         )}
 
-        {/* Auth CTA mobile — icon only */}
+        {/* Auth CTA mobile */}
         <Link
           href="/login"
           onClick={() => setMenuOpen(false)}
