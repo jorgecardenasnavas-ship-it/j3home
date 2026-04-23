@@ -87,7 +87,7 @@ export function HeroSection() {
       `}</style>
       <div className="relative z-[5] flex flex-col items-center text-center gap-6">
         <span className="text-[11px] font-normal tracking-[5px] uppercase text-[var(--g1)]">
-          J3 ACADEMY
+          SINCE 2004
         </span>
 
         <HeroClaim />
