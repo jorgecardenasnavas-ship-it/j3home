@@ -36,7 +36,7 @@ export function HeroSection() {
     <section
       id="hero"
       ref={heroRef}
-      className="h-[84vh] relative flex flex-col items-center justify-end pb-20 max-[960px]:pb-14 overflow-hidden bg-[var(--negro-v)]"
+      className="h-[84vh] max-[960px]:h-[80vh] max-[960px]:mt-[64px] relative flex flex-col items-center justify-end pb-20 max-[960px]:pb-14 overflow-hidden bg-[var(--negro-v)]"
     >
       {/* Background video */}
       <video
@@ -54,6 +54,9 @@ export function HeroSection() {
 
       {/* Overlay */}
       <div className="absolute inset-0" style={{ background: "rgba(14,28,22,0.52)" }} />
+
+      {/* Fade top → transparent (móvil) */}
+      <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-white to-transparent z-[3] min-[961px]:hidden" />
 
       {/* Curtain reveal */}
       <div className="hero-curtain absolute inset-0 z-[4] bg-[var(--bk3)] pointer-events-none" />
