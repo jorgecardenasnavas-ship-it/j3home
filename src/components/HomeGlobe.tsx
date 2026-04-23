@@ -3,7 +3,9 @@
 import { useEffect, useRef, useMemo } from "react";
 import { COACHES } from "@/data/coaches";
 
-const CHAMPAN = "#C9A96E";
+const CHAMPAN_BRIGHT = "rgba(240,210,130,1)";
+const CHAMPAN       = "rgba(201,169,110,1)";
+const CHAMPAN_DIM   = "rgba(180,148,90,1)";
 
 export function HomeGlobe() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -20,29 +22,37 @@ export function HomeGlobe() {
     const hqLat = hq?.location.coordinates[0] ?? 36.73;
     const hqLng = hq?.location.coordinates[1] ?? -4.48;
 
+    // Jerarquía de puntos: HQ > verificado > cualificado > en proceso
     const pts = [
-      { lat: hqLat, lng: hqLng, size: 0.55, color: CHAMPAN },
-      ...others.map((c) => ({
-        lat: c.location.coordinates[0],
-        lng: c.location.coordinates[1],
-        size: 0.28,
-        color: CHAMPAN,
-      })),
+      { lat: hqLat, lng: hqLng, size: 0.6, color: CHAMPAN_BRIGHT },
+      ...others.map((c) => {
+        const isVerified = !!c.mentorActive && !!c.certifiedAt && c.certificationActive !== false;
+        const isQualified = !!c.certifiedAt && c.certificationActive !== false && !c.mentorActive;
+        return {
+          lat: c.location.coordinates[0],
+          lng: c.location.coordinates[1],
+          size: isVerified ? 0.38 : isQualified ? 0.28 : 0.18,
+          color: isVerified ? CHAMPAN_BRIGHT : isQualified ? CHAMPAN : CHAMPAN_DIM,
+        };
+      }),
     ];
 
+    // Arcos con velocidades variadas — más orgánico
+    const seed = [1.0, 0.75, 1.3, 0.9, 1.15, 0.6, 1.4, 0.85, 1.1, 0.7];
     const arcsData = hq
-      ? others.map((c) => ({
+      ? others.map((c, i) => ({
           startLat: hqLat,
           startLng: hqLng,
           endLat: c.location.coordinates[0],
           endLng: c.location.coordinates[1],
+          animateTime: Math.round(2400 * (seed[i % seed.length])),
         }))
       : [];
 
-    // Pulsing rings at HQ
+    // Anillos HQ
     const ringsData = [
       { lat: hqLat, lng: hqLng, maxR: 4, propagationSpeed: 0.8, repeatPeriod: 1800 },
-      { lat: hqLat, lng: hqLng, maxR: 6, propagationSpeed: 0.6, repeatPeriod: 2400 },
+      { lat: hqLat, lng: hqLng, maxR: 7, propagationSpeed: 0.5, repeatPeriod: 2600 },
     ];
 
     return { points: pts, arcs: arcsData, rings: ringsData };
@@ -51,7 +61,6 @@ export function HomeGlobe() {
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
-
     let destroyed = false;
 
     import("globe.gl").then(({ default: Globe }) => {
@@ -67,9 +76,9 @@ export function HomeGlobe() {
         .globeImageUrl("//unpkg.com/three-globe/example/img/earth-night.jpg")
         .bumpImageUrl("//unpkg.com/three-globe/example/img/earth-topology.png")
         .showAtmosphere(true)
-        .atmosphereColor("rgba(80,140,100,0.3)")
-        .atmosphereAltitude(0.18)
-        // Points
+        .atmosphereColor("rgba(90,160,110,0.5)")
+        .atmosphereAltitude(0.28)
+        // Puntos con jerarquía
         .pointsData(points)
         .pointLat("lat")
         .pointLng("lng")
@@ -77,19 +86,19 @@ export function HomeGlobe() {
         .pointRadius("size")
         .pointAltitude(0.015)
         .pointsMerge(false)
-        // Arcs — thicker, brighter
+        // Arcos con velocidades distintas
         .arcsData(arcs)
         .arcStartLat("startLat")
         .arcStartLng("startLng")
         .arcEndLat("endLat")
         .arcEndLng("endLng")
-        .arcColor(() => [`rgba(212,180,100,1)`, `rgba(201,169,110,0.05)`])
+        .arcColor(() => [`rgba(220,188,110,1)`, `rgba(201,169,110,0.04)`])
         .arcDashLength(0.3)
         .arcDashGap(0.12)
-        .arcDashAnimateTime(2800)
+        .arcDashAnimateTime((d: { animateTime: number }) => d.animateTime)
         .arcStroke(0.5)
         .arcAltitudeAutoScale(0.4)
-        // HQ pulsing rings
+        // Anillos HQ
         .ringsData(rings)
         .ringLat("lat")
         .ringLng("lng")
@@ -98,24 +107,18 @@ export function HomeGlobe() {
         .ringPropagationSpeed("propagationSpeed")
         .ringRepeatPeriod("repeatPeriod");
 
-      // Controls
       globe.controls().autoRotate = true;
       globe.controls().autoRotateSpeed = 0.22;
       globe.controls().enableZoom = false;
       globe.controls().enablePan = false;
-
-      // Closer + centered on Iberia
       globe.pointOfView({ lat: 38, lng: -2, altitude: 1.25 }, 0);
 
       const onResize = () => {
         if (!containerRef.current) return;
-        globe
-          .width(containerRef.current.clientWidth)
-          .height(containerRef.current.clientHeight);
+        globe.width(containerRef.current.clientWidth).height(containerRef.current.clientHeight);
       };
       window.addEventListener("resize", onResize);
 
-      // Store cleanup
       (el as HTMLDivElement & { _globeCleanup?: () => void })._globeCleanup = () => {
         window.removeEventListener("resize", onResize);
         containerRef.current?.replaceChildren();
@@ -124,8 +127,7 @@ export function HomeGlobe() {
 
     return () => {
       destroyed = true;
-      const cleanup = (el as HTMLDivElement & { _globeCleanup?: () => void })._globeCleanup;
-      cleanup?.();
+      (el as HTMLDivElement & { _globeCleanup?: () => void })._globeCleanup?.();
     };
   }, [points, arcs, rings]);
 
