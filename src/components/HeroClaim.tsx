@@ -23,17 +23,23 @@ export function HeroClaim() {
   return (
     <div className="pointer-events-none text-center">
       {/* PLAY — gradiente champán */}
-      <span className={`hero-claim-word hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] j3-grad-text ${visible[0] ? "in" : ""}`}>
+      <span className={`hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] j3-grad-text ${visible[0] ? "in" : ""}`}>
         {t.hero.play}
       </span>
 
       {/* COACH — blanco puro */}
-      <span className={`hero-claim-word hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] text-[var(--wh)] ${visible[1] ? "in" : ""}`}>
+      <span
+        className={`hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] ${visible[1] ? "in" : ""}`}
+        style={{ color: "#ffffff", WebkitTextFillColor: "#ffffff" }}
+      >
         {t.hero.coach}
       </span>
 
       {/* MANAGE — crema cálida */}
-      <span className={`hero-claim-word hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] text-[#E8D9B8] ${visible[2] ? "in" : ""}`}>
+      <span
+        className={`hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] ${visible[2] ? "in" : ""}`}
+        style={{ color: "#E8D9B8", WebkitTextFillColor: "#E8D9B8" }}
+      >
         {t.hero.manage}
       </span>
     </div>
