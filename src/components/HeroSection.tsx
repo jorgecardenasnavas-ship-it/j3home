@@ -4,8 +4,11 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { HeroClaim } from "@/components/HeroClaim";
 
+const VIDEO_START = 3; // segundos — arranca en el momento bueno del clip
+
 export function HeroSection() {
   const heroRef = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const section = heroRef.current;
@@ -37,12 +40,15 @@ export function HeroSection() {
     >
       {/* Background video */}
       <video
+        ref={videoRef}
         src="/videos/coach360-higueron.mp4"
         autoPlay
         muted
         loop
         playsInline
         className="absolute inset-0 w-full h-full object-cover"
+        onLoadedMetadata={() => { if (videoRef.current) videoRef.current.currentTime = VIDEO_START; }}
+        onSeeked={() => { videoRef.current?.play().catch(() => {}); }}
       />
 
       {/* Overlay */}
