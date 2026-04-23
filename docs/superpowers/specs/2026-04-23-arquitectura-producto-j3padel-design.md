@@ -78,7 +78,7 @@ El equipo no genera el contenido del base — lo generan los coaches que se cert
 
 | Badge | Quién lo recibe | Cómo se obtiene |
 |---|---|---|
-| **Founders** | Los 87 coaches del Coach 360 en el momento del lanzamiento del plan base | Automático y permanente. No se puede conseguir después. |
+| **Founders** | Coaches que entraron a la plataforma antes del 1 de agosto de 2025 (~40 personas) | Automático y permanente. No se puede conseguir después. |
 | **Gen ONE** | Coaches que entraron a la plataforma antes de 2026 | Automático y permanente. No se puede conseguir después. |
 
 ---
