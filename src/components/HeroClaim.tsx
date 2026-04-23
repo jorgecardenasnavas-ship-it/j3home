@@ -25,7 +25,7 @@ export function HeroClaim() {
       <span className={`hero-claim-word hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] j3-grad-text ${visible[0] ? "in" : ""}`}>
         {t.hero.play}
       </span>
-      <span className={`hero-claim-word hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] text-[var(--verde)] ${visible[1] ? "in" : ""}`}>
+      <span className={`hero-claim-word hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] text-[var(--wh)] ${visible[1] ? "in" : ""}`}>
         {t.hero.coach}
       </span>
       <span className={`hero-claim-word hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] j3-grad-text ${visible[2] ? "in" : ""}`}>

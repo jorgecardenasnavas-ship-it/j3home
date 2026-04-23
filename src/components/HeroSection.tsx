@@ -33,25 +33,38 @@ export function HeroSection() {
     <section
       id="hero"
       ref={heroRef}
-      className="min-h-[88vh] relative flex flex-col items-center justify-end pb-20 max-[960px]:pb-14 bg-white"
+      className="min-h-[88vh] relative flex flex-col items-center justify-end pb-20 max-[960px]:pb-14 overflow-hidden"
     >
-      {/* Curtain reveal */}
-      <div className="hero-curtain absolute inset-0 z-[4] bg-white pointer-events-none" />
+      {/* Background video */}
+      <video
+        src="/videos/coach360-higueron.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+      />
 
-      {/* Content — eyebrow + claim + CTA */}
+      {/* Overlay */}
+      <div className="absolute inset-0" style={{ background: "rgba(14,28,22,0.52)" }} />
+
+      {/* Bottom fade */}
+      <div className="absolute bottom-0 left-0 w-full h-28 bg-gradient-to-t from-[var(--bk3)] to-transparent" />
+
+      {/* Curtain reveal */}
+      <div className="hero-curtain absolute inset-0 z-[4] bg-[var(--bk3)] pointer-events-none" />
+
+      {/* Content */}
       <div className="relative z-[5] flex flex-col items-center text-center gap-6">
-        {/* Eyebrow */}
         <span className="text-[11px] font-normal tracking-[5px] uppercase text-[var(--g1)]">
           J3 ACADEMY
         </span>
 
-        {/* Giant title */}
         <HeroClaim />
 
-        {/* Pill CTA */}
         <Link
           href="/academy"
-          className="mt-2 px-9 py-[13px] rounded-full border border-[var(--verde)] text-[var(--verde)] text-[11px] tracking-[3px] uppercase no-underline hover:bg-[var(--verde)] hover:text-white transition-all duration-500"
+          className="mt-2 px-9 py-[13px] rounded-full border border-[var(--wh)]/60 text-[var(--wh)] text-[11px] tracking-[3px] uppercase no-underline hover:border-[var(--wh)] hover:bg-white/10 transition-all duration-500"
         >
           Descúbrenos
         </Link>
