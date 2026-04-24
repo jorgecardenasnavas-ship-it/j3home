@@ -19,7 +19,7 @@ export interface HomeProduct {
 export const HOME_PRODUCTS: HomeProduct[] = [
   {
     id: "coach360",
-    nameParts: [{ text: "Coach", gold: true }, { text: "\u00A0360", gold: false }],
+    nameParts: [{ text: "Coach360", gold: true }],
     watermark: "C360",
     shortName: "Coach 360",
     dark: true,
