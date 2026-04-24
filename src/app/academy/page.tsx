@@ -552,14 +552,14 @@ function ProgramBar() {
   return (
     <div className="sticky z-[100]" style={{ top: "var(--nav-offset, 64px)", transition: "top 300ms cubic-bezier(.4,0,.2,1)" }}>
       <div
-        className="border-b border-white/[.06] relative"
-        style={{ backgroundColor: "#121214", transition: "all 0.6s cubic-bezier(.4,0,.2,1)" }}
+        className="border-b relative"
+        style={{ backgroundColor: "var(--verde)", borderColor: "rgba(201,169,110,0.18)", transition: "all 0.6s cubic-bezier(.4,0,.2,1)" }}
       >
         {/* Left fade hint */}
         <div
           className="pointer-events-none absolute top-0 bottom-0 left-0 w-5 z-10 min-[961px]:hidden"
           style={{
-            background: "linear-gradient(to right, #121214 0%, rgba(18,18,20,0) 100%)",
+            background: "linear-gradient(to right, #1B3D2F 0%, rgba(27,61,47,0) 100%)",
             opacity: canScrollLeft ? 1 : 0,
             transition: "opacity 0.3s ease",
           }}
@@ -568,7 +568,7 @@ function ProgramBar() {
         <div
           className="pointer-events-none absolute top-0 bottom-0 right-0 w-5 z-10 min-[961px]:hidden"
           style={{
-            background: "linear-gradient(to left, #121214 0%, rgba(18,18,20,0) 100%)",
+            background: "linear-gradient(to left, #1B3D2F 0%, rgba(27,61,47,0) 100%)",
             opacity: canScrollRight ? 1 : 0,
             transition: "opacity 0.3s ease",
           }}
@@ -617,9 +617,9 @@ function ProgramBar() {
                     opacity: compact ? 0 : 1,
                     marginBottom: compact ? "0px" : "7px",
                     transition: "all 0.6s cubic-bezier(.4,0,.2,1)",
-                    border: "2px solid rgba(201,169,110,1)",
-                    boxShadow: "0 0 16px rgba(201,169,110,.35), 0 0 4px rgba(201,169,110,.4)",
-                    background: "radial-gradient(circle at 30% 30%, rgba(201,169,110,.12) 0%, rgba(18,18,20,1) 70%)",
+                    border: "2px solid rgba(201,169,110,0.9)",
+                    boxShadow: "0 0 16px rgba(201,169,110,.25), 0 0 4px rgba(201,169,110,.3)",
+                    background: "radial-gradient(circle at 30% 30%, rgba(201,169,110,.15) 0%, rgba(15,35,25,1) 70%)",
                   }}
                 >
                   <div
@@ -639,7 +639,7 @@ function ProgramBar() {
                   {sede.name}
                 </span>
                 <span
-                  className="text-[9px] min-[961px]:text-[10px] text-[#E8DDD0]/50 transition-all duration-500"
+                  className="text-[9px] min-[961px]:text-[10px] text-[var(--wh)]/50 transition-all duration-500"
                   style={{
                     maxHeight: compact ? "0px" : "20px",
                     opacity: compact ? 0 : 1,
@@ -764,12 +764,12 @@ function ProgramBar() {
                         : "brightness(0.8) saturate(0.9)",
                     }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-2">
                     <span className="text-[7px] font-bold tracking-[1.5px] uppercase text-[var(--g1)] block leading-tight">
                       {card.tag}
                     </span>
-                    <span className="text-[11px] font-bold uppercase tracking-[-0.3px] text-[#E8DDD0]/90 leading-tight block">
+                    <span className="text-[11px] font-bold uppercase tracking-[-0.3px] text-[var(--wh)]/90 leading-tight block">
                       {card.name}
                     </span>
                   </div>
@@ -800,7 +800,7 @@ function ProgramBar() {
                     className="font-semibold whitespace-nowrap leading-tight"
                     style={{
                       fontSize: "10px",
-                      color: isActive ? "var(--g1)" : "rgba(255,255,255,.75)",
+                      color: isActive ? "var(--g1)" : "rgba(248,245,239,0.65)",
                     }}
                   >
                     {section.name}
