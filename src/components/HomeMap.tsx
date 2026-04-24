@@ -346,14 +346,16 @@ function MapLayers({
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            triggerReveal();
+            /* Extra 1 200 ms pause so the user sees the clean map first */
+            const t = window.setTimeout(() => triggerReveal(), 1200);
+            revealTimers.push(t);
             observer.unobserve(entry.target);
           }
         });
       },
       {
-        threshold: 0.65,
-        rootMargin: "-30% 0px -30% 0px",
+        threshold: 0.8,
+        rootMargin: "-15% 0px -15% 0px",
       },
     );
     observer.observe(container);
