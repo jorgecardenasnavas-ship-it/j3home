@@ -1718,15 +1718,8 @@ html[data-theme="light"] .theme-eyebrow {
   padding: 12vh 48px;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   border-bottom: 1px solid var(--section-border);
-  opacity: 0;
-  transform: translateY(14px);
-  transition:
-    opacity 1s var(--ease-out),
-    transform 1s var(--ease-out);
-}
-.story-teaser.in {
-  opacity: 1;
-  transform: translateY(0);
+  /* No opacity en la sección — el fondo oscuro siempre visible,
+     evita el parpadeo crema→verde cuando el body está en modo light */
 }
 @media (max-width: 960px) {
   .story-teaser {
@@ -1737,6 +1730,16 @@ html[data-theme="light"] .theme-eyebrow {
   max-width: 880px;
   margin: 0 auto;
   text-align: center;
+  /* Animación de entrada en el contenido, no en la sección */
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 1s var(--ease-out),
+    transform 1s var(--ease-out);
+}
+.story-teaser.in .story-teaser-inner {
+  opacity: 1;
+  transform: translateY(0);
 }
 .story-teaser-eyebrow {
   display: inline-block;
