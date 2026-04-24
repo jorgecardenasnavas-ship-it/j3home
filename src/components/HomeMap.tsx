@@ -67,7 +67,7 @@ function GestureHandling() {
       if (!hint) {
         hint = document.createElement("div");
         hint.className = "home-map-gesture-hint";
-        hint.textContent = "Usa 2 dedos para mover el mapa";
+        hint.textContent = "Usa 2 dedos para mover y hacer zoom";
         container.appendChild(hint);
       }
       return hint;
@@ -411,6 +411,7 @@ export function HomeMap() {
       center={hq.location.coordinates}
       zoom={5}
       scrollWheelZoom={false}
+      touchZoom={true}
       style={{ width: "100%", height: "100%" }}
       zoomControl={false}
       attributionControl={false}
