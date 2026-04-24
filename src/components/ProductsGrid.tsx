@@ -633,6 +633,33 @@ export function ProductsGrid() {
     };
   }, []);
 
+  /* Wheel → horizontal scroll para los scrollers de la sección.
+     El ratón sólo scrollea vertical por defecto; aquí convertimos
+     deltaY en scrollLeft cuando el cursor está sobre el scroller. */
+  useEffect(() => {
+    const scrollers = document.querySelectorAll<HTMLElement>(
+      ".academy-scroller-track, .prox-scroller",
+    );
+    const handlers = new Map<HTMLElement, (e: WheelEvent) => void>();
+
+    scrollers.forEach((scroller) => {
+      const handler = (e: WheelEvent) => {
+        if (Math.abs(e.deltaX) > 5) return; // ya hay scroll horizontal nativo
+        if (e.deltaY === 0) return;
+        e.preventDefault();
+        scroller.scrollLeft += e.deltaY * 1.4;
+      };
+      scroller.addEventListener("wheel", handler, { passive: false });
+      handlers.set(scroller, handler);
+    });
+
+    return () => {
+      handlers.forEach((handler, scroller) =>
+        scroller.removeEventListener("wheel", handler),
+      );
+    };
+  }, []);
+
   // Find products by id to avoid index coupling
   const byId = (id: string) => HOME_PRODUCTS.find((p) => p.id === id)!;
   const tCardOf = (id: string) => {

@@ -10,31 +10,51 @@ export function FooterClose() {
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
-
-    const line = section.querySelector<HTMLElement>(".footer-close-line");
-    const tagline = section.querySelector<HTMLElement>(".footer-close-tagline");
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setTimeout(() => line?.classList.add("in"), 200);
-            setTimeout(() => tagline?.classList.add("in"), 600);
+            section.classList.add("in");
             observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.3 },
+      { threshold: 0.25 },
     );
-
     observer.observe(section);
     return () => observer.disconnect();
   }, []);
 
+  // "Jugamos. Entrenamos. Dirigimos." → ["Jugamos.", "Entrenamos.", "Dirigimos."]
+  const raw = t.home.brandTagline.split(". ");
+  const words = raw.map((w, i) => (i < raw.length - 1 ? w + "." : w));
+
   return (
     <section ref={sectionRef} className="footer-close">
-      <div className="footer-close-line" aria-hidden="true" />
-      <h2 className="footer-close-tagline">{t.home.brandTagline}</h2>
+      {/* Radial gold glow */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        aria-hidden
+        style={{
+          background:
+            "radial-gradient(ellipse 70% 55% at 50% 55%, rgba(201,169,110,0.07) 0%, transparent 70%)",
+        }}
+      />
+
+      {/* Gold line */}
+      <div className="footer-close-line" aria-hidden />
+
+      {/* Eyebrow */}
+      <span className="footer-close-eyebrow">J3 Pádel</span>
+
+      {/* Three words — JUGAMOS / ENTRENAMOS / DIRIGIMOS */}
+      <div className="footer-close-words">
+        {words.map((word, i) => (
+          <span key={i} className={`footer-close-word footer-close-word-${i + 1}`}>
+            {word}
+          </span>
+        ))}
+      </div>
     </section>
   );
 }

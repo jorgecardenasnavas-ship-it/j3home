@@ -2267,86 +2267,94 @@ html[data-theme="light"] .mantra-bridge-subtitle { color: rgba(0,0,0,0.26); }
   }
 }
 
-/* ─── FooterClose — gold line + tagline ─── */
+/* ─── FooterClose — cierre editorial ─── */
 .footer-close {
+  position: relative;
   padding-block: 18vh;
   background: var(--bk);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px;
+  gap: 32px;
+  overflow: hidden;
+  text-align: center;
 }
 @media (max-width: 960px) {
   .footer-close {
-    padding-block: 12vh;
-    gap: 28px;
+    padding-block: 13vh;
+    gap: 24px;
   }
 }
-.footer-close-manifesto {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 4px;
-}
-.footer-close-manifesto > div {
-  font-size: clamp(22px, 3vw, 40px);
-  font-weight: 400;
-  letter-spacing: -0.5px;
-  line-height: 1.25;
-  opacity: 0;
-  transform: translateY(12px);
-  transition:
-    opacity 0.9s var(--ease-out),
-    transform 0.9s var(--ease-out);
-}
-.footer-close-manifesto > div.in {
-  opacity: 1;
-  transform: translateY(0);
-}
-.footer-close-tagline {
-  font-size: clamp(40px, 5vw, 72px);
-  font-weight: 900;
-  letter-spacing: -1px;
-  line-height: 1.05;
-  text-align: center;
-  color: var(--champan);
-  -webkit-text-fill-color: var(--champan);
-  opacity: 0;
-  transform: translateY(10px);
-  transition:
-    opacity 1s var(--ease-out),
-    transform 1s var(--ease-out);
-}
-.footer-close-tagline.in {
-  opacity: 1;
-  transform: translateY(0);
-}
-@media (max-width: 960px) {
-  .footer-close-tagline {
-    font-size: clamp(32px, 7vw, 52px);
-  }
-  .footer-close-manifesto > div {
-    font-size: clamp(20px, 5vw, 32px);
-  }
-}
+
+/* Línea dorada superior */
 .footer-close-line {
   height: 1px;
   width: 0;
-  max-width: 60%;
+  max-width: 55%;
   background: linear-gradient(90deg, transparent, var(--g1), transparent);
-  transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: width 1.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.footer-close-line.in {
-  width: 60%;
+.footer-close.in .footer-close-line { width: 55%; }
+@media (max-width: 960px) {
+  .footer-close-line { max-width: 75%; }
+  .footer-close.in .footer-close-line { width: 75%; }
+}
+
+/* Eyebrow */
+.footer-close-eyebrow {
+  font-size: 10px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: rgba(201, 169, 110, 0.45);
+  font-weight: 700;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.8s var(--ease-out) 0.15s, transform 0.8s var(--ease-out) 0.15s;
+}
+.footer-close.in .footer-close-eyebrow { opacity: 1; transform: translateY(0); }
+
+/* Palabras apiladas */
+.footer-close-words {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 0.88;
+  gap: 0;
+}
+.footer-close-word {
+  display: block;
+  font-size: clamp(56px, 8.5vw, 124px);
+  font-weight: 900;
+  letter-spacing: -3px;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 1s var(--ease-out), transform 1s var(--ease-out);
 }
 @media (max-width: 960px) {
-  .footer-close-line {
-    max-width: 80%;
-  }
-  .footer-close-line.in {
-    width: 80%;
-  }
+  .footer-close-word { font-size: clamp(40px, 11vw, 72px); letter-spacing: -2px; }
+}
+
+/* Entrada escalonada */
+.footer-close.in .footer-close-word-1 { opacity: 1; transform: translateY(0); transition-delay: 0.25s; }
+.footer-close.in .footer-close-word-2 { opacity: 1; transform: translateY(0); transition-delay: 0.48s; }
+.footer-close.in .footer-close-word-3 { opacity: 1; transform: translateY(0); transition-delay: 0.72s; }
+
+/* Tratamiento de color por palabra (igual que hero PLAY/COACH/MANAGE) */
+.footer-close-word-1 {
+  background: var(--j3-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.footer-close-word-2 {
+  color: var(--wh);
+  -webkit-text-fill-color: var(--wh);
+}
+.footer-close-word-3 {
+  -webkit-text-stroke: 2px rgba(248, 245, 239, 0.3);
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
 /* ─── Nike pill button hover glow ─── */
