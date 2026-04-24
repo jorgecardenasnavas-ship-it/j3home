@@ -33,15 +33,15 @@ export function Footer() {
 
       <div className="py-12 max-[960px]:py-10 px-12 max-[960px]:px-6 flex items-center justify-between flex-wrap gap-6 max-[960px]:flex-col max-[960px]:items-start max-[960px]:gap-6">
         {/* Logo + tagline */}
-        <div className="flex items-center gap-3 select-none">
+        <div className="flex items-end gap-3 select-none">
           <img
             src="/images/j3padel-footer.svg"
             alt="J3Pádel"
             className="h-[44px] w-auto"
             draggable={false}
           />
-          {/* Barra vertical */}
-          <div className="w-px h-[26px] shrink-0" style={{ background: "rgba(27,61,47,0.15)" }} />
+          {/* Barra vertical — altura del texto J3PÁDEL (~75% del SVG) */}
+          <div className="w-px h-[30px] shrink-0" style={{ background: "rgba(27,61,47,0.15)" }} />
           {/* Tagline */}
           <div className="flex flex-col gap-[3px]">
             <span className="text-[8px] font-semibold tracking-[2px] uppercase leading-none" style={{ color: "var(--g1)" }}>Play</span>
