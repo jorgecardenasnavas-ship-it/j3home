@@ -77,7 +77,7 @@ export const es = {
     coachFinder: {
       label: "Entrenadores recomendados",
       title: "Encuentra a tu coach",
-      subtitle: "Coaches certificados y verificados cerca de ti.",
+      subtitle: "Coaches certificados y verificados,\ncerca de ti.",
       cta: "Explorar la red",
     },
   },
