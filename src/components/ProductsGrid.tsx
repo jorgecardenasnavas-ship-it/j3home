@@ -140,8 +140,10 @@ function FeaturedBlock({
         eager={eager}
       />
       <div className="pc-glow absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-500 z-0" />
+      {/* Text protection scrim — keeps title legible over any background */}
+      <div className="absolute inset-0 z-[2] pointer-events-none bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
       {/* Top accent line */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[2px] bg-gradient-to-r from-transparent via-[var(--g1)] to-transparent transition-all duration-700 ease-[var(--ease-out)] w-[60%] opacity-60 group-hover:w-full group-hover:opacity-90" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[2px] bg-gradient-to-r from-transparent via-[var(--g1)] to-transparent transition-all duration-700 ease-[var(--ease-out)] w-[60%] opacity-60 group-hover:w-full group-hover:opacity-90 z-[3]" />
       {/* Watermark */}
       <span
         className={`absolute -bottom-6 -right-4 font-bold text-[clamp(140px,16vw,240px)] uppercase leading-none tracking-[-6px] pointer-events-none select-none transition-colors duration-700 ${
