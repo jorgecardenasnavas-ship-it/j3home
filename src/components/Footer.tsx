@@ -37,7 +37,8 @@ export function Footer() {
           <img
             src="/images/j3padel-logo.svg"
             alt="J3Pádel"
-            className="h-[44px] w-auto select-none"
+            className="h-[44px] w-auto select-none opacity-80"
+            style={{ filter: "brightness(0) invert(1)" }}
             draggable={false}
           />
           <span className="text-[10px] font-light tracking-[2px] uppercase text-[var(--gy)]">

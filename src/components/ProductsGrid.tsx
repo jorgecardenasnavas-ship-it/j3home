@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useI18n } from "@/i18n/context";
 import { HOME_PRODUCTS, type HomeProduct } from "@/data/home-products";
@@ -337,9 +337,42 @@ function FeaturedSplitBlock({
   );
 }
 
+/* ─── Barra de progreso del scroll horizontal (igual que en Academy) ─── */
+
+function CarouselProgress({ progress }: { progress: number }) {
+  return (
+    <div className="mt-5 h-[2px] w-full bg-white/[.07] relative overflow-hidden" aria-hidden>
+      <div
+        className="absolute left-0 top-0 bottom-0"
+        style={{
+          width: "28%",
+          transform: `translateX(${progress * (100 / 0.28 - 100)}%)`,
+          background: "linear-gradient(to right, rgba(201,169,110,0.25), var(--g1), rgba(201,169,110,0.25))",
+          transition: "transform .18s cubic-bezier(.4,0,.2,1)",
+        }}
+      />
+    </div>
+  );
+}
+
 /* ─────────── Academy horizontal scroll (Apple-style) ─────────── */
 
 function AcademyScroller() {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      const max = el.scrollWidth - el.clientWidth;
+      setProgress(max > 0 ? el.scrollLeft / max : 0);
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => el.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <section className="academy-scroller">
       <div className="academy-scroller-header">
@@ -352,7 +385,7 @@ function AcademyScroller() {
           <span className="text-[16px] font-light">→</span>
         </Link>
       </div>
-      <div className="academy-scroller-track">
+      <div ref={trackRef} className="academy-scroller-track">
         {ACADEMY_PROGRAMS.map((program) => (
           <Link
             key={program.id}
@@ -390,6 +423,9 @@ function AcademyScroller() {
             </div>
           </Link>
         ))}
+      </div>
+      <div className="px-12 max-[960px]:px-6">
+        <CarouselProgress progress={progress} />
       </div>
     </section>
   );
@@ -589,7 +625,22 @@ export function ProductsGrid() {
   const gridRef = useRef<HTMLElement>(null);
   const mantraBridgeRef = useRef<HTMLDivElement>(null);
   const scrollerRef = useRef<HTMLDivElement>(null);
+  const proxScrollerRef = useRef<HTMLDivElement>(null);
+  const [proxProgress, setProxProgress] = useState(0);
   const { t } = useI18n();
+
+  /* Progreso del scroller de Próximamente */
+  useEffect(() => {
+    const el = proxScrollerRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      const max = el.scrollWidth - el.clientWidth;
+      setProxProgress(max > 0 ? el.scrollLeft / max : 0);
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => el.removeEventListener("scroll", onScroll);
+  }, []);
 
   /* Scroll-linked body background + data-theme transition.
      Triggers at 70% of AcademyScroller height (descending → cream, ascending → verde).
@@ -807,7 +858,7 @@ export function ProductsGrid() {
       </div>
 
       {/* ── Próximamente horizontal scroll ── */}
-      <div className="prox-scroller">
+      <div ref={proxScrollerRef} className="prox-scroller">
         {proximamenteProducts.map((product, i) => {
           const tCard = proximamenteTCards[i];
           return (
@@ -871,6 +922,9 @@ export function ProductsGrid() {
             </div>
           );
         })}
+      </div>
+      <div className="px-12 max-[960px]:px-6">
+        <CarouselProgress progress={proxProgress} />
       </div>
 
     </section>
