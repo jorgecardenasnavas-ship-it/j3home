@@ -939,14 +939,14 @@ html[data-theme="light"] .theme-eyebrow {
 }
 .pc-card.in .tile-bg > img,
 .pc-card.in .tile-bg > video {
-  opacity: 0.22;
+  opacity: 0.55;
   filter: blur(0);
 }
 @media (hover: hover) and (min-width: 961px) {
   .pc-card:hover .tile-bg > img,
   .pc-card:hover .tile-bg > video {
-    opacity: 0.32;
-    transform: scale(1.04);
+    opacity: 0.62;
+    transform: scale(1.03);
   }
 }
 

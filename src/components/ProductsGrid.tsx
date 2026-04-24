@@ -150,7 +150,7 @@ function FeaturedBlock({
       />
       <div className="pc-glow absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-500 z-0" />
       {/* Text protection scrim — keeps title legible over any background */}
-      <div className="absolute inset-0 z-[2] pointer-events-none bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+      <div className="absolute inset-0 z-[2] pointer-events-none bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
       {/* Top accent line */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[2px] bg-gradient-to-r from-transparent via-[var(--g1)] to-transparent transition-all duration-700 ease-[var(--ease-out)] w-[60%] opacity-60 group-hover:w-full group-hover:opacity-90 z-[3]" />
       {/* Watermark */}
@@ -605,17 +605,12 @@ export function ProductsGrid() {
         const rect = card.getBoundingClientRect();
         const x = (e.clientX - rect.left) / rect.width;
         const y = (e.clientY - rect.top) / rect.height;
-        const rx = (y - 0.5) * -3;
-        const ry = (x - 0.5) * 3;
-        card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`;
-        if (glow) {
-          glow.style.opacity = "1";
-          glow.style.background = `radial-gradient(600px circle at ${e.clientX - rect.left}px ${e.clientY - rect.top}px, rgba(201,169,110,0.06), transparent 60%)`;
-        }
+        const rx = (y - 0.5) * -2;
+        const ry = (x - 0.5) * 2;
+        card.style.transform = `perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg)`;
       };
       const leave = () => {
         card.style.transform = "";
-        if (glow) glow.style.opacity = "0";
       };
       card.addEventListener("mousemove", move);
       card.addEventListener("mouseleave", leave);
