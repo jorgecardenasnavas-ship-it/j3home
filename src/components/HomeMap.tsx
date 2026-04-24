@@ -336,26 +336,22 @@ function MapLayers({
       revealTimers.push(breatheT);
     };
 
-    /* Trigger only when the card is well into view:
-     * rootMargin shrinks the effective viewport by 30% top & bottom,
-     * so the map must overlap the CENTER 40% of the screen before firing.
-     * Threshold 0.65 means 65% of that already-clipped zone must be covered —
-     * ensuring the card is substantially visible before dots and lines appear.
-     */
+    /* Fire as soon as the section enters the viewport (threshold 0.1 =
+     * reliable on any screen size), then wait 2 000 ms before revealing
+     * dots and lines so the user has time to take in the clean map. */
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            /* Extra 1 200 ms pause so the user sees the clean map first */
-            const t = window.setTimeout(() => triggerReveal(), 1200);
+            const t = window.setTimeout(() => triggerReveal(), 2000);
             revealTimers.push(t);
             observer.unobserve(entry.target);
           }
         });
       },
       {
-        threshold: 0.8,
-        rootMargin: "-15% 0px -15% 0px",
+        threshold: 0.1,
+        rootMargin: "0px",
       },
     );
     observer.observe(container);
