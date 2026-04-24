@@ -69,7 +69,7 @@ export function HeroSection() {
         muted
         playsInline
         preload="auto"
-        className="absolute inset-0 w-full h-full object-cover scale-[1.08]"
+        className="absolute inset-0 w-full h-full object-cover scale-[1.08] max-[960px]:scale-[1.22] max-[960px]:[object-position:center_38%]"
       />
 
       {/* Overlay */}
