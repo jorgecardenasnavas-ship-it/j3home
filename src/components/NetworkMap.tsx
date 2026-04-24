@@ -43,9 +43,9 @@ import type { LatLng } from "@/lib/geo";
 import { LanguageChip } from "@/components/LanguageChip";
 
 const pinStyles = `
-  /* Tiles teñidos de verde — solo el pane de tiles, los pins quedan sin tocar */
-  .j3-network-map .leaflet-tile-pane {
-    filter: hue-rotate(110deg) saturate(0.35) brightness(0.82);
+  /* Tiles teñidos de verde — sepia primero para dar color al gris, luego hue-rotate a verde */
+  .leaflet-tile-pane {
+    filter: sepia(1) hue-rotate(95deg) saturate(0.9) brightness(0.72);
   }
 
   .j3-pin {
