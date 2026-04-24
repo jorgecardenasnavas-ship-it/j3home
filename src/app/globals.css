@@ -1980,19 +1980,20 @@ html[data-theme="light"] .theme-eyebrow {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  background: #ffffff;
 }
 .academy-scroller-card-tag {
   font-size: 10px;
   letter-spacing: 2.5px;
   text-transform: uppercase;
-  color: rgba(201, 169, 110, 0.6);
+  color: rgba(140, 100, 20, 0.75);
   font-weight: 600;
 }
 .academy-scroller-card-name {
   font-size: clamp(22px, 2vw, 28px);
   font-weight: 900;
   letter-spacing: -1px;
-  color: var(--wh);
+  color: #1a1a1a;
   line-height: 1;
 }
 
