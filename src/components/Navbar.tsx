@@ -76,6 +76,16 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  /* Publica la altura real de la navbar como CSS variable para que
+     cualquier elemento sticky (ej. academy stickybar) se ajuste
+     automáticamente cuando la navbar se esconde o reaparece. */
+  useEffect(() => {
+    document.documentElement.style.setProperty(
+      "--nav-offset",
+      navHidden ? "0px" : "64px",
+    );
+  }, [navHidden]);
+
   useEffect(() => {
     if (!langOpen) return;
     function handleClickOutside(e: MouseEvent) {

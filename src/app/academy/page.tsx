@@ -550,7 +550,7 @@ function ProgramBar() {
   };
 
   return (
-    <div className="sticky top-[52px] z-[100]">
+    <div className="sticky z-[100]" style={{ top: "var(--nav-offset, 64px)", transition: "top 300ms cubic-bezier(.4,0,.2,1)" }}>
       <div
         className="border-b border-white/[.06] relative"
         style={{ backgroundColor: "#121214", transition: "all 0.6s cubic-bezier(.4,0,.2,1)" }}
