@@ -57,6 +57,7 @@ export function HomeGlobe() {
     const el = containerRef.current;
     if (!el) return;
     let destroyed = false;
+    const arcTimers: ReturnType<typeof setTimeout>[] = [];
 
     import("globe.gl").then(({ default: Globe }) => {
       if (destroyed || !containerRef.current) return;
@@ -74,7 +75,7 @@ export function HomeGlobe() {
         .showAtmosphere(true)
         .atmosphereColor("rgba(90,160,110,0.5)")
         .atmosphereAltitude(0.28)
-        // Puntos con jerarquía
+        // Puntos con jerarquía — aparecen desde el inicio
         .pointsData(points)
         .pointLat("lat")
         .pointLng("lng")
@@ -82,8 +83,8 @@ export function HomeGlobe() {
         .pointRadius("size")
         .pointAltitude(0.015)
         .pointsMerge(false)
-        // Arcos con velocidades distintas
-        .arcsData(arcs)
+        // Arcos — vacíos al inicio, se añaden uno a uno después
+        .arcsData([])
         .arcStartLat("startLat")
         .arcStartLng("startLng")
         .arcEndLat("endLat")
@@ -94,7 +95,7 @@ export function HomeGlobe() {
         .arcDashAnimateTime((d: { animateTime: number }) => d.animateTime)
         .arcStroke(0.5)
         .arcAltitudeAutoScale(0.4)
-        // Anillos HQ
+        // Anillos HQ — aparecen desde el inicio
         .ringsData(rings)
         .ringLat("lat")
         .ringLng("lng")
@@ -109,6 +110,18 @@ export function HomeGlobe() {
       globe.controls().enablePan = false;
       globe.pointOfView({ lat: 38, lng: -2, altitude: 1.25 }, 0);
 
+      // Añadir arcos uno a uno con retraso escalonado
+      // — primero los puntos, luego las líneas emergen gradualmente
+      const visibleArcs: typeof arcs = [];
+      arcs.forEach((arc, i) => {
+        const t = setTimeout(() => {
+          if (destroyed) return;
+          visibleArcs.push(arc);
+          globe.arcsData([...visibleArcs]);
+        }, 1400 + i * 200);
+        arcTimers.push(t);
+      });
+
       const onResize = () => {
         if (!containerRef.current) return;
         globe.width(containerRef.current.clientWidth).height(containerRef.current.clientHeight);
@@ -117,12 +130,14 @@ export function HomeGlobe() {
 
       (el as HTMLDivElement & { _globeCleanup?: () => void })._globeCleanup = () => {
         window.removeEventListener("resize", onResize);
+        arcTimers.forEach(clearTimeout);
         containerRef.current?.replaceChildren();
       };
     });
 
     return () => {
       destroyed = true;
+      arcTimers.forEach(clearTimeout);
       (el as HTMLDivElement & { _globeCleanup?: () => void })._globeCleanup?.();
     };
   }, [points, arcs, rings]);
