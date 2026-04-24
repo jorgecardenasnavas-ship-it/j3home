@@ -752,7 +752,15 @@ export function ProductsGrid() {
 
       {/* ── Próximamente header ── */}
       <div className="proximamente-header">
-        <span className="proximamente-eyebrow">Próximamente</span>
+        <div className="proximamente-inner">
+          <div className="proximamente-rule" />
+          <div className="proximamente-badge">
+            <span className="proximamente-dot" />
+            <span className="proximamente-eyebrow">Próximamente</span>
+          </div>
+          <div className="proximamente-rule" />
+        </div>
+        <p className="proximamente-sub">Nuevos productos en desarrollo</p>
       </div>
 
       {/* ── Próximamente horizontal scroll ── */}

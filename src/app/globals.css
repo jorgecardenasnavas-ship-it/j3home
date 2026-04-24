@@ -1816,39 +1816,60 @@ html[data-theme="light"] .theme-eyebrow {
 /* ─── Próximamente header ─── */
 .proximamente-header {
   background: var(--bk);
-  padding: 7vh 48px 3vh;
+  padding: 5vh 48px 4.5vh;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   text-align: center;
 }
 @media (max-width: 960px) {
   .proximamente-header {
-    padding: 6vh 24px 2vh;
+    padding: 5vh 24px 4vh;
   }
 }
-.proximamente-eyebrow {
-  display: inline-block;
-  font-size: 10px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: rgba(201, 169, 110, 0.6);
-  font-weight: 700;
-  margin-bottom: 16px;
+/* Horizontal strip: line — [● PRÓXIMAMENTE] — line */
+.proximamente-inner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  max-width: 640px;
+  margin: 0 auto 14px;
 }
-.proximamente-title {
-  font-size: clamp(32px, 4.5vw, 60px);
-  font-weight: 900;
-  letter-spacing: -1.5px;
-  line-height: 1;
-  color: var(--wh);
-  margin-bottom: 14px;
+.proximamente-rule {
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+.proximamente-badge {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  white-space: nowrap;
+}
+/* Pulsing dot */
+.proximamente-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--g1);
+  flex-shrink: 0;
+  animation: proxDotPulse 2.2s ease-in-out infinite;
+}
+@keyframes proxDotPulse {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50%       { opacity: 1;    transform: scale(1.4); }
+}
+.proximamente-eyebrow {
+  font-size: 11px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--g1);
+  font-weight: 700;
 }
 .proximamente-sub {
-  font-size: clamp(14px, 1.3vw, 17px);
+  font-size: 12px;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.5);
-  max-width: 640px;
-  margin: 0 auto;
-  line-height: 1.5;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.25);
+  margin: 0;
 }
 
 /* ─── Próximamente horizontal scroller ─── */
