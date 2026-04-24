@@ -816,7 +816,6 @@ export function ProductsGrid() {
           style={{ background: "radial-gradient(ellipse 60% 60% at 50% 50%, rgba(27,61,47,.12) 0%, transparent 70%)" }}
         />
         <div className="relative flex flex-col items-center gap-4">
-          <div className="mantra-bridge-accent w-px h-14" />
           <h2 className="mantra-bridge-question font-black tracking-[-1.5px] leading-[1.05] text-[clamp(28px,3.8vw,58px)] max-[960px]:text-[clamp(20px,6vw,38px)] text-center whitespace-nowrap max-[960px]:whitespace-normal">
             {t.home.closer}
           </h2>
