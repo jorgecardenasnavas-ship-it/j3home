@@ -5,28 +5,26 @@ import { useI18n } from "@/i18n/context";
 
 export function StickyClaim() {
   const { t } = useI18n();
-  const [show, setShow] = useState(false);
+  const [show, setShow]           = useState(false);
   const [navHidden, setNavHidden] = useState(false);
   const [overVerde, setOverVerde] = useState(false);
-  const lastScrollY = useRef(0);
+
+  const lastScrollY   = useRef(0);
+  const navHiddenRef  = useRef(false); // ref síncrono para no depender de state stale
 
   useEffect(() => {
-    /* Detecta si alguna sección bajo la barra tiene fondo verde (#1B3D2F).
-       Si es así, cambia la barra a crema para que no se pise el color. */
-    function checkOverVerde(navIsHidden: boolean) {
-      const barTop = navIsHidden ? 0 : 64;
-      const barMid = barTop + 16; // punto central de la barra
+    function checkOverVerde(hidden: boolean) {
+      const barTop = hidden ? 0 : 64;
+      const barMid = barTop + 16;
 
-      const candidates = document.querySelectorAll<HTMLElement>(
-        "main > *, section, [data-section]",
-      );
+      /* Solo hijos directos de <main> para no cazar elementos anidados */
+      const candidates = document.querySelectorAll<HTMLElement>("main > *");
       let isOver = false;
       candidates.forEach((el) => {
         if (isOver) return;
         const rect = el.getBoundingClientRect();
-        if (rect.top <= barMid && rect.bottom >= barMid) {
+        if (rect.top <= barMid && rect.bottom > barMid) {
           const bg = getComputedStyle(el).backgroundColor;
-          // rgb(27, 61, 47) = var(--verde) = #1B3D2F
           if (bg === "rgb(27, 61, 47)") isOver = true;
         }
       });
@@ -34,21 +32,22 @@ export function StickyClaim() {
     }
 
     function handleScroll() {
-      const y = window.scrollY;
+      const y  = window.scrollY;
       const vh = window.innerHeight;
+
       setShow((prev) => (prev ? y > vh * 0.4 : y > vh * 0.7));
 
-      let hidden = false;
-      if (y < vh * 0.4) {
-        hidden = false;
-      } else if (y > lastScrollY.current + 4) {
-        hidden = true;
-      } else if (y < lastScrollY.current - 4) {
-        hidden = false;
-      } else {
-        hidden = lastScrollY.current > vh * 0.4;
+      /* Preservar estado anterior sin depender del state asíncrono */
+      let hidden = navHiddenRef.current;
+      if (y < vh * 0.4)                    hidden = false;
+      else if (y > lastScrollY.current + 4) hidden = true;
+      else if (y < lastScrollY.current - 4) hidden = false;
+      /* else: mantiene el valor anterior sin modificarlo */
+
+      if (hidden !== navHiddenRef.current) {
+        navHiddenRef.current = hidden;
+        setNavHidden(hidden);
       }
-      setNavHidden(hidden);
       lastScrollY.current = y;
 
       checkOverVerde(hidden);
@@ -59,18 +58,10 @@ export function StickyClaim() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const bg = overVerde
-    ? "rgba(248,245,239,0.95)"
-    : "var(--verde)";
-  const border = overVerde
-    ? "1px solid rgba(27,61,47,0.12)"
-    : "1px solid rgba(201,169,110,0.18)";
-  const dotColor = overVerde
-    ? "rgba(27,61,47,0.25)"
-    : "rgba(201,169,110,0.35)";
-  const textColor = overVerde
-    ? "rgba(27,61,47,0.55)"
-    : "rgba(248,245,239,0.70)";
+  const bg        = overVerde ? "rgba(248,245,239,0.95)" : "var(--verde)";
+  const border    = overVerde ? "1px solid rgba(27,61,47,0.12)" : "1px solid rgba(201,169,110,0.18)";
+  const dotColor  = overVerde ? "rgba(27,61,47,0.25)"  : "rgba(201,169,110,0.35)";
+  const textColor = overVerde ? "rgba(27,61,47,0.55)"  : "rgba(248,245,239,0.70)";
 
   return (
     <div
