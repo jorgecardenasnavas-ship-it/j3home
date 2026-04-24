@@ -2236,20 +2236,17 @@ html[data-theme="light"] .theme-eyebrow {
 /* Sponsor banner stagger logos */
 .sp-logo {
   transform: translateY(12px);
+  opacity: 0;
+  mix-blend-mode: multiply;
   transition: opacity 0.6s var(--ease-out),
     transform 0.6s var(--ease-out);
 }
 .sp-logo.in {
-  opacity: 0.5;
+  opacity: 1;
   transform: translateY(0);
 }
 .sp-logo.in:hover {
-  opacity: 1;
-}
-@media (max-width: 960px) {
-  .sp-logo.in {
-    opacity: 1;
-  }
+  transform: scale(1.05);
 }
 
 /* Scrollbar hide */

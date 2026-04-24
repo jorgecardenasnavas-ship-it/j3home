@@ -53,7 +53,7 @@ export function SponsorsBanner() {
             href={s.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="sp-logo j3-press opacity-0 max-[960px]:hover:opacity-100 hover:opacity-100 transition-[opacity,transform] duration-300 ease-[var(--ease-out)] hover:scale-105"
+            className="sp-logo j3-press"
           >
             <Image
               src={s.src}
