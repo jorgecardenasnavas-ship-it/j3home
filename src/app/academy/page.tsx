@@ -957,7 +957,8 @@ function HeroSection() {
 
   return (
     <section
-      className="relative z-[1] overflow-hidden bg-black min-h-[640px] min-[961px]:h-[calc(100vh-134px)] min-[961px]:min-h-[600px]"
+      className="relative z-[1] overflow-hidden min-h-[640px] min-[961px]:h-[calc(100vh-134px)] min-[961px]:min-h-[600px]"
+      style={{ backgroundColor: "var(--bk)" }}
       role="region"
       aria-label="Academy J3 hero"
       style={{
@@ -995,7 +996,7 @@ function HeroSection() {
 
       <div className="relative w-full h-full min-[961px]:absolute min-[961px]:inset-0 flex flex-col min-[961px]:flex-row" data-hero-ready={ready ? "true" : "false"}>
         {/* ── Copy column (40%) ── */}
-        <div className="relative z-10 w-full min-[961px]:w-[40%] flex flex-col justify-center px-6 max-[960px]:px-5 py-16 max-[960px]:pt-16 max-[960px]:pb-12 min-[961px]:px-10 min-[961px]:py-16 border-r border-white/[.06]">
+        <div className="relative z-10 w-full min-[961px]:w-[40%] flex flex-col justify-center px-6 max-[960px]:px-5 py-16 max-[960px]:pt-16 max-[960px]:pb-12 min-[961px]:px-10 min-[961px]:py-16 border-r border-[rgba(201,169,110,0.12)]">
           {/* Línea vertical dorada — ornamento lateral en desktop. Crece
               de arriba a abajo al entrar. Refuerza la jerarquía sin
               competir con el contenido. */}
@@ -1014,8 +1015,8 @@ function HeroSection() {
             </span>
 
             <h1
-              className="hero-rise hero-rise-2 font-bold max-[960px]:font-bold min-[961px]:font-medium tracking-[-1px] min-[961px]:tracking-[-1.5px] leading-[1.08] text-[#E8DDD0] text-[clamp(28px,3.2vw,44px)] max-[960px]:text-[clamp(28px,8.5vw,48px)]"
-              style={{ textShadow: "0 0 60px rgba(201,169,110,0.15), 0 2px 12px rgba(0,0,0,0.4)" }}
+              className="hero-rise hero-rise-2 font-bold max-[960px]:font-bold min-[961px]:font-medium tracking-[-1px] min-[961px]:tracking-[-1.5px] leading-[1.08] text-[var(--wh)] text-[clamp(28px,3.2vw,44px)] max-[960px]:text-[clamp(28px,8.5vw,48px)]"
+              style={{ textShadow: "0 0 60px rgba(201,169,110,0.15), 0 2px 12px rgba(14,28,22,0.6)" }}
             >
               {t.academy.hero.headingAccent ? (
                 <>
@@ -1044,7 +1045,7 @@ function HeroSection() {
               }}
             />
 
-            <p className="hero-rise hero-rise-3 text-[15px] max-[960px]:text-[14px] leading-[1.5] text-[#E8DDD0]/75 max-w-[420px]">
+            <p className="hero-rise hero-rise-3 text-[15px] max-[960px]:text-[14px] leading-[1.5] text-[var(--wh)]/70 max-w-[420px]">
               {/* Partimos al fin de cada frase para que el wrap caiga en un
                   punto natural (". ") en vez de cortar mid-phrase. */}
               {t.academy.hero.sub.split(/(?<=\.) +/).map((s, i, arr) => (
@@ -1132,7 +1133,7 @@ function HeroSection() {
             </div>
 
             {geo.status === "error" && (
-              <p className="hero-rise hero-rise-4 mt-3 text-[11px] tracking-[1px] uppercase text-[#E8DDD0]/55">
+              <p className="hero-rise hero-rise-4 mt-3 text-[11px] tracking-[1px] uppercase text-[var(--wh)]/50">
                 {t.academy.network.nearMeError}
               </p>
             )}
@@ -1172,12 +1173,12 @@ function HeroSection() {
             aria-label={baseCoachesLine}
           >
             <div
-              className="inline-flex items-center gap-2 text-[10.5px] leading-[1.25] tracking-[0.3px] text-[#E8DDD0]/72 px-[10px] py-[7px] rounded-[2px]"
+              className="inline-flex items-center gap-2 text-[10.5px] leading-[1.25] tracking-[0.3px] text-[var(--wh)]/70 px-[10px] py-[7px] rounded-[2px]"
               style={{
-                background: "rgba(10,10,10,0.78)",
+                background: "rgba(14,28,22,0.85)",
                 backdropFilter: "blur(6px)",
-                border: "1px solid rgba(201,169,110,0.28)",
-                boxShadow: "0 4px 14px rgba(0,0,0,0.4)",
+                border: "1px solid rgba(201,169,110,0.25)",
+                boxShadow: "0 4px 14px rgba(14,28,22,0.5)",
               }}
             >
               <span
@@ -1220,7 +1221,7 @@ function HeroSection() {
           {/* Subtle fade-left on desktop para fundir con copy column */}
           <div
             className="hidden min-[961px]:block absolute inset-y-0 left-0 w-[80px] pointer-events-none z-[450]"
-            style={{ background: "linear-gradient(to right, rgba(0,0,0,.55), transparent)" }}
+            style={{ background: "linear-gradient(to right, rgba(14,28,22,0.65), transparent)" }}
             aria-hidden
           />
         </div>
