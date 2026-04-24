@@ -49,6 +49,65 @@ function approxDistance(a: [number, number], b: [number, number]): number {
   return Math.sqrt(dLat * dLat + dLng * dLng);
 }
 
+/* ── Gesture handling: 1 finger = scroll page, 2 fingers = move map ── */
+
+function GestureHandling() {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!L.Browser.mobile) return;
+
+    const container = map.getContainer();
+    map.dragging.disable();
+
+    let hint: HTMLDivElement | null = null;
+    let hintTimeout: ReturnType<typeof setTimeout>;
+
+    const getOrCreateHint = () => {
+      if (!hint) {
+        hint = document.createElement("div");
+        hint.className = "home-map-gesture-hint";
+        hint.textContent = "Usa 2 dedos para mover el mapa";
+        container.appendChild(hint);
+      }
+      return hint;
+    };
+
+    const showHint = () => {
+      const el = getOrCreateHint();
+      el.classList.add("visible");
+      clearTimeout(hintTimeout);
+      hintTimeout = setTimeout(() => el.classList.remove("visible"), 1600);
+    };
+
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length >= 2) {
+        map.dragging.enable();
+        hint?.classList.remove("visible");
+      } else {
+        map.dragging.disable();
+        showHint();
+      }
+    };
+
+    const onTouchEnd = () => {
+      map.dragging.disable();
+    };
+
+    container.addEventListener("touchstart", onTouchStart, { passive: true });
+    container.addEventListener("touchend", onTouchEnd, { passive: true });
+
+    return () => {
+      container.removeEventListener("touchstart", onTouchStart);
+      container.removeEventListener("touchend", onTouchEnd);
+      hint?.remove();
+      clearTimeout(hintTimeout);
+    };
+  }, [map]);
+
+  return null;
+}
+
 /* ── Layer manager: runs inside MapContainer, has access to the map via useMap ── */
 
 function MapLayers({
@@ -360,6 +419,7 @@ export function HomeMap() {
       <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" />
       <MapLayers hq={hq} others={others} onDotHover={setHoveredSlug} />
       <HoverState hoveredSlug={hoveredSlug} />
+      <GestureHandling />
     </MapContainer>
   );
 }
