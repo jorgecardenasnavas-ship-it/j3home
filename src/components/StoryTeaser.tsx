@@ -27,7 +27,7 @@ export function StoryTeaser() {
   return (
     <section ref={sectionRef} className="story-teaser">
       <div className="story-teaser-inner">
-        <span className="story-teaser-eyebrow">La historia</span>
+        <span className="story-teaser-eyebrow">Desde 2004</span>
         <p className="story-teaser-text">
           De la historia no se vive. Pero la nuestra explica todo lo que ves aquí.
         </p>
