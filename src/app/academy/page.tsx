@@ -617,9 +617,9 @@ function ProgramBar() {
                     opacity: compact ? 0 : 1,
                     marginBottom: compact ? "0px" : "7px",
                     transition: "all 0.6s cubic-bezier(.4,0,.2,1)",
-                    border: "2px solid rgba(201,169,110,0.9)",
-                    boxShadow: "0 0 16px rgba(201,169,110,.25), 0 0 4px rgba(201,169,110,.3)",
-                    background: "radial-gradient(circle at 30% 30%, rgba(201,169,110,.15) 0%, rgba(15,35,25,1) 70%)",
+                    border: "2px solid rgba(201,169,110,0.7)",
+                    boxShadow: "none",
+                    background: "rgba(255,255,255,0.04)",
                   }}
                 >
                   <div
@@ -633,7 +633,7 @@ function ProgramBar() {
                   </div>
                 </div>
                 <span
-                  className="font-bold text-[var(--g1)] group-hover/pnav:text-[#E8DDD0] transition-all duration-300 whitespace-nowrap leading-tight uppercase tracking-[1.5px]"
+                  className="font-bold text-[var(--wh)]/80 group-hover/pnav:text-[var(--g1)] transition-all duration-300 whitespace-nowrap leading-tight uppercase tracking-[1.5px]"
                   style={{ fontSize: compact ? "10px" : "11px" }}
                 >
                   {sede.name}
