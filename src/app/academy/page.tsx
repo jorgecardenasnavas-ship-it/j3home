@@ -1025,7 +1025,7 @@ function HeroSection() {
                       que "Encuentra entrenadores con" quepa en la primera
                       fila y el accent italic ocupe la segunda completa. */}
                   <br className="min-[961px]:hidden" aria-hidden />
-                  <span className="j3-grad-text font-[var(--font-serif)] italic normal-case font-medium inline-block pr-[0.25em]">
+                  <span className="font-[var(--font-serif)] italic normal-case font-medium inline-block pr-[0.25em]" style={{ color: "var(--wh)" }}>
                     {t.academy.hero.headingAccent}
                   </span>
                   {t.academy.hero.headingPost}
