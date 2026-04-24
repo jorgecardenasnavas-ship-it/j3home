@@ -33,7 +33,7 @@ export function Footer() {
 
       <div className="py-12 max-[960px]:py-10 px-12 max-[960px]:px-6 flex items-center justify-between flex-wrap gap-6 max-[960px]:flex-col max-[960px]:items-start max-[960px]:gap-6">
         {/* Logo + tagline */}
-        <div className="flex items-end gap-3 select-none">
+        <div className="flex items-center gap-3 select-none">
           <img
             src="/images/j3padel-text-dark.svg"
             alt="J3Pádel"
@@ -45,8 +45,8 @@ export function Footer() {
           {/* Tagline */}
           <div className="flex flex-col gap-[3px]">
             <span className="text-[8px] font-semibold tracking-[2px] uppercase leading-none" style={{ color: "var(--g1)" }}>Play</span>
-            <span className="text-[8px] font-semibold tracking-[2px] uppercase leading-none" style={{ color: "rgba(27,61,47,0.55)" }}>Coach</span>
-            <span className="text-[8px] font-semibold tracking-[2px] uppercase leading-none" style={{ color: "rgba(27,61,47,0.55)" }}>Manage</span>
+            <span className="text-[8px] font-semibold tracking-[2px] uppercase leading-none" style={{ color: "var(--verde)" }}>Coach</span>
+            <span className="text-[8px] font-semibold tracking-[2px] uppercase leading-none" style={{ color: "var(--verde)" }}>Manage</span>
           </div>
         </div>
 
