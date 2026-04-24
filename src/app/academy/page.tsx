@@ -996,7 +996,7 @@ function HeroSection() {
 
       <div className="relative w-full h-full min-[961px]:absolute min-[961px]:inset-0 flex flex-col min-[961px]:flex-row" data-hero-ready={ready ? "true" : "false"}>
         {/* ── Copy column (40%) ── */}
-        <div className="relative z-10 w-full min-[961px]:w-[40%] flex flex-col justify-center px-6 max-[960px]:px-5 py-16 max-[960px]:pt-16 max-[960px]:pb-12 min-[961px]:px-10 min-[961px]:py-16 border-r border-[rgba(201,169,110,0.12)]">
+        <div className="relative z-10 w-full min-[961px]:w-[40%] flex flex-col justify-center px-6 max-[960px]:px-5 py-16 max-[960px]:pt-16 max-[960px]:pb-12 min-[961px]:px-10 min-[961px]:py-16 border-r border-[rgba(201,169,110,0.12)]" style={{ background: "linear-gradient(135deg, rgba(27,61,47,0.45) 0%, rgba(14,28,22,0.15) 100%)" }}>
           {/* Línea vertical dorada — ornamento lateral en desktop. Crece
               de arriba a abajo al entrar. Refuerza la jerarquía sin
               competir con el contenido. */}
@@ -1045,7 +1045,7 @@ function HeroSection() {
               }}
             />
 
-            <p className="hero-rise hero-rise-3 text-[15px] max-[960px]:text-[14px] leading-[1.5] text-[var(--wh)]/70 max-w-[420px]">
+            <p className="hero-rise hero-rise-3 text-[15px] max-[960px]:text-[14px] leading-[1.5] max-w-[420px]" style={{ color: "rgba(201,169,110,0.55)" }}>
               {/* Partimos al fin de cada frase para que el wrap caiga en un
                   punto natural (". ") en vez de cortar mid-phrase. */}
               {t.academy.hero.sub.split(/(?<=\.) +/).map((s, i, arr) => (

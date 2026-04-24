@@ -45,7 +45,7 @@ import { LanguageChip } from "@/components/LanguageChip";
 const pinStyles = `
   /* Tiles teñidos de verde — sepia primero para dar color al gris, luego hue-rotate a verde */
   .leaflet-tile-pane {
-    filter: sepia(1) hue-rotate(95deg) saturate(0.9) brightness(0.72);
+    filter: sepia(0.55) hue-rotate(95deg) saturate(0.6) brightness(0.82);
   }
 
   .j3-pin {
