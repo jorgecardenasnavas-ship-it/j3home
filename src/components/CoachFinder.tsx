@@ -31,10 +31,10 @@ export function CoachFinder() {
         <span className="text-[10px] tracking-[4px] uppercase text-[var(--g1)]/70 font-bold">
           {t.home.coachFinder.label}
         </span>
-        <h2 className="text-[clamp(40px,5.6vw,82px)] max-[960px]:text-[clamp(30px,8vw,44px)] font-black leading-[0.95] tracking-[-2px] text-[var(--wh)]">
+        <h2 className="text-[clamp(40px,5.6vw,82px)] max-[960px]:text-[clamp(30px,8vw,44px)] font-black leading-[0.95] tracking-[-2px] text-[#E8DDD0]">
           {t.home.coachFinder.title}
         </h2>
-        <p className="text-[clamp(14px,1.2vw,17px)] max-[960px]:text-[13px] text-[var(--wh)]/55 font-light leading-[1.5] max-w-[440px] whitespace-pre-line">
+        <p className="text-[clamp(14px,1.2vw,17px)] max-[960px]:text-[13px] text-[#E8DDD0]/55 font-light leading-[1.5] max-w-[440px] whitespace-pre-line">
           {t.home.coachFinder.subtitle}
         </p>
         <Link

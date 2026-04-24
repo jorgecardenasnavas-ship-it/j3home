@@ -37,9 +37,9 @@ export function StickyClaim() {
       <span className="text-[10px] tracking-[5px] uppercase text-white/45 font-normal select-none">
         <span className="j3-grad-text font-bold">{t.hero.play}</span>
         <span className="mx-3 text-white/20">·</span>
-        <span className="text-white/65 font-bold">{t.hero.coach}</span>
+        <span className="text-[#E8DDD0]/65 font-bold">{t.hero.coach}</span>
         <span className="mx-3 text-white/20">·</span>
-        <span className="text-white/65 font-bold">{t.hero.manage}</span>
+        <span className="text-[#E8DDD0]/65 font-bold">{t.hero.manage}</span>
       </span>
     </div>
   );

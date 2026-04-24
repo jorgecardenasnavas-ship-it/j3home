@@ -94,7 +94,7 @@ export function HeroSection() {
 
         <Link
           href="/academy"
-          className="mt-2 px-9 py-[13px] rounded-full border border-[var(--wh)]/60 text-[var(--wh)] text-[11px] tracking-[3px] uppercase no-underline hover:border-[var(--wh)] hover:bg-[var(--wh)]/10 transition-all duration-500"
+          className="mt-2 px-9 py-[13px] rounded-full border border-[#E8DDD0]/60 text-[#E8DDD0] text-[11px] tracking-[3px] uppercase no-underline hover:border-[#E8DDD0] hover:bg-[#E8DDD0]/10 transition-all duration-500"
         >
           Descúbrenos
         </Link>
@@ -116,7 +116,7 @@ export function HeroSection() {
             strokeLinejoin="round"
             aria-hidden
             style={{
-              stroke: "#F8F5EF",
+              stroke: "#E8DDD0",
               animation: "j3ChevPulse 1.6s cubic-bezier(.4,0,.6,1) infinite",
               animationDelay: `${i * 0.18}s`,
             }}
