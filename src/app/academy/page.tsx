@@ -1485,7 +1485,7 @@ function StatementSection() {
     if (!programsEl) return;
     const io = new IntersectionObserver(
       ([entry]) => setProgramsVisible(entry.isIntersecting),
-      { threshold: 0 },
+      { threshold: 0, rootMargin: "0px 0px -30% 0px" },
     );
     io.observe(programsEl);
     return () => io.disconnect();
@@ -1925,6 +1925,20 @@ function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const { t } = useI18n();
   const { ref, visible } = useReveal(0.1);
 
+  /* Mismo IntersectionObserver que StatementSection — observa #programas
+     con threshold idéntico para que el crossfade se sincronice exactamente. */
+  const [programsVisible, setProgramsVisible] = useState(false);
+  useEffect(() => {
+    const el = document.getElementById("programas");
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setProgramsVisible(entry.isIntersecting),
+      { threshold: 0, rootMargin: "0px 0px -30% 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   /* Hover state — desktop PorscheRow (per row of 2) + mobile carousel */
   const [jRow0Hover, setJRow0Hover] = useState<number | null>(null);
   const [jRow1Hover, setJRow1Hover] = useState<number | null>(null);
@@ -1982,9 +1996,8 @@ function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const iMobileReveal = useReveal(0.15);
 
   return (
-    <section id="programas" className="relative pt-[100px] pb-[60px] max-[960px]:pt-[72px] max-[960px]:pb-[48px] overflow-hidden">
-      {/* Marker slot — at the very top so transition fires as user enters Programs.
-          Both Statement (still visible above) and Programs (entering below) cross-fade together. */}
+    <section id="programas" className="relative pt-[100px] pb-[60px] max-[960px]:pt-[72px] max-[960px]:pb-[48px] overflow-hidden" style={{ backgroundColor: programsVisible ? "var(--wh)" : "var(--bk)", transition: "background-color 1.4s cubic-bezier(.16,1,.3,1)" }}>
+      {/* Marker slot — al entrar Programs, body también pasa a crema */}
       {markerSlot}
       {/* Section header */}
       <div
