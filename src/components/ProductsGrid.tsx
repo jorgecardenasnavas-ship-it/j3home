@@ -633,64 +633,56 @@ export function ProductsGrid() {
     };
   }, []);
 
-  /* Drag-to-scroll: click + arrastrar en los scrollers horizontales.
-     Usa Pointer Events para captura fiable incluso sobre elementos hijo.
-     Desactiva scroll-snap durante el drag para movimiento fluido. */
+  /* Drag-to-scroll — mismo patrón que useDragScroll() en academy/page.tsx */
   useEffect(() => {
     const scrollers = document.querySelectorAll<HTMLElement>(
       ".academy-scroller-track, .prox-scroller",
     );
     const cleanups: (() => void)[] = [];
 
-    scrollers.forEach((scroller) => {
-      let isDown = false;
-      let startX = 0;
-      let scrollLeftStart = 0;
-      let moved = false;
+    scrollers.forEach((el) => {
+      const drag = { startX: 0, scrollLeft: 0, active: false, moved: false };
 
-      const onPointerDown = (e: PointerEvent) => {
-        if (e.button !== 0) return;
-        isDown = true;
-        moved = false;
-        startX = e.clientX;
-        scrollLeftStart = scroller.scrollLeft;
-        scroller.setPointerCapture(e.pointerId);
-        scroller.style.scrollSnapType = "none";
-        scroller.style.cursor = "grabbing";
+      const onDown = (e: MouseEvent) => {
+        e.preventDefault();
+        drag.startX = e.pageX;
+        drag.scrollLeft = el.scrollLeft;
+        drag.active = true;
+        drag.moved = false;
+        el.style.cursor = "grabbing";
+        el.style.userSelect = "none";
+        el.style.scrollSnapType = "none";
       };
 
-      const onPointerMove = (e: PointerEvent) => {
-        if (!isDown) return;
-        const dx = e.clientX - startX;
-        if (Math.abs(dx) > 4) moved = true;
-        scroller.scrollLeft = scrollLeftStart - dx;
+      const onMove = (e: MouseEvent) => {
+        if (!drag.active) return;
+        e.preventDefault();
+        const walk = (e.pageX - drag.startX) * 1.2;
+        if (Math.abs(walk) > 3) drag.moved = true;
+        el.scrollLeft = drag.scrollLeft - walk;
       };
 
-      const onPointerUp = (e: PointerEvent) => {
-        if (!isDown) return;
-        isDown = false;
-        scroller.releasePointerCapture(e.pointerId);
-        scroller.style.scrollSnapType = "";
-        scroller.style.cursor = "";
+      const onUp = () => {
+        if (!drag.active) return;
+        drag.active = false;
+        el.style.cursor = "grab";
+        el.style.userSelect = "";
+        el.style.scrollSnapType = "";
+        if (drag.moved) {
+          const block = (ev: Event) => { ev.preventDefault(); ev.stopPropagation(); };
+          el.addEventListener("click", block, { capture: true, once: true });
+        }
       };
 
-      /* Evita que un drag active el link de la tarjeta */
-      const onClick = (e: MouseEvent) => {
-        if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; }
-      };
-
-      scroller.addEventListener("pointerdown", onPointerDown);
-      scroller.addEventListener("pointermove", onPointerMove);
-      scroller.addEventListener("pointerup", onPointerUp);
-      scroller.addEventListener("pointercancel", onPointerUp);
-      scroller.addEventListener("click", onClick, true);
+      el.style.cursor = "grab";
+      el.addEventListener("mousedown", onDown);
+      window.addEventListener("mousemove", onMove);
+      window.addEventListener("mouseup", onUp);
 
       cleanups.push(() => {
-        scroller.removeEventListener("pointerdown", onPointerDown);
-        scroller.removeEventListener("pointermove", onPointerMove);
-        scroller.removeEventListener("pointerup", onPointerUp);
-        scroller.removeEventListener("pointercancel", onPointerUp);
-        scroller.removeEventListener("click", onClick, true);
+        el.removeEventListener("mousedown", onDown);
+        window.removeEventListener("mousemove", onMove);
+        window.removeEventListener("mouseup", onUp);
       });
     });
 
