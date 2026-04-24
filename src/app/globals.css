@@ -1878,7 +1878,13 @@ html[data-theme="light"] .theme-eyebrow {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   gap: 12px;
-  padding: 0 24px 32px;
+  /* Centrado inteligente: centra cuando hay espacio, scroll cuando no.
+     3 tarjetas × 480px + 2 gaps × 12px = 1464px total.
+     max(24px, (100% - 1464px) / 2) → centra en pantallas >1512px,
+     scroll con padding mínimo en pantallas más estrechas. */
+  padding-left: max(24px, calc((100% - 1464px) / 2));
+  padding-right: max(24px, calc((100% - 1464px) / 2));
+  padding-bottom: 32px;
   background: var(--bk);
   scrollbar-width: none;
 }
