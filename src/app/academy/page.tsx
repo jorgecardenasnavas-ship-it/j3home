@@ -1991,6 +1991,9 @@ function PerfilesSection() {
         </p>
       </div>
 
+      {/* Marker 2: dark→crema — placed after header so Statement is fully out of view */}
+      <ScrollMarker index={2} to="light" refs={markerRefs} />
+
       {/* Block 1: Juniors */}
       <div id="juniors" className="border-t theme-border scroll-mt-[100px]">
         <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
@@ -4218,10 +4221,7 @@ export default function AcademyV2Page() {
       {/* Statement section — theme already dark when this enters viewport */}
       <StatementSection />
 
-      {/* Marker 2: dark→crema — transition as Programs section enters */}
-      <ScrollMarker index={2} to="light" refs={markerRefs} />
-
-      {/* Programs section — crema */}
+      {/* Programs section — crema (marker placed inside, after header) */}
       <PerfilesSection />
 
       <NetworkSection markerSlot={
