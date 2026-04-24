@@ -633,13 +633,13 @@ function ProgramBar() {
                   </div>
                 </div>
                 <span
-                  className="font-bold text-[var(--g1)] group-hover/pnav:text-white transition-all duration-300 whitespace-nowrap leading-tight uppercase tracking-[1.5px]"
+                  className="font-bold text-[var(--g1)] group-hover/pnav:text-[#E8DDD0] transition-all duration-300 whitespace-nowrap leading-tight uppercase tracking-[1.5px]"
                   style={{ fontSize: compact ? "10px" : "11px" }}
                 >
                   {sede.name}
                 </span>
                 <span
-                  className="text-[9px] min-[961px]:text-[10px] text-white/50 transition-all duration-500"
+                  className="text-[9px] min-[961px]:text-[10px] text-[#E8DDD0]/50 transition-all duration-500"
                   style={{
                     maxHeight: compact ? "0px" : "20px",
                     opacity: compact ? 0 : 1,
@@ -769,7 +769,7 @@ function ProgramBar() {
                     <span className="text-[7px] font-bold tracking-[1.5px] uppercase text-[var(--g1)] block leading-tight">
                       {card.tag}
                     </span>
-                    <span className="text-[11px] font-bold uppercase tracking-[-0.3px] text-white/90 leading-tight block">
+                    <span className="text-[11px] font-bold uppercase tracking-[-0.3px] text-[#E8DDD0]/90 leading-tight block">
                       {card.name}
                     </span>
                   </div>
@@ -1014,7 +1014,7 @@ function HeroSection() {
             </span>
 
             <h1
-              className="hero-rise hero-rise-2 font-bold max-[960px]:font-bold min-[961px]:font-medium tracking-[-1px] min-[961px]:tracking-[-1.5px] leading-[1.08] text-white text-[clamp(28px,3.2vw,44px)] max-[960px]:text-[clamp(28px,8.5vw,48px)]"
+              className="hero-rise hero-rise-2 font-bold max-[960px]:font-bold min-[961px]:font-medium tracking-[-1px] min-[961px]:tracking-[-1.5px] leading-[1.08] text-[#E8DDD0] text-[clamp(28px,3.2vw,44px)] max-[960px]:text-[clamp(28px,8.5vw,48px)]"
               style={{ textShadow: "0 0 60px rgba(201,169,110,0.15), 0 2px 12px rgba(0,0,0,0.4)" }}
             >
               {t.academy.hero.headingAccent ? (
@@ -1044,7 +1044,7 @@ function HeroSection() {
               }}
             />
 
-            <p className="hero-rise hero-rise-3 text-[15px] max-[960px]:text-[14px] leading-[1.5] text-white/75 max-w-[420px]">
+            <p className="hero-rise hero-rise-3 text-[15px] max-[960px]:text-[14px] leading-[1.5] text-[#E8DDD0]/75 max-w-[420px]">
               {/* Partimos al fin de cada frase para que el wrap caiga en un
                   punto natural (". ") en vez de cortar mid-phrase. */}
               {t.academy.hero.sub.split(/(?<=\.) +/).map((s, i, arr) => (
@@ -1132,7 +1132,7 @@ function HeroSection() {
             </div>
 
             {geo.status === "error" && (
-              <p className="hero-rise hero-rise-4 mt-3 text-[11px] tracking-[1px] uppercase text-white/55">
+              <p className="hero-rise hero-rise-4 mt-3 text-[11px] tracking-[1px] uppercase text-[#E8DDD0]/55">
                 {t.academy.network.nearMeError}
               </p>
             )}
@@ -1172,7 +1172,7 @@ function HeroSection() {
             aria-label={baseCoachesLine}
           >
             <div
-              className="inline-flex items-center gap-2 text-[10.5px] leading-[1.25] tracking-[0.3px] text-white/72 px-[10px] py-[7px] rounded-[2px]"
+              className="inline-flex items-center gap-2 text-[10.5px] leading-[1.25] tracking-[0.3px] text-[#E8DDD0]/72 px-[10px] py-[7px] rounded-[2px]"
               style={{
                 background: "rgba(10,10,10,0.78)",
                 backdropFilter: "blur(6px)",
@@ -1272,7 +1272,7 @@ function AcademyBand() {
   const { ref, visible } = useReveal(0.05);
 
   return (
-    <section className="bg-white py-[80px] max-[960px]:py-[56px] overflow-hidden">
+    <section className="bg-[var(--wh)] py-[80px] max-[960px]:py-[56px] overflow-hidden">
       <div
         ref={ref}
         className="relative max-w-[1600px] mx-auto px-4 max-[960px]:px-3"
@@ -1414,7 +1414,7 @@ function ClaimSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
             transition: "all 1.4s cubic-bezier(.16,1,.3,1) 0.3s",
           }}
         >
-          <p className="text-[clamp(20px,2.5vw,32px)] font-[var(--font-serif)] italic text-white/80 leading-[1.5] mb-4" style={{ textWrap: "balance" }}>
+          <p className="text-[clamp(20px,2.5vw,32px)] font-[var(--font-serif)] italic text-[#E8DDD0]/80 leading-[1.5] mb-4" style={{ textWrap: "balance" }}>
             &ldquo;{t.academy.claim.quote}&rdquo;
           </p>
           <cite className="text-[11px] font-medium tracking-[2.5px] uppercase text-[var(--g1)] not-italic">
@@ -1436,7 +1436,7 @@ function BannerSection() {
   const { ref, visible } = useReveal(0.05);
 
   return (
-    <section className="bg-white py-[56px] max-[960px]:py-[40px] overflow-hidden">
+    <section className="bg-[var(--wh)] py-[56px] max-[960px]:py-[40px] overflow-hidden">
       <div
         ref={ref}
         className="max-w-[1200px] mx-auto px-12 max-[960px]:px-6 max-[640px]:px-4 text-center flex flex-col items-center gap-6"
@@ -1740,7 +1740,7 @@ function ProgramTile({
         className="absolute top-0 left-0 right-0 z-[6] flex flex-col items-center pt-7 max-[640px]:pt-5 px-4 text-center"
         style={{ textShadow: "0 2px 14px rgba(0,0,0,0.55), 0 1px 3px rgba(0,0,0,0.4)" }}
       >
-        <h4 className="font-bold text-[clamp(26px,3.5vw,48px)] uppercase tracking-[-1.5px] leading-[1] text-white">
+        <h4 className="font-bold text-[clamp(26px,3.5vw,48px)] uppercase tracking-[-1.5px] leading-[1] text-[#E8DDD0]">
           {title}
         </h4>
         <span className="mt-[6px] text-[10px] max-[640px]:text-[9.5px] font-bold tracking-[3px] uppercase text-[var(--g1)]">
@@ -1752,7 +1752,7 @@ function ProgramTile({
       <div className="absolute bottom-0 left-0 right-0 z-[13] p-[18px] min-[961px]:p-[clamp(16px,1.25vw+12px,36px)]">
         <div className="flex items-end justify-between gap-3">
           <span
-            className="text-[13px] max-[640px]:text-[12px] font-normal text-white/90 leading-[1.3] tracking-[0.2px]"
+            className="text-[13px] max-[640px]:text-[12px] font-normal text-[#E8DDD0]/90 leading-[1.3] tracking-[0.2px]"
             style={{ textShadow: "0 2px 10px rgba(0,0,0,0.55), 0 1px 3px rgba(0,0,0,0.4)" }}
           >
             {sub}
@@ -2479,13 +2479,13 @@ function SedeCard({
         className="absolute top-0 left-0 right-0 z-[6] flex flex-col items-center pt-7 max-[640px]:pt-5 px-4 text-center"
         style={{ textShadow: "0 2px 14px rgba(0,0,0,0.55), 0 1px 3px rgba(0,0,0,0.4)" }}
       >
-        <h4 className="font-bold text-[clamp(22px,2.8vw,38px)] uppercase tracking-[-1px] leading-[1] text-white">
+        <h4 className="font-bold text-[clamp(22px,2.8vw,38px)] uppercase tracking-[-1px] leading-[1] text-[#E8DDD0]">
           {sede.name}
         </h4>
         <span className="mt-[6px] text-[10px] max-[640px]:text-[9.5px] font-bold tracking-[3px] uppercase text-[var(--g1)]">
           {eyebrow}
         </span>
-        <span className="mt-[3px] text-[10px] max-[640px]:text-[9px] font-normal tracking-[1.5px] uppercase text-white/65">
+        <span className="mt-[3px] text-[10px] max-[640px]:text-[9px] font-normal tracking-[1.5px] uppercase text-[#E8DDD0]/65">
           {sede.flag}
         </span>
         {/* Horario de la sede — icono de reloj + texto. Se lee debajo de la
@@ -2738,7 +2738,7 @@ function PorscheCoachCard({
         <div className="flex items-end justify-between gap-3">
           <div className="min-w-0 flex-1">
             <h3
-              className="font-bold text-[16px] min-[640px]:text-[18px] text-white leading-[1.05] tracking-[-0.4px] truncate"
+              className="font-bold text-[16px] min-[640px]:text-[18px] text-[#E8DDD0] leading-[1.05] tracking-[-0.4px] truncate"
               style={{
                 textShadow: "0 2px 14px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.4)",
                 transform: expanded ? "translateY(-2px)" : "translateY(0)",
@@ -2748,7 +2748,7 @@ function PorscheCoachCard({
               {coach.name}
             </h3>
             <p
-              className="mt-[4px] text-[10.5px] font-medium text-white/75 tracking-[0.4px] truncate"
+              className="mt-[4px] text-[10.5px] font-medium text-[#E8DDD0]/75 tracking-[0.4px] truncate"
               style={{ textShadow: "0 1px 6px rgba(0,0,0,0.6)" }}
             >
               {coach.location.city} · {coach.location.country}
@@ -2780,7 +2780,7 @@ function PorscheCoachCard({
               )}
               {primaryClub && (
                 <p
-                  className="mt-[4px] text-[10px] font-medium text-white/60 tracking-[0.2px] truncate"
+                  className="mt-[4px] text-[10px] font-medium text-[#E8DDD0]/60 tracking-[0.2px] truncate"
                   style={{ textShadow: "0 1px 4px rgba(0,0,0,0.5)" }}
                 >
                   {primaryClub}
@@ -3070,7 +3070,7 @@ function MonthlyRankingBlock() {
             {s.eyebrow}
           </span>
           <span aria-hidden className="h-px flex-1 bg-[var(--g1)]/25" />
-          <span className="text-[10px] tracking-[3px] uppercase text-white/45 font-medium">
+          <span className="text-[10px] tracking-[3px] uppercase text-[#E8DDD0]/45 font-medium">
             {s.period}
           </span>
         </div>
@@ -3225,7 +3225,7 @@ function MonthlyRankingHero({
           >
             {coach.name}
           </h3>
-          <p className="mt-3 text-[14px] font-medium tracking-[0.4px] text-white/70">
+          <p className="mt-3 text-[14px] font-medium tracking-[0.4px] text-[#E8DDD0]/70">
             {coach.location.city} · {coach.location.country}
           </p>
         </div>
@@ -3365,7 +3365,7 @@ function MonthlyRankingSatellite({
             >
               {coach.name}
             </h4>
-            <p className="mt-1 text-[11px] font-medium tracking-[0.3px] text-white/60">
+            <p className="mt-1 text-[11px] font-medium tracking-[0.3px] text-[#E8DDD0]/60">
               {coach.location.city} · {coach.location.country}
             </p>
           </div>
@@ -3553,7 +3553,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
             reactivamente conforme cambian país/idioma/especialidad. Los
             números van en gold bold para destacar sobre el texto muted.
             Template con 4 placeholders: {showing} {total} {countries} {languages}. */}
-        <p className="text-[11px] tracking-[1.8px] uppercase text-white/55 mb-5">
+        <p className="text-[11px] tracking-[1.8px] uppercase text-[#E8DDD0]/55 mb-5">
           {(() => {
             const values: Record<string, string> = {
               showing: filtered.length.toString(),
@@ -3609,7 +3609,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
 
           {/* Divider sutil antes de las acciones (geo + reset) — separa
               "filtros de contenido" de "acciones globales". */}
-          <span aria-hidden className="h-5 w-px bg-white/15 max-[960px]:hidden" />
+          <span aria-hidden className="h-5 w-px bg-[#E8DDD0]/15 max-[960px]:hidden" />
 
           {/* Cerca de mí — botón de geolocalización opt-in. Cambia de
               aspecto según el estado del hook (idle/loading/success/error).
@@ -4284,7 +4284,7 @@ function ClubesHandoffBanner() {
                   </span>
                 ))}
               </div>
-              <p className="text-[14px] max-[640px]:text-[13px] text-white/85 leading-[1.4] max-w-[640px]">
+              <p className="text-[14px] max-[640px]:text-[13px] text-[#E8DDD0]/85 leading-[1.4] max-w-[640px]">
                 {c.body}
               </p>
             </div>
