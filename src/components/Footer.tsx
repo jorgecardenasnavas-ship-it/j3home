@@ -33,11 +33,12 @@ export function Footer() {
 
       <div className="py-12 max-[960px]:py-10 px-12 max-[960px]:px-6 flex items-center justify-between flex-wrap gap-6 max-[960px]:flex-col max-[960px]:items-start max-[960px]:gap-6">
         {/* Logo + tagline */}
-        <div className="flex items-center gap-3 select-none">
+        <div className="flex items-start gap-3 select-none">
+          {/* Imagotipo: bola+patas. h-[53px] → círculo ocupa 71% ≈ 38px, alineado con el texto */}
           <img
-            src="/images/j3-ball-gold.svg"
+            src="/images/j3-ball-verde.svg"
             alt=""
-            className="h-[44px] w-auto"
+            className="h-[53px] w-auto"
             draggable={false}
             aria-hidden="true"
           />
