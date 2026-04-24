@@ -15,8 +15,8 @@ export default function Home() {
       <StickyClaim />
       <main className="bg-[var(--wh)]">
         <HeroSection />
-        <HomeManifesto />
         <CoachFinder />
+        <HomeManifesto />
         <ProductsGrid />
         <StoryTeaser />
         <SponsorsBanner />
