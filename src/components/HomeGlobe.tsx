@@ -5,12 +5,11 @@ import { COACHES } from "@/data/coaches";
 
 const CHAMPAN_BRIGHT = "rgba(240,210,130,1)";
 const CHAMPAN       = "rgba(201,169,110,1)";
-const CHAMPAN_DIM   = "rgba(180,148,90,1)";
 
 export function HomeGlobe() {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const { points, arcs, rings } = useMemo(() => {
+  const { hqPoint, coachPoints, arcs, rings } = useMemo(() => {
     const hq = COACHES.find((c) => c.type === "lab");
     const others = COACHES.filter((c) => {
       if (c.type === "lab") return false;
@@ -22,17 +21,18 @@ export function HomeGlobe() {
     const hqLat = hq?.location.coordinates[0] ?? 36.73;
     const hqLng = hq?.location.coordinates[1] ?? -4.48;
 
-    const pts = [
-      { lat: hqLat, lng: hqLng, size: 0.6, color: CHAMPAN_BRIGHT },
-      ...others.map((c) => ({
-        lat: c.location.coordinates[0],
-        lng: c.location.coordinates[1],
-        size: 0.28,
-        color: CHAMPAN,
-      })),
-    ];
+    // HQ point separado — es el origen del virus
+    const hqPt = { lat: hqLat, lng: hqLng, size: 0.6, color: CHAMPAN_BRIGHT };
 
-    // Arcos con velocidades variadas — más orgánico
+    // Coach points — uno por uno con su arco pareado
+    const coPts = others.map((c) => ({
+      lat: c.location.coordinates[0],
+      lng: c.location.coordinates[1],
+      size: 0.28,
+      color: CHAMPAN,
+    }));
+
+    // Arcos — seed de velocidades para que no sean todos iguales
     const seed = [1.0, 0.75, 1.3, 0.9, 1.15, 0.6, 1.4, 0.85, 1.1, 0.7];
     const arcsData = hq
       ? others.map((c, i) => ({
@@ -44,20 +44,20 @@ export function HomeGlobe() {
         }))
       : [];
 
-    // Anillos HQ
+    // Anillos del HQ
     const ringsData = [
       { lat: hqLat, lng: hqLng, maxR: 4, propagationSpeed: 0.8, repeatPeriod: 1800 },
       { lat: hqLat, lng: hqLng, maxR: 7, propagationSpeed: 0.5, repeatPeriod: 2600 },
     ];
 
-    return { points: pts, arcs: arcsData, rings: ringsData };
+    return { hqPoint: hqPt, coachPoints: coPts, arcs: arcsData, rings: ringsData };
   }, []);
 
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
     let destroyed = false;
-    const arcTimers: ReturnType<typeof setTimeout>[] = [];
+    const timers: ReturnType<typeof setTimeout>[] = [];
 
     import("globe.gl").then(({ default: Globe }) => {
       if (destroyed || !containerRef.current) return;
@@ -75,15 +75,15 @@ export function HomeGlobe() {
         .showAtmosphere(true)
         .atmosphereColor("rgba(90,160,110,0.5)")
         .atmosphereAltitude(0.28)
-        // Puntos con jerarquía — aparecen desde el inicio
-        .pointsData(points)
+        // Solo el HQ al inicio — el origen del virus
+        .pointsData([hqPoint])
         .pointLat("lat")
         .pointLng("lng")
         .pointColor("color")
         .pointRadius("size")
         .pointAltitude(0.015)
         .pointsMerge(false)
-        // Arcos — vacíos al inicio, se añaden uno a uno después
+        // Arcos — vacíos, se añaden pareados con cada coach
         .arcsData([])
         .arcStartLat("startLat")
         .arcStartLng("startLng")
@@ -95,7 +95,7 @@ export function HomeGlobe() {
         .arcDashAnimateTime((d: { animateTime: number }) => d.animateTime)
         .arcStroke(0.5)
         .arcAltitudeAutoScale(0.4)
-        // Anillos HQ — aparecen desde el inicio
+        // Anillos HQ — visibles desde el inicio junto al punto HQ
         .ringsData(rings)
         .ringLat("lat")
         .ringLng("lng")
@@ -110,16 +110,20 @@ export function HomeGlobe() {
       globe.controls().enablePan = false;
       globe.pointOfView({ lat: 38, lng: -2, altitude: 1.25 }, 0);
 
-      // Añadir arcos uno a uno con retraso escalonado
-      // — primero los puntos, luego las líneas emergen gradualmente
+      // Virus spread: cada coach point + su arco aparecen juntos, escalonados
+      // Inicio: 1.2s (globo asentado) · Cadencia: 280ms entre cada contagio
+      const visiblePoints = [hqPoint];
       const visibleArcs: typeof arcs = [];
-      arcs.forEach((arc, i) => {
+
+      coachPoints.forEach((pt, i) => {
         const t = setTimeout(() => {
           if (destroyed) return;
-          visibleArcs.push(arc);
+          visiblePoints.push(pt);
+          visibleArcs.push(arcs[i]);
+          globe.pointsData([...visiblePoints]);
           globe.arcsData([...visibleArcs]);
-        }, 1400 + i * 200);
-        arcTimers.push(t);
+        }, 1200 + i * 280);
+        timers.push(t);
       });
 
       const onResize = () => {
@@ -130,17 +134,17 @@ export function HomeGlobe() {
 
       (el as HTMLDivElement & { _globeCleanup?: () => void })._globeCleanup = () => {
         window.removeEventListener("resize", onResize);
-        arcTimers.forEach(clearTimeout);
+        timers.forEach(clearTimeout);
         containerRef.current?.replaceChildren();
       };
     });
 
     return () => {
       destroyed = true;
-      arcTimers.forEach(clearTimeout);
+      timers.forEach(clearTimeout);
       (el as HTMLDivElement & { _globeCleanup?: () => void })._globeCleanup?.();
     };
-  }, [points, arcs, rings]);
+  }, [hqPoint, coachPoints, arcs, rings]);
 
   const isMobile = typeof window !== "undefined" && window.innerWidth <= 960;
 
