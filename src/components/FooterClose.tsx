@@ -44,9 +44,6 @@ export function FooterClose() {
       {/* Gold line */}
       <div className="footer-close-line" aria-hidden />
 
-      {/* Eyebrow */}
-      <span className="footer-close-eyebrow">J3 Pádel</span>
-
       {/* Three words — JUGAMOS / ENTRENAMOS / DIRIGIMOS */}
       <div className="footer-close-words">
         {words.map((word, i) => (
