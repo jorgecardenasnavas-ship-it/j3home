@@ -1968,7 +1968,7 @@ function PerfilesSection() {
   const iMobileReveal = useReveal(0.15);
 
   return (
-    <section id="programas" className="relative pt-[100px] pb-[60px] max-[960px]:pt-[72px] max-[960px]:pb-[48px] overflow-hidden">
+    <section id="programas" className="relative pt-[100px] pb-[60px] max-[960px]:pt-[72px] max-[960px]:pb-[48px] overflow-hidden" style={{ backgroundColor: "var(--bk)" }}>
       {/* Section header */}
       <div
         ref={ref}
@@ -1983,10 +1983,10 @@ function PerfilesSection() {
           {t.academy.programs.eyebrow}
         </span>
         <h2 className="font-bold text-[clamp(32px,4vw,52px)] uppercase tracking-[-1px] leading-[1]">
-          <span className="theme-text">{t.academy.programs.headingPre}</span>
+          <span style={{ color: "var(--g1)" }}>{t.academy.programs.headingPre}</span>
           <span className="j3-grad-text">{t.academy.programs.headingAccent}</span>
         </h2>
-        <p className="max-w-[720px] mt-5 text-[15px] max-[960px]:text-[14px] theme-text opacity-75 leading-[1.55]">
+        <p className="max-w-[720px] mt-5 text-[15px] max-[960px]:text-[14px] leading-[1.55]" style={{ color: "rgba(201,169,110,0.55)" }}>
           {t.academy.programs.headingSub}
         </p>
       </div>
@@ -4218,10 +4218,7 @@ export default function AcademyV2Page() {
       {/* Statement section — theme already dark when this enters viewport */}
       <StatementSection />
 
-      {/* Marker 2: dark→white — triggers between Statement and Programs */}
-      <ScrollMarker index={2} to="light" refs={markerRefs} />
-
-      {/* Programs section */}
+      {/* Programs section — dark verde, same as Statement */}
       <PerfilesSection />
 
       <NetworkSection markerSlot={
