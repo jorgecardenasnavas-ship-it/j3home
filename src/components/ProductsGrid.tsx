@@ -817,7 +817,7 @@ export function ProductsGrid() {
         />
         <div className="relative flex flex-col items-center gap-4">
           <div className="mantra-bridge-accent w-px h-14" />
-          <h2 className="mantra-bridge-question font-black tracking-[-1.5px] leading-[1.05] text-[clamp(28px,4.2vw,68px)] max-[960px]:text-[clamp(22px,6.5vw,42px)] text-center max-w-[820px]">
+          <h2 className="mantra-bridge-question font-black tracking-[-1.5px] leading-[1.05] text-[clamp(28px,3.8vw,58px)] max-[960px]:text-[clamp(20px,6vw,38px)] text-center whitespace-nowrap max-[960px]:whitespace-normal">
             {t.home.closer}
           </h2>
           <p className="mantra-bridge-whisper font-serif italic text-[clamp(14px,1.2vw,19px)] max-[960px]:text-[13px] text-center mt-1">
