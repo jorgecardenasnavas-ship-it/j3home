@@ -60,7 +60,7 @@ export function SponsorsBanner() {
               alt={s.alt}
               width={s.w}
               height={s.h}
-              className="h-[80px] max-[960px]:h-[52px] w-auto object-contain"
+              className="h-[120px] max-[960px]:h-[64px] w-auto object-contain"
             />
           </a>
         ))}
