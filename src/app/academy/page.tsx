@@ -1991,9 +1991,6 @@ function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
         </p>
       </div>
 
-      {/* Marker slot — rendered after header so Statement is fully out of view */}
-      {markerSlot}
-
       {/* Block 1: Juniors */}
       <div id="juniors" className="border-t theme-border scroll-mt-[100px]">
         <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
@@ -2001,6 +1998,8 @@ function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.juniorsLabel}</span>
           <span className="ml-auto text-[16px] theme-text opacity-70 italic tracking-normal normal-case hidden min-[961px]:inline">De los 4 a los 16+. Cada etapa, un objetivo.</span>
         </div>
+        {/* Marker slot — rendered deep inside Programs so Statement is fully out of view */}
+        {markerSlot}
         {/* Desktop: PorscheRow (2 rows of 2) */}
         <div className="px-4 max-w-[1600px] mx-auto py-10 hidden min-[961px]:flex flex-col gap-[clamp(16px,1.25vw+12px,36px)]">
           <div ref={el => { jRefs.current[0] = el as HTMLDivElement | null; }}>
