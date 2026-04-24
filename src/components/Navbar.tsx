@@ -100,7 +100,7 @@ export function Navbar() {
             ? "border-[rgba(27,61,47,0.12)] shadow-[0_1px_16px_rgba(27,61,47,0.08)]"
             : "border-[rgba(27,61,47,0.07)]"
         }`}
-        style={{ background: "#fff" }}
+        style={{ background: "var(--wh)" }}
       >
         {/* Logo */}
         <Link
