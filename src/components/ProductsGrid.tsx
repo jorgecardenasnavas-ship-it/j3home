@@ -767,16 +767,31 @@ export function ProductsGrid() {
       <div className="prox-scroller">
         {proximamenteProducts.map((product, i) => {
           const tCard = proximamenteTCards[i];
-          const isDark = product.dark;
           return (
-            <div key={product.id} className="prox-card pc-card" data-idx={i}>
+            <div key={product.id} className="prox-card" data-idx={i}>
+              {/* Media — full-bleed, siempre visible */}
               <TileBackground asset={product.asset} />
-              <div className="absolute inset-0 z-[1] pointer-events-none bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
-              <div className="relative z-10 flex flex-col justify-end h-full p-8 max-[960px]:p-6">
-                <div className={`text-[10px] font-bold tracking-[3px] uppercase mb-2 ${isDark ? "text-[rgba(201,169,110,.6)]" : "text-black/40"}`}>
-                  {tCard.tag}
-                </div>
-                <div className="font-black uppercase tracking-[-2px] leading-[0.95] text-[clamp(32px,3.5vw,48px)] text-white">
+
+              {/* Línea dorada superior — se expande al hover */}
+              <div className="prox-gold-line absolute top-0 left-1/2 -translate-x-1/2 z-[10] pointer-events-none" />
+
+              {/* Gradiente superior */}
+              <div
+                className="absolute top-0 left-0 w-full h-[50%] z-[5] pointer-events-none"
+                style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.55) 30%, rgba(0,0,0,0.18) 65%, transparent 100%)" }}
+              />
+              {/* Gradiente inferior */}
+              <div
+                className="absolute bottom-0 left-0 w-full h-[50%] z-[5] pointer-events-none"
+                style={{ background: "linear-gradient(to top, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.5) 30%, rgba(0,0,0,0.15) 65%, transparent 100%)" }}
+              />
+
+              {/* Contenido superior — nombre + tag */}
+              <div
+                className="absolute top-0 left-0 right-0 z-[6] flex flex-col items-center pt-7 max-[960px]:pt-5 px-5 text-center"
+                style={{ textShadow: "0 2px 14px rgba(0,0,0,0.55), 0 1px 3px rgba(0,0,0,0.4)" }}
+              >
+                <div className="font-black uppercase tracking-[-2px] leading-[0.95] text-[clamp(28px,3.2vw,44px)]">
                   {product.nameParts.map((part, j) =>
                     part.gold ? (
                       <span key={j} className="j3-grad-text">{part.text}</span>
@@ -785,8 +800,29 @@ export function ProductsGrid() {
                     )
                   )}
                 </div>
-                <div className="mt-4 text-[10px] font-bold tracking-[2.5px] uppercase text-white/25">
-                  {tCard.cta}
+                <span className="mt-[9px] text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)]">
+                  {tCard.tag}
+                </span>
+              </div>
+
+              {/* Contenido inferior — badge + flecha */}
+              <div className="absolute bottom-0 left-0 right-0 z-[13] p-[18px] max-[960px]:p-[14px]">
+                <div className="flex items-end justify-between gap-3">
+                  <span
+                    className="inline-flex items-center px-2.5 py-[5px] text-[9px] font-bold tracking-[1.5px] uppercase text-black"
+                    style={{ background: "#C9A96E", borderRadius: 2 }}
+                  >
+                    {tCard.cta}
+                  </span>
+                  <span
+                    className="prox-cta shrink-0 text-[var(--g1)]"
+                    style={{ textShadow: "0 2px 10px rgba(0,0,0,0.55)" }}
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                      <path d="M5 12h14" />
+                      <path d="M12 5l7 7-7 7" />
+                    </svg>
+                  </span>
                 </div>
               </div>
             </div>
