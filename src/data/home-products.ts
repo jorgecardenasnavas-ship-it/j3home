@@ -109,7 +109,7 @@ export const HOME_PRODUCTS: HomeProduct[] = [
   },
   {
     id: "experience",
-    nameParts: [{ text: "J3\u00A0", gold: true }, { text: "Experience", gold: false }],
+    nameParts: [{ text: "J3", gold: true }, { text: "Experience", gold: false }],
     watermark: "EXP",
     shortName: "Experience",
     dark: true,
@@ -124,7 +124,7 @@ export const HOME_PRODUCTS: HomeProduct[] = [
   },
   {
     id: "partner",
-    nameParts: [{ text: "J3\u00A0", gold: true }, { text: "Partner", gold: false }],
+    nameParts: [{ text: "J3", gold: true }, { text: "Partner", gold: false }],
     watermark: "PTR",
     shortName: "Partner",
     dark: false,
