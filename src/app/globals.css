@@ -1816,13 +1816,13 @@ html[data-theme="light"] .theme-eyebrow {
 /* ─── Próximamente header ─── */
 .proximamente-header {
   background: var(--bk);
-  padding: 10vh 48px 4vh;
+  padding: 7vh 48px 3vh;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   text-align: center;
 }
 @media (max-width: 960px) {
   .proximamente-header {
-    padding: 8vh 24px 3vh;
+    padding: 6vh 24px 2vh;
   }
 }
 .proximamente-eyebrow {
@@ -1849,6 +1849,33 @@ html[data-theme="light"] .theme-eyebrow {
   max-width: 640px;
   margin: 0 auto;
   line-height: 1.5;
+}
+
+/* ─── Próximamente horizontal scroller ─── */
+.prox-scroller {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  scrollbar-width: none;
+}
+.prox-scroller::-webkit-scrollbar { display: none; }
+.prox-card {
+  flex: 0 0 480px;
+  height: 560px;
+  scroll-snap-align: start;
+  position: relative;
+  overflow: hidden;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  cursor: default;
+}
+.prox-card:last-child { border-right: none; }
+@media (max-width: 960px) {
+  .prox-card {
+    flex: 0 0 88vw;
+    height: 420px;
+  }
 }
 
 /* ─── Academy horizontal scroller (Apple-style) ─── */

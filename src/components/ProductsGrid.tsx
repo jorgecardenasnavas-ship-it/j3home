@@ -640,6 +640,13 @@ export function ProductsGrid() {
   const experience = byId("experience");
   const partner = byId("partner");
 
+  const proximamenteProducts = [j3ptv, experience, partner];
+  const proximamenteTCards = [
+    tCardOf("j3ptv"),
+    tCardOf("experience"),
+    tCardOf("partner"),
+  ];
+
   return (
     <section id="productos" ref={gridRef}>
       {/* ── Coach360 — featured standalone ── */}
@@ -650,7 +657,7 @@ export function ProductsGrid() {
         eager
       />
 
-      {/* ── Training Camp — featured standalone (taller so image breathes) ── */}
+      {/* ── Training Camp — featured standalone ── */}
       <FeaturedBlock
         product={trainingCamp}
         tCard={tCardOf("training-camp")}
@@ -661,28 +668,48 @@ export function ProductsGrid() {
       {/* ── Academy horizontal scroll ── */}
       <AcademyScroller />
 
+      {/* ── Business Plan — protagonismo propio ── */}
+      <FeaturedSplitBlock
+        product={businessPlan}
+        tCard={tCardOf("business-plan")}
+      />
+
       {/* ── Próximamente header ── */}
       <div className="proximamente-header">
         <span className="proximamente-eyebrow">Próximamente</span>
-        <h3 className="proximamente-title">Lo que viene</h3>
-        <p className="proximamente-sub">
-          Construyendo el ecosistema J3. Cada trimestre lanzamos una pieza.
-        </p>
       </div>
 
-      {/* ── J3PTV + Business Plan (2-col) ── */}
-      <div className="grid grid-cols-2 max-[960px]:grid-cols-1">
-        <StandardTile product={j3ptv} tCard={tCardOf("j3ptv")} idx={0} />
-        <StandardTile
-          product={businessPlan}
-          tCard={tCardOf("business-plan")}
-          idx={1}
-        />
+      {/* ── Próximamente horizontal scroll ── */}
+      <div className="prox-scroller">
+        {proximamenteProducts.map((product, i) => {
+          const tCard = proximamenteTCards[i];
+          const isDark = product.dark;
+          return (
+            <div key={product.id} className="prox-card pc-card" data-idx={i}>
+              <TileBackground asset={product.asset} />
+              <div className="absolute inset-0 z-[1] pointer-events-none bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+              <div className="relative z-10 flex flex-col justify-end h-full p-8 max-[960px]:p-6">
+                <div className={`text-[10px] font-bold tracking-[3px] uppercase mb-2 ${isDark ? "text-[rgba(201,169,110,.6)]" : "text-black/40"}`}>
+                  {tCard.tag}
+                </div>
+                <div className="font-black uppercase tracking-[-2px] leading-[0.95] text-[clamp(32px,3.5vw,48px)] text-white">
+                  {product.nameParts.map((part, j) =>
+                    part.gold ? (
+                      <span key={j} className="j3-grad-text">{part.text}</span>
+                    ) : (
+                      <span key={j} className="text-white">{part.text}</span>
+                    )
+                  )}
+                </div>
+                <div className="mt-4 text-[10px] font-bold tracking-[2.5px] uppercase text-white/25">
+                  {tCard.cta}
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
-      {/* ── Experience + Partner (full-width each) ── */}
-      <FullWidthTile product={experience} tCard={tCardOf("experience")} idx={2} />
-      <FullWidthTile product={partner} tCard={tCardOf("partner")} idx={3} />
     </section>
   );
 }
