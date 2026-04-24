@@ -29,9 +29,9 @@ export function StoryTeaser() {
       <div className="story-teaser-inner">
         <span className="story-teaser-eyebrow">La historia</span>
         <p className="story-teaser-text">
-          Tres jugadores con una obsesión.
+          Compitieron. Entrenaron al más alto nivel. Gestionaron durante diez años uno de los mejores clubes del mundo.
           <span className="story-teaser-names"> Jordi, Javi y Jorge</span>{" "}
-          no construyeron una academia — construyeron el método que el pádel no tenía.
+          no imaginaron J3 — lo vivieron.
         </p>
         <Link href="/story" className="story-teaser-cta">
           Conoce el origen
