@@ -134,7 +134,7 @@ export function Navbar() {
           aria-label="J3Pádel — Inicio"
         >
           <img
-            src="/images/j3padel-text-dark.svg"
+            src={isHome ? "/images/j3padel-text-dark.svg" : "/images/j3padel-text-verde.svg"}
             alt="J3Pádel"
             className="h-[30px] w-auto select-none"
             draggable={false}
