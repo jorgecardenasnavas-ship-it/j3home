@@ -33,17 +33,25 @@ export function Footer() {
 
       <div className="py-12 max-[960px]:py-10 px-12 max-[960px]:px-6 flex items-center justify-between flex-wrap gap-6 max-[960px]:flex-col max-[960px]:items-start max-[960px]:gap-6">
         {/* Logo + tagline */}
-        <div className="flex flex-col gap-2">
-          <img
-            src="/images/j3padel-logo.svg"
-            alt="J3Pádel"
-            className="h-[44px] w-auto select-none opacity-80"
-            style={{ filter: "brightness(0) invert(1)" }}
-            draggable={false}
-          />
-          <span className="text-[10px] font-light tracking-[2px] uppercase text-[var(--gy)]">
-            Play · Coach · Manage
+        <div className="flex items-center gap-4 select-none" aria-label="J3Pádel — Play · Coach · Manage">
+          {/* Brand name */}
+          <span
+            className="font-black text-[30px] uppercase leading-none tracking-[-0.5px]"
+            style={{ fontFamily: "var(--font-sans)" }}
+          >
+            <span style={{ color: "rgba(255,255,255,0.80)" }}>J</span>
+            <span style={{ color: "rgba(255,255,255,0.36)" }}>3</span>
+            <span style={{ color: "rgba(255,255,255,0.80)" }}>PÁDEL</span>
           </span>
+          {/* Tagline — stacked like "GESTIÓN / DEPORTIVA / INTEGRAL" */}
+          <div
+            className="flex flex-col leading-[1.25] pl-4 border-l"
+            style={{ borderColor: "rgba(255,255,255,0.12)" }}
+          >
+            <span className="text-[8px] font-semibold tracking-[2px] uppercase" style={{ color: "rgba(255,255,255,0.32)" }}>Play</span>
+            <span className="text-[8px] font-semibold tracking-[2px] uppercase" style={{ color: "rgba(255,255,255,0.32)" }}>Coach</span>
+            <span className="text-[8px] font-semibold tracking-[2px] uppercase" style={{ color: "rgba(255,255,255,0.32)" }}>Manage</span>
+          </div>
         </div>
 
         {/* Links */}
