@@ -2007,7 +2007,7 @@ html[data-theme="light"] .theme-eyebrow {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  background: #ffffff;
+  background: var(--wh);
 }
 .academy-scroller-card-tag {
   font-size: 10px;
