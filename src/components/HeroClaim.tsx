@@ -27,7 +27,7 @@ export function HeroClaim() {
         {t.hero.play}
       </span>
 
-      {/* COACH — blanco puro */}
+      {/* COACH — crema var(--wh) */}
       <span
         className={`hero-word block font-bold text-j3-hero uppercase tracking-[-3px] leading-[.88] ${visible[1] ? "in" : ""}`}
         style={{ color: "var(--wh)", WebkitTextFillColor: "var(--wh)" }}

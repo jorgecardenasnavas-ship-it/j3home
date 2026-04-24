@@ -13,7 +13,7 @@ export default function Home() {
     <>
       <Navbar />
       <StickyClaim />
-      <main className="bg-white">
+      <main className="bg-[var(--wh)]">
         <HeroSection />
         <CoachFinder />
         <HomeManifesto />
