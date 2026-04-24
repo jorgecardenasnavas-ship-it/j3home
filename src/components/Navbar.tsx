@@ -134,7 +134,7 @@ export function Navbar() {
           aria-label="J3Pádel — Inicio"
         >
           <img
-            src={isHome ? "/images/j3padel-text-dark.svg" : "/images/j3padel-text-verde.svg"}
+            src="/images/j3padel-text-dark.svg"
             alt="J3Pádel"
             className="h-[30px] w-auto select-none"
             draggable={false}
@@ -179,7 +179,7 @@ export function Navbar() {
               aria-label="Inicio"
             >
               <img
-                src={isHome ? "/images/j3-ball-gold.svg" : "/images/j3-ball-verde.svg"}
+                src={isHome ? "/images/j3-ball-gold.svg" : "/images/j3-ball-mono-verde.svg"}
                 alt="J3"
                 className="h-[32px] w-auto select-none"
                 draggable={false}
