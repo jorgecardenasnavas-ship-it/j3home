@@ -33,21 +33,20 @@ export function Footer() {
 
       <div className="py-12 max-[960px]:py-10 px-12 max-[960px]:px-6 flex items-center justify-between flex-wrap gap-6 max-[960px]:flex-col max-[960px]:items-start max-[960px]:gap-6">
         {/* Logo + tagline */}
-        <div className="flex items-center gap-4 select-none">
+        <div className="flex items-center gap-3 select-none">
           <img
             src="/images/j3padel-text-light.svg"
             alt="J3Pádel"
             className="h-[38px] w-auto"
             draggable={false}
           />
-          {/* Tagline — stacked como "GESTIÓN / DEPORTIVA / INTEGRAL" */}
-          <div
-            className="flex flex-col leading-[1.3] pl-4 border-l"
-            style={{ borderColor: "rgba(255,255,255,0.10)" }}
-          >
+          {/* Barra vertical — altura fija al cuerpo de las letras, excluye el acento */}
+          <div className="w-px h-[26px] shrink-0" style={{ background: "rgba(255,255,255,0.10)" }} />
+          {/* Tagline — Play oscuro, Coach/Manage claro */}
+          <div className="flex flex-col leading-[1.35]">
             <span className="text-[8px] font-semibold tracking-[2px] uppercase" style={{ color: "rgba(255,255,255,0.28)" }}>Play</span>
-            <span className="text-[8px] font-semibold tracking-[2px] uppercase" style={{ color: "rgba(255,255,255,0.28)" }}>Coach</span>
-            <span className="text-[8px] font-semibold tracking-[2px] uppercase" style={{ color: "rgba(255,255,255,0.28)" }}>Manage</span>
+            <span className="text-[8px] font-semibold tracking-[2px] uppercase" style={{ color: "rgba(255,255,255,0.60)" }}>Coach</span>
+            <span className="text-[8px] font-semibold tracking-[2px] uppercase" style={{ color: "rgba(255,255,255,0.60)" }}>Manage</span>
           </div>
         </div>
 
