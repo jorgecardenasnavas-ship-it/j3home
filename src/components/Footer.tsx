@@ -44,9 +44,9 @@ export function Footer() {
           <div className="w-px h-[26px] shrink-0" style={{ background: "rgba(255,255,255,0.10)" }} />
           {/* Tagline — Play oscuro, Coach/Manage claro */}
           <div className="flex flex-col leading-[1.35]">
-            <span className="text-[8px] font-semibold tracking-[2px] uppercase" style={{ color: "rgba(255,255,255,0.28)" }}>Play</span>
-            <span className="text-[8px] font-semibold tracking-[2px] uppercase" style={{ color: "rgba(255,255,255,0.60)" }}>Coach</span>
-            <span className="text-[8px] font-semibold tracking-[2px] uppercase" style={{ color: "rgba(255,255,255,0.60)" }}>Manage</span>
+            <span className="text-[8px] font-semibold tracking-[2px] uppercase" style={{ color: "var(--g1)" }}>Play</span>
+            <span className="text-[8px] font-semibold tracking-[2px] uppercase" style={{ color: "rgba(232,221,208,0.60)" }}>Coach</span>
+            <span className="text-[8px] font-semibold tracking-[2px] uppercase" style={{ color: "rgba(232,221,208,0.60)" }}>Manage</span>
           </div>
         </div>
 
