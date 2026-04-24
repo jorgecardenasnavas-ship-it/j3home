@@ -35,6 +35,13 @@ export function Footer() {
         {/* Logo + tagline */}
         <div className="flex items-center gap-3 select-none">
           <img
+            src="/images/j3-ball-gold.svg"
+            alt=""
+            className="h-[44px] w-auto"
+            draggable={false}
+            aria-hidden="true"
+          />
+          <img
             src="/images/j3padel-text-dark.svg"
             alt="J3Pádel"
             className="h-[38px] w-auto"
