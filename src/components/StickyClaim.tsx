@@ -13,13 +13,23 @@ export function StickyClaim() {
   const navHiddenRef = useRef(false);
 
   useEffect(() => {
+    function getAbsTop(el: HTMLElement): number {
+      let top = 0;
+      let cur: HTMLElement | null = el;
+      while (cur) { top += cur.offsetTop; cur = cur.offsetParent as HTMLElement | null; }
+      return top;
+    }
+
     function checkOverOrigin(hidden: boolean) {
-      const barTop    = hidden ? 0 : 64;
-      const barBottom = barTop + 32;
-      const origin    = document.querySelector(".home-origin");
+      const origin = document.querySelector<HTMLElement>(".home-origin");
       if (!origin) return;
-      const rect = origin.getBoundingClientRect();
-      setOverOrigin(rect.top < barBottom && rect.bottom > barTop);
+
+      const elTop    = getAbsTop(origin);
+      const elBottom = elTop + origin.offsetHeight;
+      const barTop   = window.scrollY + (hidden ? 0 : 64);
+      const barBottom = barTop + 32;
+
+      setOverOrigin(barTop < elBottom && barBottom > elTop);
     }
 
     function handleScroll() {
