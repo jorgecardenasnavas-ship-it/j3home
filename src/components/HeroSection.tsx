@@ -100,7 +100,7 @@ export function HeroSection() {
         </Link>
 
         {/* Chevrons debajo del botón, en flujo */}
-        <div aria-hidden className="flex flex-col items-center gap-[2px] pointer-events-none mt-[-8px]">
+        <div aria-hidden className="flex flex-col items-center gap-[2px] pointer-events-none mt-8">
           {[0, 1, 2].map((i) => (
             <svg
               key={i}
