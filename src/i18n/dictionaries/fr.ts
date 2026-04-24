@@ -76,6 +76,7 @@ export const fr = {
     line2: "Un syst\u00E8me de gestion int\u00E9gral pour acad\u00E9mies et clubs de padel.",
     closer: "Optimiser. Automatiser. D\u00E9velopper.",
     brandTagline: "On joue. On entra\u00EEne. On dirige.",
+    origin: { from: "De M\u00E1laga", to: "au monde." },
     catalogIntro: {
       label: "produits",
     },

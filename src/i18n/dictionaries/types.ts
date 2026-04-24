@@ -61,6 +61,7 @@ export interface Dictionary {
     line2: string;
     closer: string;
     brandTagline: string;
+    origin: { from: string; to: string };
     catalogIntro: {
       label: string;
     };

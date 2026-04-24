@@ -76,6 +76,7 @@ export const es = {
     line2: "Un sistema de gesti\u00F3n integral para academias y clubes de p\u00E1del.",
     closer: "Optimizar. Automatizar. Escalar.",
     brandTagline: "Jugamos. Entrenamos. Dirigimos.",
+    origin: { from: "De M\u00E1laga", to: "al mundo." },
     catalogIntro: {
       label: "productos",
     },

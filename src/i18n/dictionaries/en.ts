@@ -76,6 +76,7 @@ export const en = {
     line2: "An end-to-end management system for padel academies and clubs.",
     closer: "Optimize. Automate. Scale.",
     brandTagline: "We play. We coach. We lead.",
+    origin: { from: "From M\u00E1laga", to: "to the world." },
     catalogIntro: {
       label: "products",
     },

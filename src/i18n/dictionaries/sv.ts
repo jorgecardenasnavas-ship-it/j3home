@@ -76,6 +76,7 @@ export const sv = {
     line2: "Ett helhetssystem för förvaltning av padelakademier och klubbar.",
     closer: "Optimera. Automatisera. Skala upp.",
     brandTagline: "Vi spelar. Vi coacher. Vi leder.",
+    origin: { from: "Fr\u00E5n M\u00E1laga", to: "till v\u00E4rlden." },
     catalogIntro: {
       label: "produkter",
     },

@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/Navbar";
 import { StickyClaim } from "@/components/StickyClaim";
 import { HeroSection } from "@/components/HeroSection";
+import { HomeOrigin } from "@/components/HomeOrigin";
 import { SponsorsBanner } from "@/components/SponsorsBanner";
 import { CoachFinder } from "@/components/CoachFinder";
 import { HomeManifesto } from "@/components/HomeManifesto";
@@ -15,6 +16,7 @@ export default function Home() {
       <StickyClaim />
       <main className="bg-[var(--wh)]">
         <HeroSection />
+        <HomeOrigin />
         <CoachFinder />
         <HomeManifesto />
         <ProductsGrid />

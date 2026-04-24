@@ -76,6 +76,7 @@ export const pt = {
     line2: "Um sistema de gestão integral para academias e clubes de padel.",
     closer: "Otimizar. Automatizar. Escalar.",
     brandTagline: "Jogamos. Treinamos. Gerimos.",
+    origin: { from: "De M\u00E1laga", to: "para o mundo." },
     catalogIntro: {
       label: "produtos",
     },
