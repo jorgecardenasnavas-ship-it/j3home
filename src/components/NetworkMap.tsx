@@ -1095,7 +1095,7 @@ function PopupContent({
  * para no ser agresivo a zoom medio pero juntar los duplicados
  * reales (misma ciudad) a zoom continental.
  */
-const MAX_CLUSTER_RADIUS = 60;
+const MAX_CLUSTER_RADIUS = 90;
 
 /**
  * iconCreateFunction — el cluster se pinta como círculo dorado
@@ -1384,7 +1384,7 @@ function ClusteredMarkers({
     const group = L.markerClusterGroup({
       maxClusterRadius: MAX_CLUSTER_RADIUS,
       showCoverageOnHover: false,
-      spiderfyOnMaxZoom: true,
+      spiderfyOnMaxZoom: false,
       // Desactivamos zoomToBoundsOnClick nativo porque hace un salto
       // agresivo al fitBounds exacto del cluster — pierdes el contexto
       // regional (ej: click en el "11" de España y desaparece Italia).
