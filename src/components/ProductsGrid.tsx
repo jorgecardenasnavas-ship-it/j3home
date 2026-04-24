@@ -669,9 +669,10 @@ export function ProductsGrid() {
       <AcademyScroller />
 
       {/* ── Business Plan — protagonismo propio ── */}
-      <FeaturedSplitBlock
+      <FeaturedBlock
         product={businessPlan}
         tCard={tCardOf("business-plan")}
+        tall
       />
 
       {/* ── Próximamente header ── */}
