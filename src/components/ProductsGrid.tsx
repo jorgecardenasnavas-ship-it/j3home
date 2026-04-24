@@ -141,7 +141,7 @@ function FeaturedBlock({
   return (
     <article
       data-flagship={flagship ? "true" : undefined}
-      className="pc-card group relative overflow-hidden border-t border-white/[.06] transition-all duration-300 bg-black hover:bg-[rgba(201,169,110,.03)]"
+      className="pc-card group relative overflow-hidden transition-all duration-300 bg-black"
     >
       <TileBackground
         asset={product.asset}
@@ -628,40 +628,8 @@ export function ProductsGrid() {
 
     cards.forEach((card) => revealObserver.observe(card));
 
-    const isDesktop = window.matchMedia(
-      "(min-width: 961px) and (hover: hover)",
-    ).matches;
-    if (!isDesktop) return () => revealObserver.disconnect();
-
-    const handlers = new Map<
-      HTMLDivElement,
-      { move: (e: MouseEvent) => void; leave: () => void }
-    >();
-
-    cards.forEach((card) => {
-      const glow = card.querySelector<HTMLElement>(".pc-glow");
-      const move = (e: MouseEvent) => {
-        const rect = card.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width;
-        const y = (e.clientY - rect.top) / rect.height;
-        const rx = (y - 0.5) * -2;
-        const ry = (x - 0.5) * 2;
-        card.style.transform = `perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg)`;
-      };
-      const leave = () => {
-        card.style.transform = "";
-      };
-      card.addEventListener("mousemove", move);
-      card.addEventListener("mouseleave", leave);
-      handlers.set(card, { move, leave });
-    });
-
     return () => {
       revealObserver.disconnect();
-      handlers.forEach(({ move, leave }, card) => {
-        card.removeEventListener("mousemove", move);
-        card.removeEventListener("mouseleave", leave);
-      });
     };
   }, []);
 

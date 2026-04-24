@@ -607,15 +607,38 @@ html[data-theme="light"] .theme-eyebrow {
 .pc-card {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.7s var(--ease-out),
-    transform 0.7s var(--ease-out);
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  margin: 0 16px 16px;
+  overflow: hidden;
+  transition:
+    opacity 0.7s var(--ease-out),
+    transform 0.7s var(--ease-out),
+    border-color 0.3s var(--ease-out),
+    box-shadow 0.5s var(--ease-out);
   will-change: transform;
 }
 .pc-card.in {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 0.7s var(--ease-out),
-    transform 0.3s var(--ease-out);
+  transition:
+    opacity 0.7s var(--ease-out),
+    transform 0.5s var(--ease-out),
+    border-color 0.3s var(--ease-out),
+    box-shadow 0.5s var(--ease-out);
+}
+@media (hover: hover) and (min-width: 961px) {
+  .pc-card.in:hover {
+    transform: translateY(-4px);
+    border-color: rgba(201, 169, 110, 0.35);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  }
+}
+@media (max-width: 960px) {
+  .pc-card {
+    border-radius: 14px;
+    margin: 0 12px 12px;
+  }
 }
 
 /* ─── Hero manifesto overlay — fades in after shimmer ─── */
