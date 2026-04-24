@@ -110,20 +110,32 @@ export function HomeGlobe() {
       globe.controls().enablePan = false;
       globe.pointOfView({ lat: 38, lng: -2, altitude: 1.25 }, 0);
 
-      // Virus spread: cada coach point + su arco aparecen juntos, escalonados
-      // Inicio: 1.2s (globo asentado) · Cadencia: 280ms entre cada contagio
+      // ── Fase 1: puntos en cadena (independiente de la rotación del globo)
+      // Inicio: 1.0s · Cadencia: 220ms por punto
       const visiblePoints = [hqPoint];
-      const visibleArcs: typeof arcs = [];
+      const POINT_DELAY   = 1000;
+      const POINT_STEP    =  220;
 
       coachPoints.forEach((pt, i) => {
-        const t = setTimeout(() => {
+        timers.push(setTimeout(() => {
           if (destroyed) return;
           visiblePoints.push(pt);
-          visibleArcs.push(arcs[i]);
           globe.pointsData([...visiblePoints]);
+        }, POINT_DELAY + i * POINT_STEP));
+      });
+
+      // ── Fase 2: líneas en cadena, cuando ya están todos los puntos
+      // Empieza cuando termina la fase 1 + 400ms de pausa
+      const LINES_START = POINT_DELAY + coachPoints.length * POINT_STEP + 400;
+      const LINE_STEP   = 200;
+      const visibleArcs: typeof arcs = [];
+
+      arcs.forEach((arc, i) => {
+        timers.push(setTimeout(() => {
+          if (destroyed) return;
+          visibleArcs.push(arc);
           globe.arcsData([...visibleArcs]);
-        }, 1200 + i * 280);
-        timers.push(t);
+        }, LINES_START + i * LINE_STEP));
       });
 
       const onResize = () => {
