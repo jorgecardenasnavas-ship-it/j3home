@@ -1477,6 +1477,20 @@ function StatementSection() {
   const { t } = useI18n();
   const { ref, visible } = useReveal(0.15);
 
+  /* Crossfade a crema sólo cuando la sección de Programas entra al viewport.
+     IntersectionObserver es preciso — no depende del sistema scroll-theme. */
+  const [programsVisible, setProgramsVisible] = useState(false);
+  useEffect(() => {
+    const programsEl = document.getElementById("programas");
+    if (!programsEl) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setProgramsVisible(entry.isIntersecting),
+      { threshold: 0 },
+    );
+    io.observe(programsEl);
+    return () => io.disconnect();
+  }, []);
+
   /* Visual styles per line — adapt to scroll theme
      Dark: gold/stroke/grad  |  Light: black text + gold accents */
   const lineStyles: { style: string; accentStyle?: string; align: string }[] = [
@@ -1489,7 +1503,7 @@ function StatementSection() {
   const { itemRefs, visibleItems } = useStaggerReveal(lines.length, 0.2);
 
   return (
-    <section id="metodo" className="stmt-section relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden flex items-center scroll-mt-[100px]">
+    <section id="metodo" className="stmt-section relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden flex items-center scroll-mt-[100px]" style={{ backgroundColor: programsVisible ? "var(--wh)" : "var(--bk)", transition: "background-color 1.4s cubic-bezier(.16,1,.3,1)" }}>
       <div ref={ref} className="absolute top-0 left-0" />
 
       <div className="max-w-[1400px] mx-auto relative z-10 flex flex-col items-center gap-10 max-[960px]:gap-6 w-full">
