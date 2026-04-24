@@ -29,7 +29,7 @@ export function StoryTeaser() {
       <div className="story-teaser-inner">
         <span className="story-teaser-eyebrow">La historia</span>
         <p className="story-teaser-text">
-          Hay proyectos que se imaginan. Y proyectos que se ganan. J3 nació de veinte años compitiendo, entrenando y construyendo al más alto nivel.
+          Una historia de veinte años dentro del pádel que explica todo lo que somos hoy.
         </p>
         <Link href="/story" className="story-teaser-cta">
           Conoce el origen
