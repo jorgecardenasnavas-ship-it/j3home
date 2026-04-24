@@ -16,10 +16,10 @@ export default function Home() {
       <main className="bg-white">
         <HeroSection />
         <CoachFinder />
-        <SponsorsBanner />
         <HomeManifesto />
         <ProductsGrid />
         <StoryTeaser />
+        <SponsorsBanner />
         <FooterClose />
       </main>
       <Footer />
