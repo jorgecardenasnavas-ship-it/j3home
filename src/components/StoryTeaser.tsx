@@ -29,7 +29,7 @@ export function StoryTeaser() {
       <div className="story-teaser-inner">
         <span className="story-teaser-eyebrow">La historia</span>
         <p className="story-teaser-text">
-          No montamos esto para enseñar pádel. Lo montamos porque nadie lo estaba haciendo como debe.
+          De la historia no se vive. Pero la nuestra explica todo lo que ves aquí.
         </p>
         <Link href="/story" className="story-teaser-cta">
           Conoce el origen
