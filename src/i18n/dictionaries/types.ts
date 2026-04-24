@@ -59,6 +59,7 @@ export interface Dictionary {
     line1: string;
     line2: string;
     closer: string;
+    brandTagline: string;
     catalogIntro: {
       label: string;
     };

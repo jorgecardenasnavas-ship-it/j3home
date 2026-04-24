@@ -668,6 +668,30 @@ export function ProductsGrid() {
       {/* ── Academy horizontal scroll ── */}
       <AcademyScroller />
 
+      {/* ── Business mantra bridge ── */}
+      <div className="relative bg-[var(--bk)] border-t border-white/[.04] py-[13vh] max-[960px]:py-[10vh] px-12 max-[960px]:px-6 text-center overflow-hidden">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: "radial-gradient(ellipse 60% 60% at 50% 50%, rgba(201,169,110,.05) 0%, transparent 70%)" }}
+        />
+        <div className="relative flex flex-col items-center gap-5">
+          <div className="w-px h-14 bg-gradient-to-b from-transparent via-[var(--g1)]/40 to-transparent" />
+          <h2 className="font-black tracking-[-2px] leading-[1] text-[clamp(36px,5.5vw,80px)] max-[960px]:text-[clamp(28px,7vw,48px)]">
+            {t.home.closer.split(". ").map((word, i, arr) => (
+              <span key={i}>
+                <span className={i === 0 ? "j3-grad-text" : i === arr.length - 1 ? "text-[var(--wh)]/45" : "text-[var(--wh)]"}>
+                  {word}{i < arr.length - 1 ? "." : ""}
+                </span>
+                {i < arr.length - 1 && " "}
+              </span>
+            ))}
+          </h2>
+          <p className="text-[11px] font-light tracking-[2.5px] uppercase text-white/30 mt-1">
+            {t.home.line2}
+          </p>
+        </div>
+      </div>
+
       {/* ── Business Plan — protagonismo propio ── */}
       <FeaturedBlock
         product={businessPlan}

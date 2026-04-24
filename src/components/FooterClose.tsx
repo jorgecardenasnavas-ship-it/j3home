@@ -34,7 +34,7 @@ export function FooterClose() {
   return (
     <section ref={sectionRef} className="footer-close">
       <div className="footer-close-line" aria-hidden="true" />
-      <h2 className="footer-close-tagline">{t.home.closer}</h2>
+      <h2 className="footer-close-tagline">{t.home.brandTagline}</h2>
     </section>
   );
 }
