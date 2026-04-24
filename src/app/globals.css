@@ -1875,7 +1875,7 @@ html[data-theme="light"] .theme-eyebrow {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--g1);
+  background: var(--bk);
   flex-shrink: 0;
   animation: proxDotPulse 2.2s ease-in-out infinite;
 }
@@ -1887,7 +1887,7 @@ html[data-theme="light"] .theme-eyebrow {
   font-size: 11px;
   letter-spacing: 5px;
   text-transform: uppercase;
-  color: var(--g1);
+  color: var(--verde);
   font-weight: 700;
   line-height: 1;
 }
