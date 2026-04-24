@@ -22,31 +22,40 @@ function TileBackground({
 
   useEffect(() => {
     if (asset.type !== "video") return;
-    const { videoStart, videoEnd } = asset;
-    if (videoStart === undefined) return;
     const video = videoRef.current;
     if (!video) return;
 
-    const startPlayback = () => {
-      video.currentTime = videoStart;
-      video.play().catch(() => {});
-    };
-    const onTimeUpdate = () => {
-      if (videoEnd !== undefined && video.currentTime >= videoEnd) {
-        video.currentTime = videoStart;
-      }
-    };
+    const { videoStart, videoEnd } = asset;
 
-    if (video.readyState >= 1) {
-      startPlayback();
-    } else {
-      video.addEventListener("loadedmetadata", startPlayback);
+    if (videoStart !== undefined) {
+      // Segment mode: seek + loop between timestamps
+      const startPlayback = () => {
+        video.currentTime = videoStart;
+        video.play().catch(() => {});
+      };
+      const onTimeUpdate = () => {
+        if (videoEnd !== undefined && video.currentTime >= videoEnd) {
+          video.currentTime = videoStart;
+        }
+      };
+      if (video.readyState >= 1) {
+        startPlayback();
+      } else {
+        video.addEventListener("loadedmetadata", startPlayback);
+      }
+      video.addEventListener("timeupdate", onTimeUpdate);
+      return () => {
+        video.removeEventListener("loadedmetadata", startPlayback);
+        video.removeEventListener("timeupdate", onTimeUpdate);
+      };
+    } else if (eager) {
+      // Eager non-segment: trigger play programmatically as fallback
+      if (video.readyState >= 3) {
+        video.play().catch(() => {});
+      } else {
+        video.addEventListener("canplay", () => video.play().catch(() => {}), { once: true });
+      }
     }
-    video.addEventListener("timeupdate", onTimeUpdate);
-    return () => {
-      video.removeEventListener("loadedmetadata", startPlayback);
-      video.removeEventListener("timeupdate", onTimeUpdate);
-    };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -55,14 +64,14 @@ function TileBackground({
     return (
       <div className="tile-bg">
         <video
-          ref={hasSegment ? videoRef : undefined}
+          ref={hasSegment || eager ? videoRef : undefined}
           src={asset.src}
           poster={asset.poster}
           autoPlay={!hasSegment}
           muted
           loop={!hasSegment}
           playsInline
-          preload={eager ? "metadata" : "none"}
+          preload={eager ? "auto" : "none"}
           aria-hidden="true"
           style={style}
         />
