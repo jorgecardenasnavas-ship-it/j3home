@@ -633,31 +633,51 @@ export function ProductsGrid() {
     };
   }, []);
 
-  /* Wheel → horizontal scroll para los scrollers de la sección.
-     El ratón sólo scrollea vertical por defecto; aquí convertimos
-     deltaY en scrollLeft cuando el cursor está sobre el scroller. */
+  /* Drag-to-scroll: click + arrastrar en los scrollers horizontales. */
   useEffect(() => {
     const scrollers = document.querySelectorAll<HTMLElement>(
       ".academy-scroller-track, .prox-scroller",
     );
-    const handlers = new Map<HTMLElement, (e: WheelEvent) => void>();
+
+    const cleanups: (() => void)[] = [];
 
     scrollers.forEach((scroller) => {
-      const handler = (e: WheelEvent) => {
-        if (Math.abs(e.deltaX) > 5) return; // ya hay scroll horizontal nativo
-        if (e.deltaY === 0) return;
-        e.preventDefault();
-        scroller.scrollLeft += e.deltaY * 1.4;
+      let isDragging = false;
+      let startX = 0;
+      let startScrollLeft = 0;
+
+      const onMouseDown = (e: MouseEvent) => {
+        isDragging = true;
+        startX = e.clientX;
+        startScrollLeft = scroller.scrollLeft;
+        scroller.style.cursor = "grabbing";
+        scroller.style.userSelect = "none";
       };
-      scroller.addEventListener("wheel", handler, { passive: false });
-      handlers.set(scroller, handler);
+
+      const onMouseMove = (e: MouseEvent) => {
+        if (!isDragging) return;
+        const dx = e.clientX - startX;
+        scroller.scrollLeft = startScrollLeft - dx;
+      };
+
+      const onMouseUp = () => {
+        isDragging = false;
+        scroller.style.cursor = "";
+        scroller.style.userSelect = "";
+      };
+
+      scroller.addEventListener("mousedown", onMouseDown);
+      window.addEventListener("mousemove", onMouseMove);
+      window.addEventListener("mouseup", onMouseUp);
+
+      cleanups.push(() => {
+        scroller.removeEventListener("mousedown", onMouseDown);
+        window.removeEventListener("mousemove", onMouseMove);
+        window.removeEventListener("mouseup", onMouseUp);
+      });
     });
 
-    return () => {
-      handlers.forEach((handler, scroller) =>
-        scroller.removeEventListener("wheel", handler),
-      );
-    };
+    return () => cleanups.forEach((fn) => fn());
   }, []);
 
   // Find products by id to avoid index coupling

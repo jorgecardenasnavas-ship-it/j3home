@@ -1900,6 +1900,7 @@ html[data-theme="light"] .theme-eyebrow {
   display: flex;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
+  cursor: grab;
   gap: 12px;
   /* Centrado inteligente: centra cuando hay espacio, scroll cuando no.
      3 tarjetas × 480px + 2 gaps × 12px = 1464px total.
@@ -2060,6 +2061,7 @@ html[data-theme="light"] .academy-scroller-cta {
   display: flex;
   gap: 20px;
   overflow-x: auto;
+  cursor: grab;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
