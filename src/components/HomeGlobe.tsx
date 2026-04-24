@@ -113,8 +113,8 @@ export function HomeGlobe() {
       // ── Fase 1: puntos en cadena (independiente de la rotación del globo)
       // Inicio: 1.0s · Cadencia: 220ms por punto
       const visiblePoints = [hqPoint];
-      const POINT_DELAY   = 1000;
-      const POINT_STEP    =  220;
+      const POINT_DELAY   =  600;
+      const POINT_STEP    =  100;
 
       coachPoints.forEach((pt, i) => {
         timers.push(setTimeout(() => {
@@ -126,8 +126,8 @@ export function HomeGlobe() {
 
       // ── Fase 2: líneas en cadena, cuando ya están todos los puntos
       // Empieza cuando termina la fase 1 + 400ms de pausa
-      const LINES_START = POINT_DELAY + coachPoints.length * POINT_STEP + 400;
-      const LINE_STEP   = 200;
+      const LINES_START = POINT_DELAY + coachPoints.length * POINT_STEP + 200;
+      const LINE_STEP   = 100;
       const visibleArcs: typeof arcs = [];
 
       arcs.forEach((arc, i) => {
