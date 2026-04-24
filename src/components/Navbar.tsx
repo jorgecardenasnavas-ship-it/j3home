@@ -171,7 +171,7 @@ export function Navbar() {
               <img
                 src="/images/j3-ball-gold.svg"
                 alt="J3"
-                className="h-[22px] w-auto select-none"
+                className="h-[32px] w-auto select-none"
                 draggable={false}
               />
             </Link>
