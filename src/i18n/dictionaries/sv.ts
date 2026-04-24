@@ -65,6 +65,10 @@ export const sv = {
       { line1: "Verksamheten", line2: "har optimerats." },
     ],
     nodes: ["Coach360", "J3PTV", "Academy", "Business", "Experience", "Partner"],
+    manifesto: {
+      statement: "Padeln har f\u00F6r\u00E4ndrats.",
+      question: "Och du?",
+    },
   },
 
   home: {

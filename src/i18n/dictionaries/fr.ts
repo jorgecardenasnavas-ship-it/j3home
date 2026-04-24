@@ -65,6 +65,10 @@ export const fr = {
       { line1: "La gestion", line2: "optimis\u00E9e." },
     ],
     nodes: ["Coach360", "J3PTV", "Academy", "Business", "Experience", "Partner"],
+    manifesto: {
+      statement: "Le padel a chang\u00E9.",
+      question: "Et vous\u00A0?",
+    },
   },
 
   home: {

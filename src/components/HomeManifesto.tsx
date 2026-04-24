@@ -11,14 +11,16 @@ export function HomeManifesto() {
     const section = sectionRef.current;
     if (!section) return;
 
-    const lines = section.querySelectorAll<HTMLElement>(".home-manifesto-line");
+    const elements = section.querySelectorAll<HTMLElement>(
+      ".home-manifesto-statement, .home-manifesto-question",
+    );
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            lines.forEach((el, i) => {
-              setTimeout(() => el.classList.add("in"), i * 220);
+            elements.forEach((el, i) => {
+              setTimeout(() => el.classList.add("in"), i * 350);
             });
             observer.unobserve(entry.target);
           }
@@ -33,16 +35,12 @@ export function HomeManifesto() {
 
   return (
     <section ref={sectionRef} className="home-manifesto">
-      {t.system.blocks.map((block, i) => (
-        <div key={i} className="home-manifesto-line">
-          <span className="home-manifesto-light">{block.line1} </span>
-          <span
-            className={`home-manifesto-bold ${i === 1 ? "home-manifesto-accent" : ""}`}
-          >
-            {block.line2}
-          </span>
-        </div>
-      ))}
+      <p className="home-manifesto-statement">
+        {t.system.manifesto.statement}
+      </p>
+      <p className="home-manifesto-question">
+        {t.system.manifesto.question}
+      </p>
     </section>
   );
 }

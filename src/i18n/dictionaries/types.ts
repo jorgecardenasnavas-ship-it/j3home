@@ -53,6 +53,7 @@ export interface Dictionary {
   system: {
     blocks: readonly { line1: string; line2: string }[];
     nodes: readonly string[];
+    manifesto: { statement: string; question: string };
   };
 
   home: {
