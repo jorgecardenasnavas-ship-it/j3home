@@ -29,9 +29,7 @@ export function StoryTeaser() {
       <div className="story-teaser-inner">
         <span className="story-teaser-eyebrow">La historia</span>
         <p className="story-teaser-text">
-          Compitieron. Entrenaron al más alto nivel. Gestionaron durante diez años uno de los mejores clubes del mundo.
-          <span className="story-teaser-names"> Jordi, Javi y Jorge</span>{" "}
-          no imaginaron J3 — lo vivieron.
+          Hay proyectos que se imaginan. Y proyectos que se ganan. J3 nació de veinte años compitiendo, entrenando y construyendo al más alto nivel.
         </p>
         <Link href="/story" className="story-teaser-cta">
           Conoce el origen
