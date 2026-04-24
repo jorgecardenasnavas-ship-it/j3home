@@ -110,42 +110,65 @@ export function HomeGlobe() {
       globe.controls().enablePan = false;
       globe.pointOfView({ lat: 38, lng: -2, altitude: 1.25 }, 0);
 
-      // ── Fase 1: puntos en cadena (independiente de la rotación del globo)
-      // Inicio: 1.0s · Cadencia: 220ms por punto
-      const visiblePoints = [hqPoint];
-      const POINT_DELAY   =  300;
-      const POINT_STEP    =   30;
-
-      coachPoints.forEach((pt, i) => {
-        timers.push(setTimeout(() => {
-          if (destroyed) return;
-          visiblePoints.push(pt);
-          globe.pointsData([...visiblePoints]);
-        }, POINT_DELAY + i * POINT_STEP));
-      });
-
-      // ── Fase 2: líneas en cadena, cuando ya están todos los puntos
-      // Empieza cuando termina la fase 1 + 400ms de pausa
-      const LINES_START = POINT_DELAY + coachPoints.length * POINT_STEP + 100;
-      const LINE_STEP   =  30;
-      const visibleArcs: typeof arcs = [];
-
-      arcs.forEach((arc, i) => {
-        timers.push(setTimeout(() => {
-          if (destroyed) return;
-          visibleArcs.push(arc);
-          globe.arcsData([...visibleArcs]);
-        }, LINES_START + i * LINE_STEP));
-      });
-
       const onResize = () => {
         if (!containerRef.current) return;
         globe.width(containerRef.current.clientWidth).height(containerRef.current.clientHeight);
       };
       window.addEventListener("resize", onResize);
 
+      // ── Animación de puntos y arcos: solo empieza cuando la sección
+      // es visible en pantalla. Observamos el <section> padre (#coach-finder)
+      // para máxima fiabilidad (el globo está posicionado absolute).
+      const observeTarget = el.closest("section") ?? el;
+      let animationStarted = false;
+
+      const startDotLineAnimation = () => {
+        if (animationStarted || destroyed) return;
+        animationStarted = true;
+
+        // ── Fase 1: puntos en cadena
+        const visiblePoints = [hqPoint];
+        const POINT_DELAY   = 600;   // pausa inicial tras entrar en vista
+        const POINT_STEP    =  30;
+
+        coachPoints.forEach((pt, i) => {
+          timers.push(setTimeout(() => {
+            if (destroyed) return;
+            visiblePoints.push(pt);
+            globe.pointsData([...visiblePoints]);
+          }, POINT_DELAY + i * POINT_STEP));
+        });
+
+        // ── Fase 2: arcos, cuando ya están todos los puntos
+        const LINES_START = POINT_DELAY + coachPoints.length * POINT_STEP + 100;
+        const LINE_STEP   =  30;
+        const visibleArcs: typeof arcs = [];
+
+        arcs.forEach((arc, i) => {
+          timers.push(setTimeout(() => {
+            if (destroyed) return;
+            visibleArcs.push(arc);
+            globe.arcsData([...visibleArcs]);
+          }, LINES_START + i * LINE_STEP));
+        });
+      };
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              startDotLineAnimation();
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.25 },
+      );
+      observer.observe(observeTarget);
+
       (el as HTMLDivElement & { _globeCleanup?: () => void })._globeCleanup = () => {
         window.removeEventListener("resize", onResize);
+        observer.disconnect();
         timers.forEach(clearTimeout);
         containerRef.current?.replaceChildren();
       };
