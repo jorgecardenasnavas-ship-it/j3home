@@ -1489,7 +1489,7 @@ function StatementSection() {
   const { itemRefs, visibleItems } = useStaggerReveal(lines.length, 0.2);
 
   return (
-    <section id="metodo" className="stmt-section relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden flex items-center scroll-mt-[100px]" style={{ backgroundColor: "var(--bk)" }}>
+    <section id="metodo" className="stmt-section relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 overflow-hidden flex items-center scroll-mt-[100px]">
       <div ref={ref} className="absolute top-0 left-0" />
 
       <div className="max-w-[1400px] mx-auto relative z-10 flex flex-col items-center gap-10 max-[960px]:gap-6 w-full">
@@ -1969,6 +1969,9 @@ function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
 
   return (
     <section id="programas" className="relative pt-[100px] pb-[60px] max-[960px]:pt-[72px] max-[960px]:pb-[48px] overflow-hidden">
+      {/* Marker slot — at the very top so transition fires as user enters Programs.
+          Both Statement (still visible above) and Programs (entering below) cross-fade together. */}
+      {markerSlot}
       {/* Section header */}
       <div
         ref={ref}
@@ -1998,8 +2001,6 @@ function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.juniorsLabel}</span>
           <span className="ml-auto text-[16px] theme-text opacity-70 italic tracking-normal normal-case hidden min-[961px]:inline">De los 4 a los 16+. Cada etapa, un objetivo.</span>
         </div>
-        {/* Marker slot — rendered deep inside Programs so Statement is fully out of view */}
-        {markerSlot}
         {/* Desktop: PorscheRow (2 rows of 2) */}
         <div className="px-4 max-w-[1600px] mx-auto py-10 hidden min-[961px]:flex flex-col gap-[clamp(16px,1.25vw+12px,36px)]">
           <div ref={el => { jRefs.current[0] = el as HTMLDivElement | null; }}>
