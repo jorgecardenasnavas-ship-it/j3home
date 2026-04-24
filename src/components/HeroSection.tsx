@@ -99,29 +99,30 @@ export function HeroSection() {
           Descúbrenos
         </Link>
 
-        {/* Chevrons debajo del botón, en flujo */}
-        <div aria-hidden className="flex flex-col items-center gap-[2px] pointer-events-none mt-[-8px]">
-          {[0, 1, 2].map((i) => (
-            <svg
-              key={i}
-              width="20"
-              height="10"
-              viewBox="0 0 20 10"
-              fill="none"
-              stroke="#ffffff"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden
-              style={{
-                animation: "j3ChevPulse 1.6s cubic-bezier(.4,0,.6,1) infinite",
-                animationDelay: `${i * 0.18}s`,
-              }}
-            >
-              <path d="M2 2 L10 8 L18 2" />
-            </svg>
-          ))}
-        </div>
+      </div>
+
+      {/* Chevrons anclados al borde inferior de la sección */}
+      <div aria-hidden className="absolute bottom-7 left-1/2 -translate-x-1/2 z-[5] flex flex-col items-center gap-[2px] pointer-events-none">
+        {[0, 1, 2].map((i) => (
+          <svg
+            key={i}
+            width="20"
+            height="10"
+            viewBox="0 0 20 10"
+            fill="none"
+            stroke="#ffffff"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden
+            style={{
+              animation: "j3ChevPulse 1.6s cubic-bezier(.4,0,.6,1) infinite",
+              animationDelay: `${i * 0.18}s`,
+            }}
+          >
+            <path d="M2 2 L10 8 L18 2" />
+          </svg>
+        ))}
       </div>
     </section>
   );
