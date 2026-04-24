@@ -566,24 +566,25 @@ function FullWidthTile({
 export function ProductsGrid() {
   const gridRef = useRef<HTMLElement>(null);
   const mantraBridgeRef = useRef<HTMLDivElement>(null);
+  const scrollerRef = useRef<HTMLDivElement>(null);
   const { t } = useI18n();
 
-  /* Scroll-linked body background + data-theme transition (Academy-style).
-     Bridge starts dark verde (#0E1C16). Cream kicks in when viewport center
-     enters the bridge; reverts to dark when exiting into Business Plan. */
+  /* Scroll-linked body background + data-theme transition.
+     Triggers at 70% of AcademyScroller so cards are still visible when verde kicks in.
+     Once triggered, stays cream permanently (no revert when leaving bridge). */
   useEffect(() => {
     const bridge = mantraBridgeRef.current;
-    if (!bridge) return;
+    const scroller = scrollerRef.current;
+    if (!bridge || !scroller) return;
 
     document.body.style.transition = "background-color 1.4s cubic-bezier(.16,1,.3,1)";
 
     function onScrollBg() {
-      const bridgeRect = bridge!.getBoundingClientRect();
-      const bridgeTop = bridgeRect.top + window.scrollY;
-      const bridgeBottom = bridgeTop + bridge!.offsetHeight;
+      const scrollerRect = scroller!.getBoundingClientRect();
+      const triggerPoint = scrollerRect.top + window.scrollY + scrollerRect.height * 0.70;
       const mid = window.scrollY + window.innerHeight * 0.5;
 
-      if (mid >= bridgeTop && mid <= bridgeBottom) {
+      if (mid >= triggerPoint) {
         document.body.style.backgroundColor = "#F8F5EF";
         document.documentElement.setAttribute("data-theme", "light");
       } else {
@@ -702,7 +703,9 @@ export function ProductsGrid() {
       />
 
       {/* ── Academy horizontal scroll ── */}
-      <AcademyScroller />
+      <div ref={scrollerRef}>
+        <AcademyScroller />
+      </div>
 
       {/* ── Business mantra bridge ──
           Starts dark verde (#0E1C16), same palette as AcademyScroller cards.
