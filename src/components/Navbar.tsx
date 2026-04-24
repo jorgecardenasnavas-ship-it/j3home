@@ -179,7 +179,7 @@ export function Navbar() {
               aria-label="Inicio"
             >
               <img
-                src="/images/j3-ball-gold.svg"
+                src={isHome ? "/images/j3-ball-gold.svg" : "/images/j3-ball-verde.svg"}
                 alt="J3"
                 className="h-[32px] w-auto select-none"
                 draggable={false}

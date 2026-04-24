@@ -958,10 +958,10 @@ function HeroSection() {
   return (
     <section
       className="relative z-[1] overflow-hidden min-h-[640px] min-[961px]:h-[calc(100vh-134px)] min-[961px]:min-h-[600px]"
-      style={{ backgroundColor: "var(--bk)" }}
       role="region"
       aria-label="Academy J3 hero"
       style={{
+        backgroundColor: "var(--bk)",
         opacity: ready ? 1 : 0,
         transition: "opacity .8s ease .2s",
       }}
