@@ -1907,7 +1907,7 @@ function PorscheCoachRow({ children, hoveredIdx }: { children: React.ReactNode[]
   );
 }
 
-function PerfilesSection() {
+function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const { t } = useI18n();
   const { ref, visible } = useReveal(0.1);
 
@@ -1991,8 +1991,8 @@ function PerfilesSection() {
         </p>
       </div>
 
-      {/* Marker 2: dark→crema — placed after header so Statement is fully out of view */}
-      <ScrollMarker index={2} to="light" refs={markerRefs} />
+      {/* Marker slot — rendered after header so Statement is fully out of view */}
+      {markerSlot}
 
       {/* Block 1: Juniors */}
       <div id="juniors" className="border-t theme-border scroll-mt-[100px]">
@@ -4222,7 +4222,9 @@ export default function AcademyV2Page() {
       <StatementSection />
 
       {/* Programs section — crema (marker placed inside, after header) */}
-      <PerfilesSection />
+      <PerfilesSection markerSlot={
+        <ScrollMarker index={2} to="light" refs={markerRefs} />
+      } />
 
       <NetworkSection markerSlot={
         /* Marker 3: white→dark — inside NetworkSection (which has its own
