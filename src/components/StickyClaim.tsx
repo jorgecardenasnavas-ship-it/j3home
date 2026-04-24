@@ -30,16 +30,17 @@ export function StickyClaim() {
 
   return (
     <div
-      className={`fixed left-0 right-0 z-[80] h-[32px] bg-black/55 backdrop-blur-md border-b border-white/[0.04] flex items-center justify-center pointer-events-none transition-[top,opacity] duration-300 ${
+      className={`fixed left-0 right-0 z-[80] h-[32px] flex items-center justify-center pointer-events-none transition-[top,opacity] duration-300 ${
         navHidden ? "top-0" : "top-[64px]"
       } ${show ? "opacity-100" : "opacity-0"}`}
+      style={{ background: "var(--verde)", borderBottom: "1px solid rgba(201,169,110,0.18)" }}
     >
-      <span className="text-[10px] tracking-[5px] uppercase text-white/45 font-normal select-none">
+      <span className="text-[10px] tracking-[5px] uppercase font-normal select-none">
         <span className="j3-grad-text font-bold">{t.hero.play}</span>
-        <span className="mx-3 text-white/20">·</span>
-        <span className="text-[#E8DDD0]/65 font-bold">{t.hero.coach}</span>
-        <span className="mx-3 text-white/20">·</span>
-        <span className="text-[#E8DDD0]/65 font-bold">{t.hero.manage}</span>
+        <span className="mx-3" style={{ color: "rgba(201,169,110,0.3)" }}>·</span>
+        <span className="font-bold" style={{ color: "rgba(248,245,239,0.7)" }}>{t.hero.coach}</span>
+        <span className="mx-3" style={{ color: "rgba(201,169,110,0.3)" }}>·</span>
+        <span className="font-bold" style={{ color: "rgba(248,245,239,0.7)" }}>{t.hero.manage}</span>
       </span>
     </div>
   );
