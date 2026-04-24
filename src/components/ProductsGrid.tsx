@@ -359,12 +359,34 @@ function AcademyScroller() {
             href={`/academy#${program.anchor}`}
             className="academy-scroller-card j3-press"
           >
-            <div className="academy-scroller-card-img">
-              <img src={program.image} alt={program.name} loading="lazy" />
-            </div>
-            <div className="academy-scroller-card-body">
-              <div className="academy-scroller-card-tag">{program.tag}</div>
+            <img
+              src={program.image}
+              alt={program.name}
+              loading="lazy"
+              className="academy-scroller-card-img"
+            />
+            <div className="academy-scroller-card-line" />
+            <div className="academy-scroller-card-grad-top" />
+            <div className="academy-scroller-card-grad-bot" />
+            <div className="academy-scroller-card-top">
               <div className="academy-scroller-card-name">{program.name}</div>
+              <span className="academy-scroller-card-tag">{program.tag}</span>
+            </div>
+            <div className="academy-scroller-card-cta">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden
+              >
+                <path d="M5 12h14" />
+                <path d="M12 5l7 7-7 7" />
+              </svg>
             </div>
           </Link>
         ))}
@@ -570,30 +592,27 @@ export function ProductsGrid() {
   const { t } = useI18n();
 
   /* Scroll-linked body background + data-theme transition.
-     Triggers at 70% of AcademyScroller so cards are still visible when verde kicks in.
-     Once triggered, stays cream permanently (no revert when leaving bridge). */
+     Triggers at 70% of AcademyScroller height (descending → cream, ascending → verde).
+     Bidirectional: scrolling back up reverts to dark verde. */
   useEffect(() => {
-    const bridge = mantraBridgeRef.current;
     const scroller = scrollerRef.current;
-    if (!bridge || !scroller) return;
+    if (!scroller) return;
 
     document.body.style.transition = "background-color 1.4s cubic-bezier(.16,1,.3,1)";
 
-    let triggered = false;
-
     function onScrollBg() {
-      if (triggered) return;
       const scrollerRect = scroller!.getBoundingClientRect();
       const triggerPoint = scrollerRect.top + window.scrollY + scrollerRect.height * 0.70;
       const mid = window.scrollY + window.innerHeight * 0.5;
 
       if (mid >= triggerPoint) {
-        triggered = true;
         document.body.style.backgroundColor = "#F8F5EF";
         document.documentElement.setAttribute("data-theme", "light");
         scroller!.classList.add("is-light");
-        // Once triggered, no more scroll checks needed
-        window.removeEventListener("scroll", onScrollBg);
+      } else {
+        document.body.style.backgroundColor = "";
+        document.documentElement.removeAttribute("data-theme");
+        scroller!.classList.remove("is-light");
       }
     }
 
