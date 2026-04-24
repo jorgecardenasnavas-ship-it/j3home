@@ -579,17 +579,21 @@ export function ProductsGrid() {
 
     document.body.style.transition = "background-color 1.4s cubic-bezier(.16,1,.3,1)";
 
+    let triggered = false;
+
     function onScrollBg() {
+      if (triggered) return;
       const scrollerRect = scroller!.getBoundingClientRect();
       const triggerPoint = scrollerRect.top + window.scrollY + scrollerRect.height * 0.70;
       const mid = window.scrollY + window.innerHeight * 0.5;
 
       if (mid >= triggerPoint) {
+        triggered = true;
         document.body.style.backgroundColor = "#F8F5EF";
         document.documentElement.setAttribute("data-theme", "light");
-      } else {
-        document.body.style.backgroundColor = "";
-        document.documentElement.removeAttribute("data-theme");
+        scroller!.classList.add("is-light");
+        // Once triggered, no more scroll checks needed
+        window.removeEventListener("scroll", onScrollBg);
       }
     }
 
@@ -599,8 +603,6 @@ export function ProductsGrid() {
     return () => {
       window.removeEventListener("scroll", onScrollBg);
       document.body.style.transition = "";
-      document.body.style.backgroundColor = "";
-      document.documentElement.removeAttribute("data-theme");
     };
   }, []);
 

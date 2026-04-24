@@ -2034,11 +2034,12 @@ html[data-theme="light"] .academy-scroller-card:hover {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  background: var(--wh);
+  background-color: var(--wh);
   transition: background-color 1.4s cubic-bezier(.16,1,.3,1);
 }
-html[data-theme="light"] .academy-scroller-card-body {
-  background: var(--verde);
+html[data-theme="light"] .academy-scroller-card-body,
+.is-light .academy-scroller-card-body {
+  background-color: var(--verde);
 }
 .academy-scroller-card-tag {
   font-size: 10px;
@@ -2048,7 +2049,8 @@ html[data-theme="light"] .academy-scroller-card-body {
   font-weight: 600;
   transition: color 1.4s cubic-bezier(.16,1,.3,1);
 }
-html[data-theme="light"] .academy-scroller-card-tag {
+html[data-theme="light"] .academy-scroller-card-tag,
+.is-light .academy-scroller-card-tag {
   color: rgba(248, 245, 239, 0.55);
 }
 .academy-scroller-card-name {
@@ -2059,7 +2061,8 @@ html[data-theme="light"] .academy-scroller-card-tag {
   line-height: 1;
   transition: color 1.4s cubic-bezier(.16,1,.3,1);
 }
-html[data-theme="light"] .academy-scroller-card-name {
+html[data-theme="light"] .academy-scroller-card-name,
+.is-light .academy-scroller-card-name {
   color: var(--wh);
 }
 
