@@ -1841,9 +1841,9 @@ html[data-theme="light"] .theme-eyebrow {
 
 /* ─── Próximamente header ─── */
 .proximamente-header {
-  background: var(--verde);
+  background: var(--wh);
   padding: 5vh 48px 4.5vh;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid rgba(27, 61, 47, 0.10);
   text-align: center;
 }
 @media (max-width: 960px) {
@@ -1862,7 +1862,7 @@ html[data-theme="light"] .theme-eyebrow {
 .proximamente-rule {
   flex: 1;
   height: 1px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(27, 61, 47, 0.12);
 }
 .proximamente-badge {
   display: flex;
@@ -1895,7 +1895,7 @@ html[data-theme="light"] .theme-eyebrow {
   font-size: 12px;
   font-weight: 300;
   letter-spacing: 1px;
-  color: rgba(255, 255, 255, 0.25);
+  color: rgba(27, 61, 47, 0.40);
   margin: 0;
 }
 
@@ -1913,7 +1913,7 @@ html[data-theme="light"] .theme-eyebrow {
   padding-left: max(24px, calc((100% - 1464px) / 2));
   padding-right: max(24px, calc((100% - 1464px) / 2));
   padding-bottom: 32px;
-  background: var(--verde);
+  background: var(--wh);
   scrollbar-width: none;
 }
 .prox-scroller::-webkit-scrollbar { display: none; }
@@ -2247,10 +2247,10 @@ html[data-theme="light"] .mantra-bridge-accent {
   background: linear-gradient(to bottom, transparent, rgba(27,61,47,0.3), transparent);
 }
 .mantra-bridge-word-1 {
-  color: var(--g1);
+  color: var(--bk);
   transition: color 1.4s cubic-bezier(.16,1,.3,1);
 }
-html[data-theme="light"] .mantra-bridge-word-1 { color: var(--verde); }
+html[data-theme="light"] .mantra-bridge-word-1 { color: var(--bk); }
 .mantra-bridge-word-2 {
   color: var(--verde);
   transition: color 1.4s cubic-bezier(.16,1,.3,1);

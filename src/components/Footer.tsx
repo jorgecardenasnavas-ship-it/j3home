@@ -43,10 +43,10 @@ export function Footer() {
           {/* Barra vertical — altura fija al cuerpo de las letras, excluye el acento */}
           <div className="w-px h-[26px] shrink-0" style={{ background: "rgba(255,255,255,0.10)" }} />
           {/* Tagline — Play oscuro, Coach/Manage claro */}
-          <div className="flex flex-col leading-[1.35]">
-            <span className="text-[8px] font-semibold tracking-[2px] uppercase" style={{ color: "var(--g1)" }}>Play</span>
-            <span className="text-[8px] font-semibold tracking-[2px] uppercase" style={{ color: "var(--wh)" }}>Coach</span>
-            <span className="text-[8px] font-semibold tracking-[2px] uppercase" style={{ color: "var(--wh)" }}>Manage</span>
+          <div className="flex flex-col gap-[3px]">
+            <span className="text-[8px] font-semibold tracking-[2px] uppercase leading-none" style={{ color: "var(--g1)" }}>Play</span>
+            <span className="text-[8px] font-semibold tracking-[2px] uppercase leading-none" style={{ color: "var(--wh)" }}>Coach</span>
+            <span className="text-[8px] font-semibold tracking-[2px] uppercase leading-none" style={{ color: "var(--wh)" }}>Manage</span>
           </div>
         </div>
 
