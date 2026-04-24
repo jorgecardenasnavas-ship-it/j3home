@@ -73,8 +73,8 @@ export const pt = {
 
   home: {
     line1: "Um ambiente completo para amadores, jogadores e treinadores exigentes.",
-    line2: "Um sistema de gestão integral para academias e clubes de padel.",
-    closer: "Otimizar. Automatizar. Escalar.",
+    line2: "A nossa também. Por isso construímos o sistema.",
+    closer: "A sua academia tira-lhe o sono?",
     brandTagline: "Jogamos. Treinamos. Gerimos.",
     origin: { from: "De M\u00E1laga", to: "para o mundo." },
     catalogIntro: {

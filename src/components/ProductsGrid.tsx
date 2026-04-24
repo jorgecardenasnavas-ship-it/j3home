@@ -815,23 +815,12 @@ export function ProductsGrid() {
           className="absolute inset-0 pointer-events-none"
           style={{ background: "radial-gradient(ellipse 60% 60% at 50% 50%, rgba(27,61,47,.12) 0%, transparent 70%)" }}
         />
-        <div className="relative flex flex-col items-center gap-5">
+        <div className="relative flex flex-col items-center gap-4">
           <div className="mantra-bridge-accent w-px h-14" />
-          <h2 className="font-black tracking-[-2px] leading-[1] text-[clamp(36px,5.5vw,80px)] max-[960px]:text-[clamp(28px,7vw,48px)]">
-            {t.home.closer.split(". ").map((word, i, arr) => (
-              <span key={i}>
-                <span className={
-                  i === 0 ? "mantra-bridge-word-1" :
-                  i === arr.length - 1 ? "mantra-bridge-word-3" :
-                  "mantra-bridge-word-2"
-                }>
-                  {word}{i < arr.length - 1 ? "." : ""}
-                </span>
-                {i < arr.length - 1 && " "}
-              </span>
-            ))}
+          <h2 className="mantra-bridge-question font-black tracking-[-1.5px] leading-[1.05] text-[clamp(28px,4.2vw,68px)] max-[960px]:text-[clamp(22px,6.5vw,42px)] text-center max-w-[820px]">
+            {t.home.closer}
           </h2>
-          <p className="mantra-bridge-subtitle text-[11px] font-light tracking-[2.5px] uppercase mt-1">
+          <p className="mantra-bridge-whisper font-serif italic text-[clamp(14px,1.2vw,19px)] max-[960px]:text-[13px] text-center mt-1">
             {t.home.line2}
           </p>
         </div>

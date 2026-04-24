@@ -73,8 +73,8 @@ export const es = {
 
   home: {
     line1: "Un entorno completo para aficionados, jugadores y entrenadores exigentes.",
-    line2: "Un sistema de gesti\u00F3n integral para academias y clubes de p\u00E1del.",
-    closer: "Optimizar. Automatizar. Escalar.",
+    line2: "La nuestra también lo hizo. Por eso construimos el sistema.",
+    closer: "¿Tu academia te quita el sueño?",
     brandTagline: "Jugamos. Entrenamos. Dirigimos.",
     origin: { from: "De M\u00E1laga", to: "al mundo." },
     catalogIntro: {

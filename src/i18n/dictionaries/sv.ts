@@ -73,8 +73,8 @@ export const sv = {
 
   home: {
     line1: "En komplett miljö för entusiaster, spelare och krävande tränare.",
-    line2: "Ett helhetssystem för förvaltning av padelakademier och klubbar.",
-    closer: "Optimera. Automatisera. Skala upp.",
+    line2: "Vår också. Därför byggde vi systemet.",
+    closer: "Håller din akademi dig vaken om nätterna?",
     brandTagline: "Vi spelar. Vi coacher. Vi leder.",
     origin: { from: "Fr\u00E5n M\u00E1laga", to: "till v\u00E4rlden." },
     catalogIntro: {

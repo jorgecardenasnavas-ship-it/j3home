@@ -73,8 +73,8 @@ export const en = {
 
   home: {
     line1: "A complete environment for demanding enthusiasts, players and coaches.",
-    line2: "An end-to-end management system for padel academies and clubs.",
-    closer: "Optimize. Automate. Scale.",
+    line2: "Ours did too. That's why we built the system.",
+    closer: "Does your academy keep you up at night?",
     brandTagline: "We play. We coach. We lead.",
     origin: { from: "From M\u00E1laga", to: "to the world." },
     catalogIntro: {
