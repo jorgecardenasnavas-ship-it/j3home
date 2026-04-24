@@ -2267,42 +2267,43 @@ html[data-theme="light"] .mantra-bridge-word-3 { color: var(--g1); }
 }
 html[data-theme="light"] .mantra-bridge-subtitle { color: rgba(0,0,0,0.26); }
 
-/* ─── HomeManifesto — white section after the map ─── */
+/* ─── HomeManifesto — statement section between hero and map ─── */
 .home-manifesto {
-  padding-block: 18vh;
+  padding-block: 22vh;
   background: var(--wh);
   border-bottom: 1px solid var(--section-border);
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 22px;
+  gap: 16px;
   position: relative;
 }
-/* Subtle gold line at the bottom for smoother transition to the dark products grid */
+/* Champán line top + bottom */
+.home-manifesto::before,
 .home-manifesto::after {
   content: "";
   position: absolute;
   left: 50%;
-  bottom: 0;
   transform: translateX(-50%);
-  width: 40%;
-  max-width: 320px;
+  width: 30%;
+  max-width: 260px;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(201, 169, 110, 0.45), transparent);
+  background: linear-gradient(90deg, transparent, rgba(201, 169, 110, 0.55), transparent);
 }
+.home-manifesto::before { top: 0; }
+.home-manifesto::after  { bottom: 0; }
 @media (max-width: 960px) {
   .home-manifesto {
-    padding-block: 12vh;
+    padding-block: 14vh;
   }
 }
 .home-manifesto-line {
-  font-size: clamp(36px, 5vw, 72px);
-  letter-spacing: -1px;
-  line-height: 1.2;
+  font-size: clamp(30px, 4vw, 62px);
+  line-height: 1.15;
   opacity: 0;
-  transform: translateY(28px);
-  filter: blur(4px);
+  transform: translateY(24px);
+  filter: blur(3px);
   transition:
     opacity 1.1s var(--ease-out),
     transform 1.1s var(--ease-out),
@@ -2315,18 +2316,22 @@ html[data-theme="light"] .mantra-bridge-subtitle { color: rgba(0,0,0,0.26); }
 }
 .home-manifesto-light {
   font-weight: 300;
-  color: rgba(0, 0, 0, 0.28);
+  font-style: italic;
+  font-family: var(--font-serif);
+  letter-spacing: 0.5px;
+  color: rgba(27, 61, 47, 0.40);
 }
 .home-manifesto-bold {
   font-weight: 900;
-  color: #1d1d1f;
+  letter-spacing: -1.5px;
+  color: var(--bk);
 }
 .home-manifesto-accent {
   color: var(--champan);
 }
 @media (max-width: 960px) {
   .home-manifesto-line {
-    font-size: clamp(26px, 7vw, 44px);
+    font-size: clamp(24px, 6.5vw, 40px);
   }
 }
 
