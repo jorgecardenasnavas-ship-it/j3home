@@ -61,7 +61,7 @@ export const es = {
   system: {
     blocks: [
       { line1: "El juego", line2: "ha cambiado." },
-      { line1: "El coach", line2: "evolucionado." },
+      { line1: "El coach", line2: "ha evolucionado." },
       { line1: "La gesti\u00F3n", line2: "optimizada." },
     ],
     nodes: ["Coach360", "J3PTV", "Academy", "Business", "Experience", "Partner"],

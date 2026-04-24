@@ -2026,7 +2026,7 @@ html[data-theme="light"] .theme-eyebrow {
   }
 }
 .home-manifesto-line {
-  font-size: clamp(32px, 4.5vw, 64px);
+  font-size: clamp(36px, 5vw, 72px);
   letter-spacing: -1px;
   line-height: 1.2;
   opacity: 0;
