@@ -1841,7 +1841,7 @@ html[data-theme="light"] .theme-eyebrow {
 
 /* ─── Próximamente header ─── */
 .proximamente-header {
-  background: var(--bk);
+  background: var(--verde);
   padding: 5vh 48px 4.5vh;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   text-align: center;
@@ -1913,7 +1913,7 @@ html[data-theme="light"] .theme-eyebrow {
   padding-left: max(24px, calc((100% - 1464px) / 2));
   padding-right: max(24px, calc((100% - 1464px) / 2));
   padding-bottom: 32px;
-  background: var(--bk);
+  background: var(--verde);
   scrollbar-width: none;
 }
 .prox-scroller::-webkit-scrollbar { display: none; }
