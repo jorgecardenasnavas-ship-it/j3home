@@ -336,12 +336,11 @@ function MapLayers({
       revealTimers.push(breatheT);
     };
 
-    /* Trigger only when the section is squarely in focus:
-     * rootMargin shrinks the effective viewport by 20% top & bottom,
-     * so the map must overlap the CENTER 60% of the screen before firing.
-     * Threshold 0.5 means at least half the (clipped) container must hit
-     * that center band. Result: on page load the section is above the
-     * band (below the hero), so nothing fires until the user scrolls into it.
+    /* Trigger only when the card is well into view:
+     * rootMargin shrinks the effective viewport by 30% top & bottom,
+     * so the map must overlap the CENTER 40% of the screen before firing.
+     * Threshold 0.65 means 65% of that already-clipped zone must be covered —
+     * ensuring the card is substantially visible before dots and lines appear.
      */
     const observer = new IntersectionObserver(
       (entries) => {
@@ -353,8 +352,8 @@ function MapLayers({
         });
       },
       {
-        threshold: 0.5,
-        rootMargin: "-20% 0px -20% 0px",
+        threshold: 0.65,
+        rootMargin: "-30% 0px -30% 0px",
       },
     );
     observer.observe(container);
