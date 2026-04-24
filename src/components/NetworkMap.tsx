@@ -135,7 +135,8 @@ const pinStyles = `
   .j3-pin-sprout {
     background: transparent !important;
     border: none !important;
-    cursor: pointer;
+    cursor: default;
+    pointer-events: none !important;
   }
   .j3-pin-sprout-inner {
     position: relative;
@@ -1095,7 +1096,7 @@ function PopupContent({
  * para no ser agresivo a zoom medio pero juntar los duplicados
  * reales (misma ciudad) a zoom continental.
  */
-const MAX_CLUSTER_RADIUS = 90;
+const MAX_CLUSTER_RADIUS = 120;
 
 /**
  * iconCreateFunction — el cluster se pinta como círculo dorado
@@ -1348,14 +1349,7 @@ function SproutingMarkers({ coaches, labels }: { coaches: readonly Coach[]; labe
         iconSize: [12, 12],
         iconAnchor: [6, 6],
       });
-      const m = L.marker(c.location.coordinates, { icon, keyboard: false });
-      // In-progress: solo el nombre, sin insignia (aún no certificado).
-      m.bindTooltip(`<span class="j3-tt-name">${c.name}</span>`, {
-        direction: "top",
-        offset: [0, -8],
-        className: "j3-marker-tooltip",
-        opacity: 0.95,
-      });
+      const m = L.marker(c.location.coordinates, { icon, keyboard: false, interactive: false });
       layer.addLayer(m);
     });
     map.addLayer(layer);
@@ -1406,8 +1400,8 @@ function ClusteredMarkers({
       const cluster = (e as unknown as { layer: L.MarkerCluster }).layer;
       const bounds = cluster.getBounds();
       map.fitBounds(bounds, {
-        padding: [120, 120],
-        maxZoom: 10,
+        padding: [60, 60],
+        maxZoom: 12,
         animate: true,
       });
     });
