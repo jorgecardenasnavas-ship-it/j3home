@@ -55,13 +55,15 @@ export function SponsorsBanner() {
             rel="noopener noreferrer"
             className="sp-logo j3-press flex-1 flex items-center justify-center"
           >
-            <Image
-              src={s.src}
-              alt={s.alt}
-              width={s.w}
-              height={s.h}
-              className="h-[120px] max-[960px]:h-[64px] w-auto object-contain"
-            />
+            <div className="w-[220px] h-[90px] max-[960px]:w-[110px] max-[960px]:h-[52px] flex items-center justify-center">
+              <Image
+                src={s.src}
+                alt={s.alt}
+                width={s.w}
+                height={s.h}
+                className="max-h-full max-w-full w-auto h-auto object-contain"
+              />
+            </div>
           </a>
         ))}
       </div>
