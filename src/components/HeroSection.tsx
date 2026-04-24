@@ -111,12 +111,12 @@ export function HeroSection() {
             height="10"
             viewBox="0 0 20 10"
             fill="none"
-            stroke="var(--wh)"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
             aria-hidden
             style={{
+              stroke: "#F8F5EF",
               animation: "j3ChevPulse 1.6s cubic-bezier(.4,0,.6,1) infinite",
               animationDelay: `${i * 0.18}s`,
             }}

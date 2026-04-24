@@ -566,30 +566,24 @@ function FullWidthTile({
 export function ProductsGrid() {
   const gridRef = useRef<HTMLElement>(null);
   const mantraBridgeRef = useRef<HTMLDivElement>(null);
-  const scrollerRef = useRef<HTMLDivElement>(null);
   const { t } = useI18n();
 
   /* Scroll-linked body background + data-theme transition (Academy-style).
-     Cream starts at 70% through AcademyScroller, ends when leaving the bridge. */
+     Bridge starts dark verde (#0E1C16). Cream kicks in when viewport center
+     enters the bridge; reverts to dark when exiting into Business Plan. */
   useEffect(() => {
     const bridge = mantraBridgeRef.current;
-    const scroller = scrollerRef.current;
-    if (!bridge || !scroller) return;
+    if (!bridge) return;
 
     document.body.style.transition = "background-color 1.4s cubic-bezier(.16,1,.3,1)";
 
     function onScrollBg() {
-      const scrollerRect = scroller!.getBoundingClientRect();
-      const scrollerTop = scrollerRect.top + window.scrollY;
-      const triggerPoint = scrollerTop + scrollerRect.height * 0.70;
-
       const bridgeRect = bridge!.getBoundingClientRect();
       const bridgeTop = bridgeRect.top + window.scrollY;
-      const endPoint = bridgeTop + bridge!.offsetHeight;
-
+      const bridgeBottom = bridgeTop + bridge!.offsetHeight;
       const mid = window.scrollY + window.innerHeight * 0.5;
 
-      if (mid >= triggerPoint && mid <= endPoint) {
+      if (mid >= bridgeTop && mid <= bridgeBottom) {
         document.body.style.backgroundColor = "#F8F5EF";
         document.documentElement.setAttribute("data-theme", "light");
       } else {
@@ -708,28 +702,29 @@ export function ProductsGrid() {
       />
 
       {/* ── Academy horizontal scroll ── */}
-      <div ref={scrollerRef}>
-        <AcademyScroller />
-      </div>
+      <AcademyScroller />
 
-      {/* ── Business mantra bridge — transparent so body bg transition shows through ── */}
+      {/* ── Business mantra bridge ──
+          Starts dark verde (#0E1C16), same palette as AcademyScroller cards.
+          When viewport center enters, body transitions to cream and data-theme="light"
+          drives all text/bg colour adaptations. */}
       <div
         ref={mantraBridgeRef}
-        className="relative border-t border-black/[.07] py-[13vh] max-[960px]:py-[10vh] px-12 max-[960px]:px-6 text-center overflow-hidden"
+        className="mantra-bridge relative py-[13vh] max-[960px]:py-[10vh] px-12 max-[960px]:px-6 text-center overflow-hidden"
       >
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse 60% 60% at 50% 50%, rgba(27,61,47,.07) 0%, transparent 70%)" }}
+          style={{ background: "radial-gradient(ellipse 60% 60% at 50% 50%, rgba(27,61,47,.12) 0%, transparent 70%)" }}
         />
         <div className="relative flex flex-col items-center gap-5">
-          <div className="w-px h-14 bg-gradient-to-b from-transparent via-[var(--verde)]/35 to-transparent" />
+          <div className="mantra-bridge-accent w-px h-14" />
           <h2 className="font-black tracking-[-2px] leading-[1] text-[clamp(36px,5.5vw,80px)] max-[960px]:text-[clamp(28px,7vw,48px)]">
             {t.home.closer.split(". ").map((word, i, arr) => (
               <span key={i}>
                 <span className={
-                  i === 0 ? "text-[var(--verde)]" :
-                  i === arr.length - 1 ? "text-[#1d1d1f]/35" :
-                  "text-[#1d1d1f]"
+                  i === 0 ? "mantra-bridge-word-1" :
+                  i === arr.length - 1 ? "mantra-bridge-word-3" :
+                  "mantra-bridge-word-2"
                 }>
                   {word}{i < arr.length - 1 ? "." : ""}
                 </span>
@@ -737,7 +732,7 @@ export function ProductsGrid() {
               </span>
             ))}
           </h2>
-          <p className="text-[11px] font-light tracking-[2.5px] uppercase text-black/30 mt-1">
+          <p className="mantra-bridge-subtitle text-[11px] font-light tracking-[2.5px] uppercase mt-1">
             {t.home.line2}
           </p>
         </div>
