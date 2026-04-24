@@ -34,7 +34,7 @@ export const HOME_PRODUCTS: HomeProduct[] = [
   },
   {
     id: "training-camp",
-    nameParts: [{ text: "Training", gold: true }, { text: "\u00A0Camp", gold: false }],
+    nameParts: [{ text: "Training", gold: true }, { text: "Camp", gold: false }],
     watermark: "TC",
     shortName: "Training",
     dark: true,
@@ -94,7 +94,7 @@ export const HOME_PRODUCTS: HomeProduct[] = [
   },
   {
     id: "business-plan",
-    nameParts: [{ text: "Business", gold: true }, { text: "\u00A0Plan", gold: false }],
+    nameParts: [{ text: "Business", gold: true }, { text: "Plan", gold: false }],
     watermark: "BIZ",
     shortName: "Business",
     dark: true,
