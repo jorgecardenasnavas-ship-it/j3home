@@ -47,7 +47,9 @@ export function Navbar() {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
+  const [navHidden, setNavHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const lastScrollY = useRef(0);
 
   const { locale, setLocale, t } = useI18n();
   const [langOpen, setLangOpen] = useState(false);
@@ -57,7 +59,17 @@ export function Navbar() {
 
   useEffect(() => {
     function handleScroll() {
-      setScrolled(window.scrollY > 10);
+      const y = window.scrollY;
+      const vh = window.innerHeight;
+      setScrolled(y > 10);
+      if (y < vh * 0.4) {
+        setNavHidden(false);
+      } else if (y > lastScrollY.current + 4) {
+        setNavHidden(true);   // scroll down
+      } else if (y < lastScrollY.current - 4) {
+        setNavHidden(false);  // scroll up
+      }
+      lastScrollY.current = y;
     }
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -96,6 +108,8 @@ export function Navbar() {
     <>
       <nav
         className={`fixed top-0 left-0 right-0 z-[110] h-[64px] flex items-center justify-between px-12 max-[960px]:px-6 border-b transition-all duration-300 ${
+          navHidden && !menuOpen ? "-translate-y-full" : "translate-y-0"
+        } ${
           scrolled
             ? "border-[rgba(27,61,47,0.12)] shadow-[0_1px_16px_rgba(27,61,47,0.08)]"
             : "border-[rgba(27,61,47,0.07)]"
