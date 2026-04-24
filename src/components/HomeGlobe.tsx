@@ -64,7 +64,8 @@ export function HomeGlobe() {
       const w = containerRef.current.clientWidth;
       const h = containerRef.current.clientHeight;
 
-      const globe = Globe()(containerRef.current)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const globe = (Globe as any)()(containerRef.current)
         .width(w)
         .height(h)
         .backgroundColor("rgba(0,0,0,0)")
