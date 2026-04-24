@@ -94,11 +94,12 @@ export function HeroSection() {
 
         <Link
           href="/academy"
-          className="mt-2 px-9 py-[13px] rounded-full border border-[var(--wh)]/60 text-[var(--wh)] text-[11px] tracking-[3px] uppercase no-underline hover:border-[var(--wh)] hover:bg-white/10 transition-all duration-500"
+          className="mt-2 px-9 py-[13px] rounded-full border border-[var(--wh)]/60 text-[var(--wh)] text-[11px] tracking-[3px] uppercase no-underline hover:border-[var(--wh)] hover:bg-[var(--wh)]/10 transition-all duration-500"
         >
           Descúbrenos
         </Link>
-
+        {/* Espaciador para mantener la posición del botón igual que antes */}
+        <div className="h-[34px]" />
       </div>
 
       {/* Chevrons anclados al borde inferior de la sección */}
@@ -110,7 +111,7 @@ export function HeroSection() {
             height="10"
             viewBox="0 0 20 10"
             fill="none"
-            stroke="#ffffff"
+            stroke="var(--wh)"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"

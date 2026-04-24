@@ -565,7 +565,39 @@ function FullWidthTile({
 
 export function ProductsGrid() {
   const gridRef = useRef<HTMLElement>(null);
+  const mantraBridgeRef = useRef<HTMLDivElement>(null);
   const { t } = useI18n();
+
+  /* Scroll-linked body background transition (Academy-style):
+     dark → cream when Business Mantra bridge is in view, back to dark when it leaves */
+  useEffect(() => {
+    const bridge = mantraBridgeRef.current;
+    if (!bridge) return;
+
+    document.body.style.transition = "background-color 1.4s cubic-bezier(.16,1,.3,1)";
+
+    function onScrollBg() {
+      const rect = bridge!.getBoundingClientRect();
+      const bridgeTop = rect.top + window.scrollY;
+      const bridgeBottom = bridgeTop + bridge!.offsetHeight;
+      const mid = window.scrollY + window.innerHeight * 0.5;
+
+      if (mid >= bridgeTop && mid <= bridgeBottom) {
+        document.body.style.backgroundColor = "#F8F5EF";
+      } else {
+        document.body.style.backgroundColor = "";
+      }
+    }
+
+    window.addEventListener("scroll", onScrollBg, { passive: true });
+    onScrollBg();
+
+    return () => {
+      window.removeEventListener("scroll", onScrollBg);
+      document.body.style.transition = "";
+      document.body.style.backgroundColor = "";
+    };
+  }, []);
 
   useEffect(() => {
     const grid = gridRef.current;
@@ -668,25 +700,32 @@ export function ProductsGrid() {
       {/* ── Academy horizontal scroll ── */}
       <AcademyScroller />
 
-      {/* ── Business mantra bridge ── */}
-      <div className="relative bg-[var(--bk)] border-t border-white/[.04] py-[13vh] max-[960px]:py-[10vh] px-12 max-[960px]:px-6 text-center overflow-hidden">
+      {/* ── Business mantra bridge — transparent so body bg transition shows through ── */}
+      <div
+        ref={mantraBridgeRef}
+        className="relative border-t border-black/[.07] py-[13vh] max-[960px]:py-[10vh] px-12 max-[960px]:px-6 text-center overflow-hidden"
+      >
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse 60% 60% at 50% 50%, rgba(201,169,110,.05) 0%, transparent 70%)" }}
+          style={{ background: "radial-gradient(ellipse 60% 60% at 50% 50%, rgba(27,61,47,.07) 0%, transparent 70%)" }}
         />
         <div className="relative flex flex-col items-center gap-5">
-          <div className="w-px h-14 bg-gradient-to-b from-transparent via-[var(--g1)]/40 to-transparent" />
+          <div className="w-px h-14 bg-gradient-to-b from-transparent via-[var(--verde)]/35 to-transparent" />
           <h2 className="font-black tracking-[-2px] leading-[1] text-[clamp(36px,5.5vw,80px)] max-[960px]:text-[clamp(28px,7vw,48px)]">
             {t.home.closer.split(". ").map((word, i, arr) => (
               <span key={i}>
-                <span className={i === 0 ? "j3-grad-text" : i === arr.length - 1 ? "text-[var(--wh)]/45" : "text-[var(--wh)]"}>
+                <span className={
+                  i === 0 ? "text-[var(--verde)]" :
+                  i === arr.length - 1 ? "text-[#1d1d1f]/35" :
+                  "text-[#1d1d1f]"
+                }>
                   {word}{i < arr.length - 1 ? "." : ""}
                 </span>
                 {i < arr.length - 1 && " "}
               </span>
             ))}
           </h2>
-          <p className="text-[11px] font-light tracking-[2.5px] uppercase text-white/30 mt-1">
+          <p className="text-[11px] font-light tracking-[2.5px] uppercase text-black/30 mt-1">
             {t.home.line2}
           </p>
         </div>
