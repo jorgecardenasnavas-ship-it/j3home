@@ -91,7 +91,7 @@ export const es = {
         cta: "Entrar",
       },
       {
-        tag: "Academy · Premium",
+        tag: "Stages personalizados",
         forLabel: "Jugadores de todos los niveles",
         cta: "Reservar",
       },
