@@ -49,16 +49,22 @@ function approxDistance(a: [number, number], b: [number, number]): number {
   return Math.sqrt(dLat * dLat + dLng * dLng);
 }
 
-/* ── Gesture handling: 1 finger = scroll page, 2 fingers = move map ── */
+/* ── Gesture handling: 1 finger = scroll page, 2 fingers = pan + zoom ── */
 
 function GestureHandling() {
   const map = useMap();
 
   useEffect(() => {
-    if (!L.Browser.mobile) return;
+    // Detect touch device (more reliable than L.Browser.mobile)
+    const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    if (!isTouch) return;
 
     const container = map.getContainer();
+
+    // Disable drag AND override Leaflet's touch-action:none so browser
+    // can handle single-finger page scroll natively.
     map.dragging.disable();
+    container.style.touchAction = "pan-y";
 
     let hint: HTMLDivElement | null = null;
     let hintTimeout: ReturnType<typeof setTimeout>;
@@ -82,16 +88,24 @@ function GestureHandling() {
 
     const onTouchStart = (e: TouchEvent) => {
       if (e.touches.length >= 2) {
+        // Two fingers: give full control to Leaflet (pan + pinch zoom)
+        container.style.touchAction = "none";
         map.dragging.enable();
         hint?.classList.remove("visible");
       } else {
+        // One finger: let browser scroll the page
+        container.style.touchAction = "pan-y";
         map.dragging.disable();
         showHint();
       }
     };
 
     const onTouchEnd = () => {
-      map.dragging.disable();
+      // Restore page-scroll mode after interaction ends
+      setTimeout(() => {
+        container.style.touchAction = "pan-y";
+        map.dragging.disable();
+      }, 80);
     };
 
     container.addEventListener("touchstart", onTouchStart, { passive: true });
@@ -100,8 +114,10 @@ function GestureHandling() {
     return () => {
       container.removeEventListener("touchstart", onTouchStart);
       container.removeEventListener("touchend", onTouchEnd);
+      container.style.touchAction = "";
       hint?.remove();
       clearTimeout(hintTimeout);
+      map.dragging.enable();
     };
   }, [map]);
 
