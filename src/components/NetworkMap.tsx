@@ -43,6 +43,11 @@ import type { LatLng } from "@/lib/geo";
 import { LanguageChip } from "@/components/LanguageChip";
 
 const pinStyles = `
+  /* Tiles teñidos de verde — solo el pane de tiles, los pins quedan sin tocar */
+  .j3-network-map .leaflet-tile-pane {
+    filter: hue-rotate(110deg) saturate(0.35) brightness(0.82);
+  }
+
   .j3-pin {
     background: transparent !important;
     border: none !important;
@@ -2132,6 +2137,7 @@ export default function NetworkMap({
         maxZoom={14}
         scrollWheelZoom={scrollWheelZoom}
         style={{ width: "100%", height: "100%" }}
+        className="j3-network-map"
         worldCopyJump
         zoomControl={false}
       >
