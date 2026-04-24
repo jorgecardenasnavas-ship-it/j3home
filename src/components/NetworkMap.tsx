@@ -189,7 +189,7 @@ const pinStyles = `
   }
   /* ── Hover tooltip on markers ── */
   .j3-marker-tooltip {
-    background: rgba(10,10,10,0.95) !important;
+    background: rgba(14,28,22,0.95) !important;
     color: var(--wh) !important;
     border: 1px solid rgba(201,169,110,0.35) !important;
     border-radius: 999px !important;
@@ -226,7 +226,7 @@ const pinStyles = `
     z-index: 0;
   }
   .leaflet-control-attribution {
-    background: rgba(10,10,10,0.7) !important;
+    background: rgba(14,28,22,0.7) !important;
     color: rgba(245,240,232,0.5) !important;
     font-size: 10px !important;
   }
@@ -241,7 +241,7 @@ const pinStyles = `
     overflow: hidden !important;
   }
   .leaflet-control-zoom a {
-    background: rgba(10,10,10,0.9) !important;
+    background: rgba(14,28,22,0.9) !important;
     color: #C9A96E !important;
     border: none !important;
     border-bottom: 1px solid rgba(201,169,110,0.15) !important;
@@ -357,7 +357,7 @@ const pinStyles = `
 
   /* ── Leyenda flotante (Leaflet control bottomleft) ── */
   .j3-legend {
-    background: rgba(10,10,10,0.78) !important;
+    background: rgba(14,28,22,0.78) !important;
     backdrop-filter: blur(6px);
     border: 1px solid rgba(201,169,110,0.28) !important;
     border-radius: 2px !important;
@@ -1967,7 +1967,7 @@ function FloatingZoomControls({
   const btnBase: React.CSSProperties = {
     width: 36,
     height: 36,
-    background: "rgba(10,10,10,0.92)",
+    background: "rgba(14,28,22,0.92)",
     color: "#C9A96E",
     border: "none",
     cursor: "pointer",
@@ -2002,7 +2002,7 @@ function FloatingZoomControls({
         aria-label="Acercar"
         style={{ ...btnBase, borderBottom: "1px solid rgba(201,169,110,0.15)" }}
         onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(201,169,110,0.14)"; e.currentTarget.style.color = "#d4b882"; }}
-        onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(10,10,10,0.92)"; e.currentTarget.style.color = "#C9A96E"; }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(14,28,22,0.92)"; e.currentTarget.style.color = "#C9A96E"; }}
       >
         +
       </button>
@@ -2012,7 +2012,7 @@ function FloatingZoomControls({
         aria-label="Alejar"
         style={btnBase}
         onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(201,169,110,0.14)"; e.currentTarget.style.color = "#d4b882"; }}
-        onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(10,10,10,0.92)"; e.currentTarget.style.color = "#C9A96E"; }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(14,28,22,0.92)"; e.currentTarget.style.color = "#C9A96E"; }}
       >
         −
       </button>
@@ -2026,7 +2026,7 @@ function FloatingZoomControls({
         title="Ver toda la red"
         style={{ ...btnBase, borderTop: "1px solid rgba(201,169,110,0.15)" }}
         onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(201,169,110,0.14)"; e.currentTarget.style.color = "#d4b882"; }}
-        onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(10,10,10,0.92)"; e.currentTarget.style.color = "#C9A96E"; }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(14,28,22,0.92)"; e.currentTarget.style.color = "#C9A96E"; }}
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden style={{ display: "inline-block", verticalAlign: "middle" }}>
           <path d="M3 8V5a2 2 0 0 1 2-2h3" />
