@@ -862,7 +862,7 @@ export function ProductsGrid() {
         {proximamenteProducts.map((product, i) => {
           const tCard = proximamenteTCards[i];
           return (
-            <div key={product.id} className="prox-card" data-idx={i}>
+            <div key={product.id} className="prox-card" data-idx={i} data-product-id={product.id}>
               {/* Media — full-bleed, siempre visible */}
               <TileBackground asset={product.asset} />
 

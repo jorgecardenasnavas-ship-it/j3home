@@ -1942,6 +1942,23 @@ html[data-theme="light"] .theme-eyebrow {
   }
 }
 
+/* J3PTV — video con letterboxing baked-in: sobrepasa el contenedor para que
+   el overflow:hidden del .tile-bg recorte las barras negras superior/inferior */
+[data-product-id="j3ptv"] .tile-bg > video {
+  height: 145%;
+  width: 100%;
+  top: 50%;
+  left: 0;
+  position: absolute;
+  transform: translateY(-50%);
+  object-fit: cover;
+}
+@media (hover: hover) and (min-width: 961px) {
+  .prox-card[data-product-id="j3ptv"]:hover .tile-bg > video {
+    transform: translateY(-50%) scale3d(1.04, 1.04, 1.04);
+  }
+}
+
 /* Media — siempre visible (no blur reveal como pc-card) */
 .prox-card .tile-bg > img,
 .prox-card .tile-bg > video {
