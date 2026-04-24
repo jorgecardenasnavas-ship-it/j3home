@@ -762,7 +762,7 @@ export function ProductsGrid() {
                 <div className="font-black uppercase tracking-[-2px] leading-[0.95] text-[clamp(28px,3.2vw,44px)]">
                   {product.nameParts.map((part, j) =>
                     part.gold ? (
-                      <span key={j} className="j3-grad-text">{part.text}</span>
+                      <span key={j} style={{ color: "var(--g1)" }}>{part.text}</span>
                     ) : (
                       <span key={j} className="text-white">{part.text}</span>
                     )
