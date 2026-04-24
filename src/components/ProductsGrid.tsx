@@ -105,7 +105,7 @@ function Coach360Feature() {
           <span className="text-[8px] tracking-[2.5px] uppercase font-bold j3-grad-text">
             Coach del mes
           </span>
-          <span className="text-[13px] font-bold text-white leading-tight">
+          <span className="text-[13px] font-bold text-[var(--wh)] leading-tight">
             Martín Vega
           </span>
           <span className="text-[9px] text-white/50 leading-tight">
@@ -890,7 +890,7 @@ export function ProductsGrid() {
                     part.gold ? (
                       <span key={j} style={{ color: "var(--g1)" }}>{part.text}</span>
                     ) : (
-                      <span key={j} className="text-white">{part.text}</span>
+                      <span key={j} className="text-[var(--wh)]">{part.text}</span>
                     )
                   )}
                 </div>

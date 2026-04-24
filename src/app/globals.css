@@ -2184,7 +2184,7 @@ html[data-theme="light"] .academy-scroller-cta {
   font-weight: 900;
   letter-spacing: -1.5px;
   line-height: 1;
-  color: #fff;
+  color: var(--wh);
   text-transform: uppercase;
 }
 .academy-scroller-card-tag {
