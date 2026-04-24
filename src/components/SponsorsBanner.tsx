@@ -46,14 +46,14 @@ export function SponsorsBanner() {
         style={{ width: "100%", maxWidth: "400px" }}
       />
 
-      <div className="inline-flex items-center flex-nowrap gap-[72px] max-[960px]:gap-10">
+      <div className="flex items-center w-full max-w-[1100px] max-[960px]:max-w-full">
         {t.sponsors.items.map((s) => (
           <a
             key={s.alt}
             href={s.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="sp-logo j3-press"
+            className="sp-logo j3-press flex-1 flex items-center justify-center"
           >
             <Image
               src={s.src}
