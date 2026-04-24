@@ -33,8 +33,8 @@ export function FilterSelect({ label, value, onChange, options, compact = false,
       <label
         className="inline-flex items-center gap-1.5 backdrop-blur-[16px] px-2.5 py-[6px] rounded-full shadow-[0_2px_12px_rgba(0,0,0,.5)] transition-all duration-300 cursor-pointer"
         style={{
-          background: isActive ? "rgba(201,169,110,0.14)" : "rgba(26,26,28,0.9)",
-          border: `1px solid ${isActive ? "rgba(201,169,110,0.6)" : "rgba(255,255,255,0.15)"}`,
+          background: isActive ? "rgba(201,169,110,0.14)" : "rgba(14,28,22,0.88)",
+          border: `1px solid ${isActive ? "rgba(201,169,110,0.6)" : "rgba(201,169,110,0.22)"}`,
         }}
       >
         <span className="text-[8px] font-bold tracking-[1.5px] uppercase text-[var(--g1)]">
@@ -47,7 +47,7 @@ export function FilterSelect({ label, value, onChange, options, compact = false,
           style={{ color: isActive ? "var(--g1)" : "var(--wh)" }}
         >
           {options.map(opt => (
-            <option key={opt.value} value={opt.value} style={{ background: "#0a0a0a", color: "#f5f0e8" }}>
+            <option key={opt.value} value={opt.value} style={{ background: "#0E1C16", color: "#C9A96E" }}>
               {opt.label}
             </option>
           ))}
@@ -61,7 +61,7 @@ export function FilterSelect({ label, value, onChange, options, compact = false,
       className="inline-flex items-center gap-2 px-3 py-2 transition-all duration-300 relative"
       style={{
         borderRadius: 2,
-        border: `1px solid ${isActive ? "var(--g1)" : "rgba(255,255,255,0.12)"}`,
+        border: `1px solid ${isActive ? "var(--g1)" : "rgba(201,169,110,0.18)"}`,
         background: isActive ? "rgba(201,169,110,0.08)" : "transparent",
         boxShadow: isActive ? "0 0 0 1px rgba(201,169,110,0.25)" : "none",
       }}
@@ -79,7 +79,7 @@ export function FilterSelect({ label, value, onChange, options, compact = false,
         }}
       >
         {options.map(opt => (
-          <option key={opt.value} value={opt.value} style={{ background: "#0a0a0a", color: "#f5f0e8" }}>
+          <option key={opt.value} value={opt.value} style={{ background: "#0E1C16", color: "#C9A96E" }}>
             {opt.label}
           </option>
         ))}
