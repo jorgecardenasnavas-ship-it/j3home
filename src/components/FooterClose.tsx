@@ -25,9 +25,9 @@ export function FooterClose() {
     return () => observer.disconnect();
   }, []);
 
-  // "Jugamos. Entrenamos. Dirigimos." → ["Jugamos.", "Entrenamos.", "Dirigimos."]
+  // "Jugamos. Entrenamos. Dirigimos." → ["Jugamos", "Entrenamos", "Dirigimos"]
   const raw = t.home.brandTagline.split(". ");
-  const words = raw.map((w, i) => (i < raw.length - 1 ? w + "." : w));
+  const words = raw.map((w) => w.replace(/\.$/, ""));
 
   return (
     <section ref={sectionRef} className="footer-close">
