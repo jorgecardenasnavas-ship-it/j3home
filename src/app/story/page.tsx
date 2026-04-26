@@ -1103,8 +1103,20 @@ function TimelineSection() {
           filter: "blur(14px)",
         }}
       >
-        <span className="text-[10px] font-normal tracking-[5px] uppercase text-[var(--g1)] mb-3 block max-[960px]:text-[12px] max-[960px]:tracking-[3px] max-[640px]:text-[9px] max-[640px]:tracking-[3px]">{t.story.timeline.sectionLabel}</span>
-        <h2 className="font-bold text-[clamp(28px,4vw,52px)] uppercase tracking-[-1px] leading-[1]">
+        <span
+          className="text-[10px] font-normal tracking-[5px] uppercase mb-3 block max-[960px]:text-[12px] max-[960px]:tracking-[3px] max-[640px]:text-[9px] max-[640px]:tracking-[3px]"
+          style={{
+            color: onCream ? "var(--verde)" : "var(--g1)",
+            transition: "color 1.4s cubic-bezier(.16,1,.3,1)",
+          }}
+        >{t.story.timeline.sectionLabel}</span>
+        <h2
+          className="font-bold text-[clamp(28px,4vw,52px)] uppercase tracking-[-1px] leading-[1]"
+          style={{
+            color: onCream ? "var(--verde)" : "var(--wh)",
+            transition: "color 1.4s cubic-bezier(.16,1,.3,1)",
+          }}
+        >
           {t.story.timeline.heading1} <span className="j3-grad-text">{t.story.timeline.heading2}</span>
         </h2>
       </div>
