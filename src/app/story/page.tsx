@@ -1787,7 +1787,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
           <canvas
             ref={canvasRef}
             className="w-full h-full object-contain"
-            style={{ background: "#000", opacity: videoOp }}
+            style={{ background: "#0E1C16", opacity: videoOp }}
           />
         </div>
       )}
@@ -1808,7 +1808,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
         <div
           className="fixed inset-0 z-[61] pointer-events-none"
           style={{
-            background: "radial-gradient(ellipse 50% 50% at 50% 50%, transparent 20%, rgba(0,0,0,0.85) 100%)",
+            background: "radial-gradient(ellipse 50% 50% at 50% 50%, transparent 20%, rgba(14,28,22,0.85) 100%)",
             opacity: vignetteOp,
           }}
         />
@@ -2049,11 +2049,11 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
         );
       })()}
 
-      {/* Black background overlay */}
+      {/* Verde oscuro background overlay (cubre las bandas del letterbox del video) */}
       {showBg && (
         <div
           className="fixed inset-0 z-[59] pointer-events-none"
-          style={{ background: "#000", opacity: bgBlackOp, willChange: "opacity" }}
+          style={{ background: "#0E1C16", opacity: bgBlackOp, willChange: "opacity" }}
         />
       )}
     </>
