@@ -2888,12 +2888,15 @@ export default function StoryPage() {
         </div>
       </section>
 
-      {/* ─── JUGADORES ─── */}
+      {/* ─── JUGADORES — diseño simplificado en dos capas: spotlight de
+           hero (3 nombres con info) + directory unificado para el resto
+           (21 nombres con tag). Sin cards/borders por entrada — la
+           tipografía y el grid hacen el trabajo. ─── */}
       <section className="py-[100px] px-12 max-[960px]:py-[72px] max-[960px]:px-6 max-[640px]:px-4">
         {/* Header */}
         <div
           ref={jugadoresHeader.ref}
-          className="max-w-[580px] mb-16 max-[640px]:mb-10"
+          className="max-w-[640px] mb-16 max-[640px]:mb-10"
           style={{
             opacity: jugadoresHeader.visible ? 1 : 0,
             transform: jugadoresHeader.visible ? "none" : "translateY(30px)",
@@ -2909,40 +2912,39 @@ export default function StoryPage() {
           </p>
         </div>
 
-        {/* ── Tier 1: Hero players — top mundial ── */}
-        <p className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[3px] max-[640px]:tracking-[1.5px] uppercase text-[var(--g1)]/80 mb-5">{t.story.players.heroLabel}</p>
-        <div className="grid grid-cols-3 max-[960px]:grid-cols-2 max-[640px]:grid-cols-1 gap-3 mb-14">
-          {playersHero.map((p, i) => <HeroPlayerCard key={i} p={p} index={i} />)}
+        {/* Capa 1 — Hero spotlight: 3 nombres formados desde base. */}
+        <p className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[3px] max-[640px]:tracking-[1.5px] uppercase text-[var(--g1)]/80 mb-7 max-[640px]:mb-5">{t.story.players.heroLabel}</p>
+        <div className="grid grid-cols-3 max-[640px]:grid-cols-1 gap-x-10 gap-y-9 mb-16 max-[640px]:mb-12">
+          {playersHero.map((p, i) => (
+            <article key={i} className="relative">
+              <h3 className="font-bold text-[clamp(20px,2.2vw,28px)] uppercase tracking-[-0.5px] leading-[1.05]">
+                <span className="j3-grad-text">{p.first}</span><br />
+                <span className="text-[var(--wh)]/95">{p.last}</span>
+              </h3>
+              <p className="text-[12.5px] max-[640px]:text-[13px] font-light text-[var(--gy2)] leading-[1.6] mt-3 max-w-[280px]">{p.info}</p>
+              <span className="text-[9px] tracking-[2.5px] uppercase font-bold text-[var(--g1)]/85 mt-3 inline-block">{p.tag}</span>
+            </article>
+          ))}
         </div>
 
-        {/* ── Tier 2: Next gen — de la cantera al circuito ── */}
-        <p className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[3px] max-[640px]:tracking-[1.5px] uppercase text-[var(--gy)] mb-2">{t.story.players.nextGenLabel}</p>
-        <div className="max-w-[700px] mb-16">
-          {playersNextGen.map((p, i) => <NextGenRow key={i} p={p} index={i} />)}
-        </div>
-
-        {/* ── Tier 2b: Next gen → circuito pro ── */}
-        <p className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[3px] max-[640px]:tracking-[1.5px] uppercase text-[var(--gy)] mb-2">{t.story.players.nextGenProLabel}</p>
-        <div className="max-w-[700px] mb-16">
-          {playersNextGenPro.map((p, i) => <NextGenRow key={i} p={p} index={i} />)}
-        </div>
-
-        {/* ── Tier 3: Featured pro collaborations ── */}
-        <div className="border-t border-[var(--wh)]/[.06] pt-10 mb-10">
-          <p className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[3px] max-[640px]:tracking-[1.5px] uppercase text-[var(--gy)] mb-5">{t.story.players.featuredLabel}</p>
-          <div className="grid grid-cols-4 max-[960px]:grid-cols-2 max-[640px]:grid-cols-1 gap-3">
-            {playersFeatured.map((p, i) => (
-              <FeaturedCollab key={i} p={p} index={i} />
+        {/* Capa 2 — Directory: el resto (NextGen + NextGenPro + Featured
+            + Shared) en un único grid 3-col. Cada entrada es una línea
+            con nombre y tag, separadas por una hairline sutil. */}
+        <div className="border-t border-[var(--wh)]/[.07] pt-10">
+          <p className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[3px] max-[640px]:tracking-[1.5px] uppercase text-[var(--gy)] mb-7 max-[640px]:mb-5">{t.story.players.sharedLabel}</p>
+          <ul className="grid grid-cols-3 max-[960px]:grid-cols-2 max-[640px]:grid-cols-1 gap-x-10 max-[640px]:gap-x-0">
+            {[...playersNextGen, ...playersNextGenPro, ...playersFeatured, ...playersShared].map((p, i) => (
+              <li
+                key={`${p.first}-${p.last}-${i}`}
+                className="flex items-baseline justify-between gap-3 py-3 border-b border-[var(--wh)]/[.06]"
+              >
+                <span className="font-bold text-[14px] max-[640px]:text-[14.5px] tracking-[-0.2px]">
+                  <span className="j3-grad-text">{p.first}</span> <span className="text-[var(--wh)]/85">{p.last}</span>
+                </span>
+                <span className="text-[9px] uppercase tracking-[1.5px] text-[var(--gy)]/70 whitespace-nowrap font-medium">{p.tag}</span>
+              </li>
             ))}
-          </div>
-        </div>
-
-        {/* ── Tier 4: Rest of shared circuit — subtle ── */}
-        <div className="border-t border-[var(--wh)]/[.06] pt-8">
-          <p className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[3px] max-[640px]:tracking-[1.5px] uppercase text-[var(--gy)]/70 mb-5">{t.story.players.sharedLabel}</p>
-          <div className="flex flex-wrap gap-x-6 gap-y-3 max-[640px]:gap-x-4 max-[640px]:gap-y-2">
-            {playersShared.map((p, i) => <SharedPlayerTag key={i} p={p} index={i} />)}
-          </div>
+          </ul>
         </div>
       </section>
 
