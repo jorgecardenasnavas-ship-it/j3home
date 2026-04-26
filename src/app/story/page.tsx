@@ -646,10 +646,14 @@ function AccentManifesto() {
            ambos fondos. */
         ...(onCream
           ? ({
-              "--gy": "rgba(14,28,22,0.55)",
-              "--gy2": "rgba(14,28,22,0.65)",
-              "--gy3": "rgba(14,28,22,0.78)",
-              "--wh": "#0E1C16",
+              /* Textos en verde academia (#1B3D2F) — color brand para
+                 títulos/body sobre crema. --wh pasa también a verde
+                 academia (no verde oscuro) para que slogans y manifesto
+                 lean con tono brand cuando se vean sobre crema. */
+              "--gy": "rgba(27,61,47,0.62)",
+              "--gy2": "rgba(27,61,47,0.80)",
+              "--gy3": "rgba(27,61,47,0.95)",
+              "--wh": "#1B3D2F",
             } as React.CSSProperties)
           : {}),
       }}
@@ -823,7 +827,7 @@ function AccentManifesto() {
                   filter: "blur(8px)",
                   /* j3-stroke usa rgba blanco hardcoded; en crema cambiamos
                      el stroke a verde-oscuro para que se siga leyendo. */
-                  WebkitTextStroke: onCream ? "1.75px rgba(14,28,22,0.45)" : undefined,
+                  WebkitTextStroke: onCream ? "1.75px rgba(27,61,47,0.55)" : undefined,
                 }}
               >
                 {slogan[1]}
@@ -1036,50 +1040,18 @@ function TimelineSection() {
            legibles sin tocar cada className individual. */
         ...(onCream
           ? ({
-              "--gy": "rgba(14,28,22,0.55)",
-              "--gy2": "rgba(14,28,22,0.65)",
-              "--gy3": "rgba(14,28,22,0.78)",
+              /* Textos en verde academia (rgb 27,61,47 = #1B3D2F) — color
+                 brand para títulos y body sobre crema, en vez de un negro
+                 verdoso plano. */
+              "--gy": "rgba(27,61,47,0.62)",
+              "--gy2": "rgba(27,61,47,0.78)",
+              "--gy3": "rgba(27,61,47,0.95)",
             } as React.CSSProperties)
           : {}),
       }}
     >
-      {/* Mini-map — desktop only */}
-      <div
-        className="hidden min-[800px]:flex fixed right-8 top-1/2 -translate-y-1/2 z-30 flex-col items-center gap-[6px] pointer-events-none"
-        style={{ opacity: inView ? 1 : 0, transition: "opacity .4s ease" }}
-      >
-        {timeline.map((item, i) => {
-          const isPast = i <= activeIndex;
-          const isActive = i === activeIndex;
-          const isHL = item.highlight;
-          const era = eraMap[i];
-          return (
-            <div key={i} className="flex items-center gap-2">
-              <div
-                className={`rounded-full transition-all duration-300 ${
-                  isActive
-                    ? "w-[10px] h-[10px] bg-[var(--g1)]"
-                    : isPast
-                      ? `${isHL ? "w-[7px] h-[7px]" : "w-[5px] h-[5px]"} bg-[var(--g1)]/60`
-                      : isHL ? "w-[7px] h-[7px]" : "w-[5px] h-[5px]"
-                }`}
-                style={{
-                  boxShadow: isActive ? "0 0 10px rgba(201,169,110,.5)" : "none",
-                  ...(!isActive && !isPast
-                    ? { backgroundColor: onCream ? "rgba(14,28,22,0.18)" : "rgba(248,245,239,0.12)" }
-                    : {}),
-                }}
-              />
-              {/* Show era label next to first dot of each era */}
-              {era && isActive && (
-                <span className="text-[8px] max-[960px]:text-[10px] font-bold tracking-[2px] uppercase text-[var(--g1)]/70 whitespace-nowrap">{era}</span>
-              )}
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Mobile progress HUD — sticky bar + era pill */}
+      {/* Progress HUD — sticky bar + era + año + progress bar.
+          Mismo patrón en mobile y desktop para coherencia visual. */}
       {(() => {
         // Find current era from active item
         let currentEra = "";
@@ -1092,15 +1064,19 @@ function TimelineSection() {
         }
         return (
           <div
-            className="min-[800px]:hidden fixed top-[52px] left-0 right-0 z-50 pointer-events-none"
-            style={{ opacity: inView ? 1 : 0, transition: "opacity .4s ease" }}
+            className="fixed left-0 right-0 z-50 pointer-events-none"
+            style={{
+              opacity: inView ? 1 : 0,
+              top: "var(--nav-offset, 64px)",
+              transition: "opacity .4s ease, top 300ms cubic-bezier(.4,0,.2,1)",
+            }}
           >
             <div className="bg-[var(--bk)] border-b border-[var(--wh)]/[.06] backdrop-blur-md">
               {/* Era + year */}
               {activeIndex >= 0 && (
-                <div className="flex items-center justify-between px-4 py-[6px]">
-                  <span className="text-[8px] max-[960px]:text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{currentEra}</span>
-                  <span className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[2px] text-[var(--wh)]/50">{currentYear}</span>
+                <div className="flex items-center justify-between px-4 min-[800px]:px-12 py-[6px] min-[800px]:py-[8px] max-w-[1400px] mx-auto">
+                  <span className="text-[10px] min-[800px]:text-[11px] font-bold tracking-[3px] min-[800px]:tracking-[4px] uppercase text-[var(--g1)]">{currentEra}</span>
+                  <span className="text-[11px] min-[800px]:text-[12px] font-bold tracking-[2px] min-[800px]:tracking-[3px] text-[var(--wh)]/50">{currentYear}</span>
                 </div>
               )}
               {/* Progress bar — at the bottom of the banner */}
@@ -1140,7 +1116,7 @@ function TimelineSection() {
           className="absolute left-0 top-0 bottom-0 w-px"
           style={{
             background: onCream
-              ? "linear-gradient(to bottom, transparent, rgba(14,28,22,0.22), transparent)"
+              ? "linear-gradient(to bottom, transparent, rgba(27,61,47,0.30), transparent)"
               : "linear-gradient(to bottom, transparent, rgba(201,169,110,0.2), transparent)",
             transition: "background 1.4s cubic-bezier(.16,1,.3,1)",
           }}
@@ -1232,7 +1208,7 @@ function TimelineSection() {
                       type="button"
                       onClick={() => setLightbox({ src: item.image!, alt: item.title })}
                       className="relative mt-4 min-[960px]:mt-0 min-[960px]:flex-shrink-0 w-full max-w-[420px] min-[960px]:w-[340px] min-[1280px]:w-[400px] max-[640px]:max-w-full overflow-hidden rounded-sm aspect-[16/9] cursor-zoom-in group/img block"
-                      style={{ border: `1px solid ${onCream ? "rgba(14,28,22,0.10)" : "rgba(248,245,239,0.08)"}` }}
+                      style={{ border: `1px solid ${onCream ? "rgba(27,61,47,0.18)" : "rgba(248,245,239,0.08)"}` }}
                     >
                       <NextImage
                         src={item.image}
@@ -1413,11 +1389,11 @@ function TeamCard({ m, index }: { m: { num: string; role: string; first: string;
   return (
     <div
       ref={ref}
-      className="bg-[var(--bk3)] relative overflow-hidden transition-colors hover:bg-[#161616] group"
+      className="bg-[var(--bk3)] hover:bg-[var(--wh)] relative overflow-hidden transition-colors duration-500 group"
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "none" : `translateX(${index === 0 ? "-40" : "40"}px)`,
-        transition: `all .8s cubic-bezier(.16,1,.3,1) ${index * 0.15}s`,
+        transition: `opacity .8s cubic-bezier(.16,1,.3,1) ${index * 0.15}s, transform .8s cubic-bezier(.16,1,.3,1) ${index * 0.15}s, background-color .5s cubic-bezier(.16,1,.3,1)`,
       }}
     >
       {/* Photo */}
@@ -1428,22 +1404,27 @@ function TeamCard({ m, index }: { m: { num: string; role: string; first: string;
             alt={`${m.first} ${m.last}`}
             className="absolute inset-0 w-full h-full object-cover object-[center_25%] transition-transform duration-700 ease-out group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[var(--bk3)] via-transparent to-transparent" />
-          <span className="absolute top-6 right-6 font-bold text-[80px] max-[640px]:text-[60px] text-[var(--wh)]/[.08] leading-[1] tracking-[-3px]">{m.num}</span>
+          {/* Photo gradient overlay — verde academia base, cream cuando se
+              hover the card para fundir con el bg crema sin cortes duros. */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--bk3)] group-hover:from-[var(--wh)] via-transparent to-transparent transition-colors duration-500" />
+          <span className="absolute top-6 right-6 font-bold text-[80px] max-[640px]:text-[60px] text-[var(--wh)]/[.08] group-hover:text-[var(--bk)]/[.10] leading-[1] tracking-[-3px] transition-colors duration-500">{m.num}</span>
         </div>
       )}
 
       {/* Content */}
       <div className="p-14 max-[960px]:p-10 max-[640px]:p-6 relative">
-        {!photo && <span className="absolute top-8 right-10 max-[640px]:top-4 max-[640px]:right-4 font-bold text-[80px] max-[640px]:text-[60px] text-[var(--wh)]/[.03] leading-[1] tracking-[-3px] transition-all duration-700 group-hover:text-[var(--wh)]/[.06] group-hover:scale-110">{m.num}</span>}
+        {!photo && <span className="absolute top-8 right-10 max-[640px]:top-4 max-[640px]:right-4 font-bold text-[80px] max-[640px]:text-[60px] text-[var(--wh)]/[.03] group-hover:text-[var(--bk)]/[.08] leading-[1] tracking-[-3px] transition-all duration-700 group-hover:scale-110">{m.num}</span>}
         <span className="text-[10px] font-normal tracking-[4px] uppercase text-[var(--g1)] mb-4 block">{m.role}</span>
         <h3 className="font-bold text-[clamp(28px,4vw,52px)] uppercase tracking-[-1.5px] leading-[.92] mb-5">
           <span className="j3-grad-text">{m.first}</span>
-          <span className="text-[var(--wh)]"> {m.last}</span>
+          <span className="text-[var(--wh)] group-hover:text-[var(--bk3)] transition-colors duration-500"> {m.last}</span>
           {m.last2 && <span className="j3-stroke-gold font-[var(--font-serif)] italic normal-case tracking-[-0.5px] ml-[0.08em]">{m.last2}</span>}
         </h3>
-        <p className="text-[14px] max-[640px]:text-[13px] font-light text-[var(--gy2)] leading-[1.8] max-w-[420px] mb-7">{m.bio}</p>
-        <blockquote className="text-[20px] max-[640px]:text-[18px] italic text-[var(--wh)] leading-[1.4] border-l-2 border-[var(--g1)] pl-5 opacity-85 transition-all group-hover:pl-7" style={{ fontFamily: "var(--font-serif)" }}>
+        <p className="text-[14px] max-[640px]:text-[13px] font-light text-[var(--gy2)] group-hover:text-[var(--bk3)]/75 leading-[1.8] max-w-[420px] mb-7 transition-colors duration-500">{m.bio}</p>
+        <blockquote
+          className="text-[20px] max-[640px]:text-[18px] italic text-[var(--wh)] group-hover:text-[var(--bk3)] leading-[1.4] border-l-2 border-[var(--g1)] pl-5 opacity-85 transition-all duration-500 group-hover:pl-7"
+          style={{ fontFamily: "var(--font-serif)" }}
+        >
           &ldquo;{m.quote}&rdquo;
         </blockquote>
       </div>
