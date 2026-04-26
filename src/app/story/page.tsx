@@ -2888,15 +2888,14 @@ export default function StoryPage() {
         </div>
       </section>
 
-      {/* ─── JUGADORES — diseño simplificado en dos capas: spotlight de
-           hero (3 nombres con info) + directory unificado para el resto
-           (21 nombres con tag). Sin cards/borders por entrada — la
-           tipografía y el grid hacen el trabajo. ─── */}
-      <section className="py-[100px] px-12 max-[960px]:py-[72px] max-[960px]:px-6 max-[640px]:px-4">
+      {/* ─── JUGADORES — strip horizontal único: 3 hero spotlights con
+           info + 21 entradas de squad (NextGen+NextGenPro+Featured+Shared).
+           Drag-to-scroll en desktop, swipe nativo en mobile, snap suave. ─── */}
+      <section className="py-[100px] max-[960px]:py-[72px] overflow-hidden">
         {/* Header */}
         <div
           ref={jugadoresHeader.ref}
-          className="max-w-[640px] mb-16 max-[640px]:mb-10"
+          className="max-w-[640px] mb-16 max-[640px]:mb-10 px-12 max-[960px]:px-6 max-[640px]:px-4"
           style={{
             opacity: jugadoresHeader.visible ? 1 : 0,
             transform: jugadoresHeader.visible ? "none" : "translateY(30px)",
@@ -2912,39 +2911,58 @@ export default function StoryPage() {
           </p>
         </div>
 
-        {/* Capa 1 — Hero spotlight: 3 nombres formados desde base. */}
-        <p className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[3px] max-[640px]:tracking-[1.5px] uppercase text-[var(--g1)]/80 mb-7 max-[640px]:mb-5">{t.story.players.heroLabel}</p>
-        <div className="grid grid-cols-3 max-[640px]:grid-cols-1 gap-x-10 gap-y-9 mb-16 max-[640px]:mb-12">
-          {playersHero.map((p, i) => (
-            <article key={i} className="relative">
-              <h3 className="font-bold text-[clamp(20px,2.2vw,28px)] uppercase tracking-[-0.5px] leading-[1.05]">
-                <span className="j3-grad-text">{p.first}</span><br />
-                <span className="text-[var(--wh)]/95">{p.last}</span>
-              </h3>
-              <p className="text-[12.5px] max-[640px]:text-[13px] font-light text-[var(--gy2)] leading-[1.6] mt-3 max-w-[280px]">{p.info}</p>
-              <span className="text-[9px] tracking-[2.5px] uppercase font-bold text-[var(--g1)]/85 mt-3 inline-block">{p.tag}</span>
-            </article>
-          ))}
-        </div>
+        {/* Eyebrow del strip */}
+        <p className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[3px] max-[640px]:tracking-[1.5px] uppercase text-[var(--g1)]/80 mb-6 max-[640px]:mb-5 px-12 max-[960px]:px-6 max-[640px]:px-4">{t.story.players.heroLabel}</p>
 
-        {/* Capa 2 — Directory: el resto (NextGen + NextGenPro + Featured
-            + Shared) en un único grid 3-col. Cada entrada es una línea
-            con nombre y tag, separadas por una hairline sutil. */}
-        <div className="border-t border-[var(--wh)]/[.07] pt-10">
-          <p className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[3px] max-[640px]:tracking-[1.5px] uppercase text-[var(--gy)] mb-7 max-[640px]:mb-5">{t.story.players.sharedLabel}</p>
-          <ul className="grid grid-cols-3 max-[960px]:grid-cols-2 max-[640px]:grid-cols-1 gap-x-10 max-[640px]:gap-x-0">
-            {[...playersNextGen, ...playersNextGenPro, ...playersFeatured, ...playersShared].map((p, i) => (
-              <li
-                key={`${p.first}-${p.last}-${i}`}
-                className="flex items-baseline justify-between gap-3 py-3 border-b border-[var(--wh)]/[.06]"
+        {/* Strip horizontal — el contenedor exterior tiene overflow hidden
+            y el interior overflow-x-auto. snap suave + scrollbar oculto. */}
+        <div className="relative">
+          <div
+            className="flex items-stretch gap-10 max-[640px]:gap-7 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 px-12 max-[960px]:px-6 max-[640px]:px-4"
+            style={{ scrollBehavior: "smooth", cursor: "grab" }}
+          >
+            {/* Hero spotlights — más anchos, con info */}
+            {playersHero.map((p, i) => (
+              <article
+                key={`hero-${i}`}
+                className="snap-start shrink-0 w-[260px] max-[640px]:w-[220px] flex flex-col"
               >
-                <span className="font-bold text-[14px] max-[640px]:text-[14.5px] tracking-[-0.2px]">
-                  <span className="j3-grad-text">{p.first}</span> <span className="text-[var(--wh)]/85">{p.last}</span>
-                </span>
-                <span className="text-[9px] uppercase tracking-[1.5px] text-[var(--gy)]/70 whitespace-nowrap font-medium">{p.tag}</span>
-              </li>
+                <h3 className="font-bold text-[clamp(22px,2.2vw,30px)] uppercase tracking-[-0.5px] leading-[1.05]">
+                  <span className="j3-grad-text block">{p.first}</span>
+                  <span className="text-[var(--wh)]/95 block">{p.last}</span>
+                </h3>
+                <p className="text-[12.5px] font-light text-[var(--gy2)] leading-[1.55] mt-3 flex-1">{p.info}</p>
+                <span className="text-[9px] tracking-[2.5px] uppercase font-bold text-[var(--g1)]/85 mt-3 inline-block">{p.tag}</span>
+              </article>
             ))}
-          </ul>
+
+            {/* Divisor sutil entre hero y squad */}
+            <div aria-hidden className="shrink-0 w-px self-stretch bg-[var(--wh)]/[.10] mx-2" />
+
+            {/* Squad — más compactos, solo nombre + tag */}
+            {[...playersNextGen, ...playersNextGenPro, ...playersFeatured, ...playersShared].map((p, i) => (
+              <article
+                key={`squad-${p.first}-${p.last}-${i}`}
+                className="snap-start shrink-0 w-[170px] max-[640px]:w-[150px] flex flex-col"
+              >
+                <h4 className="font-bold text-[16px] max-[640px]:text-[15px] uppercase tracking-[-0.3px] leading-[1.1]">
+                  <span className="j3-grad-text block">{p.first}</span>
+                  <span className="text-[var(--wh)]/85 block">{p.last}</span>
+                </h4>
+                <span className="text-[9px] uppercase tracking-[1.5px] text-[var(--g1)]/65 mt-2 block leading-[1.3]">{p.tag}</span>
+              </article>
+            ))}
+
+            {/* Spacer final para que el último item respire */}
+            <div aria-hidden className="shrink-0 w-1" />
+          </div>
+
+          {/* Fade hint en el borde derecho — sugiere que hay más por descubrir */}
+          <div
+            aria-hidden
+            className="absolute top-0 right-0 bottom-0 w-16 max-[640px]:w-10 pointer-events-none"
+            style={{ background: "linear-gradient(to left, var(--bk) 0%, transparent 100%)" }}
+          />
         </div>
       </section>
 
