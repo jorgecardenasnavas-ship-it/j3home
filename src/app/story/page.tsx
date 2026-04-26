@@ -2296,6 +2296,7 @@ export default function StoryPage() {
     window.addEventListener("keydown", onKey);
     el.tabIndex = 0;
     el.style.cursor = "grab";
+    el.dataset.stripReady = "1";
 
     return () => {
       el.removeEventListener("scroll", updateProgress);
@@ -2305,8 +2306,9 @@ export default function StoryPage() {
       window.removeEventListener("mouseup", onUp);
       el.removeEventListener("wheel", onWheel);
       window.removeEventListener("keydown", onKey);
+      delete el.dataset.stripReady;
     };
-  }, []);
+  }, [playersExpanded]);
 
   /* Hero parallax + pin for flying accent */
   const heroRef = useRef<HTMLDivElement>(null);
