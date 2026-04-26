@@ -637,14 +637,16 @@ function AccentManifesto() {
           }}
         />
 
-        {/* DEPTH LAYER 1 — radial vignette (focuses eye, deepens void) */}
+        {/* DEPTH LAYER 1 — radial vignette (focuses eye, deepens void).
+            Usa verde oscuro brand (#0E1C16) en vez de #000 puro para que
+            la sección no se perciba como negra. */}
         <div
           ref={vignetteRef}
           aria-hidden
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "radial-gradient(ellipse 70% 60% at 50% 50%, transparent 20%, rgba(0,0,0,0.70) 70%, #000 100%)",
+              "radial-gradient(ellipse 70% 60% at 50% 50%, transparent 20%, rgba(14,28,22,0.55) 70%, #0E1C16 100%)",
             opacity: 0.55,
           }}
         />
