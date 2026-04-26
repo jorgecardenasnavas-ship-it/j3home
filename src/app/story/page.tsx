@@ -3054,9 +3054,12 @@ export default function StoryPage() {
               </article>
             ))}
 
-            {/* Eyebrow secundario entre hero y squad — sustituye al divisor rígido */}
-            <div className="shrink-0 self-center max-w-[140px] pl-2 pr-4">
-              <span className="block text-[9px] tracking-[3px] uppercase text-[var(--gy)]/55 leading-[1.4] font-medium">El resto del circuito</span>
+            {/* Eyebrow secundario entre hero y squad — usa el copy curado
+                de i18n que dignifica la red de jugadores acompañados por J3
+                (no es 'el resto', es gente con la que J3 ha compartido pista). */}
+            <div className="shrink-0 self-center max-w-[180px] pl-3 pr-5 flex items-center gap-3">
+              <span aria-hidden className="h-px w-6 bg-[var(--g1)]/30" />
+              <span className="block text-[9px] tracking-[3px] uppercase text-[var(--g1)]/65 leading-[1.4] font-bold">{t.story.players.sharedLabel}</span>
             </div>
 
             {/* Squad — más compactos, solo nombre + tag */}
