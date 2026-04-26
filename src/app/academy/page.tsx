@@ -454,17 +454,22 @@ function ProgramBar() {
     return () => io.disconnect();
   }, []);
 
-  /* Sincroniza con el ScrollMarker verde academia: rootMargin -50% replica
-     el trigger del marker (scroll-mid) que pinta el body de verde. */
+  /* Sincroniza con el ScrollMarker verde academia: la barra queda en verde
+     oscuro mientras scroll-mid está por debajo del inicio de #network — el
+     mismo trigger que pinta el body. Usamos scroll listener (no IO) para
+     que el estado siga activo aunque #network ya no esté en viewport por
+     haber scrolleado hasta el footer. */
   useEffect(() => {
     const network = document.getElementById("network");
     if (!network) return;
-    const io = new IntersectionObserver(
-      ([entry]) => setOnVerdeAcademia(entry.isIntersecting),
-      { threshold: 0, rootMargin: "0px 0px -50% 0px" },
-    );
-    io.observe(network);
-    return () => io.disconnect();
+    const onScroll = () => {
+      const networkY = network.getBoundingClientRect().top + window.scrollY;
+      const scrollMid = window.scrollY + window.innerHeight * 0.5;
+      setOnVerdeAcademia(scrollMid >= networkY);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
   const dragStateRef = useRef<{ active: boolean; startX: number; startScroll: number; moved: boolean }>({
     active: false,
