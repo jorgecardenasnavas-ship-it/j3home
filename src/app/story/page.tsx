@@ -223,7 +223,7 @@ function HeroCredentials() {
   return (
     <section
       ref={containerRef}
-      className="relative py-12 min-[960px]:py-16 px-6 min-[960px]:px-12 bg-[var(--bk)] overflow-hidden border-b border-white/[.04]"
+      className="relative py-12 min-[960px]:py-16 px-6 min-[960px]:px-12 bg-[var(--bk)] overflow-hidden border-b border-[var(--wh)]/[.04]"
     >
       {/* Ambient glow behind cards */}
       <div
@@ -333,7 +333,7 @@ function StatsSection() {
   }, []);
 
   return (
-    <section className="relative py-20 px-6 md:py-24 md:px-12 bg-[var(--bk)] border-t border-white/[.06]">
+    <section className="relative py-20 px-6 md:py-24 md:px-12 bg-[var(--bk)] border-t border-[var(--wh)]/[.06]">
       {/* Subtle radial glow */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -980,7 +980,7 @@ function TimelineSection() {
                     ? "w-[10px] h-[10px] bg-[var(--g1)]"
                     : isPast
                       ? `${isHL ? "w-[7px] h-[7px]" : "w-[5px] h-[5px]"} bg-[var(--g1)]/60`
-                      : `${isHL ? "w-[7px] h-[7px]" : "w-[5px] h-[5px]"} bg-white/[.12]`
+                      : `${isHL ? "w-[7px] h-[7px]" : "w-[5px] h-[5px]"} bg-[var(--wh)]/[.12]`
                 }`}
                 style={{
                   boxShadow: isActive ? "0 0 10px rgba(201,169,110,.5)" : "none",
@@ -1011,16 +1011,16 @@ function TimelineSection() {
             className="min-[800px]:hidden fixed top-[52px] left-0 right-0 z-50 pointer-events-none"
             style={{ opacity: inView ? 1 : 0, transition: "opacity .4s ease" }}
           >
-            <div className="bg-black border-b border-white/[.06] backdrop-blur-md">
+            <div className="bg-[var(--bk)] border-b border-[var(--wh)]/[.06] backdrop-blur-md">
               {/* Era + year */}
               {activeIndex >= 0 && (
                 <div className="flex items-center justify-between px-4 py-[6px]">
                   <span className="text-[8px] max-[960px]:text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{currentEra}</span>
-                  <span className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[2px] text-white/50">{currentYear}</span>
+                  <span className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[2px] text-[var(--wh)]/50">{currentYear}</span>
                 </div>
               )}
               {/* Progress bar — at the bottom of the banner */}
-              <div className="h-[5px] w-full bg-black rounded-full overflow-hidden">
+              <div className="h-[5px] w-full bg-[var(--bk)]/40 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-[var(--g1)] to-[var(--g2)] rounded-full shadow-[0_0_8px_rgba(201,169,110,0.4)]"
                   style={{ width: `${scrollProgress * 100}%`, transition: "width .15s linear" }}
@@ -1116,7 +1116,7 @@ function TimelineSection() {
                     <button
                       type="button"
                       onClick={() => setLightbox({ src: item.image!, alt: item.title })}
-                      className="relative mt-4 min-[960px]:mt-0 min-[960px]:flex-shrink-0 w-full max-w-[420px] min-[960px]:w-[340px] min-[1280px]:w-[400px] max-[640px]:max-w-full overflow-hidden rounded-sm border border-white/[.08] aspect-[16/9] cursor-zoom-in group/img block"
+                      className="relative mt-4 min-[960px]:mt-0 min-[960px]:flex-shrink-0 w-full max-w-[420px] min-[960px]:w-[340px] min-[1280px]:w-[400px] max-[640px]:max-w-full overflow-hidden rounded-sm border border-[var(--wh)]/[.08] aspect-[16/9] cursor-zoom-in group/img block"
                     >
                       <NextImage
                         src={item.image}
@@ -1127,7 +1127,7 @@ function TimelineSection() {
                         className="object-cover opacity-80 group-hover/img:opacity-100 group-hover/img:scale-[1.03] transition-all duration-500"
                         style={item.imagePosition ? { objectPosition: item.imagePosition } : undefined}
                       />
-                      <span className="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/60 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white/90 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300" aria-hidden="true">
+                      <span className="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/60 backdrop-blur-sm border border-[var(--wh)]/20 flex items-center justify-center text-[var(--wh)]/90 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300" aria-hidden="true">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
                       </span>
                     </button>
@@ -1142,7 +1142,7 @@ function TimelineSection() {
       {/* Lightbox */}
       {lightbox && (
         <div
-          className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-sm flex items-center justify-center p-4 sm:p-10 cursor-zoom-out animate-[fadeIn_.25s_ease-out]"
+          className="fixed inset-0 z-[200] bg-[var(--bk)]/95 backdrop-blur-sm flex items-center justify-center p-4 sm:p-10 cursor-zoom-out animate-[fadeIn_.25s_ease-out]"
           onClick={() => setLightbox(null)}
           role="dialog"
           aria-modal="true"
@@ -1162,12 +1162,12 @@ function TimelineSection() {
           <button
             type="button"
             onClick={() => setLightbox(null)}
-            className="absolute top-16 right-5 max-[960px]:top-20 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md flex items-center justify-center text-white text-xl transition-colors z-[201]"
+            className="absolute top-16 right-5 max-[960px]:top-20 w-10 h-10 rounded-full bg-[var(--wh)]/10 hover:bg-[var(--wh)]/20 border border-[var(--wh)]/20 backdrop-blur-md flex items-center justify-center text-[var(--wh)] text-xl transition-colors z-[201]"
             aria-label="Cerrar"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
-          <span className="absolute bottom-5 left-1/2 -translate-x-1/2 text-[11px] font-bold tracking-[3px] uppercase text-white/60">{lightbox.alt}</span>
+          <span className="absolute bottom-5 left-1/2 -translate-x-1/2 text-[11px] font-bold tracking-[3px] uppercase text-[var(--wh)]/60">{lightbox.alt}</span>
         </div>
       )}
     </section>
@@ -1183,7 +1183,7 @@ function HeroPlayerCard({ p, index }: { p: { first: string; last: string; info: 
   return (
     <div
       ref={ref}
-      className="relative p-8 max-[640px]:p-5 border border-white/[.07] bg-gradient-to-br from-[var(--bk2)] to-[var(--bk)] group/hero overflow-hidden cursor-default transition-transform duration-500 hover:scale-[1.02] hover:border-[var(--g1)]/20"
+      className="relative p-8 max-[640px]:p-5 border border-[var(--wh)]/[.07] bg-gradient-to-br from-[var(--bk2)] to-[var(--bk)] group/hero overflow-hidden cursor-default transition-transform duration-500 hover:scale-[1.02] hover:border-[var(--g1)]/20"
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "none" : "translateY(30px)",
@@ -1191,7 +1191,7 @@ function HeroPlayerCard({ p, index }: { p: { first: string; last: string; info: 
       }}
     >
       {/* Large decorative number */}
-      <span className="absolute top-3 right-4 text-[80px] max-[640px]:text-[60px] font-black leading-[1] text-white/[.03] group-hover/hero:text-[var(--g1)]/[.08] transition-colors duration-700 select-none pointer-events-none">{num}</span>
+      <span className="absolute top-3 right-4 text-[80px] max-[640px]:text-[60px] font-black leading-[1] text-[var(--wh)]/[.03] group-hover/hero:text-[var(--g1)]/[.08] transition-colors duration-700 select-none pointer-events-none">{num}</span>
       {/* Animated gold accent line at top */}
       <div className="absolute top-0 left-0 h-[2px] bg-gradient-to-r from-[var(--g1)] via-[var(--g2)] to-[var(--g1)] w-0 group-hover/hero:w-full transition-all duration-700 ease-out" />
       {/* Glow on hover */}
@@ -1213,7 +1213,7 @@ function NextGenRow({ p, index }: { p: { first: string; last: string; tag: strin
   return (
     <div
       ref={ref}
-      className="relative flex items-center justify-between py-[14px] border-b border-white/[.06] group/ng cursor-default"
+      className="relative flex items-center justify-between py-[14px] border-b border-[var(--wh)]/[.06] group/ng cursor-default"
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "none" : "translateX(-15px)",
@@ -1242,7 +1242,7 @@ function FeaturedCollab({ p, index }: { p: { first: string; last: string; info: 
   return (
     <div
       ref={ref}
-      className="relative p-5 max-[640px]:p-4 border border-white/[.05] bg-[var(--bk2)] group/fc overflow-hidden cursor-default hover:border-[var(--g1)]/15 transition-colors duration-500"
+      className="relative p-5 max-[640px]:p-4 border border-[var(--wh)]/[.05] bg-[var(--bk2)] group/fc overflow-hidden cursor-default hover:border-[var(--g1)]/15 transition-colors duration-500"
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "none" : "translateY(16px)",
@@ -1267,7 +1267,7 @@ function SharedPlayerTag({ p, index }: { p: { first: string; last: string; tag: 
   return (
     <span
       ref={ref}
-      className="inline-flex items-center gap-2 group/sh cursor-default py-[6px] px-[10px] rounded-sm hover:bg-white/[.03] transition-all duration-300"
+      className="inline-flex items-center gap-2 group/sh cursor-default py-[6px] px-[10px] rounded-sm hover:bg-[var(--wh)]/[.03] transition-all duration-300"
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "none" : "translateY(8px)",
@@ -1313,13 +1313,13 @@ function TeamCard({ m, index }: { m: { num: string; role: string; first: string;
             className="absolute inset-0 w-full h-full object-cover object-[center_25%] transition-transform duration-700 ease-out group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[var(--bk3)] via-transparent to-transparent" />
-          <span className="absolute top-6 right-6 font-bold text-[80px] max-[640px]:text-[60px] text-white/[.08] leading-[1] tracking-[-3px]">{m.num}</span>
+          <span className="absolute top-6 right-6 font-bold text-[80px] max-[640px]:text-[60px] text-[var(--wh)]/[.08] leading-[1] tracking-[-3px]">{m.num}</span>
         </div>
       )}
 
       {/* Content */}
       <div className="p-14 max-[960px]:p-10 max-[640px]:p-6 relative">
-        {!photo && <span className="absolute top-8 right-10 max-[640px]:top-4 max-[640px]:right-4 font-bold text-[80px] max-[640px]:text-[60px] text-white/[.03] leading-[1] tracking-[-3px] transition-all duration-700 group-hover:text-white/[.06] group-hover:scale-110">{m.num}</span>}
+        {!photo && <span className="absolute top-8 right-10 max-[640px]:top-4 max-[640px]:right-4 font-bold text-[80px] max-[640px]:text-[60px] text-[var(--wh)]/[.03] leading-[1] tracking-[-3px] transition-all duration-700 group-hover:text-[var(--wh)]/[.06] group-hover:scale-110">{m.num}</span>}
         <span className="text-[10px] font-normal tracking-[4px] uppercase text-[var(--g1)] mb-4 block">{m.role}</span>
         <h3 className="font-bold text-[clamp(28px,4vw,52px)] uppercase tracking-[-1.5px] leading-[.92] mb-5">
           <span className="j3-grad-text">{m.first}</span>
@@ -1347,7 +1347,7 @@ function HigueronHero() {
       {/* J3Padel Indoor — small aside */}
       <div
         ref={lessonReveal.ref}
-        className="flex items-center max-[640px]:flex-col max-[640px]:items-start gap-4 max-[640px]:gap-1 my-6 py-4 px-5 max-[640px]:px-4 border-l-2 border-white/[.06]"
+        className="flex items-center max-[640px]:flex-col max-[640px]:items-start gap-4 max-[640px]:gap-1 my-6 py-4 px-5 max-[640px]:px-4 border-l-2 border-[var(--wh)]/[.06]"
         style={{
           opacity: lessonReveal.visible ? 1 : 0,
           transform: lessonReveal.visible ? "none" : "translateX(-10px)",
@@ -1361,7 +1361,7 @@ function HigueronHero() {
       {/* Higuer\u00F3n — hero card */}
       <div
         ref={heroReveal.ref}
-        className="relative p-10 max-[640px]:p-6 border border-white/[.07] bg-gradient-to-br from-[var(--bk2)] to-[var(--bk)] overflow-hidden"
+        className="relative p-10 max-[640px]:p-6 border border-[var(--wh)]/[.07] bg-gradient-to-br from-[var(--bk2)] to-[var(--bk)] overflow-hidden"
         style={{
           opacity: heroReveal.visible ? 1 : 0,
           transform: heroReveal.visible ? "none" : "translateY(30px) scale(.98)",
@@ -1371,7 +1371,7 @@ function HigueronHero() {
         {/* Gold accent top */}
         <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[var(--g1)] via-[var(--g2)] to-transparent opacity-50" />
         {/* Subtle large number background */}
-        <span className="absolute top-4 right-6 max-[640px]:right-4 text-[clamp(80px,12vw,140px)] font-bold leading-[1] text-white/[.03] tracking-[-4px] select-none pointer-events-none">{clubHero.years}</span>
+        <span className="absolute top-4 right-6 max-[640px]:right-4 text-[clamp(80px,12vw,140px)] font-bold leading-[1] text-[var(--wh)]/[.03] tracking-[-4px] select-none pointer-events-none">{clubHero.years}</span>
 
         <div className="relative z-10">
           <span className="text-[10px] font-normal tracking-[3px] uppercase text-[var(--g1)]/80 mb-4 block">{clubHero.flag}</span>
@@ -1393,7 +1393,7 @@ function ClubCard({ c, index }: { c: { flag: string; name: string; detail: strin
   return (
     <div
       ref={ref}
-      className="bg-[var(--bk)] p-8 max-[640px]:p-5 border border-white/[.05] group/club"
+      className="bg-[var(--bk)] p-8 max-[640px]:p-5 border border-[var(--wh)]/[.05] group/club"
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "none" : "translateY(20px)",
@@ -1416,7 +1416,7 @@ function PillarItem({ p, index }: { p: { num: string; label: string; title: stri
   return (
     <div
       ref={ref}
-      className={`py-7 border-b border-white/[.07] ${index === 0 ? "border-t" : ""}`}
+      className={`py-7 border-b border-[var(--wh)]/[.07] ${index === 0 ? "border-t" : ""}`}
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "none" : "translateX(40px)",
@@ -1573,7 +1573,7 @@ function StoryImpact() {
             {(() => {
               const lineProgress = Math.max(0, Math.min(1, (p3 - 0.22) / 0.5));
               return (
-                <div className="absolute left-[14px] max-[960px]:left-[10px] top-[6px] bottom-[6px] w-[2px] bg-white/[.06] rounded-full overflow-hidden">
+                <div className="absolute left-[14px] max-[960px]:left-[10px] top-[6px] bottom-[6px] w-[2px] bg-[var(--wh)]/[.06] rounded-full overflow-hidden">
                   <div
                     className="w-full bg-gradient-to-b from-[var(--g1)] to-[var(--g2)] rounded-full transition-none"
                     style={{ height: `${lineProgress * 100}%` }}
@@ -1601,7 +1601,7 @@ function StoryImpact() {
                     <div
                       className="w-[10px] h-[10px] rounded-full border transition-all duration-500"
                       style={{
-                        borderColor: stepP > 0.5 ? "var(--g1)" : "rgba(255,255,255,.12)",
+                        borderColor: stepP > 0.5 ? "var(--g1)" : "rgba(248,245,239,.12)",
                         background: stepP > 0.8 ? "rgba(201,169,110,.2)" : "transparent",
                         boxShadow: stepP > 0.8 ? "0 0 8px rgba(201,169,110,.15)" : "none",
                       }}
@@ -1839,11 +1839,11 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
         </div>
       )}
 
-      {/* White flash overlay — fills screen as tunnel zoom peaks, fades once bridge takes over */}
+      {/* Cream flash overlay — fills screen as tunnel zoom peaks, fades once bridge takes over */}
       {whiteoutOp > 0.01 && fadeOutT < 1 && (
         <div
           className="fixed inset-0 z-[62] pointer-events-none"
-          style={{ background: "#fff", opacity: whiteoutOp }}
+          style={{ background: "#F8F5EF", opacity: whiteoutOp }}
         />
       )}
 
@@ -2191,7 +2191,7 @@ export default function StoryPage() {
             if (cb) { cb.style.display = "none"; }
           };
           const resetWhiteBg = () => {
-            if (wbg) { wbg.style.opacity = "0"; wbg.style.transition = "none"; wbg.style.background = "#fff"; }
+            if (wbg) { wbg.style.opacity = "0"; wbg.style.transition = "none"; wbg.style.background = "#F8F5EF"; }
           };
           const resetStats = () => {
             if (so) { so.style.opacity = "0"; }
@@ -2234,14 +2234,14 @@ export default function StoryPage() {
             setFadeOutT(ft);
             resetBridge(); resetCourt(); resetStats(); resetCourtAnim();
             // White bg fades in as logo fades out
-            if (wbg) { wbg.style.opacity = String(ft); wbg.style.transition = "none"; wbg.style.background = "#fff"; }
+            if (wbg) { wbg.style.opacity = String(ft); wbg.style.transition = "none"; wbg.style.background = "#F8F5EF"; }
             bridgeLockFiredRef.current = false;
           } else if (scrolled <= 2750) {
             // Phase 5: Bridge dwell — WHITE bg, dark text. Compact.
             setFlyT(1); setHeroOp(0); setFadeOutT(1);
             if (bt) { bt.style.opacity = "1"; bt.style.transform = "scale(1)"; bt.style.filter = "blur(0px)"; }
             resetCourt();
-            if (wbg) { wbg.style.transition = "none"; wbg.style.background = "#fff"; wbg.style.opacity = "1"; }
+            if (wbg) { wbg.style.transition = "none"; wbg.style.background = "#F8F5EF"; wbg.style.opacity = "1"; }
             resetCourtAnim();
             resetStats();
             if (!bridgeLockFiredRef.current) {
@@ -2253,7 +2253,7 @@ export default function StoryPage() {
           } else if (scrolled <= 3100) {
             // Phase 6+7: Text converges + court line starts SIMULTANEOUSLY
             resetStats();
-            if (wbg) { wbg.style.opacity = "1"; wbg.style.transition = "none"; wbg.style.background = "#fff"; }
+            if (wbg) { wbg.style.opacity = "1"; wbg.style.transition = "none"; wbg.style.background = "#F8F5EF"; }
             const p6 = Math.min(1, (scrolled - 2750) / 200);
             if (bt) {
               const s = Math.max(0, 1 - p6);
@@ -2301,7 +2301,7 @@ export default function StoryPage() {
           } else if (scrolled <= 3700) {
             // Phase 8: Court expands to full size + lines draw in (scroll-driven)
             if (bt) { bt.style.opacity = "0"; }
-            if (wbg) { wbg.style.opacity = "1"; wbg.style.background = "#fff"; }
+            if (wbg) { wbg.style.opacity = "1"; wbg.style.background = "#F8F5EF"; }
             const p8 = (scrolled - 3100) / 600;
             const vw8 = window.innerWidth;
             const isMob8 = vw8 <= 960;
@@ -2349,11 +2349,14 @@ export default function StoryPage() {
               cb.style.width = `${cW9 + (fullW - cW9) * p9}px`;
               cb.style.height = `${cH9 + (fullH - cH9) * p9}px`;
             }
-            // White bg → black
+            // Cream → verde-oscuro (paleta J3: #F8F5EF → #0E1C16)
             if (wbg) {
               wbg.style.transition = "none";
-              const c = Math.round(255 * (1 - Math.min(1, p9 * 1.5)));
-              wbg.style.background = `rgb(${c},${c},${c})`;
+              const tt = Math.min(1, p9 * 1.5);
+              const r = Math.round(248 - (248 - 14) * tt);
+              const g = Math.round(245 - (245 - 28) * tt);
+              const b = Math.round(239 - (239 - 22) * tt);
+              wbg.style.background = `rgb(${r},${g},${b})`;
               wbg.style.opacity = "1";
             }
             // Lines undraw in reverse order
@@ -2503,7 +2506,7 @@ export default function StoryPage() {
       <Navbar />
 
       {/* ─── HERO ─── */}
-      <section ref={heroRef} className="relative h-screen min-h-[580px] flex items-end overflow-hidden bg-black">
+      <section ref={heroRef} className="relative h-screen min-h-[580px] flex items-end overflow-hidden bg-[var(--bk)]">
         {/* Background — negro puro (placeholder para futuro contenido) */}
         <div
           className="relative z-10 px-12 pb-[120px] max-[960px]:px-6 max-[960px]:pb-[80px] w-full"
@@ -2590,7 +2593,7 @@ export default function StoryPage() {
 
         {/* Bridge text — WHITE bg, dark text (inverted). Appears when logo fades. */}
         {fadeOutT >= 0.95 && (
-          <div ref={bridgeTextRef} className="absolute inset-0 z-20 bg-white flex items-center justify-center px-6" style={{ opacity: 1, willChange: "opacity, filter" }}>
+          <div ref={bridgeTextRef} className="absolute inset-0 z-20 bg-[var(--wh)] flex items-center justify-center px-6" style={{ opacity: 1, willChange: "opacity, filter" }}>
             <div className="text-center">
               <p className="text-[clamp(22px,2.8vw,38px)] tracking-[0.04em] text-[#6e6e73] font-light leading-[1.6] flex flex-wrap justify-center gap-x-[0.3em]">
                 {t.story.bridge.line1.split(" ").map((word: string, i: number) => (
@@ -2628,7 +2631,7 @@ export default function StoryPage() {
         <div
           ref={whiteBgRef}
           className="absolute inset-0 pointer-events-none"
-          style={{ background: "#fff", opacity: 0, zIndex: 15 }}
+          style={{ background: "#F8F5EF", opacity: 0, zIndex: 15 }}
         />
 
         {/* Court SVG — exact clone of j3padel.com/homej3 preloader courtBox */}
@@ -2745,7 +2748,7 @@ export default function StoryPage() {
       <TimelineSection />
 
       {/* ─── EQUIPO ─── */}
-      <section className="bg-[var(--bk2)] py-[100px] px-12 max-[960px]:py-[72px] max-[960px]:px-6 max-[640px]:px-4 border-b border-white/[.07]">
+      <section className="bg-[var(--bk2)] py-[100px] px-12 max-[960px]:py-[72px] max-[960px]:px-6 max-[640px]:px-4 border-b border-[var(--wh)]/[.07]">
         <div
           ref={equipoHeader.ref}
           className="max-w-[580px] mb-[72px]"
@@ -2806,7 +2809,7 @@ export default function StoryPage() {
         </div>
 
         {/* ── Tier 3: Featured pro collaborations ── */}
-        <div className="border-t border-white/[.06] pt-10 mb-10">
+        <div className="border-t border-[var(--wh)]/[.06] pt-10 mb-10">
           <p className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[3px] max-[640px]:tracking-[1.5px] uppercase text-[var(--gy)] mb-5">{t.story.players.featuredLabel}</p>
           <div className="grid grid-cols-4 max-[960px]:grid-cols-2 max-[640px]:grid-cols-1 gap-3">
             {playersFeatured.map((p, i) => (
@@ -2816,7 +2819,7 @@ export default function StoryPage() {
         </div>
 
         {/* ── Tier 4: Rest of shared circuit — subtle ── */}
-        <div className="border-t border-white/[.06] pt-8">
+        <div className="border-t border-[var(--wh)]/[.06] pt-8">
           <p className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[3px] max-[640px]:tracking-[1.5px] uppercase text-[var(--gy)]/70 mb-5">{t.story.players.sharedLabel}</p>
           <div className="flex flex-wrap gap-x-6 gap-y-3 max-[640px]:gap-x-4 max-[640px]:gap-y-2">
             {playersShared.map((p, i) => <SharedPlayerTag key={i} p={p} index={i} />)}
@@ -2825,7 +2828,7 @@ export default function StoryPage() {
       </section>
 
       {/* ─── FILOSOFIA ─── */}
-      <section className="bg-[var(--bk2)] py-[100px] px-12 max-[960px]:py-[72px] max-[960px]:px-6 max-[640px]:px-4 border-t border-white/[.07] overflow-hidden">
+      <section className="bg-[var(--bk2)] py-[100px] px-12 max-[960px]:py-[72px] max-[960px]:px-6 max-[640px]:px-4 border-t border-[var(--wh)]/[.07] overflow-hidden">
         <div
           ref={(el) => { (filHeader.ref as React.MutableRefObject<HTMLDivElement | null>).current = el; (filParallax.ref as React.MutableRefObject<HTMLDivElement | null>).current = el; }}
           className="grid grid-cols-2 gap-20 max-w-[1200px] items-start max-[960px]:grid-cols-1 max-[960px]:gap-12"
@@ -2855,7 +2858,7 @@ export default function StoryPage() {
       </section>
 
       {/* ─── CLUBES ─── */}
-      <section className="py-[100px] px-12 max-[960px]:py-[72px] max-[960px]:px-6 max-[640px]:px-4 border-t border-white/[.07]">
+      <section className="py-[100px] px-12 max-[960px]:py-[72px] max-[960px]:px-6 max-[640px]:px-4 border-t border-[var(--wh)]/[.07]">
         <div
           ref={clubesHeader.ref}
           className="max-w-[520px] mb-16 max-[640px]:mb-10"
@@ -2891,7 +2894,7 @@ export default function StoryPage() {
       </section>
 
       {/* ─── MARCAS ─── */}
-      <section className="bg-white py-14 px-14 max-[960px]:px-6 max-[960px]:py-10 max-[640px]:px-4 border-t border-black/[.06]">
+      <section className="bg-[var(--wh)] py-14 px-14 max-[960px]:px-6 max-[960px]:py-10 max-[640px]:px-4 border-t border-[var(--bk)]/[.08]">
         <div
           ref={marcasReveal.ref}
           style={{
@@ -2900,26 +2903,26 @@ export default function StoryPage() {
             transition: "all .8s cubic-bezier(.16,1,.3,1)",
           }}
         >
-          <span className="text-[10px] max-[960px]:text-[12px] font-normal tracking-[3px] max-[960px]:tracking-[2px] uppercase text-black/60 text-center mb-10 block">{t.story.brands.currentLabel}</span>
+          <span className="text-[10px] max-[960px]:text-[12px] font-normal tracking-[3px] max-[960px]:tracking-[2px] uppercase text-[var(--bk)]/60 text-center mb-10 block">{t.story.brands.currentLabel}</span>
           <div className="flex items-center justify-center gap-16 mb-10 flex-wrap">
-            <span className="font-bold text-[clamp(18px,2.5vw,32px)] uppercase text-black/60 tracking-[1px]">Technifibre</span>
-            <span className="font-bold text-[clamp(18px,2.5vw,32px)] uppercase text-black/60 tracking-[1px]">Lacoste</span>
+            <span className="font-bold text-[clamp(18px,2.5vw,32px)] uppercase text-[var(--bk)]/60 tracking-[1px]">Technifibre</span>
+            <span className="font-bold text-[clamp(18px,2.5vw,32px)] uppercase text-[var(--bk)]/60 tracking-[1px]">Lacoste</span>
           </div>
-          <div className="w-full h-px bg-black/[.08] my-8" />
-          <p className="text-[10px] max-[960px]:text-[12px] font-normal tracking-[3px] max-[960px]:tracking-[2px] uppercase text-black/55 text-center mb-5">{t.story.brands.pastLabel}</p>
+          <div className="w-full h-px bg-[var(--bk)]/[.10] my-8" />
+          <p className="text-[10px] max-[960px]:text-[12px] font-normal tracking-[3px] max-[960px]:tracking-[2px] uppercase text-[var(--bk)]/55 text-center mb-5">{t.story.brands.pastLabel}</p>
           <div className="flex items-center justify-center gap-8 flex-wrap">
             {brandsPast.map((b, i) => (
               <span key={i}>
-                {i > 0 && <span className="text-black/15 text-[18px] mr-8">·</span>}
-                <span className="font-bold text-[clamp(13px,1.8vw,20px)] uppercase text-black/[.45] tracking-[0.5px] hover:text-black/65 transition-colors">{b}</span>
+                {i > 0 && <span className="text-[var(--bk)]/15 text-[18px] mr-8">·</span>}
+                <span className="font-bold text-[clamp(13px,1.8vw,20px)] uppercase text-[var(--bk)]/[.45] tracking-[0.5px] hover:text-[var(--bk)]/65 transition-colors">{b}</span>
               </span>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ─── CTA FINAL ─── */}
-      <section className="bg-[var(--bk2)] border-t border-white/[.07] py-[140px] px-12 max-[960px]:py-[80px] max-[960px]:px-6 max-[640px]:px-4 flex flex-col items-center text-center">
+      {/* ─── CTA FINAL — verde academia como cierre, mismo ritmo que /academy ─── */}
+      <section className="bg-[var(--verde)] border-t border-[var(--wh)]/[.07] py-[140px] px-12 max-[960px]:py-[80px] max-[960px]:px-6 max-[640px]:px-4 flex flex-col items-center text-center">
         <div
           ref={ctaReveal.ref}
           className="max-w-[680px]"
