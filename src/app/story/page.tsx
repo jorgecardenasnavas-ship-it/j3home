@@ -1720,7 +1720,17 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
     // Desktop: full 1920×1080 landscape frames
     if (canvas.width !== img.naturalWidth) canvas.width = img.naturalWidth;
     if (canvas.height !== img.naturalHeight) canvas.height = img.naturalHeight;
+    /* Los frames del video tienen fondo negro horneado en el JPG. Pintamos
+       el canvas con verde oscuro brand y dibujamos el frame con composite
+       'lighten' para que cada pixel sea max(verde-oscuro, frame): los
+       negros se convierten en verde oscuro mientras que el oro (más
+       brillante que verde oscuro) se preserva intacto. */
+    ctx.globalCompositeOperation = "source-over";
+    ctx.fillStyle = "#0E1C16";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.globalCompositeOperation = "lighten";
     ctx.drawImage(img, 0, 0);
+    ctx.globalCompositeOperation = "source-over";
   }, [flyT, framesLoaded]);
 
   // Renders on all viewports — mobile gets the same logo build experience
@@ -1777,7 +1787,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
           <canvas
             ref={canvasRef}
             className="w-full h-full object-contain"
-            style={{ background: "#0E1C16", opacity: videoOp }}
+            style={{ background: "#000", opacity: videoOp }}
           />
         </div>
       )}
@@ -1798,7 +1808,7 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
         <div
           className="fixed inset-0 z-[61] pointer-events-none"
           style={{
-            background: "radial-gradient(ellipse 50% 50% at 50% 50%, transparent 20%, rgba(14,28,22,0.85) 100%)",
+            background: "radial-gradient(ellipse 50% 50% at 50% 50%, transparent 20%, rgba(0,0,0,0.85) 100%)",
             opacity: vignetteOp,
           }}
         />
@@ -2039,11 +2049,11 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
         );
       })()}
 
-      {/* Verde oscuro background overlay (paleta brand, no negro puro) */}
+      {/* Black background overlay */}
       {showBg && (
         <div
           className="fixed inset-0 z-[59] pointer-events-none"
-          style={{ background: "#0E1C16", opacity: bgBlackOp, willChange: "opacity" }}
+          style={{ background: "#000", opacity: bgBlackOp, willChange: "opacity" }}
         />
       )}
     </>
