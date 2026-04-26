@@ -3035,7 +3035,7 @@ export default function StoryPage() {
             ref={playersStripRef}
             role="region"
             aria-label="Jugadores J3"
-            className="flex items-stretch gap-10 max-[640px]:gap-7 overflow-x-auto scrollbar-hide snap-x snap-proximity pb-3 px-12 max-[960px]:px-6 max-[640px]:px-4 outline-none"
+            className="flex items-stretch gap-10 max-[640px]:gap-7 overflow-x-auto scrollbar-hide snap-x snap-proximity pb-3 px-12 max-[960px]:px-6 max-[640px]:px-4 scroll-pl-12 max-[960px]:scroll-pl-6 max-[640px]:scroll-pl-4 outline-none"
             style={{ scrollBehavior: "smooth", cursor: "grab" }}
           >
             {/* Hero spotlights — más anchos, con info */}
