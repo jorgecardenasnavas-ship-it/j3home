@@ -442,6 +442,21 @@ function AccentManifesto() {
   const fadeOverlayRef = useRef<HTMLDivElement>(null);
   const tildeRef = useRef<HTMLSpanElement>(null);
 
+  /* Sincroniza el fade a crema con #trayectoria: cuando el timeline cruza
+     el mismo umbral (rootMargin -35%) ambas secciones cambian de verde
+     oscuro a crema simultáneamente, creando un fade continuo entre ellas. */
+  const [onCream, setOnCream] = useState(false);
+  useEffect(() => {
+    const target = document.getElementById("trayectoria");
+    if (!target) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setOnCream(entry.isIntersecting),
+      { threshold: 0, rootMargin: "0px 0px -35% 0px" },
+    );
+    io.observe(target);
+    return () => io.disconnect();
+  }, []);
+
   useGSAP(
     () => {
       const container = containerRef.current;
@@ -618,8 +633,26 @@ function AccentManifesto() {
   return (
     <div
       ref={containerRef}
-      className="relative bg-[var(--bk)] overflow-clip z-10"
-      style={{ height: "480vh" }}
+      className="relative overflow-clip z-10"
+      style={{
+        height: "480vh",
+        /* Hex literales: el override de --wh debajo afectaría a var(--wh)
+           si lo usáramos aquí, así que lo evitamos. */
+        backgroundColor: onCream ? "#F8F5EF" : "#0E1C16",
+        transition: "background-color 1.4s cubic-bezier(.16,1,.3,1)",
+        /* En modo crema reasignamos vars de texto y --wh dentro de esta
+           sección para que los textos cream/gris hereden tonos verde
+           oscuro legibles. --g1 (oro) se mantiene; el oro funciona en
+           ambos fondos. */
+        ...(onCream
+          ? ({
+              "--gy": "rgba(14,28,22,0.55)",
+              "--gy2": "rgba(14,28,22,0.65)",
+              "--gy3": "rgba(14,28,22,0.78)",
+              "--wh": "#0E1C16",
+            } as React.CSSProperties)
+          : {}),
+      }}
     >
       <div className="sticky top-0 h-screen flex items-center overflow-hidden">
         {/* DEPTH LAYER 0 — perspective floor lines (very subtle, suggests court horizon) */}
@@ -639,7 +672,7 @@ function AccentManifesto() {
 
         {/* DEPTH LAYER 1 — radial vignette (focuses eye, deepens void).
             Usa verde oscuro brand (#0E1C16) en vez de #000 puro para que
-            la sección no se perciba como negra. */}
+            la sección no se perciba como negra. Se oculta en modo crema. */}
         <div
           ref={vignetteRef}
           aria-hidden
@@ -647,7 +680,8 @@ function AccentManifesto() {
           style={{
             background:
               "radial-gradient(ellipse 70% 60% at 50% 50%, transparent 20%, rgba(14,28,22,0.55) 70%, #0E1C16 100%)",
-            opacity: 0.55,
+            opacity: onCream ? 0 : 0.55,
+            transition: "opacity 1.4s cubic-bezier(.16,1,.3,1)",
           }}
         />
 
@@ -783,7 +817,14 @@ function AccentManifesto() {
               <span
                 ref={slogan2Ref}
                 className="j3-stroke block text-[clamp(48px,7vw,110px)]"
-                style={{ opacity: 0, transform: "translateY(60px)", filter: "blur(8px)" }}
+                style={{
+                  opacity: 0,
+                  transform: "translateY(60px)",
+                  filter: "blur(8px)",
+                  /* j3-stroke usa rgba blanco hardcoded; en crema cambiamos
+                     el stroke a verde-oscuro para que se siga leyendo. */
+                  WebkitTextStroke: onCream ? "1.75px rgba(14,28,22,0.45)" : undefined,
+                }}
               >
                 {slogan[1]}
               </span>
@@ -831,12 +872,17 @@ function AccentManifesto() {
           </div>
         </div>
 
-        {/* Fade-to-black overlay — covers content during outro phase */}
+        {/* Fade overlay — covers content during outro phase. Sigue al bg
+            de la sección: verde oscuro en dark, crema en cream. */}
         <div
           ref={fadeOverlayRef}
           aria-hidden
           className="absolute inset-0 pointer-events-none z-50"
-          style={{ background: "var(--bk)", opacity: 0 }}
+          style={{
+            background: onCream ? "#F8F5EF" : "#0E1C16",
+            opacity: 0,
+            transition: "background-color 1.4s cubic-bezier(.16,1,.3,1)",
+          }}
         />
       </div>
     </div>
@@ -975,11 +1021,15 @@ function TimelineSection() {
 
   return (
     <section
+      id="trayectoria"
       ref={sectionRef}
       className="relative px-4 sm:px-6 md:px-12 pb-[72px] md:pb-[100px] overflow-visible z-20"
       style={{
         marginTop: "-45vh",
-        backgroundColor: onCream ? "var(--wh)" : "transparent",
+        /* Empieza en verde oscuro brand y transforma a crema cuando entra
+           más profundo al viewport. AccentManifesto observa este mismo
+           id y se sincroniza, así ambas secciones funden a crema juntas. */
+        backgroundColor: onCream ? "var(--wh)" : "var(--bk)",
         transition: "background-color 1.4s cubic-bezier(.16,1,.3,1), color 1.4s cubic-bezier(.16,1,.3,1)",
         /* Reasigna --gy/--gy2/--gy3 a tonos verde-oscuro cuando el fondo
            es crema, así los textos muted (titles, body) heredan colores
