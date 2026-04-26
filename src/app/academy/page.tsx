@@ -428,6 +428,12 @@ function ProgramBar() {
   // y la marca con un underline dorado.
   const [activeAnchor, setActiveAnchor] = useState<string | null>(null);
 
+  /* Cuando el body pasa a verde academia (entra #network) la barra,
+     que también es verde academia, dejaría de leerse como barra. Pasamos
+     a verde oscuro (#0E1C16) para mantener separación visual con el
+     fondo de las secciones inferiores. */
+  const [onVerdeAcademia, setOnVerdeAcademia] = useState(false);
+
   useEffect(() => {
     const anchors = STICKY_SECTIONS.map((s) => s.anchor);
     const els = anchors.map((a) => document.getElementById(a)).filter(Boolean) as HTMLElement[];
@@ -445,6 +451,19 @@ function ProgramBar() {
       { threshold: 0.15, rootMargin: "-100px 0px -40% 0px" },
     );
     els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
+  /* Sincroniza con el ScrollMarker verde academia: rootMargin -50% replica
+     el trigger del marker (scroll-mid) que pinta el body de verde. */
+  useEffect(() => {
+    const network = document.getElementById("network");
+    if (!network) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setOnVerdeAcademia(entry.isIntersecting),
+      { threshold: 0, rootMargin: "0px 0px -50% 0px" },
+    );
+    io.observe(network);
     return () => io.disconnect();
   }, []);
   const dragStateRef = useRef<{ active: boolean; startX: number; startScroll: number; moved: boolean }>({
@@ -557,24 +576,32 @@ function ProgramBar() {
     <div className="sticky z-[100]" style={{ top: "var(--nav-offset, 64px)", transition: "top 300ms cubic-bezier(.4,0,.2,1)" }}>
       <div
         className="border-b relative"
-        style={{ backgroundColor: "var(--verde)", borderColor: "rgba(201,169,110,0.18)", transition: "all 0.6s cubic-bezier(.4,0,.2,1)" }}
+        style={{
+          backgroundColor: onVerdeAcademia ? "#0E1C16" : "var(--verde)",
+          borderColor: "rgba(201,169,110,0.18)",
+          transition: "background-color 1.4s cubic-bezier(.16,1,.3,1), border-color 0.6s cubic-bezier(.4,0,.2,1)",
+        }}
       >
         {/* Left fade hint */}
         <div
           className="pointer-events-none absolute top-0 bottom-0 left-0 w-5 z-10 min-[961px]:hidden"
           style={{
-            background: "linear-gradient(to right, #1B3D2F 0%, rgba(27,61,47,0) 100%)",
+            background: onVerdeAcademia
+              ? "linear-gradient(to right, #0E1C16 0%, rgba(14,28,22,0) 100%)"
+              : "linear-gradient(to right, #1B3D2F 0%, rgba(27,61,47,0) 100%)",
             opacity: canScrollLeft ? 1 : 0,
-            transition: "opacity 0.3s ease",
+            transition: "opacity 0.3s ease, background 1.4s cubic-bezier(.16,1,.3,1)",
           }}
         />
         {/* Right fade hint */}
         <div
           className="pointer-events-none absolute top-0 bottom-0 right-0 w-5 z-10 min-[961px]:hidden"
           style={{
-            background: "linear-gradient(to left, #1B3D2F 0%, rgba(27,61,47,0) 100%)",
+            background: onVerdeAcademia
+              ? "linear-gradient(to left, #0E1C16 0%, rgba(14,28,22,0) 100%)"
+              : "linear-gradient(to left, #1B3D2F 0%, rgba(27,61,47,0) 100%)",
             opacity: canScrollRight ? 1 : 0,
-            transition: "opacity 0.3s ease",
+            transition: "opacity 0.3s ease, background 1.4s cubic-bezier(.16,1,.3,1)",
           }}
         />
         <div className="max-w-[1200px] mx-auto">
