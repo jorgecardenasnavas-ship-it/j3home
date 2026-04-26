@@ -2196,6 +2196,89 @@ export default function StoryPage() {
     tag: t.story.players.sharedTags[i],
   }));
 
+  /* Strip horizontal de Jugadores: ref + handlers para drag-to-scroll
+     (mouse), wheel-a-horizontal (vertical wheel se redirige a scrollLeft
+     mientras hay rango), y teclas ←/→ con focus. */
+  const playersStripRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = playersStripRef.current;
+    if (!el) return;
+
+    const drag = { startX: 0, scrollLeft: 0, active: false, moved: false };
+
+    const onDown = (e: MouseEvent) => {
+      drag.startX = e.pageX;
+      drag.scrollLeft = el.scrollLeft;
+      drag.active = true;
+      drag.moved = false;
+      el.style.cursor = "grabbing";
+      el.style.userSelect = "none";
+      el.style.scrollSnapType = "none";
+      e.preventDefault();
+    };
+    const onMove = (e: MouseEvent) => {
+      if (!drag.active) return;
+      const walk = (e.pageX - drag.startX) * 1.2;
+      if (Math.abs(walk) > 3) drag.moved = true;
+      el.scrollLeft = drag.scrollLeft - walk;
+      e.preventDefault();
+    };
+    const onUp = () => {
+      if (!drag.active) return;
+      drag.active = false;
+      el.style.cursor = "grab";
+      el.style.userSelect = "";
+      el.style.scrollSnapType = "";
+      if (drag.moved) {
+        const block = (ev: Event) => { ev.preventDefault(); ev.stopPropagation(); };
+        el.addEventListener("click", block, { capture: true, once: true });
+      }
+    };
+
+    /* Wheel: si hay rango horizontal, redirige el delta vertical a scrollLeft;
+       si llegamos al final del strip, deja que el wheel mueva la página. */
+    const onWheel = (e: WheelEvent) => {
+      const max = el.scrollWidth - el.clientWidth;
+      if (max <= 0) return;
+      const dy = e.deltaY;
+      const dx = e.deltaX;
+      const delta = Math.abs(dy) > Math.abs(dx) ? dy : dx;
+      const atStart = el.scrollLeft <= 0 && delta < 0;
+      const atEnd = el.scrollLeft >= max && delta > 0;
+      if (atStart || atEnd) return;
+      e.preventDefault();
+      el.scrollLeft += delta;
+    };
+
+    /* Teclas ←/→ cuando el strip está focalizado o el ratón está sobre él. */
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      const rect = el.getBoundingClientRect();
+      const inView = rect.top < window.innerHeight && rect.bottom > 0;
+      if (!inView) return;
+      e.preventDefault();
+      const step = el.clientWidth * 0.6;
+      el.scrollBy({ left: e.key === "ArrowRight" ? step : -step, behavior: "smooth" });
+    };
+
+    el.addEventListener("mousedown", onDown);
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+    el.addEventListener("wheel", onWheel, { passive: false });
+    window.addEventListener("keydown", onKey);
+    el.tabIndex = 0;
+    el.style.cursor = "grab";
+
+    return () => {
+      el.removeEventListener("mousedown", onDown);
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+      el.removeEventListener("wheel", onWheel);
+      window.removeEventListener("keydown", onKey);
+    };
+  }, []);
+
   /* Hero parallax + pin for flying accent */
   const heroRef = useRef<HTMLDivElement>(null);
   const heroAccentRef = useRef<HTMLSpanElement>(null);
@@ -2918,7 +3001,10 @@ export default function StoryPage() {
             y el interior overflow-x-auto. snap suave + scrollbar oculto. */}
         <div className="relative">
           <div
-            className="flex items-stretch gap-10 max-[640px]:gap-7 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 px-12 max-[960px]:px-6 max-[640px]:px-4"
+            ref={playersStripRef}
+            role="region"
+            aria-label="Jugadores J3"
+            className="flex items-stretch gap-10 max-[640px]:gap-7 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 px-12 max-[960px]:px-6 max-[640px]:px-4 outline-none"
             style={{ scrollBehavior: "smooth", cursor: "grab" }}
           >
             {/* Hero spotlights — más anchos, con info */}
