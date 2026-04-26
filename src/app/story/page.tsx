@@ -860,6 +860,21 @@ function TimelineSection() {
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [visibleItems, setVisibleItems] = useState<boolean[]>(new Array(timeline.length).fill(false));
   const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null);
+  /* onCream: cuando la sección entra al viewport el fondo transiciona a
+     crema y los grises se reasignan a tonos verde-oscuro vía override
+     de --gy/--gy2/--gy3. Sincroniza con el ScrollMarker style: dispara
+     cuando scroll-mid cruza el inicio de la sección. */
+  const [onCream, setOnCream] = useState(false);
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setOnCream(entry.isIntersecting),
+      { threshold: 0, rootMargin: "0px 0px -35% 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!lightbox) return;
@@ -962,7 +977,21 @@ function TimelineSection() {
     <section
       ref={sectionRef}
       className="relative px-4 sm:px-6 md:px-12 pb-[72px] md:pb-[100px] overflow-visible z-20"
-      style={{ marginTop: "-45vh" }}
+      style={{
+        marginTop: "-45vh",
+        backgroundColor: onCream ? "var(--wh)" : "transparent",
+        transition: "background-color 1.4s cubic-bezier(.16,1,.3,1), color 1.4s cubic-bezier(.16,1,.3,1)",
+        /* Reasigna --gy/--gy2/--gy3 a tonos verde-oscuro cuando el fondo
+           es crema, así los textos muted (titles, body) heredan colores
+           legibles sin tocar cada className individual. */
+        ...(onCream
+          ? ({
+              "--gy": "rgba(14,28,22,0.55)",
+              "--gy2": "rgba(14,28,22,0.65)",
+              "--gy3": "rgba(14,28,22,0.78)",
+            } as React.CSSProperties)
+          : {}),
+      }}
     >
       {/* Mini-map — desktop only */}
       <div
@@ -982,10 +1011,13 @@ function TimelineSection() {
                     ? "w-[10px] h-[10px] bg-[var(--g1)]"
                     : isPast
                       ? `${isHL ? "w-[7px] h-[7px]" : "w-[5px] h-[5px]"} bg-[var(--g1)]/60`
-                      : `${isHL ? "w-[7px] h-[7px]" : "w-[5px] h-[5px]"} bg-[var(--wh)]/[.12]`
+                      : isHL ? "w-[7px] h-[7px]" : "w-[5px] h-[5px]"
                 }`}
                 style={{
                   boxShadow: isActive ? "0 0 10px rgba(201,169,110,.5)" : "none",
+                  ...(!isActive && !isPast
+                    ? { backgroundColor: onCream ? "rgba(14,28,22,0.18)" : "rgba(248,245,239,0.12)" }
+                    : {}),
                 }}
               />
               {/* Show era label next to first dot of each era */}
@@ -1118,7 +1150,8 @@ function TimelineSection() {
                     <button
                       type="button"
                       onClick={() => setLightbox({ src: item.image!, alt: item.title })}
-                      className="relative mt-4 min-[960px]:mt-0 min-[960px]:flex-shrink-0 w-full max-w-[420px] min-[960px]:w-[340px] min-[1280px]:w-[400px] max-[640px]:max-w-full overflow-hidden rounded-sm border border-[var(--wh)]/[.08] aspect-[16/9] cursor-zoom-in group/img block"
+                      className="relative mt-4 min-[960px]:mt-0 min-[960px]:flex-shrink-0 w-full max-w-[420px] min-[960px]:w-[340px] min-[1280px]:w-[400px] max-[640px]:max-w-full overflow-hidden rounded-sm aspect-[16/9] cursor-zoom-in group/img block"
+                      style={{ border: `1px solid ${onCream ? "rgba(14,28,22,0.10)" : "rgba(248,245,239,0.08)"}` }}
                     >
                       <NextImage
                         src={item.image}
