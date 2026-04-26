@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect, useMemo, useState } from "react";
+import React, { Fragment, useRef, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { Navbar } from "@/components/Navbar";
@@ -330,6 +330,10 @@ type SectionItem = {
   kind: "section";
   name: string;
   anchor: string; // id HTML sin "#"
+  /* featured=true marca un destino que NO es producto headquarter
+     (Juniors/Adultos/Camps), sino un atajo a otra parte del funnel.
+     Se renderiza en italic serif tras un separador para distinguirlo. */
+  featured?: boolean;
 };
 
 const STICKY_SEDES: SedeItem[] = [
@@ -340,7 +344,7 @@ const STICKY_SECTIONS: SectionItem[] = [
   { kind: "section", name: "Juniors",  anchor: "juniors" },
   { kind: "section", name: "Adultos",  anchor: "adultos" },
   { kind: "section", name: "Camps",    anchor: "intensive" },
-  { kind: "section", name: "M\u00E9todo",   anchor: "metodo" },
+  { kind: "section", name: "Tu coach", anchor: "coaches", featured: true },
 ];
 
 /** Tarjetas de producto para el strip Apple-style bajo el sticky nav. */
@@ -777,44 +781,75 @@ function ProgramBar() {
               );
             })}
 
-            {/* ── CATEGORY TABS — aparecen al scroll (compact), texto puro ── */}
-            {STICKY_SECTIONS.map((section) => {
+            {/* ── CATEGORY TABS — aparecen al scroll (compact), texto puro.
+                Las entradas featured (no son productos headquarter) se
+                diferencian con un separador gold y tipografía italic serif. ── */}
+            {STICKY_SECTIONS.map((section, i) => {
               const isActive = activeAnchor === section.anchor;
+              const prevWasNotFeatured = i > 0 && !STICKY_SECTIONS[i - 1].featured;
+              const showFeaturedSeparator = section.featured && prevWasNotFeatured;
               return (
-                <button
-                  key={section.anchor}
-                  type="button"
-                  onClick={() => handleClickSection(section)}
-                  className="group/pnav relative flex flex-col items-center shrink-0 cursor-pointer hover:opacity-100"
-                  style={{
-                    opacity: compact ? (isActive ? 1 : 0.7) : 0,
-                    width: compact ? "clamp(52px, calc((100vw - 14px) / 6.5), 100px)" : "0px",
-                    paddingTop: compact ? "6px" : "0px",
-                    paddingBottom: compact ? "6px" : "0px",
-                    overflow: "hidden",
-                    pointerEvents: compact ? "auto" : "none",
-                    transition: "all 0.6s cubic-bezier(.4,0,.2,1)",
-                  }}
-                >
-                  <span
-                    className="font-semibold whitespace-nowrap leading-tight"
+                <Fragment key={section.anchor}>
+                  {showFeaturedSeparator && (
+                    <span
+                      aria-hidden
+                      className="shrink-0"
+                      style={{
+                        width: "1px",
+                        height: compact ? "16px" : "0px",
+                        margin: compact ? "0 10px" : "0",
+                        background: "linear-gradient(to bottom, transparent, rgba(201,169,110,.45), transparent)",
+                        opacity: compact ? 1 : 0,
+                        transition: "all 0.6s cubic-bezier(.4,0,.2,1)",
+                      }}
+                    />
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => handleClickSection(section)}
+                    className="group/pnav relative flex flex-col items-center shrink-0 cursor-pointer hover:opacity-100"
                     style={{
-                      fontSize: "10px",
-                      color: isActive ? "var(--g1)" : "rgba(248,245,239,0.65)",
+                      opacity: compact ? (isActive ? 1 : 0.7) : 0,
+                      width: compact
+                        ? section.featured
+                          ? "clamp(64px, calc((100vw - 14px) / 5.5), 110px)"
+                          : "clamp(52px, calc((100vw - 14px) / 6.5), 100px)"
+                        : "0px",
+                      paddingTop: compact ? "6px" : "0px",
+                      paddingBottom: compact ? "6px" : "0px",
+                      overflow: "hidden",
+                      pointerEvents: compact ? "auto" : "none",
+                      transition: "all 0.6s cubic-bezier(.4,0,.2,1)",
                     }}
                   >
-                    {section.name}
-                  </span>
-                  <span
-                    aria-hidden
-                    className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] rounded-full transition-all duration-500"
-                    style={{
-                      width: isActive ? "60%" : "0%",
-                      background: "linear-gradient(90deg, transparent, rgba(201,169,110,.85), transparent)",
-                      opacity: isActive ? 1 : 0,
-                    }}
-                  />
-                </button>
+                    <span
+                      className="whitespace-nowrap leading-tight"
+                      style={{
+                        fontSize: section.featured ? "11px" : "10px",
+                        fontFamily: section.featured ? "var(--font-serif)" : undefined,
+                        fontStyle: section.featured ? "italic" : undefined,
+                        fontWeight: section.featured ? 500 : 600,
+                        letterSpacing: section.featured ? "0.2px" : undefined,
+                        color: isActive
+                          ? "var(--g1)"
+                          : section.featured
+                            ? "rgba(201,169,110,0.78)"
+                            : "rgba(248,245,239,0.65)",
+                      }}
+                    >
+                      {section.name}
+                    </span>
+                    <span
+                      aria-hidden
+                      className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] rounded-full transition-all duration-500"
+                      style={{
+                        width: isActive ? "60%" : "0%",
+                        background: "linear-gradient(90deg, transparent, rgba(201,169,110,.85), transparent)",
+                        opacity: isActive ? 1 : 0,
+                      }}
+                    />
+                  </button>
+                </Fragment>
               );
             })}
           </div>
@@ -3600,7 +3635,7 @@ function NetworkSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
       <SedesBlock sedes={t.academy.network.sedes} eyebrow={t.academy.network.sedesLabel} />
 
       {/* Coaches grid */}
-      <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto pb-12 max-[960px]:pb-10">
+      <div id="coaches" className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto pb-12 max-[960px]:pb-10 scroll-mt-[120px]">
         {/* Header de la grid: eyebrow + heading (sin contador, ahora vive
             en la stat-line más abajo junto a los filtros). */}
         <div className="flex items-baseline flex-wrap gap-x-5 gap-y-1 mb-3">
