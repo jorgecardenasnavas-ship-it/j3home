@@ -1478,14 +1478,17 @@ function StatementSection() {
   const { ref, visible } = useReveal(0.15);
 
   /* Crossfade a crema sólo cuando la sección de Programas entra al viewport.
-     IntersectionObserver es preciso — no depende del sistema scroll-theme. */
+     IntersectionObserver es preciso — no depende del sistema scroll-theme.
+     rootMargin -48% retrasa el fundido para que el verde oscuro se mantenga
+     mientras Statement está en pantalla y crema entre cuando Programas
+     ya está claramente entrado en el viewport. */
   const [programsVisible, setProgramsVisible] = useState(false);
   useEffect(() => {
     const programsEl = document.getElementById("programas");
     if (!programsEl) return;
     const io = new IntersectionObserver(
       ([entry]) => setProgramsVisible(entry.isIntersecting),
-      { threshold: 0, rootMargin: "0px 0px -30% 0px" },
+      { threshold: 0, rootMargin: "0px 0px -48% 0px" },
     );
     io.observe(programsEl);
     return () => io.disconnect();
@@ -1933,7 +1936,7 @@ function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
     if (!el) return;
     const io = new IntersectionObserver(
       ([entry]) => setProgramsVisible(entry.isIntersecting),
-      { threshold: 0, rootMargin: "0px 0px -30% 0px" },
+      { threshold: 0, rootMargin: "0px 0px -48% 0px" },
     );
     io.observe(el);
     return () => io.disconnect();
