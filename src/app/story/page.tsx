@@ -2801,15 +2801,19 @@ export default function StoryPage() {
               <span className="w-1 h-1 rounded-full bg-[var(--g1)]/30" />
               <span className="h-px w-12 bg-[var(--g1)]/20" />
             </div>
-            {/* Row 2 — remaining 4 stats */}
-            <div className="grid grid-cols-2 min-[960px]:grid-cols-4 gap-y-10 gap-x-4">
+            {/* Row 2 — remaining 5 stats (incluye campeones de España y del Mundo) */}
+            <div className="grid grid-cols-2 min-[960px]:grid-cols-5 gap-y-10 gap-x-4">
               {t.story.stats.items.slice(4).map((s, i) => {
                 const idx = i + 4;
+                /* Con 5 items en grid 2-col mobile, el último (i===4) span
+                   2 cols para no quedar solo. En desktop (5-col) cada uno
+                   ocupa su columna natural. */
+                const isLastWide = i === 4;
                 return (
                   <div
                     key={idx}
                     ref={el => { statsItemRefs.current[idx] = el; }}
-                    className={`text-center ${i === 2 ? "col-span-2 min-[960px]:col-span-1" : ""}`}
+                    className={`text-center ${isLastWide ? "col-span-2 min-[960px]:col-span-1" : ""}`}
                     style={{ opacity: 0, transform: "translateY(24px)" }}
                   >
                     <span

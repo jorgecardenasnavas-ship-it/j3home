@@ -247,6 +247,7 @@ export const fr = {
         { val: 100, suffix: "+", lbl: "Coaches formés\nchez Coach360" },
         { val: 2000, suffix: "+", lbl: "Joueurs amateurs\nformés" },
         { val: 30, suffix: "+", lbl: "Joueurs professionnels\nformés" },
+        { val: 5, lbl: "Champions d'Espagne et du Monde\nformés chez nous" },
         { label: "N.º1", val: 0, lbl: "Meilleur entraîneur espagnol\nranking WPT 2022" },
         { val: 11, lbl: "Titres professionnels\nen 18 finales disputées" },
         { label: "WPT", val: 0, lbl: "Siège officiel\nMálaga 2014" },

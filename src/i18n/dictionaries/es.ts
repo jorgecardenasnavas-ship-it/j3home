@@ -247,6 +247,7 @@ export const es = {
         { val: 100, suffix: "+", lbl: "Coaches formados\nen Coach360" },
         { val: 2000, suffix: "+", lbl: "Jugadores amateur\nformados" },
         { val: 30, suffix: "+", lbl: "Jugadores profesionales\nentrenados" },
+        { val: 5, lbl: "Campeones de España y del Mundo\nen etapa de formación" },
         { label: "N.\u00BA1", val: 0, lbl: "Entrenador espa\u00F1ol\nen ranking WPT 2022" },
         { val: 11, lbl: "T\u00EDtulos profesionales\nen 18 finales disputadas" },
         { label: "WPT", val: 0, lbl: "Sede oficial\nM\u00E1laga 2014" },

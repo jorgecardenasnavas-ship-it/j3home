@@ -247,6 +247,7 @@ export const sv = {
         { val: 100, suffix: "+", lbl: "Tränare utbildade\ni Coach360" },
         { val: 2000, suffix: "+", lbl: "Amatörspelare\nutbildade" },
         { val: 30, suffix: "+", lbl: "Professionella spelare\nutbildade" },
+        { val: 5, lbl: "Spanska och världsmästare\nformade hos oss" },
         { label: "N.º1", val: 0, lbl: "Bästa spanska tränare\nWPT-ranking 2022" },
         { val: 11, lbl: "Professionella titlar\ni 18 spelade finaler" },
         { label: "WPT", val: 0, lbl: "Officiell värd\nMálaga 2014" },

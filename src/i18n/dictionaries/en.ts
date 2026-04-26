@@ -247,6 +247,7 @@ export const en = {
         { val: 100, suffix: "+", lbl: "Coaches trained\non Coach360" },
         { val: 2000, suffix: "+", lbl: "Amateur players\ntrained" },
         { val: 30, suffix: "+", lbl: "Professional players\ntrained" },
+        { val: 5, lbl: "Spanish & World champions\nformed at our academy" },
         { label: "N.\u00BA1", val: 0, lbl: "Top Spanish coach\nWPT ranking 2022" },
         { val: 11, lbl: "Professional titles\nin 18 finals played" },
         { label: "WPT", val: 0, lbl: "Official host\nM\u00E1laga 2014" },
