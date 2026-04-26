@@ -1134,8 +1134,17 @@ function TimelineSection() {
       </div>
 
       <div className="relative pl-8 max-[640px]:pl-4 w-full max-w-[1180px] mx-auto break-words">
-        {/* Track line */}
-        <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[rgba(201,169,110,.2)] to-transparent" />
+        {/* Track line — sobre crema usamos un tinte verde-oscuro (más
+            presente que oro 20% sobre fondo claro). */}
+        <div
+          className="absolute left-0 top-0 bottom-0 w-px"
+          style={{
+            background: onCream
+              ? "linear-gradient(to bottom, transparent, rgba(14,28,22,0.22), transparent)"
+              : "linear-gradient(to bottom, transparent, rgba(201,169,110,0.2), transparent)",
+            transition: "background 1.4s cubic-bezier(.16,1,.3,1)",
+          }}
+        />
 
         {timeline.map((item, i) => {
           const isHL = item.highlight;
@@ -1143,26 +1152,48 @@ function TimelineSection() {
           const era = eraMap[i];
           return (
             <div key={i} ref={el => { itemRefs.current[i] = el; }}>
-              {/* Era separator */}
+              {/* Era separator — refuerzo de divisores en modo crema. */}
               {era && (
                 <div className="relative pl-12 pb-5 pt-6 max-[640px]:pl-5">
                   <div className="flex items-center gap-3 max-[640px]:gap-2">
-                    <span className="h-px w-6 bg-[var(--g1)]/25 max-[640px]:w-4" />
-                    <span className="text-[9px] font-bold tracking-[4px] uppercase text-[var(--g1)]/70 max-[960px]:text-[10px] max-[640px]:text-[8px] max-[640px]:tracking-[2.5px]">{era}</span>
-                    <span className="h-px flex-1 bg-[var(--g1)]/10" />
+                    <span
+                      className="h-px w-6 max-[640px]:w-4"
+                      style={{
+                        backgroundColor: onCream ? "rgba(201,169,110,0.55)" : "rgba(201,169,110,0.25)",
+                        transition: "background-color 1.4s cubic-bezier(.16,1,.3,1)",
+                      }}
+                    />
+                    <span className="text-[9px] font-bold tracking-[4px] uppercase text-[var(--g1)] max-[960px]:text-[10px] max-[640px]:text-[8px] max-[640px]:tracking-[2.5px]" style={{ opacity: onCream ? 0.95 : 0.7, transition: "opacity 1.4s cubic-bezier(.16,1,.3,1)" }}>{era}</span>
+                    <span
+                      className="h-px flex-1"
+                      style={{
+                        backgroundColor: onCream ? "rgba(201,169,110,0.30)" : "rgba(201,169,110,0.10)",
+                        transition: "background-color 1.4s cubic-bezier(.16,1,.3,1)",
+                      }}
+                    />
                   </div>
                 </div>
               )}
               <div
                 className={`relative pl-12 max-[640px]:pl-5 min-w-0 group ${
                   isHL
-                    ? "pb-10 mb-4 ml-[-1px] border-l-[2px] border-[rgba(201,169,110,.25)] bg-gradient-to-r from-[rgba(201,169,110,.04)] to-transparent rounded-r-lg pr-6 pt-6 max-[640px]:pr-2 max-[640px]:pt-4 max-[640px]:pb-7"
+                    ? "pb-10 mb-4 ml-[-1px] border-l-[2px] rounded-r-lg pr-6 pt-6 max-[640px]:pr-2 max-[640px]:pt-4 max-[640px]:pb-7"
                     : "pb-12 max-[640px]:pb-8 max-[640px]:pr-1"
                 }`}
                 style={{
                   opacity: visible ? 1 : 0,
                   transform: visible ? "none" : `translateY(${isHL ? "30" : "20"}px) ${isHL ? "scale(.97)" : ""}`,
-                  transition: `all .8s cubic-bezier(.16,1,.3,1) ${(i % 2) * 0.06}s`,
+                  transition: `all .8s cubic-bezier(.16,1,.3,1) ${(i % 2) * 0.06}s, background 1.4s cubic-bezier(.16,1,.3,1), border-color 1.4s cubic-bezier(.16,1,.3,1)`,
+                  /* HL gold tint: en crema reforzamos el tinte oro y el
+                     border para que el bloque destacado se siga leyendo. */
+                  ...(isHL
+                    ? {
+                        borderColor: onCream ? "rgba(201,169,110,0.55)" : "rgba(201,169,110,0.25)",
+                        background: onCream
+                          ? "linear-gradient(to right, rgba(201,169,110,0.12), transparent)"
+                          : "linear-gradient(to right, rgba(201,169,110,0.04), transparent)",
+                      }
+                    : {}),
                 }}
               >
                 {/* Dot */}
