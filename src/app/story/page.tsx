@@ -2196,18 +2196,39 @@ export default function StoryPage() {
     tag: t.story.players.sharedTags[i],
   }));
 
-  /* Strip horizontal de Jugadores: ref + handlers para drag-to-scroll
-     (mouse), wheel-a-horizontal (vertical wheel se redirige a scrollLeft
-     mientras hay rango), y teclas ←/→ con focus. */
+  /* Strip horizontal de Jugadores: drag-to-scroll, wheel-a-horizontal,
+     teclas ←/→, progress bar y navegación con chevrons. */
   const playersStripRef = useRef<HTMLDivElement>(null);
+  const [stripProgress, setStripProgress] = useState(0);
+  const [stripCanLeft, setStripCanLeft] = useState(false);
+  const [stripCanRight, setStripCanRight] = useState(true);
+
+  const scrollStrip = (dir: 1 | -1) => {
+    const el = playersStripRef.current;
+    if (!el) return;
+    const step = Math.min(el.clientWidth * 0.7, 600);
+    el.scrollBy({ left: dir * step, behavior: "smooth" });
+  };
 
   useEffect(() => {
     const el = playersStripRef.current;
     if (!el) return;
 
+    const updateProgress = () => {
+      const max = el.scrollWidth - el.clientWidth;
+      const p = max > 0 ? el.scrollLeft / max : 0;
+      setStripProgress(p);
+      setStripCanLeft(el.scrollLeft > 4);
+      setStripCanRight(el.scrollLeft < max - 4);
+    };
+    updateProgress();
+    el.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+
     const drag = { startX: 0, scrollLeft: 0, active: false, moved: false };
 
     const onDown = (e: MouseEvent) => {
+      if (e.button !== 0) return;
       drag.startX = e.pageX;
       drag.scrollLeft = el.scrollLeft;
       drag.active = true;
@@ -2215,11 +2236,13 @@ export default function StoryPage() {
       el.style.cursor = "grabbing";
       el.style.userSelect = "none";
       el.style.scrollSnapType = "none";
+      el.style.scrollBehavior = "auto";
       e.preventDefault();
     };
     const onMove = (e: MouseEvent) => {
       if (!drag.active) return;
-      const walk = (e.pageX - drag.startX) * 1.2;
+      /* 1:1 walk — el drag corresponde exactamente al desplazamiento del cursor */
+      const walk = e.pageX - drag.startX;
       if (Math.abs(walk) > 3) drag.moved = true;
       el.scrollLeft = drag.scrollLeft - walk;
       e.preventDefault();
@@ -2230,14 +2253,14 @@ export default function StoryPage() {
       el.style.cursor = "grab";
       el.style.userSelect = "";
       el.style.scrollSnapType = "";
+      el.style.scrollBehavior = "smooth";
       if (drag.moved) {
         const block = (ev: Event) => { ev.preventDefault(); ev.stopPropagation(); };
         el.addEventListener("click", block, { capture: true, once: true });
       }
     };
 
-    /* Wheel: si hay rango horizontal, redirige el delta vertical a scrollLeft;
-       si llegamos al final del strip, deja que el wheel mueva la página. */
+    /* Wheel: redirige delta vertical a scrollLeft mientras hay rango. */
     const onWheel = (e: WheelEvent) => {
       const max = el.scrollWidth - el.clientWidth;
       if (max <= 0) return;
@@ -2251,15 +2274,14 @@ export default function StoryPage() {
       el.scrollLeft += delta;
     };
 
-    /* Teclas ←/→ cuando el strip está focalizado o el ratón está sobre él. */
+    /* Teclas ←/→ cuando el strip está visible. */
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
       const rect = el.getBoundingClientRect();
-      const inView = rect.top < window.innerHeight && rect.bottom > 0;
+      const inView = rect.top < window.innerHeight * 0.85 && rect.bottom > window.innerHeight * 0.15;
       if (!inView) return;
       e.preventDefault();
-      const step = el.clientWidth * 0.6;
-      el.scrollBy({ left: e.key === "ArrowRight" ? step : -step, behavior: "smooth" });
+      scrollStrip(e.key === "ArrowRight" ? 1 : -1);
     };
 
     el.addEventListener("mousedown", onDown);
@@ -2271,6 +2293,8 @@ export default function StoryPage() {
     el.style.cursor = "grab";
 
     return () => {
+      el.removeEventListener("scroll", updateProgress);
+      window.removeEventListener("resize", updateProgress);
       el.removeEventListener("mousedown", onDown);
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseup", onUp);
@@ -2994,46 +3018,57 @@ export default function StoryPage() {
           </p>
         </div>
 
-        {/* Eyebrow del strip */}
-        <p className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[3px] max-[640px]:tracking-[1.5px] uppercase text-[var(--g1)]/80 mb-6 max-[640px]:mb-5 px-12 max-[960px]:px-6 max-[640px]:px-4">{t.story.players.heroLabel}</p>
+        {/* Eyebrow del strip + barra de progreso oro que se llena con el scroll */}
+        <div className="px-12 max-[960px]:px-6 max-[640px]:px-4 mb-6 max-[640px]:mb-5 flex items-center gap-4">
+          <p className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[3px] max-[640px]:tracking-[1.5px] uppercase text-[var(--g1)]/80 shrink-0">{t.story.players.heroLabel}</p>
+          <div className="flex-1 h-px bg-[var(--wh)]/[.06] relative overflow-hidden">
+            <div
+              className="absolute top-0 left-0 h-full bg-gradient-to-r from-[var(--g1)] to-[var(--g2)]"
+              style={{ width: `${stripProgress * 100}%`, transition: "width 0.18s linear" }}
+            />
+          </div>
+        </div>
 
-        {/* Strip horizontal — el contenedor exterior tiene overflow hidden
-            y el interior overflow-x-auto. snap suave + scrollbar oculto. */}
+        {/* Strip horizontal con chevrons y fade hints */}
         <div className="relative">
           <div
             ref={playersStripRef}
             role="region"
             aria-label="Jugadores J3"
-            className="flex items-stretch gap-10 max-[640px]:gap-7 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 px-12 max-[960px]:px-6 max-[640px]:px-4 outline-none"
+            className="flex items-stretch gap-10 max-[640px]:gap-7 overflow-x-auto scrollbar-hide snap-x snap-proximity pb-3 px-12 max-[960px]:px-6 max-[640px]:px-4 outline-none"
             style={{ scrollBehavior: "smooth", cursor: "grab" }}
           >
             {/* Hero spotlights — más anchos, con info */}
             {playersHero.map((p, i) => (
               <article
                 key={`hero-${i}`}
-                className="snap-start shrink-0 w-[260px] max-[640px]:w-[220px] flex flex-col"
+                className="group snap-start shrink-0 w-[260px] max-[640px]:w-[220px] flex flex-col transition-transform duration-500 ease-out hover:-translate-y-1"
               >
-                <h3 className="font-bold text-[clamp(22px,2.2vw,30px)] uppercase tracking-[-0.5px] leading-[1.05]">
+                <h3 className="font-bold text-[clamp(22px,2.2vw,30px)] uppercase tracking-[-0.5px] leading-[1.05] inline-block relative pb-2">
                   <span className="j3-grad-text block">{p.first}</span>
                   <span className="text-[var(--wh)]/95 block">{p.last}</span>
+                  <span aria-hidden className="absolute bottom-0 left-0 h-px bg-[var(--g1)] w-0 group-hover:w-12 transition-[width] duration-500 ease-out" />
                 </h3>
                 <p className="text-[12.5px] font-light text-[var(--gy2)] leading-[1.55] mt-3 flex-1">{p.info}</p>
                 <span className="text-[9px] tracking-[2.5px] uppercase font-bold text-[var(--g1)]/85 mt-3 inline-block">{p.tag}</span>
               </article>
             ))}
 
-            {/* Divisor sutil entre hero y squad */}
-            <div aria-hidden className="shrink-0 w-px self-stretch bg-[var(--wh)]/[.10] mx-2" />
+            {/* Eyebrow secundario entre hero y squad — sustituye al divisor rígido */}
+            <div className="shrink-0 self-center max-w-[140px] pl-2 pr-4">
+              <span className="block text-[9px] tracking-[3px] uppercase text-[var(--gy)]/55 leading-[1.4] font-medium">El resto del circuito</span>
+            </div>
 
             {/* Squad — más compactos, solo nombre + tag */}
             {[...playersNextGen, ...playersNextGenPro, ...playersFeatured, ...playersShared].map((p, i) => (
               <article
                 key={`squad-${p.first}-${p.last}-${i}`}
-                className="snap-start shrink-0 w-[170px] max-[640px]:w-[150px] flex flex-col"
+                className="group snap-start shrink-0 w-[170px] max-[640px]:w-[150px] flex flex-col transition-transform duration-500 ease-out hover:-translate-y-1"
               >
-                <h4 className="font-bold text-[16px] max-[640px]:text-[15px] uppercase tracking-[-0.3px] leading-[1.1]">
+                <h4 className="font-bold text-[16px] max-[640px]:text-[15px] uppercase tracking-[-0.3px] leading-[1.1] inline-block relative pb-1.5">
                   <span className="j3-grad-text block">{p.first}</span>
                   <span className="text-[var(--wh)]/85 block">{p.last}</span>
+                  <span aria-hidden className="absolute bottom-0 left-0 h-px bg-[var(--g1)] w-0 group-hover:w-8 transition-[width] duration-500 ease-out" />
                 </h4>
                 <span className="text-[9px] uppercase tracking-[1.5px] text-[var(--g1)]/65 mt-2 block leading-[1.3]">{p.tag}</span>
               </article>
@@ -3043,12 +3078,59 @@ export default function StoryPage() {
             <div aria-hidden className="shrink-0 w-1" />
           </div>
 
-          {/* Fade hint en el borde derecho — sugiere que hay más por descubrir */}
+          {/* Fade hints + chevron buttons. Los chevrons son desktop only y
+              se ocultan cuando ya no hay rango por explorar en su dirección. */}
+          <div
+            aria-hidden
+            className="absolute top-0 left-0 bottom-0 w-16 max-[640px]:w-10 pointer-events-none"
+            style={{
+              background: "linear-gradient(to right, var(--bk) 0%, transparent 100%)",
+              opacity: stripCanLeft ? 1 : 0,
+              transition: "opacity 0.4s ease",
+            }}
+          />
           <div
             aria-hidden
             className="absolute top-0 right-0 bottom-0 w-16 max-[640px]:w-10 pointer-events-none"
-            style={{ background: "linear-gradient(to left, var(--bk) 0%, transparent 100%)" }}
+            style={{
+              background: "linear-gradient(to left, var(--bk) 0%, transparent 100%)",
+              opacity: stripCanRight ? 1 : 0,
+              transition: "opacity 0.4s ease",
+            }}
           />
+
+          <button
+            type="button"
+            aria-label="Anterior"
+            onClick={() => scrollStrip(-1)}
+            disabled={!stripCanLeft}
+            className="hidden min-[800px]:flex absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full items-center justify-center backdrop-blur-md transition-all duration-300 hover:scale-105 disabled:opacity-0 disabled:pointer-events-none"
+            style={{
+              background: "rgba(14,28,22,0.6)",
+              border: "1px solid rgba(201,169,110,0.35)",
+              color: "var(--g1)",
+            }}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            aria-label="Siguiente"
+            onClick={() => scrollStrip(1)}
+            disabled={!stripCanRight}
+            className="hidden min-[800px]:flex absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full items-center justify-center backdrop-blur-md transition-all duration-300 hover:scale-105 disabled:opacity-0 disabled:pointer-events-none"
+            style={{
+              background: "rgba(14,28,22,0.6)",
+              border: "1px solid rgba(201,169,110,0.35)",
+              color: "var(--g1)",
+            }}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
         </div>
       </section>
 
