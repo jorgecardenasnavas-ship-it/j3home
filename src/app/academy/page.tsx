@@ -1944,6 +1944,22 @@ function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
     return () => io.disconnect();
   }, []);
 
+  /* Cuando #network (sedes) entra al viewport, el bloque Intensive Training
+     acompaña al verde academia para que el handoff visual sea continuo.
+     rootMargin -50% sincroniza con el ScrollMarker de #network (que dispara
+     en scroll-mid). */
+  const [sedesVisible, setSedesVisible] = useState(false);
+  useEffect(() => {
+    const el = document.getElementById("network");
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setSedesVisible(entry.isIntersecting),
+      { threshold: 0, rootMargin: "0px 0px -50% 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   /* Hover state — desktop PorscheRow (per row of 2) + mobile carousel */
   const [jRow0Hover, setJRow0Hover] = useState<number | null>(null);
   const [jRow1Hover, setJRow1Hover] = useState<number | null>(null);
@@ -2001,7 +2017,7 @@ function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
   const iMobileReveal = useReveal(0.15);
 
   return (
-    <section id="programas" className="relative pt-[100px] pb-[60px] max-[960px]:pt-[72px] max-[960px]:pb-[48px] overflow-hidden" style={{ backgroundColor: programsVisible ? "var(--wh)" : "var(--bk)", transition: "background-color 1.4s cubic-bezier(.16,1,.3,1)" }}>
+    <section id="programas" className="relative pt-[100px] pb-[60px] max-[960px]:pt-[72px] max-[960px]:pb-[48px] overflow-hidden" style={{ backgroundColor: sedesVisible ? "var(--verde)" : programsVisible ? "var(--wh)" : "var(--bk)", transition: "background-color 1.4s cubic-bezier(.16,1,.3,1)" }}>
       {/* Marker slot — al entrar Programs, body también pasa a crema */}
       {markerSlot}
       {/* Section header */}
@@ -2228,10 +2244,21 @@ function PerfilesSection({ markerSlot }: { markerSlot?: React.ReactNode }) {
         </div>
       </div>
 
-      {/* Block 3: Intensive Training */}
-      <div id="intensive" className="border-t theme-border scroll-mt-[100px]">
+      {/* Block 3: Intensive Training — el fondo lo lleva la sección
+          completa: cuando #network entra al viewport, programas pasa
+          a verde academia para encadenar visualmente con sedes. */}
+      <div
+        id="intensive"
+        className="border-t theme-border scroll-mt-[100px]"
+      >
         <div className="px-4 max-[960px]:px-3 max-w-[1600px] mx-auto py-5 flex items-center gap-4 border-b theme-border">
-          <span className="font-bold text-[clamp(20px,2.5vw,32px)] tracking-[-1px]" style={{ color: "var(--verde)" }}>03</span>
+          <span
+            className="font-bold text-[clamp(20px,2.5vw,32px)] tracking-[-1px]"
+            style={{
+              color: sedesVisible ? "var(--g1)" : "var(--verde)",
+              transition: "color 1.4s cubic-bezier(.16,1,.3,1)",
+            }}
+          >03</span>
           <span className="text-[11px] font-bold tracking-[3px] uppercase text-[var(--g1)]">{t.academy.programs.intensiveLabel}</span>
           <span className="ml-auto text-[16px] theme-text opacity-70 italic tracking-normal normal-case hidden min-[961px]:inline">Formatos a medida para grupos y particulares.</span>
         </div>
@@ -3951,7 +3978,7 @@ function ProgramasGridSection() {
   );
 
   return (
-    <section data-hide-chat className="relative bg-[var(--bk)] py-[80px] max-[960px]:py-[60px] border-b border-white/[.07]">
+    <section data-hide-chat className="relative bg-[var(--verde)] py-[80px] max-[960px]:py-[60px] border-b border-white/[.07]">
       <div className="max-w-[1600px] mx-auto">
         <div
           ref={ref}
@@ -4168,30 +4195,36 @@ function useScrollBg(markerRefs: React.RefObject<(HTMLDivElement | null)[]>) {
 
       const scrollMid = window.scrollY + window.innerHeight * 0.5;
 
-      // Build sorted list of transitions using absolute page position
-      const transitions: { y: number; toDark: boolean }[] = [];
+      // Build sorted list of transitions using absolute page position.
+      // Markers can override the target color via data-bg (custom hex);
+      // theme follows data-to (dark|light) independently of the bg hex.
+      const transitions: { y: number; color: string; toDark: boolean }[] = [];
       for (const m of markers) {
         if (!m) continue;
         const rect = m.getBoundingClientRect();
+        const toDark = m.dataset.to === "dark";
         transitions.push({
           y: rect.top + window.scrollY,
-          toDark: m.dataset.to === "dark",
+          color: m.dataset.bg || (toDark ? "#0E1C16" : "#F8F5EF"),
+          toDark,
         });
       }
       transitions.sort((a, b) => a.y - b.y);
 
       // Find which color we should be in — just check which markers we've passed
       let color = "#0E1C16"; // start dark (hero) — var(--bk)
+      let toDark = true;
       for (const tr of transitions) {
         if (scrollMid >= tr.y) {
-          color = tr.toDark ? "#0E1C16" : "#F8F5EF";
+          color = tr.color;
+          toDark = tr.toDark;
         } else {
           break;
         }
       }
 
       document.body.style.backgroundColor = color;
-      document.documentElement.dataset.theme = color === "#0E1C16" ? "dark" : "light";
+      document.documentElement.dataset.theme = toDark ? "dark" : "light";
     }
 
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -4205,12 +4238,15 @@ function useScrollBg(markerRefs: React.RefObject<(HTMLDivElement | null)[]>) {
   }, [markerRefs]);
 }
 
-/** Invisible scroll marker — place inside a section where transition should trigger */
-function ScrollMarker({ index, to, refs }: { index: number; to: "dark" | "light"; refs: React.RefObject<(HTMLDivElement | null)[]> }) {
+/** Invisible scroll marker — place inside a section where transition should trigger.
+ *  `bg` overrides the body background hex (defaults to var(--bk) for dark / var(--wh) for light).
+ *  Use it when the section paints a custom color (e.g. verde academia). */
+function ScrollMarker({ index, to, refs, bg }: { index: number; to: "dark" | "light"; refs: React.RefObject<(HTMLDivElement | null)[]>; bg?: string }) {
   return (
     <div
       ref={(el) => { if (refs.current) refs.current[index] = el; }}
       data-to={to}
+      data-bg={bg}
       className="h-0 w-0 pointer-events-none"
       aria-hidden="true"
     />
@@ -4259,9 +4295,11 @@ export default function AcademyV2Page() {
       } />
 
       <NetworkSection markerSlot={
-        /* Marker 3: white→dark — inside NetworkSection (which has its own
-           dark bg) so body goes dark invisibly while section is visible */
-        <ScrollMarker index={3} to="dark" refs={markerRefs} />
+        /* Marker 3: white→verde academia — desde sedes hasta el banner
+           de clubes el body se viste de verde (#1B3D2F) para acompañar
+           al fondo de las secciones. data-theme se mantiene "dark"
+           porque los textos siguen optimizados para fondo oscuro. */
+        <ScrollMarker index={3} to="dark" bg="#1B3D2F" refs={markerRefs} />
       } />
       </FilterProvider>
       </GeoProvider>
@@ -4293,7 +4331,7 @@ function ClubesHandoffBanner() {
   const { t } = useI18n();
   const c = t.academy.clubesHandoff;
   return (
-    <section className="border-t border-white/[.06] bg-[var(--bk)]">
+    <section className="border-t border-white/[.06] bg-[var(--verde)]">
       <div className="max-w-[1600px] mx-auto px-4 max-[960px]:px-3 py-10 max-[960px]:py-8">
         <Link
           href="/clubes"

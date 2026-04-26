@@ -95,9 +95,9 @@ html[data-theme="light"] .theme-text-muted { color: var(--gy); }
 html[data-theme="dark"] .theme-border { border-color: rgba(201,169,110,0.12); }
 html[data-theme="light"] .theme-border { border-color: rgba(27,61,47,0.1); }
 
-/* ─── Sedes section: dark bg by default, white when theme=light ─── */
+/* ─── Sedes section: verde academia by default, white when theme=light ─── */
 .sedes-section {
-  background: var(--bk2);
+  background: var(--verde);
   border-bottom: 1px solid var(--section-border);
   transition: background-color 1.4s cubic-bezier(.16,1,.3,1);
 }
