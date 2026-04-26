@@ -2196,6 +2196,10 @@ export default function StoryPage() {
     tag: t.story.players.sharedTags[i],
   }));
 
+  /* Sección Jugadores: por defecto colapsada en stat-line de credibilidad
+     (3 top 10 + 21 pros). Al expandir aparece el strip horizontal completo. */
+  const [playersExpanded, setPlayersExpanded] = useState(false);
+
   /* Strip horizontal de Jugadores: drag-to-scroll, wheel-a-horizontal,
      teclas ←/→, progress bar y navegación con chevrons. */
   const playersStripRef = useRef<HTMLDivElement>(null);
@@ -2211,6 +2215,7 @@ export default function StoryPage() {
   };
 
   useEffect(() => {
+    if (!playersExpanded) return;
     const el = playersStripRef.current;
     if (!el) return;
 
@@ -2995,14 +3000,15 @@ export default function StoryPage() {
         </div>
       </section>
 
-      {/* ─── JUGADORES — strip horizontal único: 3 hero spotlights con
-           info + 21 entradas de squad (NextGen+NextGenPro+Featured+Shared).
-           Drag-to-scroll en desktop, swipe nativo en mobile, snap suave. ─── */}
+      {/* ─── JUGADORES — stat-line de credibilidad por defecto (3 números
+           que validan trayectoria sin saturar de roster). Al pulsar 'Ver
+           la red completa' se expande el strip horizontal con los 24
+           nombres detallados — opcional, no protagonista. ─── */}
       <section className="py-[100px] max-[960px]:py-[72px] overflow-hidden">
         {/* Header */}
         <div
           ref={jugadoresHeader.ref}
-          className="max-w-[640px] mb-16 max-[640px]:mb-10 px-12 max-[960px]:px-6 max-[640px]:px-4"
+          className="max-w-[640px] mb-14 max-[640px]:mb-10 px-12 max-[960px]:px-6 max-[640px]:px-4"
           style={{
             opacity: jugadoresHeader.visible ? 1 : 0,
             transform: jugadoresHeader.visible ? "none" : "translateY(30px)",
@@ -3018,6 +3024,69 @@ export default function StoryPage() {
           </p>
         </div>
 
+        {/* Stat-line de credibilidad — tres números, sin chrome */}
+        <div className="px-12 max-[960px]:px-6 max-[640px]:px-4">
+          <div className="grid grid-cols-3 max-[640px]:grid-cols-1 gap-x-12 gap-y-10 max-w-[1100px]">
+            {[
+              { num: "3", label: "Jugadores Top 10 mundial · formados desde base" },
+              { num: "5", label: "Campeones de España formados · 3 también del Mundo" },
+              { num: "21", label: "Profesionales han compartido pista con J3" },
+            ].map((stat, i) => (
+              <div
+                key={i}
+                style={{
+                  opacity: jugadoresHeader.visible ? 1 : 0,
+                  transform: jugadoresHeader.visible ? "none" : "translateY(20px)",
+                  transition: `all .9s cubic-bezier(.16,1,.3,1) ${0.15 + i * 0.1}s`,
+                }}
+              >
+                <span className="block font-bold text-[clamp(54px,7.5vw,96px)] j3-grad-text leading-[0.9] tracking-[-3px]">{stat.num}</span>
+                <span className="block text-[10.5px] tracking-[2px] uppercase text-[var(--gy2)] mt-4 font-semibold leading-[1.55] max-w-[260px]">{stat.label}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA expandible — minimalista, sin botón sólido */}
+          <button
+            type="button"
+            onClick={() => setPlayersExpanded((v) => !v)}
+            aria-expanded={playersExpanded}
+            className="mt-14 max-[640px]:mt-10 group inline-flex items-center gap-3 cursor-pointer"
+          >
+            <span className="text-[11px] font-bold tracking-[2.5px] uppercase text-[var(--g1)]/85 group-hover:text-[var(--g1)] transition-colors duration-300">
+              {playersExpanded ? "Ocultar la red completa" : "Ver la red completa"}
+            </span>
+            <span
+              aria-hidden
+              className="h-px bg-[var(--g1)]/55 transition-all duration-500 ease-out"
+              style={{ width: playersExpanded ? "48px" : "32px" }}
+            />
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="var(--g1)"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden
+              style={{
+                transform: playersExpanded ? "rotate(180deg)" : "rotate(0)",
+                transition: "transform 0.5s cubic-bezier(.16,1,.3,1)",
+              }}
+            >
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Strip horizontal expandible — solo si playersExpanded */}
+        {playersExpanded && (
+        <div
+          className="mt-12 max-[640px]:mt-10"
+          style={{ animation: "fadeSlideDown 0.55s cubic-bezier(.16,1,.3,1) both" }}
+        >
         {/* Eyebrow del strip + barra de progreso oro que se llena con el scroll */}
         <div className="px-12 max-[960px]:px-6 max-[640px]:px-4 mb-6 max-[640px]:mb-5 flex items-center gap-4">
           <p className="text-[10px] max-[960px]:text-[11px] font-bold tracking-[3px] max-[640px]:tracking-[1.5px] uppercase text-[var(--g1)]/80 shrink-0">{t.story.players.heroLabel}</p>
@@ -3135,6 +3204,8 @@ export default function StoryPage() {
             </svg>
           </button>
         </div>
+        </div>
+        )}
       </section>
 
       {/* ─── FILOSOFIA ─── */}
