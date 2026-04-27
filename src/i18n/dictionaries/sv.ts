@@ -385,6 +385,14 @@ export const sv = {
           image: "/images/story/timeline/guille-collado-2024.jpeg",
         },
         {
+          year: "Juli 2024",
+          title: "Martina Fassio + Raquel Eugenio \u00B7 Genombrottspar",
+          desc: "Vi tränar Martina Fassio i par med Raquel Eugenio (tränad av Manu från Kanarieöarna). Tillsammans är de ett av damtourens genombrottspar 2024 \u2014 Premier Padel Finland P2 bland stoppen som befäster dem.",
+          badge: "Genombrottspar \u00B7 Premier Padel \u00B7 2024",
+          highlight: true,
+          image: "/images/story/timeline/martina-raquel-2024.jpeg",
+        },
+        {
           year: "November 2024",
           title: "Mästare FIP Platinum CDMX",
           desc: "Vi kom till Mexico City utan marginal: bara seger öppnade dörren till Master Final i Barcelona. Höjden och värmen gjorde varje poäng till en kamp. Álex Arroyo och Álex Ruiz lyfte den där det gör mest ont.",

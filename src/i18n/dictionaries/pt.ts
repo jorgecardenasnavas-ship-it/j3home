@@ -385,6 +385,14 @@ export const pt = {
           image: "/images/story/timeline/guille-collado-2024.jpeg",
         },
         {
+          year: "Julho 2024",
+          title: "Martina Fassio + Raquel Eugenio · Dupla revelação",
+          desc: "Treinamos Martina Fassio em dupla com Raquel Eugenio (treinada desde as Canárias por Manu). Juntas são uma das duplas revelação da temporada 2024 no circuito feminino — Premier Padel Finland P2 entre as paragens que as consolidam.",
+          badge: "Dupla revelação · Premier Padel · 2024",
+          highlight: true,
+          image: "/images/story/timeline/martina-raquel-2024.jpeg",
+        },
+        {
           year: "Novembro 2024",
           title: "Campeões FIP Platinum CDMX",
           desc: "Chegámos à Cidade do México sem margem: só a vitória abria a porta ao Master Final de Barcelona. A altitude e o calor transformavam cada ponto numa batalha. Álex Arroyo e Álex Ruiz levantaram-no onde mais dói.",

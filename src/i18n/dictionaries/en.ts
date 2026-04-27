@@ -385,6 +385,14 @@ export const en = {
           image: "/images/story/timeline/guille-collado-2024.jpeg",
         },
         {
+          year: "July 2024",
+          title: "Martina Fassio + Raquel Eugenio \u00B7 Breakout pair",
+          desc: "We coach Martina Fassio paired with Raquel Eugenio (coached by Manu from the Canary Islands). Together they are one of the breakout pairs of the 2024 women\u2019s circuit \u2014 Premier Padel Finland P2 among the stops that consolidate them.",
+          badge: "Breakout pair \u00B7 Premier Padel \u00B7 2024",
+          highlight: true,
+          image: "/images/story/timeline/martina-raquel-2024.jpeg",
+        },
+        {
           year: "November 2024",
           title: "FIP Platinum CDMX champions",
           desc: "We arrived in Mexico City with no margin: only victory opened the door to the Barcelona Master Final. Altitude and heat turned every point into a battle. \u00C1lex Arroyo and \u00C1lex Ruiz lifted it where it hurts most.",

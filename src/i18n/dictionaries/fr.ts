@@ -385,6 +385,14 @@ export const fr = {
           image: "/images/story/timeline/guille-collado-2024.jpeg",
         },
         {
+          year: "Juillet 2024",
+          title: "Martina Fassio + Raquel Eugenio \u00B7 Paire r\u00E9v\u00E9lation",
+          desc: "Nous entra\u00EEnons Martina Fassio en paire avec Raquel Eugenio (entra\u00EEn\u00E9e par Manu, depuis les Canaries). Ensemble, elles sont l\u2019une des paires r\u00E9v\u00E9lation de la saison 2024 sur le circuit f\u00E9minin \u2014 Premier Padel Finland P2 parmi les \u00E9tapes qui les confirment.",
+          badge: "Paire r\u00E9v\u00E9lation \u00B7 Premier Padel \u00B7 2024",
+          highlight: true,
+          image: "/images/story/timeline/martina-raquel-2024.jpeg",
+        },
+        {
           year: "Novembre 2024",
           title: "Champions du FIP Platinum CDMX",
           desc: "Nous arrivions \u00E0 Mexico sans marge : seule la victoire ouvrait la porte au Master Final de Barcelone. L\u2019altitude et la chaleur transformaient chaque point en bataille. \u00C1lex Arroyo et \u00C1lex Ruiz l\u2019ont soulev\u00E9 l\u00E0 o\u00F9 \u00E7a fait mal.",
