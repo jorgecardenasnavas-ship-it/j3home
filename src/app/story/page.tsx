@@ -1426,7 +1426,7 @@ function SharedPlayerTag({ p, index }: { p: { first: string; last: string; tag: 
 
 /* ── Photo map for team members ── */
 const teamPhotos: Record<string, string> = {
-  Javi: "/images/story/timeline/rotterdam-p1-2025.jpeg",
+  Javi: "/images/story/javi.jpeg",
   Jorge: "/images/story/jorge.jpeg",
 };
 
