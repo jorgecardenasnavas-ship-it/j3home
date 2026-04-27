@@ -8,6 +8,52 @@ import { ACADEMY_PROGRAMS } from "@/data/academy-programs";
 
 /* ───────────────────────── helpers ───────────────────────── */
 
+/* CTA para tarjetas marcadas como `soon: true`. Al hacer click muestra
+   un mensaje de "en construcción" durante unos segundos para que no
+   parezca rota la interacción. Se restablece automáticamente. */
+function SoonCta({ label, isDark }: { label: string; isDark: boolean }) {
+  const [tapped, setTapped] = useState(false);
+  useEffect(() => {
+    if (!tapped) return;
+    const t = setTimeout(() => setTapped(false), 2400);
+    return () => clearTimeout(t);
+  }, [tapped]);
+
+  const restColor = isDark ? "rgba(255,255,255,.32)" : "rgba(0,0,0,.32)";
+  const hoverColor = isDark ? "rgba(201,169,110,.85)" : "rgba(138,109,42,.85)";
+  return (
+    <button
+      type="button"
+      aria-live="polite"
+      aria-label={tapped ? "En construcción" : label}
+      onClick={() => setTapped(true)}
+      className="inline-flex items-center gap-[10px] text-[11px] font-bold tracking-[2px] uppercase no-underline transition-[color,gap] duration-300 hover:gap-[14px] cursor-pointer bg-transparent border-none p-0"
+      style={{ color: tapped ? "var(--g1)" : restColor }}
+      onMouseEnter={(e) => {
+        if (!tapped) e.currentTarget.style.color = hoverColor;
+      }}
+      onMouseLeave={(e) => {
+        if (!tapped) e.currentTarget.style.color = restColor;
+      }}
+    >
+      <span className="inline-flex items-center gap-2">
+        {tapped ? (
+          <>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+            En construcción
+          </>
+        ) : (
+          label
+        )}
+      </span>
+      {!tapped && <span className="text-[16px] font-light">→</span>}
+    </button>
+  );
+}
+
 function TileBackground({
   asset,
   objectPosition,
@@ -444,13 +490,7 @@ function StandardTile({
 }) {
   const isDark = product.dark;
   const ctaEl = product.soon ? (
-    <span
-      className={`text-[11px] font-bold tracking-[2px] uppercase ${
-        isDark ? "text-[rgba(255,255,255,.25)]" : "text-black/30"
-      }`}
-    >
-      {tCard.cta}
-    </span>
+    <SoonCta label={tCard.cta} isDark={isDark} />
   ) : (
     <a
       href={product.href}
@@ -539,13 +579,7 @@ function FullWidthTile({
 }) {
   const isDark = product.dark;
   const ctaEl = product.soon ? (
-    <span
-      className={`text-[11px] font-bold tracking-[2px] uppercase ${
-        isDark ? "text-[rgba(255,255,255,.25)]" : "text-black/30"
-      }`}
-    >
-      {tCard.cta}
-    </span>
+    <SoonCta label={tCard.cta} isDark={isDark} />
   ) : (
     <a
       href={product.href}

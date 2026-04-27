@@ -5,14 +5,14 @@ import { useI18n } from "@/i18n/context";
 
 
 /* Footer navigation. Priorizamos las rutas que tienen página real
-   (no 404). Las que están pendientes de desarrollo (Business, Partner,
-   J3PTV) se reintroducirán cuando sus páginas existan — mejor no
-   publicar links rotos. */
+   (no 404). Las que están pendientes (J3PTV, Experience, Partner)
+   aparecen como "Próximamente" en el grid del home y se reintroducirán
+   aquí cuando sus páginas existan — mejor no publicar links rotos. */
 const footerLinks = [
   { label: "Academy", href: "/academy", external: false },
+  { label: "Business", href: "/business", external: false },
   { label: "El Sello", href: "/sello", external: false },
   { label: "Para Clubes", href: "/clubes", external: false },
-  { label: "Experience", href: "/experience", external: false },
   { label: "Story", href: "/story", external: false },
   { label: "Coach360", href: "https://j3padel.com/join", external: true },
 ] as const;

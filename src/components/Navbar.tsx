@@ -6,16 +6,17 @@ import Link from "next/link";
 import { useI18n, type Locale } from "@/i18n/context";
 
 
-/* Nav links — split around center home icon */
+/* Nav links — split around center home icon. J3PTV y Experience
+   están temporalmente fuera del nav (en el grid del home aparecen
+   como "Próximamente"). Business sí tiene página y va al header. */
 const leftLinks = [
   { label: "Coach360", href: "https://j3padel.com/join", external: true },
   { label: "Academy", href: "/academy", external: false },
 ] as const;
 
 const rightLinks = [
+  { label: "Business", href: "/business", external: false },
   { label: "Story", href: "/story", external: false },
-  { label: "J3PTV", href: "/j3ptv", external: false },
-  { label: "Experience", href: "/experience", external: false },
 ] as const;
 
 const allNavLinks = [...leftLinks, ...rightLinks] as const;

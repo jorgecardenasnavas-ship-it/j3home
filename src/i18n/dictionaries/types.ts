@@ -783,4 +783,125 @@ export interface Dictionary {
       readonly waMsg: string;
     };
   };
+
+  /* ── Business page ── */
+
+  business: {
+    hero: {
+      readonly eyebrow: string;
+      readonly headingPre: string;
+      readonly headingAccent: string;
+      readonly sub: string;
+      readonly cta: string;
+      readonly waMsg: string;
+    };
+
+    audience: {
+      readonly eyebrow: string;
+      readonly heading: string;
+      readonly items: readonly { readonly title: string; readonly desc: string }[];
+      readonly filter: string;
+    };
+
+    funnel: {
+      readonly eyebrow: string;
+      readonly heading: string;
+      readonly steps: readonly {
+        readonly num: string;
+        readonly label: string;
+        readonly title: string;
+        readonly desc: string;
+        readonly soon?: boolean;
+      }[];
+    };
+
+    step1: {
+      readonly eyebrow: string;
+      readonly title: string;
+      readonly price: string;
+      readonly duration: string;
+      readonly sessions: string;
+      readonly audience: string;
+      readonly deliverable: string;
+      readonly cta: string;
+      readonly waMsg: string;
+      readonly pasosLabel: string;
+      readonly pasosLede: string;
+      readonly pasos: readonly {
+        readonly num: string;
+        readonly week: string;
+        readonly title: string;
+        readonly desc: string;
+      }[];
+    };
+
+    step2: {
+      readonly eyebrow: string;
+      readonly title: string;
+      readonly price: string;
+      readonly priceNote: string;
+      readonly duration: string;
+      readonly sessions: string;
+      readonly audience: string;
+      readonly deliverable: string;
+      readonly cta: string;
+      readonly waMsg: string;
+      readonly pasosLabel: string;
+      readonly pasosLede: string;
+      readonly phaseCaptacion: string;
+      readonly phaseOperacion: string;
+      readonly pasos: readonly {
+        readonly num: string;
+        readonly week: string;
+        readonly title: string;
+        readonly desc: string;
+        readonly phase: "cap" | "ops";
+      }[];
+    };
+
+    comparativa: {
+      readonly eyebrow: string;
+      readonly heading: string;
+      readonly colStep1: string;
+      readonly colStep2: string;
+      readonly rows: readonly {
+        readonly label: string;
+        readonly step1: string;
+        readonly step2: string;
+      }[];
+    };
+
+    posicionamiento: {
+      readonly eyebrow: string;
+      readonly heading: string;
+      readonly body: string;
+    };
+
+    regla: {
+      readonly eyebrow: string;
+      readonly body: string;
+    };
+
+    founder: {
+      readonly eyebrow: string;
+      readonly name: string;
+      readonly role: string;
+      readonly bio: string;
+      readonly cred: readonly string[];
+    };
+
+    faq: {
+      readonly eyebrow: string;
+      readonly heading: string;
+      readonly items: readonly { readonly q: string; readonly a: string }[];
+    };
+
+    finalCta: {
+      readonly eyebrow: string;
+      readonly heading: string;
+      readonly body: string;
+      readonly cta: string;
+      readonly waMsg: string;
+    };
+  };
 }
