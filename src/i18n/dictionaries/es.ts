@@ -452,7 +452,7 @@ export const es = {
         {
           year: "Noviembre 2024",
           title: "Primeros cuartos en un Major",
-          desc: "Sus primeros cuartos de final como profesional, y en un Major del Premier Padel. Jos\u00E9 Jim\u00E9nez los firma en el Mexico Major Acapulco con J3 a pie de pista. Un salto que ya no se queda solo: el a\u00F1o se cierra dentro del top 30 mundial en el Mil\u00E1n P2.",
+          desc: "Sus primeros cuartos de final como profesional, y en un Major del Premier Padel. Jos\u00E9 Jim\u00E9nez los firma junto a su compa\u00F1ero Pincho Fern\u00E1ndez en el Mexico Major Acapulco, con J3 a pie de pista. Un salto que ya no se queda solo: el a\u00F1o se cierra dentro del top 30 mundial en el Mil\u00E1n P2.",
           badge: "Mexico Major Acapulco \u00B7 Cuartos \u00B7 Noviembre 2024",
           highlight: true,
           carousel: true,

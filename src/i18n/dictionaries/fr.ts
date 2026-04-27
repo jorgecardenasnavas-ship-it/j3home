@@ -451,7 +451,7 @@ export const fr = {
         {
           year: "Novembre 2024",
           title: "Premiers quarts dans un Major",
-          desc: "Ses premiers quarts de finale en tant que professionnel \u2014 et dans un Major du Premier Padel. Jos\u00E9 Jim\u00E9nez les signe au Mexico Major Acapulco avec J3 au bord du court. Un saut qui ne s\u2019arr\u00EAte pas l\u00E0 : l\u2019ann\u00E9e se termine dans le top 30 mondial au Milan P2.",
+          desc: "Ses premiers quarts de finale en tant que professionnel \u2014 et dans un Major du Premier Padel. Jos\u00E9 Jim\u00E9nez les signe avec son co\u00E9quipier Pincho Fern\u00E1ndez au Mexico Major Acapulco, avec J3 au bord du court. Un saut qui ne s\u2019arr\u00EAte pas l\u00E0 : l\u2019ann\u00E9e se termine dans le top 30 mondial au Milan P2.",
           badge: "Mexico Major Acapulco \u00B7 Quarts \u00B7 Novembre 2024",
           highlight: true,
           carousel: true,

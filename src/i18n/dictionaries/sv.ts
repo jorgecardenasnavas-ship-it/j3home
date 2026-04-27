@@ -451,7 +451,7 @@ export const sv = {
         {
           year: "November 2024",
           title: "Första kvartsfinalerna i en Major",
-          desc: "Hans första kvartsfinaler som proffs — och i en Premier Padel Major. José Jiménez tar dem i Mexico Major Acapulco med J3 vid sidan av planen. Ett kliv som inte står ensamt: året avslutas inom världens topp 30 i Milano P2.",
+          desc: "Hans första kvartsfinaler som proffs — och i en Premier Padel Major. José Jiménez tar dem tillsammans med sin spelpartner Pincho Fernández i Mexico Major Acapulco, med J3 vid sidan av planen. Ett kliv som inte står ensamt: året avslutas inom världens topp 30 i Milano P2.",
           badge: "Mexico Major Acapulco \u00B7 Kvartsfinaler \u00B7 November 2024",
           highlight: true,
           carousel: true,

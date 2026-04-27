@@ -451,7 +451,7 @@ export const en = {
         {
           year: "November 2024",
           title: "First quarterfinals at a Major",
-          desc: "His first professional quarterfinals \u2014 and they come at a Premier Padel Major. Jos\u00E9 Jim\u00E9nez seals them at the Mexico Major Acapulco with J3 courtside. A leap that doesn\u2019t stand alone: the year ends inside the world Top 30 at Milan P2.",
+          desc: "His first professional quarterfinals \u2014 and they come at a Premier Padel Major. Jos\u00E9 Jim\u00E9nez seals them with his partner Pincho Fern\u00E1ndez at the Mexico Major Acapulco, with J3 courtside. A leap that doesn\u2019t stand alone: the year ends inside the world Top 30 at Milan P2.",
           badge: "Mexico Major Acapulco \u00B7 Quarterfinals \u00B7 November 2024",
           highlight: true,
           carousel: true,

@@ -451,7 +451,7 @@ export const pt = {
         {
           year: "Novembro 2024",
           title: "Primeiros quartos num Major",
-          desc: "Os seus primeiros quartos de final como profissional — e num Major do Premier Padel. José Jiménez assina-os no Mexico Major Acapulco com J3 à beira da pista. Um salto que não fica sozinho: o ano fecha dentro do top 30 mundial no Milão P2.",
+          desc: "Os seus primeiros quartos de final como profissional — e num Major do Premier Padel. José Jiménez assina-os com o seu companheiro Pincho Fernández no Mexico Major Acapulco, com J3 à beira da pista. Um salto que não fica sozinho: o ano fecha dentro do top 30 mundial no Milão P2.",
           badge: "Mexico Major Acapulco · Quartos · Novembro 2024",
           highlight: true,
           carousel: true,

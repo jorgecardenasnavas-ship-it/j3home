@@ -89,7 +89,7 @@ export const HOME_PRODUCTS: HomeProduct[] = [
     isExternal: false,
     soon: true,
     fullWidth: false,
-    asset: { type: "video", src: "/videos/jmd-higueron.mp4" },
+    asset: { type: "image", src: "/images/j3/j3ptv-bg.jpg" },
     audience: "play",
   },
   {
