@@ -286,14 +286,22 @@ export const sv = {
         {
           year: "2014",
           title: "J3Padel föds",
-          desc: "När Ocean Padel stänger splittras teamet, men varumärket J3 föds som en egen enhet. Vi organiserar WPT i Málaga med nästan 300 anmälda par.",
-          badge: "World Padel Tour \u00B7 Officiell värd Málaga 2014",
+          desc: "När Ocean Padel stänger splittras teamet, men varumärket J3 föds som en egen enhet.",
           image: "/images/story/timeline/j3padel-fundadores.jpeg",
+        },
+        {
+          year: "2014-2015",
+          title: "Belife \u00B7 Officiell värd WPT Málaga",
+          desc: "Med J3 redan som eget varumärke etablerade vi oss på Belife under två säsonger. Där arrangerade vi WPT i Málaga som officiell värdklubb \u2014 nästan 300 anmälda par \u2014 och höll uppvisningar med spelare från touren, bland annat en minnesvärd tillsammans med Ernesto Moreno.",
+          badge: "World Padel Tour \u00B7 Officiell värd Málaga 2014",
+          highlight: true,
+          image: "/images/story/timeline/belife-wpt-malaga.jpeg",
         },
         {
           year: "2015",
           title: "J3Padel Indoor",
           desc: "I samma lokaler som Ocean Padel öppnar vi en egen klubb. Ett projekt som inte bar sig, men som gav en tydlig läxa om klubbdrift.",
+          image: "/images/story/timeline/j3padel-indoor.jpeg",
         },
         {
           year: "2016",

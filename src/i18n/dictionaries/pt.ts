@@ -286,14 +286,22 @@ export const pt = {
         {
           year: "2014",
           title: "Nasce J3Padel",
-          desc: "Quando fecha Ocean Padel, a equipa divide-se mas a marca J3 nasce como entidade própria. Organizamos o WPT de Málaga com quase 300 pares inscritos.",
-          badge: "World Padel Tour · Sede oficial Málaga 2014",
+          desc: "Quando fecha Ocean Padel, a equipa divide-se mas a marca J3 nasce como entidade própria.",
           image: "/images/story/timeline/j3padel-fundadores.jpeg",
+        },
+        {
+          year: "2014-2015",
+          title: "Belife · Sede oficial WPT Málaga",
+          desc: "Com J3 já como marca própria, instalamo-nos em Belife durante duas temporadas. Aí organizamos o WPT de Málaga como clube sede oficial — quase 300 pares inscritos — e fizemos exibições com jogadores do circuito, entre elas uma memorável ao lado de Ernesto Moreno.",
+          badge: "World Padel Tour · Sede oficial Málaga 2014",
+          highlight: true,
+          image: "/images/story/timeline/belife-wpt-malaga.jpeg",
         },
         {
           year: "2015",
           title: "J3Padel Indoor",
           desc: "Nas mesmas instalações de Ocean Padel abrimos um clube próprio. Um projeto que não prosperou, mas que deixou uma lição clara sobre gestão.",
+          image: "/images/story/timeline/j3padel-indoor.jpeg",
         },
         {
           year: "2016",

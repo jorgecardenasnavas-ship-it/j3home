@@ -286,14 +286,22 @@ export const en = {
         {
           year: "2014",
           title: "J3Padel is born",
-          desc: "When Ocean Padel closed, the team split but the J3 brand was born as its own entity. We organized the WPT in M\u00E1laga with nearly 300 registered pairs.",
-          badge: "World Padel Tour \u00B7 Official host M\u00E1laga 2014",
+          desc: "When Ocean Padel closed, the team split but the J3 brand was born as its own entity.",
           image: "/images/story/timeline/j3padel-fundadores.jpeg",
+        },
+        {
+          year: "2014-2015",
+          title: "Belife \u00B7 Official host of WPT M\u00E1laga",
+          desc: "With J3 now its own brand, we settled at Belife for two seasons. There we hosted the WPT M\u00E1laga as the official venue \u2014 nearly 300 registered pairs \u2014 and ran exhibitions with circuit players, including a memorable one alongside Ernesto Moreno.",
+          badge: "World Padel Tour \u00B7 Official host M\u00E1laga 2014",
+          highlight: true,
+          image: "/images/story/timeline/belife-wpt-malaga.jpeg",
         },
         {
           year: "2015",
           title: "J3Padel Indoor",
           desc: "In the same facilities as Ocean Padel, we opened our own club. A project that did not succeed, but left a clear lesson about management.",
+          image: "/images/story/timeline/j3padel-indoor.jpeg",
         },
         {
           year: "2016",

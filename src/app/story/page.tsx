@@ -899,8 +899,8 @@ function TimelineSection() {
   const { t } = useI18n();
   const timeline = t.story.timeline.entries;
   const eras = t.story.timeline.eras;
-  // Map era indices: entry 0→era[0], entry 3→era[1], entry 6→era[2], entry 12→era[3]
-  const eraMap: Record<number, string> = { 0: eras[0], 3: eras[1], 6: eras[2], 14: eras[3] };
+  // Map era indices: entry 0→era[0], entry 3→era[1], entry 7→era[2] (Higuerón empieza en 2016, tras J3Padel Indoor), entry 15→era[3]
+  const eraMap: Record<number, string> = { 0: eras[0], 3: eras[1], 7: eras[2], 15: eras[3] };
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const headerEntryRef = useRef<HTMLDivElement>(null);
@@ -1176,9 +1176,9 @@ function TimelineSection() {
                      border para que el bloque destacado se siga leyendo. */
                   ...(isHL
                     ? {
-                        borderColor: onCream ? "rgba(201,169,110,0.55)" : "rgba(201,169,110,0.25)",
+                        borderColor: onCream ? "rgba(201,169,110,0.85)" : "rgba(201,169,110,0.25)",
                         background: onCream
-                          ? "linear-gradient(to right, rgba(201,169,110,0.12), transparent)"
+                          ? "#1B3D2F"
                           : "linear-gradient(to right, rgba(201,169,110,0.04), transparent)",
                       }
                     : {}),
@@ -1204,13 +1204,22 @@ function TimelineSection() {
                     }`}>
                       {isHL ? <span className="j3-grad-text">{item.title}</span> : item.title}
                     </h3>
-                    <p className={`font-light leading-[1.75] max-w-[620px] max-[640px]:leading-[1.6] ${isHL ? "text-[15px] max-[640px]:text-[13px] text-[var(--gy2)]" : "text-[13px] max-[640px]:text-[12px] text-[var(--gy)]"}`}>{item.desc}</p>
+                    <p
+                      className={`font-light leading-[1.75] max-w-[620px] max-[640px]:leading-[1.6] ${isHL ? "text-[15px] max-[640px]:text-[13px]" : "text-[13px] max-[640px]:text-[12px] text-[var(--gy)]"}`}
+                      style={isHL ? { color: onCream ? "rgba(248,245,239,0.85)" : "var(--gy2)" } : undefined}
+                    >{item.desc}</p>
                     {item.badge && (
-                      <span className={`inline-block text-[9px] max-[640px]:text-[8px] font-bold tracking-[2px] max-[640px]:tracking-[1.5px] uppercase px-3 max-[640px]:px-2.5 py-1 rounded-full mt-3 max-[640px]:mt-2 ${
-                        isHL
-                          ? "bg-[rgba(201,169,110,.1)] border border-[rgba(201,169,110,.35)] text-[var(--g1)]"
-                          : "border border-[rgba(201,169,110,.2)] text-[var(--g1)]/80"
-                      }`}>
+                      <span
+                        className={`inline-block text-[9px] max-[640px]:text-[8px] font-bold tracking-[2px] max-[640px]:tracking-[1.5px] uppercase px-3 max-[640px]:px-2.5 py-1 rounded-full mt-3 max-[640px]:mt-2 ${
+                          isHL
+                            ? "border text-[var(--g1)]"
+                            : "border border-[rgba(201,169,110,.2)] text-[var(--g1)]/80"
+                        }`}
+                        style={isHL ? {
+                          backgroundColor: onCream ? "rgba(201,169,110,0.20)" : "rgba(201,169,110,0.10)",
+                          borderColor: onCream ? "rgba(201,169,110,0.55)" : "rgba(201,169,110,0.35)",
+                        } : undefined}
+                      >
                         {item.badge}
                       </span>
                     )}

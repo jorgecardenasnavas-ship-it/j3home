@@ -286,14 +286,22 @@ export const fr = {
         {
           year: "2014",
           title: "Naissance de J3Padel",
-          desc: "Lorsque Ocean Padel ferme ses portes, l\u2019\u00E9quipe se s\u00E9pare mais la marque J3 na\u00EEt en tant qu\u2019entit\u00E9 propre. Nous organisons le WPT de M\u00E1laga avec pr\u00E8s de 300 paires inscrites.",
-          badge: "World Padel Tour \u00B7 Si\u00E8ge officiel M\u00E1laga 2014",
+          desc: "Lorsque Ocean Padel ferme ses portes, l\u2019\u00E9quipe se s\u00E9pare mais la marque J3 na\u00EEt en tant qu\u2019entit\u00E9 propre.",
           image: "/images/story/timeline/j3padel-fundadores.jpeg",
+        },
+        {
+          year: "2014-2015",
+          title: "Belife \u00B7 Si\u00E8ge officiel WPT M\u00E1laga",
+          desc: "Avec J3 d\u00E9j\u00E0 comme marque propre, nous nous installons \u00E0 Belife pendant deux saisons. L\u00E0, nous organisons le WPT de M\u00E1laga en tant que club si\u00E8ge officiel \u2014 pr\u00E8s de 300 paires inscrites \u2014 et nous montons des exhibitions avec des joueurs du circuit, dont une m\u00E9morable aux c\u00F4t\u00E9s d\u2019Ernesto Moreno.",
+          badge: "World Padel Tour \u00B7 Si\u00E8ge officiel M\u00E1laga 2014",
+          highlight: true,
+          image: "/images/story/timeline/belife-wpt-malaga.jpeg",
         },
         {
           year: "2015",
           title: "J3Padel Indoor",
           desc: "Dans les m\u00EAmes installations qu\u2019Ocean Padel, nous ouvrons un club propre. Un projet qui n\u2019a pas abouti, mais qui a laiss\u00E9 une le\u00E7on claire sur la gestion.",
+          image: "/images/story/timeline/j3padel-indoor.jpeg",
         },
         {
           year: "2016",
