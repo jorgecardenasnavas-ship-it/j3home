@@ -338,8 +338,8 @@ export const en = {
         },
         {
           year: "August 2018",
-          title: "With Jordi, at the top level \u00B7 WPT Mijas",
-          desc: "Reunited with Jordi Mu\u00F1oz courtside at a World Padel Tour. Always welcome, always a pleasure to keep competing together at the highest level. This time with Aris Patiniotis as player.",
+          title: "Reunion with Jordi \u00B7 WPT Mijas",
+          desc: "Crossing paths with Jordi Mu\u00F1oz courtside at a World Padel Tour is always special. This time in Mijas, alongside his teammate Aris Patiniotis. Always welcome.",
           badge: "World Padel Tour Mijas \u00B7 August 2018",
           highlight: true,
           carousel: true,
