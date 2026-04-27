@@ -450,6 +450,14 @@ export const es = {
           ],
         },
         {
+          year: "Marzo 2025",
+          title: "\u00C1lex Ruiz + \u00C1lex Chozas \u00B7 Cuartos en Riyadh",
+          desc: "Arrancamos pretemporada y, en el primer torneo del a\u00F1o, alcanzamos los cuartos de final del Premier Padel Riyadh con \u00C1lex Ruiz y \u00C1lex Chozas. Nueva pareja, primer salto.",
+          badge: "Premier Padel Riyadh \u00B7 Cuartos \u00B7 Marzo 2025",
+          highlight: true,
+          image: "/images/story/timeline/riyadh-2025.jpg",
+        },
+        {
           year: "Mediados 2025",
           title: "Nace Coach360",
           desc: "Formaci\u00F3n online para entrenadores de p\u00E1del. Tras viajar por todo el mundo y ver el vac\u00EDo que la expansi\u00F3n del p\u00E1del hab\u00EDa generado en el \u00E1mbito formativo, decidimos aportar todo nuestro conocimiento de manera \u00FAnica. Creamos la primera comunidad de entrenadores.",

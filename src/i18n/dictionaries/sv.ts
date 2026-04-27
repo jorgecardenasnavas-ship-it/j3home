@@ -449,6 +449,14 @@ export const sv = {
           ],
         },
         {
+          year: "Mars 2025",
+          title: "Álex Ruiz + Álex Chozas \u00B7 Kvartsfinal i Riyadh",
+          desc: "Vi inleder en ny försäsong och i årets första turnering når vi kvartsfinal i Premier Padel Riyadh med Álex Ruiz och Álex Chozas. Nytt par, första klivet.",
+          badge: "Premier Padel Riyadh \u00B7 Kvartsfinal \u00B7 Mars 2025",
+          highlight: true,
+          image: "/images/story/timeline/riyadh-2025.jpg",
+        },
+        {
           year: "Mitten av 2025",
           title: "Coach360 föds",
           desc: "Onlineutbildning för padeltränare. Efter att ha rest världen runt och sett det tomrum som padelns expansion skapat inom utbildning bestämde vi oss för att bidra med all vår kunskap på ett unikt sätt. Vi skapade den första tränarcommunityns.",

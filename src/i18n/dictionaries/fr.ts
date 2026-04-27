@@ -449,6 +449,14 @@ export const fr = {
           ],
         },
         {
+          year: "Mars 2025",
+          title: "\u00C1lex Ruiz + \u00C1lex Chozas \u00B7 Quarts \u00E0 Riyad",
+          desc: "Nous lan\u00E7ons une nouvelle pr\u00E9saison et, d\u00E8s le premier tournoi de l\u2019ann\u00E9e, nous atteignons les quarts de finale du Premier Padel Riyad avec \u00C1lex Ruiz et \u00C1lex Chozas. Nouvelle paire, premier saut.",
+          badge: "Premier Padel Riyad \u00B7 Quarts \u00B7 Mars 2025",
+          highlight: true,
+          image: "/images/story/timeline/riyadh-2025.jpg",
+        },
+        {
           year: "Mi-2025",
           title: "Naissance de Coach360",
           desc: "Formation en ligne pour entra\u00EEneurs de padel. Apr\u00E8s avoir voyag\u00E9 \u00E0 travers le monde et constat\u00E9 le vide que l\u2019expansion du padel avait cr\u00E9\u00E9 en mati\u00E8re de formation, nous d\u00E9cidons d\u2019apporter tout notre savoir-faire de mani\u00E8re unique. Nous cr\u00E9ons la premi\u00E8re communaut\u00E9 d\u2019entra\u00EEneurs.",

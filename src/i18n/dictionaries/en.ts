@@ -449,6 +449,14 @@ export const en = {
           ],
         },
         {
+          year: "March 2025",
+          title: "\u00C1lex Ruiz + \u00C1lex Chozas \u00B7 Quarterfinals in Riyadh",
+          desc: "We open another pre-season and, in the first tournament of the year, we reach the quarterfinals of the Premier Padel Riyadh with \u00C1lex Ruiz and \u00C1lex Chozas. New pair, first jump.",
+          badge: "Premier Padel Riyadh \u00B7 Quarterfinals \u00B7 March 2025",
+          highlight: true,
+          image: "/images/story/timeline/riyadh-2025.jpg",
+        },
+        {
           year: "Mid 2025",
           title: "Coach360 is born",
           desc: "Online training for padel coaches. After travelling the world and seeing the gap the expansion of padel had created in coaching education, we decided to contribute all our knowledge in a unique way. We created the first coaching community.",

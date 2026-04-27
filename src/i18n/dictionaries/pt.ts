@@ -449,6 +449,14 @@ export const pt = {
           ],
         },
         {
+          year: "Março 2025",
+          title: "Álex Ruiz + Álex Chozas · Quartos em Riyadh",
+          desc: "Arrancamos uma nova pré-época e, no primeiro torneio do ano, alcançamos os quartos de final do Premier Padel Riyadh com Álex Ruiz e Álex Chozas. Nova dupla, primeiro salto.",
+          badge: "Premier Padel Riyadh · Quartos · Março 2025",
+          highlight: true,
+          image: "/images/story/timeline/riyadh-2025.jpg",
+        },
+        {
           year: "Meados de 2025",
           title: "Nasce Coach360",
           desc: "Formação online para treinadores de padel. Após viajar pelo mundo inteiro e constatar o vazio que a expansão do padel tinha gerado no âmbito formativo, decidimos partilhar todo o nosso conhecimento de forma única. Criámos a primeira comunidade de treinadores.",
