@@ -2,6 +2,7 @@
 
 import React, { Fragment, useRef, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import NextImage from "next/image";
 import dynamic from "next/dynamic";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -1033,6 +1034,27 @@ function HeroSection() {
         transition: "opacity .8s ease .2s",
       }}
     >
+      {/* Background photo — coach in J3PADEL Academy shirt hitting a ball. Da
+          contexto y atmósfera al hero de coaches recomendados sin competir
+          con el copy gracias al overlay verde-negro de abajo. */}
+      <NextImage
+        src="/images/academy/coach-bg.jpeg"
+        alt=""
+        aria-hidden
+        fill
+        priority
+        quality={85}
+        sizes="100vw"
+        className="object-cover object-[40%_50%] max-[960px]:object-[40%_30%]"
+      />
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(110deg, rgba(14,28,22,0.92) 0%, rgba(14,28,22,0.78) 35%, rgba(14,28,22,0.45) 65%, rgba(14,28,22,0.30) 100%)",
+        }}
+      />
       {/* Styles locales para las animaciones escalonadas del hero.
           Cada elemento tiene una clase .hero-rise y un delay custom.
           Usamos data-ready en el parent para triggerar la animación
