@@ -304,6 +304,18 @@ export const sv = {
           image: "/images/story/timeline/j3padel-indoor.jpeg",
         },
         {
+          year: "Augusti 2015",
+          title: "Första WPT-kvartsfinalerna \u00B7 La Nucía",
+          desc: "Första kvartsfinalerna som huvudtränare på World Padel Tour. Tillsammans med Jordi Muñoz vid sidan av planen och Fede Quiles som spelare tar laget steget in i elitspelet i La Nucía (Alicante).",
+          badge: "WPT La Nucía \u00B7 Kvartsfinaler \u00B7 Augusti 2015",
+          highlight: true,
+          carousel: true,
+          slides: [
+            { caption: "Bänken i La Nucía \u00B7 WPT 2015", image: "/images/story/timeline/wpt-la-nucia-2015-1.jpg" },
+            { caption: "Omklädningsrum efter kvartsfinalerna \u00B7 med Fede Quiles", image: "/images/story/timeline/wpt-la-nucia-2015-2.jpg" },
+          ],
+        },
+        {
           year: "2016",
           title: "Higuerón Resort",
           desc: "Vi ansluter oss till Reserva del Higuerón — idag Higuerón Resort. Den längsta och mest krävande perioden i projektet inleds.",

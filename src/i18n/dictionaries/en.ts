@@ -304,6 +304,18 @@ export const en = {
           image: "/images/story/timeline/j3padel-indoor.jpeg",
         },
         {
+          year: "August 2015",
+          title: "First WPT quarterfinals \u00B7 La Nuc\u00EDa",
+          desc: "First quarterfinals as head coach on the World Padel Tour. Alongside Jordi Mu\u00F1oz courtside and Fede Quiles as player, the team makes the jump into high performance in La Nuc\u00EDa (Alicante).",
+          badge: "WPT La Nuc\u00EDa \u00B7 Quarterfinals \u00B7 August 2015",
+          highlight: true,
+          carousel: true,
+          slides: [
+            { caption: "Bench in La Nuc\u00EDa \u00B7 WPT 2015", image: "/images/story/timeline/wpt-la-nucia-2015-1.jpg" },
+            { caption: "Locker room after the quarterfinals \u00B7 with Fede Quiles", image: "/images/story/timeline/wpt-la-nucia-2015-2.jpg" },
+          ],
+        },
+        {
           year: "2016",
           title: "Higuer\u00F3n Resort",
           desc: "We joined Reserva del Higuer\u00F3n \u2014 now Higuer\u00F3n Resort. The longest and most demanding chapter of the project begins.",
