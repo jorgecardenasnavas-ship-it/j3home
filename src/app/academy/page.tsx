@@ -579,7 +579,7 @@ function ProgramBar() {
   };
 
   return (
-    <div className="sticky z-[100]" style={{ top: "var(--nav-offset, 64px)", transition: "top 300ms cubic-bezier(.4,0,.2,1)" }}>
+    <div className="sticky z-[80]" style={{ top: "var(--nav-offset, 64px)", transition: "top 300ms cubic-bezier(.4,0,.2,1)" }}>
       <div
         className="border-b relative"
         style={{
