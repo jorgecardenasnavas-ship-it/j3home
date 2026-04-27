@@ -403,7 +403,7 @@ export const fr = {
         {
           year: "Mars 2025",
           title: "Jos\u00E9 Jim\u00E9nez \u00B7 Premiers quarts en Major",
-          desc: "Jos\u00E9 Jim\u00E9nez signe ses premiers quarts de finale en Major \u2014 \u00E0 nouveau en terre mexicaine, cette fois au Mexico Major d\u2019Acapulco. Aux c\u00F4t\u00E9s de Pincho. Une autre paire de l\u2019entourage J3 qui s\u2019impose parmi les meilleurs du nouveau circuit.",
+          desc: "Jos\u00E9 Jim\u00E9nez signe ses premiers quarts de finale en Major \u2014 \u00E0 nouveau en terre mexicaine, cette fois au Mexico Major d\u2019Acapulco. Aux c\u00F4t\u00E9s de Pincho.",
           badge: "Mexico Major Acapulco \u00B7 Quarts \u00B7 2025",
           highlight: true,
           image: "/images/story/timeline/major-acapulco-2025.jpeg",

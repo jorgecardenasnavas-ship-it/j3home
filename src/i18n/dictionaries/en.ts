@@ -403,7 +403,7 @@ export const en = {
         {
           year: "March 2025",
           title: "Jos\u00E9 Jim\u00E9nez \u00B7 First quarterfinals at a Major",
-          desc: "Jos\u00E9 Jim\u00E9nez reaches his first quarterfinals at a Major \u2014 again on Mexican soil, this time at the Mexico Major in Acapulco. Alongside Pincho. Another J3-circle pair planting their flag among the best on the new circuit.",
+          desc: "Jos\u00E9 Jim\u00E9nez reaches his first quarterfinals at a Major \u2014 again on Mexican soil, this time at the Mexico Major in Acapulco. Alongside Pincho.",
           badge: "Mexico Major Acapulco \u00B7 Quarterfinals \u00B7 2025",
           highlight: true,
           image: "/images/story/timeline/major-acapulco-2025.jpeg",

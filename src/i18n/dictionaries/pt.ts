@@ -403,7 +403,7 @@ export const pt = {
         {
           year: "Março 2025",
           title: "José Jiménez · Primeiros quartos num Major",
-          desc: "José Jiménez assina os seus primeiros quartos de final num Major — novamente em terras mexicanas, desta vez no Mexico Major de Acapulco. Ao lado de Pincho. Mais uma dupla do círculo J3 a fincar bandeira entre os melhores do novo circuito.",
+          desc: "José Jiménez assina os seus primeiros quartos de final num Major — novamente em terras mexicanas, desta vez no Mexico Major de Acapulco. Ao lado de Pincho.",
           badge: "Mexico Major Acapulco · Quartos · 2025",
           highlight: true,
           image: "/images/story/timeline/major-acapulco-2025.jpeg",

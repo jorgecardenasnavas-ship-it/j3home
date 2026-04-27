@@ -403,7 +403,7 @@ export const sv = {
         {
           year: "Mars 2025",
           title: "José Jiménez \u00B7 Första kvartsfinaler i en Major",
-          desc: "José Jiménez når sina första kvartsfinaler i en Major \u2014 återigen på mexikansk mark, den här gången i Mexico Major i Acapulco. Tillsammans med Pincho. Ännu ett par från J3-kretsen som tar plats bland de bästa i den nya touren.",
+          desc: "José Jiménez når sina första kvartsfinaler i en Major \u2014 återigen på mexikansk mark, den här gången i Mexico Major i Acapulco. Tillsammans med Pincho.",
           badge: "Mexico Major Acapulco \u00B7 Kvartsfinaler \u00B7 2025",
           highlight: true,
           image: "/images/story/timeline/major-acapulco-2025.jpeg",
