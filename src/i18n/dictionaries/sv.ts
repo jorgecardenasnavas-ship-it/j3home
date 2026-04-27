@@ -337,6 +337,20 @@ export const sv = {
           image: "/images/story/timeline/mejor-club-2018.jpeg",
         },
         {
+          year: "Augusti 2018",
+          title: "WPT Mijas \u00B7 Aris Patiniotis",
+          desc: "World Padel Tour Mijas. Vi jobbar vid sidan av planen med Aris Patiniotis och, som alltid, är det speciellt att ha Jordi Muñoz nära.",
+          badge: "World Padel Tour Mijas \u00B7 Augusti 2018",
+          highlight: true,
+          carousel: true,
+          slides: [
+            { caption: "Coachning av Aris Patiniotis", image: "/images/story/timeline/wpt-mijas-2018-1.jpg" },
+            { caption: "Med Jordi Muñoz vid sidan av planen", image: "/images/story/timeline/wpt-mijas-2018-2.jpg" },
+            { caption: "Hela laget \u00B7 WPT Mijas", image: "/images/story/timeline/wpt-mijas-2018-3.jpg" },
+            { caption: "J3-återförening i Mijas", image: "/images/story/timeline/wpt-mijas-2018-4.jpg" },
+          ],
+        },
+        {
           year: "2016-2022",
           title: "Tävlingsskola \u00B7 Internationalisering",
           desc: "Under sex år ligger fokus på ungdomsutveckling och internationalisering. Det vi redan gjort på Ocean Padel replikerar vi igen. Dessutom gör vi Costa del Sol till en internationell destination för amatörspelare.",
