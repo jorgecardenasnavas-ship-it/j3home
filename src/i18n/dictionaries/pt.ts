@@ -280,7 +280,7 @@ export const pt = {
         {
           year: "2010-2014",
           title: "A melhor academia de menores de Espanha",
-          desc: "Ocean Padel torna-se referência nacional. Aqui formam-se Álex Ruiz, Momo González, Guille Collado, Bea González e toda a primeira geração. Vários chegam à seleção espanhola e competem internacionalmente.",
+          desc: "Ocean Padel torna-se referência nacional. Aqui formam-se Álex Ruiz, Momo González, Bea González, Ernesto Moreno, Raquel Segura e toda a primeira geração. Vários chegam à seleção espanhola e competem internacionalmente.",
           badge: "Campeões Andaluzia · Espanha · Mundo (menores)",
         },
         {
@@ -372,6 +372,11 @@ export const pt = {
           desc: "Desvinculamo-nos do Higuerón Resort e da Varlion. Quase uma década a gerir o que foi o melhor clube do mundo. Esse ciclo fecha-se.",
         },
         {
+          year: "2024-2025",
+          title: "De Málaga para o mundo",
+          desc: "Dedicados em exclusivo a construir J3Padel como ecossistema: formação, gestão, conteúdo e alto rendimento.",
+        },
+        {
           year: "Junho 2024",
           title: "Guille Collado · Primeiros quartos no Premier Padel",
           desc: "Ao lado de José García Diestro, Guille Collado assina os seus primeiros quartos de final como profissional. Chega depois de ter sido duas vezes campeão de Espanha e do Mundo em categorias inferiores. Mais um jogador formado em J3 a impor-se no circuito.",
@@ -382,15 +387,10 @@ export const pt = {
         {
           year: "Novembro 2024",
           title: "Campeões FIP Platinum CDMX",
-          desc: "Álex Arroyo e Álex Ruiz, ambos formados no Ocean Padel e treinados por J3, levantam o FIP Platinum CDMX. Mais um título internacional com selo malagueño.",
+          desc: "Chegámos à Cidade do México sem margem: só a vitória abria a porta ao Master Final de Barcelona. A altitude e o calor transformavam cada ponto numa batalha. Álex Arroyo e Álex Ruiz levantaram-no onde mais dói.",
           badge: "FIP Platinum CDMX · Campeões · 2024",
           highlight: true,
           image: "/images/story/timeline/fip-platinum-cdmx-2024.jpeg",
-        },
-        {
-          year: "2024-2025",
-          title: "De Málaga para o mundo",
-          desc: "Dedicados em exclusivo a construir J3Padel como ecossistema: formação, gestão, conteúdo e alto rendimento.",
         },
         {
           year: "Meados de 2025",
@@ -527,7 +527,7 @@ export const pt = {
         {
           flag: "Málaga · 2009–2014",
           name: "Ocean Padel",
-          detail: "Onde tudo começou à escala real. A melhor academia de menores de Espanha. Aqui formaram-se Álex Ruiz, Momo González, Guille Collado e toda a primeira geração J3.",
+          detail: "Onde tudo começou à escala real. A melhor academia de menores de Espanha. Aqui formaram-se Álex Ruiz, Momo González, Ernesto Moreno, Raquel Segura e toda a primeira geração J3.",
           highlight: "Melhor academia de menores",
         },
         {

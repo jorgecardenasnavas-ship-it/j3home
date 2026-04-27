@@ -280,7 +280,7 @@ export const es = {
         {
           year: "2010-2014",
           title: "La mejor academia de menores de Espa\u00F1a",
-          desc: "Ocean Padel se convierte en referencia nacional. Aqu\u00ED se forman \u00C1lex Ruiz, Momo Gonz\u00E1lez, Guille Collado, Bea Gonz\u00E1lez y toda la primera generaci\u00F3n. Varios llegan a la selecci\u00F3n espa\u00F1ola y compiten internacionalmente.",
+          desc: "Ocean Padel se convierte en referencia nacional. Aqu\u00ED se forman \u00C1lex Ruiz, Momo Gonz\u00E1lez, Bea Gonz\u00E1lez, Ernesto Moreno, Raquel Segura y toda la primera generaci\u00F3n. Varios llegan a la selecci\u00F3n espa\u00F1ola y compiten internacionalmente.",
           badge: "Campeones Andaluc\u00EDa \u00B7 Espa\u00F1a \u00B7 Mundo (menores)",
         },
         {
@@ -373,6 +373,11 @@ export const es = {
           badge: "Cambio de juego",
         },
         {
+          year: "2024-2025",
+          title: "De M\u00E1laga al mundo",
+          desc: "Dedicados en exclusiva a construir J3Padel como ecosistema: formaci\u00F3n, gesti\u00F3n, contenido y alto rendimiento.",
+        },
+        {
           year: "Junio 2024",
           title: "Guille Collado \u00B7 Primeros cuartos en Premier Padel",
           desc: "Junto a Jos\u00E9 Garc\u00EDa Diestro, Guille Collado firma sus primeros cuartos de final como profesional. Llega tras ser dos veces campe\u00F3n de Espa\u00F1a y del Mundo en categor\u00EDas inferiores. Otro jugador formado en J3 que pisa fuerte el circuito.",
@@ -383,15 +388,10 @@ export const es = {
         {
           year: "Noviembre 2024",
           title: "Campeones FIP Platinum CDMX",
-          desc: "\u00C1lex Arroyo y \u00C1lex Ruiz, dos jugadores formados en Ocean Padel y entrenados por J3, levantan el FIP Platinum CDMX. Otro t\u00EDtulo internacional con sello malague\u00F1o.",
+          desc: "Lleg\u00E1bamos a Ciudad de M\u00E9xico sin margen: solo la victoria abr\u00EDa la puerta al Master Final de Barcelona. La altura y el calor convert\u00EDan cada punto en una batalla extra. \u00C1lex Arroyo y \u00C1lex Ruiz lo levantaron donde m\u00E1s se sufre.",
           badge: "FIP Platinum CDMX \u00B7 Campeones \u00B7 2024",
           highlight: true,
           image: "/images/story/timeline/fip-platinum-cdmx-2024.jpeg",
-        },
-        {
-          year: "2024-2025",
-          title: "De M\u00E1laga al mundo",
-          desc: "Dedicados en exclusiva a construir J3Padel como ecosistema: formaci\u00F3n, gesti\u00F3n, contenido y alto rendimiento.",
         },
         {
           year: "Mediados 2025",
@@ -528,7 +528,7 @@ export const es = {
         {
           flag: "M\u00E1laga \u00B7 2009\u20132014",
           name: "Ocean Padel",
-          detail: "Donde todo empez\u00F3 a escala real. La mejor academia de menores de Espa\u00F1a. Aqu\u00ED se formaron \u00C1lex Ruiz, Momo Gonz\u00E1lez, Guille Collado y toda la primera generaci\u00F3n J3.",
+          detail: "Donde todo empez\u00F3 a escala real. La mejor academia de menores de Espa\u00F1a. Aqu\u00ED se formaron \u00C1lex Ruiz, Momo Gonz\u00E1lez, Ernesto Moreno, Raquel Segura y toda la primera generaci\u00F3n J3.",
           highlight: "Mejor academia de menores",
         },
         {

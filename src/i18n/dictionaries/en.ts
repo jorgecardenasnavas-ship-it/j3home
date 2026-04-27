@@ -280,7 +280,7 @@ export const en = {
         {
           year: "2010-2014",
           title: "The best youth academy in Spain",
-          desc: "Ocean Padel became a national benchmark. This is where \u00C1lex Ruiz, Momo Gonz\u00E1lez, Guille Collado, Bea Gonz\u00E1lez and the entire first generation were trained. Several reached the Spanish national team and competed internationally.",
+          desc: "Ocean Padel became a national benchmark. This is where \u00C1lex Ruiz, Momo Gonz\u00E1lez, Bea Gonz\u00E1lez, Ernesto Moreno, Raquel Segura and the entire first generation were trained. Several reached the Spanish national team and competed internationally.",
           badge: "Champions of Andalusia \u00B7 Spain \u00B7 World (youth)",
         },
         {
@@ -372,6 +372,11 @@ export const en = {
           desc: "We parted ways with Higuer\u00F3n Resort and Varlion. Nearly a decade managing what was the best club in the world. That chapter closes.",
         },
         {
+          year: "2024-2025",
+          title: "From M\u00E1laga to the world",
+          desc: "Fully dedicated to building J3Padel as an ecosystem: training, management, content and high performance.",
+        },
+        {
           year: "June 2024",
           title: "Guille Collado \u00B7 First quarterfinals on Premier Padel",
           desc: "Alongside Jos\u00E9 Garc\u00EDa Diestro, Guille Collado reaches his first quarterfinals as a professional. He arrives after twice being champion of Spain and the World at junior level. Another J3-trained player breaking through on the circuit.",
@@ -382,15 +387,10 @@ export const en = {
         {
           year: "November 2024",
           title: "FIP Platinum CDMX champions",
-          desc: "\u00C1lex Arroyo and \u00C1lex Ruiz, both formed at Ocean Padel and coached by J3, lift the FIP Platinum CDMX trophy. Another international title with a M\u00E1laga signature.",
+          desc: "We arrived in Mexico City with no margin: only victory opened the door to the Barcelona Master Final. Altitude and heat turned every point into a battle. \u00C1lex Arroyo and \u00C1lex Ruiz lifted it where it hurts most.",
           badge: "FIP Platinum CDMX \u00B7 Champions \u00B7 2024",
           highlight: true,
           image: "/images/story/timeline/fip-platinum-cdmx-2024.jpeg",
-        },
-        {
-          year: "2024-2025",
-          title: "From M\u00E1laga to the world",
-          desc: "Fully dedicated to building J3Padel as an ecosystem: training, management, content and high performance.",
         },
         {
           year: "Mid 2025",
@@ -527,7 +527,7 @@ export const en = {
         {
           flag: "M\u00E1laga \u00B7 2009\u20132014",
           name: "Ocean Padel",
-          detail: "Where everything started at real scale. The best youth academy in Spain. This is where \u00C1lex Ruiz, Momo Gonz\u00E1lez, Guille Collado and the entire first J3 generation were trained.",
+          detail: "Where everything started at real scale. The best youth academy in Spain. This is where \u00C1lex Ruiz, Momo Gonz\u00E1lez, Ernesto Moreno, Raquel Segura and the entire first J3 generation were trained.",
           highlight: "Best youth academy",
         },
         {

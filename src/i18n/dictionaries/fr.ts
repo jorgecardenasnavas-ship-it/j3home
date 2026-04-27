@@ -280,7 +280,7 @@ export const fr = {
         {
           year: "2010-2014",
           title: "La meilleure acad\u00E9mie de jeunes d\u2019Espagne",
-          desc: "Ocean Padel devient une r\u00E9f\u00E9rence nationale. C\u2019est ici que se forment \u00C1lex Ruiz, Momo Gonz\u00E1lez, Guille Collado, Bea Gonz\u00E1lez et toute la premi\u00E8re g\u00E9n\u00E9ration. Plusieurs int\u00E8grent la s\u00E9lection espagnole et participent \u00E0 des comp\u00E9titions internationales.",
+          desc: "Ocean Padel devient une r\u00E9f\u00E9rence nationale. C\u2019est ici que se forment \u00C1lex Ruiz, Momo Gonz\u00E1lez, Bea Gonz\u00E1lez, Ernesto Moreno, Raquel Segura et toute la premi\u00E8re g\u00E9n\u00E9ration. Plusieurs int\u00E8grent la s\u00E9lection espagnole et participent \u00E0 des comp\u00E9titions internationales.",
           badge: "Champions d\u2019Andalousie \u00B7 d\u2019Espagne \u00B7 du Monde (jeunes)",
         },
         {
@@ -372,6 +372,11 @@ export const fr = {
           desc: "Nous nous s\u00E9parons de Higuer\u00F3n Resort et de Varlion. Pr\u00E8s d\u2019une d\u00E9cennie \u00E0 g\u00E9rer celui qui fut le meilleur club du monde. Ce cycle se referme.",
         },
         {
+          year: "2024-2025",
+          title: "De M\u00E1laga au monde",
+          desc: "Enti\u00E8rement d\u00E9di\u00E9s \u00E0 construire J3Padel en tant qu\u2019\u00E9cosyst\u00E8me : formation, gestion, contenu et haut niveau.",
+        },
+        {
           year: "Juin 2024",
           title: "Guille Collado \u00B7 Premiers quarts en Premier Padel",
           desc: "Aux c\u00F4t\u00E9s de Jos\u00E9 Garc\u00EDa Diestro, Guille Collado signe ses premiers quarts de finale en tant que professionnel. Il arrive apr\u00E8s avoir \u00E9t\u00E9 deux fois champion d\u2019Espagne et du Monde en cat\u00E9gories jeunes. Un autre joueur form\u00E9 chez J3 qui s\u2019impose sur le circuit.",
@@ -382,15 +387,10 @@ export const fr = {
         {
           year: "Novembre 2024",
           title: "Champions du FIP Platinum CDMX",
-          desc: "\u00C1lex Arroyo et \u00C1lex Ruiz, tous deux form\u00E9s \u00E0 Ocean Padel et entra\u00EEn\u00E9s par J3, soul\u00E8vent le troph\u00E9e du FIP Platinum CDMX. Un autre titre international \u00E0 la signature malagueña.",
+          desc: "Nous arrivions \u00E0 Mexico sans marge : seule la victoire ouvrait la porte au Master Final de Barcelone. L\u2019altitude et la chaleur transformaient chaque point en bataille. \u00C1lex Arroyo et \u00C1lex Ruiz l\u2019ont soulev\u00E9 l\u00E0 o\u00F9 \u00E7a fait mal.",
           badge: "FIP Platinum CDMX \u00B7 Champions \u00B7 2024",
           highlight: true,
           image: "/images/story/timeline/fip-platinum-cdmx-2024.jpeg",
-        },
-        {
-          year: "2024-2025",
-          title: "De M\u00E1laga au monde",
-          desc: "Enti\u00E8rement d\u00E9di\u00E9s \u00E0 construire J3Padel en tant qu\u2019\u00E9cosyst\u00E8me : formation, gestion, contenu et haut niveau.",
         },
         {
           year: "Mi-2025",
@@ -527,7 +527,7 @@ export const fr = {
         {
           flag: "M\u00E1laga \u00B7 2009\u20132014",
           name: "Ocean Padel",
-          detail: "L\u00E0 o\u00F9 tout a commenc\u00E9 \u00E0 grande \u00E9chelle. La meilleure acad\u00E9mie de jeunes d\u2019Espagne. C\u2019est ici qu\u2019ont \u00E9t\u00E9 form\u00E9s \u00C1lex Ruiz, Momo Gonz\u00E1lez, Guille Collado et toute la premi\u00E8re g\u00E9n\u00E9ration J3.",
+          detail: "L\u00E0 o\u00F9 tout a commenc\u00E9 \u00E0 grande \u00E9chelle. La meilleure acad\u00E9mie de jeunes d\u2019Espagne. C\u2019est ici qu\u2019ont \u00E9t\u00E9 form\u00E9s \u00C1lex Ruiz, Momo Gonz\u00E1lez, Ernesto Moreno, Raquel Segura et toute la premi\u00E8re g\u00E9n\u00E9ration J3.",
           highlight: "Meilleure acad\u00E9mie de jeunes",
         },
         {

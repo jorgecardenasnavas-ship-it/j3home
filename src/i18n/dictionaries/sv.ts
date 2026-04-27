@@ -280,7 +280,7 @@ export const sv = {
         {
           year: "2010-2014",
           title: "Spaniens bästa juniorakademi",
-          desc: "Ocean Padel blir en nationell referens. Här utbildas Álex Ruiz, Momo González, Guille Collado, Bea González och hela den första generationen. Flera når det spanska landslaget och tävlar internationellt.",
+          desc: "Ocean Padel blir en nationell referens. Här utbildas Álex Ruiz, Momo González, Bea González, Ernesto Moreno, Raquel Segura och hela den första generationen. Flera når det spanska landslaget och tävlar internationellt.",
           badge: "Mästare Andalusien \u00B7 Spanien \u00B7 Världen (juniorer)",
         },
         {
@@ -372,6 +372,11 @@ export const sv = {
           desc: "Vi avslutar samarbetet med Higuerón Resort och Varlion. Nästan ett decennium med att driva det som var världens bästa klubb. Det kapitlet stängs.",
         },
         {
+          year: "2024-2025",
+          title: "Från Málaga till världen",
+          desc: "Helhjärtat fokuserade på att bygga J3Padel som ekosystem: utbildning, förvaltning, innehåll och elitträning.",
+        },
+        {
           year: "Juni 2024",
           title: "Guille Collado \u00B7 Första kvartsfinaler i Premier Padel",
           desc: "Tillsammans med José García Diestro når Guille Collado sina första kvartsfinaler som proffs. Han kommer efter att två gånger ha varit Spanien- och världsmästare i juniorklasserna. Ännu en J3-formad spelare som tar plats på touren.",
@@ -382,15 +387,10 @@ export const sv = {
         {
           year: "November 2024",
           title: "Mästare FIP Platinum CDMX",
-          desc: "Álex Arroyo och Álex Ruiz, båda formade på Ocean Padel och tränade av J3, lyfter pokalen i FIP Platinum CDMX. Ännu en internationell titel med signatur från Málaga.",
+          desc: "Vi kom till Mexico City utan marginal: bara seger öppnade dörren till Master Final i Barcelona. Höjden och värmen gjorde varje poäng till en kamp. Álex Arroyo och Álex Ruiz lyfte den där det gör mest ont.",
           badge: "FIP Platinum CDMX \u00B7 Mästare \u00B7 2024",
           highlight: true,
           image: "/images/story/timeline/fip-platinum-cdmx-2024.jpeg",
-        },
-        {
-          year: "2024-2025",
-          title: "Från Málaga till världen",
-          desc: "Helhjärtat fokuserade på att bygga J3Padel som ekosystem: utbildning, förvaltning, innehåll och elitträning.",
         },
         {
           year: "Mitten av 2025",
@@ -527,7 +527,7 @@ export const sv = {
         {
           flag: "Málaga \u00B7 2009\u20132014",
           name: "Ocean Padel",
-          detail: "Där allt började på riktigt. Spaniens bästa juniorakademi. Här utbildades Álex Ruiz, Momo González, Guille Collado och hela den första J3-generationen.",
+          detail: "Där allt började på riktigt. Spaniens bästa juniorakademi. Här utbildades Álex Ruiz, Momo González, Ernesto Moreno, Raquel Segura och hela den första J3-generationen.",
           highlight: "Bästa juniorakademin",
         },
         {
