@@ -449,17 +449,17 @@ export const pt = {
           ],
         },
         {
-          year: "Novembro 2024 – Fevereiro 2025",
-          title: "O salto ao circuito",
-          desc: "Quatro cenas do mesmo salto. José Jiménez assina os seus primeiros quartos de final num Major (Mexico Major Acapulco), fecha o ano dentro do top 30 mundial no Milão P2 e arranca a temporada seguinte no Premier Padel Rotterdam P1. Sempre com J3 à beira do court.",
-          badge: "Top 30 mundial · Premier Padel · 2024–2025",
+          year: "Novembro 2024",
+          title: "Primeiros quartos num Major",
+          desc: "Os seus primeiros quartos de final como profissional — e num Major do Premier Padel. José Jiménez assina-os no Mexico Major Acapulco com J3 à beira da pista. Um salto que não fica sozinho: o ano fecha dentro do top 30 mundial no Milão P2.",
+          badge: "Mexico Major Acapulco · Quartos · Novembro 2024",
           highlight: true,
           carousel: true,
           slides: [
             { caption: "Novembro 2024 · Mexico Major Acapulco — primeiros quartos num Major", image: "/images/story/timeline/major-acapulco-2025.jpeg" },
             { caption: "Dezembro 2024 · Milão P2 — a equipa", image: "/images/story/timeline/milan-p2-2024-team.jpeg" },
             { caption: "Dezembro 2024 · Milão P2 — top 30 mundial", image: "/images/story/timeline/milan-p2-2024.jpeg" },
-            { caption: "Fevereiro 2025 · Premier Padel Rotterdam P1", image: "/images/story/timeline/rotterdam-p1-2025.jpeg" },
+            { caption: "Fevereiro 2024 · Premier Padel Rotterdam P1", image: "/images/story/timeline/rotterdam-p1-2025.jpeg" },
           ],
         },
         {

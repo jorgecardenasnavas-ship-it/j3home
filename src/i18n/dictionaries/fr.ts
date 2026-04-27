@@ -449,17 +449,17 @@ export const fr = {
           ],
         },
         {
-          year: "Novembre 2024 \u2013 F\u00E9vrier 2025",
-          title: "Le saut sur le circuit",
-          desc: "Quatre sc\u00E8nes d\u2019un m\u00EAme saut. Jos\u00E9 Jim\u00E9nez signe ses premiers quarts de finale en Major (Mexico Major Acapulco), termine l\u2019ann\u00E9e dans le top 30 mondial au Milan P2 et entame la saison suivante au Premier Padel Rotterdam P1. Toujours avec J3 au bord du court.",
-          badge: "Top 30 mondial \u00B7 Premier Padel \u00B7 2024\u20132025",
+          year: "Novembre 2024",
+          title: "Premiers quarts dans un Major",
+          desc: "Ses premiers quarts de finale en tant que professionnel \u2014 et dans un Major du Premier Padel. Jos\u00E9 Jim\u00E9nez les signe au Mexico Major Acapulco avec J3 au bord du court. Un saut qui ne s\u2019arr\u00EAte pas l\u00E0 : l\u2019ann\u00E9e se termine dans le top 30 mondial au Milan P2.",
+          badge: "Mexico Major Acapulco \u00B7 Quarts \u00B7 Novembre 2024",
           highlight: true,
           carousel: true,
           slides: [
             { caption: "Novembre 2024 \u00B7 Mexico Major Acapulco \u2014 premiers quarts en Major", image: "/images/story/timeline/major-acapulco-2025.jpeg" },
             { caption: "D\u00E9cembre 2024 \u00B7 Milan P2 \u2014 l\u2019\u00E9quipe", image: "/images/story/timeline/milan-p2-2024-team.jpeg" },
             { caption: "D\u00E9cembre 2024 \u00B7 Milan P2 \u2014 top 30 mondial", image: "/images/story/timeline/milan-p2-2024.jpeg" },
-            { caption: "F\u00E9vrier 2025 \u00B7 Premier Padel Rotterdam P1", image: "/images/story/timeline/rotterdam-p1-2025.jpeg" },
+            { caption: "F\u00E9vrier 2024 \u00B7 Premier Padel Rotterdam P1", image: "/images/story/timeline/rotterdam-p1-2025.jpeg" },
           ],
         },
         {

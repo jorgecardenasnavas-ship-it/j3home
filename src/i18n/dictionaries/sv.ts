@@ -449,17 +449,17 @@ export const sv = {
           ],
         },
         {
-          year: "November 2024 \u2013 Februari 2025",
-          title: "Klivet upp i touren",
-          desc: "Fyra scener från samma kliv. José Jiménez når sina första kvartsfinaler i en Major (Mexico Major Acapulco), avslutar året inom världens topp 30 i Milano P2 och inleder den nya säsongen i Premier Padel Rotterdam P1. Alltid med J3 vid sidlinjen.",
-          badge: "Topp 30 \u00B7 Premier Padel \u00B7 2024\u20132025",
+          year: "November 2024",
+          title: "Första kvartsfinalerna i en Major",
+          desc: "Hans första kvartsfinaler som proffs — och i en Premier Padel Major. José Jiménez tar dem i Mexico Major Acapulco med J3 vid sidan av planen. Ett kliv som inte står ensamt: året avslutas inom världens topp 30 i Milano P2.",
+          badge: "Mexico Major Acapulco \u00B7 Kvartsfinaler \u00B7 November 2024",
           highlight: true,
           carousel: true,
           slides: [
             { caption: "November 2024 \u00B7 Mexico Major Acapulco \u2014 första kvartsfinaler i en Major", image: "/images/story/timeline/major-acapulco-2025.jpeg" },
             { caption: "December 2024 \u00B7 Milano P2 \u2014 teamet", image: "/images/story/timeline/milan-p2-2024-team.jpeg" },
             { caption: "December 2024 \u00B7 Milano P2 \u2014 topp 30", image: "/images/story/timeline/milan-p2-2024.jpeg" },
-            { caption: "Februari 2025 \u00B7 Premier Padel Rotterdam P1", image: "/images/story/timeline/rotterdam-p1-2025.jpeg" },
+            { caption: "Februari 2024 \u00B7 Premier Padel Rotterdam P1", image: "/images/story/timeline/rotterdam-p1-2025.jpeg" },
           ],
         },
         {
