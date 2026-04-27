@@ -393,6 +393,22 @@ export const fr = {
           image: "/images/story/timeline/fip-platinum-cdmx-2024.jpeg",
         },
         {
+          year: "D\u00E9cembre 2024",
+          title: "Jos\u00E9 Jim\u00E9nez \u00B7 Top 30 mondial",
+          desc: "Dernier tournoi de l\u2019ann\u00E9e \u00E0 Milan et objectif atteint : Jos\u00E9 Jim\u00E9nez termine la saison dans le top 30 mondial. Une cl\u00F4ture nette d\u2019une premi\u00E8re ann\u00E9e sur le circuit professionnel avec J3 au bord du court.",
+          badge: "Top 30 mondial \u00B7 D\u00E9cembre 2024",
+          highlight: true,
+          image: "/images/story/timeline/milan-p2-2024.jpeg",
+        },
+        {
+          year: "Mars 2025",
+          title: "Jos\u00E9 Jim\u00E9nez \u00B7 Premiers quarts en Major",
+          desc: "Jos\u00E9 Jim\u00E9nez signe ses premiers quarts de finale en Major \u2014 \u00E0 nouveau en terre mexicaine, cette fois au Mexico Major d\u2019Acapulco. Aux c\u00F4t\u00E9s de Pincho. Une autre paire de l\u2019entourage J3 qui s\u2019impose parmi les meilleurs du nouveau circuit.",
+          badge: "Mexico Major Acapulco \u00B7 Quarts \u00B7 2025",
+          highlight: true,
+          image: "/images/story/timeline/major-acapulco-2025.jpeg",
+        },
+        {
           year: "Mi-2025",
           title: "Naissance de Coach360",
           desc: "Formation en ligne pour entra\u00EEneurs de padel. Apr\u00E8s avoir voyag\u00E9 \u00E0 travers le monde et constat\u00E9 le vide que l\u2019expansion du padel avait cr\u00E9\u00E9 en mati\u00E8re de formation, nous d\u00E9cidons d\u2019apporter tout notre savoir-faire de mani\u00E8re unique. Nous cr\u00E9ons la premi\u00E8re communaut\u00E9 d\u2019entra\u00EEneurs.",

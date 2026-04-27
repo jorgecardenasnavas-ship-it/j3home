@@ -393,6 +393,22 @@ export const pt = {
           image: "/images/story/timeline/fip-platinum-cdmx-2024.jpeg",
         },
         {
+          year: "Dezembro 2024",
+          title: "José Jiménez · Top 30 mundial",
+          desc: "Último torneio do ano em Milão e objetivo cumprido: José Jiménez termina a temporada dentro do top 30 mundial. Fecho redondo ao primeiro ano no circuito profissional com J3 à beira do court.",
+          badge: "Top 30 mundial · Dezembro 2024",
+          highlight: true,
+          image: "/images/story/timeline/milan-p2-2024.jpeg",
+        },
+        {
+          year: "Março 2025",
+          title: "José Jiménez · Primeiros quartos num Major",
+          desc: "José Jiménez assina os seus primeiros quartos de final num Major — novamente em terras mexicanas, desta vez no Mexico Major de Acapulco. Ao lado de Pincho. Mais uma dupla do círculo J3 a fincar bandeira entre os melhores do novo circuito.",
+          badge: "Mexico Major Acapulco · Quartos · 2025",
+          highlight: true,
+          image: "/images/story/timeline/major-acapulco-2025.jpeg",
+        },
+        {
           year: "Meados de 2025",
           title: "Nasce Coach360",
           desc: "Formação online para treinadores de padel. Após viajar pelo mundo inteiro e constatar o vazio que a expansão do padel tinha gerado no âmbito formativo, decidimos partilhar todo o nosso conhecimento de forma única. Criámos a primeira comunidade de treinadores.",

@@ -393,6 +393,22 @@ export const en = {
           image: "/images/story/timeline/fip-platinum-cdmx-2024.jpeg",
         },
         {
+          year: "December 2024",
+          title: "Jos\u00E9 Jim\u00E9nez \u00B7 World Top 30",
+          desc: "Last tournament of the year in Milan and goal accomplished: Jos\u00E9 Jim\u00E9nez closes the season inside the world Top 30. A clean finish to a first year on the professional circuit with J3 right at courtside.",
+          badge: "World Top 30 \u00B7 December 2024",
+          highlight: true,
+          image: "/images/story/timeline/milan-p2-2024.jpeg",
+        },
+        {
+          year: "March 2025",
+          title: "Jos\u00E9 Jim\u00E9nez \u00B7 First quarterfinals at a Major",
+          desc: "Jos\u00E9 Jim\u00E9nez reaches his first quarterfinals at a Major \u2014 again on Mexican soil, this time at the Mexico Major in Acapulco. Alongside Pincho. Another J3-circle pair planting their flag among the best on the new circuit.",
+          badge: "Mexico Major Acapulco \u00B7 Quarterfinals \u00B7 2025",
+          highlight: true,
+          image: "/images/story/timeline/major-acapulco-2025.jpeg",
+        },
+        {
           year: "Mid 2025",
           title: "Coach360 is born",
           desc: "Online training for padel coaches. After travelling the world and seeing the gap the expansion of padel had created in coaching education, we decided to contribute all our knowledge in a unique way. We created the first coaching community.",
