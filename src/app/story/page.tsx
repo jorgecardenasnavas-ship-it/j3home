@@ -2172,6 +2172,17 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
 export default function StoryPage() {
   const { t } = useI18n();
 
+  /* Force scroll-to-top on load and disable browser scroll restoration.
+     The hero is pinned for ~7200px via GSAP ScrollTrigger; the pin-spacer
+     is created post-hydration, so any restored scroll position lands the
+     user mid-pin-animation (visually appearing as a duplicated/mid-page section). */
+  useEffect(() => {
+    const prev = history.scrollRestoration;
+    history.scrollRestoration = "manual";
+    window.scrollTo(0, 0);
+    return () => { history.scrollRestoration = prev; };
+  }, []);
+
   /* Hero parallax + pin for flying accent */
   const heroRef = useRef<HTMLDivElement>(null);
   const heroAccentRef = useRef<HTMLSpanElement>(null);
