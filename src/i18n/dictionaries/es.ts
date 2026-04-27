@@ -338,8 +338,8 @@ export const es = {
         },
         {
           year: "Agosto 2018",
-          title: "WPT Mijas \u00B7 Aris Patiniotis",
-          desc: "World Padel Tour Mijas. Trabajamos a pie de pista con Aris Patiniotis y, como siempre, es especial tener a Jordi Mu\u00F1oz cerca.",
+          title: "Con Jordi, al m\u00E1ximo nivel \u00B7 WPT Mijas",
+          desc: "Reencuentro con Jordi Mu\u00F1oz a pie de pista en un World Padel Tour. Siempre bienvenido, siempre un placer seguir compitiendo juntos al m\u00E1ximo nivel. En esta ocasi\u00F3n con Aris Patiniotis como jugador.",
           badge: "World Padel Tour Mijas \u00B7 Agosto 2018",
           highlight: true,
           carousel: true,
