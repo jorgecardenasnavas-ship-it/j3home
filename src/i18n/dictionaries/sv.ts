@@ -306,7 +306,7 @@ export const sv = {
         {
           year: "Augusti 2015",
           title: "Första WPT-kvartsfinalerna \u00B7 La Nucía",
-          desc: "Första kvartsfinalerna som huvudtränare på World Padel Tour. Tillsammans med Jordi Muñoz vid sidan av planen och Fede Quiles som spelare tar laget steget in i elitspelet i La Nucía (Alicante).",
+          desc: "Våra första kvartsfinaler på World Padel Tour. Tillsammans med Jordi Muñoz vid sidan av planen och Fede Quiles som spelare tar vi steget in i elitspelet i La Nucía (Alicante).",
           badge: "WPT La Nucía \u00B7 Kvartsfinaler \u00B7 Augusti 2015",
           highlight: true,
           carousel: true,

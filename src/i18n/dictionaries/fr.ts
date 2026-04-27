@@ -306,7 +306,7 @@ export const fr = {
         {
           year: "Ao\u00FBt 2015",
           title: "Premiers quarts WPT \u00B7 La Nuc\u00EDa",
-          desc: "Premiers quarts de finale en tant qu\u2019entra\u00EEneur principal sur le World Padel Tour. Aux c\u00F4t\u00E9s de Jordi Mu\u00F1oz au bord du court et de Fede Quiles comme joueur, l\u2019\u00E9quipe franchit le cap du haut niveau \u00E0 La Nuc\u00EDa (Alicante).",
+          desc: "Nos premiers quarts de finale sur le World Padel Tour. Aux c\u00F4t\u00E9s de Jordi Mu\u00F1oz au bord du court et de Fede Quiles comme joueur, nous franchissons le cap du haut niveau \u00E0 La Nuc\u00EDa (Alicante).",
           badge: "WPT La Nuc\u00EDa \u00B7 Quarts \u00B7 Ao\u00FBt 2015",
           highlight: true,
           carousel: true,

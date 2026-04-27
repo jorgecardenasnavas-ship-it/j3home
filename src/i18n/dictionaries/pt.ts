@@ -306,7 +306,7 @@ export const pt = {
         {
           year: "Agosto 2015",
           title: "Primeiros quartos no WPT · La Nucía",
-          desc: "Primeiros quartos de final como treinador principal no World Padel Tour. Ao lado de Jordi Muñoz à beira da pista e Fede Quiles como jogador, a equipa dá o salto para o alto rendimento em La Nucía (Alicante).",
+          desc: "Os nossos primeiros quartos de final no World Padel Tour. Ao lado de Jordi Muñoz à beira da pista e Fede Quiles como jogador, damos o salto para o alto rendimento em La Nucía (Alicante).",
           badge: "WPT La Nucía · Quartos · Agosto 2015",
           highlight: true,
           carousel: true,

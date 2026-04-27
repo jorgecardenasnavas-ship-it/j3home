@@ -306,7 +306,7 @@ export const en = {
         {
           year: "August 2015",
           title: "First WPT quarterfinals \u00B7 La Nuc\u00EDa",
-          desc: "First quarterfinals as head coach on the World Padel Tour. Alongside Jordi Mu\u00F1oz courtside and Fede Quiles as player, the team makes the jump into high performance in La Nuc\u00EDa (Alicante).",
+          desc: "Our first quarterfinals on the World Padel Tour. Alongside Jordi Mu\u00F1oz courtside and Fede Quiles as player, we make the jump into high performance in La Nuc\u00EDa (Alicante).",
           badge: "WPT La Nuc\u00EDa \u00B7 Quarterfinals \u00B7 August 2015",
           highlight: true,
           carousel: true,
