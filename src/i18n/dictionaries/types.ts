@@ -170,6 +170,8 @@ export interface Dictionary {
         highlight?: boolean;
         image?: string;
         imagePosition?: string;
+        video?: string;
+        videoPoster?: string;
         carousel?: boolean;
         slides?: readonly {
           caption?: string;

@@ -330,6 +330,14 @@ export const en = {
         },
         {
           year: "2018",
+          title: "Juan Mart\u00EDn D\u00EDaz Court \u00B7 Higuer\u00F3n reopening",
+          desc: "We rebuilt every padel court at Higuer\u00F3n and celebrated it with a tribute event for Juan Mart\u00EDn D\u00EDaz: the centre court now bears his name. The investment and the club\u2019s level paved the way to the world\u2019s best club award later that same year.",
+          badge: "Higuer\u00F3n Resort \u00B7 JMD Court \u00B7 2018",
+          highlight: true,
+          video: "/videos/jmd-higueron.mp4",
+        },
+        {
+          year: "2018",
           title: "Best Padel Club in the World",
           desc: "Higuer\u00F3n Resort, under our management, was recognized as the best padel club in the world. A title that came after two years of quiet, ambitious work.",
           badge: "#1 Best Padel Club in the World \u00B7 2018",

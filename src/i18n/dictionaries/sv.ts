@@ -330,6 +330,14 @@ export const sv = {
         },
         {
           year: "2018",
+          title: "Juan Martín Díaz-banan \u00B7 Higueróns återinvigning",
+          desc: "Vi byggde om alla padelbanor på Higuerón och firade det med ett event till ära för Juan Martín Díaz: centralbanan bär nu hans namn. Investeringen och klubbens nivå banade väg för utmärkelsen som världens bästa klubb senare samma år.",
+          badge: "Higuerón Resort \u00B7 JMD-banan \u00B7 2018",
+          highlight: true,
+          video: "/videos/jmd-higueron.mp4",
+        },
+        {
+          year: "2018",
           title: "Världens bästa padelklubb",
           desc: "Higuerón Resort, under vår ledning, utses till världens bästa padelklubb. En titel som kommer efter två år av tyst och ambitiöst arbete.",
           badge: "#1 Best Padel Club in the World \u00B7 2018",

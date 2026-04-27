@@ -1207,8 +1207,8 @@ function TimelineSection() {
                     setLightbox={setLightbox}
                   />
                 ) : (
-                <div className={item.image ? "min-[960px]:flex min-[960px]:gap-10 min-[960px]:items-start" : ""}>
-                  <div className={item.image ? "min-[960px]:flex-1 min-[960px]:min-w-0" : ""}>
+                <div className={item.image || item.video ? "min-[960px]:flex min-[960px]:gap-10 min-[960px]:items-start" : ""}>
+                  <div className={item.image || item.video ? "min-[960px]:flex-1 min-[960px]:min-w-0" : ""}>
                     <span className={`text-[11px] font-bold tracking-[3px] uppercase mb-2 block max-[640px]:text-[10px] max-[640px]:tracking-[2px] max-[640px]:mb-1 ${isHL ? "text-[var(--g1)]" : "text-[var(--g1)]/80"}`}>{item.year}</span>
                     <h3 className={`font-bold uppercase tracking-[-0.5px] leading-[1.1] mb-[10px] max-[640px]:mb-[6px] ${
                       isHL ? "text-[clamp(18px,3vw,32px)]" : "text-[clamp(16px,2.5vw,26px)] text-[var(--gy3)]"
@@ -1235,7 +1235,22 @@ function TimelineSection() {
                       </span>
                     )}
                   </div>
-                  {item.image && (
+                  {item.video && (
+                    <div
+                      className="relative mt-4 min-[960px]:mt-0 min-[960px]:flex-shrink-0 w-full max-w-[420px] min-[960px]:w-[340px] min-[1280px]:w-[400px] max-[640px]:max-w-full overflow-hidden rounded-sm aspect-[16/9]"
+                      style={{ border: `1px solid ${onCream ? "rgba(27,61,47,0.18)" : "rgba(248,245,239,0.08)"}`, backgroundColor: "rgba(0,0,0,0.45)" }}
+                    >
+                      <video
+                        src={item.video}
+                        poster={item.videoPoster}
+                        controls
+                        playsInline
+                        preload="metadata"
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
+                    </div>
+                  )}
+                  {!item.video && item.image && (
                     <button
                       type="button"
                       onClick={() => setLightbox({ src: item.image!, alt: item.title })}

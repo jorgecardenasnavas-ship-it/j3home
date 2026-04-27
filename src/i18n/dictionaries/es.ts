@@ -330,6 +330,14 @@ export const es = {
         },
         {
           year: "2018",
+          title: "Pista Juan Mart\u00EDn D\u00EDaz \u00B7 Reinauguraci\u00F3n del Higuer\u00F3n",
+          desc: "Reformamos por completo todas las pistas de padel del Higuer\u00F3n y lo celebramos con un evento en homenaje a Juan Mart\u00EDn D\u00EDaz: la pista central pasa a llevar su nombre. La inversi\u00F3n y el nivel del club abren el camino al reconocimiento como mejor club del mundo ese mismo a\u00F1o.",
+          badge: "Higuer\u00F3n Resort \u00B7 Pista JMD \u00B7 2018",
+          highlight: true,
+          video: "/videos/jmd-higueron.mp4",
+        },
+        {
+          year: "2018",
           title: "Mejor Club de P\u00E1del del Mundo",
           desc: "Higuer\u00F3n Resort, bajo nuestra gesti\u00F3n, es reconocido como el mejor club de p\u00E1del del mundo. Un t\u00EDtulo que llega despu\u00E9s de dos a\u00F1os de trabajo silencioso y ambicioso.",
           badge: "#1 Best Padel Club in the World \u00B7 2018",

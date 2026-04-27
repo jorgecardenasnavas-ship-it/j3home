@@ -330,6 +330,14 @@ export const pt = {
         },
         {
           year: "2018",
+          title: "Pista Juan Martín Díaz · Reinauguração do Higuerón",
+          desc: "Reformamos por completo todas as pistas de padel do Higuerón e celebramo-lo com um evento em homenagem a Juan Martín Díaz: a pista central passa a ter o seu nome. O investimento e o nível do clube abrem caminho ao reconhecimento como melhor clube do mundo nesse mesmo ano.",
+          badge: "Higuerón Resort · Pista JMD · 2018",
+          highlight: true,
+          video: "/videos/jmd-higueron.mp4",
+        },
+        {
+          year: "2018",
           title: "Melhor Clube de Padel do Mundo",
           desc: "Higuerón Resort, sob a nossa gestão, é reconhecido como o melhor clube de padel do mundo. Um título que chega depois de dois anos de trabalho silencioso e ambicioso.",
           badge: "#1 Best Padel Club in the World · 2018",
