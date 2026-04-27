@@ -899,8 +899,8 @@ function TimelineSection() {
   const { t } = useI18n();
   const timeline = t.story.timeline.entries;
   const eras = t.story.timeline.eras;
-  // Map era indices: entry 0→era[0], entry 3→era[1], entry 7→era[2] (Higuerón empieza en 2016, tras J3Padel Indoor), entry 15→era[3]
-  const eraMap: Record<number, string> = { 0: eras[0], 3: eras[1], 7: eras[2], 15: eras[3] };
+  // Map era indices: entry 0→era[0], entry 3→era[1], entry 7→era[2] (Higuerón empieza en 2016, tras J3Padel Indoor), entry 16→era[3]
+  const eraMap: Record<number, string> = { 0: eras[0], 3: eras[1], 7: eras[2], 16: eras[3] };
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const headerEntryRef = useRef<HTMLDivElement>(null);

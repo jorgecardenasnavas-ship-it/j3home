@@ -346,6 +346,14 @@ export const fr = {
           image: "/images/story/timeline/wpt-marbella-2022.jpeg",
         },
         {
+          year: "Octobre 2022",
+          title: "Demi-finale Premier Padel Milan P2",
+          desc: "Avec Javi Garrido et Fede Chingotto au bord du court, nous nous arr\u00EAtons aux portes de la finale au Premier Padel Milan P2.",
+          badge: "Premier Padel \u00B7 Demi-finale Milan P2 \u00B7 2022",
+          highlight: true,
+          image: "/images/story/timeline/premier-milan-2022.jpeg",
+        },
+        {
           year: "D\u00E9cembre 2022",
           title: "\u00C1lex Ruiz et Momo Gonz\u00E1lez \u00B7 Top 5",
           desc: "Ils atteignent le top 5 mondial. Deux joueurs form\u00E9s \u00E0 Ocean Padel, entra\u00EEn\u00E9s par J3, au plus haut niveau du circuit professionnel.",
@@ -362,6 +370,14 @@ export const fr = {
           year: "2024",
           title: "Fin d\u2019un cycle",
           desc: "Nous nous s\u00E9parons de Higuer\u00F3n Resort et de Varlion. Pr\u00E8s d\u2019une d\u00E9cennie \u00E0 g\u00E9rer celui qui fut le meilleur club du monde. Ce cycle se referme.",
+        },
+        {
+          year: "Juin 2024",
+          title: "Guille Collado \u00B7 Premiers quarts en Premier Padel",
+          desc: "Aux c\u00F4t\u00E9s de Jos\u00E9 Garc\u00EDa Diestro, Guille Collado signe ses premiers quarts de finale en tant que professionnel. Il arrive apr\u00E8s avoir \u00E9t\u00E9 deux fois champion d\u2019Espagne et du Monde en cat\u00E9gories jeunes. Un autre joueur form\u00E9 chez J3 qui s\u2019impose sur le circuit.",
+          badge: "Premier Padel \u00B7 Quarts \u00B7 Juin 2024",
+          highlight: true,
+          image: "/images/story/timeline/guille-collado-2024.jpeg",
         },
         {
           year: "2024-2025",

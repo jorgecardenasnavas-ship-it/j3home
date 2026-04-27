@@ -346,6 +346,14 @@ export const en = {
           image: "/images/story/timeline/wpt-marbella-2022.jpeg",
         },
         {
+          year: "October 2022",
+          title: "Premier Padel Milan P2 semifinal",
+          desc: "With Javi Garrido and Fede Chingotto at courtside, we fell at the gates of the final at Premier Padel Milan P2.",
+          badge: "Premier Padel \u00B7 Milan P2 semifinal \u00B7 2022",
+          highlight: true,
+          image: "/images/story/timeline/premier-milan-2022.jpeg",
+        },
+        {
           year: "December 2022",
           title: "\u00C1lex Ruiz and Momo Gonz\u00E1lez \u00B7 Top 5",
           desc: "They reach the world top 5. Two players developed at Ocean Padel, coached by J3, at the very top of the professional circuit.",
@@ -362,6 +370,14 @@ export const en = {
           year: "2024",
           title: "End of a chapter",
           desc: "We parted ways with Higuer\u00F3n Resort and Varlion. Nearly a decade managing what was the best club in the world. That chapter closes.",
+        },
+        {
+          year: "June 2024",
+          title: "Guille Collado \u00B7 First quarterfinals on Premier Padel",
+          desc: "Alongside Jos\u00E9 Garc\u00EDa Diestro, Guille Collado reaches his first quarterfinals as a professional. He arrives after twice being champion of Spain and the World at junior level. Another J3-trained player breaking through on the circuit.",
+          badge: "Premier Padel \u00B7 Quarterfinals \u00B7 June 2024",
+          highlight: true,
+          image: "/images/story/timeline/guille-collado-2024.jpeg",
         },
         {
           year: "2024-2025",

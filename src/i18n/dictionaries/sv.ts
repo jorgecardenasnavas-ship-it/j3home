@@ -346,6 +346,14 @@ export const sv = {
           image: "/images/story/timeline/wpt-marbella-2022.jpeg",
         },
         {
+          year: "Oktober 2022",
+          title: "Semifinal Premier Padel Milano P2",
+          desc: "Med Javi Garrido och Fede Chingotto vid sidlinjen stoppades vi vid finalens dörrar i Premier Padel Milano P2.",
+          badge: "Premier Padel \u00B7 Semifinal Milano P2 \u00B7 2022",
+          highlight: true,
+          image: "/images/story/timeline/premier-milan-2022.jpeg",
+        },
+        {
           year: "December 2022",
           title: "Álex Ruiz och Momo González \u00B7 Topp 5",
           desc: "De når topp 5 i världen. Två spelare utbildade på Ocean Padel, tränade av J3, högst upp på den professionella touren.",
@@ -362,6 +370,14 @@ export const sv = {
           year: "2024",
           title: "Slutet på en era",
           desc: "Vi avslutar samarbetet med Higuerón Resort och Varlion. Nästan ett decennium med att driva det som var världens bästa klubb. Det kapitlet stängs.",
+        },
+        {
+          year: "Juni 2024",
+          title: "Guille Collado \u00B7 Första kvartsfinaler i Premier Padel",
+          desc: "Tillsammans med José García Diestro når Guille Collado sina första kvartsfinaler som proffs. Han kommer efter att två gånger ha varit Spanien- och världsmästare i juniorklasserna. Ännu en J3-formad spelare som tar plats på touren.",
+          badge: "Premier Padel \u00B7 Kvartsfinaler \u00B7 Juni 2024",
+          highlight: true,
+          image: "/images/story/timeline/guille-collado-2024.jpeg",
         },
         {
           year: "2024-2025",

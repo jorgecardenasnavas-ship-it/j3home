@@ -346,6 +346,14 @@ export const pt = {
           image: "/images/story/timeline/wpt-marbella-2022.jpeg",
         },
         {
+          year: "Outubro 2022",
+          title: "Semifinal Premier Padel Milão P2",
+          desc: "Com Javi Garrido e Fede Chingotto à beira do court, ficamos às portas da final no Premier Padel Milão P2.",
+          badge: "Premier Padel · Semifinal Milão P2 · 2022",
+          highlight: true,
+          image: "/images/story/timeline/premier-milan-2022.jpeg",
+        },
+        {
           year: "Dezembro 2022",
           title: "Álex Ruiz e Momo González · Top 5",
           desc: "Alcançam o top 5 do mundo. Dois jogadores formados em Ocean Padel, treinados pela J3, no mais alto do circuito profissional.",
@@ -362,6 +370,14 @@ export const pt = {
           year: "2024",
           title: "Fim de um ciclo",
           desc: "Desvinculamo-nos do Higuerón Resort e da Varlion. Quase uma década a gerir o que foi o melhor clube do mundo. Esse ciclo fecha-se.",
+        },
+        {
+          year: "Junho 2024",
+          title: "Guille Collado · Primeiros quartos no Premier Padel",
+          desc: "Ao lado de José García Diestro, Guille Collado assina os seus primeiros quartos de final como profissional. Chega depois de ter sido duas vezes campeão de Espanha e do Mundo em categorias inferiores. Mais um jogador formado em J3 a impor-se no circuito.",
+          badge: "Premier Padel · Quartos · Junho 2024",
+          highlight: true,
+          image: "/images/story/timeline/guille-collado-2024.jpeg",
         },
         {
           year: "2024-2025",
