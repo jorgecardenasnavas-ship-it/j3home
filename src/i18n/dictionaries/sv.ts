@@ -393,20 +393,20 @@ export const sv = {
           image: "/images/story/timeline/fip-platinum-cdmx-2024.jpeg",
         },
         {
+          year: "November 2024",
+          title: "José Jiménez \u00B7 Första kvartsfinaler i en Major",
+          desc: "José Jiménez når sina första kvartsfinaler i en Major \u2014 återigen på mexikansk mark, den här gången i Mexico Major i Acapulco. Tillsammans med Pincho.",
+          badge: "Mexico Major Acapulco \u00B7 Kvartsfinaler \u00B7 2024",
+          highlight: true,
+          image: "/images/story/timeline/major-acapulco-2025.jpeg",
+        },
+        {
           year: "December 2024",
           title: "José Jiménez \u00B7 Topp 30 i världen",
           desc: "Sista turneringen för året i Milano och målet nått: José Jiménez avslutar säsongen inom världens topp 30. En ren avslutning på det första året på proffstouren, med J3 vid sidlinjen.",
           badge: "Topp 30 \u00B7 December 2024",
           highlight: true,
           image: "/images/story/timeline/milan-p2-2024.jpeg",
-        },
-        {
-          year: "Mars 2025",
-          title: "José Jiménez \u00B7 Första kvartsfinaler i en Major",
-          desc: "José Jiménez når sina första kvartsfinaler i en Major \u2014 återigen på mexikansk mark, den här gången i Mexico Major i Acapulco. Tillsammans med Pincho.",
-          badge: "Mexico Major Acapulco \u00B7 Kvartsfinaler \u00B7 2025",
-          highlight: true,
-          image: "/images/story/timeline/major-acapulco-2025.jpeg",
         },
         {
           year: "Mitten av 2025",

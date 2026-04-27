@@ -394,20 +394,20 @@ export const es = {
           image: "/images/story/timeline/fip-platinum-cdmx-2024.jpeg",
         },
         {
+          year: "Noviembre 2024",
+          title: "Jos\u00E9 Jim\u00E9nez \u00B7 Primeros cuartos en un Major",
+          desc: "Jos\u00E9 Jim\u00E9nez firma sus primeros cuartos de final en un Major y lo hace de nuevo en M\u00E9xico, esta vez en el Mexico Major de Acapulco. Junto a Pincho",
+          badge: "Mexico Major Acapulco \u00B7 Cuartos \u00B7 2024",
+          highlight: true,
+          image: "/images/story/timeline/major-acapulco-2025.jpeg",
+        },
+        {
           year: "Diciembre 2024",
           title: "Jos\u00E9 Jim\u00E9nez \u00B7 Top 30 mundial",
           desc: "\u00DAltimo torneo del a\u00F1o en Mil\u00E1n y objetivo cumplido: Jos\u00E9 Jim\u00E9nez termina la temporada dentro del top 30 del ranking. Cierre redondo a un primer a\u00F1o en el circuito profesional con sello J3 a pie de pista.",
           badge: "Top 30 mundial \u00B7 Diciembre 2024",
           highlight: true,
           image: "/images/story/timeline/milan-p2-2024.jpeg",
-        },
-        {
-          year: "Marzo 2025",
-          title: "Jos\u00E9 Jim\u00E9nez \u00B7 Primeros cuartos en un Major",
-          desc: "Jos\u00E9 Jim\u00E9nez firma sus primeros cuartos de final en un Major y lo hace de nuevo en M\u00E9xico, esta vez en el Mexico Major de Acapulco. Junto a Pincho",
-          badge: "Mexico Major Acapulco \u00B7 Cuartos \u00B7 2025",
-          highlight: true,
-          image: "/images/story/timeline/major-acapulco-2025.jpeg",
         },
         {
           year: "Mediados 2025",
