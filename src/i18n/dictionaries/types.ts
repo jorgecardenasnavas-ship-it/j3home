@@ -165,11 +165,19 @@ export interface Dictionary {
       entries: readonly {
         year: string;
         title: string;
-        desc: string;
+        desc?: string;
         badge?: string;
         highlight?: boolean;
         image?: string;
         imagePosition?: string;
+        carousel?: boolean;
+        slides?: readonly {
+          eyebrow: string;
+          title: string;
+          desc: string;
+          badge?: string;
+          image: string;
+        }[];
       }[];
     };
 
