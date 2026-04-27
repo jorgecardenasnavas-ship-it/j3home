@@ -4,9 +4,6 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { HeroClaim } from "@/components/HeroClaim";
 
-const VIDEO_START = 16.8;
-const VIDEO_END = 35.1;
-
 export function HeroSection() {
   const heroRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -32,27 +29,18 @@ export function HeroSection() {
     if (!video) return;
 
     const startPlayback = () => {
-      video.currentTime = VIDEO_START;
+      video.currentTime = 0;
       video.play().catch(() => {});
     };
 
-    const onTimeUpdate = () => {
-      if (video.currentTime >= VIDEO_END) {
-        video.currentTime = VIDEO_START;
-      }
-    };
-
-    // readyState >= 1 means metadata already loaded (common on cached/fast loads)
     if (video.readyState >= 1) {
       startPlayback();
     } else {
       video.addEventListener("loadedmetadata", startPlayback);
     }
 
-    video.addEventListener("timeupdate", onTimeUpdate);
     return () => {
       video.removeEventListener("loadedmetadata", startPlayback);
-      video.removeEventListener("timeupdate", onTimeUpdate);
     };
   }, []);
 
@@ -65,11 +53,11 @@ export function HeroSection() {
       {/* Video */}
       <video
         ref={videoRef}
-        src="/videos/higueron-hero.mp4"
+        src="/videos/intro-hero.mp4"
         muted
         playsInline
         preload="auto"
-        className="absolute inset-x-0 top-0 w-full h-[118%] object-cover [object-position:center_38%]"
+        className="absolute inset-x-0 top-0 w-full h-[118%] object-cover [object-position:center_50%]"
       />
 
       {/* Overlay */}
