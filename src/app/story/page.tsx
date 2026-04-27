@@ -2779,7 +2779,28 @@ export default function StoryPage() {
 
       {/* ─── HERO ─── */}
       <section ref={heroRef} className="relative h-screen min-h-[580px] flex items-end overflow-hidden bg-[var(--bk)]">
-        {/* Background — negro puro (placeholder para futuro contenido) */}
+        {/* Background — coaching moment (Jorge a pie de pista). Atmósfera y profundidad
+            para que WE ARE PÁDEL respire encima de un contexto real. */}
+        <NextImage
+          src="/images/story/hero-coach.jpeg"
+          alt=""
+          aria-hidden
+          fill
+          priority
+          quality={90}
+          sizes="100vw"
+          className="object-cover object-[60%_50%] max-[960px]:object-[55%_50%]"
+        />
+        {/* Overlay degradado: oscuro abajo (donde está el copy) → translúcido arriba.
+            Verde negro brand en lugar de negro puro para mantener tono de marca. */}
+        <div
+          aria-hidden
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(14,28,22,0.55) 0%, rgba(14,28,22,0.35) 35%, rgba(14,28,22,0.78) 75%, rgba(14,28,22,0.92) 100%)",
+          }}
+        />
         <div
           className="relative z-10 px-12 pb-[120px] max-[960px]:px-6 max-[960px]:pb-[80px] w-full"
           style={{ opacity: heroOp, transform: `translateY(${-heroY * 0.2}px)` }}
