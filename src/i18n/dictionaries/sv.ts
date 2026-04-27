@@ -477,6 +477,7 @@ export const sv = {
           badge: "Premier Padel Riyadh \u00B7 Kvartsfinal \u00B7 Mars 2025",
           highlight: true,
           image: "/images/story/timeline/riyadh-2025.jpg",
+          imagePosition: "center 25%",
         },
         {
           year: "Mitten av 2025",

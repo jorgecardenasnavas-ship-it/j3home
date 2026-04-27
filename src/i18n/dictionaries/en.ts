@@ -477,6 +477,7 @@ export const en = {
           badge: "Premier Padel Riyadh \u00B7 Quarterfinals \u00B7 March 2025",
           highlight: true,
           image: "/images/story/timeline/riyadh-2025.jpg",
+          imagePosition: "center 25%",
         },
         {
           year: "Mid 2025",

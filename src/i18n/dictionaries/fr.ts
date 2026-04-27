@@ -477,6 +477,7 @@ export const fr = {
           badge: "Premier Padel Riyad \u00B7 Quarts \u00B7 Mars 2025",
           highlight: true,
           image: "/images/story/timeline/riyadh-2025.jpg",
+          imagePosition: "center 25%",
         },
         {
           year: "Mi-2025",

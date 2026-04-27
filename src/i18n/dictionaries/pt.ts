@@ -477,6 +477,7 @@ export const pt = {
           badge: "Premier Padel Riyadh · Quartos · Março 2025",
           highlight: true,
           image: "/images/story/timeline/riyadh-2025.jpg",
+          imagePosition: "center 25%",
         },
         {
           year: "Meados de 2025",
