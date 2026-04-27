@@ -172,11 +172,9 @@ export interface Dictionary {
         imagePosition?: string;
         carousel?: boolean;
         slides?: readonly {
-          eyebrow: string;
-          title: string;
-          desc: string;
-          badge?: string;
+          caption?: string;
           image: string;
+          imagePosition?: string;
         }[];
       }[];
     };

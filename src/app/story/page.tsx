@@ -1201,6 +1201,8 @@ function TimelineSection() {
                     slides={item.slides}
                     year={item.year}
                     title={item.title}
+                    desc={item.desc}
+                    badge={item.badge}
                     onCream={onCream}
                     setLightbox={setLightbox}
                   />
@@ -2189,19 +2191,19 @@ function FlyingAccent({ flyT, fadeOutT, holdT, scrollDirRef }: { flyT: number; f
 }
 
 type CarouselSlide = {
-  eyebrow: string;
-  title: string;
-  desc: string;
-  badge?: string;
+  caption?: string;
   image: string;
+  imagePosition?: string;
 };
 
 function TimelineCarouselBody({
-  slides, year, title, onCream, setLightbox,
+  slides, year, title, desc, badge, onCream, setLightbox,
 }: {
   slides: readonly CarouselSlide[];
   year: string;
   title: string;
+  desc?: string;
+  badge?: string;
   onCream: boolean;
   setLightbox: (l: { src: string; alt: string }) => void;
 }) {
@@ -2212,7 +2214,7 @@ function TimelineCarouselBody({
     if (paused) return;
     const timer = setInterval(() => {
       setCurrent((i) => (i + 1) % slides.length);
-    }, 6000);
+    }, 5000);
     return () => clearInterval(timer);
   }, [paused, slides.length]);
 
@@ -2220,8 +2222,7 @@ function TimelineCarouselBody({
   const goPrev = () => setCurrent((i) => (i - 1 + slides.length) % slides.length);
   const goNext = () => setCurrent((i) => (i + 1) % slides.length);
 
-  const cremaText = onCream ? "rgba(248,245,239,0.92)" : "var(--gy3)";
-  const cremaTextSoft = onCream ? "rgba(248,245,239,0.78)" : "var(--gy2)";
+  const cremaTextSoft = onCream ? "rgba(248,245,239,0.85)" : "var(--gy2)";
 
   return (
     <div
@@ -2229,114 +2230,135 @@ function TimelineCarouselBody({
       onMouseLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
+      className="min-[960px]:flex min-[960px]:gap-10 min-[960px]:items-start"
     >
-      {/* Entry header — year + title common to all slides */}
-      <div className="flex items-center justify-between mb-3 max-[640px]:mb-2">
-        <span className="text-[11px] font-bold tracking-[3px] uppercase max-[640px]:text-[10px] max-[640px]:tracking-[2px] text-[var(--g1)]">{year}</span>
-        <span className="text-[10px] font-bold tracking-[2px] uppercase max-[640px]:text-[9px] text-[var(--g1)]/70">{current + 1} / {slides.length}</span>
-      </div>
-      <h3 className="font-bold uppercase tracking-[-0.5px] leading-[1.05] mb-5 max-[640px]:mb-4 text-[clamp(20px,3.4vw,34px)]">
-        <span className="j3-grad-text">{title}</span>
-      </h3>
-
-      {/* Slide content — rotates */}
-      <div key={current} className="min-[960px]:flex min-[960px]:gap-10 min-[960px]:items-start animate-[j3FadeSlide_500ms_cubic-bezier(.16,1,.3,1)_both]">
-        <div className="min-[960px]:flex-1 min-[960px]:min-w-0">
-          <span
-            className="text-[10px] font-bold tracking-[3px] uppercase mb-2 block max-[640px]:text-[9px] max-[640px]:tracking-[2px]"
-            style={{ color: onCream ? "rgba(201,169,110,0.95)" : "var(--g1)" }}
-          >
-            {slide.eyebrow}
-          </span>
-          <h4
-            className="font-bold uppercase tracking-[-0.3px] leading-[1.15] mb-3 max-[640px]:mb-2 text-[clamp(15px,2.2vw,22px)]"
-            style={{ color: cremaText }}
-          >
-            {slide.title}
-          </h4>
+      {/* Texto fijo (no rota) */}
+      <div className="min-[960px]:flex-1 min-[960px]:min-w-0">
+        <span className="text-[11px] font-bold tracking-[3px] uppercase mb-2 block max-[640px]:text-[10px] max-[640px]:tracking-[2px] max-[640px]:mb-1 text-[var(--g1)]">{year}</span>
+        <h3 className="font-bold uppercase tracking-[-0.5px] leading-[1.1] mb-[10px] max-[640px]:mb-[6px] text-[clamp(18px,3vw,32px)]">
+          <span className="j3-grad-text">{title}</span>
+        </h3>
+        {desc && (
           <p
             className="font-light leading-[1.75] max-w-[620px] text-[15px] max-[640px]:text-[13px] max-[640px]:leading-[1.6]"
             style={{ color: cremaTextSoft }}
           >
-            {slide.desc}
+            {desc}
           </p>
-          {slide.badge && (
-            <span
-              className="inline-block text-[9px] max-[640px]:text-[8px] font-bold tracking-[2px] max-[640px]:tracking-[1.5px] uppercase px-3 max-[640px]:px-2.5 py-1 rounded-full mt-3 max-[640px]:mt-2 border text-[var(--g1)]"
-              style={{
-                backgroundColor: onCream ? "rgba(201,169,110,0.20)" : "rgba(201,169,110,0.10)",
-                borderColor: onCream ? "rgba(201,169,110,0.55)" : "rgba(201,169,110,0.35)",
-              }}
-            >
-              {slide.badge}
-            </span>
-          )}
-        </div>
-        <button
-          type="button"
-          onClick={() => setLightbox({ src: slide.image, alt: slide.title })}
-          className="relative mt-4 min-[960px]:mt-0 min-[960px]:flex-shrink-0 w-full max-w-[420px] min-[960px]:w-[340px] min-[1280px]:w-[400px] max-[640px]:max-w-full overflow-hidden rounded-sm aspect-[16/9] cursor-zoom-in group/img block"
-          style={{ border: `1px solid ${onCream ? "rgba(248,245,239,0.16)" : "rgba(248,245,239,0.08)"}` }}
-        >
-          <NextImage
-            src={slide.image}
-            alt={slide.title}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 960px) 420px, (max-width: 1280px) 340px, 400px"
-            className="object-cover transition-transform duration-700 group-hover/img:scale-[1.04]"
-            quality={90}
-          />
-        </button>
+        )}
+        {badge && (
+          <span
+            className="inline-block text-[9px] max-[640px]:text-[8px] font-bold tracking-[2px] max-[640px]:tracking-[1.5px] uppercase px-3 max-[640px]:px-2.5 py-1 rounded-full mt-3 max-[640px]:mt-2 border text-[var(--g1)]"
+            style={{
+              backgroundColor: onCream ? "rgba(201,169,110,0.20)" : "rgba(201,169,110,0.10)",
+              borderColor: onCream ? "rgba(201,169,110,0.55)" : "rgba(201,169,110,0.35)",
+            }}
+          >
+            {badge}
+          </span>
+        )}
       </div>
 
-      {/* Controls — dots + prev/next */}
-      <div className="flex items-center justify-between mt-5 max-[640px]:mt-4">
-        <div className="flex items-center gap-2" role="tablist" aria-label="Slides del hito">
-          {slides.map((_, i) => (
-            <button
+      {/* Foto rotativa + controles */}
+      <div className="mt-4 min-[960px]:mt-0 min-[960px]:flex-shrink-0 w-full max-w-[420px] min-[960px]:w-[340px] min-[1280px]:w-[400px] max-[640px]:max-w-full">
+        <button
+          type="button"
+          onClick={() => setLightbox({ src: slide.image, alt: slide.caption || title })}
+          className="relative w-full overflow-hidden rounded-sm aspect-[3/2] cursor-zoom-in group/img block"
+          style={{
+            border: `1px solid ${onCream ? "rgba(248,245,239,0.16)" : "rgba(248,245,239,0.08)"}`,
+            backgroundColor: "rgba(0,0,0,0.45)",
+          }}
+        >
+          {slides.map((s, i) => (
+            <NextImage
               key={i}
-              type="button"
-              role="tab"
-              aria-selected={i === current}
-              aria-label={`Ir al slide ${i + 1}`}
-              onClick={() => setCurrent(i)}
-              className="h-[3px] rounded-full transition-all duration-500"
+              src={s.image}
+              alt={s.caption || title}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 960px) 420px, (max-width: 1280px) 340px, 400px"
+              className="object-contain transition-opacity duration-700"
+              quality={90}
               style={{
-                width: i === current ? 36 : 14,
-                backgroundColor: i === current ? "rgba(201,169,110,0.95)" : "rgba(201,169,110,0.30)",
+                opacity: i === current ? 1 : 0,
+                objectPosition: s.imagePosition || "center",
               }}
             />
           ))}
-        </div>
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={goPrev}
-            aria-label="Slide anterior"
-            className="w-9 h-9 max-[640px]:w-8 max-[640px]:h-8 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-105"
-            style={{ border: "1px solid rgba(201,169,110,0.45)", color: "rgba(201,169,110,0.95)" }}
+          {/* Counter (esquina) */}
+          <span
+            className="absolute top-2 right-2 text-[9px] font-bold tracking-[2px] uppercase px-2 py-[3px] rounded-full backdrop-blur-md"
+            style={{
+              color: "rgba(248,245,239,0.95)",
+              backgroundColor: "rgba(14,28,22,0.55)",
+              border: "1px solid rgba(201,169,110,0.4)",
+            }}
+            aria-hidden
           >
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
-              <path d="M9 2 L4 7 L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            onClick={goNext}
-            aria-label="Slide siguiente"
-            className="w-9 h-9 max-[640px]:w-8 max-[640px]:h-8 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-105"
-            style={{ border: "1px solid rgba(201,169,110,0.45)", color: "rgba(201,169,110,0.95)" }}
+            {current + 1} / {slides.length}
+          </span>
+        </button>
+
+        {/* Caption del slide */}
+        {slide.caption && (
+          <p
+            key={current}
+            className="text-[11px] font-medium tracking-[1px] mt-3 max-[640px]:text-[10px] animate-[j3FadeCap_400ms_ease-out_both]"
+            style={{ color: onCream ? "rgba(248,245,239,0.75)" : "rgba(248,245,239,0.65)" }}
           >
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
-              <path d="M5 2 L10 7 L5 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
+            {slide.caption}
+          </p>
+        )}
+
+        {/* Controles */}
+        <div className="flex items-center justify-between mt-3 max-[640px]:mt-2">
+          <div className="flex items-center gap-2" role="tablist" aria-label="Fotos del hito">
+            {slides.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                role="tab"
+                aria-selected={i === current}
+                aria-label={`Ir a la foto ${i + 1}`}
+                onClick={() => setCurrent(i)}
+                className="h-[3px] rounded-full transition-all duration-500"
+                style={{
+                  width: i === current ? 32 : 12,
+                  backgroundColor: i === current ? "rgba(201,169,110,0.95)" : "rgba(201,169,110,0.30)",
+                }}
+              />
+            ))}
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={goPrev}
+              aria-label="Foto anterior"
+              className="w-8 h-8 max-[640px]:w-7 max-[640px]:h-7 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-105"
+              style={{ border: "1px solid rgba(201,169,110,0.45)", color: "rgba(201,169,110,0.95)" }}
+            >
+              <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden>
+                <path d="M9 2 L4 7 L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              onClick={goNext}
+              aria-label="Foto siguiente"
+              className="w-8 h-8 max-[640px]:w-7 max-[640px]:h-7 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-105"
+              style={{ border: "1px solid rgba(201,169,110,0.45)", color: "rgba(201,169,110,0.95)" }}
+            >
+              <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden>
+                <path d="M5 2 L10 7 L5 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
       <style>{`
-        @keyframes j3FadeSlide {
-          from { opacity: 0; transform: translateY(10px); }
+        @keyframes j3FadeCap {
+          from { opacity: 0; transform: translateY(4px); }
           to   { opacity: 1; transform: translateY(0); }
         }
       `}</style>
