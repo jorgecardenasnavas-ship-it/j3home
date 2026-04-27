@@ -2978,7 +2978,7 @@ export default function StoryPage() {
         {/* Stats overlay — appears during court disappearance, scroll-driven */}
         <div
           ref={statsOverlayRef}
-          className="absolute inset-0 z-[45] flex items-center justify-center pointer-events-none overflow-hidden"
+          className="absolute inset-0 z-[45] flex items-center justify-center pointer-events-none"
           style={{ opacity: 0 }}
         >
           {/* Background photo — coaching context for the stats moment */}
@@ -2989,22 +2989,23 @@ export default function StoryPage() {
             fill
             sizes="100vw"
             quality={85}
-            className="object-cover object-[55%_45%]"
+            className="object-cover object-[55%_45%] z-0"
           />
-          {/* Dark gradient over the photo so the stats are readable */}
+          {/* Dark gradient over the photo so the stats are readable.
+              Capa uniforme en el centro (donde están las dos filas) para
+              que ambas filas tengan el mismo contraste contra el fondo. */}
           <div
-            className="absolute inset-0 pointer-events-none"
+            className="absolute inset-0 pointer-events-none z-[1]"
             style={{
-              background:
-                "linear-gradient(180deg, rgba(14,28,22,0.85) 0%, rgba(14,28,22,0.65) 35%, rgba(14,28,22,0.78) 70%, rgba(14,28,22,0.92) 100%)",
+              background: "rgba(14,28,22,0.78)",
             }}
           />
           {/* Subtle radial glow */}
           <div
-            className="absolute inset-0 pointer-events-none"
+            className="absolute inset-0 pointer-events-none z-[2]"
             style={{ background: "radial-gradient(ellipse 70% 50% at 50% 40%, rgba(201,169,110,.10) 0%, transparent 70%)" }}
           />
-          <div className="text-center w-full max-w-[1000px] px-6 md:px-12">
+          <div className="relative z-[3] text-center w-full max-w-[1000px] px-6 md:px-12">
             {/* Header */}
             <span
               ref={statsHeaderRef}
