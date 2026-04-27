@@ -380,6 +380,14 @@ export const en = {
           image: "/images/story/timeline/guille-collado-2024.jpeg",
         },
         {
+          year: "November 2024",
+          title: "FIP Platinum CDMX champions",
+          desc: "\u00C1lex Arroyo and \u00C1lex Ruiz, both formed at Ocean Padel and coached by J3, lift the FIP Platinum CDMX trophy. Another international title with a M\u00E1laga signature.",
+          badge: "FIP Platinum CDMX \u00B7 Champions \u00B7 2024",
+          highlight: true,
+          image: "/images/story/timeline/fip-platinum-cdmx-2024.jpeg",
+        },
+        {
           year: "2024-2025",
           title: "From M\u00E1laga to the world",
           desc: "Fully dedicated to building J3Padel as an ecosystem: training, management, content and high performance.",

@@ -380,6 +380,14 @@ export const pt = {
           image: "/images/story/timeline/guille-collado-2024.jpeg",
         },
         {
+          year: "Novembro 2024",
+          title: "Campeões FIP Platinum CDMX",
+          desc: "Álex Arroyo e Álex Ruiz, ambos formados no Ocean Padel e treinados por J3, levantam o FIP Platinum CDMX. Mais um título internacional com selo malagueño.",
+          badge: "FIP Platinum CDMX · Campeões · 2024",
+          highlight: true,
+          image: "/images/story/timeline/fip-platinum-cdmx-2024.jpeg",
+        },
+        {
           year: "2024-2025",
           title: "De Málaga para o mundo",
           desc: "Dedicados em exclusivo a construir J3Padel como ecossistema: formação, gestão, conteúdo e alto rendimento.",

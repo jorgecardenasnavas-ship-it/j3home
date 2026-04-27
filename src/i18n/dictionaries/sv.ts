@@ -380,6 +380,14 @@ export const sv = {
           image: "/images/story/timeline/guille-collado-2024.jpeg",
         },
         {
+          year: "November 2024",
+          title: "Mästare FIP Platinum CDMX",
+          desc: "Álex Arroyo och Álex Ruiz, båda formade på Ocean Padel och tränade av J3, lyfter pokalen i FIP Platinum CDMX. Ännu en internationell titel med signatur från Málaga.",
+          badge: "FIP Platinum CDMX \u00B7 Mästare \u00B7 2024",
+          highlight: true,
+          image: "/images/story/timeline/fip-platinum-cdmx-2024.jpeg",
+        },
+        {
           year: "2024-2025",
           title: "Från Málaga till världen",
           desc: "Helhjärtat fokuserade på att bygga J3Padel som ekosystem: utbildning, förvaltning, innehåll och elitträning.",
