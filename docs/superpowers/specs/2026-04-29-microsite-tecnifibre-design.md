@@ -4,22 +4,22 @@
 **Autor:** Jorge Cárdenas (CSO J3Padel) + diseño en colaboración
 **Estado:** Diseño aprobado — pendiente de plan de implementación
 **Ruta de la página:** `j3padel.com/tecnifibre` (alias `/tecnifibre` en el repo `mi-clon`)
-**Audiencia:** Raul (Tecnifibre / Lacoste), interlocutor único en la negociación.
+**Audiencia:** Raúl (Tecnifibre / Lacoste), interlocutor único en la negociación.
 
 ---
 
 ## 1. Contexto y objetivo
 
 ### Contexto
-Raul ha enviado un correo iniciando los pasos operativos de la colaboración (reunión con Nico, perfiles TecniVIP, contrato). Pide datos cuantitativos y cualitativos: cajones de pelotas, equipación, staff, presencia en clubes, foco de propuesta de valor.
+Raúl ha enviado un correo iniciando los pasos operativos de la colaboración (reunión con Nico, perfiles TecniVIP, contrato). Pide datos cuantitativos y cualitativos: cajones de pelotas, equipación, staff, presencia en clubes, foco de propuesta de valor.
 
 J3Padel tiene preparado un borrador de respuesta vía email que cumple la petición pero también introduce una propuesta estratégica de tres palancas (Club, J3PTV, Coach360). En lugar de mandar ese email, se decide **construir un microsite privado** que dramatice la propuesta y **acompañarlo de un email corto** con link y los datos operativos como P.D.
 
 ### Objetivo
-Pasar de "responder a una petición operativa" a **enmarcar la conversación al nivel estratégico** que Coach360 merece, sin descuidar la operativa que Raul necesita para arrancar el contrato.
+Pasar de "responder a una petición operativa" a **enmarcar la conversación al nivel estratégico** que Coach360 merece, sin descuidar la operativa que Raúl necesita para arrancar el contrato.
 
 ### Éxito (cómo sabremos que funciona)
-- Raul abre el link, lo lee del tirón, y responde **proponiendo siguiente conversación específicamente sobre Coach360 co-branded**, no solo sobre operativa.
+- Raúl abre el link, lo lee del tirón, y responde **proponiendo siguiente conversación específicamente sobre Coach360 co-branded**, no solo sobre operativa.
 - La reunión con Nico se cuadra esa misma semana.
 - Jorge / Tecnifibre / Lacoste salen de la conversación con sensación de estar construyendo algo distinto, no firmando un contrato estándar de marca-club.
 
@@ -32,7 +32,7 @@ Pasar de "responder a una petición operativa" a **enmarcar la conversación al 
 | Formato del envío | Microsite privado + email corto |
 | Email | 3 líneas con link + P.D. con datos operativos |
 | Estructura del microsite | **Capítulos puros** (5 capítulos a pantalla completa, estilo coherente con `/story`) |
-| Tono | Visión cálida — primera persona del plural, frases cortas, pensado para Raul específicamente |
+| Tono | Visión cálida — primera persona del plural, frases cortas, pensado para Raúl específicamente |
 | URL | `/tecnifibre` (privada, sin login, share-link suficiente) |
 | Mobile | Mobile-first; capítulos en swipe vertical/horizontal según corresponda |
 | Email de contacto en CTA | `jorge@j3padel.com` |
@@ -41,8 +41,8 @@ Pasar de "responder a una petición operativa" a **enmarcar la conversación al 
 | Subject del email | "Una propuesta para Tecnifibre × Lacoste" |
 | Hermano que envió datos personales | Javi (sustituye `[hermano]` en email PD) |
 | Cierre del email/microsite | Activo: *"Cuando lo veas, te llamo yo y lo aterrizamos."* (alineado microsite + email) |
-| Eyebrow Cap 1 (top-right) | **PARA RAUL · TECNIFIBRE × LACOSTE** (triple personalización) |
-| Eyebrow Cap 4 | *"— Raul, aquí está donde queremos llegar contigo —"* (segunda mención personal) |
+| Eyebrow Cap 1 (top-right) | **PARA RAÚL · TECNIFIBRE × LACOSTE** (triple personalización) |
+| Eyebrow Cap 4 | *"— Raúl, aquí está donde queremos llegar contigo —"* (segunda mención personal) |
 | Título Cap 4 | *"Dos marcas. Una operación."* (paralelismo punzante) |
 | Visualización Coach360 (Cap 3 P03) | Mapamundi estilizado + dots champán pulsantes (10+ países, +100 entrenadores) |
 
@@ -52,14 +52,14 @@ Pasar de "responder a una petición operativa" a **enmarcar la conversación al 
 
 5 capítulos, cada uno a pantalla completa, navegación tipo `/story`. Indicador de progreso visible (pips arriba + contador "XX / 05").
 
-### Capítulo 1 · Hero — *Hola, Raul.*
+### Capítulo 1 · Hero — *Hola, Raúl.*
 
 **Función narrativa:** saludo personal + impacto inmediato.
 
 - Fondo: imagen full-screen de instalación J3 (candidato: `/public/images/hero.jpeg`) con overlay verde oscuro lineal `rgba(14, 28, 22, 0.7)` → `rgba(27, 61, 47, 0.45)`.
-- Etiqueta arriba-izquierda: `J3PADEL`. Etiqueta arriba-derecha: `PARA RAUL · TECNIFIBRE × LACOSTE`. Tipografía small caps champán. **Triple personalización al primer vistazo** — antes de que el ojo baje al "Hola, Raul.", ya ha visto su nombre arriba.
+- Etiqueta arriba-izquierda: `J3PADEL`. Etiqueta arriba-derecha: `PARA RAÚL · TECNIFIBRE × LACOSTE`. Tipografía small caps champán. **Triple personalización al primer vistazo** — antes de que el ojo baje al "Hola, Raúl.", ya ha visto su nombre arriba.
 - Pre-headline: `— Una propuesta privada —` en champán.
-- **Headline:** `Hola, Raul.` — serif fina, ~72-96px, color crema, peso 300.
+- **Headline:** `Hola, Raúl.` — serif fina, ~72-96px, color crema, peso 300.
 - **Subtítulo:** `Lo que podemos construir juntos.` — peso 300, opacidad 0.85.
 - Indicador inferior derecha: `DESLIZA` + dot animado en champán.
 
@@ -113,7 +113,7 @@ Sub-navegación: **carrusel horizontal** — el usuario hace swipe (mobile) o us
 
 **Función narrativa:** la propuesta concreta. Dos partes encadenadas con scroll interno.
 
-- **Eyebrow del capítulo:** *"— Raul, aquí está donde queremos llegar contigo —"* (segunda mención personal en el microsite, justo antes del clímax — funciona psicológicamente para que Raul sienta que el documento no se desviste de él en ningún momento).
+- **Eyebrow del capítulo:** *"— Raúl, aquí está donde queremos llegar contigo —"* (segunda mención personal en el microsite, justo antes del clímax — funciona psicológicamente para que Raúl sienta que el documento no se desviste de él en ningún momento).
 - **Título del capítulo:** *"Dos marcas. Una operación."* (paralelismo que hace mirror del contenido: Tecnifibre + Lacoste → propuesta unificada).
 
 #### 4 a · Diferenciación de marcas
@@ -206,7 +206,7 @@ Bloque oscuro full-width (verde profundo a negro), texto crema/champán.
 Subject **locked**: **"Una propuesta para Tecnifibre × Lacoste"**
 
 ```
-Hola Raul,
+Hola Raúl,
 
 He montado esto pensando en ti específicamente:
 → j3padel.com/tecnifibre
@@ -240,7 +240,7 @@ Lo de Nico lo cuadramos esta semana y te confirmo. Tema IVA intracomunitario, an
 - **Componentes:** crear componentes específicos en `src/components/tecnifibre/` (HeroChapter, StatsChapter, LeversChapter, ProposalChapter, CTAChapter, ChapterNav). NO reutilizar componentes de la web pública para evitar acoplamiento.
 - **Imágenes:** todas desde `/public/images/`. Optimizar con `<Image>` de Next.js. Lazy-load para cap 2-5.
 - **Privacidad:** `noindex, nofollow` en metadata. URL share-only, sin login.
-- **SEO:** meta title `J3Pádel × Tecnifibre / Lacoste` (no público pero por si Raul comparte).
+- **SEO:** meta title `J3Pádel × Tecnifibre / Lacoste` (no público pero por si Raúl comparte).
 - **Despliegue:** Vercel automático tras commit + push a master (memoria del proyecto).
 - **Mobile:** breakpoints 768 / 1024. Testar Chrome iOS y Android. Capítulos a pantalla completa con `100dvh` (no `vh`, que falla con address bar).
 
@@ -251,7 +251,7 @@ Lo de Nico lo cuadramos esta semana y te confirmo. Tema IVA intracomunitario, an
 Para que el alcance no se infle:
 
 - **NO** implementar el directorio "Encuentra a tu Coach" funcional — solo lo mencionamos como propuesta. Es trabajo posterior una vez se firme.
-- **NO** crear sistema de gestión de microsites por cliente — esto es una página única hardcodeada para Raul.
+- **NO** crear sistema de gestión de microsites por cliente — esto es una página única hardcodeada para Raúl.
 - **NO** internacionalizar — solo español.
 - **NO** A/B test ni analytics complejos — es una página privada para una persona.
 - **NO** formulario de contacto — solo `mailto:` directo.

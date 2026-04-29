@@ -7,23 +7,29 @@ interface ChapterNavProps {
 
 /**
  * Indicador de progreso compartido por todos los capítulos.
- * Pips a la izquierda + contador "XX / 05" a la derecha.
+ * Estilo coherente con eyebrows de la marca J3 (champán + tracking generoso).
  */
 export function ChapterNav({ current, total }: ChapterNavProps) {
   return (
-    <div className="flex items-center justify-between text-[11px] tracking-[2px] uppercase text-[#F8F5EF]/55">
-      <div className="inline-flex gap-[6px]">
+    <div className="flex items-center justify-between text-[10px] font-medium tracking-[2.5px] uppercase text-[var(--wh)]/55">
+      <div className="inline-flex items-center gap-[6px]">
         {Array.from({ length: total }).map((_, i) => (
           <span
             key={i}
-            className={`block h-[2px] w-[18px] transition-colors duration-500 ${
-              i < current ? "bg-[#C9A96E]" : "bg-[#F8F5EF]/25"
-            }`}
+            className="block h-[2px] w-[20px] transition-colors"
+            style={{
+              background:
+                i < current ? "var(--g1)" : "rgba(248, 245, 239, 0.18)",
+              transitionDuration: "600ms",
+              transitionTimingFunction: "cubic-bezier(.16,1,.3,1)",
+            }}
           />
         ))}
       </div>
-      <span>
-        {String(current).padStart(2, "0")} / {String(total).padStart(2, "0")}
+      <span className="tabular-nums tracking-[3px]">
+        {String(current).padStart(2, "0")}
+        <span className="opacity-40 mx-[3px]">/</span>
+        {String(total).padStart(2, "0")}
       </span>
     </div>
   );

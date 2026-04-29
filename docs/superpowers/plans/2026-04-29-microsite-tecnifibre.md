@@ -270,7 +270,7 @@ export function HeroChapter() {
       <div className="relative z-10 flex flex-col flex-1">
         <header className="flex items-center justify-between text-[11px] tracking-[3px] uppercase text-[#C9A96E]/85">
           <span>J3PÁDEL</span>
-          <span>Para Raul · Tecnifibre × Lacoste</span>
+          <span>Para Raúl · Tecnifibre × Lacoste</span>
         </header>
 
         <div className="flex-1 flex flex-col justify-center gap-4 max-w-3xl">
@@ -278,7 +278,7 @@ export function HeroChapter() {
             — Una propuesta privada —
           </span>
           <h1 className="font-serif font-light text-[64px] sm:text-[88px] lg:text-[112px] leading-[1] tracking-[-0.02em] text-[#F8F5EF]">
-            Hola, Raul.
+            Hola, Raúl.
           </h1>
           <p className="font-light text-[18px] sm:text-[22px] leading-[1.4] text-[#F8F5EF]/85 max-w-xl">
             Lo que podemos construir juntos.
@@ -317,13 +317,13 @@ export default function TecnifibrePage() {
 
 Run: `npm run dev`
 Open: `http://localhost:3000/tecnifibre`
-Expected: hero a pantalla completa con foto de fondo, "Hola, Raul." enorme en serif, etiquetas arriba "J3PÁDEL" + "PARA RAUL · TECNIFIBRE × LACOSTE", subtítulo, indicador "Desliza" abajo derecha pulsando, pips de progreso abajo izquierda con el primero en champán.
+Expected: hero a pantalla completa con foto de fondo, "Hola, Raúl." enorme en serif, etiquetas arriba "J3PÁDEL" + "PARA RAÚL · TECNIFIBRE × LACOSTE", subtítulo, indicador "Desliza" abajo derecha pulsando, pips de progreso abajo izquierda con el primero en champán.
 
 - [ ] **Step 4: Commit**
 
 ```bash
 git add src/app/tecnifibre/_components/HeroChapter.tsx src/app/tecnifibre/page.tsx
-git commit -m "feat(tecnifibre): capítulo 1 hero con triple personalización a Raul"
+git commit -m "feat(tecnifibre): capítulo 1 hero con triple personalización a Raúl"
 ```
 
 ---
@@ -893,7 +893,7 @@ export function ProposalChapter() {
       </header>
 
       <span className="block text-[11px] tracking-[3px] uppercase text-[#1B3D2F]/70 mb-2">
-        — Raul, aquí está donde queremos llegar contigo —
+        — Raúl, aquí está donde queremos llegar contigo —
       </span>
       <h2 className="font-serif font-light text-[32px] sm:text-[44px] lg:text-[52px] leading-[1.15] tracking-[-0.01em] text-[#0E1C16] mb-12 max-w-3xl">
         Dos marcas. Una operación.
@@ -987,7 +987,7 @@ export default function TecnifibrePage() {
 - [ ] **Step 5: Verificar visual**
 
 Run: `npm run dev`, navegar a `/tecnifibre`, scroll a Cap 4.
-Expected: fondo crema con eyebrow personal "Raul, aquí está donde queremos llegar contigo", título "Dos marcas. Una operación.", dos cards Tecnifibre/Lacoste, bloque verde oscuro con propuesta co-branded, badge champán abstracto, frase final en cursiva.
+Expected: fondo crema con eyebrow personal "Raúl, aquí está donde queremos llegar contigo", título "Dos marcas. Una operación.", dos cards Tecnifibre/Lacoste, bloque verde oscuro con propuesta co-branded, badge champán abstracto, frase final en cursiva.
 
 - [ ] **Step 6: Commit**
 
@@ -1248,13 +1248,13 @@ Sin cambios necesarios si Task 1 se completó correctamente.
 - [ ] **Step 1: Crear el archivo con el email final**
 
 ```markdown
-# Email a Raul — borrador final
+# Email a Raúl — borrador final
 
 **Asunto:** Una propuesta para Tecnifibre × Lacoste
 
 ---
 
-Hola Raul,
+Hola Raúl,
 
 He montado esto pensando en ti específicamente:
 → https://j3home.vercel.app/tecnifibre
@@ -1313,7 +1313,7 @@ Run: `npm run dev`. Abrir `http://localhost:3000/tecnifibre` en:
 - Chrome DevTools responsive iPad
 
 Recorrer los 5 capítulos en cada viewport. Verificar:
-- [ ] Cap 1: imagen de fondo carga, "Hola, Raul." legible, etiquetas top y "Desliza" abajo.
+- [ ] Cap 1: imagen de fondo carga, "Hola, Raúl." legible, etiquetas top y "Desliza" abajo.
 - [ ] Cap 2: tres datos se revelan en cascada al entrar.
 - [ ] Cap 3: swipe horizontal funciona; las 3 palancas tienen sus visuales correctos; en P03 el globo gira y los rings pulsan.
 - [ ] Cap 4: cards Tecnifibre/Lacoste, bloque co-branded con steps y badge.
@@ -1334,7 +1334,7 @@ Esperar ~2 minutos, abrir `https://j3home.vercel.app/tecnifibre`. Verificar que 
 El microsite está vivo en su URL final. Pasamos el control a Jorge para:
 1. Revisar visualmente y decir si algo cambia.
 2. Aprobar el email definitivo (ver `docs/superpowers/specs/2026-04-29-microsite-tecnifibre-email.md`).
-3. Enviar a Raul.
+3. Enviar a Raúl.
 
 ---
 
@@ -1350,7 +1350,7 @@ El microsite está vivo en su URL final. Pasamos el control a Jorge para:
 - Privacy / noindex ✓ Tasks 1 + 12
 - Mobile 100dvh ✓ Task 11
 - Animations ✓ Task 10
-- Triple personalization (Raul) ✓ Cap 1 eyebrow (Task 4) + Cap 4 eyebrow (Task 8)
+- Triple personalization (Raúl) ✓ Cap 1 eyebrow (Task 4) + Cap 4 eyebrow (Task 8)
 - Active closing ✓ Cap 5 (Task 9) + email (Task 13)
 - Coach360 con +10 países y mapa estilizado ✓ Task 7
 
