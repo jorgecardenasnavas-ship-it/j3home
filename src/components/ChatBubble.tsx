@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import { useI18n } from "@/i18n/context";
 
 /**
@@ -21,6 +22,7 @@ export interface ChatOpenDetail {
 }
 
 export function ChatBubble() {
+  const pathname = usePathname();
   const [hovered, setHovered] = useState(false);
   const [bottomOffset, setBottomOffset] = useState(24);
   const [pastHero, setPastHero] = useState(false);
@@ -30,6 +32,9 @@ export function ChatBubble() {
   const { t } = useI18n();
   const rafRef = useRef(0);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  // Hide on private microsite routes (e.g. /tecnifibre).
+  const hiddenRoute = pathname?.startsWith("/tecnifibre") ?? false;
 
   /* ── Scroll-aware visibility (unchanged) ── */
   useEffect(() => {
@@ -117,7 +122,9 @@ export function ChatBubble() {
     window.open(url, "_blank", "noopener,noreferrer");
   }
 
-  const visible = pastHero && !inHideZone;
+  const visible = pastHero && !inHideZone && !hiddenRoute;
+
+  if (hiddenRoute) return null;
 
   return (
     <>
