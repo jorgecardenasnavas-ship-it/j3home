@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /* ──────────────────────────────────────────────────────────────
    Capítulo 04 — La propuesta.
@@ -194,176 +194,6 @@ function BalanceColumn({
             </p>
           </div>
         )}
-      </div>
-    </div>
-  );
-}
-
-interface PathCardProps {
-  num: string;
-  brand: ReactNode;
-  tag: string;
-  pitch: ReactNode;
-  vias: string[];
-  anchor: string;
-  highlight?: boolean;
-  highlightLabel?: string;
-}
-
-function PathCard({
-  num,
-  brand,
-  tag,
-  pitch,
-  vias,
-  anchor,
-  highlight,
-  highlightLabel,
-}: PathCardProps) {
-  return (
-    <div
-      className={`relative flex flex-col overflow-hidden rounded-[6px] border backdrop-blur-[14px] ${
-        highlight
-          ? "border-[var(--g1)]/45"
-          : "border-[var(--g1)]/22"
-      }`}
-      style={{
-        background: highlight
-          ? "linear-gradient(160deg, rgba(201,169,110,0.15) 0%, rgba(201,169,110,0.06) 45%, rgba(14,28,22,0.92) 100%)"
-          : "linear-gradient(155deg, rgba(27,61,47,0.92) 0%, rgba(27,61,47,0.84) 50%, rgba(14,28,22,0.94) 100%)",
-        boxShadow: highlight
-          ? "0 1px 0 0 rgba(255,255,255,0.06) inset, 0 30px 80px -40px rgba(0,0,0,0.7), 0 0 60px -30px rgba(201,169,110,0.4)"
-          : "0 1px 0 0 rgba(255,255,255,0.04) inset, 0 30px 80px -40px rgba(0,0,0,0.65)",
-      }}
-    >
-      {/* Top hairline */}
-      <span
-        aria-hidden
-        className={`absolute top-0 left-0 right-0 h-px bg-gradient-to-r ${
-          highlight
-            ? "from-[var(--g1)]/30 via-[var(--g1)] to-[var(--g1)]/30"
-            : "from-transparent via-[var(--g1)]/55 to-transparent"
-        }`}
-      />
-      {/* Inner highlight */}
-      <span
-        aria-hidden
-        className="absolute top-px left-3 right-3 h-[1px] bg-white/[0.06]"
-      />
-
-      {/* Corner brackets */}
-      <span aria-hidden className="absolute top-3 left-3 w-3 h-3 border-t border-l border-[var(--g1)]/50" />
-      <span aria-hidden className="absolute top-3 right-3 w-3 h-3 border-t border-r border-[var(--g1)]/50" />
-      <span aria-hidden className="absolute bottom-3 left-3 w-3 h-3 border-b border-l border-[var(--g1)]/50" />
-      <span aria-hidden className="absolute bottom-3 right-3 w-3 h-3 border-b border-r border-[var(--g1)]/50" />
-
-      {/* Highlight badge — solo en la card "la grande" */}
-      {highlight && highlightLabel && (
-        <div className="absolute top-0 right-0 overflow-hidden">
-          <div
-            className="text-[8px] font-bold tracking-[3px] uppercase text-[var(--bk)] bg-[var(--g1)] px-3 py-1.5"
-            style={{ letterSpacing: "3px" }}
-          >
-            {highlightLabel}
-          </div>
-        </div>
-      )}
-
-      {/* Ambient glow */}
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: highlight
-            ? "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,169,110,0.18) 0%, transparent 65%)"
-            : "radial-gradient(ellipse 70% 50% at 15% 10%, rgba(201,169,110,0.10) 0%, transparent 60%)",
-        }}
-      />
-
-      {/* Grain texture */}
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none opacity-[0.025] mix-blend-overlay"
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
-        }}
-      />
-
-      {/* Content */}
-      <div className="relative flex flex-col gap-5 p-7 sm:p-8 h-full">
-        {/* Header con tier marker */}
-        <div className="flex items-center gap-3">
-          <span className="text-[10px] font-bold tracking-[3.5px] uppercase text-[var(--g1)] tabular-nums">
-            Camino {num}
-          </span>
-          <span aria-hidden className="block flex-1 h-px bg-[var(--g1)]/25" />
-        </div>
-
-        {/* Tag */}
-        <div className="text-[9px] font-bold tracking-[3px] uppercase text-[var(--g1)]/85">
-          {tag}
-        </div>
-
-        {/* Brand — display, serif */}
-        <h4
-          className="font-serif font-light leading-[1.0] tracking-[-0.012em] text-[#E8DDD0] -mt-2"
-          style={{
-            fontFamily: "var(--font-serif)",
-            fontSize: "clamp(28px, 3.2vw, 40px)",
-          }}
-        >
-          {brand}
-        </h4>
-
-        {/* Pitch — italic editorial */}
-        <p
-          className="italic text-[var(--wh)]/85 leading-[1.35]"
-          style={{
-            fontFamily: "var(--font-serif)",
-            fontSize: "clamp(15px, 1.4vw, 17px)",
-          }}
-        >
-          {pitch}
-        </p>
-
-        {/* Divider */}
-        <span aria-hidden className="block h-px w-10 bg-[var(--g1)]/35" />
-
-        {/* Vías list */}
-        <div className="flex flex-col gap-3">
-          <div className="text-[9px] font-bold tracking-[3px] uppercase text-[var(--g1)]/85">
-            — Vías de activación
-          </div>
-          <ul className="flex flex-col gap-2.5">
-            {vias.map((via, i) => (
-              <li
-                key={i}
-                className="flex items-baseline gap-2.5 text-[12.5px] sm:text-[13px] text-[var(--wh)]/82 leading-[1.5] font-light"
-              >
-                <span
-                  aria-hidden
-                  className="inline-block w-1 h-1 rounded-full bg-[var(--g1)] mt-[7px] shrink-0"
-                  style={{ boxShadow: "0 0 5px rgba(201,169,110,0.5)" }}
-                />
-                <span>{via}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Spacer flex */}
-        <div className="flex-1" />
-
-        {/* Anchor footer */}
-        <div className="pt-4 border-t border-[var(--g1)]/15">
-          <div className="text-[10px] tracking-[1.2px] uppercase text-[var(--wh)]/60 font-light">
-            <span className="text-[var(--g1)]/85 font-semibold tracking-[2px]">
-              {highlight ? "Anclaje · " : "Anclaje · "}
-            </span>
-            <span className="italic text-[var(--wh)]/75">{anchor}</span>
-          </div>
-        </div>
       </div>
     </div>
   );
@@ -679,144 +509,80 @@ export function ProposalChapter() {
           </div>
         </div>
 
-        {/* DIVIDER editorial — introduce los tres caminos */}
+        {/* CIERRE EDITORIAL — teaser del co-branded "la grande".
+            Bloque sutil, no card pesada. Invita a la conversación. */}
         <div
-          className="text-center mb-12 sm:mb-16"
-          style={{
-            opacity: visible ? 1 : 0,
-            transform: visible ? "none" : "translateY(16px)",
-            transition: `all 1.1s cubic-bezier(.16,1,.3,1) ${delay(5)}`,
-          }}
-        >
-          <div className="inline-flex items-center gap-4 mb-5">
-            <span aria-hidden className="block h-px w-12 bg-[var(--g1)]/45" />
-            <span className="text-[10px] font-bold tracking-[4px] uppercase text-[var(--g1)]">
-              Activación
-            </span>
-            <span aria-hidden className="block h-px w-12 bg-[var(--g1)]/45" />
-          </div>
-          <h3
-            className="font-serif font-light text-[#E8DDD0] tracking-[-0.012em] leading-[1.1] mb-3"
-            style={{
-              fontFamily: "var(--font-serif)",
-              fontSize: "clamp(28px, 4vw, 48px)",
-            }}
-          >
-            Tres formas de <span className="italic text-[var(--g1)]/95">activarlo</span>.
-          </h3>
-          <p
-            className="italic text-[var(--wh)]/65 max-w-[600px] mx-auto leading-[1.5]"
-            style={{
-              fontFamily: "var(--font-serif)",
-              fontSize: "clamp(14px, 1.4vw, 17px)",
-            }}
-          >
-            Coach360 ya está montada. La diferencia es por dónde entráis.
-          </p>
-        </div>
-
-        {/* BLOQUE 2 — TRES CAMINOS */}
-        <div
-          className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 lg:gap-7 items-stretch"
-          style={{
-            opacity: visible ? 1 : 0,
-            transform: visible ? "none" : "translateY(28px)",
-            transition: `all 1.4s cubic-bezier(.16,1,.3,1) ${delay(6)}`,
-          }}
-        >
-          <PathCard
-            num="01"
-            brand="Tecnifibre"
-            tag="Producto técnico"
-            pitch={
-              <>
-                Donde el coach decide
-                <br />
-                qué pala recomienda.
-              </>
-            }
-            vias={[
-              "Drops en sedes — Vals Limoneros + Finura.",
-              "Embajadores activos en la red Coach360.",
-              "Demo days y presencia en stages técnicos.",
-              "Contenido de rendimiento en J3Ptv.",
-            ]}
-            anchor="Palanca técnica."
-          />
-          <PathCard
-            num="02"
-            brand="Lacoste"
-            tag="Lifestyle premium"
-            pitch={
-              <>
-                El Padel premium
-                <br />
-                se viste con criterio.
-              </>
-            }
-            vias={[
-              "Textil de pista llevado por los dos directivos.",
-              "Presencia en J3Ptv — calidad, no volumen.",
-              "Embajadores con criterio aspiracional.",
-            ]}
-            anchor="Palanca lifestyle."
-          />
-          <PathCard
-            num="03"
-            highlight
-            highlightLabel="La grande"
-            brand={
-              <>
-                J3{" "}
-                <span className="text-[var(--g1)]/90 font-medium">×</span>{" "}
-                Tecnifibre
-              </>
-            }
-            tag="Programa exclusivo"
-            pitch={
-              <>
-                Una línea que solo
-                <br />
-                existe aquí.
-              </>
-            }
-            vias={[
-              "Línea limitada con sello J3 — pala, textil técnico, accesorio.",
-              "Coach360 como early-access club: producto antes de mercado.",
-              "Drops anuales en sedes y eventos co-branded.",
-              "Editorial dedicado en J3Ptv — la historia detrás de la línea.",
-            ]}
-            anchor="El programa que convierte la red en canal."
-          />
-        </div>
-
-        {/* Cierre del capítulo */}
-        <div
-          className="mt-16 sm:mt-20 text-center"
+          className="relative text-center max-w-[760px] mx-auto"
           style={{
             opacity: visible ? 1 : 0,
             transform: visible ? "none" : "translateY(20px)",
-            transition: `all 1.2s cubic-bezier(.16,1,.3,1) ${delay(6)}`,
+            transition: `all 1.3s cubic-bezier(.16,1,.3,1) ${delay(6)}`,
           }}
         >
-          <div className="inline-flex items-center gap-4 mb-5">
-            <span aria-hidden className="block h-px w-12 bg-[var(--g1)]/45" />
-            <span className="text-[10px] font-bold tracking-[4px] uppercase text-[var(--g1)]">
-              Cierre
-            </span>
-            <span aria-hidden className="block h-px w-12 bg-[var(--g1)]/45" />
+          {/* Hairlines decorativos arriba y abajo */}
+          <span
+            aria-hidden
+            className="block h-px w-full bg-gradient-to-r from-transparent via-[var(--g1)]/40 to-transparent mb-12 sm:mb-16"
+          />
+
+          {/* Eyebrow */}
+          <div className="text-[10px] sm:text-[11px] font-bold tracking-[4px] uppercase text-[var(--g1)]/85 mb-5">
+            — Y si queremos ir más allá
           </div>
-          <p
-            className="font-serif italic text-[#E8DDD0] leading-[1.25] tracking-[-0.01em] max-w-[700px] mx-auto"
+
+          {/* Brand display gigante */}
+          <h3
+            className="font-serif font-light text-[#E8DDD0] tracking-[-0.014em] leading-[0.95] mb-6"
             style={{
               fontFamily: "var(--font-serif)",
-              fontSize: "clamp(22px, 3vw, 36px)",
+              fontSize: "clamp(44px, 7vw, 96px)",
             }}
           >
-            Empezamos por una. O por las tres.
-            <br />
-            <span className="text-[var(--g1)]">Vosotros decidís.</span>
+            J3{" "}
+            <span className="italic text-[var(--g1)] font-normal">×</span>{" "}
+            Tecnifibre
+          </h3>
+
+          {/* Sub-tag — la grande */}
+          <div className="inline-flex items-center gap-3 mb-7">
+            <span aria-hidden className="block h-px w-8 bg-[var(--g1)]/55" />
+            <span
+              className="italic text-[var(--g1)] tracking-[0.3px]"
+              style={{
+                fontFamily: "var(--font-serif)",
+                fontSize: "clamp(14px, 1.5vw, 18px)",
+              }}
+            >
+              la grande
+            </span>
+            <span aria-hidden className="block h-px w-8 bg-[var(--g1)]/55" />
+          </div>
+
+          {/* Pitch line */}
+          <p
+            className="font-serif italic text-[#E8DDD0]/92 leading-[1.3] mb-10 max-w-[560px] mx-auto"
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontSize: "clamp(20px, 2.4vw, 30px)",
+            }}
+          >
+            Una línea que solo existe aquí.
           </p>
+
+          {/* Mini-CTA editorial */}
+          <p
+            className="text-[11px] sm:text-[12px] tracking-[3px] uppercase text-[var(--wh)]/55 font-light"
+          >
+            <span className="italic text-[var(--wh)]/70 normal-case tracking-[0.3px]" style={{ fontFamily: "var(--font-serif)", fontSize: "clamp(13px, 1.3vw, 15px)" }}>
+              Lo concretamos en mesa.
+            </span>
+          </p>
+
+          {/* Hairline final */}
+          <span
+            aria-hidden
+            className="block h-px w-full bg-gradient-to-r from-transparent via-[var(--g1)]/40 to-transparent mt-12 sm:mt-16"
+          />
         </div>
       </div>
     </section>
