@@ -380,7 +380,7 @@ export function ProposalChapter() {
               </>
             }
             vias={[
-              "Textil de pista en sedes y staff.",
+              "Textil y calzado de pista, llevados por los dos directivos. Por primera vez en el Padel.",
               "Capsule editorial co-firmada con J3.",
               "Presencia en J3Ptv — calidad, no volumen.",
               "Embajadores con criterio aspiracional.",
