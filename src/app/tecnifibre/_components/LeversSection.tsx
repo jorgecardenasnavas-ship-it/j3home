@@ -257,18 +257,19 @@ function NetworkTier({
 
         {/* Col 4-12: Contenido */}
         <div className="col-span-12 sm:col-span-9 flex flex-col gap-1.5">
-          {/* Header: nombre + type chip */}
+          {/* Header: nombre + type chip — fluid sizing para que nombres largos
+              ("Certificados / Verificados") encajen en una sola línea */}
           <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
             <h5
-              className="font-semibold text-[#E8DDD0] tracking-[-0.012em] leading-[1.0] whitespace-nowrap"
+              className="font-semibold text-[#E8DDD0] tracking-[-0.012em] leading-[1.0]"
               style={{
                 fontFamily: "var(--font-sans)",
-                fontSize: "clamp(18px, 2vw, 22px)",
+                fontSize: "clamp(16px, 1.7vw, 20px)",
               }}
             >
               {name}
             </h5>
-            <span className="text-[9px] font-bold tracking-[3px] uppercase text-[var(--g1)]">
+            <span className="text-[9px] font-bold tracking-[3px] uppercase text-[var(--g1)] whitespace-nowrap">
               · {type}
             </span>
           </div>
@@ -968,8 +969,9 @@ export function LeversSection() {
             </p>
             <p>
               <span className="text-[var(--wh)]/55">Tres anillos:</span>{" "}
-              HQ propio, Certificados en el método y Verificados por su
-              criterio en pista. Cada uno con su rol.
+              HQ propio, Cualificados en el método y
+              Certificados/Verificados por su criterio en pista. Cada uno
+              con su rol.
             </p>
             <p
               className="italic text-[var(--wh)]/60 pt-2"
@@ -1078,25 +1080,25 @@ export function LeversSection() {
                 meta="Málaga · sede propia"
               />
 
-              {/* TIER 02 — Certificados (anillo medio, 2 dots fill) */}
+              {/* TIER 02 — Cualificados (anillo medio, 2 dots fill) */}
               <NetworkTier
                 index="N/02"
                 tierLevel={2}
-                name="Certificados"
+                name="Cualificados"
                 type="Método"
-                description="Coaches formados internamente en el método J3. Niveles definidos, certificación activa."
-                meta="Aprobados por J3"
+                description="Coaches formados internamente en el método J3. Han pasado por la academia, conocen el sistema y están cualificados para aplicarlo."
+                meta="Formación interna J3"
                 divider
               />
 
-              {/* TIER 03 — Verificados (anillo exterior, 1 dot fill) */}
+              {/* TIER 03 — Certificados / Verificados (anillo exterior, 1 dot fill) */}
               <NetworkTier
                 index="N/03"
                 tierLevel={1}
-                name="Verificados"
+                name="Certificados / Verificados"
                 type="Criterio"
-                description="Coaches recomendados que aplican criterio en pista. Sabemos cómo trabajan."
-                meta="Recomendación J3"
+                description="Coaches con criterio contrastado en pista. Los conocemos, los hemos visto trabajar, y por eso entran en la red."
+                meta="Validación J3"
                 divider
               />
             </div>
