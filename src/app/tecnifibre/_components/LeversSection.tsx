@@ -61,29 +61,110 @@ function MobileSwipe({
     return () => el.removeEventListener("scroll", handler);
   }, [items.length]);
 
-  // MOUSE WHEEL — convertir scroll vertical en horizontal cuando hay
+  // MOUSE WHEEL — convertir scroll vertical en horizontal mientras hay
   // espacio para scrollear lateralmente. Al llegar al borde, libera el
   // scroll vertical para que la página siga su curso natural.
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
     const wheelHandler = (e: WheelEvent) => {
-      // Solo aplica si el wheel es predominantemente vertical
-      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
-      const canScrollLeft = el.scrollLeft > 0;
-      const canScrollRight =
-        el.scrollLeft < el.scrollWidth - el.clientWidth - 1;
-      if (e.deltaY > 0 && canScrollRight) {
-        e.preventDefault();
-        el.scrollLeft += e.deltaY;
-      } else if (e.deltaY < 0 && canScrollLeft) {
+      // Threshold mínimo — ignora micro-movimientos del trackpad
+      if (Math.abs(e.deltaY) < 4) return;
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      const canScrollFurther =
+        e.deltaY > 0
+          ? el.scrollLeft < maxScroll - 1
+          : el.scrollLeft > 0;
+      if (canScrollFurther) {
         e.preventDefault();
         el.scrollLeft += e.deltaY;
       }
-      // Si llega al borde, no hace preventDefault → page scroll continúa
+      // Si no hay más recorrido lateral, deja que el wheel siga su curso
     };
     el.addEventListener("wheel", wheelHandler, { passive: false });
     return () => el.removeEventListener("wheel", wheelHandler);
+  }, []);
+
+  // DRAG-TO-SCROLL con ratón — patrón premium tipo Stripe.
+  // Click y arrastre lateral para navegar entre cards. Threshold de
+  // 5px para no interferir con clicks normales en links de las cards.
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    let isDown = false;
+    let startX = 0;
+    let startScrollLeft = 0;
+    let hasMoved = false;
+
+    const onMouseDown = (e: MouseEvent) => {
+      // Ignorar si el click es sobre un link/botón (no interceptar navegación)
+      const target = e.target as HTMLElement;
+      if (target.closest("a, button")) return;
+      isDown = true;
+      hasMoved = false;
+      startX = e.pageX;
+      startScrollLeft = el.scrollLeft;
+      el.style.cursor = "grabbing";
+      el.style.scrollSnapType = "none"; // Desactiva snap durante el drag
+    };
+    const onMouseMove = (e: MouseEvent) => {
+      if (!isDown) return;
+      const dx = e.pageX - startX;
+      if (Math.abs(dx) > 5) {
+        hasMoved = true;
+        e.preventDefault();
+        el.scrollLeft = startScrollLeft - dx;
+      }
+    };
+    const endDrag = () => {
+      if (!isDown) return;
+      isDown = false;
+      el.style.cursor = "";
+      el.style.scrollSnapType = "";
+      // Si hubo drag real, hacer snap al card más cercano
+      if (hasMoved) {
+        const cards = el.querySelectorAll("[data-swipe-card]");
+        if (cards.length > 0) {
+          const scrollCenter = el.scrollLeft + el.clientWidth / 2;
+          let closestIdx = 0;
+          let closestDist = Infinity;
+          cards.forEach((card, i) => {
+            const c = card as HTMLElement;
+            const cardCenter = c.offsetLeft + c.clientWidth / 2;
+            const dist = Math.abs(scrollCenter - cardCenter);
+            if (dist < closestDist) {
+              closestDist = dist;
+              closestIdx = i;
+            }
+          });
+          (cards[closestIdx] as HTMLElement).scrollIntoView({
+            behavior: "smooth",
+            inline: "center",
+            block: "nearest",
+          });
+        }
+      }
+    };
+    // onClickCapture: bloquea clicks accidentales tras un drag
+    const onClickCapture = (e: MouseEvent) => {
+      if (hasMoved) {
+        e.preventDefault();
+        e.stopPropagation();
+        hasMoved = false;
+      }
+    };
+
+    el.addEventListener("mousedown", onMouseDown);
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", endDrag);
+    el.addEventListener("click", onClickCapture, true);
+
+    return () => {
+      el.removeEventListener("mousedown", onMouseDown);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", endDrag);
+      el.removeEventListener("click", onClickCapture, true);
+    };
   }, []);
 
   // TECLADO — flechas ← → navegan entre cards. Home/End van a primera/última.
@@ -123,7 +204,7 @@ function MobileSwipe({
           role="region"
           aria-label="Carrusel de tarjetas — usa las flechas izquierda y derecha para navegar"
           onKeyDown={handleKeyDown}
-          className="flex gap-3 overflow-x-auto snap-x snap-mandatory px-6 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--g1)]/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bk)] rounded-[2px]"
+          className="flex gap-3 overflow-x-auto snap-x snap-mandatory px-6 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--g1)]/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bk)] rounded-[2px] cursor-grab select-none active:cursor-grabbing"
           style={{ scrollbarWidth: "none" }}
         >
           {items.map((child, i) => (
