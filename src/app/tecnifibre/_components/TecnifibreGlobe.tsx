@@ -247,7 +247,9 @@ export function TecnifibreGlobe() {
       className="absolute"
       style={
         isMobile
-          ? { left: "-25%", bottom: "-12%", width: "150%", height: "80%" }
+          ? // Mobile: globo en la parte SUPERIOR (donde antes iba el bg image hero)
+            // Centrado horizontal, ocupa los primeros ~55vh para coherencia con el resto de palancas
+            { left: "-25%", top: "0", width: "150%", height: "55vh" }
           : { right: "-8%", top: "-18%", width: "72%", height: "136%" }
       }
     />

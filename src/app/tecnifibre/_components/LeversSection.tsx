@@ -803,16 +803,17 @@ function LeverChapter({
   return (
     <section
       ref={ref}
-      className="relative min-h-[100dvh] w-full bg-[var(--bk)] flex items-center overflow-hidden"
+      className="relative min-h-[100dvh] w-full bg-[var(--bk)] flex flex-col md:flex-row md:items-center overflow-hidden"
       data-lever={num}
     >
+      {/* DESKTOP: foto fill como antes */}
       {bgImage && (
         <Image
           src={bgImage}
           alt=""
           aria-hidden
           fill
-          className="object-cover"
+          className="object-cover hidden md:block"
           sizes="100vw"
           style={{
             transform: visible ? "scale(1)" : "scale(1.08)",
@@ -822,9 +823,105 @@ function LeverChapter({
       )}
       {bgVisual}
 
-      {/* Overlay para legibilidad */}
+      {/* MOBILE: placeholder + vignette + eyebrow para bgVisual (globo).
+          El globo se posiciona absolute en su componente, este placeholder
+          reserva el espacio en el flujo y añade overlay/eyebrow editorial. */}
+      {!bgImage && bgVisual && (
+        <div className="md:hidden relative w-full h-[55vh] flex-shrink-0 overflow-hidden pointer-events-none">
+          {/* Vignette fade hacia el contenido */}
+          <div
+            aria-hidden
+            className="absolute inset-x-0 bottom-0 h-2/3"
+            style={{
+              background:
+                "linear-gradient(180deg, transparent 0%, rgba(14,28,22,0.4) 60%, var(--bk) 100%)",
+            }}
+          />
+          {/* Numeral grande superpuesto */}
+          <span
+            aria-hidden
+            className="absolute bottom-3 right-4 leading-none select-none"
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontStyle: "italic",
+              fontSize: "clamp(96px, 30vw, 160px)",
+              color: "transparent",
+              WebkitTextStroke: "1px rgba(201,169,110,0.55)",
+              letterSpacing: "-0.04em",
+            }}
+          >
+            {num}
+          </span>
+          {/* Eyebrow PALANCA XX */}
+          <div
+            aria-hidden
+            className="absolute top-5 left-6 flex items-center gap-3 z-10"
+          >
+            <span className="block w-6 h-px bg-[var(--g1)]" />
+            <span className="text-[10px] font-bold tracking-[3.5px] uppercase text-[var(--g1)]">
+              Palanca {num}
+              {isHighlight && " · la grande"}
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* MOBILE: foto hero edge-to-edge arriba con vignette fade */}
+      {bgImage && (
+        <div className="md:hidden relative w-full h-[55vh] flex-shrink-0 overflow-hidden">
+          <Image
+            src={bgImage}
+            alt=""
+            aria-hidden
+            fill
+            className="object-cover"
+            sizes="100vw"
+            style={{
+              transform: visible ? "scale(1)" : "scale(1.08)",
+              transition: "transform 2.2s cubic-bezier(.16,1,.3,1)",
+            }}
+          />
+          {/* Vignette fade hacia el contenido (verde profundo abajo) */}
+          <div
+            aria-hidden
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(14,28,22,0.15) 0%, rgba(14,28,22,0.05) 35%, rgba(14,28,22,0.6) 80%, var(--bk) 100%)",
+            }}
+          />
+          {/* Numeral grande superpuesto en la foto, ancla editorial */}
+          <span
+            aria-hidden
+            className="absolute bottom-3 right-4 leading-none select-none pointer-events-none"
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontStyle: "italic",
+              fontSize: "clamp(96px, 30vw, 160px)",
+              color: "transparent",
+              WebkitTextStroke: "1px rgba(201,169,110,0.55)",
+              letterSpacing: "-0.04em",
+            }}
+          >
+            {num}
+          </span>
+          {/* Eyebrow PALANCA XX flotando arriba de la foto */}
+          <div
+            aria-hidden
+            className="absolute top-5 left-6 flex items-center gap-3"
+          >
+            <span className="block w-6 h-px bg-[var(--g1)]" />
+            <span className="text-[10px] font-bold tracking-[3.5px] uppercase text-[var(--g1)]">
+              Palanca {num}
+              {isHighlight && " · la grande"}
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* Overlay para legibilidad — solo desktop (mobile usa vignette propio) */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none hidden md:block"
         style={{
           background:
             overlayStyle ??
@@ -833,9 +930,9 @@ function LeverChapter({
         aria-hidden
       />
 
-      {/* Ambient glow champán */}
+      {/* Ambient glow champán — solo desktop */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none hidden md:block"
         style={{
           background:
             "radial-gradient(ellipse 60% 50% at 25% 55%, rgba(201,169,110,0.10) 0%, transparent 65%)",
@@ -843,9 +940,9 @@ function LeverChapter({
         aria-hidden
       />
 
-      {/* Numeral fantasma — anclaje editorial. Reducido en mobile. */}
+      {/* Numeral fantasma — solo desktop. En mobile el numeral va en la foto hero */}
       <div
-        className="absolute pointer-events-none select-none"
+        className="absolute pointer-events-none select-none hidden md:block"
         aria-hidden
         style={{
           right: "-2vw",
@@ -869,9 +966,9 @@ function LeverChapter({
         {num}
       </div>
 
-      {/* Línea vertical accent en el borde izquierdo */}
+      {/* Línea vertical accent en el borde izquierdo — solo desktop */}
       <div
-        className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] bg-[var(--g1)] pointer-events-none"
+        className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] bg-[var(--g1)] pointer-events-none hidden md:block"
         aria-hidden
         style={{
           height: visible ? "min(60vh, 400px)" : "0px",
@@ -898,8 +995,10 @@ function LeverChapter({
         </span>
       </div>
 
-      {/* Content panel — tarjeta verde academy editorial premium */}
-      <div className="relative z-10 w-full max-w-[660px] mr-auto pl-6 pr-4 sm:pl-16 sm:pr-8 lg:pl-24 lg:pr-12 py-12 sm:py-16">
+      {/* Content panel — tarjeta verde academy editorial premium.
+          Mobile: padding lateral simétrico, sin offset izquierdo (la foto ya está arriba).
+          Desktop: card flotando a la izquierda con offsets para la línea vertical accent. */}
+      <div className="relative z-10 w-full max-w-[660px] mx-auto md:mx-0 md:mr-auto px-6 md:pl-16 md:pr-8 lg:pl-24 lg:pr-12 py-10 md:py-16">
         <div
           className="relative overflow-hidden border border-[var(--g1)]/20 rounded-[8px] backdrop-blur-[14px]"
           style={{
@@ -960,9 +1059,10 @@ function LeverChapter({
 
           {/* Content padding container */}
           <div className="relative p-6 sm:p-9 lg:p-11">
-        {/* Eyebrow móvil/tablet (la versión vertical solo aparece en lg+) */}
+        {/* Eyebrow tablet (entre md y lg). En mobile va sobre la foto;
+            en desktop lg+ va vertical en el lateral. */}
         <div
-          className="text-[10px] sm:text-[11px] font-bold tracking-[3px] sm:tracking-[4px] uppercase text-[var(--g1)] mb-3 lg:hidden"
+          className="hidden md:block lg:hidden text-[11px] font-bold tracking-[4px] uppercase text-[var(--g1)] mb-3"
           style={{
             opacity: visible ? 1 : 0,
             transform: visible ? "none" : "translateX(-12px)",
