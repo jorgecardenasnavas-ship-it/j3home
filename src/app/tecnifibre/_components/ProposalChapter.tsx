@@ -3,10 +3,168 @@
 import { ReactNode, useEffect, useRef, useState } from "react";
 
 /* ──────────────────────────────────────────────────────────────
-   Capítulo 04 — La propuesta co-branded.
-   Tres caminos para activar la red Coach360:
-   01 Tecnifibre · 02 Lacoste · 03 J3 × Tecnifibre × Lacoste (la grande)
+   Capítulo 04 — La propuesta.
+   Estructura en tres bloques:
+   1) BALANCE — Lo que pedimos / Lo que ponemos (responde directo a Raúl)
+   2) CAMINOS — Tres formas de activarlo (Tecnifibre / Lacoste / Co-branded)
+   3) CIERRE — Empezamos por uno. O por los tres.
    ────────────────────────────────────────────────────────────── */
+
+interface BalanceItem {
+  title: string;
+  description: string;
+}
+
+interface BalanceColumnProps {
+  num: string;
+  title: string;
+  subtitle: string;
+  items: BalanceItem[];
+  footer?: string;
+  accent?: "verde" | "champan";
+}
+
+function BalanceColumn({
+  num,
+  title,
+  subtitle,
+  items,
+  footer,
+  accent = "verde",
+}: BalanceColumnProps) {
+  const isCham = accent === "champan";
+  return (
+    <div
+      className="relative flex flex-col overflow-hidden rounded-[6px] border border-[var(--g1)]/22 backdrop-blur-[14px] h-full"
+      style={{
+        background: isCham
+          ? "linear-gradient(155deg, rgba(201,169,110,0.10) 0%, rgba(201,169,110,0.04) 50%, rgba(14,28,22,0.94) 100%)"
+          : "linear-gradient(155deg, rgba(27,61,47,0.92) 0%, rgba(27,61,47,0.84) 50%, rgba(14,28,22,0.94) 100%)",
+        boxShadow:
+          "0 1px 0 0 rgba(255,255,255,0.04) inset, 0 30px 80px -40px rgba(0,0,0,0.65)",
+      }}
+    >
+      {/* Top hairline */}
+      <span
+        aria-hidden
+        className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--g1)]/55 to-transparent"
+      />
+      {/* Inner highlight */}
+      <span
+        aria-hidden
+        className="absolute top-px left-3 right-3 h-[1px] bg-white/[0.06]"
+      />
+
+      {/* Corner brackets */}
+      <span aria-hidden className="absolute top-3 left-3 w-3 h-3 border-t border-l border-[var(--g1)]/50" />
+      <span aria-hidden className="absolute top-3 right-3 w-3 h-3 border-t border-r border-[var(--g1)]/50" />
+      <span aria-hidden className="absolute bottom-3 left-3 w-3 h-3 border-b border-l border-[var(--g1)]/50" />
+      <span aria-hidden className="absolute bottom-3 right-3 w-3 h-3 border-b border-r border-[var(--g1)]/50" />
+
+      {/* Ambient glow */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 70% 50% at 15% 10%, rgba(201,169,110,0.10) 0%, transparent 60%)",
+        }}
+      />
+
+      {/* Grain */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none opacity-[0.025] mix-blend-overlay"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+        }}
+      />
+
+      {/* Content */}
+      <div className="relative flex flex-col gap-7 p-7 sm:p-9 h-full">
+        {/* Header — número grande + título + subtítulo */}
+        <div className="flex flex-col gap-3">
+          {/* Numeral grande */}
+          <div className="flex items-baseline gap-4">
+            <span
+              className="font-serif italic text-[var(--g1)] leading-none"
+              style={{
+                fontFamily: "var(--font-serif)",
+                fontSize: "clamp(36px, 4vw, 52px)",
+                letterSpacing: "-0.02em",
+              }}
+            >
+              {num}
+            </span>
+            <span aria-hidden className="block flex-1 h-px bg-[var(--g1)]/30" />
+          </div>
+
+          {/* Title display */}
+          <h3
+            className="font-serif font-light text-[#E8DDD0] tracking-[-0.012em] leading-[1.0]"
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontSize: "clamp(28px, 3.4vw, 40px)",
+            }}
+          >
+            {title}
+          </h3>
+
+          {/* Subtitle italic */}
+          <p
+            className="italic text-[var(--g1)]/85 tracking-[0.2px]"
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontSize: "clamp(13px, 1.3vw, 15px)",
+            }}
+          >
+            {subtitle}
+          </p>
+        </div>
+
+        {/* Items list */}
+        <ul className="flex flex-col gap-5">
+          {items.map((item, i) => (
+            <li key={i} className="flex flex-col gap-1.5">
+              {/* Title del item */}
+              <div className="flex items-baseline gap-3">
+                <span className="text-[10px] font-bold tracking-[2.5px] uppercase text-[var(--g1)]/55 tabular-nums shrink-0 mt-px">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span
+                  className="font-semibold text-[#E8DDD0] tracking-[-0.005em] leading-[1.3]"
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontSize: "clamp(14px, 1.4vw, 16px)",
+                  }}
+                >
+                  {item.title}
+                </span>
+              </div>
+              {/* Description */}
+              <p className="text-[12.5px] sm:text-[13px] text-[var(--wh)]/72 leading-[1.55] font-light pl-9">
+                {item.description}
+              </p>
+            </li>
+          ))}
+        </ul>
+
+        {/* Spacer flex */}
+        <div className="flex-1" />
+
+        {/* Footer note */}
+        {footer && (
+          <div className="pt-4 border-t border-[var(--g1)]/15">
+            <p className="text-[11px] italic text-[var(--wh)]/55 leading-[1.5] font-light">
+              {footer}
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
 interface PathCardProps {
   num: string;
@@ -318,9 +476,9 @@ export function ProposalChapter() {
               transition: `all 1.4s cubic-bezier(.16,1,.3,1) ${delay(2)}`,
             }}
           >
-            Tres formas de activar.
+            Lo que pedimos.
             <br />
-            <span className="italic text-[var(--g1)]/95">Una sola red.</span>
+            <span className="italic text-[var(--g1)]/95">Lo que ponemos.</span>
           </h2>
 
           {/* Subhead */}
@@ -334,19 +492,144 @@ export function ProposalChapter() {
               transition: `all 1.1s cubic-bezier(.16,1,.3,1) ${delay(3)}`,
             }}
           >
-            Coach360 ya está montada.
+            No es patrocinio.
             <br className="hidden sm:block" />
-            La diferencia es cómo entráis.
+            Es palanca.
           </p>
         </div>
 
-        {/* 3 caminos — grid */}
+        {/* BLOQUE 1 — BALANCE: dos columnas paralelas */}
+        <div
+          className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-stretch mb-20 sm:mb-28"
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? "none" : "translateY(24px)",
+            transition: `all 1.4s cubic-bezier(.16,1,.3,1) ${delay(4)}`,
+          }}
+        >
+          <BalanceColumn
+            num="01"
+            accent="verde"
+            title="Lo que pedimos."
+            subtitle="No material. Aval, acceso, palanca."
+            items={[
+              {
+                title: "Un partner que avale el proyecto.",
+                description:
+                  "Legitimidad de marca premium para acelerar la curva de J3 — no necesitamos producto, lo tenemos. Necesitamos respaldo institucional.",
+              },
+              {
+                title: "Acceso a la red de entrenadores Tecnifibre.",
+                description:
+                  "Son leads altamente cualificados para Coach360. La marca puede comprar licencias y repartirlas a los coaches que elija, o lanzar una campaña con código promocional para que entren en la comunidad.",
+              },
+              {
+                title: "Insignia «Entrenador Tecnifibre» en Encuentra a tu coach.",
+                description:
+                  "Marca personalizada dentro del directorio Coach360. Refuerza pertenencia y visibiliza la red ante el jugador final.",
+              },
+              {
+                title: "Acceso a eventos premium de la marca.",
+                description:
+                  "Tecnifibre y Lacoste, allí donde ocurran. Para cubrirlos editorialmente y producir contenido propio en J3Ptv.",
+              },
+              {
+                title: "Acceso a jugadores y embajadores de la marca.",
+                description:
+                  "Para creación de contenido editorial y como recurso dentro de la formación Coach360.",
+              },
+              {
+                title: "Apoyo a los embajadores J3-firmados.",
+                description:
+                  "Activos vehiculados por nosotros — textil, palas, presencia — para los embajadores que vosotros designéis. No patrocinio monetario, sí coordinación.",
+              },
+            ]}
+            footer="* El fee por alcance e imagen lo abrimos a final de 2026 — fuera del presupuesto actual. No es la prioridad ahora."
+          />
+
+          <BalanceColumn
+            num="02"
+            accent="champan"
+            title="Lo que ponemos."
+            subtitle="Activos compartidos. Win-win sin presupuesto."
+            items={[
+              {
+                title: "Coach360 a los entrenadores firmados por la marca.",
+                description:
+                  "Si prescriben producto, entran en la plataforma de formación con pre-acceso al lanzamiento de novedades. Vínculo coach → marca → producto, sellado en plataforma.",
+              },
+              {
+                title: "Canal de venta para los entrenadores de la comunidad.",
+                description:
+                  "Dos opciones: e-commerce dentro de Coach360 sin inversión inicial (comisión por venta), o introducción de la marca en la tienda física de su club. La red se convierte en distribuidor activo.",
+              },
+              {
+                title: "3M de views/mes · 1M de cuentas alcanzadas/mes.",
+                description:
+                  "En Instagram. Solo orgánico — sin ads. Visibilidad real de J3 al servicio de la marca.",
+              },
+              {
+                title: "Formaciones presenciales a clubes patrocinados.",
+                description:
+                  "Cuando la marca firma exclusiva con un club, J3 va y forma in situ. Argumento extra de venta para Tecnifibre y Lacoste hacia clubes.",
+              },
+              {
+                title: "Cobertura editorial de los eventos de la marca por el mundo.",
+                description:
+                  "Donde haya un evento Tecnifibre o Lacoste, J3Ptv lo cubre con criterio editorial. Calidad, no volumen.",
+              },
+              {
+                title: "Reporte trimestral de impacto.",
+                description:
+                  "Dashboard con coaches activados, contenido producido, alcance y ventas. Control y munición interna para defender el partnership.",
+              },
+            ]}
+          />
+        </div>
+
+        {/* DIVIDER editorial — introduce los tres caminos */}
+        <div
+          className="text-center mb-12 sm:mb-16"
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? "none" : "translateY(16px)",
+            transition: `all 1.1s cubic-bezier(.16,1,.3,1) ${delay(5)}`,
+          }}
+        >
+          <div className="inline-flex items-center gap-4 mb-5">
+            <span aria-hidden className="block h-px w-12 bg-[var(--g1)]/45" />
+            <span className="text-[10px] font-bold tracking-[4px] uppercase text-[var(--g1)]">
+              Activación
+            </span>
+            <span aria-hidden className="block h-px w-12 bg-[var(--g1)]/45" />
+          </div>
+          <h3
+            className="font-serif font-light text-[#E8DDD0] tracking-[-0.012em] leading-[1.1] mb-3"
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontSize: "clamp(28px, 4vw, 48px)",
+            }}
+          >
+            Tres formas de <span className="italic text-[var(--g1)]/95">activarlo</span>.
+          </h3>
+          <p
+            className="italic text-[var(--wh)]/65 max-w-[600px] mx-auto leading-[1.5]"
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontSize: "clamp(14px, 1.4vw, 17px)",
+            }}
+          >
+            Coach360 ya está montada. La diferencia es por dónde entráis.
+          </p>
+        </div>
+
+        {/* BLOQUE 2 — TRES CAMINOS */}
         <div
           className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 lg:gap-7 items-stretch"
           style={{
             opacity: visible ? 1 : 0,
             transform: visible ? "none" : "translateY(28px)",
-            transition: `all 1.4s cubic-bezier(.16,1,.3,1) ${delay(4)}`,
+            transition: `all 1.4s cubic-bezier(.16,1,.3,1) ${delay(6)}`,
           }}
         >
           <PathCard
