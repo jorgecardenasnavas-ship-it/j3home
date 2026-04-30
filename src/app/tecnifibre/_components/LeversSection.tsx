@@ -879,9 +879,27 @@ export function LeversSection() {
               No figurantes. Cuando ellos recomiendan, el jugador compra.
             </p>
 
+            {/* Caption editorial — "De Málaga al mundo" como ancla temática
+                que da contexto a la banda de stats: origen + ambición */}
+            <div className="flex items-center gap-3 pt-4 mt-2">
+              <span
+                aria-hidden
+                className="block h-px w-6 bg-[var(--g1)]/45"
+              />
+              <span
+                className="italic text-[var(--g1)]/85 tracking-[0.2px] leading-none"
+                style={{
+                  fontFamily: "var(--font-serif)",
+                  fontSize: "clamp(13px, 1.3vw, 15px)",
+                }}
+              >
+                De Málaga al mundo.
+              </span>
+            </div>
+
             {/* Stat band — proof points en 3 columnas, sutil pero contundente */}
             <div
-              className="grid grid-cols-3 gap-0 pt-5 mt-2 border-t border-[var(--g1)]/20"
+              className="grid grid-cols-3 gap-0 pt-4 border-t border-[var(--g1)]/20"
               role="group"
               aria-label="Cobertura de la red"
             >
