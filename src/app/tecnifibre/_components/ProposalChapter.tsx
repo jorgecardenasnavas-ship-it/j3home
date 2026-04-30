@@ -484,9 +484,9 @@ export function ProposalChapter() {
           </div>
         </div>
 
-        {/* CIERRE del balance — frase puente entre las dos columnas y los tres caminos */}
+        {/* CIERRE del balance — frase final del capítulo */}
         <div
-          className="text-center mb-20 sm:mb-28"
+          className="text-center"
           style={{
             opacity: visible ? 1 : 0,
             transform: visible ? "none" : "translateY(14px)",
@@ -509,97 +509,6 @@ export function ProposalChapter() {
           </div>
         </div>
 
-        {/* CIERRE EDITORIAL — teaser del co-branded "la grande".
-            Bloque sutil, no card pesada. Invita a la conversación. */}
-        <div
-          className="relative text-center max-w-[760px] mx-auto"
-          style={{
-            opacity: visible ? 1 : 0,
-            transform: visible ? "none" : "translateY(20px)",
-            transition: `all 1.3s cubic-bezier(.16,1,.3,1) ${delay(6)}`,
-          }}
-        >
-          {/* Hairlines decorativos arriba y abajo */}
-          <span
-            aria-hidden
-            className="block h-px w-full bg-gradient-to-r from-transparent via-[var(--g1)]/40 to-transparent mb-12 sm:mb-16"
-          />
-
-          {/* Eyebrow — contextualiza el bloque como "la jugada larga" */}
-          <div className="text-[10px] sm:text-[11px] font-bold tracking-[4px] uppercase text-[var(--g1)]/85 mb-5">
-            — La jugada larga
-          </div>
-
-          {/* Brand display gigante */}
-          <h3
-            className="font-serif font-light text-[#E8DDD0] tracking-[-0.014em] leading-[0.95] mb-6"
-            style={{
-              fontFamily: "var(--font-serif)",
-              fontSize: "clamp(44px, 7vw, 96px)",
-            }}
-          >
-            J3{" "}
-            <span className="italic text-[var(--g1)] font-normal">×</span>{" "}
-            Tecnifibre
-          </h3>
-
-          {/* Sub-tag — "la grande" identitario, mantenemos firma editorial */}
-          <div className="inline-flex items-center gap-3 mb-8">
-            <span aria-hidden className="block h-px w-8 bg-[var(--g1)]/55" />
-            <span
-              className="italic text-[var(--g1)] tracking-[0.3px]"
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(14px, 1.5vw, 18px)",
-              }}
-            >
-              la grande
-            </span>
-            <span aria-hidden className="block h-px w-8 bg-[var(--g1)]/55" />
-          </div>
-
-          {/* Pitch line — qué es realmente esta línea */}
-          <p
-            className="font-serif italic text-[#E8DDD0]/92 leading-[1.3] mb-6 max-w-[640px] mx-auto"
-            style={{
-              fontFamily: "var(--font-serif)",
-              fontSize: "clamp(20px, 2.4vw, 30px)",
-            }}
-          >
-            Una línea co-branded que solo
-            <br className="hidden sm:block" />
-            existe aquí.
-          </p>
-
-          {/* Sustancia — qué incluye la línea, en una frase corta y específica */}
-          <p
-            className="text-[var(--wh)]/68 leading-[1.55] font-light mb-10 max-w-[520px] mx-auto"
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: "clamp(13px, 1.4vw, 15px)",
-            }}
-          >
-            Pala, textil técnico, accesorio. Edición limitada con sello J3.
-            Distribución exclusiva en la red Coach360 y sedes propias.
-          </p>
-
-          {/* Mini-CTA editorial */}
-          <p
-            className="italic text-[var(--wh)]/70 tracking-[0.3px]"
-            style={{
-              fontFamily: "var(--font-serif)",
-              fontSize: "clamp(13px, 1.3vw, 15px)",
-            }}
-          >
-            Lo concretamos en mesa.
-          </p>
-
-          {/* Hairline final */}
-          <span
-            aria-hidden
-            className="block h-px w-full bg-gradient-to-r from-transparent via-[var(--g1)]/40 to-transparent mt-12 sm:mt-16"
-          />
-        </div>
       </div>
     </section>
   );
