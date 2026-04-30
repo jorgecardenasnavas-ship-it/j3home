@@ -394,9 +394,7 @@ export function ProposalChapter() {
               <>
                 J3{" "}
                 <span className="text-[var(--g1)]/90 font-medium">×</span>{" "}
-                Tecnifibre{" "}
-                <span className="text-[var(--g1)]/90 font-medium">×</span>{" "}
-                Lacoste
+                Tecnifibre
               </>
             }
             tag="Programa exclusivo"
@@ -408,11 +406,10 @@ export function ProposalChapter() {
               </>
             }
             vias={[
-              "Línea limitada con sello J3 — pala, textil, accesorio.",
+              "Línea limitada con sello J3 — pala, textil técnico, accesorio.",
               "Coach360 como early-access club: producto antes de mercado.",
               "Drops anuales en sedes y eventos co-branded.",
               "Editorial dedicado en J3Ptv — la historia detrás de la línea.",
-              "Activación cruzada Tecnifibre + Lacoste en una sola narrativa.",
             ]}
             anchor="El programa que convierte la red en canal."
           />
