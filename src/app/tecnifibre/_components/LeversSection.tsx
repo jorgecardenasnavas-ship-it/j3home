@@ -1,8 +1,191 @@
 "use client";
 
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { Children, ReactNode, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+
+/* ──────────────────────────────────────────────────────────────
+   MobileSwipe — wrapper editorial premium.
+   Mobile: scroll horizontal con snap + peek-of-next + dots indicator.
+   Desktop: grid normal con la clase que se le pase.
+   ────────────────────────────────────────────────────────────── */
+interface MobileSwipeProps {
+  children: ReactNode;
+  /** Tailwind classes para el grid de desktop, ej: "sm:grid-cols-3 gap-3" */
+  desktopGrid?: string;
+  /** Render alternativo para desktop (ej: container unificado en lugar del grid) */
+  desktopOverride?: ReactNode;
+  /** Ancho de cada card en mobile (default 85% para peek) */
+  cardWidthMobile?: string;
+}
+
+function MobileSwipe({
+  children,
+  desktopGrid,
+  desktopOverride,
+  cardWidthMobile = "w-[85%]",
+}: MobileSwipeProps) {
+  const items = Children.toArray(children);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeIndexRef = useRef(0);
+
+  // Mantener ref sincronizado para uso en handlers sin re-binding
+  useEffect(() => {
+    activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
+
+  // Track de qué card está activa al hacer scroll
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const handler = () => {
+      const cards = el.querySelectorAll("[data-swipe-card]");
+      if (cards.length === 0) return;
+      const scrollCenter = el.scrollLeft + el.clientWidth / 2;
+      let closestIdx = 0;
+      let closestDist = Infinity;
+      cards.forEach((card, i) => {
+        const c = card as HTMLElement;
+        const cardCenter = c.offsetLeft + c.clientWidth / 2;
+        const dist = Math.abs(scrollCenter - cardCenter);
+        if (dist < closestDist) {
+          closestDist = dist;
+          closestIdx = i;
+        }
+      });
+      setActiveIndex(closestIdx);
+    };
+    el.addEventListener("scroll", handler, { passive: true });
+    handler();
+    return () => el.removeEventListener("scroll", handler);
+  }, [items.length]);
+
+  // MOUSE WHEEL — convertir scroll vertical en horizontal cuando hay
+  // espacio para scrollear lateralmente. Al llegar al borde, libera el
+  // scroll vertical para que la página siga su curso natural.
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const wheelHandler = (e: WheelEvent) => {
+      // Solo aplica si el wheel es predominantemente vertical
+      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+      const canScrollLeft = el.scrollLeft > 0;
+      const canScrollRight =
+        el.scrollLeft < el.scrollWidth - el.clientWidth - 1;
+      if (e.deltaY > 0 && canScrollRight) {
+        e.preventDefault();
+        el.scrollLeft += e.deltaY;
+      } else if (e.deltaY < 0 && canScrollLeft) {
+        e.preventDefault();
+        el.scrollLeft += e.deltaY;
+      }
+      // Si llega al borde, no hace preventDefault → page scroll continúa
+    };
+    el.addEventListener("wheel", wheelHandler, { passive: false });
+    return () => el.removeEventListener("wheel", wheelHandler);
+  }, []);
+
+  // TECLADO — flechas ← → navegan entre cards. Home/End van a primera/última.
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    const el = containerRef.current;
+    if (!el) return;
+    const cards = el.querySelectorAll("[data-swipe-card]");
+    if (cards.length === 0) return;
+    let targetIdx = activeIndexRef.current;
+    if (e.key === "ArrowRight") {
+      targetIdx = Math.min(cards.length - 1, activeIndexRef.current + 1);
+    } else if (e.key === "ArrowLeft") {
+      targetIdx = Math.max(0, activeIndexRef.current - 1);
+    } else if (e.key === "Home") {
+      targetIdx = 0;
+    } else if (e.key === "End") {
+      targetIdx = cards.length - 1;
+    } else {
+      return;
+    }
+    e.preventDefault();
+    const targetCard = cards[targetIdx] as HTMLElement;
+    targetCard.scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+      block: "nearest",
+    });
+  };
+
+  return (
+    <>
+      {/* Mobile: scroll horizontal con peek-of-next + soporte teclado/wheel */}
+      <div className="sm:hidden -mx-6">
+        <div
+          ref={containerRef}
+          tabIndex={0}
+          role="region"
+          aria-label="Carrusel de tarjetas — usa las flechas izquierda y derecha para navegar"
+          onKeyDown={handleKeyDown}
+          className="flex gap-3 overflow-x-auto snap-x snap-mandatory px-6 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--g1)]/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bk)] rounded-[2px]"
+          style={{ scrollbarWidth: "none" }}
+        >
+          {items.map((child, i) => (
+            <div
+              key={i}
+              data-swipe-card
+              className={`snap-center shrink-0 ${cardWidthMobile}`}
+            >
+              {child}
+            </div>
+          ))}
+        </div>
+        {/* Dots indicator — clickeables para navegación directa */}
+        {items.length > 1 && (
+          <div
+            className="flex justify-center items-center gap-1.5 mt-4"
+            role="tablist"
+            aria-label="Navegación directa entre tarjetas"
+          >
+            {items.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                role="tab"
+                aria-selected={i === activeIndex}
+                aria-label={`Ir a tarjeta ${i + 1}`}
+                onClick={() => {
+                  const el = containerRef.current;
+                  if (!el) return;
+                  const cards = el.querySelectorAll("[data-swipe-card]");
+                  const targetCard = cards[i] as HTMLElement | undefined;
+                  targetCard?.scrollIntoView({
+                    behavior: "smooth",
+                    inline: "center",
+                    block: "nearest",
+                  });
+                }}
+                className="block h-[3px] rounded-full transition-all duration-300 ease-out cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--g1)]/60"
+                style={{
+                  width: i === activeIndex ? "22px" : "6px",
+                  backgroundColor:
+                    i === activeIndex
+                      ? "var(--g1)"
+                      : "rgba(201,169,110,0.28)",
+                }}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Desktop: render alternativo si está definido, si no grid normal */}
+      {desktopOverride !== undefined ? (
+        <div className="hidden sm:block">{desktopOverride}</div>
+      ) : (
+        <div className={`hidden sm:grid ${desktopGrid ?? ""} items-stretch`}>
+          {children}
+        </div>
+      )}
+    </>
+  );
+}
 
 const TecnifibreGlobe = dynamic(
   () =>
@@ -184,6 +367,89 @@ function FormatCard({
             </span>
           </div>
         )}
+      </div>
+    </div>
+  );
+}
+
+/* ──────────────────────────────────────────────────────────────
+   NetworkTierCard — versión card standalone para mobile (carrusel).
+   Misma información que NetworkTier (rows desktop) pero como card
+   independiente con borde propio, alineada con SedeCard / FormatCard.
+   ────────────────────────────────────────────────────────────── */
+function NetworkTierCard({
+  index,
+  tierLevel,
+  name,
+  type,
+  description,
+  meta,
+}: NetworkTierProps) {
+  return (
+    <div
+      className="group relative flex flex-col overflow-hidden bg-gradient-to-br from-[var(--g1)]/[0.085] via-[var(--g1)]/[0.04] to-transparent border border-[var(--g1)]/22 rounded-[3px] h-full transition-[background,border-color] duration-700"
+      style={{ transitionTimingFunction: "cubic-bezier(.16,1,.3,1)" }}
+    >
+      {/* Top hairline gradient */}
+      <span
+        aria-hidden
+        className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-[var(--g1)]/55 via-[var(--g1)]/15 to-transparent"
+      />
+      <span
+        aria-hidden
+        className="absolute top-px left-0 right-0 h-[1px] bg-white/[0.03]"
+      />
+
+      <div className="relative flex flex-col gap-3 px-5 pt-5 pb-5 h-full">
+        {/* Header: anillos + index marker */}
+        <div className="flex items-center justify-between gap-3">
+          <TierRings level={tierLevel} />
+          <span className="text-[9px] tracking-[2.5px] uppercase text-[var(--g1)]/55 font-bold tabular-nums">
+            {index}
+          </span>
+        </div>
+
+        {/* Type chip */}
+        <div className="flex items-center gap-2">
+          <span
+            aria-hidden
+            className="block w-1 h-1 rounded-full bg-[var(--g1)]"
+            style={{ boxShadow: "0 0 6px rgba(201,169,110,0.55)" }}
+          />
+          <span className="text-[9px] font-bold tracking-[3px] uppercase text-[var(--g1)]">
+            {type}
+          </span>
+        </div>
+
+        {/* Name */}
+        <h5
+          className="font-semibold text-[#E8DDD0] tracking-[-0.014em] leading-[1.05]"
+          style={{
+            fontFamily: "var(--font-sans)",
+            fontSize: "clamp(17px, 2vw, 20px)",
+          }}
+        >
+          {name}
+        </h5>
+
+        {/* Hairline separator */}
+        <span aria-hidden className="block h-px w-8 bg-[var(--g1)]/30" />
+
+        {/* Description */}
+        <p className="text-[12.5px] sm:text-[13px] text-[var(--wh)]/70 leading-[1.55] font-light flex-1">
+          {description}
+        </p>
+
+        {/* Meta footer */}
+        <div className="flex items-center gap-2 pt-2.5 border-t border-[var(--g1)]/15">
+          <span
+            aria-hidden
+            className="block w-1 h-1 rounded-full bg-[var(--g1)]/55"
+          />
+          <span className="text-[10px] tracking-[1.2px] uppercase text-[var(--wh)]/55 font-light">
+            {meta}
+          </span>
+        </div>
       </div>
     </div>
   );
@@ -775,7 +1041,7 @@ export function LeversSection() {
         }
         bgImage="/images/academy/stage-group.jpeg"
         customFooter={
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl">
+          <MobileSwipe desktopGrid="sm:grid-cols-2 gap-3 max-w-xl">
             <SedeCard
               index="S/01"
               badge="Nueva · 1 jun '26"
@@ -796,7 +1062,7 @@ export function LeversSection() {
               meta="Pros + stages"
               href="https://finurapadelgym.com"
             />
-          </div>
+          </MobileSwipe>
         }
       />
       <LeverChapter
@@ -840,7 +1106,7 @@ export function LeversSection() {
         bgImage="/images/j3/j3ptv-bg.jpg"
         customFooter={
           <div className="space-y-5">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <MobileSwipe desktopGrid="sm:grid-cols-3 gap-3">
               <FormatCard
                 index="F/01"
                 icon="mic"
@@ -865,7 +1131,7 @@ export function LeversSection() {
                 description="Reels y shorts editoriales en Instagram y TikTok."
                 meta="15–60 s · una por momento"
               />
-            </div>
+            </MobileSwipe>
 
             {/* Sistema editorial — una sola línea fluida */}
             <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 pt-3 border-t border-[var(--g1)]/15">
@@ -1056,22 +1322,51 @@ export function LeversSection() {
         overlayStyle="linear-gradient(to right, rgba(14,28,22,0.85) 0%, rgba(14,28,22,0.5) 40%, rgba(14,28,22,0) 70%)"
         customFooter={
           <div className="space-y-5">
-            {/* Sistema de anillos — lista editorial vertical, narrativa de tres niveles */}
-            <div
-              className="relative border border-[var(--g1)]/20 rounded-[4px] overflow-hidden"
-              style={{
-                background:
-                  "linear-gradient(180deg, rgba(201,169,110,0.045) 0%, rgba(201,169,110,0.015) 100%)",
-              }}
+            {/* Sistema de anillos — mobile: cards swipe / desktop: container unificado */}
+            <MobileSwipe
+              desktopOverride={
+                <div
+                  className="relative border border-[var(--g1)]/20 rounded-[4px] overflow-hidden"
+                  style={{
+                    background:
+                      "linear-gradient(180deg, rgba(201,169,110,0.045) 0%, rgba(201,169,110,0.015) 100%)",
+                  }}
+                >
+                  {/* Top hairline gradient */}
+                  <span
+                    aria-hidden
+                    className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--g1)]/55 to-transparent"
+                  />
+                  <NetworkTier
+                    index="N/01"
+                    tierLevel={3}
+                    name="HQ"
+                    type="Núcleo"
+                    description="Staff J3 directo. El método nace aquí y desde aquí se irradia al resto de la red."
+                    meta="Málaga · sede propia"
+                  />
+                  <NetworkTier
+                    index="N/02"
+                    tierLevel={2}
+                    name="Cualificados"
+                    type="Método"
+                    description="Coaches formados internamente en el método J3. Han pasado por la academia, conocen el sistema y están cualificados para aplicarlo."
+                    meta="Formación interna J3"
+                    divider
+                  />
+                  <NetworkTier
+                    index="N/03"
+                    tierLevel={1}
+                    name="Certificados / Verificados"
+                    type="Criterio"
+                    description="Coaches con criterio contrastado en pista. Los conocemos, los hemos visto trabajar, y por eso entran en la red."
+                    meta="Validación J3"
+                    divider
+                  />
+                </div>
+              }
             >
-              {/* Top hairline gradient */}
-              <span
-                aria-hidden
-                className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--g1)]/55 to-transparent"
-              />
-
-              {/* TIER 01 — HQ (núcleo, 3 dots fill) */}
-              <NetworkTier
+              <NetworkTierCard
                 index="N/01"
                 tierLevel={3}
                 name="HQ"
@@ -1079,29 +1374,23 @@ export function LeversSection() {
                 description="Staff J3 directo. El método nace aquí y desde aquí se irradia al resto de la red."
                 meta="Málaga · sede propia"
               />
-
-              {/* TIER 02 — Cualificados (anillo medio, 2 dots fill) */}
-              <NetworkTier
+              <NetworkTierCard
                 index="N/02"
                 tierLevel={2}
                 name="Cualificados"
                 type="Método"
                 description="Coaches formados internamente en el método J3. Han pasado por la academia, conocen el sistema y están cualificados para aplicarlo."
                 meta="Formación interna J3"
-                divider
               />
-
-              {/* TIER 03 — Certificados / Verificados (anillo exterior, 1 dot fill) */}
-              <NetworkTier
+              <NetworkTierCard
                 index="N/03"
                 tierLevel={1}
                 name="Certificados / Verificados"
                 type="Criterio"
                 description="Coaches con criterio contrastado en pista. Los conocemos, los hemos visto trabajar, y por eso entran en la red."
                 meta="Validación J3"
-                divider
               />
-            </div>
+            </MobileSwipe>
 
             {/* Sistema — una línea */}
             <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 pt-3 border-t border-[var(--g1)]/15">
