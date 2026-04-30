@@ -380,7 +380,7 @@ export function ProposalChapter() {
               </>
             }
             vias={[
-              "Textil y calzado de pista, llevados por los dos directivos.",
+              "Textil de pista llevado por los dos directivos.",
               "Capsule editorial co-firmada con J3.",
               "Presencia en J3Ptv — calidad, no volumen.",
               "Embajadores con criterio aspiracional.",
