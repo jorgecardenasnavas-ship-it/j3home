@@ -420,9 +420,9 @@ export function HablamosChapter() {
             className="block h-px w-full max-w-[300px] mx-auto bg-gradient-to-r from-transparent via-[var(--g1)]/40 to-transparent mb-10"
           />
 
-          {/* Título grande "Hablamos." */}
+          {/* Título grande "Hablamos." — a solas, sin sub-frase intermedia */}
           <h3
-            className="font-serif font-light text-[#E8DDD0] tracking-[-0.014em] leading-[0.95] mb-8"
+            className="font-serif font-light text-[#E8DDD0] tracking-[-0.014em] leading-[0.95] mb-12"
             style={{
               fontFamily: "var(--font-serif)",
               fontSize: "clamp(48px, 8vw, 110px)",
@@ -430,17 +430,6 @@ export function HablamosChapter() {
           >
             <span className="italic text-[var(--g1)]">Hablamos</span>.
           </h3>
-
-          {/* Subline */}
-          <p
-            className="italic text-[var(--wh)]/72 leading-[1.4] mb-10 max-w-[520px] mx-auto"
-            style={{
-              fontFamily: "var(--font-serif)",
-              fontSize: "clamp(16px, 1.8vw, 22px)",
-            }}
-          >
-            Cuando queráis. Donde queráis.
-          </p>
 
           {/* Datos de contacto */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10 mb-2">
@@ -481,15 +470,15 @@ export function HablamosChapter() {
             </a>
           </div>
 
-          {/* Firma final */}
+          {/* Firma final — declaración institucional, no CTA */}
           <p
-            className="italic text-[var(--wh)]/45 mt-12"
+            className="italic text-[var(--wh)]/55 mt-14 tracking-[0.2px]"
             style={{
               fontFamily: "var(--font-serif)",
-              fontSize: "clamp(12px, 1.2vw, 14px)",
+              fontSize: "clamp(14px, 1.4vw, 17px)",
             }}
           >
-            J3Padel · Costa del Sol · Málaga
+            La academia de referencia en la Costa del Sol.
           </p>
         </div>
       </div>
