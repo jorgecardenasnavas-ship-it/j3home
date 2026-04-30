@@ -470,7 +470,38 @@ export function HablamosChapter() {
             </a>
           </div>
 
-          {/* Firma final — declaración institucional, no CTA */}
+          {/* CTA con fecha concreta — crea momentum operativo */}
+          <div
+            className="mt-12 inline-flex flex-col items-center gap-1 px-6 py-4 border border-[var(--g1)]/35 rounded-[3px] backdrop-blur-[6px]"
+            style={{
+              background:
+                "linear-gradient(160deg, rgba(201,169,110,0.08) 0%, rgba(14,28,22,0.5) 100%)",
+            }}
+          >
+            <span className="text-[9px] font-bold tracking-[3px] uppercase text-[var(--g1)]">
+              — Próximo paso
+            </span>
+            <span
+              className="font-semibold text-[#E8DDD0] tracking-[-0.005em]"
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "clamp(14px, 1.4vw, 16px)",
+              }}
+            >
+              Llamada de 30 minutos
+            </span>
+            <span
+              className="italic text-[var(--g1)]/95 tracking-[0.2px]"
+              style={{
+                fontFamily: "var(--font-serif)",
+                fontSize: "clamp(13px, 1.3vw, 15px)",
+              }}
+            >
+              Disponibilidad: semana del 4 al 8 de mayo.
+            </span>
+          </div>
+
+          {/* Firma final — declaración institucional */}
           <p
             className="italic text-[var(--wh)]/55 mt-14 tracking-[0.2px]"
             style={{

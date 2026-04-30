@@ -484,9 +484,9 @@ export function ProposalChapter() {
           </div>
         </div>
 
-        {/* CIERRE del balance — frase final del capítulo */}
+        {/* CIERRE del balance — frase puente entre balance y KPIs */}
         <div
-          className="text-center"
+          className="text-center mb-20 sm:mb-24"
           style={{
             opacity: visible ? 1 : 0,
             transform: visible ? "none" : "translateY(14px)",
@@ -507,6 +507,157 @@ export function ProposalChapter() {
             </p>
             <span aria-hidden className="block h-px w-10 bg-[var(--g1)]/45" />
           </div>
+        </div>
+
+        {/* BLOQUE — CÓMO LO MEDIMOS (4 KPIs concretos) */}
+        <div
+          className="mb-20 sm:mb-24"
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? "none" : "translateY(20px)",
+            transition: `all 1.2s cubic-bezier(.16,1,.3,1) ${delay(6)}`,
+          }}
+        >
+          {/* Mini-divider editorial */}
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-4 mb-4">
+              <span aria-hidden className="block h-px w-10 bg-[var(--g1)]/45" />
+              <span className="text-[10px] font-bold tracking-[4px] uppercase text-[var(--g1)]">
+                Cómo lo medimos
+              </span>
+              <span aria-hidden className="block h-px w-10 bg-[var(--g1)]/45" />
+            </div>
+            <p
+              className="italic text-[var(--wh)]/65 max-w-[560px] mx-auto leading-[1.5]"
+              style={{
+                fontFamily: "var(--font-serif)",
+                fontSize: "clamp(14px, 1.4vw, 16px)",
+              }}
+            >
+              Cuatro métricas. Reporte trimestral. Sin humo.
+            </p>
+          </div>
+
+          {/* Grid de KPIs */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-[var(--g1)]/15 border border-[var(--g1)]/22 rounded-[4px] overflow-hidden">
+            {[
+              {
+                num: "01",
+                label: "Coaches activos",
+                detail: "Por trimestre, en la red Coach360",
+              },
+              {
+                num: "02",
+                label: "Producto recomendado",
+                detail: "Prescripción coach → jugador",
+              },
+              {
+                num: "03",
+                label: "Alcance editorial",
+                detail: "Views, cuentas, presencia generada",
+              },
+              {
+                num: "04",
+                label: "Eventos cubiertos",
+                detail: "Contenido producido por trimestre",
+              },
+            ].map((kpi) => (
+              <div
+                key={kpi.num}
+                className="relative flex flex-col gap-2 p-6 sm:p-7 bg-[var(--bk)]/85 backdrop-blur-[6px]"
+              >
+                {/* Numeral italic serif */}
+                <span
+                  className="font-serif italic text-[var(--g1)] leading-none"
+                  style={{
+                    fontFamily: "var(--font-serif)",
+                    fontSize: "clamp(28px, 3vw, 38px)",
+                    letterSpacing: "-0.02em",
+                  }}
+                >
+                  {kpi.num}
+                </span>
+                {/* Hairline */}
+                <span
+                  aria-hidden
+                  className="block h-px w-8 bg-[var(--g1)]/35 my-1"
+                />
+                {/* Label */}
+                <span
+                  className="font-semibold text-[#E8DDD0] tracking-[-0.005em] leading-[1.2]"
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontSize: "clamp(14px, 1.4vw, 16px)",
+                  }}
+                >
+                  {kpi.label}
+                </span>
+                {/* Detail */}
+                <span className="text-[11px] sm:text-[12px] text-[var(--wh)]/60 leading-[1.4] font-light">
+                  {kpi.detail}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* BLOQUE — POR QUÉ AHORA + SOCIAL PROOF INSTITUCIONAL */}
+        <div
+          className="text-center max-w-[760px] mx-auto"
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? "none" : "translateY(20px)",
+            transition: `all 1.3s cubic-bezier(.16,1,.3,1) ${delay(7)}`,
+          }}
+        >
+          {/* Eyebrow */}
+          <div className="inline-flex items-center gap-4 mb-6">
+            <span aria-hidden className="block h-px w-10 bg-[var(--g1)]/45" />
+            <span className="text-[10px] font-bold tracking-[4px] uppercase text-[var(--g1)]">
+              Por qué ahora
+            </span>
+            <span aria-hidden className="block h-px w-10 bg-[var(--g1)]/45" />
+          </div>
+
+          {/* Frase de urgencia */}
+          <p
+            className="font-serif text-[#E8DDD0] leading-[1.25] tracking-[-0.012em] mb-10"
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontSize: "clamp(22px, 3.2vw, 36px)",
+              fontWeight: 300,
+            }}
+          >
+            Coach360 cierra su primer ciclo en 2026.
+            <br />
+            <span className="italic text-[var(--g1)]">
+              El partner que entre primero define las reglas
+            </span>
+            .
+          </p>
+
+          {/* Hairline separador */}
+          <span
+            aria-hidden
+            className="block h-px w-full bg-gradient-to-r from-transparent via-[var(--g1)]/35 to-transparent mb-8"
+          />
+
+          {/* Social proof institucional — marcas con las que ya hemos trabajado */}
+          <p
+            className="italic text-[var(--wh)]/72 leading-[1.55] max-w-[600px] mx-auto"
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontSize: "clamp(14px, 1.45vw, 17px)",
+            }}
+          >
+            Hemos trabajado con{" "}
+            <span className="not-italic font-semibold tracking-[0.5px] text-[#E8DDD0]">
+              Wilson · Babolat · Adidas · Varlion
+            </span>
+            .
+            <br />
+            Hoy elegimos a quien defina la próxima década con nosotros.
+          </p>
         </div>
 
       </div>
