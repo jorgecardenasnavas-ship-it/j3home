@@ -189,6 +189,105 @@ function FormatCard({
   );
 }
 
+/* ──────────────────────────────────────────────────────────────
+   NetworkTier — fila editorial para los tres anillos de Coach360.
+   Indicador concéntrico (●●● núcleo, ●●○ medio, ●○○ exterior),
+   index marker, nombre semibold, descripción inline y meta a la
+   derecha. Layout horizontal en desktop, apilado en mobile.
+   ────────────────────────────────────────────────────────────── */
+interface NetworkTierProps {
+  index: string;
+  tierLevel: 1 | 2 | 3;
+  name: string;
+  type: string;
+  description: string;
+  meta: string;
+  divider?: boolean;
+}
+
+function TierRings({ level }: { level: 1 | 2 | 3 }) {
+  // 3 dots: filled hasta `level`, vacíos el resto. Núcleo = 3, exterior = 1.
+  return (
+    <div className="flex items-center gap-1" aria-hidden>
+      {[3, 2, 1].map((i) => {
+        const filled = i <= level;
+        return (
+          <span
+            key={i}
+            className="block w-1.5 h-1.5 rounded-full"
+            style={{
+              backgroundColor: filled ? "var(--g1)" : "transparent",
+              border: filled ? "none" : "1px solid rgba(201,169,110,0.45)",
+              boxShadow: filled
+                ? "0 0 6px rgba(201,169,110,0.55)"
+                : "none",
+            }}
+          />
+        );
+      })}
+    </div>
+  );
+}
+
+function NetworkTier({
+  index,
+  tierLevel,
+  name,
+  type,
+  description,
+  meta,
+  divider,
+}: NetworkTierProps) {
+  return (
+    <div className="relative">
+      {divider && (
+        <span
+          aria-hidden
+          className="absolute top-0 left-5 right-5 h-px bg-[var(--g1)]/15"
+        />
+      )}
+      <div className="relative grid grid-cols-12 gap-x-4 gap-y-2 items-baseline px-5 py-5">
+        {/* Col 1-3: Anillos + index marker */}
+        <div className="col-span-12 sm:col-span-3 flex items-center gap-3">
+          <TierRings level={tierLevel} />
+          <span className="text-[9px] font-bold tracking-[2.5px] uppercase text-[var(--g1)]/55 tabular-nums">
+            {index}
+          </span>
+        </div>
+
+        {/* Col 4-12: Contenido */}
+        <div className="col-span-12 sm:col-span-9 flex flex-col gap-1.5">
+          {/* Header: nombre + type chip */}
+          <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+            <h5
+              className="font-semibold text-[#E8DDD0] tracking-[-0.012em] leading-[1.0] whitespace-nowrap"
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "clamp(18px, 2vw, 22px)",
+              }}
+            >
+              {name}
+            </h5>
+            <span className="text-[9px] font-bold tracking-[3px] uppercase text-[var(--g1)]">
+              · {type}
+            </span>
+          </div>
+
+          {/* Descripción + meta — flex en desktop, apilados en mobile */}
+          <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-6">
+            <p className="text-[12.5px] sm:text-[13px] text-[var(--wh)]/75 leading-[1.5] font-light max-w-[420px]">
+              {description}
+            </p>
+            <span className="text-[9.5px] tracking-[1.5px] uppercase text-[var(--wh)]/55 font-light whitespace-nowrap shrink-0">
+              {meta}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 interface SedeCardProps {
   badge: string;
   badgeAccent?: "champan" | "verde";
@@ -955,30 +1054,50 @@ export function LeversSection() {
         overlayStyle="linear-gradient(to right, rgba(14,28,22,0.85) 0%, rgba(14,28,22,0.5) 40%, rgba(14,28,22,0) 70%)"
         customFooter={
           <div className="space-y-5">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <FormatCard
+            {/* Sistema de anillos — lista editorial vertical, narrativa de tres niveles */}
+            <div
+              className="relative border border-[var(--g1)]/20 rounded-[4px] overflow-hidden"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(201,169,110,0.045) 0%, rgba(201,169,110,0.015) 100%)",
+              }}
+            >
+              {/* Top hairline gradient */}
+              <span
+                aria-hidden
+                className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--g1)]/55 to-transparent"
+              />
+
+              {/* TIER 01 — HQ (núcleo, 3 dots fill) */}
+              <NetworkTier
                 index="N/01"
-                icon="target"
-                type="Operación core"
+                tierLevel={3}
                 name="HQ"
-                description="Staff J3 directo. El núcleo desde el que se irradia el método al resto de la red."
+                type="Núcleo"
+                description="Staff J3 directo. El método nace aquí y desde aquí se irradia al resto de la red."
                 meta="Málaga · sede propia"
               />
-              <FormatCard
+
+              {/* TIER 02 — Certificados (anillo medio, 2 dots fill) */}
+              <NetworkTier
                 index="N/02"
-                icon="seal"
-                type="Método · Certificado"
+                tierLevel={2}
                 name="Certificados"
-                description="Coaches formados en el método J3. Niveles definidos, certificación activa."
-                meta="Aprobados internamente"
+                type="Método"
+                description="Coaches formados internamente en el método J3. Niveles definidos, certificación activa."
+                meta="Aprobados por J3"
+                divider
               />
-              <FormatCard
+
+              {/* TIER 03 — Verificados (anillo exterior, 1 dot fill) */}
+              <NetworkTier
                 index="N/03"
-                icon="shield"
-                type="Criterio · Verificado"
+                tierLevel={1}
                 name="Verificados"
+                type="Criterio"
                 description="Coaches recomendados que aplican criterio en pista. Sabemos cómo trabajan."
                 meta="Recomendación J3"
+                divider
               />
             </div>
 
