@@ -33,8 +33,28 @@ function BalanceColumn({
   accent = "verde",
 }: BalanceColumnProps) {
   const isCham = accent === "champan";
+  // Reveal stagger por columna — al entrar en viewport se activan los items
+  const colRef = useRef<HTMLDivElement>(null);
+  const [colVisible, setColVisible] = useState(false);
+  useEffect(() => {
+    const el = colRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setColVisible(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.15 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
     <div
+      ref={colRef}
       className="relative flex flex-col overflow-hidden rounded-[6px] border border-[var(--g1)]/22 backdrop-blur-[14px] h-full"
       style={{
         background: isCham
@@ -123,10 +143,23 @@ function BalanceColumn({
           </p>
         </div>
 
-        {/* Items list */}
+        {/* Items list — reveal stagger por item */}
         <ul className="flex flex-col gap-5">
           {items.map((item, i) => (
-            <li key={i} className="flex flex-col gap-1.5">
+            <li
+              key={i}
+              className="flex flex-col gap-1.5"
+              style={{
+                opacity: colVisible ? 1 : 0,
+                transform: colVisible ? "none" : "translateY(14px)",
+                filter: colVisible ? "blur(0)" : "blur(3px)",
+                transition: `opacity .9s cubic-bezier(.16,1,.3,1) ${
+                  0.15 + i * 0.12
+                }s, transform .9s cubic-bezier(.16,1,.3,1) ${
+                  0.15 + i * 0.12
+                }s, filter .9s cubic-bezier(.16,1,.3,1) ${0.15 + i * 0.12}s`,
+              }}
+            >
               {/* Title del item */}
               <div className="flex items-baseline gap-3">
                 <span className="text-[10px] font-bold tracking-[2.5px] uppercase text-[var(--g1)]/55 tabular-nums shrink-0 mt-px">
@@ -464,7 +497,7 @@ export function ProposalChapter() {
             La propuesta
           </div>
 
-          {/* Headline */}
+          {/* Headline — conceptual, no repite las columnas */}
           <h2
             className="font-serif font-light leading-[1.05] tracking-[-0.014em] text-[#E8DDD0] mb-8 max-w-[900px] mx-auto"
             style={{
@@ -476,9 +509,8 @@ export function ProposalChapter() {
               transition: `all 1.4s cubic-bezier(.16,1,.3,1) ${delay(2)}`,
             }}
           >
-            Lo que pedimos.
-            <br />
-            <span className="italic text-[var(--g1)]/95">Lo que ponemos.</span>
+            La cuenta{" "}
+            <span className="italic text-[var(--g1)]/95">clara</span>.
           </h2>
 
           {/* Subhead */}
@@ -498,15 +530,49 @@ export function ProposalChapter() {
           </p>
         </div>
 
-        {/* BLOQUE 1 — BALANCE: dos columnas paralelas */}
+        {/* BLOQUE 1 — BALANCE: dos columnas paralelas + símbolo central de intercambio */}
         <div
-          className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-stretch mb-20 sm:mb-28"
+          className="relative mb-12 sm:mb-16"
           style={{
             opacity: visible ? 1 : 0,
             transform: visible ? "none" : "translateY(24px)",
             transition: `all 1.4s cubic-bezier(.16,1,.3,1) ${delay(4)}`,
           }}
         >
+          {/* Símbolo central ⇆ — solo visible en desktop, posicionado al medio */}
+          <div
+            aria-hidden
+            className="hidden lg:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none"
+          >
+            <div
+              className="relative flex items-center justify-center w-14 h-14 rounded-full border border-[var(--g1)]/40 backdrop-blur-[8px]"
+              style={{
+                background:
+                  "radial-gradient(circle, rgba(14,28,22,0.95) 0%, rgba(14,28,22,0.7) 100%)",
+                boxShadow:
+                  "0 0 24px rgba(201,169,110,0.25), 0 0 60px rgba(0,0,0,0.5)",
+              }}
+            >
+              {/* SVG flecha de intercambio horizontal */}
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--g1)"
+                strokeWidth="1.4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M3 8 L20 8" />
+                <polyline points="16 4 20 8 16 12" />
+                <path d="M21 16 L4 16" />
+                <polyline points="8 12 4 16 8 20" />
+              </svg>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-stretch">
           <BalanceColumn
             num="01"
             accent="verde"
@@ -544,7 +610,7 @@ export function ProposalChapter() {
                   "Activos vehiculados por nosotros — textil, palas, presencia — para los embajadores que vosotros designéis. No patrocinio monetario, sí coordinación.",
               },
             ]}
-            footer="* El fee por alcance e imagen lo abrimos a final de 2026 — fuera del presupuesto actual. No es la prioridad ahora."
+            footer="* Marco económico abierto a Q4 2026 — fuera del foco actual, pero sí del calendario."
           />
 
           <BalanceColumn
@@ -585,6 +651,32 @@ export function ProposalChapter() {
               },
             ]}
           />
+          </div>
+        </div>
+
+        {/* CIERRE del balance — frase puente entre las dos columnas y los tres caminos */}
+        <div
+          className="text-center mb-20 sm:mb-28"
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? "none" : "translateY(14px)",
+            transition: `all 1.1s cubic-bezier(.16,1,.3,1) ${delay(5)}`,
+          }}
+        >
+          <div className="inline-flex items-center gap-4">
+            <span aria-hidden className="block h-px w-10 bg-[var(--g1)]/45" />
+            <p
+              className="font-serif italic text-[#E8DDD0] tracking-[-0.005em] leading-[1.3]"
+              style={{
+                fontFamily: "var(--font-serif)",
+                fontSize: "clamp(18px, 2.2vw, 26px)",
+              }}
+            >
+              Cuando uno gana,{" "}
+              <span className="text-[var(--g1)]">el otro gana también</span>.
+            </p>
+            <span aria-hidden className="block h-px w-10 bg-[var(--g1)]/45" />
+          </div>
         </div>
 
         {/* DIVIDER editorial — introduce los tres caminos */}
