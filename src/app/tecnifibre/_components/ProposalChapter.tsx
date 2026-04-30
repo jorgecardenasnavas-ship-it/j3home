@@ -525,9 +525,9 @@ export function ProposalChapter() {
             className="block h-px w-full bg-gradient-to-r from-transparent via-[var(--g1)]/40 to-transparent mb-12 sm:mb-16"
           />
 
-          {/* Eyebrow */}
+          {/* Eyebrow — contextualiza el bloque como "la jugada larga" */}
           <div className="text-[10px] sm:text-[11px] font-bold tracking-[4px] uppercase text-[var(--g1)]/85 mb-5">
-            — Y si queremos ir más allá
+            — La jugada larga
           </div>
 
           {/* Brand display gigante */}
@@ -543,8 +543,8 @@ export function ProposalChapter() {
             Tecnifibre
           </h3>
 
-          {/* Sub-tag — la grande */}
-          <div className="inline-flex items-center gap-3 mb-7">
+          {/* Sub-tag — "la grande" identitario, mantenemos firma editorial */}
+          <div className="inline-flex items-center gap-3 mb-8">
             <span aria-hidden className="block h-px w-8 bg-[var(--g1)]/55" />
             <span
               className="italic text-[var(--g1)] tracking-[0.3px]"
@@ -558,24 +558,40 @@ export function ProposalChapter() {
             <span aria-hidden className="block h-px w-8 bg-[var(--g1)]/55" />
           </div>
 
-          {/* Pitch line */}
+          {/* Pitch line — qué es realmente esta línea */}
           <p
-            className="font-serif italic text-[#E8DDD0]/92 leading-[1.3] mb-10 max-w-[560px] mx-auto"
+            className="font-serif italic text-[#E8DDD0]/92 leading-[1.3] mb-6 max-w-[640px] mx-auto"
             style={{
               fontFamily: "var(--font-serif)",
               fontSize: "clamp(20px, 2.4vw, 30px)",
             }}
           >
-            Una línea que solo existe aquí.
+            Una línea co-branded que solo
+            <br className="hidden sm:block" />
+            existe aquí.
+          </p>
+
+          {/* Sustancia — qué incluye la línea, en una frase corta y específica */}
+          <p
+            className="text-[var(--wh)]/68 leading-[1.55] font-light mb-10 max-w-[520px] mx-auto"
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontSize: "clamp(13px, 1.4vw, 15px)",
+            }}
+          >
+            Pala, textil técnico, accesorio. Edición limitada con sello J3.
+            Distribución exclusiva en la red Coach360 y sedes propias.
           </p>
 
           {/* Mini-CTA editorial */}
           <p
-            className="text-[11px] sm:text-[12px] tracking-[3px] uppercase text-[var(--wh)]/55 font-light"
+            className="italic text-[var(--wh)]/70 tracking-[0.3px]"
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontSize: "clamp(13px, 1.3vw, 15px)",
+            }}
           >
-            <span className="italic text-[var(--wh)]/70 normal-case tracking-[0.3px]" style={{ fontFamily: "var(--font-serif)", fontSize: "clamp(13px, 1.3vw, 15px)" }}>
-              Lo concretamos en mesa.
-            </span>
+            Lo concretamos en mesa.
           </p>
 
           {/* Hairline final */}
