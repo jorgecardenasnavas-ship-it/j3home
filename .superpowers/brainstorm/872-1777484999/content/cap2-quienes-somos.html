@@ -1,0 +1,84 @@
+<h2>Capítulo 2 — Quiénes somos, en 3 datos.</h2>
+<p class="subtitle">Pantalla completa. Tres números que posicionan. Sin párrafos largos: Raul ya sabe quién eres, esto es para enmarcar el peso.</p>
+
+<style>
+  .cap2-mockup {
+    position: relative;
+    height: 520px;
+    background-image: linear-gradient(180deg, rgba(14, 28, 22, 0.85), rgba(27, 61, 47, 0.7)), url('https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=1600&q=80');
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+    overflow: hidden;
+    color: #F8F5EF;
+    padding: 50px 40px 30px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  .cap2-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #C9A96E; opacity: 0.85; }
+  .cap2-title { font-size: 36px; font-weight: 300; letter-spacing: -1px; color: #F8F5EF; margin: 0; line-height: 1.15; font-family: Georgia, serif; max-width: 600px; }
+  .cap2-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; margin-top: 16px; flex: 1; align-items: center; }
+  .cap2-stat { display: flex; flex-direction: column; gap: 8px; border-left: 2px solid #C9A96E; padding-left: 18px; }
+  .cap2-num { font-size: 56px; font-weight: 300; line-height: 1; color: #C9A96E; font-family: Georgia, serif; }
+  .cap2-num small { font-size: 24px; opacity: 0.8; margin-left: 2px; }
+  .cap2-label { font-size: 13px; line-height: 1.4; color: rgba(248, 245, 239, 0.92); font-weight: 400; }
+  .cap2-foot { display: flex; justify-content: space-between; align-items: center; font-size: 11px; letter-spacing: 1px; color: rgba(248, 245, 239, 0.5); }
+  .pip { display: inline-flex; gap: 4px; }
+  .pip span { width: 18px; height: 2px; background: rgba(248, 245, 239, 0.3); }
+  .pip span.on { background: #C9A96E; }
+</style>
+
+<div class="cap2-mockup">
+  <div>
+    <span class="cap2-eyebrow">— Capítulo 2</span>
+    <h2 class="cap2-title">Veinte años de club. Una plataforma global.</h2>
+  </div>
+  <div class="cap2-grid">
+    <div class="cap2-stat">
+      <div class="cap2-num">20<small>+</small></div>
+      <div class="cap2-label">Años en Málaga<br>operando como club.</div>
+    </div>
+    <div class="cap2-stat">
+      <div class="cap2-num">Jun<small> '26</small></div>
+      <div class="cap2-label">Inauguramos<br>nueva sede.</div>
+    </div>
+    <div class="cap2-stat">
+      <div class="cap2-num">100<small>+</small></div>
+      <div class="cap2-label">Entrenadores en<br>nuestra plataforma global.</div>
+    </div>
+  </div>
+  <div class="cap2-foot">
+    <span class="pip"><span class="on"></span><span class="on"></span><span></span><span></span><span></span></span>
+    <span>02 / 05</span>
+  </div>
+</div>
+
+<p style="margin: 24px 0 12px 0; font-size: 13px; color: #555; line-height: 1.6;"><strong>Decisiones del mockup:</strong> tres datos en columnas con barra champán a la izquierda · número grande en serif fina · label corto en dos líneas · título del capítulo añade contexto sin alargarlo · indicador de progreso "02 / 05" abajo a la derecha · pips arriba/izquierda muestran qué capítulo estás leyendo.</p>
+
+<h3 style="margin-top: 32px;">Una decisión sobre el dato del medio</h3>
+<p class="subtitle">Tu nueva sede abre el 1 de junio. ¿Cómo lo enmarcamos?</p>
+
+<div class="options" style="margin-top: 16px;">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Jun '26 — Inauguramos nueva sede.</h3>
+      <p>Marca tiempo concreto. Genera "esto pasa pronto, hay que decidir pronto". Útil tácticamente.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Nueva sede — En obra. Junio.</h3>
+      <p>Más sobrio. Suena a hito ya en marcha. Menos presión de fecha, más sensación de inevitabilidad.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>2026 — Sede nueva en Málaga.</h3>
+      <p>El más largo de los tres. Más contexto pero menos visual. Si Raul mira deprisa, este pesa menos.</p>
+    </div>
+  </div>
+</div>

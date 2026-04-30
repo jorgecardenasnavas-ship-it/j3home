@@ -1,17 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { ChapterFrame } from "./ChapterFrame";
-import { ChapterNav } from "./ChapterNav";
 
 /**
  * Capítulo 1 — Hero. Saludo personal a Raúl a pantalla completa.
- * Estilo alineado con la web J3: eyebrows champán, serif italic íntimo,
- * crema cálida #E8DDD0, ambient glow, reveal en cascada.
+ * Estilo alineado con la web J3: logo wordmark champán arriba-izquierda,
+ * logos Tecnifibre + Lacoste arriba-derecha (co-branding visual sin texto),
+ * "Hola, Raúl." en serif italic crema, subtítulo concreto, ambient glow.
  */
 export function HeroChapter() {
-  const [revealed, setRevealed] = useState<[boolean, boolean, boolean, boolean]>([
-    false,
+  const [revealed, setRevealed] = useState<[boolean, boolean, boolean]>([
     false,
     false,
     false,
@@ -19,11 +19,10 @@ export function HeroChapter() {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Stagger reveal: eyebrow → headline → subtitle → bottom controls
-    const timers = [200, 600, 1100, 1500].map((delay, i) =>
+    const timers = [400, 900, 1300].map((delay, i) =>
       setTimeout(() => {
         setRevealed((prev) => {
-          const next: [boolean, boolean, boolean, boolean] = [...prev];
+          const next: [boolean, boolean, boolean] = [...prev];
           next[i] = true;
           return next;
         });
@@ -55,82 +54,130 @@ export function HeroChapter() {
       />
 
       <div ref={sectionRef} className="relative z-10 flex flex-col flex-1">
-        {/* Top labels — estilo eyebrow J3 */}
-        <header className="flex items-center justify-between gap-4">
-          <span className="text-[10px] font-bold tracking-[5px] uppercase text-[var(--g1)]">
-            J3PÁDEL
-          </span>
-          <span className="text-[10px] font-bold tracking-[4px] uppercase text-[var(--g1)] text-right">
-            Para Raúl <span className="opacity-50">·</span> Tecnifibre × Lacoste
-          </span>
-        </header>
-
-        {/* Center hero block */}
-        <div className="flex-1 flex flex-col justify-center gap-6 max-w-3xl">
-          <span
-            className="text-[10px] font-bold tracking-[5px] uppercase text-[var(--g1)] block"
-            style={{
-              opacity: revealed[0] ? 1 : 0,
-              transform: revealed[0] ? "none" : "translateY(8px)",
-              transition: "all .9s cubic-bezier(.16,1,.3,1)",
-            }}
-          >
-            — Una propuesta privada —
-          </span>
-
-          <h1
-            className="text-[clamp(56px,9vw,128px)] leading-[0.92] tracking-[-0.02em] italic normal-case"
-            style={{
-              fontFamily: "var(--font-serif)",
-              color: "#E8DDD0",
-              opacity: revealed[1] ? 1 : 0,
-              transform: revealed[1] ? "none" : "translateY(28px)",
-              filter: revealed[1] ? "blur(0)" : "blur(8px)",
-              transition: "all 1.1s cubic-bezier(.16,1,.3,1)",
-            }}
-          >
-            Hola, Raúl.
-          </h1>
-
-          <p
-            className="text-[clamp(18px,2vw,24px)] leading-[1.45] text-[var(--wh)]/80 max-w-xl font-light"
-            style={{
-              opacity: revealed[2] ? 1 : 0,
-              transform: revealed[2] ? "none" : "translateY(16px)",
-              transition: "all 1s cubic-bezier(.16,1,.3,1)",
-            }}
-          >
-            Lo que podemos construir juntos.
-          </p>
-        </div>
-
-        {/* Bottom — progress + scroll hint */}
-        <footer
-          className="flex items-end justify-between gap-4"
-          style={{
-            opacity: revealed[3] ? 1 : 0,
-            transform: revealed[3] ? "none" : "translateY(12px)",
-            transition: "all .9s cubic-bezier(.16,1,.3,1)",
-          }}
-        >
-          <ChapterNav current={1} total={5} />
-          <div className="inline-flex items-center gap-[10px] text-[10px] font-bold tracking-[3px] uppercase text-[var(--wh)]/60">
-            <span>Desliza</span>
-            <span
-              className="w-[5px] h-[5px] rounded-full"
+        {/* Top header — J3 logo izquierda, T × L derecha (co-branding visual)
+            En móvil reducido para no saturar el viewport estrecho. */}
+        <header className="flex items-start justify-between gap-3 sm:gap-4">
+          <div className="flex flex-col gap-[4px] sm:gap-[6px] shrink-0">
+            <Image
+              src="/images/logo-tecnifibre-hero.svg"
+              alt="J3Pádel"
+              width={156}
+              height={50}
+              priority
+              className="h-[32px] sm:h-[48px] w-auto"
+            />
+            <span className="block w-[120px] sm:w-[180px] text-center text-[6.5px] sm:text-[9px] font-bold tracking-[1.5px] sm:tracking-[1.8px] uppercase text-[var(--g1)]/75">
+              <span className="text-[#F8F5EF]">Play</span>{" "}
+              <span className="opacity-50">·</span> Coach{" "}
+              <span className="opacity-50">·</span> Manage
+            </span>
+          </div>
+          <div className="flex items-center gap-3 sm:gap-8 shrink-0">
+            <div
+              role="img"
+              aria-label="Tecnifibre"
+              className="h-[36px] sm:h-[88px] aspect-[1.81/1]"
               style={{
-                background: "var(--g1)",
-                animation: "j3HeroPulse 2.4s cubic-bezier(.16,1,.3,1) infinite",
+                backgroundColor: "#F8F5EF",
+                WebkitMaskImage: "url(/images/j3/tecnifibre-transparent.png)",
+                maskImage: "url(/images/j3/tecnifibre-transparent.png)",
+                WebkitMaskSize: "contain",
+                maskSize: "contain",
+                WebkitMaskRepeat: "no-repeat",
+                maskRepeat: "no-repeat",
+                WebkitMaskPosition: "center",
+                maskPosition: "center",
+              }}
+            />
+            <span className="text-[var(--g1)]/55 text-[14px] sm:text-[24px] font-light">
+              ×
+            </span>
+            <div
+              role="img"
+              aria-label="Lacoste"
+              className="h-[40px] sm:h-[96px] aspect-square"
+              style={{
+                backgroundColor: "#F8F5EF",
+                WebkitMaskImage: "url(/images/j3/lacoste-transparent.png)",
+                maskImage: "url(/images/j3/lacoste-transparent.png)",
+                WebkitMaskSize: "contain",
+                maskSize: "contain",
+                WebkitMaskRepeat: "no-repeat",
+                maskRepeat: "no-repeat",
+                WebkitMaskPosition: "center",
+                maskPosition: "center",
               }}
             />
           </div>
-        </footer>
+        </header>
+
+        {/* Center hero block — guiño a Lacoste + invitación personal */}
+        <div className="flex-1 flex flex-col justify-center gap-8 max-w-4xl">
+          <h1
+            className="text-[clamp(44px,7vw,104px)] leading-[1.02] tracking-[-0.015em] italic normal-case"
+            style={{
+              fontFamily: "var(--font-serif)",
+              color: "#E8DDD0",
+              opacity: revealed[0] ? 1 : 0,
+              transform: revealed[0] ? "none" : "translateY(28px)",
+              filter: revealed[0] ? "blur(0)" : "blur(8px)",
+              transition: "all 1.1s cubic-bezier(.16,1,.3,1)",
+            }}
+          >
+            Padel is a beautiful sport.
+          </h1>
+
+          <p
+            className="text-[clamp(32px,4.5vw,64px)] leading-[1.05] tracking-[-0.02em] italic normal-case font-light"
+            style={{
+              fontFamily: "var(--font-serif)",
+              color: "var(--g1)",
+              opacity: revealed[1] ? 1 : 0,
+              transform: revealed[1] ? "none" : "translateY(16px)",
+              transition: "all 1.2s cubic-bezier(.16,1,.3,1)",
+            }}
+          >
+            ¿Lo jugamos en equipo?
+          </p>
+        </div>
+
+      </div>
+
+      {/* Chevrons J3 — mismo patrón que el hero del home, anclados al borde inferior */}
+      <div
+        aria-hidden
+        className="absolute bottom-7 left-1/2 -translate-x-1/2 z-[20] flex flex-col items-center gap-[2px] pointer-events-none"
+        style={{
+          opacity: revealed[2] ? 1 : 0,
+          transition: "opacity 1.2s cubic-bezier(.16,1,.3,1) .2s",
+        }}
+      >
+        {[0, 1, 2].map((i) => (
+          <svg
+            key={i}
+            width="22"
+            height="11"
+            viewBox="0 0 20 10"
+            fill="none"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden
+            style={{
+              stroke: "#E8DDD0",
+              animation: "j3ChevPulse 1.6s cubic-bezier(.4,0,.6,1) infinite",
+              animationDelay: `${i * 0.18}s`,
+            }}
+          >
+            <path d="M2 2 L10 8 L18 2" />
+          </svg>
+        ))}
       </div>
 
       <style>{`
-        @keyframes j3HeroPulse {
-          0%, 100% { opacity: 0.35; transform: scale(1); }
-          50% { opacity: 1; transform: scale(1.4); }
+        @keyframes j3ChevPulse {
+          0%, 100% { opacity: 0.18; }
+          50%      { opacity: 1;    }
         }
       `}</style>
     </ChapterFrame>

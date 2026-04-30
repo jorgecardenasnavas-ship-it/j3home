@@ -1,0 +1,86 @@
+<h2>Capítulo 5 — Hablamos.</h2>
+<p class="subtitle">El cierre. Una pantalla. Sin formularios. Una frase y un canal de contacto. Aire, mucho aire.</p>
+
+<style>
+  .cap5-mockup {
+    height: 540px;
+    background: linear-gradient(180deg, #1B3D2F, #0E1C16);
+    border-radius: 8px;
+    overflow: hidden;
+    color: #F8F5EF;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+  .cap5-top { display: flex; justify-content: space-between; align-items: center; font-size: 11px; letter-spacing: 2px; color: rgba(248, 245, 239, 0.6); }
+  .cap5-pips { display: inline-flex; gap: 4px; }
+  .cap5-pips span { width: 18px; height: 2px; background: rgba(248, 245, 239, 0.25); }
+  .cap5-pips span.on { background: #C9A96E; }
+  .cap5-center { display: flex; flex-direction: column; gap: 28px; align-items: flex-start; }
+  .cap5-eyebrow { font-size: 12px; letter-spacing: 4px; text-transform: uppercase; color: #C9A96E; opacity: 0.85; }
+  .cap5-title { font-size: 96px; font-weight: 300; letter-spacing: -3px; line-height: 1; color: #F8F5EF; margin: 0; font-family: Georgia, serif; }
+  .cap5-sub { font-size: 18px; font-weight: 300; line-height: 1.5; color: rgba(248, 245, 239, 0.85); max-width: 540px; margin: 0; }
+  .cap5-cta-row { display: flex; gap: 14px; align-items: center; margin-top: 8px; flex-wrap: wrap; }
+  .cap5-btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 24px; background: #C9A96E; color: #0E1C16; border-radius: 999px; font-weight: 600; font-size: 14px; letter-spacing: 0.5px; text-decoration: none; transition: all 0.2s; }
+  .cap5-btn:hover { background: #F8F5EF; }
+  .cap5-btn .arrow { transition: transform 0.2s; }
+  .cap5-secondary { font-size: 13px; color: rgba(248, 245, 239, 0.7); letter-spacing: 0.3px; }
+  .cap5-secondary a { color: #C9A96E; text-decoration: none; }
+
+  .cap5-bottom { display: flex; justify-content: space-between; align-items: flex-end; }
+  .cap5-signoff { font-size: 12px; line-height: 1.6; color: rgba(248, 245, 239, 0.6); max-width: 320px; }
+  .cap5-signoff strong { color: rgba(248, 245, 239, 0.95); font-weight: 500; }
+  .cap5-back { font-size: 11px; letter-spacing: 1px; color: rgba(201, 169, 110, 0.7); text-transform: uppercase; }
+</style>
+
+<div class="cap5-mockup">
+
+  <div class="cap5-top">
+    <span class="cap5-pips"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></span>
+    <span>05 / 05</span>
+  </div>
+
+  <div class="cap5-center">
+    <span class="cap5-eyebrow">— Y ahora —</span>
+    <h1 class="cap5-title">Hablamos.</h1>
+    <p class="cap5-sub">Cuando hayas dado una vuelta a esto, dinos qué te encaja, qué cambiaríamos, y dónde nos sentamos.</p>
+    <div class="cap5-cta-row">
+      <a href="mailto:hola@j3padel.com" class="cap5-btn">
+        Escríbenos <span class="arrow">→</span>
+      </a>
+      <span class="cap5-secondary">o directamente <a href="mailto:hola@j3padel.com">hola@j3padel.com</a></span>
+    </div>
+  </div>
+
+  <div class="cap5-bottom">
+    <div class="cap5-signoff">
+      Al otro lado: <strong>Jordi, Javi y Jorge</strong>.<br>
+      Tres socios. Una mesa. Una sola conversación.
+    </div>
+    <a href="#cap1" class="cap5-back">↑ Volver al inicio</a>
+  </div>
+
+</div>
+
+<p style="margin: 24px 0 12px 0; font-size: 13px; color: #555; line-height: 1.6;"><strong>Decisiones del mockup:</strong> fondo verde a negro para cerrar el viaje en oscuro, sensación de "fin" · "Hablamos." enorme en serif fina, peso visual dominante · subtítulo invita pero no presiona · botón principal champán "Escríbenos →" + email visible al lado para los que prefieren copiar/pegar · firma personal abajo-izquierda con los tres socios, "tres socios. una mesa. una sola conversación." marca el contraste con marcas grandes que tienen comités · "↑ Volver al inicio" abajo-derecha por si Raul quiere repasar capítulos · pips arriba todos encendidos.</p>
+
+<h3 style="margin-top: 32px;">Dos decisiones rápidas</h3>
+
+<div class="options" style="margin-top: 16px;">
+  <div class="option" data-choice="email1" onclick="toggleSelect(this)">
+    <div class="letter">@</div>
+    <div class="content">
+      <h3>¿Qué email ponemos en el botón?</h3>
+      <p>En el mockup he puesto <code>hola@j3padel.com</code>. Dime si prefieres tu email personal de Jorge, uno de Jordi o Javi, o uno genérico tipo <code>colaboraciones@</code>. Como veas.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="signoff1" onclick="toggleSelect(this)">
+    <div class="letter">✎</div>
+    <div class="content">
+      <h3>La firma de cierre</h3>
+      <p>"<em>Tres socios. Una mesa. Una sola conversación.</em>" → marca el contraste de tener interlocutores reales vs comités. ¿Te encaja, lo suavizo, o prefieres solo "<em>Jordi, Javi y Jorge</em>" sin frase?</p>
+    </div>
+  </div>
+</div>

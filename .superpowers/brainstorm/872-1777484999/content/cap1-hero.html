@@ -1,0 +1,82 @@
+<h2>Capítulo 1 — Hero</h2>
+<p class="subtitle">Lo primero que ve Raul al abrir el link. Una sola pantalla. Impacto inmediato.</p>
+
+<style>
+  .hero-mockup {
+    position: relative;
+    height: 480px;
+    background-image: linear-gradient(135deg, rgba(14, 28, 22, 0.7), rgba(27, 61, 47, 0.45)), url('https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=1600&q=80');
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+    overflow: hidden;
+    color: #F8F5EF;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .hero-top { display: flex; justify-content: space-between; align-items: center; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #C9A96E; }
+  .hero-top .corner { opacity: 0.7; }
+  .hero-center { display: flex; flex-direction: column; gap: 16px; }
+  .hero-label { font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #C9A96E; opacity: 0.85; }
+  .hero-h1 { font-size: 72px; font-weight: 300; letter-spacing: -2px; line-height: 1; color: #F8F5EF; margin: 0; font-family: Georgia, serif; }
+  .hero-sub { font-size: 22px; font-weight: 300; line-height: 1.4; color: rgba(248, 245, 239, 0.85); max-width: 540px; margin: 0; }
+  .hero-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 11px; letter-spacing: 1px; color: rgba(248, 245, 239, 0.7); }
+  .scroll-ind { display: flex; align-items: center; gap: 8px; }
+  .scroll-dot { width: 4px; height: 4px; background: #C9A96E; border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+  .alt-subs { margin-top: 28px; }
+  .alt-card { padding: 14px 16px; background: #F8F5EF; border-left: 3px solid #1B3D2F; border-radius: 4px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s; }
+  .alt-card:hover { border-left-color: #C9A96E; background: rgba(201, 169, 110, 0.08); }
+  .alt-card .label { display: inline-block; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: #1B3D2F; opacity: 0.7; margin-bottom: 6px; }
+  .alt-card .text { font-size: 18px; color: #0E1C16; font-weight: 300; }
+</style>
+
+<div class="hero-mockup">
+  <div class="hero-top">
+    <div class="corner">J3PADEL</div>
+    <div class="corner">PARA TECNIFIBRE × LACOSTE</div>
+  </div>
+  <div class="hero-center">
+    <span class="hero-label">— Una propuesta privada —</span>
+    <h1 class="hero-h1">Hola, Raul.</h1>
+    <p class="hero-sub">Lo que podemos construir juntos.</p>
+  </div>
+  <div class="hero-bottom">
+    <div></div>
+    <div class="scroll-ind">
+      <span>DESLIZA</span>
+      <div class="scroll-dot"></div>
+    </div>
+  </div>
+</div>
+
+<p style="margin: 24px 0 12px 0; font-size: 13px; color: #555; line-height: 1.6;"><strong>Decisiones tomadas en el mockup:</strong> imagen J3 con overlay verde oscuro para que el texto respire · "Hola, Raul." en serif fina, tamaño dominante · subtítulo a 30% del peso · etiqueta arriba-derecha "PARA TECNIFIBRE × LACOSTE" deja claro que está hecho para él · indicador "DESLIZA" abajo en sutil champán para invitar al siguiente capítulo.</p>
+
+<h3 style="margin-top: 32px;">Tres opciones de subtítulo — elige la que más te suene</h3>
+<p class="subtitle">Mismo significado, registro distinto. Marca el tono del resto del microsite.</p>
+
+<div class="options" style="margin-top: 16px;">
+  <div class="option" data-choice="1" onclick="toggleSelect(this)">
+    <div class="letter">1</div>
+    <div class="content">
+      <h3>Lo que podemos construir juntos.</h3>
+      <p><strong>Tono:</strong> visión cálida. Original del brief. Abierto, esperanzador. Funciona si quieres marcar relación de largo plazo.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="2" onclick="toggleSelect(this)">
+    <div class="letter">2</div>
+    <div class="content">
+      <h3>Una propuesta hecha para ti. No copiada.</h3>
+      <p><strong>Tono:</strong> directo, casi provocador. Marca distancia con dossiers genéricos en la primera línea. Funciona si quieres demostrar criterio desde el saludo.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="3" onclick="toggleSelect(this)">
+    <div class="letter">3</div>
+    <div class="content">
+      <h3>20 años de club. Un próximo capítulo contigo.</h3>
+      <p><strong>Tono:</strong> historiado, con peso. Trae la herencia de J3 al saludo. Funciona si quieres que Raul sienta que se suma a algo en marcha.</p>
+    </div>
+  </div>
+</div>

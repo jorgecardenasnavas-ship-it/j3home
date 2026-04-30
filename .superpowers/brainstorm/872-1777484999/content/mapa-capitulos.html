@@ -1,0 +1,89 @@
+<h2>Mapa de capítulos — propuesta</h2>
+<p class="subtitle">5 capítulos. Arco narrativo cerrado: saludo → contexto → propuesta → cierre. Cada capítulo a pantalla completa.</p>
+
+<style>
+  .cap-list { display: flex; flex-direction: column; gap: 14px; margin-top: 20px; }
+  .cap { display: flex; gap: 16px; padding: 16px; background: #F8F5EF; border-left: 4px solid #1B3D2F; border-radius: 4px; }
+  .cap.climax { border-left-color: #C9A96E; background: linear-gradient(90deg, rgba(201, 169, 110, 0.15), #F8F5EF 60%); }
+  .cap-num { font-size: 32px; font-weight: 700; color: #1B3D2F; min-width: 50px; line-height: 1; }
+  .cap.climax .cap-num { color: #C9A96E; }
+  .cap-body h3 { margin: 0 0 6px 0; color: #0E1C16; font-size: 18px; }
+  .cap-body p { margin: 0 0 8px 0; color: #333; font-size: 14px; line-height: 1.5; }
+  .cap-tag { display: inline-block; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: #1B3D2F; background: rgba(27, 61, 47, 0.1); padding: 3px 8px; border-radius: 3px; margin-right: 6px; }
+  .cap.climax .cap-tag { color: #8B6F3D; background: rgba(201, 169, 110, 0.25); }
+  .arc { display: flex; justify-content: space-between; margin: 24px 0 8px 0; padding: 12px 16px; background: rgba(14, 28, 22, 0.04); border-radius: 4px; font-size: 11px; color: #555; letter-spacing: 0.5px; }
+  .arc span { font-weight: 600; }
+</style>
+
+<div class="arc">
+  <span>SALUDO</span>
+  <span>·</span>
+  <span>CONTEXTO</span>
+  <span>·</span>
+  <span style="color: #C9A96E;">PROPUESTA (clímax)</span>
+  <span>·</span>
+  <span>CIERRE</span>
+</div>
+
+<div class="cap-list">
+
+  <div class="cap">
+    <div class="cap-num">01</div>
+    <div class="cap-body">
+      <h3>Hola, Raul.</h3>
+      <p><span class="cap-tag">Hero</span> Imagen a pantalla completa de instalación J3. Saludo personal grande. Subtítulo corto enmarcando: "Lo que podemos construir juntos." Indicador de scroll/swipe.</p>
+    </div>
+  </div>
+
+  <div class="cap">
+    <div class="cap-num">02</div>
+    <div class="cap-body">
+      <h3>Quiénes somos, en 3 datos.</h3>
+      <p><span class="cap-tag">Contexto</span> Tres números que posicionan: <strong>20+ años en Málaga</strong> · <strong>Nueva sede junio 2026</strong> · <strong>100+ entrenadores en plataforma global</strong>. Fondo: foto de academia o pista. Mínimo texto, máximo peso visual.</p>
+    </div>
+  </div>
+
+  <div class="cap">
+    <div class="cap-num">03</div>
+    <div class="cap-body">
+      <h3>Tres palancas que ofrecemos.</h3>
+      <p><span class="cap-tag">Sub-capítulos</span> Sub-navegación interna entre las tres: <strong>Club & academia</strong> → <strong>J3PTV</strong> → <strong>Coach360</strong>. Cada palanca tiene su propio peso visual y su línea de copy. Coach360 cierra con peso porque conecta con el siguiente capítulo.</p>
+    </div>
+  </div>
+
+  <div class="cap climax">
+    <div class="cap-num">04</div>
+    <div class="cap-body">
+      <h3>Lo que proponemos.</h3>
+      <p><span class="cap-tag">Clímax</span> Dos partes en un mismo capítulo:<br>
+      <strong>4a · Tecnifibre vs Lacoste</strong> — diferenciación en dos columnas/cards. Rendimiento vs lifestyle.<br>
+      <strong>4b · Coach360 Certified Coaches powered by J3</strong> — el momento más importante. Lo que ningún otro club puede ofrecer.</p>
+    </div>
+  </div>
+
+  <div class="cap">
+    <div class="cap-num">05</div>
+    <div class="cap-body">
+      <h3>Hablamos.</h3>
+      <p><span class="cap-tag">CTA</span> Cierre simple. Una frase. Email o botón directo. Nada de formularios.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="options" style="margin-top: 28px;">
+  <div class="option" data-choice="ok" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content">
+      <h3>Me cuadra, sigamos</h3>
+      <p>Pasamos a definir tono y texto del capítulo 1 (Hero).</p>
+    </div>
+  </div>
+  <div class="option" data-choice="cambio" onclick="toggleSelect(this)">
+    <div class="letter">✎</div>
+    <div class="content">
+      <h3>Quiero cambiar algo</h3>
+      <p>Dímelo en el chat: añadir capítulo, fusionar, reordenar, etc.</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HomeManifesto — Alternativas de Diseño</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;0,800;0,900;1,300&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --verde: #1B3D2F;
+      --champan: #C9A96E;
+      --wh: #F8F5EF;
+      --bk: #0E1C16;
+      --verde-muted: rgba(27,61,47,0.35);
+      --verde-soft: rgba(27,61,47,0.50);
+      --champan-55: rgba(201,169,110,0.55);
+      --font-display: 'Roboto Condensed', sans-serif;
+      --font-serif: 'Instrument Serif', serif;
+    }
+
+    body {
+      background: #E8E3DB;
+      font-family: var(--font-display);
+      padding: 40px 20px 80px;
+      color: var(--bk);
+    }
+
+    /* ─── PAGE HEADER ─── */
+    .page-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .page-header h1 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--verde-muted);
+      margin-bottom: 6px;
+    }
+    .page-header p {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: 13px;
+      color: var(--verde-muted);
+    }
+
+    /* ─── SECTION LABEL ─── */
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .section-label .tag {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--champan);
+      background: var(--bk);
+      padding: 5px 10px;
+      border-radius: 2px;
+    }
+    .section-label .desc {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: 12px;
+      letter-spacing: 1px;
+      color: var(--verde-muted);
+      text-transform: uppercase;
+    }
+
+    /* ─── MOCK WRAPPER ─── */
+    .mock-wrapper {
+      margin-bottom: 60px;
+    }
+
+    /* ─── MOCK CARD (navbar + section + footer hints) ─── */
+    .mock-card {
+      background: var(--wh);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(14,28,22,0.15), 0 2px 8px rgba(14,28,22,0.08);
+    }
+
+    /* Fake nav */
+    .mock-nav {
+      height: 52px;
+      background: var(--wh);
+      border-bottom: 1px solid rgba(27,61,47,0.08);
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+      gap: 8px;
+    }
+    .mock-nav-logo {
+      width: 80px;
+      height: 18px;
+      background: var(--verde);
+      border-radius: 1px;
+      opacity: 0.25;
+    }
+    .mock-nav-spacer { flex: 1; }
+    .mock-nav-dots {
+      display: flex;
+      gap: 20px;
+    }
+    .mock-nav-dot {
+      width: 40px;
+      height: 7px;
+      background: rgba(27,61,47,0.12);
+      border-radius: 2px;
+    }
+
+    /* Fake section above (Hero) */
+    .mock-hero-hint {
+      height: 32px;
+      background: var(--bk);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .mock-hero-hint span {
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(248,245,239,0.25);
+      font-family: var(--font-display);
+      font-weight: 400;
+    }
+
+    /* Fake section below */
+    .mock-below-hint {
+      height: 32px;
+      background: var(--wh);
+      border-top: 1px solid rgba(27,61,47,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .mock-below-hint span {
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(27,61,47,0.20);
+      font-family: var(--font-display);
+      font-weight: 400;
+    }
+
+    /* ══════════════════════════════════════════════════
+       ALTERNATIVA A — EDITORIAL NUMERADA
+    ══════════════════════════════════════════════════ */
+    .alt-a {
+      padding: 80px 40px;
+      background: var(--wh);
+      position: relative;
+    }
+    .alt-a::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 200px; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,169,110,0.50), transparent);
+    }
+    .alt-a::after {
+      content: "";
+      position: absolute;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 200px; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,169,110,0.50), transparent);
+    }
+    .alt-a-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .alt-a-col {
+      padding: 28px 32px;
+      border-right: 1px solid rgba(27,61,47,0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .alt-a-col:last-child { border-right: none; }
+    .alt-a-num {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--champan);
+    }
+    .alt-a-intro {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(13px, 1.8vw, 18px);
+      color: rgba(27,61,47,0.45);
+      line-height: 1.3;
+    }
+    .alt-a-phrase {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(20px, 3vw, 36px);
+      text-transform: uppercase;
+      letter-spacing: -1px;
+      color: var(--bk);
+      line-height: 1;
+    }
+    .alt-a-phrase.accent { color: var(--champan); }
+
+    /* ══════════════════════════════════════════════════
+       ALTERNATIVA B — ESCALA DRAMÁTICA
+    ══════════════════════════════════════════════════ */
+    .alt-b {
+      padding: 80px 40px;
+      background: var(--wh);
+      position: relative;
+    }
+    .alt-b::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 200px; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,169,110,0.50), transparent);
+    }
+    .alt-b::after {
+      content: "";
+      position: absolute;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 200px; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,169,110,0.50), transparent);
+    }
+    .alt-b-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0;
+    }
+    .alt-b-line {
+      display: block;
+      line-height: 1.05;
+      font-family: var(--font-display);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -1.5px;
+    }
+    .alt-b-line-prefix {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+      letter-spacing: 0;
+      font-size: 0.45em;
+      vertical-align: middle;
+      color: rgba(27,61,47,0.35);
+      text-transform: none;
+    }
+    .alt-b-line-1 {
+      font-size: clamp(28px, 4vw, 44px);
+      color: rgba(27,61,47,0.30);
+      margin-bottom: 4px;
+    }
+    .alt-b-line-2 {
+      font-size: clamp(52px, 8vw, 96px);
+      color: var(--champan);
+      margin-bottom: 4px;
+    }
+    .alt-b-line-3 {
+      font-size: clamp(28px, 4vw, 44px);
+      color: rgba(27,61,47,0.30);
+    }
+
+    /* ══════════════════════════════════════════════════
+       ALTERNATIVA C — ULTRA-MINIMAL
+    ══════════════════════════════════════════════════ */
+    .alt-c {
+      padding: 80px 40px;
+      background: var(--wh);
+      position: relative;
+    }
+    .alt-c::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 200px; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,169,110,0.50), transparent);
+    }
+    .alt-c::after {
+      content: "";
+      position: absolute;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 200px; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,169,110,0.50), transparent);
+    }
+    .alt-c-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0;
+    }
+    .alt-c-phrase {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(38px, 6vw, 72px);
+      text-transform: uppercase;
+      letter-spacing: -2px;
+      line-height: 1.0;
+      color: var(--bk);
+      display: block;
+    }
+    .alt-c-phrase + .alt-c-phrase {
+      margin-top: -4px;
+    }
+    .alt-c-phrase.accent { color: var(--champan); }
+    .alt-c-divider {
+      width: 32px;
+      height: 1px;
+      background: rgba(201,169,110,0.40);
+      margin: 18px auto;
+    }
+
+    /* ─── BOTTOM NOTE ─── */
+    .bottom-note {
+      text-align: center;
+      margin-top: 20px;
+      padding: 16px;
+      background: rgba(27,61,47,0.04);
+      border-radius: 6px;
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: 12px;
+      color: var(--verde-muted);
+      letter-spacing: 0.5px;
+    }
+    .bottom-note strong {
+      font-weight: 700;
+      color: var(--champan);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-header">
+    <h1>J3Pádel — HomeManifesto</h1>
+    <p>Tres alternativas de diseño · Fondo crema · Tipografía premium</p>
+  </div>
+
+  <!-- ══════ ALTERNATIVA A ══════ -->
+  <div class="mock-wrapper">
+    <div class="section-label">
+      <span class="tag">A</span>
+      <span class="desc">Editorial numerada — tres columnas con jerarquía editorial</span>
+    </div>
+    <div class="mock-card">
+      <div class="mock-nav">
+        <div class="mock-nav-logo"></div>
+        <div class="mock-nav-spacer"></div>
+        <div class="mock-nav-dots">
+          <div class="mock-nav-dot"></div>
+          <div class="mock-nav-dot"></div>
+          <div class="mock-nav-dot"></div>
+        </div>
+      </div>
+      <div class="mock-hero-hint"><span>Hero section</span></div>
+
+      <div class="alt-a">
+        <div class="alt-a-grid">
+          <div class="alt-a-col">
+            <span class="alt-a-num">01</span>
+            <span class="alt-a-intro">El juego</span>
+            <span class="alt-a-phrase">ha cambiado.</span>
+          </div>
+          <div class="alt-a-col">
+            <span class="alt-a-num">02</span>
+            <span class="alt-a-intro">El coach</span>
+            <span class="alt-a-phrase accent">ha evolucionado.</span>
+          </div>
+          <div class="alt-a-col">
+            <span class="alt-a-num">03</span>
+            <span class="alt-a-intro">La gestión</span>
+            <span class="alt-a-phrase">optimizada.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mock-below-hint"><span>CoachFinder section</span></div>
+    </div>
+    <div class="bottom-note">
+      <strong>Concepto:</strong> Estructura editorial de revista de lujo. Los números en champán dan elegancia y orden. Lectura columna a columna: número → intro suave → frase de impacto.
+    </div>
+  </div>
+
+  <!-- ══════ ALTERNATIVA B ══════ -->
+  <div class="mock-wrapper">
+    <div class="section-label">
+      <span class="tag">B</span>
+      <span class="desc">Escala dramática — frase central domina en champán</span>
+    </div>
+    <div class="mock-card">
+      <div class="mock-nav">
+        <div class="mock-nav-logo"></div>
+        <div class="mock-nav-spacer"></div>
+        <div class="mock-nav-dots">
+          <div class="mock-nav-dot"></div>
+          <div class="mock-nav-dot"></div>
+          <div class="mock-nav-dot"></div>
+        </div>
+      </div>
+      <div class="mock-hero-hint"><span>Hero section</span></div>
+
+      <div class="alt-b">
+        <div class="alt-b-inner">
+          <span class="alt-b-line alt-b-line-1">
+            <span class="alt-b-line-prefix">El juego&nbsp;</span>HA CAMBIADO.
+          </span>
+          <span class="alt-b-line alt-b-line-2">HA EVOLUCIONADO.</span>
+          <span class="alt-b-line alt-b-line-3">
+            <span class="alt-b-line-prefix">La gestión&nbsp;</span>OPTIMIZADA.
+          </span>
+        </div>
+      </div>
+
+      <div class="mock-below-hint"><span>CoachFinder section</span></div>
+    </div>
+    <div class="bottom-note">
+      <strong>Concepto:</strong> Contraste de escala extremo. La frase central "HA EVOLUCIONADO." en champán llena el espacio y se convierte en el centro visual de la sección. Las frases flanqueantes en verde muy suave crean profundidad.
+    </div>
+  </div>
+
+  <!-- ══════ ALTERNATIVA C ══════ -->
+  <div class="mock-wrapper">
+    <div class="section-label">
+      <span class="tag">C</span>
+      <span class="desc">Ultra-minimal — solo las frases de impacto, sin palabras de intro</span>
+    </div>
+    <div class="mock-card">
+      <div class="mock-nav">
+        <div class="mock-nav-logo"></div>
+        <div class="mock-nav-spacer"></div>
+        <div class="mock-nav-dots">
+          <div class="mock-nav-dot"></div>
+          <div class="mock-nav-dot"></div>
+          <div class="mock-nav-dot"></div>
+        </div>
+      </div>
+      <div class="mock-hero-hint"><span>Hero section</span></div>
+
+      <div class="alt-c">
+        <div class="alt-c-inner">
+          <span class="alt-c-phrase">HA CAMBIADO.</span>
+          <div class="alt-c-divider"></div>
+          <span class="alt-c-phrase accent">HA EVOLUCIONADO.</span>
+          <div class="alt-c-divider"></div>
+          <span class="alt-c-phrase">OPTIMIZADA.</span>
+        </div>
+      </div>
+
+      <div class="mock-below-hint"><span>CoachFinder section</span></div>
+    </div>
+    <div class="bottom-note">
+      <strong>Concepto:</strong> Minimalismo radical al estilo de marcas de moda de lujo. Solo las tres verdades de J3Pádel, enormes, separadas por líneas finas en champán. El usuario completa el contexto mentalmente. Máximo impacto.
+    </div>
+  </div>
+
+</body>
+</html>

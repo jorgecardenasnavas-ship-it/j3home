@@ -1,0 +1,71 @@
+<h2>¿Cómo navega Raul el microsite?</h2>
+<p class="subtitle">Tres formas de estructurar la página. Mismo contenido, ritmo distinto. Mobile-first en las tres.</p>
+
+<style>
+  .lay { display: flex; flex-direction: column; gap: 6px; padding: 14px; background: rgba(27, 61, 47, 0.04); border-radius: 8px; }
+  .lay-block { background: #1B3D2F; color: #F8F5EF; padding: 10px 12px; border-radius: 4px; font-size: 12px; }
+  .lay-block.alt { background: #C9A96E; color: #0E1C16; }
+  .lay-block.cta { background: #0E1C16; color: #C9A96E; text-align: center; font-weight: 600; }
+  .lay-chapters { background: rgba(201, 169, 110, 0.18); border: 1px dashed #C9A96E; color: #1B3D2F; padding: 8px 12px; border-radius: 4px; font-size: 11px; text-align: center; letter-spacing: 0.5px; }
+  .lay-hero { background: linear-gradient(135deg, #1B3D2F, #0E1C16); color: #C9A96E; padding: 18px 12px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+</style>
+
+<div class="options">
+
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Scroll continuo</h3>
+      <p>Una página larga, las secciones se revelan al hacer scroll. Sin navegación lateral.</p>
+      <div class="lay">
+        <div class="lay-hero">Hero · Hola, Raul.</div>
+        <div class="lay-block">Quiénes somos · 3 datos</div>
+        <div class="lay-block alt">Palanca 1 · Club</div>
+        <div class="lay-block alt">Palanca 2 · J3PTV</div>
+        <div class="lay-block alt">Palanca 3 · Coach360</div>
+        <div class="lay-block">Tecnifibre vs Lacoste</div>
+        <div class="lay-block">Coach360 co-branded</div>
+        <div class="lay-block cta">Hablamos →</div>
+      </div>
+      <p style="margin-top: 10px; font-size: 12px; color: #555;"><strong>A favor:</strong> rápido en móvil, fácil de leer del tirón.<br><strong>En contra:</strong> menos teatral, no marca jerarquía.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Capítulos completos</h3>
+      <p>Como tu story page. Navegación por capítulos arriba o lateral. Cada bloque es un capítulo independiente.</p>
+      <div class="lay">
+        <div class="lay-chapters">CAPÍTULOS · 1 — 2 — 3 — 4 — 5</div>
+        <div class="lay-hero">Cap. 1 · Hero</div>
+        <div class="lay-chapters">↓ scroll o clic ↓</div>
+        <div class="lay-block">Cap. 2 · Quiénes somos</div>
+        <div class="lay-block alt">Cap. 3 · Las 3 palancas</div>
+        <div class="lay-block">Cap. 4 · Propuesta</div>
+        <div class="lay-block cta">Cap. 5 · Hablamos</div>
+      </div>
+      <p style="margin-top: 10px; font-size: 12px; color: #555;"><strong>A favor:</strong> teatral, premium, coherente con tu story page.<br><strong>En contra:</strong> más lento de consumir, en móvil la navegación añade fricción.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Híbrido <span style="color: #C9A96E; font-size: 11px;">— recomendado</span></h3>
+      <p>Hero y Quiénes somos en scroll normal. Las 3 palancas como capítulos navegables. Cierre en scroll.</p>
+      <div class="lay">
+        <div class="lay-hero">Hero · Hola, Raul.</div>
+        <div class="lay-block">Quiénes somos</div>
+        <div class="lay-chapters">▸ Las 3 palancas (capítulos)</div>
+        <div class="lay-block alt">Club · J3PTV · Coach360</div>
+        <div class="lay-chapters">↑ vuelve al scroll ↑</div>
+        <div class="lay-block">Tecnifibre vs Lacoste</div>
+        <div class="lay-block">Coach360 co-branded</div>
+        <div class="lay-block cta">Hablamos →</div>
+      </div>
+      <p style="margin-top: 10px; font-size: 12px; color: #555;"><strong>A favor:</strong> usa el formato capítulo donde aporta (palancas), scroll donde es más natural. Equilibra impacto y lectura.<br><strong>En contra:</strong> dos lenguajes en una página — hay que ejecutarlo bien para que no chirríe.</p>
+    </div>
+  </div>
+
+</div>
