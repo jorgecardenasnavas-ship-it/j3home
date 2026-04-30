@@ -429,7 +429,7 @@ export function HablamosChapter() {
             <span aria-hidden className="hidden sm:block w-px h-4 bg-[var(--g1)]/30" />
 
             <a
-              href="https://wa.me/34000000000"
+              href="https://wa.me/34654542622"
               target="_blank"
               rel="noopener noreferrer"
               className="group inline-flex items-baseline gap-2 text-[14px] sm:text-[15px] font-semibold tracking-[0.3px] text-[#E8DDD0] hover:text-[var(--g1)] transition-colors duration-300"
@@ -438,7 +438,7 @@ export function HablamosChapter() {
                 WhatsApp
               </span>
               <span className="relative">
-                +34 000 00 00 00
+                +34 654 54 26 22
                 <span
                   aria-hidden
                   className="absolute -bottom-px left-0 right-0 h-px bg-[var(--g1)]/40 group-hover:bg-[var(--g1)] transition-colors"
