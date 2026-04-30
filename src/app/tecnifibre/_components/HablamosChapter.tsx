@@ -118,10 +118,10 @@ function FounderCard({
       />
 
       {/* Content — alineado abajo para que la foto respire arriba */}
-      <div className="relative z-20 flex flex-col gap-5 p-7 sm:p-9 h-full justify-end">
-        {/* Header — número + rol, en la parte superior */}
+      <div className="relative z-20 flex flex-col gap-5 p-6 sm:p-9 h-full justify-end">
+        {/* Header — número + rol, en la parte superior. En mobile gap reducido y tracking del rol más compacto */}
         <div
-          className="absolute top-7 left-7 right-7 sm:top-9 sm:left-9 sm:right-9 flex items-baseline gap-4"
+          className="absolute top-6 left-6 right-6 sm:top-9 sm:left-9 sm:right-9 flex items-baseline gap-2 sm:gap-4"
           style={{
             opacity: visible ? 1 : 0,
             transform: visible ? "none" : "translateY(8px)",
@@ -132,7 +132,7 @@ function FounderCard({
             className="font-serif italic text-[var(--g1)] leading-none"
             style={{
               fontFamily: "var(--font-serif)",
-              fontSize: "clamp(28px, 3.4vw, 42px)",
+              fontSize: "clamp(24px, 3.4vw, 42px)",
               letterSpacing: "-0.02em",
               textShadow: "0 2px 12px rgba(0,0,0,0.6)",
             }}
@@ -141,7 +141,7 @@ function FounderCard({
           </span>
           <span aria-hidden className="block flex-1 h-px bg-[var(--g1)]/45" />
           <span
-            className="text-[10px] font-bold tracking-[3px] uppercase text-[var(--g1)] whitespace-nowrap"
+            className="text-[9px] sm:text-[10px] font-bold tracking-[2px] sm:tracking-[3px] uppercase text-[var(--g1)] whitespace-nowrap"
             style={{ textShadow: "0 1px 8px rgba(0,0,0,0.7)" }}
           >
             {role}
@@ -166,9 +166,9 @@ function FounderCard({
           <span className="text-[var(--g1)]">{last}</span>
         </h3>
 
-        {/* Quote italic */}
+        {/* Quote italic — pl reducido en mobile */}
         <blockquote
-          className="relative pl-5 border-l-2 border-[var(--g1)]/55"
+          className="relative pl-4 sm:pl-5 border-l-2 border-[var(--g1)]/55"
           style={{
             opacity: visible ? 1 : 0,
             transform: visible ? "none" : "translateX(-8px)",
@@ -275,7 +275,7 @@ export function HablamosChapter() {
         }}
       />
 
-      {/* Numeral fantasma 05 */}
+      {/* Numeral fantasma 05 — reducido en mobile para no invadir contenido */}
       <div
         className="absolute pointer-events-none select-none"
         aria-hidden
@@ -283,7 +283,7 @@ export function HablamosChapter() {
           right: "-3vw",
           top: "50%",
           transform: visible ? "translate(0, -50%)" : "translate(40px, -50%)",
-          fontSize: "clamp(280px, 42vw, 600px)",
+          fontSize: "clamp(160px, 42vw, 600px)",
           lineHeight: "0.78",
           fontFamily: "var(--font-serif)",
           fontStyle: "italic",

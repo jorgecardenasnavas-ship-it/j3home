@@ -175,8 +175,8 @@ function BalanceColumn({
                   {item.title}
                 </span>
               </div>
-              {/* Description */}
-              <p className="text-[12.5px] sm:text-[13px] text-[var(--wh)]/72 leading-[1.55] font-light pl-9">
+              {/* Description — pl reducido en mobile para dar más ancho de texto */}
+              <p className="text-[12.5px] sm:text-[13px] text-[var(--wh)]/72 leading-[1.55] font-light pl-7 sm:pl-9">
                 {item.description}
               </p>
             </li>
@@ -260,7 +260,7 @@ export function ProposalChapter() {
         }}
       />
 
-      {/* Numeral fantasma 04 — anclaje editorial */}
+      {/* Numeral fantasma 04 — anclaje editorial. Reducido en mobile. */}
       <div
         className="absolute pointer-events-none select-none"
         aria-hidden
@@ -268,7 +268,7 @@ export function ProposalChapter() {
           right: "-3vw",
           top: "50%",
           transform: visible ? "translate(0, -50%)" : "translate(40px, -50%)",
-          fontSize: "clamp(280px, 42vw, 600px)",
+          fontSize: "clamp(160px, 42vw, 600px)",
           lineHeight: "0.78",
           fontFamily: "var(--font-serif)",
           fontStyle: "italic",
@@ -493,10 +493,11 @@ export function ProposalChapter() {
             transition: `all 1.1s cubic-bezier(.16,1,.3,1) ${delay(5)}`,
           }}
         >
-          <div className="inline-flex items-center gap-4">
-            <span aria-hidden className="block h-px w-10 bg-[var(--g1)]/45" />
+          {/* En mobile: stack vertical (hairline arriba/abajo). En desktop: línea horizontal con hairlines a los lados */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-4">
+            <span aria-hidden className="block h-px w-16 sm:w-10 bg-[var(--g1)]/45" />
             <p
-              className="font-serif italic text-[#E8DDD0] tracking-[-0.005em] leading-[1.3]"
+              className="font-serif italic text-[#E8DDD0] tracking-[-0.005em] leading-[1.3] text-center"
               style={{
                 fontFamily: "var(--font-serif)",
                 fontSize: "clamp(18px, 2.2vw, 26px)",
@@ -505,7 +506,7 @@ export function ProposalChapter() {
               Cuando uno gana,{" "}
               <span className="text-[var(--g1)]">el otro gana también</span>.
             </p>
-            <span aria-hidden className="block h-px w-10 bg-[var(--g1)]/45" />
+            <span aria-hidden className="block h-px w-16 sm:w-10 bg-[var(--g1)]/45" />
           </div>
         </div>
 
@@ -564,7 +565,7 @@ export function ProposalChapter() {
             ].map((kpi) => (
               <div
                 key={kpi.num}
-                className="relative flex flex-col gap-2 p-6 sm:p-7 bg-[var(--bk)]/85 backdrop-blur-[6px]"
+                className="relative flex flex-col gap-2 p-4 sm:p-7 bg-[var(--bk)]/85 backdrop-blur-[6px]"
               >
                 {/* Numeral italic serif */}
                 <span
@@ -619,18 +620,17 @@ export function ProposalChapter() {
             <span aria-hidden className="block h-px w-10 bg-[var(--g1)]/45" />
           </div>
 
-          {/* Frase de urgencia */}
+          {/* Frase de urgencia — el <br> se vuelve opcional en mobile para no forzar una línea muy corta */}
           <p
-            className="font-serif text-[#E8DDD0] leading-[1.25] tracking-[-0.012em] mb-10"
+            className="font-serif text-[#E8DDD0] leading-[1.3] sm:leading-[1.25] tracking-[-0.012em] mb-10"
             style={{
               fontFamily: "var(--font-serif)",
-              fontSize: "clamp(22px, 3.2vw, 36px)",
+              fontSize: "clamp(20px, 3.2vw, 36px)",
               fontWeight: 300,
             }}
           >
-            Coach360 cierra su primer ciclo en 2026.
-            <br />
-            <span className="italic text-[var(--g1)]">
+            Coach360 cierra su primer ciclo en 2026.{" "}
+            <span className="italic text-[var(--g1)] block sm:inline mt-1 sm:mt-0">
               El partner que entre primero define las reglas
             </span>
             .

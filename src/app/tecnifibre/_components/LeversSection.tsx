@@ -496,7 +496,7 @@ function LeverChapter({
         aria-hidden
       />
 
-      {/* Numeral fantasma — anclaje editorial. Stroke champán, italic serif, masivo. */}
+      {/* Numeral fantasma — anclaje editorial. Reducido en mobile. */}
       <div
         className="absolute pointer-events-none select-none"
         aria-hidden
@@ -506,7 +506,7 @@ function LeverChapter({
           transform: visible
             ? "translate(0, -50%)"
             : "translate(40px, -50%)",
-          fontSize: "clamp(260px, 38vw, 520px)",
+          fontSize: "clamp(150px, 38vw, 520px)",
           lineHeight: "0.78",
           fontFamily: "var(--font-serif)",
           fontStyle: "italic",
