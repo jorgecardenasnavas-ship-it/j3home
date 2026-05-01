@@ -2751,3 +2751,96 @@ html[data-theme="light"] .mantra-bridge-whisper { color: rgba(27,61,47,0.42); }
     scroll-behavior: smooth;
   }
 }
+
+/* ════════════════════════════════════════════════════════════════
+   TECNIFIBRE MICROSITE — CREAM MODE
+   Cuando el usuario "accede" al cap.4 (no solo entra, lo está
+   dominando en viewport), tanto el cap.3 (J3lab) como el cap.4
+   (Propuesta) se funden coordinadamente a fondo crema.
+   El controller en page.tsx añade la clase .tecnifibre-cream-mode
+   al <html> según scroll position.
+   ════════════════════════════════════════════════════════════════ */
+
+/* Transition base — siempre activa en ambos capítulos para que el
+   cambio sea suave en ambas direcciones (entrar y salir). */
+[data-tecnifibre-cream] {
+  transition: background-color 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Cap.4 ProposalChapter por defecto en verde profundo (cuando llegas).
+   Se vuelve crema cuando el usuario "accede" plenamente. */
+[data-chapter="04"][data-tecnifibre-cream] {
+  background-color: var(--bk) !important;
+}
+html.tecnifibre-cream-mode [data-chapter="04"][data-tecnifibre-cream] {
+  background-color: #f8f5ef !important;
+}
+
+/* Cap.3 J3lab — bg cambia coordinado con cap.4. */
+[data-lever="03"] {
+  transition: background-color 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+html.tecnifibre-cream-mode [data-lever="03"] {
+  background-color: #f8f5ef !important;
+}
+/* Overlays verdes del cap.3 se atenúan en cream-mode para que el fondo
+   crema se sienta. */
+html.tecnifibre-cream-mode [data-lever="03"] [data-cap3-overlay] {
+  opacity: 0 !important;
+}
+[data-cap3-overlay] {
+  transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Cap.4 — los textos cambian de cream→verde con cream-mode.
+   Usamos data-attributes para que el cambio sea coordinado con bg. */
+[data-cream-text="primary"] {
+  color: #e8ddd0;
+  transition: color 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+html.tecnifibre-cream-mode [data-cream-text="primary"] {
+  color: #1b3d2f;
+}
+
+[data-cream-text="secondary"] {
+  color: rgba(232, 221, 208, 0.75);
+  transition: color 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+html.tecnifibre-cream-mode [data-cream-text="secondary"] {
+  color: rgba(27, 61, 47, 0.75);
+}
+
+[data-cream-text="muted"] {
+  color: rgba(232, 221, 208, 0.7);
+  transition: color 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+html.tecnifibre-cream-mode [data-cream-text="muted"] {
+  color: rgba(27, 61, 47, 0.72);
+}
+
+/* Hairline color — verde sutil en cream, champán en verde */
+[data-cream-line] {
+  background-color: rgba(201, 169, 110, 0.45);
+  transition: background-color 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+html.tecnifibre-cream-mode [data-cream-line] {
+  background-color: rgba(27, 61, 47, 0.35);
+}
+
+/* Numeral fantasma 04 stroke */
+[data-cream-numeral] {
+  -webkit-text-stroke-color: rgba(201, 169, 110, 0.18);
+  transition: -webkit-text-stroke-color 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+html.tecnifibre-cream-mode [data-cream-numeral] {
+  -webkit-text-stroke-color: rgba(27, 61, 47, 0.18);
+}
+
+/* TOP FADE del cap.4 — solo visible mientras estamos transicionando.
+   Cuando ya estamos plenamente en cream-mode, el fade desaparece. */
+html.tecnifibre-cream-mode [data-cap4-topfade] {
+  opacity: 0;
+}
+[data-cap4-topfade] {
+  transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}

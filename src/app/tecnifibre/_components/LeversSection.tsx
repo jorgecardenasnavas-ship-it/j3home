@@ -919,9 +919,12 @@ function LeverChapter({
         </div>
       )}
 
-      {/* Overlay para legibilidad — solo desktop (mobile usa vignette propio) */}
+      {/* Overlay para legibilidad — solo desktop (mobile usa vignette propio).
+          data-cap3-overlay: para palanca 03 J3lab, este overlay se atenúa
+          en cream-mode (controlado por CSS global). */}
       <div
         className="absolute inset-0 pointer-events-none hidden md:block"
+        data-cap3-overlay
         style={{
           background:
             overlayStyle ??
@@ -933,6 +936,7 @@ function LeverChapter({
       {/* Ambient glow champán — solo desktop */}
       <div
         className="absolute inset-0 pointer-events-none hidden md:block"
+        data-cap3-overlay
         style={{
           background:
             "radial-gradient(ellipse 60% 50% at 25% 55%, rgba(201,169,110,0.10) 0%, transparent 65%)",
