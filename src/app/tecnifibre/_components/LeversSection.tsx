@@ -1174,7 +1174,7 @@ export function LeversSection() {
     <>
       <LeverChapter
         num="01"
-        name="Headquarters."
+        name="Headquarters"
         tag="El día a día"
         headline={
           <>
