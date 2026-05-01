@@ -55,13 +55,20 @@ function BalanceColumn({
   return (
     <div
       ref={colRef}
-      className="relative flex flex-col overflow-hidden rounded-[6px] border border-[var(--g1)]/22 backdrop-blur-[14px] h-full"
+      className={`relative flex flex-col overflow-hidden rounded-[6px] backdrop-blur-[14px] h-full border ${
+        isCham ? "border-[var(--g1)]/45" : "border-[var(--g1)]/22"
+      }`}
       style={{
+        // Ambas columnas con verde glass opaco — necesario para que los
+        // textos cream se lean sobre cualquier fondo (cream/verde).
+        // La diferenciación entre columnas la hace el border (más champán
+        // en la 02) + el wash interior (subtle champán en la 02).
         background: isCham
-          ? "linear-gradient(155deg, rgba(201,169,110,0.10) 0%, rgba(201,169,110,0.04) 50%, rgba(14,28,22,0.94) 100%)"
+          ? "linear-gradient(155deg, rgba(27,61,47,0.94) 0%, rgba(40,70,52,0.92) 35%, rgba(27,61,47,0.94) 70%, rgba(14,28,22,0.96) 100%)"
           : "linear-gradient(155deg, rgba(27,61,47,0.92) 0%, rgba(27,61,47,0.84) 50%, rgba(14,28,22,0.94) 100%)",
-        boxShadow:
-          "0 1px 0 0 rgba(255,255,255,0.04) inset, 0 30px 80px -40px rgba(0,0,0,0.65)",
+        boxShadow: isCham
+          ? "0 1px 0 0 rgba(255,255,255,0.05) inset, 0 30px 80px -40px rgba(0,0,0,0.65), 0 0 50px -25px rgba(201,169,110,0.35)"
+          : "0 1px 0 0 rgba(255,255,255,0.04) inset, 0 30px 80px -40px rgba(0,0,0,0.65)",
       }}
     >
       {/* Top hairline */}
@@ -81,13 +88,14 @@ function BalanceColumn({
       <span aria-hidden className="absolute bottom-3 left-3 w-3 h-3 border-b border-l border-[var(--g1)]/50" />
       <span aria-hidden className="absolute bottom-3 right-3 w-3 h-3 border-b border-r border-[var(--g1)]/50" />
 
-      {/* Ambient glow */}
+      {/* Ambient glow — más fuerte en la columna champán para diferenciarla */}
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
         style={{
-          background:
-            "radial-gradient(ellipse 70% 50% at 15% 10%, rgba(201,169,110,0.10) 0%, transparent 60%)",
+          background: isCham
+            ? "radial-gradient(ellipse 80% 60% at 50% 10%, rgba(201,169,110,0.18) 0%, transparent 65%)"
+            : "radial-gradient(ellipse 70% 50% at 15% 10%, rgba(201,169,110,0.10) 0%, transparent 60%)",
         }}
       />
 
