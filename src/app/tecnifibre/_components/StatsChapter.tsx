@@ -14,7 +14,7 @@ interface Stat {
 const STATS: Stat[] = [
   { val: 20, suffix: "+", lbl: "Años de\nexperiencia" },
   { prefix: "#", val: 1, lbl: "Mejor club\ndel mundo 2018" },
-  { val: 100, suffix: "+", lbl: "Coaches formados\nen Coach360" },
+  { val: 100, suffix: "+", lbl: "Coaches formados\nen J3lab" },
   { val: 2000, suffix: "+", lbl: "Jugadores amateur\nformados" },
   { val: 30, suffix: "+", lbl: "Jugadores profesionales\nentrenados" },
   { val: 5, lbl: "Campeones de España y del Mundo\nen etapa de formación" },

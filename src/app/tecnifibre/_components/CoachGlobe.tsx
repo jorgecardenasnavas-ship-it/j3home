@@ -5,7 +5,7 @@ import Globe, { GlobeMethods } from "react-globe.gl";
 import { COACH_LOCATIONS, CoachLocation } from "../_data/coachLocations";
 
 /**
- * Visualización 3D del globo para Coach360.
+ * Visualización 3D del globo para J3lab.
  * Auto-rotate lento, dots champán pulsantes (rings) en los países activos.
  */
 export function CoachGlobe() {

@@ -442,12 +442,12 @@ export function ProposalChapter() {
               {
                 title: "Acceso a la red de entrenadores Tecnifibre.",
                 description:
-                  "Son leads altamente cualificados para Coach360. La marca puede comprar licencias y repartirlas a los coaches que elija, o lanzar una campaña con código promocional para que entren en la comunidad.",
+                  "Son leads altamente cualificados para J3lab. La marca puede comprar licencias y repartirlas a los coaches que elija, o lanzar una campaña con código promocional para que entren en la comunidad.",
               },
               {
                 title: "Insignia «Entrenador Tecnifibre» en Encuentra a tu coach.",
                 description:
-                  "Marca personalizada dentro del directorio Coach360. Refuerza pertenencia y visibiliza la red ante el jugador final.",
+                  "Marca personalizada dentro del directorio J3lab. Refuerza pertenencia y visibiliza la red ante el jugador final.",
               },
               {
                 title: "Acceso a eventos premium de la marca.",
@@ -457,7 +457,7 @@ export function ProposalChapter() {
               {
                 title: "Acceso a jugadores y embajadores de la marca.",
                 description:
-                  "Para creación de contenido editorial y como recurso dentro de la formación Coach360.",
+                  "Para creación de contenido editorial y como recurso dentro de la formación J3lab.",
               },
               {
                 title: "Apoyo a los embajadores J3-firmados.",
@@ -475,14 +475,14 @@ export function ProposalChapter() {
             subtitle="Activos compartidos. Win-win sin presupuesto."
             items={[
               {
-                title: "Coach360 a los entrenadores firmados por la marca.",
+                title: "J3lab a los entrenadores firmados por la marca.",
                 description:
                   "Si prescriben producto, entran en la plataforma de formación con pre-acceso al lanzamiento de novedades. Vínculo coach → marca → producto, sellado en plataforma.",
               },
               {
                 title: "Canal de venta para los entrenadores de la comunidad.",
                 description:
-                  "Dos opciones: e-commerce dentro de Coach360 sin inversión inicial (comisión por venta), o introducción de la marca en la tienda física de su club. La red se convierte en distribuidor activo.",
+                  "Dos opciones: e-commerce dentro de J3lab sin inversión inicial (comisión por venta), o introducción de la marca en la tienda física de su club. La red se convierte en distribuidor activo.",
               },
               {
                 title: "3M de views/mes · 1M de cuentas alcanzadas/mes.",
@@ -570,7 +570,7 @@ export function ProposalChapter() {
               {
                 num: "01",
                 label: "Coaches activos",
-                detail: "Por trimestre, en la red Coach360",
+                detail: "Por trimestre, en la red J3lab",
               },
               {
                 num: "02",
@@ -654,7 +654,7 @@ export function ProposalChapter() {
               fontWeight: 300,
             }}
           >
-            Coach360 cierra su primer ciclo en 2026.{" "}
+            J3lab cierra su primer ciclo en 2026.{" "}
             <span className="italic text-[var(--g1)] block sm:inline mt-1 sm:mt-0">
               El partner que entre primero define las reglas
             </span>

@@ -537,7 +537,7 @@ function NetworkTierCard({
 }
 
 /* ──────────────────────────────────────────────────────────────
-   NetworkTier — fila editorial para los tres anillos de Coach360.
+   NetworkTier — fila editorial para los tres anillos de J3lab.
    Indicador concéntrico (●●● núcleo, ●●○ medio, ●○○ exterior),
    index marker, nombre semibold, descripción inline y meta a la
    derecha. Layout horizontal en desktop, apilado en mobile.
@@ -1355,12 +1355,12 @@ export function LeversSection() {
         isHighlight
         name={
           <>
-            Coach
+            J3
             <span
               className="text-[var(--g1)] italic font-medium"
               style={{ fontFamily: "var(--font-serif)" }}
             >
-              360
+              lab
             </span>
           </>
         }

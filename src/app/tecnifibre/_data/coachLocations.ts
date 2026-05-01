@@ -6,7 +6,7 @@ export interface CoachLocation {
 }
 
 /**
- * Países donde Coach360 tiene entrenadores activos. Posiciones aproximadas.
+ * Países donde J3lab tiene entrenadores activos. Posiciones aproximadas.
  * Tamaño según densidad estimada — Jorge puede ajustar.
  */
 export const COACH_LOCATIONS: CoachLocation[] = [
