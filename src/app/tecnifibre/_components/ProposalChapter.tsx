@@ -676,9 +676,8 @@ export function ProposalChapter() {
           >
             J3lab cierra su primer ciclo en 2026.{" "}
             <span className="italic text-[var(--g1)] block sm:inline mt-1 sm:mt-0">
-              El partner que entre primero define las reglas
+              El partner que entre primero define las reglas.
             </span>
-            .
           </p>
 
           {/* Hairline separador — gradient via champán que funciona en ambos modos */}
