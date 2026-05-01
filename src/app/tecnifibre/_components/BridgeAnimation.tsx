@@ -301,38 +301,44 @@ export function BridgeAnimation() {
     const startPlayback = () => {
       if (startedRef.current) return;
       startedRef.current = true;
-      // Snap-scroll + clamp solo en desktop. En mobile el snap se sentía
-      // como un brinco (lenis.scrollTo + lock combinados), así que dejamos
-      // el scroll natural y la animación corre mientras el usuario scrolea.
+      // Snap-scroll + clamp anti-scroll-DOWN — necesarios para que la
+      // animación de phases (logo → manifesto → court → stats) se ejecute
+      // completa. Sin esto, el scroll libre se salta phases enteras
+      // (especialmente los stats al final).
+      // En mobile el snap es más largo (1.2s) para sentirse más suave.
       const sectionEl = sectionRef.current;
-      if (sectionEl && lenisRef.current && !isMobileRef.current) {
+      if (sectionEl && lenisRef.current) {
+        const isMob = isMobileRef.current;
         const rect = sectionEl.getBoundingClientRect();
         const sectionTop = rect.top + window.scrollY;
         lenisRef.current.scrollTo(sectionTop, {
-          duration: 0.6,
+          duration: isMob ? 1.2 : 0.6,
           lock: true,
         });
-        window.setTimeout(() => {
-          // Capturar la posición de bloqueo tras el snap
-          lockScrollYRef.current = window.scrollY;
-          const onScroll = () => {
-            const lock = lockScrollYRef.current;
-            if (lock === null || holdTRef.current >= 1) return;
-            // Solo bloquea scroll DOWN (window.scrollY > lock).
-            // Scroll UP (window.scrollY < lock) se permite libremente.
-            if (window.scrollY > lock + 4) {
-              lenisRef.current?.scrollTo(lock, {
-                immediate: true,
-                force: true,
-              });
-            }
-          };
-          window.addEventListener("scroll", onScroll, { passive: true });
-          autoPlayClampCleanupRef.current = () => {
-            window.removeEventListener("scroll", onScroll);
-            lockScrollYRef.current = null;
-          };
-        }, 700);
+        window.setTimeout(
+          () => {
+            // Capturar la posición de bloqueo tras el snap
+            lockScrollYRef.current = window.scrollY;
+            const onScroll = () => {
+              const lock = lockScrollYRef.current;
+              if (lock === null || holdTRef.current >= 1) return;
+              // Solo bloquea scroll DOWN (window.scrollY > lock).
+              // Scroll UP (window.scrollY < lock) se permite libremente.
+              if (window.scrollY > lock + 4) {
+                lenisRef.current?.scrollTo(lock, {
+                  immediate: true,
+                  force: true,
+                });
+              }
+            };
+            window.addEventListener("scroll", onScroll, { passive: true });
+            autoPlayClampCleanupRef.current = () => {
+              window.removeEventListener("scroll", onScroll);
+              lockScrollYRef.current = null;
+            };
+          },
+          isMob ? 1300 : 700,
+        );
       }
       const canvas = canvasRef.current;
       const ctx = canvas?.getContext("2d");
