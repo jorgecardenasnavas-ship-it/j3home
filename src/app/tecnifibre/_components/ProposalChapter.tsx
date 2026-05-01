@@ -227,26 +227,50 @@ export function ProposalChapter() {
   return (
     <section
       ref={ref}
-      className="relative min-h-[100dvh] w-full bg-[var(--bk)] flex items-center overflow-hidden py-24 sm:py-28"
+      className="relative min-h-[100dvh] w-full flex items-center overflow-hidden py-24 sm:py-28"
       data-chapter="04"
+      style={{
+        backgroundColor: "#F8F5EF",
+        transition: "background-color 1.4s cubic-bezier(.16,1,.3,1)",
+      }}
     >
-      {/* Background — degradado verde profundo con punto de luz champán */}
+      {/* Background — wash sutil de luz cream/verde que da profundidad */}
       <div
         aria-hidden
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 90% 60% at 50% 30%, rgba(27,61,47,0.55) 0%, rgba(14,28,22,0.95) 65%)",
+            "radial-gradient(ellipse 90% 60% at 50% 30%, rgba(27,61,47,0.045) 0%, transparent 65%)",
         }}
       />
 
-      {/* Ambient glow champán */}
+      {/* Ambient glow champán — sutil sobre crema */}
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 50% 40% at 50% 100%, rgba(201,169,110,0.12) 0%, transparent 60%)",
+            "radial-gradient(ellipse 50% 40% at 50% 100%, rgba(201,169,110,0.10) 0%, transparent 60%)",
+        }}
+      />
+
+      {/* TOP FADE — fundido verde→cream al entrar desde cap.03 */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-32 sm:h-40 pointer-events-none z-[1]"
+        style={{
+          background:
+            "linear-gradient(180deg, var(--bk) 0%, rgba(14,28,22,0.5) 35%, transparent 100%)",
+        }}
+      />
+
+      {/* BOTTOM FADE — fundido cream→verde al salir hacia cap.05 */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-32 sm:h-40 pointer-events-none z-[1]"
+        style={{
+          background:
+            "linear-gradient(180deg, transparent 0%, rgba(14,28,22,0.5) 65%, var(--bk) 100%)",
         }}
       />
 
@@ -260,7 +284,7 @@ export function ProposalChapter() {
         }}
       />
 
-      {/* Numeral fantasma 04 — anclaje editorial. Reducido en mobile. */}
+      {/* Numeral fantasma 04 — stroke verde academia para visibilidad sobre crema */}
       <div
         className="absolute pointer-events-none select-none"
         aria-hidden
@@ -274,7 +298,7 @@ export function ProposalChapter() {
           fontStyle: "italic",
           fontWeight: 400,
           color: "transparent",
-          WebkitTextStroke: "1.5px rgba(201,169,110,0.18)",
+          WebkitTextStroke: "1.5px rgba(27,61,47,0.18)",
           letterSpacing: "-0.04em",
           opacity: visible ? 1 : 0,
           transition: "all 1.6s cubic-bezier(.16,1,.3,1) 0.2s",
@@ -327,9 +351,9 @@ export function ProposalChapter() {
             La propuesta
           </div>
 
-          {/* Headline — conceptual, no repite las columnas */}
+          {/* Headline — conceptual, verde academia sobre crema */}
           <h2
-            className="font-serif font-light leading-[1.05] tracking-[-0.014em] text-[#E8DDD0] mb-8 max-w-[900px] mx-auto"
+            className="font-serif font-light leading-[1.05] tracking-[-0.014em] text-[#1B3D2F] mb-8 max-w-[900px] mx-auto"
             style={{
               fontFamily: "var(--font-serif)",
               fontSize: "clamp(40px, 6.5vw, 88px)",
@@ -340,12 +364,12 @@ export function ProposalChapter() {
             }}
           >
             La cuenta{" "}
-            <span className="italic text-[var(--g1)]/95">clara</span>.
+            <span className="italic text-[var(--g1)]">clara</span>.
           </h2>
 
-          {/* Subhead */}
+          {/* Subhead — verde academia con opacidad */}
           <p
-            className="italic text-[var(--wh)]/75 max-w-[640px] mx-auto leading-[1.5]"
+            className="italic text-[#1B3D2F]/75 max-w-[640px] mx-auto leading-[1.5]"
             style={{
               fontFamily: "var(--font-serif)",
               fontSize: "clamp(16px, 1.7vw, 22px)",
@@ -495,9 +519,9 @@ export function ProposalChapter() {
         >
           {/* En mobile: stack vertical (hairline arriba/abajo). En desktop: línea horizontal con hairlines a los lados */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-4">
-            <span aria-hidden className="block h-px w-16 sm:w-10 bg-[var(--g1)]/45" />
+            <span aria-hidden className="block h-px w-16 sm:w-10 bg-[#1B3D2F]/35" />
             <p
-              className="font-serif italic text-[#E8DDD0] tracking-[-0.005em] leading-[1.3] text-center"
+              className="font-serif italic text-[#1B3D2F] tracking-[-0.005em] leading-[1.3] text-center"
               style={{
                 fontFamily: "var(--font-serif)",
                 fontSize: "clamp(18px, 2.2vw, 26px)",
@@ -506,7 +530,7 @@ export function ProposalChapter() {
               Cuando uno gana,{" "}
               <span className="text-[var(--g1)]">el otro gana también</span>.
             </p>
-            <span aria-hidden className="block h-px w-16 sm:w-10 bg-[var(--g1)]/45" />
+            <span aria-hidden className="block h-px w-16 sm:w-10 bg-[#1B3D2F]/35" />
           </div>
         </div>
 
@@ -529,7 +553,7 @@ export function ProposalChapter() {
               <span aria-hidden className="block h-px w-10 bg-[var(--g1)]/45" />
             </div>
             <p
-              className="italic text-[var(--wh)]/65 max-w-[560px] mx-auto leading-[1.5]"
+              className="italic text-[#1B3D2F]/70 max-w-[560px] mx-auto leading-[1.5]"
               style={{
                 fontFamily: "var(--font-serif)",
                 fontSize: "clamp(14px, 1.4vw, 16px)",
@@ -620,9 +644,9 @@ export function ProposalChapter() {
             <span aria-hidden className="block h-px w-10 bg-[var(--g1)]/45" />
           </div>
 
-          {/* Frase de urgencia — el <br> se vuelve opcional en mobile para no forzar una línea muy corta */}
+          {/* Frase de urgencia — verde academia sobre crema */}
           <p
-            className="font-serif text-[#E8DDD0] leading-[1.3] sm:leading-[1.25] tracking-[-0.012em] mb-10"
+            className="font-serif text-[#1B3D2F] leading-[1.3] sm:leading-[1.25] tracking-[-0.012em] mb-10"
             style={{
               fontFamily: "var(--font-serif)",
               fontSize: "clamp(20px, 3.2vw, 36px)",
@@ -639,19 +663,19 @@ export function ProposalChapter() {
           {/* Hairline separador */}
           <span
             aria-hidden
-            className="block h-px w-full bg-gradient-to-r from-transparent via-[var(--g1)]/35 to-transparent mb-8"
+            className="block h-px w-full bg-gradient-to-r from-transparent via-[#1B3D2F]/25 to-transparent mb-8"
           />
 
           {/* Social proof institucional — marcas con las que ya hemos trabajado */}
           <p
-            className="italic text-[var(--wh)]/72 leading-[1.55] max-w-[600px] mx-auto"
+            className="italic text-[#1B3D2F]/72 leading-[1.55] max-w-[600px] mx-auto"
             style={{
               fontFamily: "var(--font-serif)",
               fontSize: "clamp(14px, 1.45vw, 17px)",
             }}
           >
             Hemos trabajado con{" "}
-            <span className="not-italic font-semibold tracking-[0.5px] text-[#E8DDD0]">
+            <span className="not-italic font-semibold tracking-[0.5px] text-[#1B3D2F]">
               Wilson · Babolat · Adidas · Varlion
             </span>
             .
