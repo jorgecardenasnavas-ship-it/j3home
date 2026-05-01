@@ -301,10 +301,11 @@ export function BridgeAnimation() {
     const startPlayback = () => {
       if (startedRef.current) return;
       startedRef.current = true;
-      // Snap-scroll a la alineación del bridge. Tras la transición, instala
-      // un clamp que solo bloquea scroll-DOWN (forward). Scroll-up sigue libre.
+      // Snap-scroll + clamp solo en desktop. En mobile el snap se sentía
+      // como un brinco (lenis.scrollTo + lock combinados), así que dejamos
+      // el scroll natural y la animación corre mientras el usuario scrolea.
       const sectionEl = sectionRef.current;
-      if (sectionEl && lenisRef.current) {
+      if (sectionEl && lenisRef.current && !isMobileRef.current) {
         const rect = sectionEl.getBoundingClientRect();
         const sectionTop = rect.top + window.scrollY;
         lenisRef.current.scrollTo(sectionTop, {
@@ -558,7 +559,12 @@ export function BridgeAnimation() {
   const vw = typeof window !== "undefined" ? window.innerWidth : 1920;
   const vhSize = typeof window !== "undefined" ? window.innerHeight : 1080;
   const fullW = vw;
-  const fullH = isMob ? vw * 2 : vhSize;
+  // Antes en mobile usábamos vw*2 (aspect 1:2 para el SVG rotado), pero
+  // eso dejaba 62px de bg cream visible arriba/abajo en viewports altos.
+  // Ahora llenamos el viewport completo — el SVG rotado se centra con
+  // preserveAspectRatio="xMidYMid meet" y los espacios sobrantes quedan
+  // verde profundo (mismo tono que el bg del container).
+  const fullH = vhSize;
   const courtCurrentW = baseW + (fullW - baseW) * courtFinaleT;
   const courtCurrentH = baseH + (fullH - baseH) * courtFinaleT;
 
