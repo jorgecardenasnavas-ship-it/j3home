@@ -32,25 +32,27 @@ function useCreamModeController() {
       const vh = window.innerHeight;
       const wasActive = html.classList.contains("tecnifibre-cream-mode");
 
-      // HISTERESIS — usamos dos thresholds distintos para activar y
-      // desactivar el cream-mode. Esto evita el flicker cuando el usuario
-      // hace micro-scrolls (subir/bajar) cerca del borde de activación.
-      // Activar:    cap.4 entró >35% del viewport (top < 35vh)
-      // Desactivar: cap.4 salió >50% del viewport (top > 50vh)
-      const enterThreshold = r4.top < vh * 0.35 && r4.bottom > vh * 0.4;
-      const exitThreshold = r4.top > vh * 0.5 || r4.bottom < vh * 0.3;
-      const cap5Active = r5 ? r5.top < vh * 0.55 : false;
+      // HISTERESIS AGRESIVA — zona muerta amplia para evitar flicker en
+      // scroll rápido up/down. Una vez activo, el cream-mode SE QUEDA hasta
+      // que el cap.4 está claramente fuera (top > 70vh = casi todo el viewport
+      // por encima) o el cap.5 ocupa más de 30vh del viewport.
+      const enterTop = r4.top < vh * 0.3 && r4.bottom > vh * 0.5;
+      const exitTop = r4.top > vh * 0.7 || r4.bottom < vh * 0.2;
+      const cap5Dominant = r5 ? r5.top < vh * 0.4 : false;
 
-      if (!wasActive) {
-        // No activo — solo activamos si cruzamos el threshold de entrada
-        // y el cap.5 no está activo todavía
-        if (enterThreshold && !cap5Active) {
+      let shouldBeActive = wasActive;
+      if (!wasActive && enterTop && !cap5Dominant) {
+        shouldBeActive = true;
+      } else if (wasActive && (exitTop || cap5Dominant)) {
+        shouldBeActive = false;
+      }
+
+      // Guard — solo tocar el classList si el estado realmente cambia.
+      // Evita re-trigger de las CSS transitions con cada scroll event.
+      if (shouldBeActive !== wasActive) {
+        if (shouldBeActive) {
           html.classList.add("tecnifibre-cream-mode");
-        }
-      } else {
-        // Activo — solo desactivamos si cruzamos el threshold de salida
-        // (más alejado) o si el cap.5 ya está activo
-        if (exitThreshold || cap5Active) {
+        } else {
           html.classList.remove("tecnifibre-cream-mode");
         }
       }
