@@ -1287,33 +1287,6 @@ export function LeversSection() {
         bgImage="/images/j3/j3ptv-bg.jpg"
         customFooter={
           <div className="space-y-5">
-            <MobileSwipe desktopGrid="sm:grid-cols-3 gap-3">
-              <FormatCard
-                index="F/01"
-                icon="mic"
-                type="Audio · Long form"
-                name="Podcast"
-                description="Conversaciones de fondo con jugadores y figuras del circuito profesional."
-                meta="30–45 min · cadencia mensual"
-              />
-              <FormatCard
-                index="F/02"
-                icon="play"
-                type="Video · Evento"
-                name="Vlogs"
-                description="Coverage cinematográfico desde eventos premium y lanzamientos."
-                meta="3–6 min · activable on-demand"
-              />
-              <FormatCard
-                index="F/03"
-                icon="stack"
-                type="Social · Short"
-                name="Píldoras"
-                description="Reels y shorts editoriales en Instagram y TikTok."
-                meta="15–60 s · una por momento"
-              />
-            </MobileSwipe>
-
             {/* Sistema editorial — una sola línea fluida */}
             <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 pt-3 border-t border-[var(--g1)]/15">
               <span className="text-[9px] font-bold tracking-[3px] uppercase text-[var(--g1)]/85 mr-1">
@@ -1414,12 +1387,6 @@ export function LeversSection() {
               </strong>{" "}
               activable.
             </p>
-            <p>
-              <span className="text-[var(--wh)]/55">Tres anillos:</span>{" "}
-              HQ propio, Cualificados en el método y
-              Certificados/Verificados por su criterio en pista. Cada uno
-              con su rol.
-            </p>
             <p
               className="italic text-[var(--wh)]/60 pt-2"
               style={{ fontFamily: "var(--font-serif)" }}
@@ -1503,76 +1470,6 @@ export function LeversSection() {
         overlayStyle="linear-gradient(to right, rgba(14,28,22,0.85) 0%, rgba(14,28,22,0.5) 40%, rgba(14,28,22,0) 70%)"
         customFooter={
           <div className="space-y-5">
-            {/* Sistema de anillos — mobile: cards swipe / desktop: container unificado */}
-            <MobileSwipe
-              desktopOverride={
-                <div
-                  className="relative border border-[var(--g1)]/20 rounded-[4px] overflow-hidden"
-                  style={{
-                    background:
-                      "linear-gradient(180deg, rgba(201,169,110,0.045) 0%, rgba(201,169,110,0.015) 100%)",
-                  }}
-                >
-                  {/* Top hairline gradient */}
-                  <span
-                    aria-hidden
-                    className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--g1)]/55 to-transparent"
-                  />
-                  <NetworkTier
-                    index="N/01"
-                    tierLevel={3}
-                    name="HQ"
-                    type="Núcleo"
-                    description="Staff J3 directo. El método nace aquí y desde aquí se irradia al resto de la red."
-                    meta="Málaga · sede propia"
-                  />
-                  <NetworkTier
-                    index="N/02"
-                    tierLevel={2}
-                    name="Cualificados"
-                    type="Método"
-                    description="Coaches formados internamente en el método J3. Han pasado por la academia, conocen el sistema y están cualificados para aplicarlo."
-                    meta="Formación interna J3"
-                    divider
-                  />
-                  <NetworkTier
-                    index="N/03"
-                    tierLevel={1}
-                    name="Certificados / Verificados"
-                    type="Criterio"
-                    description="Coaches con criterio contrastado en pista. Los conocemos, los hemos visto trabajar, y por eso entran en la red."
-                    meta="Validación J3"
-                    divider
-                  />
-                </div>
-              }
-            >
-              <NetworkTierCard
-                index="N/01"
-                tierLevel={3}
-                name="HQ"
-                type="Núcleo"
-                description="Staff J3 directo. El método nace aquí y desde aquí se irradia al resto de la red."
-                meta="Málaga · sede propia"
-              />
-              <NetworkTierCard
-                index="N/02"
-                tierLevel={2}
-                name="Cualificados"
-                type="Método"
-                description="Coaches formados internamente en el método J3. Han pasado por la academia, conocen el sistema y están cualificados para aplicarlo."
-                meta="Formación interna J3"
-              />
-              <NetworkTierCard
-                index="N/03"
-                tierLevel={1}
-                name="Certificados / Verificados"
-                type="Criterio"
-                description="Coaches con criterio contrastado en pista. Los conocemos, los hemos visto trabajar, y por eso entran en la red."
-                meta="Validación J3"
-              />
-            </MobileSwipe>
-
             {/* Sistema — una línea */}
             <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 pt-3 border-t border-[var(--g1)]/15">
               <span className="text-[9px] font-bold tracking-[3px] uppercase text-[var(--g1)]/85 mr-1">
