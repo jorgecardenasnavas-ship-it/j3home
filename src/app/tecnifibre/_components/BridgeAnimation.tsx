@@ -626,7 +626,7 @@ export function BridgeAnimation() {
         >
           <canvas
             ref={canvasRef}
-            className="w-full h-full max-h-[100dvh] object-cover md:object-contain scale-[1.35] md:scale-100"
+            className="w-full h-full max-h-[100dvh] object-contain"
             style={{ background: "#0E1C16" }}
             aria-hidden
           />
