@@ -472,7 +472,7 @@ export function HablamosChapter() {
 
           {/* CTA con fecha concreta — crea momentum operativo */}
           <div
-            className="mt-12 inline-flex flex-col items-center gap-1 px-6 py-4 border border-[var(--g1)]/35 rounded-[3px] backdrop-blur-[6px]"
+            className="mt-12 inline-flex flex-col items-center gap-1 px-6 py-4 border border-[var(--g1)]/35 rounded-[3px] md:backdrop-blur-[6px]"
             style={{
               background:
                 "linear-gradient(160deg, rgba(201,169,110,0.08) 0%, rgba(14,28,22,0.5) 100%)",

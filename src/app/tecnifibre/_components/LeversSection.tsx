@@ -1004,7 +1004,7 @@ function LeverChapter({
           Desktop: card flotando a la izquierda con offsets para la línea vertical accent. */}
       <div className="relative z-10 w-full max-w-[660px] mx-auto md:mx-0 md:mr-auto px-6 md:pl-16 md:pr-8 lg:pl-24 lg:pr-12 py-10 md:py-16">
         <div
-          className="relative overflow-hidden border border-[var(--g1)]/20 rounded-[8px] backdrop-blur-[14px]"
+          className="relative overflow-hidden border border-[var(--g1)]/20 rounded-[8px] md:backdrop-blur-[14px]"
           style={{
             background:
               "linear-gradient(155deg, rgba(27,61,47,0.94) 0%, rgba(27,61,47,0.90) 45%, rgba(14,28,22,0.95) 100%)",

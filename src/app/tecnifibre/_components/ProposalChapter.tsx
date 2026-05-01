@@ -55,7 +55,7 @@ function BalanceColumn({
   return (
     <div
       ref={colRef}
-      className={`relative flex flex-col overflow-hidden rounded-[6px] backdrop-blur-[14px] h-full border ${
+      className={`relative flex flex-col overflow-hidden rounded-[6px] md:backdrop-blur-[14px] h-full border ${
         isCham ? "border-[var(--g1)]/45" : "border-[var(--g1)]/22"
       }`}
       style={{
@@ -409,7 +409,7 @@ export function ProposalChapter() {
             className="hidden lg:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none"
           >
             <div
-              className="relative flex items-center justify-center w-14 h-14 rounded-full border border-[var(--g1)]/40 backdrop-blur-[8px]"
+              className="relative flex items-center justify-center w-14 h-14 rounded-full border border-[var(--g1)]/40 md:backdrop-blur-[8px]"
               style={{
                 background:
                   "radial-gradient(circle, rgba(14,28,22,0.95) 0%, rgba(14,28,22,0.7) 100%)",
@@ -609,7 +609,7 @@ export function ProposalChapter() {
             ].map((kpi) => (
               <div
                 key={kpi.num}
-                className="relative flex flex-col gap-2 p-4 sm:p-7 bg-[var(--bk)]/85 backdrop-blur-[6px]"
+                className="relative flex flex-col gap-2 p-4 sm:p-7 bg-[var(--bk)]/85 md:backdrop-blur-[6px]"
               >
                 {/* Numeral italic serif */}
                 <span
