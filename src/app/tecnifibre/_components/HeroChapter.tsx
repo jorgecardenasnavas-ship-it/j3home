@@ -53,6 +53,17 @@ export function HeroChapter() {
         aria-hidden
       />
 
+      {/* BOTTOM VIGNETTE — fundido suave de la foto al verde del bridge.
+          Evita el corte brusco entre hero y bridge animation. */}
+      <div
+        className="absolute inset-x-0 bottom-0 h-[28vh] z-[7] pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(180deg, transparent 0%, rgba(14,28,22,0.55) 55%, var(--bk) 100%)",
+        }}
+        aria-hidden
+      />
+
       <div ref={sectionRef} className="relative z-10 flex flex-col flex-1">
         {/* Top header — J3 logo izquierda, T × L derecha (co-branding visual)
             En móvil reducido para no saturar el viewport estrecho. */}

@@ -541,7 +541,7 @@ export function BridgeAnimation() {
   // Móvil: court portrait. La SVG está rotada 90° vía CSS; usamos un container
   // 1:2 que es lo que el SVG rotado necesita para encajar limpio sin sobrar.
   const courtBoxW = isMob
-    ? Math.min((typeof window !== "undefined" ? window.innerWidth : 375) * 0.45, 200)
+    ? Math.min((typeof window !== "undefined" ? window.innerWidth : 375) * 0.7, 290)
     : 460;
   const courtBoxH = isMob ? courtBoxW * 2 : courtBoxW * 0.5;
 
@@ -626,7 +626,7 @@ export function BridgeAnimation() {
         >
           <canvas
             ref={canvasRef}
-            className="w-full h-full max-h-[100dvh] object-contain"
+            className="w-full h-full max-h-[100dvh] object-cover md:object-contain scale-[1.35] md:scale-100"
             style={{ background: "#0E1C16" }}
             aria-hidden
           />
@@ -764,14 +764,14 @@ export function BridgeAnimation() {
               pointerEvents: effectiveProgress > 0.5 ? "auto" : "none",
             }}
           >
-            {/* Background photo — más presente, no tan apagado */}
+            {/* Background photo — atenuada para que los stats destaquen */}
             <NextImage
               src="/images/story/hero-coach.jpeg"
               alt=""
               aria-hidden
               fill
               className="object-cover"
-              style={{ opacity: 0.65 * effectiveProgress }}
+              style={{ opacity: 0.45 * effectiveProgress }}
               sizes="100vw"
             />
             {/* Overlay verde sutil para legibilidad sin tapar la foto */}
