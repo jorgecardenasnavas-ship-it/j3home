@@ -2791,6 +2791,16 @@ html.tecnifibre-cream-mode [data-lever="03"] [data-cap3-overlay] {
 [data-cap3-overlay] {
   transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
+/* TODOS los hijos directos del cap.3 (foto, globo, card content, numeral)
+   se desvanecen en cream-mode. El cap.3 está arriba del viewport cuando
+   estás en cream-mode, así que esto no afecta lectura — solo evita que
+   la card verde glass se siga viendo si scrolleas un poco hacia arriba. */
+[data-lever="03"] > * {
+  transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+html.tecnifibre-cream-mode [data-lever="03"] > * {
+  opacity: 0 !important;
+}
 
 /* Cap.4 — los textos cambian de cream→verde con cream-mode.
    Usamos data-attributes para que el cambio sea coordinado con bg. */
