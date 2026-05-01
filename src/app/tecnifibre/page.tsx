@@ -22,20 +22,18 @@ function useCreamModeController() {
     if (!cap4) return;
 
     const html = document.documentElement;
+    let raf = 0;
+    let pending = false;
 
-    const update = () => {
+    const compute = () => {
+      pending = false;
       const r4 = cap4.getBoundingClientRect();
       const vh = window.innerHeight;
       const wasActive = html.classList.contains("tecnifibre-cream-mode");
 
       // ACTIVAR cream-mode: el cap.4 entra al viewport (top < 30vh, bottom > 50vh)
       const enterTop = r4.top < vh * 0.3 && r4.bottom > vh * 0.5;
-
       // DESACTIVAR cream-mode SOLO al volver al cap.3 (subir).
-      // No desactivar al entrar al cap.5 — el cap.4 se mantiene cream
-      // detrás (no visible) y la transición a cap.5 verde es un cut directo.
-      // Solo se quita cuando el cap.4 reaparece desde abajo del viewport
-      // (estamos volviendo a scrollear hacia arriba al cap.3).
       const exitGoingUp = r4.top > vh * 0.7;
 
       let shouldBeActive = wasActive;
@@ -55,12 +53,22 @@ function useCreamModeController() {
       }
     };
 
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
+    // Throttle con rAF — scroll events disparan muchos por segundo.
+    // Coalescemos a un solo cómputo por frame para no competir con
+    // Lenis ni causar layout thrashing (que era el origen del flicker).
+    const schedule = () => {
+      if (pending) return;
+      pending = true;
+      raf = requestAnimationFrame(compute);
+    };
+
+    compute();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
     return () => {
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
       html.classList.remove("tecnifibre-cream-mode");
     };
   }, []);
