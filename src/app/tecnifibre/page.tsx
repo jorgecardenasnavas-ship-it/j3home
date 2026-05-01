@@ -19,36 +19,33 @@ function useCreamModeController() {
     const cap4 = document.querySelector(
       '[data-chapter="04"]',
     ) as HTMLElement | null;
-    const cap5 = document.querySelector(
-      '[data-chapter="05"]',
-    ) as HTMLElement | null;
     if (!cap4) return;
 
     const html = document.documentElement;
 
     const update = () => {
       const r4 = cap4.getBoundingClientRect();
-      const r5 = cap5?.getBoundingClientRect();
       const vh = window.innerHeight;
       const wasActive = html.classList.contains("tecnifibre-cream-mode");
 
-      // HISTERESIS AGRESIVA — zona muerta amplia para evitar flicker en
-      // scroll rápido up/down. Una vez activo, el cream-mode SE QUEDA hasta
-      // que el cap.4 está claramente fuera (top > 70vh = casi todo el viewport
-      // por encima) o el cap.5 ocupa más de 30vh del viewport.
+      // ACTIVAR cream-mode: el cap.4 entra al viewport (top < 30vh, bottom > 50vh)
       const enterTop = r4.top < vh * 0.3 && r4.bottom > vh * 0.5;
-      const exitTop = r4.top > vh * 0.7 || r4.bottom < vh * 0.2;
-      const cap5Dominant = r5 ? r5.top < vh * 0.4 : false;
+
+      // DESACTIVAR cream-mode SOLO al volver al cap.3 (subir).
+      // No desactivar al entrar al cap.5 — el cap.4 se mantiene cream
+      // detrás (no visible) y la transición a cap.5 verde es un cut directo.
+      // Solo se quita cuando el cap.4 reaparece desde abajo del viewport
+      // (estamos volviendo a scrollear hacia arriba al cap.3).
+      const exitGoingUp = r4.top > vh * 0.7;
 
       let shouldBeActive = wasActive;
-      if (!wasActive && enterTop && !cap5Dominant) {
+      if (!wasActive && enterTop) {
         shouldBeActive = true;
-      } else if (wasActive && (exitTop || cap5Dominant)) {
+      } else if (wasActive && exitGoingUp) {
         shouldBeActive = false;
       }
 
       // Guard — solo tocar el classList si el estado realmente cambia.
-      // Evita re-trigger de las CSS transitions con cada scroll event.
       if (shouldBeActive !== wasActive) {
         if (shouldBeActive) {
           html.classList.add("tecnifibre-cream-mode");
