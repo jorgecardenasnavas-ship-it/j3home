@@ -262,7 +262,7 @@ export function ProposalChapter() {
         }}
       />
 
-      {/* TOP FADE — fundido verde→cream al entrar desde cap.03 */}
+      {/* TOP FADE — fundido suave verde→cream al entrar desde cap.03 */}
       <div
         aria-hidden
         className="absolute inset-x-0 top-0 h-32 sm:h-40 pointer-events-none z-[1]"
@@ -272,15 +272,8 @@ export function ProposalChapter() {
         }}
       />
 
-      {/* BOTTOM FADE — fundido cream→verde al salir hacia cap.05 */}
-      <div
-        aria-hidden
-        className="absolute inset-x-0 bottom-0 h-32 sm:h-40 pointer-events-none z-[1]"
-        style={{
-          background:
-            "linear-gradient(180deg, transparent 0%, rgba(14,28,22,0.5) 65%, var(--bk) 100%)",
-        }}
-      />
+      {/* NO bottom fade — la transición a cap.05 es un corte directo
+          (cap.4 termina en cream sólido, cap.5 empieza en verde sólido). */}
 
       {/* Grain global */}
       <div
