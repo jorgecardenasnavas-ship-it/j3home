@@ -918,6 +918,13 @@ export interface Dictionary {
           readonly ctaSecondary: string;
           readonly chips: readonly string[];
         };
+        readonly siEstoTeSuena: {
+          readonly eyebrow: string;
+          readonly heading: string;
+          readonly sub: string;
+          readonly items: readonly string[];
+          readonly closer: string;
+        };
         readonly hermanos: {
           readonly eyebrow: string;
           readonly heading: string;
@@ -930,11 +937,26 @@ export interface Dictionary {
           }[];
           readonly chips: readonly string[];
         };
-        readonly posicionamiento: {
+        readonly porQueTeSirve: {
           readonly eyebrow: string;
-          readonly claim: string;
-          readonly body: string;
-          readonly body2: string;
+          readonly heading: string;
+          readonly sub: string;
+          readonly items: readonly {
+            readonly highlight: string;
+            readonly body: string;
+          }[];
+        };
+        readonly metodo: {
+          readonly eyebrow: string;
+          readonly heading: string;
+          readonly sub: string;
+          readonly cards: readonly {
+            readonly title: string;
+            readonly subtitle: string;
+            readonly body: string;
+          }[];
+          readonly closer: string;
+          readonly humbleNote: string;
         };
         readonly camino: {
           readonly eyebrow: string;
@@ -997,7 +1019,11 @@ export interface Dictionary {
           readonly eyebrow: string;
           readonly heading: string;
           readonly sub: string;
-          readonly items: readonly string[];
+          readonly items: readonly {
+            readonly scene: string;
+            readonly before: string;
+            readonly after: string;
+          }[];
         };
         readonly coachesDentro: {
           readonly eyebrow: string;

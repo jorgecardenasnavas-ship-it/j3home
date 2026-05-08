@@ -1,23 +1,25 @@
 "use client";
 
 /* ──────────────────────────────────────────────
-   /lab/coach — Landing comercial de J3 Lab Coach.
+   /lab/coach — Landing comercial de J3 Lab Coach (V2).
 
-   Estructura (orden Growth Hacker):
-   1. Hero
-   2. Quiénes firman esto (Javi + Jorge + cifras duras)
-   3. Posicionamiento (FIP 2026 + crisis "diplomas falsos")
-   4. El Camino (CaminoBlock con disclaimer de nomenclatura)
-   5. Inversión total a la vista (tabla + Mentor + Verificado)
-   6. Qué hay dentro (3 cards + tabla comparativa Coach vs Pro)
-   7. Qué cambia en tu negocio
-   8. Coaches dentro del Lab (cifra real + CTA al directorio)
-   9. No es para ti si...
-   10. FAQ comercial
-   11. CTA final
+   Estructura (13 bloques, orden Growth Hacker + ajustes):
+   1. Hero (claim coach-céntrico)
+   2. Si esto te suena (dolor antes que solución)
+   3. Quiénes firman esto (autoridad)
+   4. Por qué te sirve (anti-objeción senior + abre target a novato)
+   5. El método (Criterio · Método · Planificación)
+   6. El Camino (CaminoBlock con disclaimer de nomenclatura)
+   7. Inversión total a la vista (tabla + Mentor + Verificado)
+   8. Qué hay dentro (Rutas + Examen + tabla comparativa)
+   9. Qué cambia en tu negocio (4 escenas antes/después)
+   10. Coaches dentro del Lab (cifra real + CTA al directorio)
+   11. No es para ti si...
+   12. FAQ comercial
+   13. CTA final
 
-   Toda la voz, vocabulario, claims y palabras vetadas vienen del
-   Brand Guardian. El copy completo vive en el diccionario.
+   Toda la voz, vocabulario y palabras vetadas vienen del Brand Guardian.
+   El copy completo vive en el diccionario.
    ────────────────────────────────────────────── */
 
 import { useState } from "react";
@@ -29,10 +31,8 @@ import { useI18n } from "@/i18n/context";
 import { cn } from "@/lib/utils";
 import { CAMINO_STEPS } from "@/data/lab-coach-pricing";
 
-const PRECIOS_HREF = "/lab/coach/precios";
 const SESION_CERO_HREF = "/lab/coach/precios#sesion-cero";
 const COACH_CHECKOUT = "https://j3padel.com/join";
-const COACH_PRO_CHECKOUT = "https://j3padel.com/join";
 const DIRECTORIO_HREF = "/academy/coaches";
 
 type LandingTexts = ReturnType<typeof useI18n>["t"]["lab"]["coach"]["landing"];
@@ -109,7 +109,78 @@ function HeroSection({ texts }: { texts: LandingTexts["hero"] }) {
 }
 
 /* ═══════════════════════════════════════════════════════
-   2. QUIÉNES FIRMAN ESTO
+   2. SI ESTO TE SUENA
+   ═══════════════════════════════════════════════════════ */
+function SiEstoTeSuenaSection({ texts }: { texts: LandingTexts["siEstoTeSuena"] }) {
+  const { ref: headerRef, visible: headerVisible } = useReveal(0.1);
+  const { itemRefs, visibleItems } = useStaggerReveal(texts.items.length, 0.15);
+  const closerReveal = useReveal(0.1);
+
+  return (
+    <section
+      className="relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-t border-white/[.06]"
+      style={{ background: "var(--bk)" }}
+    >
+      <div className="relative max-w-[920px] mx-auto">
+        <div
+          ref={headerRef}
+          className="text-center mb-12 max-[960px]:mb-10"
+          style={{
+            opacity: headerVisible ? 1 : 0,
+            transform: headerVisible ? "none" : "translateY(20px)",
+            transition: "all 1s cubic-bezier(.16,1,.3,1)",
+          }}
+        >
+          <div className="text-[11px] tracking-[3px] uppercase text-[var(--champan)] mb-4 font-bold">
+            {texts.eyebrow}
+          </div>
+          <h2 className="font-bold text-[clamp(28px,3.8vw,44px)] tracking-[-1px] leading-[1.15] mb-4">
+            {texts.heading}
+          </h2>
+          <p className="text-[14px] opacity-65 max-w-[560px] mx-auto leading-[1.55] italic">
+            {texts.sub}
+          </p>
+        </div>
+
+        <ul className="space-y-4 mb-10">
+          {texts.items.map((item, i) => (
+            <li
+              key={item}
+              ref={(el) => { itemRefs.current[i] = el as HTMLDivElement | null; }}
+              className="relative p-6 max-[960px]:p-5 rounded-[2px] border border-white/[.10] bg-white/[0.012]"
+              style={{
+                opacity: visibleItems[i] ? 1 : 0,
+                transform: visibleItems[i] ? "none" : "translateY(15px)",
+                transition: `all 0.8s cubic-bezier(.16,1,.3,1) ${i * 0.1}s`,
+              }}
+            >
+              <p className="text-[clamp(15px,1.5vw,18px)] leading-[1.55] opacity-90 italic font-[var(--font-serif)]">
+                &ldquo;{item}&rdquo;
+              </p>
+            </li>
+          ))}
+        </ul>
+
+        <div
+          ref={closerReveal.ref}
+          className="text-center"
+          style={{
+            opacity: closerReveal.visible ? 1 : 0,
+            transform: closerReveal.visible ? "none" : "translateY(15px)",
+            transition: "all 0.9s cubic-bezier(.16,1,.3,1)",
+          }}
+        >
+          <p className="text-[clamp(15px,1.6vw,18px)] font-bold leading-[1.5] text-[var(--champan)]">
+            {texts.closer}
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   3. QUIÉNES FIRMAN ESTO
    ═══════════════════════════════════════════════════════ */
 function HermanosSection({ texts }: { texts: LandingTexts["hermanos"] }) {
   const { ref: headerRef, visible: headerVisible } = useReveal(0.1);
@@ -194,45 +265,166 @@ function HermanosSection({ texts }: { texts: LandingTexts["hermanos"] }) {
 }
 
 /* ═══════════════════════════════════════════════════════
-   3. POSICIONAMIENTO
+   4. POR QUÉ TE SIRVE
    ═══════════════════════════════════════════════════════ */
-function PosicionamientoSection({ texts }: { texts: LandingTexts["posicionamiento"] }) {
-  const { ref, visible } = useReveal(0.1);
+function PorQueTeSirveSection({ texts }: { texts: LandingTexts["porQueTeSirve"] }) {
+  const { ref: headerRef, visible: headerVisible } = useReveal(0.1);
+  const { itemRefs, visibleItems } = useStaggerReveal(texts.items.length, 0.15);
+
   return (
     <section
       className="relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-t border-white/[.06]"
       style={{ background: "var(--bk)" }}
     >
-      <div
-        ref={ref}
-        className="max-w-[760px] mx-auto"
-        style={{
-          opacity: visible ? 1 : 0,
-          transform: visible ? "none" : "translateY(20px)",
-          transition: "all 1s cubic-bezier(.16,1,.3,1)",
-        }}
-      >
-        <div className="text-[11px] tracking-[3px] uppercase text-[var(--champan)] mb-5 font-bold">
-          {texts.eyebrow}
+      <div className="relative max-w-[920px] mx-auto">
+        <div
+          ref={headerRef}
+          className="mb-12 max-[960px]:mb-10"
+          style={{
+            opacity: headerVisible ? 1 : 0,
+            transform: headerVisible ? "none" : "translateY(20px)",
+            transition: "all 1s cubic-bezier(.16,1,.3,1)",
+          }}
+        >
+          <div className="text-[11px] tracking-[3px] uppercase text-[var(--champan)] mb-4 font-bold">
+            {texts.eyebrow}
+          </div>
+          <h2 className="font-bold text-[clamp(26px,3.4vw,40px)] tracking-[-0.8px] leading-[1.2] mb-4 max-w-[840px]">
+            {texts.heading}
+          </h2>
+          <p className="text-[14px] opacity-70 leading-[1.55]">{texts.sub}</p>
         </div>
-        <h2 className="font-bold text-[clamp(32px,4.5vw,52px)] tracking-[-1px] leading-[1.1] mb-8">
-          <span className="italic font-[var(--font-serif)] normal-case tracking-[-0.5px] text-[var(--champan)]">
-            {texts.claim}
-          </span>
-        </h2>
-        <p className="text-[clamp(15px,1.5vw,17px)] leading-[1.65] opacity-80 mb-5">
-          {texts.body}
-        </p>
-        <p className="text-[clamp(15px,1.5vw,17px)] leading-[1.65] opacity-80">
-          {texts.body2}
-        </p>
+
+        <ul className="space-y-5">
+          {texts.items.map((item, i) => (
+            <li
+              key={item.highlight}
+              ref={(el) => { itemRefs.current[i] = el as HTMLDivElement | null; }}
+              className="relative p-6 max-[960px]:p-5 rounded-[2px] border border-white/[.10] bg-white/[0.012]"
+              style={{
+                opacity: visibleItems[i] ? 1 : 0,
+                transform: visibleItems[i] ? "none" : "translateX(-15px)",
+                transition: `all 0.8s cubic-bezier(.16,1,.3,1) ${i * 0.12}s`,
+              }}
+            >
+              <p className="text-[clamp(14px,1.4vw,16px)] leading-[1.65] opacity-90">
+                <strong className="text-[var(--champan)] font-bold">{item.highlight}</strong>{" "}
+                {item.body}
+              </p>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );
 }
 
 /* ═══════════════════════════════════════════════════════
-   5. INVERSIÓN TOTAL A LA VISTA
+   5. EL MÉTODO
+   ═══════════════════════════════════════════════════════ */
+function MetodoSection({ texts }: { texts: LandingTexts["metodo"] }) {
+  const { ref: headerRef, visible: headerVisible } = useReveal(0.1);
+  const { itemRefs, visibleItems } = useStaggerReveal(texts.cards.length, 0.15);
+  const closerReveal = useReveal(0.1);
+  const noteReveal = useReveal(0.1);
+
+  return (
+    <section
+      id="metodo"
+      className="relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-t border-white/[.06] scroll-mt-[120px]"
+      style={{ background: "var(--bk)" }}
+    >
+      <div className="relative max-w-[1200px] mx-auto">
+        <div
+          ref={headerRef}
+          className="text-center mb-12 max-[960px]:mb-10"
+          style={{
+            opacity: headerVisible ? 1 : 0,
+            transform: headerVisible ? "none" : "translateY(20px)",
+            transition: "all 1s cubic-bezier(.16,1,.3,1)",
+          }}
+        >
+          <div className="text-[11px] tracking-[3px] uppercase text-[var(--champan)] mb-4 font-bold">
+            {texts.eyebrow}
+          </div>
+          <h2 className="font-bold text-[clamp(32px,4.5vw,56px)] uppercase tracking-[-1.5px] leading-[1.05] mb-4">
+            {texts.heading}
+          </h2>
+          <p className="text-[14px] max-[640px]:text-[13px] opacity-70 max-w-[640px] mx-auto leading-[1.55]">
+            {texts.sub}
+          </p>
+        </div>
+
+        <div className="grid grid-cols-3 max-[960px]:grid-cols-1 gap-5 mb-12">
+          {texts.cards.map((card, i) => (
+            <article
+              key={card.title}
+              ref={(el) => { itemRefs.current[i] = el as HTMLDivElement | null; }}
+              className="relative flex flex-col p-7 max-[960px]:p-6 rounded-[2px] border border-white/[.10] hover:border-[var(--champan)]/35 bg-white/[0.012] transition-colors duration-500"
+              style={{
+                opacity: visibleItems[i] ? 1 : 0,
+                transform: visibleItems[i] ? "none" : "translateY(20px)",
+                transition: `all 0.9s cubic-bezier(.16,1,.3,1) ${i * 0.12}s`,
+              }}
+            >
+              <span className="font-bold text-[14px] tracking-[2px] uppercase text-[var(--champan)] mb-4">
+                0{i + 1}
+              </span>
+              <h3 className="font-bold text-[24px] tracking-[-0.5px] leading-[1.1] mb-3">
+                {card.title}
+              </h3>
+              <p className="italic font-[var(--font-serif)] text-[15px] leading-[1.4] text-[var(--champan)] mb-5">
+                {card.subtitle}
+              </p>
+              <p className="text-[13px] opacity-80 leading-[1.6]">{card.body}</p>
+            </article>
+          ))}
+        </div>
+
+        {/* Frase clave del método */}
+        <div
+          ref={closerReveal.ref}
+          className="relative my-14 max-[960px]:my-10 text-center"
+          style={{
+            opacity: closerReveal.visible ? 1 : 0,
+            transform: closerReveal.visible ? "none" : "translateY(20px)",
+            transition: "all 1s cubic-bezier(.16,1,.3,1)",
+          }}
+        >
+          <div
+            aria-hidden
+            className="mx-auto mb-8 h-px w-[120px] bg-gradient-to-r from-transparent via-[var(--champan)]/40 to-transparent"
+          />
+          <p className="italic font-[var(--font-serif)] text-[clamp(22px,3vw,34px)] leading-[1.3] text-[var(--champan)] max-w-[760px] mx-auto">
+            &ldquo;{texts.closer}&rdquo;
+          </p>
+          <div
+            aria-hidden
+            className="mx-auto mt-8 h-px w-[120px] bg-gradient-to-r from-transparent via-[var(--champan)]/40 to-transparent"
+          />
+        </div>
+
+        {/* Nota humilde de los hermanos */}
+        <div
+          ref={noteReveal.ref}
+          className="text-center max-w-[680px] mx-auto"
+          style={{
+            opacity: noteReveal.visible ? 1 : 0,
+            transform: noteReveal.visible ? "none" : "translateY(15px)",
+            transition: "all 0.9s cubic-bezier(.16,1,.3,1) 0.2s",
+          }}
+        >
+          <p className="text-[13px] opacity-70 leading-[1.65] italic">
+            {texts.humbleNote}
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   7. INVERSIÓN TOTAL A LA VISTA
    ═══════════════════════════════════════════════════════ */
 function InversionSection({ texts }: { texts: LandingTexts["inversion"] }) {
   const { ref: headerRef, visible: headerVisible } = useReveal(0.1);
@@ -412,7 +604,7 @@ function InversionSection({ texts }: { texts: LandingTexts["inversion"] }) {
 }
 
 /* ═══════════════════════════════════════════════════════
-   6. QUÉ HAY DENTRO
+   8. QUÉ HAY DENTRO
    ═══════════════════════════════════════════════════════ */
 function QueHayDentroSection({ texts }: { texts: LandingTexts["queHayDentro"] }) {
   const { ref: headerRef, visible: headerVisible } = useReveal(0.1);
@@ -421,8 +613,7 @@ function QueHayDentroSection({ texts }: { texts: LandingTexts["queHayDentro"] })
 
   return (
     <section
-      id="metodo"
-      className="relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-t border-white/[.06] scroll-mt-[120px]"
+      className="relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-t border-white/[.06]"
       style={{ background: "var(--bk)" }}
     >
       <div className="relative max-w-[1200px] mx-auto">
@@ -550,7 +741,7 @@ function QueHayDentroSection({ texts }: { texts: LandingTexts["queHayDentro"] })
 }
 
 /* ═══════════════════════════════════════════════════════
-   7. QUÉ CAMBIA EN TU NEGOCIO
+   9. QUÉ CAMBIA EN TU NEGOCIO (4 escenas antes/después)
    ═══════════════════════════════════════════════════════ */
 function NegocioSection({ texts }: { texts: LandingTexts["negocio"] }) {
   const { ref: headerRef, visible: headerVisible } = useReveal(0.1);
@@ -561,7 +752,7 @@ function NegocioSection({ texts }: { texts: LandingTexts["negocio"] }) {
       className="relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-t border-white/[.06]"
       style={{ background: "var(--bk)" }}
     >
-      <div className="relative max-w-[1100px] mx-auto">
+      <div className="relative max-w-[1200px] mx-auto">
         <div
           ref={headerRef}
           className="text-center mb-12 max-[960px]:mb-10"
@@ -574,7 +765,7 @@ function NegocioSection({ texts }: { texts: LandingTexts["negocio"] }) {
           <div className="text-[11px] tracking-[3px] uppercase text-[var(--champan)] mb-4 font-bold">
             {texts.eyebrow}
           </div>
-          <h2 className="font-bold text-[clamp(28px,3.5vw,40px)] tracking-[-1px] leading-[1.15] mb-4 max-w-[880px] mx-auto">
+          <h2 className="font-bold text-[clamp(26px,3.4vw,40px)] tracking-[-0.8px] leading-[1.2] mb-4 max-w-[880px] mx-auto">
             {texts.heading}
           </h2>
           <p className="text-[14px] max-[640px]:text-[13px] opacity-70 max-w-[640px] mx-auto leading-[1.55]">
@@ -582,23 +773,42 @@ function NegocioSection({ texts }: { texts: LandingTexts["negocio"] }) {
           </p>
         </div>
 
-        <div className="grid grid-cols-3 max-[960px]:grid-cols-1 gap-5">
+        <div className="grid grid-cols-2 max-[960px]:grid-cols-1 gap-5">
           {texts.items.map((item, i) => (
-            <div
-              key={item}
+            <article
+              key={item.scene}
               ref={(el) => { itemRefs.current[i] = el as HTMLDivElement | null; }}
-              className="flex flex-col p-6 rounded-[2px] border border-white/[.10] bg-white/[0.012]"
+              className="flex flex-col p-7 max-[960px]:p-5 rounded-[2px] border border-white/[.10] bg-white/[0.012]"
               style={{
                 opacity: visibleItems[i] ? 1 : 0,
                 transform: visibleItems[i] ? "none" : "translateY(20px)",
                 transition: `all 0.9s cubic-bezier(.16,1,.3,1) ${i * 0.12}s`,
               }}
             >
-              <span className="font-bold text-[28px] leading-[1] tracking-[-1px] text-[var(--champan)]/80 mb-4">
-                0{i + 1}
-              </span>
-              <p className="text-[13.5px] leading-[1.65] opacity-85">{item}</p>
-            </div>
+              <div className="flex items-center gap-3 mb-5">
+                <span className="text-[10px] font-bold tracking-[2px] uppercase text-[var(--champan)]">
+                  Escena 0{i + 1}
+                </span>
+                <span aria-hidden className="flex-1 h-px bg-white/[.08]" />
+              </div>
+              <h3 className="font-bold text-[clamp(16px,1.6vw,18px)] tracking-[-0.2px] leading-[1.3] mb-5">
+                {item.scene}
+              </h3>
+              <div className="space-y-3">
+                <div>
+                  <span className="text-[10px] font-bold tracking-[1.5px] uppercase text-[var(--wh)]/40 block mb-1">
+                    Antes
+                  </span>
+                  <p className="text-[13px] opacity-65 leading-[1.55]">{item.before}</p>
+                </div>
+                <div className="pt-3 border-t border-white/[.06]">
+                  <span className="text-[10px] font-bold tracking-[1.5px] uppercase text-[var(--champan)] block mb-1">
+                    Después
+                  </span>
+                  <p className="text-[13px] opacity-90 leading-[1.55]">{item.after}</p>
+                </div>
+              </div>
+            </article>
           ))}
         </div>
       </div>
@@ -607,7 +817,7 @@ function NegocioSection({ texts }: { texts: LandingTexts["negocio"] }) {
 }
 
 /* ═══════════════════════════════════════════════════════
-   8. COACHES DENTRO DEL LAB
+   10. COACHES DENTRO DEL LAB
    ═══════════════════════════════════════════════════════ */
 function CoachesDentroSection({ texts }: { texts: LandingTexts["coachesDentro"] }) {
   const { ref, visible } = useReveal(0.1);
@@ -646,7 +856,7 @@ function CoachesDentroSection({ texts }: { texts: LandingTexts["coachesDentro"] 
 }
 
 /* ═══════════════════════════════════════════════════════
-   9. NO ES PARA TI SI...
+   11. NO ES PARA TI SI...
    ═══════════════════════════════════════════════════════ */
 function NoEsParaTiSection({ texts }: { texts: LandingTexts["noEsParaTi"] }) {
   const { ref: headerRef, visible: headerVisible } = useReveal(0.1);
@@ -706,7 +916,7 @@ function NoEsParaTiSection({ texts }: { texts: LandingTexts["noEsParaTi"] }) {
 }
 
 /* ═══════════════════════════════════════════════════════
-   10. FAQ
+   12. FAQ
    ═══════════════════════════════════════════════════════ */
 function FaqSection({ texts }: { texts: LandingTexts["faq"] }) {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
@@ -782,7 +992,7 @@ function FaqSection({ texts }: { texts: LandingTexts["faq"] }) {
 }
 
 /* ═══════════════════════════════════════════════════════
-   11. CTA FINAL
+   13. CTA FINAL
    ═══════════════════════════════════════════════════════ */
 function CtaFinalSection({ texts }: { texts: LandingTexts["ctaFinal"] }) {
   const { ref, visible } = useReveal(0.1);
@@ -840,7 +1050,7 @@ function CtaFinalSection({ texts }: { texts: LandingTexts["ctaFinal"] }) {
 }
 
 /* ═══════════════════════════════════════════════════════
-   PÁGINA — orden Growth Hacker
+   PÁGINA — orden de 13 bloques
    ═══════════════════════════════════════════════════════ */
 export default function LabCoachPage() {
   const { t } = useI18n();
@@ -851,8 +1061,10 @@ export default function LabCoachPage() {
     <div className="font-sans w-full bg-[var(--bk)] text-[var(--wh)]">
       <Navbar />
       <HeroSection texts={tl.hero} />
+      <SiEstoTeSuenaSection texts={tl.siEstoTeSuena} />
       <HermanosSection texts={tl.hermanos} />
-      <PosicionamientoSection texts={tl.posicionamiento} />
+      <PorQueTeSirveSection texts={tl.porQueTeSirve} />
+      <MetodoSection texts={tl.metodo} />
       <CaminoBlock
         steps={CAMINO_STEPS}
         texts={{

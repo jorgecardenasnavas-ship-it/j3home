@@ -15,16 +15,28 @@ export const LAB_COACH_ES = {
   coach: {
     landing: {
       hero: {
-        eyebrow: "Después de la FIP",
-        headingPre: "La FIP te habilita.",
-        headingAccent: "J3 te hace bueno.",
-        sub: "Programa formativo para coaches con oficio. Una rúbrica clara y un examen humano que de verdad te mira entrenar. Diseñado en pista, no en aula.",
-        ctaPrimary: "Empezar por 19€/mes",
-        ctaSecondary: "Ver el método",
+        eyebrow: "Para coaches con oficio",
+        headingPre: "Llevas años entrenando bien.",
+        headingAccent: "Aquí lo escribes.",
+        sub: "Tu método existe en pista. Le falta criterio, método y orden — escritos. Una buena sesión no garantiza progreso. Lo garantiza la continuidad.",
+        ctaPrimary: "Empezar el Plan Coach · 19€/mes",
+        ctaSecondary: "Ver el método antes de decidir",
         chips: [
-          "Málaga · desde 2004",
+          "22 años en pista",
           "82 coaches en el Lab",
         ],
+      },
+
+      siEstoTeSuena: {
+        eyebrow: "Antes de seguir",
+        heading: "Tres preguntas que un coach con oficio se contesta solo.",
+        sub: "No hay respuestas correctas. Hay respuestas honestas. Léelas en voz baja.",
+        items: [
+          "Cuando un padre te pregunta qué va a aprender su hijo este trimestre, improvisas algo que suena bien y luego lo cumples sobre la marcha.",
+          "Tienes cien ejercicios guardados en redes, pero no sabes cuándo aplicar cuál con el alumno que tienes delante.",
+          "El monitor del club de al lado cobra lo mismo que tú y los padres no notan la diferencia.",
+        ],
+        closer: "Si las tres te incomodan un poco, J3 Lab Coach es para ti.",
       },
 
       hermanos: {
@@ -52,11 +64,49 @@ export const LAB_COACH_ES = {
         ],
       },
 
-      posicionamiento: {
-        eyebrow: "Por qué ahora",
-        claim: "El sello que no se compra.",
-        body: "Desde 2026, la FIP exige licencia obligatoria para competir profesionalmente. La titulación oficial vuelve a importar. Y al mismo tiempo, la FEP y ANTEP advirtieron en 2024 sobre la proliferación de diplomas que no acreditan nada. El terreno está revuelto.",
-        body2: "J3 Lab Coach no quiere otro sello pagado. Trabaja después de la FIP, junto a la FIP. Lo que añade es lo que un PDF no puede dar: una rúbrica explícita, una mirada experimentada sobre tu manera de entrenar y un examen que un humano firma. La insignia Verificado J3 no se vende. Se gana, gratis, por mérito demostrado.",
+      porQueTeSirve: {
+        eyebrow: "Lectura para escépticos",
+        heading: "Esto no es para empezar. Es para poner por escrito lo que ya haces — o aprender bien lo que aún no.",
+        sub: "Tres aclaraciones para que sepas exactamente qué compras y qué no.",
+        items: [
+          {
+            highlight: "Ruta 1 no te enseña a entrenar.",
+            body: "Te da el criterio, método y orden para decidir qué ejercicio aplicar con el alumno que tienes delante. Si llevas años, te lo escribes. Si empiezas, lo aprendes bien hecho.",
+          },
+          {
+            highlight: "Ruta 2 no es teoría aislada.",
+            body: "Te desbloquea los fundamentos técnicos y, sobre todo, tácticos del pádel moderno en micro. No solo cómo juegan los profesionales — también cómo lo aplica un amateur cuando tiene un coach que lo entiende.",
+          },
+          {
+            highlight: "El examen no es un test de conocimientos.",
+            body: "Son dos vídeos de tus sesiones reales, una auditoría escrita en siete días y una llamada de 45-60 minutos con alguien con palmarés. O firma. O no firma.",
+          },
+        ],
+      },
+
+      metodo: {
+        eyebrow: "El método",
+        heading: "Criterio · Método · Planificación.",
+        sub: "Tres ejes que separan al coach con criterio del improvisador con buena memoria. Son el corazón de la Ruta 1.",
+        cards: [
+          {
+            title: "Criterio",
+            subtitle: "Saber qué entrenar y qué no, según el momento.",
+            body: "Tres herramientas: lectura del jugador, priorización del foco, intervención. Es la diferencia entre repetir un ejercicio porque lo hiciste el lunes y elegirlo porque hoy le toca.",
+          },
+          {
+            title: "Método",
+            subtitle: "Darle lógica a la sesión y a la semana.",
+            body: "Tres decisiones: dónde presentas el problema, dónde lo trabajas, dónde compruebas si aparece. Y un criterio de salida del foco — cuándo puedes darlo por suficientemente trabajado.",
+          },
+          {
+            title: "Planificación",
+            subtitle: "Conectar lo de hoy con lo que quieres que pase mañana.",
+            body: "Repite · Ajusta · Avanza. Roadmap del jugador, no calendario rígido. Si el alumno no ha asimilado el concepto, no lo abandonas porque el papel diga que este mes toca otra cosa.",
+          },
+        ],
+        closer: "Una buena sesión no garantiza progreso. Lo garantiza la continuidad.",
+        humbleNote: "Llevamos 22 años entrenando. Hace dos descubrimos que el concepto de \"planificación\" lo teníamos mal definido. Por eso existe la Ruta 1.",
       },
 
       camino: {
@@ -180,13 +230,30 @@ export const LAB_COACH_ES = {
       },
 
       negocio: {
-        eyebrow: "Qué cambia en tu negocio",
-        heading: "Cuando tu criterio se vuelve legible, tu tarifa deja de discutirse.",
-        sub: "Tres observaciones del oficio que vemos repetirse en coaches con rúbrica explícita.",
+        eyebrow: "Cambio visible",
+        heading: "Lo que un padre, un director y tu cuenta a fin de mes notáis a los tres meses.",
+        sub: "Cuatro escenas concretas. Antes y después. Sin promesas de carrera.",
         items: [
-          "Un padre que entiende qué va a aprender su hijo este trimestre no negocia el precio de la hora. Negocia el calendario.",
-          "Un coach con rúbrica retiene grupo. La rotación cae cuando el progreso es visible y nombrable, no solo intuido.",
-          "Una insignia ganada por mérito abre conversaciones que un diploma comprado no abre. Con clubes, con federaciones y con padres informados.",
+          {
+            scene: "Reunión trimestral con un padre.",
+            before: "Improvisas qué va a trabajar su hija este trimestre y rezas para que suene a plan.",
+            after: "Abres un documento con la ruta del trimestre, los criterios de evaluación y el siguiente escalón. La conversación dura la mitad y termina con un sí.",
+          },
+          {
+            scene: "Te llaman del club de al lado por una sustitución.",
+            before: "Cobras lo mismo que el monitor que entró en septiembre y los padres no notan la diferencia.",
+            after: "Tu sello Cualificado J3 está en tu firma, en el panel del club y en tu perfil. La diferencia se nota antes de pisar la pista.",
+          },
+          {
+            scene: "Director deportivo te pide tu metodología.",
+            before: "Dices que la tienes \"en la cabeza\" y prometes pasársela esta semana.",
+            after: "La envías esa misma tarde, escrita, con su rúbrica y su rastro de evidencia. Y la firma lleva tu nombre.",
+          },
+          {
+            scene: "Tu cuenta a fin de mes.",
+            before: "Miras el precio/hora y lo comparas con lo que cobra el coach del club de al lado.",
+            after: "Miras la facturación total — retención de grupos, frecuencia de clases, paquetes de varias semanas. Pasas de calcular tu salario a diseñar tu negocio.",
+          },
         ],
       },
 
