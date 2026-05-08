@@ -904,4 +904,299 @@ export interface Dictionary {
       readonly waMsg: string;
     };
   };
+
+  /* ── J3 Lab Coach — landing + pricing ── */
+  lab: {
+    coach: {
+      landing: {
+        readonly hero: {
+          readonly eyebrow: string;
+          readonly headingPre: string;
+          readonly headingAccent: string;
+          readonly sub: string;
+          readonly ctaPrimary: string;
+          readonly ctaSecondary: string;
+          readonly chips: readonly string[];
+        };
+        readonly hermanos: {
+          readonly eyebrow: string;
+          readonly heading: string;
+          readonly sub: string;
+          readonly members: readonly {
+            readonly name: string;
+            readonly role: string;
+            readonly quote: string;
+            readonly palmares: string;
+          }[];
+          readonly chips: readonly string[];
+        };
+        readonly posicionamiento: {
+          readonly eyebrow: string;
+          readonly claim: string;
+          readonly body: string;
+          readonly body2: string;
+        };
+        readonly camino: {
+          readonly eyebrow: string;
+          readonly heading: string;
+          readonly sub: string;
+        };
+        readonly inversion: {
+          readonly eyebrow: string;
+          readonly heading: string;
+          readonly sub: string;
+          readonly plans: readonly {
+            readonly name: string;
+            readonly price: string;
+            readonly desc: string;
+            readonly total: string;
+            readonly note: string | null;
+            readonly badge: string | null;
+          }[];
+          readonly mentor: {
+            readonly title: string;
+            readonly sub: string;
+            readonly tiers: readonly {
+              readonly name: string;
+              readonly duration: string;
+              readonly price: string;
+            }[];
+            readonly clause: string;
+          };
+          readonly verificado: {
+            readonly title: string;
+            readonly body: string;
+          };
+          readonly smallPrint: string;
+        };
+        readonly queHayDentro: {
+          readonly eyebrow: string;
+          readonly heading: string;
+          readonly sub: string;
+          readonly cards: readonly {
+            readonly badge: string;
+            readonly title: string;
+            readonly subtitle: string;
+            readonly body: string;
+            readonly entregables: readonly string[];
+          }[];
+          readonly desbloqueoNote: string;
+          readonly comparativa: {
+            readonly title: string;
+            readonly sub: string;
+            readonly colCoach: string;
+            readonly colCoachPro: string;
+            readonly rows: readonly {
+              readonly feature: string;
+              readonly coach: string;
+              readonly coachPro: string;
+            }[];
+          };
+        };
+        readonly negocio: {
+          readonly eyebrow: string;
+          readonly heading: string;
+          readonly sub: string;
+          readonly items: readonly string[];
+        };
+        readonly coachesDentro: {
+          readonly eyebrow: string;
+          readonly heading: string;
+          readonly sub: string;
+          readonly ctaLabel: string;
+        };
+        readonly noEsParaTi: {
+          readonly eyebrow: string;
+          readonly heading: string;
+          readonly sub: string;
+          readonly items: readonly string[];
+        };
+        readonly faq: {
+          readonly eyebrow: string;
+          readonly heading: string;
+          readonly items: readonly { readonly q: string; readonly a: string }[];
+        };
+        readonly ctaFinal: {
+          readonly eyebrow: string;
+          readonly headingPre: string;
+          readonly headingAccent: string;
+          readonly sub: string;
+          readonly ctaPrimary: string;
+          readonly ctaSecondary: string;
+        };
+      };
+
+      pricing: {
+        readonly hero: {
+          readonly eyebrow: string;
+          readonly headingPre: string;
+          readonly headingAccent: string;
+          readonly sub: string;
+        };
+
+        readonly camino: {
+          readonly eyebrow: string;
+          readonly heading: string;
+          readonly sub: string;
+          readonly grados: {
+            readonly assistantCoach: string;
+            readonly coach: string;
+            readonly headCoach: string;
+          };
+          readonly insignias: {
+            readonly cualificado: string;
+            readonly certificado: string;
+            readonly verificado: string;
+          };
+          readonly unlocks: {
+            readonly planCoach: string;
+            readonly planCoachPro: string;
+            readonly examen: string;
+            readonly merito: string;
+          };
+          /** Hitos por paso (num del CaminoStep). Necesarios 4 textos: 01, 02, 03, 04. */
+          readonly hitos: {
+            readonly "01": string;
+            readonly "02": string;
+            readonly "03": string;
+            readonly "04": string;
+          };
+        };
+
+        readonly duraciones: {
+          readonly "30d": string;
+          readonly "90d": string;
+          readonly "12m": string;
+        };
+
+        readonly suscripciones: {
+          readonly eyebrow: string;
+          readonly heading: string;
+          readonly sub: string;
+          readonly billingToggle: {
+            readonly monthly: string;
+            readonly yearly: string;
+            readonly saveLabel: string;
+          };
+          readonly coachBase: {
+            readonly name: string;
+            readonly tagline: string;
+            readonly description: string;
+            readonly features: readonly string[];
+            readonly cta: string;
+          };
+          readonly coachPro: {
+            readonly badge: string;
+            readonly name: string;
+            readonly tagline: string;
+            readonly description: string;
+            readonly features: readonly string[];
+            readonly cta: string;
+          };
+        };
+
+        readonly examen: {
+          readonly eyebrow: string;
+          readonly heading: string;
+          readonly sub: string;
+          readonly plan: {
+            readonly name: string;
+            readonly tagline: string;
+            readonly description: string;
+            readonly priceNote: string;
+            readonly features: readonly string[];
+            readonly cta: string;
+          };
+        };
+
+        readonly mentor: {
+          readonly eyebrow: string;
+          readonly heading: string;
+          readonly sub: string;
+          readonly founderBanner: string;
+          readonly priceLabels: {
+            readonly public: string;
+            readonly founder: string;
+          };
+          readonly sprint: {
+            readonly name: string;
+            readonly tagline: string;
+            readonly description: string;
+            readonly features: readonly string[];
+            readonly cta: string;
+          };
+          readonly acompanamiento: {
+            readonly name: string;
+            readonly tagline: string;
+            readonly description: string;
+            readonly features: readonly string[];
+            readonly cta: string;
+          };
+          readonly programa: {
+            readonly name: string;
+            readonly tagline: string;
+            readonly description: string;
+            readonly features: readonly string[];
+            readonly cta: string;
+          };
+        };
+
+        readonly sesionCero: {
+          readonly eyebrow: string;
+          readonly heading: string;
+          readonly sub: string;
+          readonly plan: {
+            readonly name: string;
+            readonly tagline: string;
+            readonly description: string;
+            readonly priceNote: string;
+            readonly features: readonly string[];
+            readonly cta: string;
+          };
+        };
+
+        readonly verificacion: {
+          readonly eyebrow: string;
+          readonly heading: string;
+          readonly sub: string;
+          readonly plan: {
+            readonly name: string;
+            readonly tagline: string;
+            readonly description: string;
+            readonly meritNote: string;
+            readonly features: readonly string[];
+            readonly cta: string;
+          };
+        };
+
+        readonly firstYearMath: {
+          readonly eyebrow: string;
+          readonly heading: string;
+          readonly sub: string;
+          readonly rows: {
+            readonly base: string;
+            readonly pro: string;
+            readonly proExamen: string;
+            readonly proExamenSprint: string;
+            readonly proExamenProg: string;
+          };
+          readonly note: string;
+        };
+
+        readonly faq: {
+          readonly eyebrow: string;
+          readonly heading: string;
+          readonly items: readonly { readonly q: string; readonly a: string }[];
+        };
+
+        readonly ctaFinal: {
+          readonly eyebrow: string;
+          readonly heading: string;
+          readonly sub: string;
+          readonly ctaPrimary: string;
+          readonly ctaSecondary: string;
+        };
+      };
+    };
+  };
 }

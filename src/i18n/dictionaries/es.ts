@@ -1,4 +1,5 @@
 import type { Dictionary } from "./types";
+import { LAB_COACH_ES } from "./_lab-coach-pricing-es";
 
 export const es = {
   /* ── Shared components ── */
@@ -1356,4 +1357,9 @@ export const es = {
       waMsg: "Hola, quiero reservar una call de 20 min para hablar de mi academia (J3Padel Business)",
     },
   },
+
+  /* \u2500\u2500 J3 Lab Coach \u2014 pricing page (/lab/coach/precios). Copy compartido con
+     en/fr/pt/sv hasta que cada locale tenga su traducci\u00F3n real. \u2500\u2500 */
+  lab: LAB_COACH_ES,
+
 } as const satisfies Dictionary;

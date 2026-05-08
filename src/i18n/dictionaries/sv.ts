@@ -1,4 +1,5 @@
 import type { Dictionary } from "./types";
+import { LAB_COACH_ES } from "./_lab-coach-pricing-es";
 
 export const sv = {
   /* ── Shared components ── */
@@ -1363,4 +1364,6 @@ export const sv = {
       waMsg: "Hej, jag vill boka ett 20-min samtal om min padelakademi (J3Padel Business)",
     },
   },
+  // J3 Lab Coach pricing — TODO: översätt till SV. Använder ES-copy som fallback.
+  lab: LAB_COACH_ES,
 } as const satisfies Dictionary;

@@ -15,6 +15,7 @@ const leftLinks = [
 ] as const;
 
 const rightLinks = [
+  { label: "Lab", href: "/lab/coach", external: false },
   { label: "Business", href: "/business", external: false },
   { label: "Story", href: "/story", external: false },
 ] as const;
