@@ -260,7 +260,7 @@ export const LAB_COACH_ES = {
             title: "Estás cerca de empezar a experimentar.",
             subtitle: "El laboratorio te espera.",
             body: [
-              "Cada lunes vas a pista con un plan, no con cien ejercicios. Cada decisión tiene un porqué.",
+              "Cada semana vas a pista con un plan, no con cien ejercicios. Cada decisión tiene un porqué.",
               "Para que tu intención en pista sea legible — para un padre, para un director deportivo y para ti mismo dentro de tres años.",
             ],
             stats: {
