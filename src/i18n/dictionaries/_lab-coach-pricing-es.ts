@@ -274,21 +274,10 @@ export const LAB_COACH_ES = {
                 items: [
                   "Ruta 1 completa, desbloqueada",
                   "Lote semanal de contenido complementario con condición de consumo",
-                  "Un directo pasado curado por semana, rotando temáticas del programa",
-                  "Algunos recursos descargables seleccionados",
-                ],
-              },
-              {
-                label: "Recompensa al completar",
-                items: [
-                  "Sello Assistant Coach",
+                  "Recursos descargables",
                 ],
               },
             ],
-            nextTier: {
-              label: "Próximo tier",
-              text: "Plan Pro · al completar la Ruta 1",
-            },
             pricing: {
               monthly: {
                 label: "Mensual",

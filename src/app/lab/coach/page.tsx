@@ -26,10 +26,11 @@ import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { CaminoBlock } from "@/components/CaminoBlock";
+import { EspejoQuiz } from "@/components/EspejoQuiz";
 import { useReveal, useStaggerReveal } from "@/hooks/useReveal";
 import { useI18n } from "@/i18n/context";
 import { cn } from "@/lib/utils";
-import { CAMINO_STEPS } from "@/data/lab-coach-pricing";
+import { CAMINO_STEPS, CAMINO_DESTINOS } from "@/data/lab-coach-pricing";
 
 const SESION_CERO_HREF = "/lab/coach/precios#sesion-cero";
 const COACH_CHECKOUT = "https://j3padel.com/join";
@@ -79,7 +80,7 @@ function HeroSection({ texts }: { texts: LandingTexts["hero"] }) {
         <p className="text-[clamp(15px,1.6vw,19px)] leading-[1.55] opacity-80 max-w-[680px] font-light mb-10">
           {texts.sub}
         </p>
-        <div className="flex gap-4 max-[640px]:flex-col max-[640px]:items-stretch mb-10">
+        <div className="flex gap-4 max-[640px]:flex-col max-[640px]:items-stretch">
           <a
             href={COACH_CHECKOUT}
             className="inline-flex items-center justify-center min-h-[48px] px-7 py-3 text-[12px] font-bold tracking-[1.8px] uppercase rounded-[2px] bg-[var(--champan)] text-[var(--negro-v)] border border-[var(--champan)] hover:bg-[var(--g2)] hover:border-[var(--g2)] transition-all duration-300"
@@ -93,234 +94,18 @@ function HeroSection({ texts }: { texts: LandingTexts["hero"] }) {
             {texts.ctaSecondary}
           </a>
         </div>
-        <div className="flex flex-wrap gap-3">
-          {texts.chips.map((chip) => (
-            <span
-              key={chip}
-              className="inline-flex items-center px-3 py-1 rounded-[2px] text-[10px] font-bold tracking-[2px] uppercase border border-white/[.12] bg-white/[0.02] text-[var(--wh)]/70"
-            >
-              {chip}
-            </span>
-          ))}
-        </div>
       </div>
     </section>
   );
 }
 
 /* ═══════════════════════════════════════════════════════
-   2. SI ESTO TE SUENA
+   2. EL ESPEJO · MODO CARRERA · DIAGNÓSTICO DE CRITERIO
+   (Bloque interactivo — el componente vive en /components/EspejoQuiz)
    ═══════════════════════════════════════════════════════ */
-function SiEstoTeSuenaSection({ texts }: { texts: LandingTexts["siEstoTeSuena"] }) {
-  const { ref: headerRef, visible: headerVisible } = useReveal(0.1);
-  const { itemRefs, visibleItems } = useStaggerReveal(texts.items.length, 0.15);
-  const closerReveal = useReveal(0.1);
-
-  return (
-    <section
-      className="relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-t border-white/[.06]"
-      style={{ background: "var(--bk)" }}
-    >
-      <div className="relative max-w-[920px] mx-auto">
-        <div
-          ref={headerRef}
-          className="text-center mb-12 max-[960px]:mb-10"
-          style={{
-            opacity: headerVisible ? 1 : 0,
-            transform: headerVisible ? "none" : "translateY(20px)",
-            transition: "all 1s cubic-bezier(.16,1,.3,1)",
-          }}
-        >
-          <div className="text-[11px] tracking-[3px] uppercase text-[var(--champan)] mb-4 font-bold">
-            {texts.eyebrow}
-          </div>
-          <h2 className="font-bold text-[clamp(28px,3.8vw,44px)] tracking-[-1px] leading-[1.15] mb-4">
-            {texts.heading}
-          </h2>
-          <p className="text-[14px] opacity-65 max-w-[560px] mx-auto leading-[1.55] italic">
-            {texts.sub}
-          </p>
-        </div>
-
-        <ul className="space-y-4 mb-10">
-          {texts.items.map((item, i) => (
-            <li
-              key={item}
-              ref={(el) => { itemRefs.current[i] = el as HTMLDivElement | null; }}
-              className="relative p-6 max-[960px]:p-5 rounded-[2px] border border-white/[.10] bg-white/[0.012]"
-              style={{
-                opacity: visibleItems[i] ? 1 : 0,
-                transform: visibleItems[i] ? "none" : "translateY(15px)",
-                transition: `all 0.8s cubic-bezier(.16,1,.3,1) ${i * 0.1}s`,
-              }}
-            >
-              <p className="text-[clamp(15px,1.5vw,18px)] leading-[1.55] opacity-90 italic font-[var(--font-serif)]">
-                &ldquo;{item}&rdquo;
-              </p>
-            </li>
-          ))}
-        </ul>
-
-        <div
-          ref={closerReveal.ref}
-          className="text-center"
-          style={{
-            opacity: closerReveal.visible ? 1 : 0,
-            transform: closerReveal.visible ? "none" : "translateY(15px)",
-            transition: "all 0.9s cubic-bezier(.16,1,.3,1)",
-          }}
-        >
-          <p className="text-[clamp(15px,1.6vw,18px)] font-bold leading-[1.5] text-[var(--champan)]">
-            {texts.closer}
-          </p>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 /* ═══════════════════════════════════════════════════════
-   3. QUIÉNES FIRMAN ESTO
-   ═══════════════════════════════════════════════════════ */
-function HermanosSection({ texts }: { texts: LandingTexts["hermanos"] }) {
-  const { ref: headerRef, visible: headerVisible } = useReveal(0.1);
-  const { itemRefs, visibleItems } = useStaggerReveal(texts.members.length, 0.15);
-  const chipRefs = useStaggerReveal(texts.chips.length, 0.2);
-
-  return (
-    <section
-      className="relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-t border-white/[.06]"
-      style={{ background: "var(--bk)" }}
-    >
-      <div className="relative max-w-[1200px] mx-auto">
-        <div
-          ref={headerRef}
-          className="text-center mb-12 max-[960px]:mb-10"
-          style={{
-            opacity: headerVisible ? 1 : 0,
-            transform: headerVisible ? "none" : "translateY(20px)",
-            transition: "all 1s cubic-bezier(.16,1,.3,1)",
-          }}
-        >
-          <div className="text-[11px] tracking-[3px] uppercase text-[var(--champan)] mb-4 font-bold">
-            {texts.eyebrow}
-          </div>
-          <h2 className="font-bold text-[clamp(28px,4vw,48px)] uppercase tracking-[-1px] leading-[1.1] mb-4 max-w-[880px] mx-auto">
-            {texts.heading}
-          </h2>
-          <p className="text-[14px] opacity-70 max-w-[560px] mx-auto leading-[1.55]">
-            {texts.sub}
-          </p>
-        </div>
-
-        <div className="grid grid-cols-2 max-[960px]:grid-cols-1 gap-5 mb-10">
-          {texts.members.map((m, i) => (
-            <article
-              key={m.name}
-              ref={(el) => { itemRefs.current[i] = el as HTMLDivElement | null; }}
-              className="relative flex flex-col p-7 max-[960px]:p-6 rounded-[2px] border border-white/[.10] hover:border-[var(--champan)]/35 bg-white/[0.012] transition-colors duration-500"
-              style={{
-                opacity: visibleItems[i] ? 1 : 0,
-                transform: visibleItems[i] ? "none" : "translateY(20px)",
-                transition: `all 0.9s cubic-bezier(.16,1,.3,1) ${i * 0.12}s`,
-              }}
-            >
-              <h3 className="font-bold text-[24px] tracking-[-0.5px] leading-[1.1] mb-2">
-                {m.name}
-              </h3>
-              <p className="text-[12px] tracking-[1.5px] uppercase text-[var(--champan)] font-bold mb-5">
-                {m.role}
-              </p>
-              <p className="italic font-[var(--font-serif)] text-[clamp(18px,1.8vw,22px)] leading-[1.4] text-[var(--champan)] mb-5">
-                &ldquo;{m.quote}&rdquo;
-              </p>
-              <p className="text-[13px] opacity-75 leading-[1.55]">
-                {m.palmares}
-              </p>
-            </article>
-          ))}
-        </div>
-
-        <div className="grid grid-cols-3 max-[960px]:grid-cols-1 gap-4">
-          {texts.chips.map((chip, i) => (
-            <div
-              key={chip}
-              ref={(el) => { chipRefs.itemRefs.current[i] = el as HTMLDivElement | null; }}
-              className="flex items-center justify-center p-5 rounded-[2px] border border-[var(--champan)]/30 bg-[rgba(201,169,110,0.04)]"
-              style={{
-                opacity: chipRefs.visibleItems[i] ? 1 : 0,
-                transform: chipRefs.visibleItems[i] ? "none" : "translateY(15px)",
-                transition: `all 0.8s cubic-bezier(.16,1,.3,1) ${i * 0.1}s`,
-              }}
-            >
-              <span className="text-[12px] max-[640px]:text-[11.5px] font-bold tracking-[1px] uppercase text-[var(--champan)] text-center leading-[1.4]">
-                {chip}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════
-   4. POR QUÉ TE SIRVE
-   ═══════════════════════════════════════════════════════ */
-function PorQueTeSirveSection({ texts }: { texts: LandingTexts["porQueTeSirve"] }) {
-  const { ref: headerRef, visible: headerVisible } = useReveal(0.1);
-  const { itemRefs, visibleItems } = useStaggerReveal(texts.items.length, 0.15);
-
-  return (
-    <section
-      className="relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-t border-white/[.06]"
-      style={{ background: "var(--bk)" }}
-    >
-      <div className="relative max-w-[920px] mx-auto">
-        <div
-          ref={headerRef}
-          className="mb-12 max-[960px]:mb-10"
-          style={{
-            opacity: headerVisible ? 1 : 0,
-            transform: headerVisible ? "none" : "translateY(20px)",
-            transition: "all 1s cubic-bezier(.16,1,.3,1)",
-          }}
-        >
-          <div className="text-[11px] tracking-[3px] uppercase text-[var(--champan)] mb-4 font-bold">
-            {texts.eyebrow}
-          </div>
-          <h2 className="font-bold text-[clamp(26px,3.4vw,40px)] tracking-[-0.8px] leading-[1.2] mb-4 max-w-[840px]">
-            {texts.heading}
-          </h2>
-          <p className="text-[14px] opacity-70 leading-[1.55]">{texts.sub}</p>
-        </div>
-
-        <ul className="space-y-5">
-          {texts.items.map((item, i) => (
-            <li
-              key={item.highlight}
-              ref={(el) => { itemRefs.current[i] = el as HTMLDivElement | null; }}
-              className="relative p-6 max-[960px]:p-5 rounded-[2px] border border-white/[.10] bg-white/[0.012]"
-              style={{
-                opacity: visibleItems[i] ? 1 : 0,
-                transform: visibleItems[i] ? "none" : "translateX(-15px)",
-                transition: `all 0.8s cubic-bezier(.16,1,.3,1) ${i * 0.12}s`,
-              }}
-            >
-              <p className="text-[clamp(14px,1.4vw,16px)] leading-[1.65] opacity-90">
-                <strong className="text-[var(--champan)] font-bold">{item.highlight}</strong>{" "}
-                {item.body}
-              </p>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════
-   5. EL MÉTODO
+   3. EL MÉTODO
    ═══════════════════════════════════════════════════════ */
 function MetodoSection({ texts }: { texts: LandingTexts["metodo"] }) {
   const { ref: headerRef, visible: headerVisible } = useReveal(0.1);
@@ -376,7 +161,23 @@ function MetodoSection({ texts }: { texts: LandingTexts["metodo"] }) {
               <p className="italic font-[var(--font-serif)] text-[15px] leading-[1.4] text-[var(--champan)] mb-5">
                 {card.subtitle}
               </p>
-              <p className="text-[13px] opacity-80 leading-[1.6]">{card.body}</p>
+              <ul className="space-y-2 mb-5">
+                {card.items.map((item) => (
+                  <li
+                    key={item}
+                    className="flex items-start gap-2.5 text-[13px] leading-[1.45] opacity-90"
+                  >
+                    <span
+                      aria-hidden
+                      className="mt-[7px] w-[3px] h-[3px] rounded-full bg-[var(--champan)] flex-shrink-0"
+                    />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="text-[12.5px] italic opacity-65 leading-[1.55] pt-3 border-t border-white/[.08]">
+                {card.closer}
+              </p>
             </article>
           ))}
         </div>
@@ -428,9 +229,7 @@ function MetodoSection({ texts }: { texts: LandingTexts["metodo"] }) {
    ═══════════════════════════════════════════════════════ */
 function InversionSection({ texts }: { texts: LandingTexts["inversion"] }) {
   const { ref: headerRef, visible: headerVisible } = useReveal(0.1);
-  const { itemRefs, visibleItems } = useStaggerReveal(texts.plans.length, 0.15);
-  const mentorReveal = useReveal(0.1);
-  const verifReveal = useReveal(0.1);
+  const ctaReveal = useReveal(0.1);
 
   return (
     <section
@@ -453,151 +252,82 @@ function InversionSection({ texts }: { texts: LandingTexts["inversion"] }) {
           <h2 className="font-bold text-[clamp(28px,3.8vw,44px)] tracking-[-1px] leading-[1.15] mb-4 max-w-[880px] mx-auto">
             {texts.heading}
           </h2>
-          <p className="text-[14px] max-[640px]:text-[13px] opacity-70 max-w-[640px] mx-auto leading-[1.55]">
+          <p className="text-[14px] max-[640px]:text-[13px] opacity-70 max-w-[760px] mx-auto leading-[1.6]">
             {texts.sub}
           </p>
         </div>
 
-        <div className="grid grid-cols-3 max-[960px]:grid-cols-1 gap-5 mb-12">
-          {texts.plans.map((plan, i) => {
-            const highlighted = !!plan.badge;
-            return (
-              <article
-                key={plan.name}
-                ref={(el) => { itemRefs.current[i] = el as HTMLDivElement | null; }}
-                className={cn(
-                  "relative flex flex-col p-6 max-[960px]:p-5 rounded-[2px] border transition-colors duration-500",
-                  highlighted
-                    ? "border-[var(--champan)]/55 bg-[rgba(201,169,110,0.04)]"
-                    : "border-white/[.10] bg-white/[0.012]",
-                )}
-                style={{
-                  opacity: visibleItems[i] ? 1 : 0,
-                  transform: visibleItems[i] ? "none" : "translateY(20px)",
-                  transition: `all 0.9s cubic-bezier(.16,1,.3,1) ${i * 0.12}s`,
-                }}
-              >
-                {highlighted && (
-                  <span
-                    aria-hidden
-                    className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--champan)] to-transparent"
-                  />
-                )}
-                {plan.badge && (
-                  <div className="inline-flex items-center gap-2 self-start mb-4">
-                    <span aria-hidden className="w-[5px] h-[5px] rounded-full bg-[var(--champan)]" />
-                    <span className="text-[10px] font-bold tracking-[2px] uppercase text-[var(--champan)]">
-                      {plan.badge}
+        {/* CTA único — la puerta de entrada */}
+        <div
+          ref={ctaReveal.ref}
+          className="relative mb-12 max-[960px]:mb-10"
+          style={{
+            opacity: ctaReveal.visible ? 1 : 0,
+            transform: ctaReveal.visible ? "none" : "translateY(20px)",
+            transition: "all 1s cubic-bezier(.16,1,.3,1)",
+          }}
+        >
+          <div className="relative max-w-[820px] mx-auto p-10 max-[960px]:p-7 max-[640px]:p-5 rounded-[2px] border border-[var(--champan)]/55 bg-[rgba(201,169,110,0.04)] text-center overflow-hidden">
+            <span
+              aria-hidden
+              className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--champan)] to-transparent"
+            />
+
+            {/* Mini-timeline del Camino — modo carrera (bifurcación final solo en bloque "El Camino") */}
+            <div className="relative mb-9 max-[640px]:mb-7" aria-hidden>
+              {/* Línea conectora horizontal detrás de los puntos (solo desktop) */}
+              <div className="absolute top-[34px] left-[10%] right-[10%] h-px bg-[var(--champan)]/25 max-[640px]:hidden" />
+
+              <div className="relative grid grid-cols-4 max-[640px]:grid-cols-2 gap-2 max-[640px]:gap-y-5">
+                {[
+                  { grade: "Rookie", insignia: null, isStart: true },
+                  { grade: "Assistant Coach", insignia: null, isStart: false },
+                  { grade: "Coach", insignia: "cualificado", isStart: false },
+                  { grade: "Master Coach", insignia: "certificado", isStart: false },
+                ].map((hito) => (
+                  <div key={hito.grade} className="flex flex-col items-center text-center px-1 relative">
+                    {hito.isStart ? (
+                      <span className="text-[8.5px] font-bold tracking-[2px] uppercase text-[var(--champan)] mb-2 px-2 py-[2px] rounded-[2px] border border-[var(--champan)]/50 bg-[rgba(201,169,110,0.08)]">
+                        Empiezas aquí
+                      </span>
+                    ) : (
+                      <span className="text-[8.5px] mb-2 opacity-0">·</span>
+                    )}
+                    <span
+                      className={cn(
+                        "w-[14px] h-[14px] rounded-full border-2 border-[var(--champan)] mb-3 relative z-10",
+                        hito.isStart
+                          ? "bg-[var(--champan)] shadow-[0_0_0_4px_rgba(201,169,110,0.15)]"
+                          : "bg-[var(--bk)]",
+                      )}
+                    />
+                    <span
+                      className={cn(
+                        "text-[10px] max-[640px]:text-[10.5px] font-bold tracking-[1px] uppercase leading-[1.3]",
+                        hito.isStart ? "text-[var(--champan)]" : "text-[var(--wh)]/60",
+                      )}
+                    >
+                      {hito.grade}
                     </span>
+                    {hito.insignia && (
+                      <span className="mt-1 text-[9px] tracking-[0.5px] lowercase italic text-[var(--champan)]/65 leading-[1.2]">
+                        {hito.insignia}
+                      </span>
+                    )}
                   </div>
-                )}
-                <h3 className="font-bold text-[20px] tracking-[-0.3px] leading-[1.2] mb-2">
-                  {plan.name}
-                </h3>
-                <p className="font-bold text-[clamp(28px,3vw,36px)] tracking-[-1px] leading-[1] mb-2 text-[var(--champan)]">
-                  {plan.price}
-                </p>
-                <p className="text-[12.5px] opacity-70 leading-[1.5] mb-4">
-                  {plan.desc}
-                </p>
-                <div className="mt-auto pt-4 border-t border-white/[.08]">
-                  <p className="text-[10px] font-bold tracking-[1.5px] uppercase text-[var(--champan)] mb-2">
-                    {plan.total}
-                  </p>
-                  {plan.note && (
-                    <p className="text-[11px] opacity-65 leading-[1.5] italic">
-                      {plan.note}
-                    </p>
-                  )}
-                </div>
-              </article>
-            );
-          })}
-        </div>
+                ))}
+              </div>
+            </div>
 
-        {/* Mentor sub-bloque */}
-        <div
-          ref={mentorReveal.ref}
-          className="relative p-7 max-[960px]:p-5 rounded-[2px] border border-white/[.10] bg-white/[0.012] mb-6"
-          style={{
-            opacity: mentorReveal.visible ? 1 : 0,
-            transform: mentorReveal.visible ? "none" : "translateY(20px)",
-            transition: "all 0.9s cubic-bezier(.16,1,.3,1)",
-          }}
-        >
-          <div className="grid grid-cols-[1fr_2fr] max-[960px]:grid-cols-1 gap-8 max-[960px]:gap-5">
-            <div>
-              <h3 className="font-bold text-[22px] tracking-[-0.5px] leading-[1.2] mb-2">
-                {texts.mentor.title}
-              </h3>
-              <p className="text-[13px] opacity-70 leading-[1.55] mb-4">
-                {texts.mentor.sub}
-              </p>
-              <p className="text-[12px] font-bold leading-[1.5] text-[var(--champan)] italic">
-                {texts.mentor.clause}
-              </p>
-            </div>
-            <div className="grid grid-cols-3 max-[640px]:grid-cols-1 gap-3">
-              {texts.mentor.tiers.map((tier) => (
-                <div
-                  key={tier.name}
-                  className="flex flex-col p-4 rounded-[2px] border border-white/[.10] bg-[rgba(201,169,110,0.02)]"
-                >
-                  <span className="text-[10px] font-bold tracking-[1.5px] uppercase text-[var(--champan)] mb-2">
-                    {tier.name}
-                  </span>
-                  <span className="text-[11.5px] opacity-70 mb-3 leading-[1.4]">
-                    {tier.duration}
-                  </span>
-                  <span className="font-bold text-[20px] tracking-[-0.5px] mt-auto">
-                    {tier.price}
-                  </span>
-                </div>
-              ))}
-            </div>
+            <a
+              href={texts.cta.href}
+              className="inline-flex items-center justify-center min-h-[56px] px-9 py-4 text-[13px] font-bold tracking-[2px] uppercase rounded-[2px] bg-[var(--champan)] text-[var(--negro-v)] border border-[var(--champan)] hover:bg-[var(--g2)] hover:border-[var(--g2)] transition-all duration-300"
+            >
+              {texts.cta.label}
+            </a>
           </div>
         </div>
 
-        {/* Verificado sub-bloque */}
-        <div
-          ref={verifReveal.ref}
-          className="relative p-7 max-[960px]:p-5 rounded-[2px] border border-[rgba(83,74,183,0.5)] bg-[rgba(83,74,183,0.03)] mb-6"
-          style={{
-            opacity: verifReveal.visible ? 1 : 0,
-            transform: verifReveal.visible ? "none" : "translateY(20px)",
-            transition: "all 0.9s cubic-bezier(.16,1,.3,1) 0.15s",
-          }}
-        >
-          <span
-            aria-hidden
-            className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#534AB7] to-transparent"
-          />
-          <div className="grid grid-cols-[1fr_2fr] max-[960px]:grid-cols-1 gap-8 max-[960px]:gap-4 items-center">
-            <div className="flex items-center gap-3">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="#a89efc"
-                aria-hidden
-                className="flex-shrink-0"
-              >
-                <path d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.2-2.9-.81-3.91s-2.52-1.27-3.91-.81c-.66-1.31-1.91-2.19-3.34-2.19s-2.67.88-3.33 2.19c-1.4-.46-2.91-.2-3.92.81s-1.26 2.52-.8 3.91c-1.31.67-2.2 1.91-2.2 3.34s.89 2.67 2.2 3.34c-.46 1.39-.21 2.9.8 3.91s2.52 1.26 3.91.81c.67 1.31 1.91 2.19 3.34 2.19s2.68-.88 3.34-2.19c1.39.45 2.9.2 3.91-.81s1.27-2.52.81-3.91c1.31-.67 2.19-1.91 2.19-3.34zm-11.71 4.2L6.8 12.46l1.41-1.42 2.26 2.26 4.8-5.23 1.47 1.36-6.2 6.77z" />
-              </svg>
-              <h3 className="font-bold text-[22px] tracking-[-0.5px] leading-[1.2]">
-                {texts.verificado.title}
-              </h3>
-            </div>
-            <p className="text-[13px] opacity-80 leading-[1.6]">
-              {texts.verificado.body}
-            </p>
-          </div>
-        </div>
-
-        <p className="text-center text-[11px] opacity-55 tracking-[0.5px]">
-          {texts.smallPrint}
-        </p>
       </div>
     </section>
   );
@@ -609,7 +339,7 @@ function InversionSection({ texts }: { texts: LandingTexts["inversion"] }) {
 function QueHayDentroSection({ texts }: { texts: LandingTexts["queHayDentro"] }) {
   const { ref: headerRef, visible: headerVisible } = useReveal(0.1);
   const { itemRefs, visibleItems } = useStaggerReveal(texts.cards.length, 0.15);
-  const tableReveal = useReveal(0.1);
+  const [billing, setBilling] = useState<"monthly" | "yearly">("monthly");
 
   return (
     <section
@@ -637,103 +367,182 @@ function QueHayDentroSection({ texts }: { texts: LandingTexts["queHayDentro"] })
           </p>
         </div>
 
-        <div className="grid grid-cols-3 max-[960px]:grid-cols-1 gap-5 mb-10">
-          {texts.cards.map((card, i) => (
+        {/* Una sola card: el primer experimento (Plan Lab) */}
+        <div className="max-w-[720px] mx-auto">
+          {texts.cards.map((card, i) => {
+            const currentPricing = card.pricing[billing];
+            const ctaHref = billing === "monthly" ? card.cta.hrefMonthly : card.cta.hrefYearly;
+            return (
             <article
               key={card.title}
               ref={(el) => { itemRefs.current[i] = el as HTMLDivElement | null; }}
-              className="relative flex flex-col p-6 max-[960px]:p-5 rounded-[2px] border border-white/[.10] hover:border-[var(--champan)]/35 bg-white/[0.012] transition-colors duration-500"
+              className="relative flex flex-col p-8 max-[960px]:p-6 max-[640px]:p-5 rounded-[2px] border border-[var(--champan)]/55 bg-[rgba(201,169,110,0.04)]"
               style={{
                 opacity: visibleItems[i] ? 1 : 0,
                 transform: visibleItems[i] ? "none" : "translateY(20px)",
                 transition: `all 0.9s cubic-bezier(.16,1,.3,1) ${i * 0.12}s`,
               }}
             >
-              <div className="inline-flex items-center gap-2 self-start mb-4">
+              <span
+                aria-hidden
+                className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--champan)] to-transparent"
+              />
+              <span className="absolute -top-3 right-6 text-[9px] font-bold tracking-[2px] uppercase text-[var(--champan)] px-2 py-[3px] rounded-[2px] border border-[var(--champan)]/55 bg-[var(--bk)]">
+                Empieza aquí
+              </span>
+
+              <div className="inline-flex items-center gap-2 self-start mb-5">
                 <span aria-hidden className="w-[5px] h-[5px] rounded-full bg-[var(--champan)]" />
                 <span className="text-[10px] font-bold tracking-[2px] uppercase text-[var(--champan)]">
                   {card.badge}
                 </span>
               </div>
-              <h3 className="font-bold text-[19px] max-[960px]:text-[18px] tracking-[-0.3px] leading-[1.25] mb-2">
+
+              {/* Switch mensual/anual */}
+              <div
+                role="tablist"
+                aria-label="Modalidad de pago"
+                className="inline-flex self-start mb-4 rounded-[2px] border border-[var(--champan)]/35 bg-[rgba(201,169,110,0.04)] overflow-hidden"
+              >
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={billing === "monthly"}
+                  onClick={() => setBilling("monthly")}
+                  className={cn(
+                    "px-4 py-2 text-[10px] font-bold tracking-[1.5px] uppercase transition-colors duration-200 cursor-pointer",
+                    billing === "monthly"
+                      ? "bg-[var(--champan)] text-[var(--negro-v)]"
+                      : "text-[var(--wh)]/60 hover:text-[var(--wh)]/85",
+                  )}
+                >
+                  {card.pricing.monthly.label}
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={billing === "yearly"}
+                  onClick={() => setBilling("yearly")}
+                  className={cn(
+                    "px-4 py-2 text-[10px] font-bold tracking-[1.5px] uppercase transition-colors duration-200 cursor-pointer",
+                    billing === "yearly"
+                      ? "bg-[var(--champan)] text-[var(--negro-v)]"
+                      : "text-[var(--wh)]/60 hover:text-[var(--wh)]/85",
+                  )}
+                >
+                  {card.pricing.yearly.label}
+                </button>
+              </div>
+
+              {/* Precio dinámico */}
+              <div className="mb-6">
+                <div className="font-bold text-[clamp(28px,3.4vw,40px)] tracking-[-0.8px] leading-[1] text-[var(--champan)] mb-1.5">
+                  {currentPricing.price}
+                </div>
+                <div className="text-[12px] opacity-65 italic">
+                  {currentPricing.microcopy}
+                </div>
+              </div>
+
+              <h3 className="font-bold text-[clamp(20px,2.4vw,26px)] tracking-[-0.4px] leading-[1.2] mb-2">
                 {card.title}
               </h3>
-              <p className="text-[13px] opacity-65 italic leading-[1.45] mb-3">
+              <p className="text-[14px] max-[640px]:text-[13.5px] opacity-70 italic leading-[1.45] mb-5">
                 {card.subtitle}
               </p>
-              <p className="text-[12.5px] opacity-75 leading-[1.55] mb-5">
-                {card.body}
-              </p>
-              <ul className="mt-auto pt-4 border-t border-white/[.08] space-y-2">
-                {card.entregables.map((e) => (
-                  <li
-                    key={e}
-                    className="flex items-start gap-2.5 text-[12px] leading-[1.5] opacity-85"
+              <div className="space-y-4 mb-6">
+                {card.body.map((paragraph, j) => (
+                  <p
+                    key={j}
+                    className="text-[13.5px] max-[640px]:text-[13px] opacity-85 leading-[1.6]"
                   >
-                    <span
-                      aria-hidden
-                      className="mt-[7px] w-[3px] h-[3px] rounded-full bg-[var(--champan)] flex-shrink-0"
-                    />
-                    <span>{e}</span>
-                  </li>
+                    {paragraph}
+                  </p>
                 ))}
-              </ul>
+              </div>
+
+              {/* Stats del coach — modo carrera con barras vacías */}
+              <div className="pt-6 pb-1 border-t border-white/[.08] mb-6">
+                <div className="flex items-baseline justify-between mb-3">
+                  <div className="text-[10px] font-bold tracking-[2px] uppercase text-[var(--champan)]">
+                    {card.stats.label}
+                  </div>
+                  <div className="text-[9.5px] tracking-[0.5px] italic opacity-55">
+                    {card.stats.sublabel}
+                  </div>
+                </div>
+                <ul className="space-y-3">
+                  {card.stats.items.map((stat) => (
+                    <li
+                      key={stat}
+                      className="flex items-center gap-3"
+                    >
+                      <span className="text-[11px] font-bold tracking-[1px] uppercase opacity-85 w-[110px] flex-shrink-0">
+                        {stat}
+                      </span>
+                      <div
+                        aria-hidden
+                        className="flex gap-1 flex-1"
+                      >
+                        {Array.from({ length: 5 }).map((_, idx) => (
+                          <span
+                            key={idx}
+                            className="h-[6px] flex-1 rounded-[1px] border border-[var(--champan)]/25 bg-transparent"
+                          />
+                        ))}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="pt-6 border-t border-white/[.08] space-y-5">
+                {card.entregables.map((group) => (
+                  <div key={group.label}>
+                    <div className="text-[10px] font-bold tracking-[2px] uppercase text-[var(--champan)] mb-2.5">
+                      {group.label}
+                    </div>
+                    <ul className="space-y-2">
+                      {group.items.map((item) => (
+                        <li
+                          key={item}
+                          className="flex items-start gap-3 text-[13px] max-[640px]:text-[12.5px] leading-[1.5] opacity-90"
+                        >
+                          <span
+                            aria-hidden
+                            className="mt-[7px] w-[4px] h-[4px] rounded-full bg-[var(--champan)] flex-shrink-0"
+                          />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+
+              {/* Teaser del próximo tier — modo carrera (opcional) */}
+              {card.nextTier && (
+                <div className="mt-7 pt-5 border-t border-dashed border-[var(--champan)]/30">
+                  <div className="text-[9.5px] font-bold tracking-[2.5px] uppercase text-[var(--champan)]/70 mb-1">
+                    {card.nextTier.label}
+                  </div>
+                  <div className="text-[12.5px] opacity-65 italic">
+                    {card.nextTier.text}
+                  </div>
+                </div>
+              )}
+
+              {/* CTA al carrito de compra */}
+              <a
+                href={ctaHref}
+                className="inline-flex items-center justify-center min-h-[52px] px-8 py-3 mt-7 text-[12px] font-bold tracking-[2px] uppercase rounded-[2px] bg-[var(--champan)] text-[var(--negro-v)] border border-[var(--champan)] hover:bg-[var(--g2)] hover:border-[var(--g2)] transition-all duration-300"
+              >
+                {card.cta.label}
+                <span aria-hidden className="ml-2">→</span>
+              </a>
             </article>
-          ))}
-        </div>
-
-        <p className="text-center text-[12.5px] max-w-[760px] mx-auto opacity-70 leading-[1.6] mb-10 italic">
-          {texts.desbloqueoNote}
-        </p>
-
-        {/* Tabla comparativa */}
-        <div
-          ref={tableReveal.ref}
-          className="relative max-w-[920px] mx-auto"
-          style={{
-            opacity: tableReveal.visible ? 1 : 0,
-            transform: tableReveal.visible ? "none" : "translateY(20px)",
-            transition: "all 0.9s cubic-bezier(.16,1,.3,1)",
-          }}
-        >
-          <div className="text-center mb-8">
-            <h3 className="font-bold text-[clamp(20px,2.4vw,28px)] tracking-[-0.5px] mb-2">
-              {texts.comparativa.title}
-            </h3>
-            <p className="text-[13px] opacity-65">{texts.comparativa.sub}</p>
-          </div>
-
-          <div className="overflow-x-auto rounded-[2px] border border-white/[.10]">
-            <table className="w-full text-left border-collapse min-w-[640px]">
-              <thead>
-                <tr className="bg-white/[0.02]">
-                  <th className="p-4 text-[10px] font-bold tracking-[1.5px] uppercase opacity-50">
-                    Característica
-                  </th>
-                  <th className="p-4 text-[10px] font-bold tracking-[1.5px] uppercase text-[var(--wh)]/70">
-                    {texts.comparativa.colCoach}
-                  </th>
-                  <th className="p-4 text-[10px] font-bold tracking-[1.5px] uppercase text-[var(--champan)]">
-                    {texts.comparativa.colCoachPro}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {texts.comparativa.rows.map((row) => (
-                  <tr
-                    key={row.feature}
-                    className="border-t border-white/[.06] hover:bg-white/[0.012] transition-colors duration-200"
-                  >
-                    <td className="p-4 text-[13px] font-bold opacity-85">{row.feature}</td>
-                    <td className="p-4 text-[13px] opacity-65">{row.coach}</td>
-                    <td className="p-4 text-[13px] text-[var(--champan)] font-bold">
-                      {row.coachPro}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -821,6 +630,8 @@ function NegocioSection({ texts }: { texts: LandingTexts["negocio"] }) {
    ═══════════════════════════════════════════════════════ */
 function CoachesDentroSection({ texts }: { texts: LandingTexts["coachesDentro"] }) {
   const { ref, visible } = useReveal(0.1);
+  const { itemRefs, visibleItems } = useStaggerReveal(texts.tiers.length, 0.15);
+  const closerReveal = useReveal(0.1);
   return (
     <section
       className="relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-t border-white/[.06]"
@@ -838,12 +649,64 @@ function CoachesDentroSection({ texts }: { texts: LandingTexts["coachesDentro"] 
         <div className="text-[11px] tracking-[3px] uppercase text-[var(--champan)] mb-4 font-bold">
           {texts.eyebrow}
         </div>
-        <h2 className="font-bold text-[clamp(36px,5vw,64px)] uppercase tracking-[-1.5px] leading-[1.05] mb-5">
+        <h2 className="font-bold text-[clamp(32px,4.4vw,52px)] tracking-[-1.2px] leading-[1.05] mb-5">
           {texts.heading}
         </h2>
-        <p className="text-[14px] max-[640px]:text-[13px] opacity-75 max-w-[600px] mx-auto leading-[1.6] mb-10">
+        <p className="text-[14px] max-[640px]:text-[13px] opacity-75 max-w-[600px] mx-auto leading-[1.6] mb-12">
           {texts.sub}
         </p>
+
+        {/* Pirámide del mérito */}
+        <div className="relative max-w-[520px] mx-auto mb-12 max-[640px]:mb-10">
+          <ul className="flex flex-col gap-3">
+            {texts.tiers.map((tier, i) => {
+              const widthPct = Math.min(100, (tier.count / texts.total) * 100 * 2.2);
+              return (
+                <li
+                  key={tier.label}
+                  ref={(el) => { itemRefs.current[i] = el as HTMLDivElement | null; }}
+                  className="flex items-center gap-4 max-[640px]:gap-3"
+                  style={{
+                    opacity: visibleItems[i] ? 1 : 0,
+                    transform: visibleItems[i] ? "none" : "translateX(-15px)",
+                    transition: `all 0.8s cubic-bezier(.16,1,.3,1) ${i * 0.12}s`,
+                  }}
+                >
+                  {/* Cantidad */}
+                  <span className="font-bold text-[24px] max-[640px]:text-[20px] tracking-[-0.5px] text-[var(--champan)] w-[48px] max-[640px]:w-[40px] text-right flex-shrink-0">
+                    {tier.count}
+                  </span>
+                  {/* Barra + label */}
+                  <div className="flex-1 text-left">
+                    <div className="text-[11px] max-[640px]:text-[10.5px] font-bold tracking-[1.5px] uppercase opacity-85 mb-1.5 leading-[1.3]">
+                      {tier.label}
+                    </div>
+                    <div className="h-[6px] w-full bg-[rgba(201,169,110,0.10)] rounded-[2px] overflow-hidden">
+                      <div
+                        className="h-full bg-[var(--champan)]/60 rounded-[2px]"
+                        style={{ width: `${widthPct}%` }}
+                      />
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+
+        {/* Cierre cortante */}
+        <p
+          ref={closerReveal.ref}
+          className="italic font-[var(--font-serif)] text-[clamp(16px,2vw,20px)] leading-[1.4] text-[var(--champan)] mb-10 max-w-[520px] mx-auto"
+          style={{
+            opacity: closerReveal.visible ? 1 : 0,
+            transform: closerReveal.visible ? "none" : "translateY(12px)",
+            transition: "all 0.9s cubic-bezier(.16,1,.3,1)",
+          }}
+        >
+          &ldquo;{texts.closer}&rdquo;
+        </p>
+
         <a
           href={DIRECTORIO_HREF}
           className="inline-flex items-center justify-center min-h-[48px] px-7 py-3 text-[12px] font-bold tracking-[1.8px] uppercase rounded-[2px] border border-[var(--champan)]/60 text-[var(--champan)] hover:border-[var(--champan)] hover:bg-[rgba(201,169,110,0.08)] transition-all duration-300"
@@ -1061,12 +924,12 @@ export default function LabCoachPage() {
     <div className="font-sans w-full bg-[var(--bk)] text-[var(--wh)]">
       <Navbar />
       <HeroSection texts={tl.hero} />
-      <SiEstoTeSuenaSection texts={tl.siEstoTeSuena} />
-      <HermanosSection texts={tl.hermanos} />
-      <PorQueTeSirveSection texts={tl.porQueTeSirve} />
+      <EspejoQuiz texts={tl.siEstoTeSuena} />
       <MetodoSection texts={tl.metodo} />
+      <QueHayDentroSection texts={tl.queHayDentro} />
       <CaminoBlock
         steps={CAMINO_STEPS}
+        destinos={CAMINO_DESTINOS}
         texts={{
           eyebrow: tl.camino.eyebrow,
           heading: tl.camino.heading,
@@ -1075,10 +938,10 @@ export default function LabCoachPage() {
           insignias: tp.camino.insignias,
           unlocks: tp.camino.unlocks,
           hitos: tp.camino.hitos,
+          destinos: tp.camino.destinos,
         }}
       />
       <InversionSection texts={tl.inversion} />
-      <QueHayDentroSection texts={tl.queHayDentro} />
       <NegocioSection texts={tl.negocio} />
       <CoachesDentroSection texts={tl.coachesDentro} />
       <NoEsParaTiSection texts={tl.noEsParaTi} />

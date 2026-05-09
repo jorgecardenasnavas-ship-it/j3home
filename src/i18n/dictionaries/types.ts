@@ -916,35 +916,53 @@ export interface Dictionary {
           readonly sub: string;
           readonly ctaPrimary: string;
           readonly ctaSecondary: string;
-          readonly chips: readonly string[];
         };
         readonly siEstoTeSuena: {
           readonly eyebrow: string;
           readonly heading: string;
           readonly sub: string;
-          readonly items: readonly string[];
           readonly closer: string;
-        };
-        readonly hermanos: {
-          readonly eyebrow: string;
-          readonly heading: string;
-          readonly sub: string;
-          readonly members: readonly {
-            readonly name: string;
-            readonly role: string;
-            readonly quote: string;
-            readonly palmares: string;
+          readonly progressLabel: string;
+          readonly scenes: readonly {
+            readonly pillar: "criterio" | "metodo" | "planificacion";
+            readonly pillarLabel: string;
+            readonly sceneNumber: number;
+            readonly situation: string;
+            readonly options: readonly string[];
+            /** Index (0-based) of the correct option (J3 answer). */
+            readonly correctIndex: number;
+            readonly j3Response: {
+              readonly title: string;
+              readonly body: string;
+              readonly anchor: string;
+            };
           }[];
-          readonly chips: readonly string[];
-        };
-        readonly porQueTeSirve: {
-          readonly eyebrow: string;
-          readonly heading: string;
-          readonly sub: string;
-          readonly items: readonly {
-            readonly highlight: string;
-            readonly body: string;
-          }[];
+          readonly ui: {
+            readonly confirmLabel: string;
+            readonly nextLabel: string;
+            readonly j3Badge: string;
+            readonly correctBadge: string;
+            readonly trapBadge: string;
+            readonly seeResultsLabel: string;
+          };
+          readonly results: {
+            readonly eyebrow: string;
+            readonly scoreLabel: string;
+            readonly tiers: readonly {
+              /** Score range, inclusive (e.g. [5,6] = 5 o 6 aciertos). */
+              readonly minScore: number;
+              readonly maxScore: number;
+              readonly statusBadge: {
+                readonly prefix: string;
+                readonly rhythm: string;
+              };
+              readonly heading: string;
+              readonly body: string;
+              readonly recommendation: string;
+              readonly ctaLabel: string;
+              readonly ctaHref: string;
+            }[];
+          };
         };
         readonly metodo: {
           readonly eyebrow: string;
@@ -953,7 +971,8 @@ export interface Dictionary {
           readonly cards: readonly {
             readonly title: string;
             readonly subtitle: string;
-            readonly body: string;
+            readonly items: readonly string[];
+            readonly closer: string;
           }[];
           readonly closer: string;
           readonly humbleNote: string;
@@ -967,29 +986,10 @@ export interface Dictionary {
           readonly eyebrow: string;
           readonly heading: string;
           readonly sub: string;
-          readonly plans: readonly {
-            readonly name: string;
-            readonly price: string;
-            readonly desc: string;
-            readonly total: string;
-            readonly note: string | null;
-            readonly badge: string | null;
-          }[];
-          readonly mentor: {
-            readonly title: string;
-            readonly sub: string;
-            readonly tiers: readonly {
-              readonly name: string;
-              readonly duration: string;
-              readonly price: string;
-            }[];
-            readonly clause: string;
+          readonly cta: {
+            readonly label: string;
+            readonly href: string;
           };
-          readonly verificado: {
-            readonly title: string;
-            readonly body: string;
-          };
-          readonly smallPrint: string;
         };
         readonly queHayDentro: {
           readonly eyebrow: string;
@@ -999,21 +999,43 @@ export interface Dictionary {
             readonly badge: string;
             readonly title: string;
             readonly subtitle: string;
-            readonly body: string;
-            readonly entregables: readonly string[];
-          }[];
-          readonly desbloqueoNote: string;
-          readonly comparativa: {
-            readonly title: string;
-            readonly sub: string;
-            readonly colCoach: string;
-            readonly colCoachPro: string;
-            readonly rows: readonly {
-              readonly feature: string;
-              readonly coach: string;
-              readonly coachPro: string;
+            /** Array de párrafos. Cada elemento es un párrafo independiente. */
+            readonly body: readonly string[];
+            /** Stats del coach modo carrera — barras vacías que se llenarán con la ruta. */
+            readonly stats: {
+              readonly label: string;
+              readonly sublabel: string;
+              readonly items: readonly string[];
+            };
+            /** Entregables agrupados por categoría (lo que tienes / lo que ganas). */
+            readonly entregables: readonly {
+              readonly label: string;
+              readonly items: readonly string[];
             }[];
-          };
+            /** Teaser opcional del siguiente tier modo carrera (sin precio, sin link). */
+            readonly nextTier?: {
+              readonly label: string;
+              readonly text: string;
+            };
+            /** Pricing dual con switch mensual/anual. */
+            readonly pricing: {
+              readonly monthly: {
+                readonly label: string;
+                readonly price: string;
+                readonly microcopy: string;
+              };
+              readonly yearly: {
+                readonly label: string;
+                readonly price: string;
+                readonly microcopy: string;
+              };
+            };
+            readonly cta: {
+              readonly label: string;
+              readonly hrefMonthly: string;
+              readonly hrefYearly: string;
+            };
+          }[];
         };
         readonly negocio: {
           readonly eyebrow: string;
@@ -1029,6 +1051,12 @@ export interface Dictionary {
           readonly eyebrow: string;
           readonly heading: string;
           readonly sub: string;
+          readonly tiers: readonly {
+            readonly count: number;
+            readonly label: string;
+          }[];
+          readonly total: number;
+          readonly closer: string;
           readonly ctaLabel: string;
         };
         readonly noEsParaTi: {
@@ -1067,7 +1095,7 @@ export interface Dictionary {
           readonly grados: {
             readonly assistantCoach: string;
             readonly coach: string;
-            readonly headCoach: string;
+            readonly masterCoach: string;
           };
           readonly insignias: {
             readonly cualificado: string;
@@ -1075,8 +1103,8 @@ export interface Dictionary {
             readonly verificado: string;
           };
           readonly unlocks: {
-            readonly planCoach: string;
-            readonly planCoachPro: string;
+            readonly planBase: string;
+            readonly planPro: string;
             readonly examen: string;
             readonly merito: string;
           };
@@ -1086,6 +1114,14 @@ export interface Dictionary {
             readonly "02": string;
             readonly "03": string;
             readonly "04": string;
+          };
+          /** Bifurcación final opcional (Business / Pro Coach). */
+          readonly destinos: {
+            readonly eyebrow: string;
+            readonly items: {
+              readonly business: { readonly name: string; readonly desc: string };
+              readonly proCoach: { readonly name: string; readonly desc: string };
+            };
           };
         };
 
