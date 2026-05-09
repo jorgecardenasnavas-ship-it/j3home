@@ -270,7 +270,7 @@ export const LAB_COACH_ES = {
             },
             entregables: [
               {
-                label: "En el pack",
+                label: "Lo que incluye el plan",
                 items: [
                   "Ruta 1 completa, desbloqueada",
                   "Lote semanal de contenido complementario con condición de consumo",
