@@ -272,9 +272,9 @@ export const LAB_COACH_ES = {
               {
                 label: "Lo que incluye el plan",
                 items: [
-                  "Ruta 1 completa, desbloqueada",
-                  "Lote semanal de contenido complementario con condición de consumo",
-                  "Recursos descargables",
+                  "Ruta completa: Fundamentos del oficio",
+                  "Actualización semanal de contenido creado en directo con anterioridad",
+                  "Lote mensual de contenido complementario",
                 ],
               },
             ],
@@ -282,12 +282,12 @@ export const LAB_COACH_ES = {
               monthly: {
                 label: "Mensual",
                 price: "19€/mes",
-                microcopy: "Cancelas cuando quieras",
+                microcopy: "Mes a mes. Sin atadura.",
               },
               yearly: {
                 label: "Anual · -37%",
                 price: "144€/año",
-                microcopy: "12€/mes equivalente",
+                microcopy: "Equivale a 12€/mes.",
               },
             },
             cta: {
