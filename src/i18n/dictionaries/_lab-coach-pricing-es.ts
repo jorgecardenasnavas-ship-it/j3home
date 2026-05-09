@@ -257,7 +257,7 @@ export const LAB_COACH_ES = {
         cards: [
           {
             badge: "Plan Lab",
-            title: "Estás cerca de empezar a experimentar.",
+            title: "Aquí empieza el experimento.",
             subtitle: "El laboratorio te espera.",
             body: [
               "Cada semana vas a pista con un plan, no con cien ejercicios. Cada decisión tiene un porqué.",
@@ -273,8 +273,8 @@ export const LAB_COACH_ES = {
                 label: "Lo que incluye el plan",
                 items: [
                   "Ruta completa: Fundamentos del oficio",
-                  "Actualización semanal de contenido creado en directo con anterioridad",
-                  "Lote mensual de contenido complementario",
+                  "Actualización semanal: directos pasados curados",
+                  "Lote mensual de materiales de trabajo",
                 ],
               },
             ],
