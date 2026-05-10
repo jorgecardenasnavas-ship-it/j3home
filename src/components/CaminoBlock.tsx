@@ -7,11 +7,15 @@
    Recibe el copy ya pre-extraído desde la página padre — no lee el
    diccionario directamente para mantener el componente agnóstico.
 
-   El paso 04 comparte grado (Head Coach) con el 03; la diferenciación
+   El paso 04 comparte grado (Master Coach) con el 03; la diferenciación
    visual va por la insignia: morado #534AB7 + check tipo Instagram.
+
+   Bifurcación opcional: tras los 4 pasos puede mostrar 2 destinos
+   (Business / Pro Coach) como rombos con líneas discontinuas, indicando
+   los caminos opcionales que se abren al alcanzar Master Coach.
    ────────────────────────────────────────────── */
 
-import type { CaminoStep } from "@/data/lab-coach-pricing";
+import type { CaminoStep, CaminoDestino } from "@/data/lab-coach-pricing";
 import { useReveal, useStaggerReveal } from "@/hooks/useReveal";
 import { cn } from "@/lib/utils";
 
@@ -20,15 +24,23 @@ export interface CaminoTexts {
   eyebrow?: string;
   heading?: string;
   sub?: string;
+  // Disclaimer opcional bajo los 4 escalones, antes de la bifurcación.
+  disclaimer?: string;
   // Resolución de claves del catálogo a texto humano.
-  grados: { assistantCoach: string; coach: string; headCoach: string };
+  grados: { assistantCoach: string; coach: string; masterCoach: string };
   insignias: { cualificado: string; certificado: string; verificado: string };
-  unlocks: { planCoach: string; planCoachPro: string; examen: string; merito: string };
+  unlocks: { planBase: string; planPro: string; examen: string; merito: string };
   hitos: { "01": string; "02": string; "03": string; "04": string };
+  // Bifurcación opcional al final del Camino.
+  destinos?: {
+    eyebrow: string;
+    items: { business: { name: string; desc: string }; proCoach: { name: string; desc: string } };
+  };
 }
 
 interface CaminoBlockProps {
   steps: readonly CaminoStep[];
+  destinos?: readonly CaminoDestino[];
   texts: CaminoTexts;
   className?: string;
 }
@@ -56,7 +68,7 @@ function VerifiedCheck({ size = 16 }: { size?: number }) {
   );
 }
 
-export function CaminoBlock({ steps, texts, className }: CaminoBlockProps) {
+export function CaminoBlock({ steps, destinos, texts, className }: CaminoBlockProps) {
   const { ref: headerRef, visible: headerVisible } = useReveal(0.1);
   const { itemRefs, visibleItems } = useStaggerReveal(steps.length, 0.2);
 
@@ -99,7 +111,7 @@ export function CaminoBlock({ steps, texts, className }: CaminoBlockProps) {
           </div>
         )}
 
-        <ol className="grid grid-cols-4 max-[960px]:grid-cols-2 max-[640px]:grid-cols-1 gap-4">
+        <ol className="grid grid-cols-4 max-[960px]:grid-cols-2 max-[640px]:grid-cols-1 gap-4 mb-12 max-[960px]:mb-10">
           {steps.map((step, i) => {
             const gradoText = texts.grados[step.gradoKey];
             const insigniaText = step.insigniaKey ? texts.insignias[step.insigniaKey] : null;
@@ -168,6 +180,53 @@ export function CaminoBlock({ steps, texts, className }: CaminoBlockProps) {
             );
           })}
         </ol>
+
+        {/* Disclaimer opcional — entre la grid de escalones y la bifurcación */}
+        {texts.disclaimer && (
+          <p className="max-w-[640px] mx-auto text-center text-[12px] opacity-55 italic leading-[1.55] mb-12 max-[960px]:mb-10">
+            {texts.disclaimer}
+          </p>
+        )}
+
+        {/* Bifurcación final — destinos opcionales tras Master Coach */}
+        {destinos && destinos.length > 0 && texts.destinos && (
+          <div className="relative max-w-[760px] mx-auto">
+            {/* Línea discontinua superior */}
+            <div
+              aria-hidden
+              className="border-t border-dashed border-[var(--champan)]/35 w-1/3 mx-auto mb-6"
+            />
+            <div className="text-center mb-6">
+              <span className="text-[12px] font-bold tracking-[2px] uppercase text-[var(--champan)] leading-[1.3]">
+                {texts.destinos.eyebrow}
+              </span>
+            </div>
+            <div className="grid grid-cols-2 max-[640px]:grid-cols-1 gap-5">
+              {destinos.map((destino) => {
+                const data = texts.destinos!.items[destino.id];
+                return (
+                  <article
+                    key={destino.id}
+                    className="relative flex items-start gap-4 p-5 rounded-[2px] border border-dashed border-[var(--champan)]/40 bg-white/[0.012]"
+                  >
+                    <span
+                      aria-hidden
+                      className="w-[14px] h-[14px] border-2 border-[var(--champan)] rotate-45 mt-[3px] flex-shrink-0"
+                    />
+                    <div className="flex flex-col">
+                      <span className="text-[12px] font-bold tracking-[1.5px] uppercase text-[var(--champan)] leading-[1.3] mb-1">
+                        {data.name}
+                      </span>
+                      <span className="text-[12.5px] opacity-75 italic leading-[1.4]">
+                        {data.desc}
+                      </span>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

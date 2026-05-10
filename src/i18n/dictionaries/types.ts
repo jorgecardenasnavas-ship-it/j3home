@@ -981,6 +981,8 @@ export interface Dictionary {
           readonly eyebrow: string;
           readonly heading: string;
           readonly sub: string;
+          /** Nota opcional bajo los 4 escalones, antes de la bifurcación. */
+          readonly disclaimer?: string;
         };
         readonly inversion: {
           readonly eyebrow: string;

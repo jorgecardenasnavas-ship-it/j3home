@@ -236,8 +236,9 @@ export const LAB_COACH_ES = {
 
       camino: {
         eyebrow: "El Camino",
-        heading: "Tu rol en el club no cambia. Tu criterio sí.",
-        sub: "Dentro de J3 hablamos de Rookie, Assistant Coach, Coach y Master Coach para describir tu progreso con el método, no tu puesto en la pista. Si ya diriges el cuerpo técnico de tu club, sigues haciéndolo. Aquí marcamos hasta dónde has llegado en la rúbrica J3, no a quién mandas el lunes.",
+        heading: "Cuatro escalones. Una sola dirección.",
+        sub: "El siguiente escalón se desbloquea cuando consolidas el actual.",
+        disclaimer: "Estos grados describen tu progreso con la rúbrica J3, no tu puesto en el club. Si ya diriges el cuerpo técnico, sigues haciéndolo.",
       },
 
       inversion: {
@@ -437,7 +438,7 @@ export const LAB_COACH_ES = {
           "04": "J3 audita tu trabajo real con jugadores reales",
         },
         destinos: {
-          eyebrow: "Y desde Master Coach, dos caminos opcionales",
+          eyebrow: "Master Coach no es el final. Se bifurca.",
           items: {
             business: {
               name: "Camino Business",

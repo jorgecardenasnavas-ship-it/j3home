@@ -934,6 +934,7 @@ export default function LabCoachPage() {
           eyebrow: tl.camino.eyebrow,
           heading: tl.camino.heading,
           sub: tl.camino.sub,
+          disclaimer: tl.camino.disclaimer,
           grados: tp.camino.grados,
           insignias: tp.camino.insignias,
           unlocks: tp.camino.unlocks,
