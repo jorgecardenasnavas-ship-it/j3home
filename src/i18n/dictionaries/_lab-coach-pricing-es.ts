@@ -238,7 +238,6 @@ export const LAB_COACH_ES = {
         eyebrow: "El Camino",
         heading: "Cuatro escalones. Una sola dirección.",
         sub: "El siguiente escalón se desbloquea cuando consolidas el actual.",
-        disclaimer: "Estos grados describen tu progreso con la rúbrica J3, no tu puesto en el club. Si ya diriges el cuerpo técnico, sigues haciéndolo.",
       },
 
       inversion: {

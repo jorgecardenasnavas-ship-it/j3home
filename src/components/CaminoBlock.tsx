@@ -29,8 +29,10 @@ export interface CaminoTexts {
   // Resolución de claves del catálogo a texto humano.
   grados: { assistantCoach: string; coach: string; masterCoach: string };
   insignias: { cualificado: string; certificado: string; verificado: string };
-  unlocks: { planBase: string; planPro: string; examen: string; merito: string };
-  hitos: { "01": string; "02": string; "03": string; "04": string };
+  // Opcionales — la versión reducida (modo single-door en la landing) no
+  // muestra ni planes/precios (unlocks) ni hitos para no exponer el menú.
+  unlocks?: { planBase: string; planPro: string; examen: string; merito: string };
+  hitos?: { "01": string; "02": string; "03": string; "04": string };
   // Bifurcación opcional al final del Camino.
   destinos?: {
     eyebrow: string;
@@ -115,8 +117,8 @@ export function CaminoBlock({ steps, destinos, texts, className }: CaminoBlockPr
           {steps.map((step, i) => {
             const gradoText = texts.grados[step.gradoKey];
             const insigniaText = step.insigniaKey ? texts.insignias[step.insigniaKey] : null;
-            const hitoText = texts.hitos[step.num as keyof CaminoTexts["hitos"]];
-            const unlockText = texts.unlocks[step.unlockKey];
+            const hitoText = texts.hitos?.[step.num as "01" | "02" | "03" | "04"] ?? null;
+            const unlockText = texts.unlocks?.[step.unlockKey] ?? null;
             const isVerified = step.insigniaKey === "verificado";
 
             return (
@@ -167,15 +169,19 @@ export function CaminoBlock({ steps, destinos, texts, className }: CaminoBlockPr
                   {gradoText}
                 </h3>
 
-                <p className="text-[12.5px] opacity-70 leading-[1.5] mb-4">
-                  {hitoText}
-                </p>
+                {hitoText && (
+                  <p className="text-[12.5px] opacity-70 leading-[1.5] mb-4">
+                    {hitoText}
+                  </p>
+                )}
 
-                <div className="mt-auto pt-3 border-t border-white/[.08]">
-                  <span className="text-[10px] tracking-[1.5px] uppercase text-[var(--champan)] font-bold">
-                    {unlockText}
-                  </span>
-                </div>
+                {unlockText && (
+                  <div className="mt-auto pt-3 border-t border-white/[.08]">
+                    <span className="text-[10px] tracking-[1.5px] uppercase text-[var(--champan)] font-bold">
+                      {unlockText}
+                    </span>
+                  </div>
+                )}
               </li>
             );
           })}
