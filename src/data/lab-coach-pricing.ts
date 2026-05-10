@@ -78,8 +78,11 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
     ctaHref: "https://j3padel.com/join?plan=coach-pro",
     recommended: true,
     pricing: {
-      monthly: { amount: 49, currency: "EUR" },
-      yearly:  { amount: 396, currency: "EUR", savePct: 33 },
+      // Plan Pro V2.3: pago único anual con facilidades.
+      // monthly aquí representa la cuota fraccionada en 12 (55€ × 12 = 660€).
+      // yearly representa el pago único anual (540€).
+      monthly: { amount: 55, currency: "EUR" },
+      yearly:  { amount: 540, currency: "EUR", savePct: 18 },
     },
   },
 ];
@@ -145,18 +148,29 @@ export const VERIFICACION_PLAN: FreePlan = {
 
 export interface CaminoStep {
   num: string;
-  // Solo 3 grados públicos: Verificado NO es un grado, es una insignia que se suma a Head Coach.
-  gradoKey: "assistantCoach" | "coach" | "headCoach";
+  // Solo 3 grados públicos: Verificado NO es un grado, es una insignia que se suma a Master Coach.
+  gradoKey: "assistantCoach" | "coach" | "masterCoach";
   insigniaKey: "cualificado" | "certificado" | "verificado" | null;
-  unlockKey: "planCoach" | "planCoachPro" | "examen" | "merito";
+  unlockKey: "planBase" | "planPro" | "examen" | "merito";
 }
 
 export const CAMINO_STEPS: CaminoStep[] = [
-  { num: "01", gradoKey: "assistantCoach", insigniaKey: null,           unlockKey: "planCoach"    },
-  { num: "02", gradoKey: "coach",          insigniaKey: "cualificado",  unlockKey: "planCoachPro" },
-  { num: "03", gradoKey: "headCoach",      insigniaKey: "certificado",  unlockKey: "examen"       },
+  { num: "01", gradoKey: "assistantCoach", insigniaKey: null,           unlockKey: "planBase" },
+  { num: "02", gradoKey: "coach",          insigniaKey: "cualificado",  unlockKey: "planPro"  },
+  { num: "03", gradoKey: "masterCoach",    insigniaKey: "certificado",  unlockKey: "examen"   },
   // Mismo grado que paso 03 — la diferenciación visual la marca la insignia (morado + check Instagram).
-  { num: "04", gradoKey: "headCoach",      insigniaKey: "verificado",   unlockKey: "merito"       },
+  { num: "04", gradoKey: "masterCoach",    insigniaKey: "verificado",   unlockKey: "merito"   },
+];
+
+/* ─── Destinos finales del Camino (bifurcación opcional tras Master Coach) ─── */
+
+export interface CaminoDestino {
+  id: "business" | "proCoach";
+}
+
+export const CAMINO_DESTINOS: CaminoDestino[] = [
+  { id: "business" },
+  { id: "proCoach" },
 ];
 
 /* ─── First year math (tabla comercial) ─── */
@@ -168,8 +182,8 @@ export interface FirstYearRow {
 
 export const FIRST_YEAR_ROWS: FirstYearRow[] = [
   { id: "base",            amount: "144€"   },
-  { id: "pro",             amount: "396€"   },
-  { id: "proExamen",       amount: "886€"   },
-  { id: "proExamenSprint", amount: "1.481€" },
-  { id: "proExamenProg",   amount: "2.681€" },
+  { id: "pro",             amount: "540€"   },
+  { id: "proExamen",       amount: "1.030€" },
+  { id: "proExamenSprint", amount: "1.925€" },
+  { id: "proExamenProg",   amount: "3.525€" },
 ];
