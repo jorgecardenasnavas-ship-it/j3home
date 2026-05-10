@@ -319,18 +319,14 @@ export const LAB_COACH_ES = {
       },
 
       coachesDentro: {
-        eyebrow: "Coaches dentro del Lab",
-        heading: "82 coaches están escribiendo su Camino.",
-        sub: "El sello no se compra, se gana. Esta es la pirámide del Lab a día de hoy. Cada nombre es real, con su club, sus años de oficio y el escalón en el que está.",
-        tiers: [
-          { count: 6, label: "Master Coach · certificados" },
-          { count: 18, label: "Coach · cualificados" },
-          { count: 27, label: "Assistant Coaches" },
-          { count: 31, label: "Rookies en activo" },
-        ],
-        total: 82,
-        closer: "Tu nombre en la pirámide. O ningún nombre.",
+        eyebrow: "Coaches dentro",
+        heading: "Mensajes desde el laboratorio.",
+        sub: "Lo que están escribiendo los coaches que ya hacen el Camino. Citas reales, recogidas del canal privado del Lab.",
+        chatTitle: "Lab · canal del laboratorio",
+        chatSubtitle: "Mensajes recientes",
+        footerCount: "82 coaches en {N} países escribiendo su Camino.",
         ctaLabel: "Ver el directorio público",
+        ctaHref: "https://j3padel.com/join",
       },
 
       noEsParaTi: {

@@ -26,6 +26,7 @@ import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { CaminoBlock } from "@/components/CaminoBlock";
+import { MensajesLaboratorio } from "@/components/MensajesLaboratorio";
 import { EspejoQuiz } from "@/components/EspejoQuiz";
 import { useReveal, useStaggerReveal } from "@/hooks/useReveal";
 import { useI18n } from "@/i18n/context";
@@ -34,7 +35,6 @@ import { CAMINO_STEPS } from "@/data/lab-coach-pricing";
 
 const SESION_CERO_HREF = "/lab/coach/precios#sesion-cero";
 const COACH_CHECKOUT = "https://j3padel.com/join";
-const DIRECTORIO_HREF = "/academy/coaches";
 
 type LandingTexts = ReturnType<typeof useI18n>["t"]["lab"]["coach"]["landing"];
 
@@ -518,97 +518,11 @@ function NegocioSection({ texts }: { texts: LandingTexts["negocio"] }) {
 }
 
 /* ═══════════════════════════════════════════════════════
-   10. COACHES DENTRO DEL LAB
+   10. COACHES DENTRO — sustituido por MensajesLaboratorio
+   (componente externo: src/components/MensajesLaboratorio.tsx).
+   La pirámide anterior se eliminó en la fusión "Mensajes desde
+   el laboratorio" — globo + chat de testimonios reales en directo.
    ═══════════════════════════════════════════════════════ */
-function CoachesDentroSection({ texts }: { texts: LandingTexts["coachesDentro"] }) {
-  const { ref, visible } = useReveal(0.1);
-  const { itemRefs, visibleItems } = useStaggerReveal(texts.tiers.length, 0.15);
-  const closerReveal = useReveal(0.1);
-  return (
-    <section
-      className="relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-t border-white/[.06]"
-      style={{ background: "var(--bk)" }}
-    >
-      <div
-        ref={ref}
-        className="relative text-center max-w-[760px] mx-auto"
-        style={{
-          opacity: visible ? 1 : 0,
-          transform: visible ? "none" : "translateY(20px)",
-          transition: "all 1s cubic-bezier(.16,1,.3,1)",
-        }}
-      >
-        <div className="text-[11px] tracking-[3px] uppercase text-[var(--champan)] mb-4 font-bold">
-          {texts.eyebrow}
-        </div>
-        <h2 className="font-bold text-[clamp(32px,4.4vw,52px)] tracking-[-1.2px] leading-[1.05] mb-5">
-          {texts.heading}
-        </h2>
-        <p className="text-[14px] max-[640px]:text-[13px] opacity-75 max-w-[600px] mx-auto leading-[1.6] mb-12">
-          {texts.sub}
-        </p>
-
-        {/* Pirámide del mérito */}
-        <div className="relative max-w-[520px] mx-auto mb-12 max-[640px]:mb-10">
-          <ul className="flex flex-col gap-3">
-            {texts.tiers.map((tier, i) => {
-              const widthPct = Math.min(100, (tier.count / texts.total) * 100 * 2.2);
-              return (
-                <li
-                  key={tier.label}
-                  ref={(el) => { itemRefs.current[i] = el as HTMLDivElement | null; }}
-                  className="flex items-center gap-4 max-[640px]:gap-3"
-                  style={{
-                    opacity: visibleItems[i] ? 1 : 0,
-                    transform: visibleItems[i] ? "none" : "translateX(-15px)",
-                    transition: `all 0.8s cubic-bezier(.16,1,.3,1) ${i * 0.12}s`,
-                  }}
-                >
-                  {/* Cantidad */}
-                  <span className="font-bold text-[24px] max-[640px]:text-[20px] tracking-[-0.5px] text-[var(--champan)] w-[48px] max-[640px]:w-[40px] text-right flex-shrink-0">
-                    {tier.count}
-                  </span>
-                  {/* Barra + label */}
-                  <div className="flex-1 text-left">
-                    <div className="text-[11px] max-[640px]:text-[10.5px] font-bold tracking-[1.5px] uppercase opacity-85 mb-1.5 leading-[1.3]">
-                      {tier.label}
-                    </div>
-                    <div className="h-[6px] w-full bg-[rgba(201,169,110,0.10)] rounded-[2px] overflow-hidden">
-                      <div
-                        className="h-full bg-[var(--champan)]/60 rounded-[2px]"
-                        style={{ width: `${widthPct}%` }}
-                      />
-                    </div>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-
-        {/* Cierre cortante */}
-        <p
-          ref={closerReveal.ref}
-          className="italic font-[var(--font-serif)] text-[clamp(16px,2vw,20px)] leading-[1.4] text-[var(--champan)] mb-10 max-w-[520px] mx-auto"
-          style={{
-            opacity: closerReveal.visible ? 1 : 0,
-            transform: closerReveal.visible ? "none" : "translateY(12px)",
-            transition: "all 0.9s cubic-bezier(.16,1,.3,1)",
-          }}
-        >
-          &ldquo;{texts.closer}&rdquo;
-        </p>
-
-        <a
-          href={DIRECTORIO_HREF}
-          className="inline-flex items-center justify-center min-h-[48px] px-7 py-3 text-[12px] font-bold tracking-[1.8px] uppercase rounded-[2px] border border-[var(--champan)]/60 text-[var(--champan)] hover:border-[var(--champan)] hover:bg-[rgba(201,169,110,0.08)] transition-all duration-300"
-        >
-          {texts.ctaLabel}
-        </a>
-      </div>
-    </section>
-  );
-}
 
 /* ═══════════════════════════════════════════════════════
    11. NO ES PARA TI SI...
@@ -831,7 +745,7 @@ export default function LabCoachPage() {
         }}
       />
       <NegocioSection texts={tl.negocio} />
-      <CoachesDentroSection texts={tl.coachesDentro} />
+      <MensajesLaboratorio texts={tl.coachesDentro} />
       <NoEsParaTiSection texts={tl.noEsParaTi} />
       <FaqSection texts={tl.faq} />
       <CtaFinalSection texts={tl.ctaFinal} />

@@ -1044,13 +1044,14 @@ export interface Dictionary {
           readonly eyebrow: string;
           readonly heading: string;
           readonly sub: string;
-          readonly tiers: readonly {
-            readonly count: number;
-            readonly label: string;
-          }[];
-          readonly total: number;
-          readonly closer: string;
+          /** Título del header del chat estilizado. */
+          readonly chatTitle: string;
+          /** Subtítulo bajo el chatTitle (ej: "Mensajes recientes"). */
+          readonly chatSubtitle: string;
+          /** Pie con conteo. Usa "{N}" como placeholder para el total de países. */
+          readonly footerCount: string;
           readonly ctaLabel: string;
+          readonly ctaHref: string;
         };
         readonly noEsParaTi: {
           readonly eyebrow: string;
