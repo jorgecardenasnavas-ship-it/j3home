@@ -1,24 +1,24 @@
 "use client";
 
 /* ──────────────────────────────────────────────
-   /lab/coach — Landing comercial de J3 Lab Coach (V2).
+   /lab/coach — Landing comercial de J3 Lab Coach (V3 single-door).
 
-   Estructura (13 bloques, orden Growth Hacker + ajustes):
-   1. Hero (claim coach-céntrico)
-   2. Si esto te suena (dolor antes que solución)
-   3. Quiénes firman esto (autoridad)
-   4. Por qué te sirve (anti-objeción senior + abre target a novato)
-   5. El método (Criterio · Método · Planificación)
-   6. El Camino (CaminoBlock con disclaimer de nomenclatura)
-   7. Inversión total a la vista (tabla + Mentor + Verificado)
-   8. Qué hay dentro (Rutas + Examen + tabla comparativa)
-   9. Qué cambia en tu negocio (4 escenas antes/después)
-   10. Coaches dentro del Lab (cifra real + CTA al directorio)
-   11. No es para ti si...
-   12. FAQ comercial
-   13. CTA final
+   Estructura final (9 bloques, orden con prueba social pre-precio):
+   1. Hero
+   2. Quiz "Si esto te suena" (diagnóstico de criterio)
+   3. El sistema (Criterio · Método · Planificación)
+   4. Mensajes desde el laboratorio (globo + chat de testimonios reales)
+   5. El laboratorio (Plan Lab card)
+   6. El Camino (Rookie + 4 escalones, sin precios)
+   7. Cambio visible (4 escenas Antes/Después)
+   8. FAQ (5 preguntas single-door)
+   9. CTA Final
 
-   Toda la voz, vocabulario y palabras vetadas vienen del Brand Guardian.
+   La prueba social (4) va JUSTO antes de la oferta (5) para reducir
+   resistencia al precio. Single-door en toda la landing — el menú
+   completo (Plan Pro, Examen, Mentor) vive en /lab/coach/precios.
+
+   Toda la voz y palabras vetadas vienen del Brand Guardian.
    El copy completo vive en el diccionario.
    ────────────────────────────────────────────── */
 
@@ -678,6 +678,9 @@ export default function LabCoachPage() {
       <HeroSection texts={tl.hero} />
       <EspejoQuiz texts={tl.siEstoTeSuena} />
       <MetodoSection texts={tl.metodo} />
+      {/* Prueba social inmediatamente después del método: las citas refuerzan
+          el sistema antes de presentar la oferta del Plan Lab. */}
+      <MensajesLaboratorio texts={tl.coachesDentro} />
       <QueHayDentroSection texts={tl.queHayDentro} />
       <CaminoBlock
         steps={CAMINO_STEPS}
@@ -691,7 +694,6 @@ export default function LabCoachPage() {
         }}
       />
       <NegocioSection texts={tl.negocio} />
-      <MensajesLaboratorio texts={tl.coachesDentro} />
       <FaqSection texts={tl.faq} />
       <CtaFinalSection texts={tl.ctaFinal} />
       <Footer />
