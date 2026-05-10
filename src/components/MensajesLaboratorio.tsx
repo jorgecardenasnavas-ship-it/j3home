@@ -89,10 +89,10 @@ interface MensajesLaboratorioProps {
   texts: CopyTexts;
 }
 
-const TYPING_DELAY_MS = 1200;       // los 3 puntos antes del mensaje
-const TYPE_SPEED_MS_PER_CHAR = 28;  // velocidad del typewriter
-const READ_TIME_MS = 4500;          // tiempo visible una vez completado
-const TRANSITION_MS = 600;          // fade out al siguiente mensaje
+const TYPING_DELAY_MS = 700;        // los 3 puntos antes del mensaje
+const TYPE_SPEED_MS_PER_CHAR = 18;  // velocidad del typewriter (más natural, menos lento)
+const READ_TIME_MS = 2800;          // tiempo visible una vez completado
+const TRANSITION_MS = 400;          // fade out al siguiente mensaje
 
 type Phase = "typing-dots" | "typing-text" | "reading" | "fading";
 

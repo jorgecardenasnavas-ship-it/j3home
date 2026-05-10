@@ -126,7 +126,7 @@ export function LabCoachGlobe({ highlightedCountryId, size = 520 }: LabCoachGlob
     return (
       <div
         style={{ width: size, height: size }}
-        className="flex items-center justify-center"
+        className="flex items-center justify-center pointer-events-none"
         aria-hidden
       >
         <div className="w-2 h-2 rounded-full bg-[var(--champan)] opacity-50 animate-pulse" />
@@ -156,8 +156,7 @@ export function LabCoachGlobe({ highlightedCountryId, size = 520 }: LabCoachGlob
   return (
     <div
       style={{ width: size, height: size }}
-      className="pointer-events-none"
-      aria-hidden
+      className="cursor-grab active:cursor-grabbing select-none"
     >
       <Globe
         ref={globeRef as React.MutableRefObject<GlobeMethods | undefined>}
