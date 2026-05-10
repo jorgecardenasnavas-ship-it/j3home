@@ -1053,12 +1053,6 @@ export interface Dictionary {
           readonly ctaLabel: string;
           readonly ctaHref: string;
         };
-        readonly noEsParaTi: {
-          readonly eyebrow: string;
-          readonly heading: string;
-          readonly sub: string;
-          readonly items: readonly string[];
-        };
         readonly faq: {
           readonly eyebrow: string;
           readonly heading: string;

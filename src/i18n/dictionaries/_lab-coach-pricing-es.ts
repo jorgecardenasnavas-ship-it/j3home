@@ -292,8 +292,8 @@ export const LAB_COACH_ES = {
 
       negocio: {
         eyebrow: "Cambio visible",
-        heading: "Lo que un padre, un director y tu cuenta a fin de mes notáis a los tres meses.",
-        sub: "Cuatro escenas concretas. Antes y después. Sin promesas de carrera.",
+        heading: "Cuatro escenas a tres meses.",
+        sub: "El antes que vives hoy y el después que aparece tres meses dentro del laboratorio.",
         items: [
           {
             scene: "Reunión trimestral con un padre.",
@@ -303,7 +303,7 @@ export const LAB_COACH_ES = {
           {
             scene: "Te llaman del club de al lado por una sustitución.",
             before: "Cobras lo mismo que el monitor que entró en septiembre y los padres no notan la diferencia.",
-            after: "Tu sello Cualificado J3 está en tu firma, en el panel del club y en tu perfil. La diferencia se nota antes de pisar la pista.",
+            after: "Tu nombre está en el directorio público de J3. Lo notan antes de que pises la pista.",
           },
           {
             scene: "Director deportivo te pide tu metodología.",
@@ -329,63 +329,40 @@ export const LAB_COACH_ES = {
         ctaHref: "https://j3padel.com/join",
       },
 
-      noEsParaTi: {
-        eyebrow: "Honestidad antes que matrícula",
-        heading: "No es para ti si...",
-        sub: "Mejor decirlo antes que decepcionarte después.",
-        items: [
-          "Si buscas un atajo a la titulación oficial, esto no lo da. La titulación habilitante la firma la FIP, no nosotros.",
-          "Si solo quieres consumir vídeos sin aplicar rúbrica ni mostrar entrenamientos, hay plataformas más baratas y YouTube es gratis.",
-          "Si todavía no entrenas de forma regular en pista, espera. El método se apoya en que tengas sesiones reales que auditar.",
-        ],
-      },
-
       faq: {
         eyebrow: "Preguntas",
         heading: "Lo que ya nos han preguntado",
         items: [
           {
-            q: "¿Qué pasa si no apruebo el examen?",
-            a: "Recibes la devolución escrita completa con la rúbrica aplicada y seis meses para volver a presentarte sin coste adicional. El examen no es un peaje. Es la auditoría que firma tu trabajo.",
-          },
-          {
-            q: "Si al final del año no renuevo el Plan Pro y vuelvo al Plan Lab, ¿qué conservo?",
-            a: "Conservas la insignia Cualificado J3 si ya la habías obtenido, pero queda inactiva mientras no estés al día con el contenido del Plan Pro. Mientras estés en el Plan Lab solo accedes a la Ruta 1 y al lote semanal complementario. Si más adelante vuelves al Pro, retomas el Camino donde lo dejaste.",
-          },
-          {
-            q: "¿Cómo accedo al Mentor J3?",
-            a: "Para coaches externos, una sesión cero obligatoria de 49€ y 30 minutos. Sirve de filtro mínimo y nos permite ver si tiene sentido el acompañamiento. Si contratas un formato (Sprint, Acompañamiento o Programa), esos 49€ se descuentan.",
-          },
-          {
-            q: "¿Por qué la sesión cero cuesta 49€?",
-            a: "Porque el tiempo de Javi y Jorge en pista tiene un techo. Los 49€ filtran a quien viene a hablar en serio y se descuentan si el acompañamiento sigue adelante.",
-          },
-          {
-            q: "¿Y si quiero darme de baja?",
-            a: "El Plan Lab es mensual y se cancela desde tu panel cuando quieras, sin penalización. Mantienes acceso hasta el final del mes pagado. El Plan Pro es un compromiso anual de 12 meses con pago único o fraccionado en 12 cuotas — no es cancelable mes a mes, pero al final del año decides si renuevas o vuelves al Plan Lab.",
-          },
-          {
-            q: "¿Cómo se gana y se mantiene la insignia Cualificado?",
-            a: "Se concede al entrar al Plan Pro tras haber completado la Ruta 1 desde el Plan Lab. Se mantiene activa mientras sigues consumiendo el contenido publicado y superando los tests asociados a las rutas. Si te descuelgas, dispones de 30 días para ponerte al día antes de que la insignia quede inactiva. Las otras dos insignias (Certificado y Verificado) sí requieren intervención humana del equipo J3.",
-          },
-          {
             q: "¿Y mi titulación FIP?",
             a: "Sigue siendo válida y necesaria. J3 trabaja después de la FIP, junto a la FIP. No la sustituye, no la imita y no la enfrenta.",
           },
           {
-            q: "Si contrato Mentor J3, ¿recibo alguna insignia?",
-            a: "No. El Mentor J3 mejora al coach pero no entrega ningún sello. Las insignias se ganan por la ruta de mérito, no por contratar acompañamiento.",
+            q: "¿Cuánto tarda completar la Ruta 1?",
+            a: "Depende del nivel que traigas. Algunos coaches la completan en semanas. Otros en meses. La Ruta no avanza en automático — se desbloquea conforme la consumes y la aplicas en pista.",
+          },
+          {
+            q: "¿Y si quiero darme de baja?",
+            a: "El Plan Lab es mensual. Cancelas desde tu panel cuando quieras, sin penalización. Mantienes acceso hasta el final del mes pagado.",
+          },
+          {
+            q: "¿Qué pasa después de la Ruta 1?",
+            a: "El laboratorio crece. Lo que se desbloquea después lo descubres dentro — no es un menú comercial, es un Camino que se gana.",
+          },
+          {
+            q: "¿Quién está detrás del laboratorio?",
+            a: "Javi y Jorge — hermanos, coaches en activo. Más de dos décadas en pista entre los dos. El equipo formativo lo dirigen ellos directamente, no se delega.",
           },
         ],
       },
 
       ctaFinal: {
-        eyebrow: "Empieza por el escalón, no por el sello",
-        headingPre: "El sello esperará.",
-        headingAccent: "Empieza el escalón.",
-        sub: "Suscríbete al método por 19€ al mes. Si después quieres subir al Plan Pro, lo desbloqueas completando la Ruta 1. Si quieres hablarlo antes con uno de los hermanos, reserva la sesión cero.",
+        eyebrow: "Última puerta",
+        headingPre: "Aquí dejas de leer.",
+        headingAccent: "Aquí empiezas.",
+        sub: "Plan Lab · 19€/mes. Mes a mes. Cancelas cuando quieras.",
         ctaPrimary: "Dar el salto",
-        ctaSecondary: "Reservar sesión cero · 49€ · 30 min",
+        ctaSecondary: "Ver el Camino completo",
       },
     },
 

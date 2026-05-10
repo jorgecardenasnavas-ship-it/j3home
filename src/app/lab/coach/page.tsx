@@ -33,7 +33,7 @@ import { useI18n } from "@/i18n/context";
 import { cn } from "@/lib/utils";
 import { CAMINO_STEPS } from "@/data/lab-coach-pricing";
 
-const SESION_CERO_HREF = "/lab/coach/precios#sesion-cero";
+const CAMINO_COMPLETO_HREF = "/lab/coach/precios";
 const COACH_CHECKOUT = "https://j3padel.com/join";
 
 type LandingTexts = ReturnType<typeof useI18n>["t"]["lab"]["coach"]["landing"];
@@ -525,64 +525,10 @@ function NegocioSection({ texts }: { texts: LandingTexts["negocio"] }) {
    ═══════════════════════════════════════════════════════ */
 
 /* ═══════════════════════════════════════════════════════
-   11. NO ES PARA TI SI...
+   11. NO ES PARA TI — eliminado en limpieza single-door:
+   las advertencias ya están implícitas en otros bloques (FAQ,
+   Plan Lab body) y rompía el ritmo positivo previo al FAQ.
    ═══════════════════════════════════════════════════════ */
-function NoEsParaTiSection({ texts }: { texts: LandingTexts["noEsParaTi"] }) {
-  const { ref: headerRef, visible: headerVisible } = useReveal(0.1);
-  const { itemRefs, visibleItems } = useStaggerReveal(texts.items.length, 0.15);
-
-  return (
-    <section
-      className="relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-t border-white/[.06]"
-      style={{ background: "var(--bk)" }}
-    >
-      <div className="relative max-w-[920px] mx-auto">
-        <div
-          ref={headerRef}
-          className="text-center mb-10"
-          style={{
-            opacity: headerVisible ? 1 : 0,
-            transform: headerVisible ? "none" : "translateY(20px)",
-            transition: "all 1s cubic-bezier(.16,1,.3,1)",
-          }}
-        >
-          <div className="text-[11px] tracking-[3px] uppercase text-[var(--champan)] mb-4 font-bold">
-            {texts.eyebrow}
-          </div>
-          <h2 className="font-bold text-[clamp(28px,3.8vw,44px)] tracking-[-1px] leading-[1.15] mb-3">
-            {texts.heading}
-          </h2>
-          <p className="text-[14px] opacity-70 max-w-[560px] mx-auto leading-[1.55]">
-            {texts.sub}
-          </p>
-        </div>
-
-        <ul className="space-y-3">
-          {texts.items.map((item, i) => (
-            <li
-              key={item}
-              ref={(el) => { itemRefs.current[i] = el as HTMLDivElement | null; }}
-              className="flex items-start gap-4 p-5 rounded-[2px] border border-white/[.08] bg-white/[0.012]"
-              style={{
-                opacity: visibleItems[i] ? 1 : 0,
-                transform: visibleItems[i] ? "none" : "translateX(-15px)",
-                transition: `all 0.7s cubic-bezier(.16,1,.3,1) ${i * 0.1}s`,
-              }}
-            >
-              <span
-                aria-hidden
-                className="text-[var(--champan)]/70 text-[18px] leading-none mt-[1px] flex-shrink-0"
-              >
-                ×
-              </span>
-              <span className="text-[13.5px] leading-[1.6] opacity-85">{item}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  );
-}
 
 /* ═══════════════════════════════════════════════════════
    12. FAQ
@@ -707,7 +653,7 @@ function CtaFinalSection({ texts }: { texts: LandingTexts["ctaFinal"] }) {
             {texts.ctaPrimary}
           </a>
           <a
-            href={SESION_CERO_HREF}
+            href={CAMINO_COMPLETO_HREF}
             className="inline-flex items-center justify-center min-h-[48px] px-7 py-3 text-[12px] font-bold tracking-[1.8px] uppercase rounded-[2px] border border-[var(--champan)]/60 text-[var(--champan)] hover:border-[var(--champan)] hover:bg-[rgba(201,169,110,0.08)] transition-all duration-300"
           >
             {texts.ctaSecondary}
@@ -746,7 +692,6 @@ export default function LabCoachPage() {
       />
       <NegocioSection texts={tl.negocio} />
       <MensajesLaboratorio texts={tl.coachesDentro} />
-      <NoEsParaTiSection texts={tl.noEsParaTi} />
       <FaqSection texts={tl.faq} />
       <CtaFinalSection texts={tl.ctaFinal} />
       <Footer />
