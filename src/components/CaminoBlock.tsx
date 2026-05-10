@@ -26,6 +26,8 @@ export interface CaminoTexts {
   sub?: string;
   // Disclaimer opcional bajo los 4 escalones, antes de la bifurcación.
   disclaimer?: string;
+  // Remate opcional bajo los escalones — gancho aspiracional (sin italic, peso afirmativo).
+  closer?: string;
   // Resolución de claves del catálogo a texto humano.
   grados: { assistantCoach: string; coach: string; masterCoach: string };
   insignias: { cualificado: string; certificado: string; verificado: string };
@@ -186,6 +188,13 @@ export function CaminoBlock({ steps, destinos, texts, className }: CaminoBlockPr
             );
           })}
         </ol>
+
+        {/* Closer opcional — remate aspiracional bajo los escalones (modo carrera) */}
+        {texts.closer && (
+          <p className="max-w-[680px] mx-auto text-center text-[14px] max-[640px]:text-[13px] leading-[1.55] mb-12 max-[960px]:mb-10 text-[var(--champan)]/85 font-medium">
+            {texts.closer}
+          </p>
+        )}
 
         {/* Disclaimer opcional — entre la grid de escalones y la bifurcación */}
         {texts.disclaimer && (

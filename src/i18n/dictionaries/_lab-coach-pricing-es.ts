@@ -236,18 +236,9 @@ export const LAB_COACH_ES = {
 
       camino: {
         eyebrow: "El Camino",
-        heading: "Cuatro escalones. Una sola dirección.",
-        sub: "El siguiente escalón se desbloquea cuando consolidas el actual.",
-      },
-
-      inversion: {
-        eyebrow: "El debut",
-        heading: "De Rookie a Master Coach.",
-        sub: "Aquí todos empiezan como Rookie. Algunos duran días, otros tardan meses. Depende del nivel que traigas como entrenador. Lo que pase después depende de ti. Los siguientes grados se ganan en el Camino — Assistant Coach, Coach, Master Coach. Tu progreso queda en tu perfil. Tu nombre, en el directorio público.",
-        cta: {
-          label: "Dar el salto",
-          href: "https://j3padel.com/join",
-        },
+        heading: "Aquí todos empiezan como Rookie.",
+        sub: "Algunos duran días en el primer escalón. Otros, meses. Lo que pase después depende de ti.",
+        closer: "Tu progreso queda en tu perfil. Tu nombre, en el directorio público.",
       },
 
       queHayDentro: {

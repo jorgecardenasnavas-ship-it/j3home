@@ -225,116 +225,8 @@ function MetodoSection({ texts }: { texts: LandingTexts["metodo"] }) {
 }
 
 /* ═══════════════════════════════════════════════════════
-   7. INVERSIÓN TOTAL A LA VISTA
-   ═══════════════════════════════════════════════════════ */
-function InversionSection({ texts }: { texts: LandingTexts["inversion"] }) {
-  const { ref: headerRef, visible: headerVisible } = useReveal(0.1);
-  const ctaReveal = useReveal(0.1);
-
-  return (
-    <section
-      className="relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4 border-t border-white/[.06]"
-      style={{ background: "var(--bk)" }}
-    >
-      <div className="relative max-w-[1200px] mx-auto">
-        <div
-          ref={headerRef}
-          className="text-center mb-12 max-[960px]:mb-10"
-          style={{
-            opacity: headerVisible ? 1 : 0,
-            transform: headerVisible ? "none" : "translateY(20px)",
-            transition: "all 1s cubic-bezier(.16,1,.3,1)",
-          }}
-        >
-          <div className="text-[11px] tracking-[3px] uppercase text-[var(--champan)] mb-4 font-bold">
-            {texts.eyebrow}
-          </div>
-          <h2 className="font-bold text-[clamp(28px,3.8vw,44px)] tracking-[-1px] leading-[1.15] mb-4 max-w-[880px] mx-auto">
-            {texts.heading}
-          </h2>
-          <p className="text-[14px] max-[640px]:text-[13px] opacity-70 max-w-[760px] mx-auto leading-[1.6]">
-            {texts.sub}
-          </p>
-        </div>
-
-        {/* CTA único — la puerta de entrada */}
-        <div
-          ref={ctaReveal.ref}
-          className="relative mb-12 max-[960px]:mb-10"
-          style={{
-            opacity: ctaReveal.visible ? 1 : 0,
-            transform: ctaReveal.visible ? "none" : "translateY(20px)",
-            transition: "all 1s cubic-bezier(.16,1,.3,1)",
-          }}
-        >
-          <div className="relative max-w-[820px] mx-auto p-10 max-[960px]:p-7 max-[640px]:p-5 rounded-[2px] border border-[var(--champan)]/55 bg-[rgba(201,169,110,0.04)] text-center overflow-hidden">
-            <span
-              aria-hidden
-              className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--champan)] to-transparent"
-            />
-
-            {/* Mini-timeline del Camino — modo carrera (bifurcación final solo en bloque "El Camino") */}
-            <div className="relative mb-9 max-[640px]:mb-7" aria-hidden>
-              {/* Línea conectora horizontal detrás de los puntos (solo desktop) */}
-              <div className="absolute top-[34px] left-[10%] right-[10%] h-px bg-[var(--champan)]/25 max-[640px]:hidden" />
-
-              <div className="relative grid grid-cols-4 max-[640px]:grid-cols-2 gap-2 max-[640px]:gap-y-5">
-                {[
-                  { grade: "Rookie", insignia: null, isStart: true },
-                  { grade: "Assistant Coach", insignia: null, isStart: false },
-                  { grade: "Coach", insignia: "cualificado", isStart: false },
-                  { grade: "Master Coach", insignia: "certificado", isStart: false },
-                ].map((hito) => (
-                  <div key={hito.grade} className="flex flex-col items-center text-center px-1 relative">
-                    {hito.isStart ? (
-                      <span className="text-[8.5px] font-bold tracking-[2px] uppercase text-[var(--champan)] mb-2 px-2 py-[2px] rounded-[2px] border border-[var(--champan)]/50 bg-[rgba(201,169,110,0.08)]">
-                        Empiezas aquí
-                      </span>
-                    ) : (
-                      <span className="text-[8.5px] mb-2 opacity-0">·</span>
-                    )}
-                    <span
-                      className={cn(
-                        "w-[14px] h-[14px] rounded-full border-2 border-[var(--champan)] mb-3 relative z-10",
-                        hito.isStart
-                          ? "bg-[var(--champan)] shadow-[0_0_0_4px_rgba(201,169,110,0.15)]"
-                          : "bg-[var(--bk)]",
-                      )}
-                    />
-                    <span
-                      className={cn(
-                        "text-[10px] max-[640px]:text-[10.5px] font-bold tracking-[1px] uppercase leading-[1.3]",
-                        hito.isStart ? "text-[var(--champan)]" : "text-[var(--wh)]/60",
-                      )}
-                    >
-                      {hito.grade}
-                    </span>
-                    {hito.insignia && (
-                      <span className="mt-1 text-[9px] tracking-[0.5px] lowercase italic text-[var(--champan)]/65 leading-[1.2]">
-                        {hito.insignia}
-                      </span>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <a
-              href={texts.cta.href}
-              className="inline-flex items-center justify-center min-h-[56px] px-9 py-4 text-[13px] font-bold tracking-[2px] uppercase rounded-[2px] bg-[var(--champan)] text-[var(--negro-v)] border border-[var(--champan)] hover:bg-[var(--g2)] hover:border-[var(--g2)] transition-all duration-300"
-            >
-              {texts.cta.label}
-            </a>
-          </div>
-        </div>
-
-      </div>
-    </section>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════
-   8. QUÉ HAY DENTRO
+   7. QUÉ HAY DENTRO (antes era el Bloque 8 — el Bloque 7
+   "Inversión / El debut" se fusionó dentro de "El Camino")
    ═══════════════════════════════════════════════════════ */
 function QueHayDentroSection({ texts }: { texts: LandingTexts["queHayDentro"] }) {
   const { ref: headerRef, visible: headerVisible } = useReveal(0.1);
@@ -933,11 +825,11 @@ export default function LabCoachPage() {
           eyebrow: tl.camino.eyebrow,
           heading: tl.camino.heading,
           sub: tl.camino.sub,
+          closer: tl.camino.closer,
           grados: tp.camino.grados,
           insignias: tp.camino.insignias,
         }}
       />
-      <InversionSection texts={tl.inversion} />
       <NegocioSection texts={tl.negocio} />
       <CoachesDentroSection texts={tl.coachesDentro} />
       <NoEsParaTiSection texts={tl.noEsParaTi} />

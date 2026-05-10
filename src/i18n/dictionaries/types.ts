@@ -981,15 +981,8 @@ export interface Dictionary {
           readonly eyebrow: string;
           readonly heading: string;
           readonly sub: string;
-        };
-        readonly inversion: {
-          readonly eyebrow: string;
-          readonly heading: string;
-          readonly sub: string;
-          readonly cta: {
-            readonly label: string;
-            readonly href: string;
-          };
+          /** Remate post-escalones — gancho aspiracional al directorio público. */
+          readonly closer?: string;
         };
         readonly queHayDentro: {
           readonly eyebrow: string;
