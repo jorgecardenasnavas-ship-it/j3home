@@ -86,6 +86,30 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   },
 ];
 
+// Head Coach: tercer tier vertical. Requiere Pro Coach activo + 3 rutas
+// completadas + insignia Cualificado activa (validación operativa).
+// Se mantiene como SubscriptionPlan separado (no en SUBSCRIPTION_PLANS)
+// para que UIs que iteran sobre SUBSCRIPTION_PLANS no lo pinten por error.
+export const HEAD_COACH_PLAN: SubscriptionPlan = {
+  id: "head-coach",
+  variant: "subscription",
+  ctaHref: "https://j3padel.com/join?plan=head-coach",
+  recommended: false,
+  pricing: {
+    monthly: { amount: 90, currency: "EUR" },   // mensual fraccionado: 1.080€/año
+    yearly:  { amount: 840, currency: "EUR", savePct: 22 },  // anual pago único
+  },
+};
+
+// Modalidad trimestral de Head Coach: 900€/año (4 pagos de 225€).
+// SubscriptionPlan solo soporta monthly + yearly; el trimestral se expone
+// como dato auxiliar para la UI.
+export const HEAD_COACH_QUARTERLY: { amount: number; currency: Currency; perPaymentAmount: number } = {
+  amount: 900,
+  currency: "EUR",
+  perPaymentAmount: 225,
+};
+
 export const EXAM_PLAN: OneTimePlan = {
   id: "examen",
   variant: "one-time",

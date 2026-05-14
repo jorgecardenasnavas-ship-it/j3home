@@ -27,7 +27,9 @@ import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { CaminoBlock } from "@/components/CaminoBlock";
+import { HeadCoachCard } from "@/components/HeadCoachCard";
 import { MensajesLaboratorio } from "@/components/MensajesLaboratorio";
+import { HEAD_COACH_PLAN } from "@/data/lab-coach-pricing";
 import { EspejoQuiz } from "@/components/EspejoQuiz";
 import { useReveal, useStaggerReveal } from "@/hooks/useReveal";
 import { useI18n } from "@/i18n/context";
@@ -692,6 +694,7 @@ export default function LabCoachPage() {
           insignias: tl.camino.insignias,
         }}
       />
+      <HeadCoachCard texts={tl.headCoach} ctaHref={HEAD_COACH_PLAN.ctaHref} />
       <NegocioSection texts={tl.negocio} />
       <FaqSection texts={tl.faq} />
       <CtaFinalSection texts={tl.ctaFinal} />

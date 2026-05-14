@@ -272,6 +272,40 @@ export const LAB_COACH_ES = {
         },
       },
 
+      headCoach: {
+        eyebrow: "Tier Head Coach",
+        heading: "El siguiente nivel: tu negocio como coach.",
+        sub: "Para coaches que ya dominan el oficio y quieren ocuparse de lo que pasa fuera de pista: llenar la pista, subir la tarifa, dinamizar su práctica o su academia.",
+        tagline: "Membership continua con drip mensual + retos con premio.",
+        price: {
+          main: "840€/año pago único",
+          subline: "o 225€/trimestral · 90€/mes mensualizado",
+        },
+        pilares: [
+          { num: "01", title: "Captación local", desc: "Instagram, web simple, Google My Business, eventos club, referencias estructuradas." },
+          { num: "02", title: "Posicionamiento y autoridad", desc: "Marca personal del coach. Diferenciación. Ser referente en tu comunidad." },
+          { num: "03", title: "Gestión y operación", desc: "Agenda, paquetes, sistemas de reservas, retención de alumnos, fidelización de familias." },
+          { num: "04", title: "Economía y precios", desc: "Cómo subir tarifa sin perder alumnos. Paquetizar. Hablar de precio." },
+          { num: "05", title: "Mentalidad y liderazgo", desc: "Creencias limitantes. Hablar en público. Comunicar autoridad. Dirigir equipo si lo tienes." },
+          { num: "06", title: "Dinamización de academia", desc: "Eventos, ligas internas, comunicación con familias, comunidad alrededor de tu academia." },
+        ],
+        retos: {
+          title: "Retos mensuales · se ganan, no se compran",
+          description: "Cada mes hay un reto opcional con criterios públicos. Lo completas con evidencia real, no con respuesta teórica.",
+          tiers: [
+            { label: "Completas el reto", reward: "Sesión grupal mensual con Javi/Jorge (60 min)" },
+            { label: "Top 3 del mes", reward: "Sesión 1:1 con Javi o Jorge (45-60 min)" },
+            { label: "Top 3 destacados", reward: "Caso real en el lote siguiente del módulo" },
+          ],
+        },
+        trackRecord: {
+          title: "Track record público",
+          description: "Los retos ganados se acumulan como trayectoria visible de tu trabajo. No es una insignia más — es evidencia real de tu práctica.",
+        },
+        cta: "Dar el salto al Head Coach",
+        access: "Requiere Pro Coach activo + las 3 rutas completadas + insignia Cualificado al día.",
+      },
+
       queHayDentro: {
         eyebrow: "El laboratorio",
         heading: "Tu primer experimento.",

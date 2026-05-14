@@ -994,6 +994,36 @@ export interface Dictionary {
             readonly verificado: { readonly name: string; readonly desc: string };
           };
         };
+        readonly headCoach: {
+          readonly eyebrow: string;
+          readonly heading: string;
+          readonly sub: string;
+          readonly tagline: string;
+          readonly price: {
+            readonly main: string;  // "840€/año"
+            readonly subline: string;  // "o 90€/mes mensualizado · 225€/trimestral"
+          };
+          readonly pilares: readonly {
+            readonly num: string;
+            readonly title: string;
+            readonly desc: string;
+          }[];
+          readonly retos: {
+            readonly title: string;
+            readonly description: string;
+            readonly tiers: readonly {
+              readonly label: string;
+              readonly reward: string;
+            }[];
+          };
+          readonly trackRecord: {
+            readonly title: string;
+            readonly description: string;
+          };
+          readonly cta: string;
+          /** Texto sobre requisitos de acceso al pie del bloque. */
+          readonly access: string;
+        };
         readonly queHayDentro: {
           readonly eyebrow: string;
           readonly heading: string;
