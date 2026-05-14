@@ -1,22 +1,23 @@
 "use client";
 
 /* ──────────────────────────────────────────────
-   /lab/coach — Landing comercial de J3 Lab Coach (V3 single-door).
+   /lab/coach — Landing del producto Coaches (V1 modular: 3 tiers).
 
-   Estructura final (9 bloques, orden con prueba social pre-precio):
+   Estructura (con prueba social pre-precio):
    1. Hero
    2. Quiz "Si esto te suena" (diagnóstico de criterio)
    3. El sistema (Criterio · Método · Planificación)
    4. Mensajes desde el laboratorio (globo + chat de testimonios reales)
-   5. El laboratorio (Plan Lab card)
-   6. El Camino (Rookie + 4 escalones, sin precios)
+   5. El laboratorio (Coach card — tier de entrada)
+   6. El Camino (3 tiers verticales + 3 insignias horizontales)
    7. Cambio visible (4 escenas Antes/Después)
    8. FAQ (5 preguntas single-door)
    9. CTA Final
 
    La prueba social (4) va JUSTO antes de la oferta (5) para reducir
-   resistencia al precio. Single-door en toda la landing — el menú
-   completo (Plan Pro, Examen, Mentor) vive en /lab/coach/precios.
+   resistencia al precio. Los servicios complementarios (Mentor, Examen,
+   Verificación) viven en /lab/coach/precios. El tier Head Coach se
+   presenta con su propia card destacada (ver Task 3.4 del plan V1).
 
    Toda la voz y palabras vetadas vienen del Brand Guardian.
    El copy completo vive en el diccionario.
@@ -259,7 +260,7 @@ function QueHayDentroSection({ texts }: { texts: LandingTexts["queHayDentro"] })
           </p>
         </div>
 
-        {/* Una sola card: el primer experimento (Plan Lab) */}
+        {/* Una sola card: el primer experimento (tier Coach) */}
         <div className="max-w-[720px] mx-auto">
           {texts.cards.map((card, i) => {
             const currentPricing = card.pricing[billing];
@@ -527,7 +528,7 @@ function NegocioSection({ texts }: { texts: LandingTexts["negocio"] }) {
 /* ═══════════════════════════════════════════════════════
    11. NO ES PARA TI — eliminado en limpieza single-door:
    las advertencias ya están implícitas en otros bloques (FAQ,
-   Plan Lab body) y rompía el ritmo positivo previo al FAQ.
+   Coach card body) y rompía el ritmo positivo previo al FAQ.
    ═══════════════════════════════════════════════════════ */
 
 /* ═══════════════════════════════════════════════════════
@@ -679,7 +680,7 @@ export default function LabCoachPage() {
       <EspejoQuiz texts={tl.siEstoTeSuena} />
       <MetodoSection texts={tl.metodo} />
       {/* Prueba social inmediatamente después del método: las citas refuerzan
-          el sistema antes de presentar la oferta del Plan Lab. */}
+          el sistema antes de presentar la oferta del tier Coach. */}
       <MensajesLaboratorio texts={tl.coachesDentro} />
       <QueHayDentroSection texts={tl.queHayDentro} />
       <CaminoBlock
