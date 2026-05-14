@@ -683,4 +683,34 @@ export const LAB_COACH_ES = {
       },
     },
   },
+
+  /* ── Home del paraguas J3 Lab ── */
+  umbrella: {
+    hero: {
+      eyebrow: "J3 LAB",
+      headingPre: "La pata de formación digital",
+      headingAccent: "de J3 Padel.",
+      sub: "Aquí entrenamos a coaches y jugadores con el mismo método. Criterio, método y planificación. Para que la cancha la decidas tú.",
+    },
+    cards: {
+      coaches: {
+        badge: "Coaches",
+        title: "Forma el oficio. Construye el negocio.",
+        description: "Tres tiers progresivos desde Coach hasta Head Coach. Aprende el oficio, gana los sellos, escala tu práctica.",
+        cta: "Ver el camino del coach",
+      },
+      players: {
+        badge: "Players",
+        title: "El método aplicado a tu juego.",
+        description: "Para jugadores amateurs que dan clases pero no entienden el juego. Táctica, diagnóstico, feedback técnico y físico.",
+        cta: "Avísame cuando esté disponible",
+        comingSoon: "Próximamente · Lista de espera abierta",
+      },
+    },
+    mentorBanner: {
+      title: "Mentor J3",
+      description: "Acompañamiento 1:1 con los hermanos. Para coaches que quieren acelerar. Tres formatos: Sprint, Acompañamiento y Programa.",
+      cta: "Reservar sesión cero · 49€",
+    },
+  },
 } as const;

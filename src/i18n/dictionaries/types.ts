@@ -1287,5 +1287,35 @@ export interface Dictionary {
         };
       };
     };
+
+    /* ── J3 Lab paraguas — home /lab ── */
+    umbrella: {
+      readonly hero: {
+        readonly eyebrow: string;
+        readonly headingPre: string;
+        readonly headingAccent: string;
+        readonly sub: string;
+      };
+      readonly cards: {
+        readonly coaches: {
+          readonly badge: string;
+          readonly title: string;
+          readonly description: string;
+          readonly cta: string;
+        };
+        readonly players: {
+          readonly badge: string;
+          readonly title: string;
+          readonly description: string;
+          readonly cta: string;
+          readonly comingSoon: string;
+        };
+      };
+      readonly mentorBanner: {
+        readonly title: string;
+        readonly description: string;
+        readonly cta: string;
+      };
+    };
   };
 }
