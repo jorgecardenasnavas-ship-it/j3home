@@ -1128,14 +1128,14 @@ export interface Dictionary {
             readonly yearly: string;
             readonly saveLabel: string;
           };
-          readonly coachBase: {
+          readonly coach: {
             readonly name: string;
             readonly tagline: string;
             readonly description: string;
             readonly features: readonly string[];
             readonly cta: string;
           };
-          readonly coachPro: {
+          readonly proCoach: {
             readonly badge: string;
             readonly name: string;
             readonly tagline: string;

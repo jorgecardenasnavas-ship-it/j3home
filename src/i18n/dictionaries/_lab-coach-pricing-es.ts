@@ -376,8 +376,12 @@ export const LAB_COACH_ES = {
 
       camino: {
         eyebrow: "EL CAMINO",
-        heading: "De Assistant Coach a Master Coach Verificado",
-        sub: "Cuatro pasos, tres insignias acumulativas. El grado va con tu progreso, no con el plan que pagas.",
+        heading: "De Coach a Pro Coach a Head Coach",
+        sub: "Tres tiers, tres insignias. El tier va con lo que pagas. Las insignias se ganan en Pro Coach.",
+        // NOTA: las sub-claves grados/insignias/unlocks/hitos/destinos
+        // se mantienen aquí temporalmente por compatibilidad con el
+        // CaminoBlock antiguo. Se eliminan en Fase 2 cuando se
+        // refactorice el componente y su uso.
         grados: {
           assistantCoach: "Assistant Coach",
           coach: "Coach",
@@ -422,41 +426,39 @@ export const LAB_COACH_ES = {
       },
 
       suscripciones: {
-        eyebrow: "PASO 1 · FORMACIÓN",
-        heading: "Elige tu suscripción",
-        sub: "El plan da acceso al contenido. El grado lo ganas tú completándolo.",
+        eyebrow: "EL CAMINO",
+        heading: "Elige tu tier",
+        sub: "Cada tier incluye lo del anterior. Las insignias se ganan en Pro Coach.",
         billingToggle: {
           monthly: "Mensual",
           yearly: "Anual",
           saveLabel: "Ahorra",
         },
-        coachBase: {
-          name: "Plan Lab",
-          tagline: "La puerta del Camino. Empieza por los fundamentos del oficio.",
-          description: "Acceso a la Ruta 1 desde el día 1 y un lote semanal de contenido complementario que solo avanza si lo consumes. Llegas hasta Assistant Coach al completar la Ruta 1.",
+        coach: {
+          name: "Coach",
+          tagline: "La puerta del laboratorio. Empieza por los fundamentos del oficio.",
+          description: "Acceso a la Ruta 1 desde el día 1 y un lote mensual de contenido complementario. Para coaches que entran al laboratorio.",
           features: [
             "Ruta 1 — Fundamentos del oficio (acceso libre)",
-            "Lote semanal de contenido complementario con condición de consumo",
-            "Un directo pasado curado por semana, rotando temáticas",
-            "Algunos recursos descargables seleccionados",
-            "Sello Assistant Coach al completar la Ruta 1",
+            "Lote mensual de contenido complementario",
+            "Comunidad básica de coaches del Lab",
           ],
           cta: "Dar el salto",
         },
-        coachPro: {
+        proCoach: {
           badge: "EL CAMINO COMPLETO",
-          name: "Plan Pro",
-          tagline: "Las tres rutas, el programa de directos y el sello Cualificado vivo.",
-          description: "Acceso libre a las tres rutas, programa de directos en vivo, archivo permanente, comunidad y acceso al equipo formativo. Compromiso anual con tres modalidades de pago. Se desbloquea al completar la Ruta 1 desde el Plan Lab.",
+          name: "Pro Coach",
+          tagline: "Las tres rutas, los directos en vivo y los sellos del oficio.",
+          description: "Acceso libre a las tres rutas, programa de directos en vivo, archivo permanente, comunidad y acceso al equipo formativo. Las tres insignias se ganan aquí.",
           features: [
             "Acceso libre a las 3 rutas: Fundamentos del oficio, Fundamentos del juego, Diseño del jugador y del coach",
             "Programa de directos en vivo · todas las temáticas",
             "Archivo permanente y libre de directos pasados",
             "Todos los recursos descargables",
-            "Comunidad de coaches J3",
+            "Comunidad activa de coaches J3",
             "Acceso al equipo formativo de Javi y Jorge",
-            "Sello Coach + insignia Cualificado (vivo)",
-            "Pre-requisito para el Examen de certificación",
+            "Insignias disponibles: Cualificado · Certificado · Verificado",
+            "Pre-requisito para el tier Head Coach",
           ],
           cta: "Dar el salto",
         },
@@ -465,7 +467,7 @@ export const LAB_COACH_ES = {
       examen: {
         eyebrow: "PASO 2 · CERTIFICACIÓN",
         heading: "Examen de pruebas prácticas",
-        sub: "No es ruta. Es un examen evaluado por humanos. Te lleva de Coach a Master Coach con la insignia Certificado J3.",
+        sub: "No es ruta. Es un examen evaluado por humanos. Te lleva a la insignia Certificado.",
         plan: {
           name: "Examen de certificación",
           tagline: "Evaluación humana del equipo J3",
@@ -474,7 +476,7 @@ export const LAB_COACH_ES = {
           features: [
             "Auditoría escrita por el equipo J3 en 7 días",
             "Llamada de evaluación 45-60 min",
-            "Sello Master Coach + insignia Certificado J3 al aprobar",
+            "Insignia Certificado al aprobar (sobre Pro Coach activo)",
             "Si no apruebas, recibes feedback escrito y vuelves a presentarte en 6 meses sin coste adicional",
           ],
           cta: "Solicitar examen",

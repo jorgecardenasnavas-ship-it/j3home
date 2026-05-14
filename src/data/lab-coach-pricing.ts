@@ -57,14 +57,13 @@ export type PricingPlan =
 
 /* ─── Catálogo ─── */
 
-// TODO: actualizar ctaHref cuando exista checkout real para
-// examen, sesión cero y los 3 paquetes Mentor. Las suscripciones
-// (coach-base, coach-pro) probablemente sirvan ya con el checkout
-// actual de Coach360 (j3padel.com/join), pero confirmar antes de prod.
+// IDs internos del refactor V1 (mayo 2026): Plan Lab → Coach, Plan Pro → Pro Coach.
+// Los ctaHref de Stripe se mantienen sin cambios para no romper enlaces ya activos
+// — el coach que paga ve el mismo producto Stripe, solo cambian los nombres internos.
 
 export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   {
-    id: "coach-base",
+    id: "coach",
     variant: "subscription",
     ctaHref: "https://j3padel.com/join?plan=coach",
     pricing: {
@@ -73,12 +72,12 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
     },
   },
   {
-    id: "coach-pro",
+    id: "pro-coach",
     variant: "subscription",
     ctaHref: "https://j3padel.com/join?plan=coach-pro",
     recommended: true,
     pricing: {
-      // Plan Pro V2.3: pago único anual con facilidades.
+      // Pro Coach: pago único anual con facilidades.
       // monthly aquí representa la cuota fraccionada en 12 (55€ × 12 = 660€).
       // yearly representa el pago único anual (540€).
       monthly: { amount: 55, currency: "EUR" },

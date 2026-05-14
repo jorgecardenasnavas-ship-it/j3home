@@ -192,10 +192,10 @@ function SuscripcionesSection({
   const { itemRefs, visibleItems } = useStaggerReveal(SUBSCRIPTION_PLANS.length, 0.15);
 
   const buildCopy = (planId: string): SubscriptionCardCopy => {
-    if (planId === "coach-pro") {
-      return { ...s.coachPro, saveLabel: s.billingToggle.saveLabel };
+    if (planId === "pro-coach") {
+      return { ...s.proCoach, saveLabel: s.billingToggle.saveLabel };
     }
-    return { ...s.coachBase, saveLabel: s.billingToggle.saveLabel };
+    return { ...s.coach, saveLabel: s.billingToggle.saveLabel };
   };
 
   return (
@@ -528,8 +528,8 @@ function CtaFinalSection({
 }) {
   const c = tp.ctaFinal;
   const { ref, visible } = useReveal(0.1);
-  const proPlan = SUBSCRIPTION_PLANS.find((p) => p.id === "coach-pro");
-  const basePlan = SUBSCRIPTION_PLANS.find((p) => p.id === "coach-base");
+  const proPlan = SUBSCRIPTION_PLANS.find((p) => p.id === "pro-coach");
+  const basePlan = SUBSCRIPTION_PLANS.find((p) => p.id === "coach");
 
   return (
     <section
