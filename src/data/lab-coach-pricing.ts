@@ -180,7 +180,6 @@ export interface FirstYearRow {
 }
 
 export const FIRST_YEAR_ROWS: FirstYearRow[] = [
-  { id: "base",            amount: "144€"   },
   { id: "pro",             amount: "540€"   },
   { id: "proExamen",       amount: "1.030€" },
   { id: "proExamenSprint", amount: "1.925€" },

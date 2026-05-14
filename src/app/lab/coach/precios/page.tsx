@@ -1,18 +1,17 @@
 "use client";
 
 /* ──────────────────────────────────────────────
-   /lab/coach/precios — Página de precios de J3 Lab Coach.
+   /lab/coach/precios — Servicios complementarios del J3 Lab Coach.
 
-   Estructura: Hero · Camino · Suscripciones (con toggle) · Examen ·
-   Mentor (con founder rate condicional) · Sesión cero · Verificación ·
-   First Year Math · FAQ · CTA final.
+   Estructura V1 (mayo 2026): Hero · Examen · Mentor (con founder rate
+   condicional) · Sesión cero · Verificación · First Year Math · FAQ ·
+   CTA final.
+
+   Los tiers (Coach · Pro Coach · Head Coach) y el Camino visual viven
+   en /lab/coach. Esta página queda como catálogo de servicios.
 
    Estado:
-     - billingPeriod (yearly por defecto) controla las 2 cards de suscripción
      - founderRateActive viene de ?founder=<algo> (V1: solo presencia)
-
-   Las secciones que NO usan PricingCard van inline aquí — solo CaminoBlock
-   y PricingCard son componentes externos por reutilización.
    ────────────────────────────────────────────── */
 
 import { Suspense, useState } from "react";
@@ -21,12 +20,10 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import {
   PricingCard,
-  type SubscriptionCardCopy,
   type OneTimeCardCopy,
   type PackageCardCopy,
   type FreeCardCopy,
 } from "@/components/PricingCard";
-import { CaminoBlock } from "@/components/CaminoBlock";
 import { useReveal, useStaggerReveal } from "@/hooks/useReveal";
 import { useI18n } from "@/i18n/context";
 import { cn } from "@/lib/utils";
@@ -36,7 +33,6 @@ import {
   MENTOR_PLANS,
   SESION_CERO_PLAN,
   VERIFICACION_PLAN,
-  CAMINO_STEPS,
   FIRST_YEAR_ROWS,
 } from "@/data/lab-coach-pricing";
 
@@ -130,110 +126,10 @@ function SectionHeader({
 }
 
 /* ═══════════════════════════════════════════════════════
-   BILLING TOGGLE — controlado, mensual / anual
+   BillingToggle y SuscripcionesSection eliminados en refactor V1:
+   los tiers (Coach, Pro Coach, Head Coach) viven en /lab/coach.
+   Esta página solo contiene servicios complementarios.
    ═══════════════════════════════════════════════════════ */
-function BillingToggle({
-  billingPeriod,
-  onChange,
-  monthlyLabel,
-  yearlyLabel,
-}: {
-  billingPeriod: "monthly" | "yearly";
-  onChange: (p: "monthly" | "yearly") => void;
-  monthlyLabel: string;
-  yearlyLabel: string;
-}) {
-  return (
-    <div className="flex justify-center mb-10">
-      <div
-        role="tablist"
-        aria-label="Periodicidad de facturación"
-        className="inline-flex p-1 rounded-[2px] border border-white/[.10] bg-white/[0.015]"
-      >
-        {(["monthly", "yearly"] as const).map((period) => {
-          const isActive = billingPeriod === period;
-          const label = period === "monthly" ? monthlyLabel : yearlyLabel;
-          return (
-            <button
-              key={period}
-              role="tab"
-              type="button"
-              aria-selected={isActive}
-              onClick={() => onChange(period)}
-              className={cn(
-                "px-5 py-2 text-[11px] font-bold tracking-[1.8px] uppercase transition-all duration-300 rounded-[2px]",
-                isActive
-                  ? "bg-[var(--champan)] text-[var(--negro-v)]"
-                  : "text-[var(--wh)] opacity-60 hover:opacity-100",
-              )}
-            >
-              {label}
-            </button>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════
-   SUSCRIPCIONES — 2 cards subscription + toggle
-   ═══════════════════════════════════════════════════════ */
-function SuscripcionesSection({
-  tp,
-  billingPeriod,
-  setBillingPeriod,
-}: {
-  tp: ReturnType<typeof useI18n>["t"]["lab"]["coach"]["pricing"];
-  billingPeriod: "monthly" | "yearly";
-  setBillingPeriod: (p: "monthly" | "yearly") => void;
-}) {
-  const s = tp.suscripciones;
-  const { itemRefs, visibleItems } = useStaggerReveal(SUBSCRIPTION_PLANS.length, 0.15);
-
-  const buildCopy = (planId: string): SubscriptionCardCopy => {
-    if (planId === "pro-coach") {
-      return { ...s.proCoach, saveLabel: s.billingToggle.saveLabel };
-    }
-    return { ...s.coach, saveLabel: s.billingToggle.saveLabel };
-  };
-
-  return (
-    <section
-      className="relative py-[100px] max-[960px]:py-[64px] px-12 max-[960px]:px-6 max-[640px]:px-4"
-      style={{ background: "var(--bk)" }}
-    >
-      <div className="relative max-w-[1100px] mx-auto">
-        <SectionHeader eyebrow={s.eyebrow} heading={s.heading} sub={s.sub} />
-        <BillingToggle
-          billingPeriod={billingPeriod}
-          onChange={setBillingPeriod}
-          monthlyLabel={s.billingToggle.monthly}
-          yearlyLabel={s.billingToggle.yearly}
-        />
-        <div className="grid grid-cols-2 max-[960px]:grid-cols-1 gap-6 max-w-[840px] mx-auto">
-          {SUBSCRIPTION_PLANS.map((plan, i) => (
-            <div
-              key={plan.id}
-              ref={(el) => { itemRefs.current[i] = el; }}
-              style={{
-                opacity: visibleItems[i] ? 1 : 0,
-                transform: visibleItems[i] ? "none" : "translateY(20px)",
-                transition: `all 0.9s cubic-bezier(.16,1,.3,1) ${i * 0.12}s`,
-              }}
-            >
-              <PricingCard
-                plan={plan}
-                copy={buildCopy(plan.id)}
-                billingPeriod={billingPeriod}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 /* ═══════════════════════════════════════════════════════
    EXAMEN — 1 card one-time, centrada
@@ -585,7 +481,6 @@ function CtaFinalSection({
    PÁGINA — contenido (lee searchParams) + wrapper (Suspense)
    ═══════════════════════════════════════════════════════ */
 function PreciosContent() {
-  const [billingPeriod, setBillingPeriod] = useState<"monthly" | "yearly">("yearly");
   const searchParams = useSearchParams();
   const founderParam = searchParams.get("founder");
   const founderRateActive = !!(founderParam && founderParam.length > 0);
@@ -597,23 +492,7 @@ function PreciosContent() {
     <div className="font-sans w-full bg-[var(--bk)] text-[var(--wh)]">
       <Navbar />
       <HeroSection texts={tp.hero} />
-      <CaminoBlock
-        steps={CAMINO_STEPS}
-        texts={{
-          eyebrow: tp.camino.eyebrow,
-          heading: tp.camino.heading,
-          sub: tp.camino.sub,
-          grados: tp.camino.grados,
-          insignias: tp.camino.insignias,
-          unlocks: tp.camino.unlocks,
-          hitos: tp.camino.hitos,
-        }}
-      />
-      <SuscripcionesSection
-        tp={tp}
-        billingPeriod={billingPeriod}
-        setBillingPeriod={setBillingPeriod}
-      />
+      {/* Camino y tiers viven en /lab/coach — aquí solo servicios complementarios */}
       <ExamenSection tp={tp} />
       <MentorSection tp={tp} founderRateActive={founderRateActive} />
       <SesionCeroSection tp={tp} />

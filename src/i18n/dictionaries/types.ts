@@ -983,6 +983,16 @@ export interface Dictionary {
           readonly sub: string;
           /** Remate post-escalones — gancho aspiracional al directorio público. */
           readonly closer?: string;
+          readonly tiers: {
+            readonly coach: { readonly name: string; readonly desc: string; readonly price: string };
+            readonly proCoach: { readonly name: string; readonly desc: string; readonly price: string };
+            readonly headCoach: { readonly name: string; readonly desc: string; readonly price: string };
+          };
+          readonly insignias: {
+            readonly cualificado: { readonly name: string; readonly desc: string };
+            readonly certificado: { readonly name: string; readonly desc: string };
+            readonly verificado: { readonly name: string; readonly desc: string };
+          };
         };
         readonly queHayDentro: {
           readonly eyebrow: string;
@@ -1224,7 +1234,6 @@ export interface Dictionary {
           readonly heading: string;
           readonly sub: string;
           readonly rows: {
-            readonly base: string;
             readonly pro: string;
             readonly proExamen: string;
             readonly proExamenSprint: string;

@@ -1,80 +1,58 @@
 "use client";
 
 /* ──────────────────────────────────────────────
-   CaminoBlock — los 4 pasos del recorrido del coach J3.
+   CaminoBlock — los 3 tiers verticales del camino del coach J3.
+
+   Reescritura V1 (mayo 2026): pasamos de 4 escalones de grados
+   (Rookie/Assistant/Coach/Master Coach) a 3 tiers verticales
+   (Coach/Pro Coach/Head Coach) + 3 insignias horizontales
+   (Cualificado/Certificado/Verificado) que viven en Pro Coach.
 
    Reutilizable entre /lab/coach (landing) y /lab/coach/precios.
    Recibe el copy ya pre-extraído desde la página padre — no lee el
    diccionario directamente para mantener el componente agnóstico.
 
-   El paso 04 comparte grado (Master Coach) con el 03; la diferenciación
-   visual va por la insignia: morado #534AB7 + check tipo Instagram.
+   El tier Head Coach (el tercero) se diferencia visualmente con
+   paleta morado (#534AB7 borde, #a89efc texto) y banda superior
+   gradiente, indicando que es el tier superior del Camino.
 
-   Bifurcación opcional: tras los 4 pasos puede mostrar 2 destinos
-   (Business / Pro Coach) como rombos con líneas discontinuas, indicando
-   los caminos opcionales que se abren al alcanzar Master Coach.
+   Las 3 insignias se muestran debajo de los tiers, horizontales,
+   cada una con paleta propia: cualificado verde (#9bd1c0),
+   certificado champán (#e8c79a), verificado morado (#a89efc).
    ────────────────────────────────────────────── */
 
-import type { CaminoStep, CaminoDestino } from "@/data/lab-coach-pricing";
 import { useReveal, useStaggerReveal } from "@/hooks/useReveal";
 import { cn } from "@/lib/utils";
 
 export interface CaminoTexts {
-  // Header opcional. Si no se pasa, el bloque renderiza solo la grid de pasos.
+  // Header opcional. Si no se pasa, el bloque renderiza solo los tiers + insignias.
   eyebrow?: string;
   heading?: string;
   sub?: string;
-  // Disclaimer opcional bajo los 4 escalones, antes de la bifurcación.
-  disclaimer?: string;
-  // Remate opcional bajo los escalones — gancho aspiracional (sin italic, peso afirmativo).
+  // Remate opcional bajo todo el bloque — gancho aspiracional.
   closer?: string;
-  // Resolución de claves del catálogo a texto humano.
-  grados: { assistantCoach: string; coach: string; masterCoach: string };
-  insignias: { cualificado: string; certificado: string; verificado: string };
-  // Opcionales — la versión reducida (modo single-door en la landing) no
-  // muestra ni planes/precios (unlocks) ni hitos para no exponer el menú.
-  unlocks?: { planBase: string; planPro: string; examen: string; merito: string };
-  hitos?: { "01": string; "02": string; "03": string; "04": string };
-  // Bifurcación opcional al final del Camino.
-  destinos?: {
-    eyebrow: string;
-    items: { business: { name: string; desc: string }; proCoach: { name: string; desc: string } };
+  // Los 3 tiers verticales del Camino.
+  tiers: {
+    coach: { name: string; desc: string; price: string };
+    proCoach: { name: string; desc: string; price: string };
+    headCoach: { name: string; desc: string; price: string };
+  };
+  // Las 3 insignias horizontales que viven en Pro Coach.
+  insignias: {
+    cualificado: { name: string; desc: string };
+    certificado: { name: string; desc: string };
+    verificado: { name: string; desc: string };
   };
 }
 
 interface CaminoBlockProps {
-  steps: readonly CaminoStep[];
-  destinos?: readonly CaminoDestino[];
   texts: CaminoTexts;
   className?: string;
 }
 
-const INSIGNIA_STYLES: Record<NonNullable<CaminoStep["insigniaKey"]>, string> = {
-  cualificado: "border-[rgba(155,209,192,0.45)] text-[#9bd1c0]",
-  certificado: "border-[rgba(232,199,154,0.45)] text-[#e8c79a]",
-  verificado:  "border-[rgba(83,74,183,0.65)]   text-[#a89efc]",
-};
-
-/* SVG check tipo Instagram (path "verified" estándar), morado J3 Lab. */
-function VerifiedCheck({ size = 16 }: { size?: number }) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="#a89efc"
-      aria-hidden="true"
-      className="flex-shrink-0"
-    >
-      <path d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.2-2.9-.81-3.91s-2.52-1.27-3.91-.81c-.66-1.31-1.91-2.19-3.34-2.19s-2.67.88-3.33 2.19c-1.4-.46-2.91-.2-3.92.81s-1.26 2.52-.8 3.91c-1.31.67-2.2 1.91-2.2 3.34s.89 2.67 2.2 3.34c-.46 1.39-.21 2.9.8 3.91s2.52 1.26 3.91.81c.67 1.31 1.91 2.19 3.34 2.19s2.68-.88 3.34-2.19c1.39.45 2.9.2 3.91-.81s1.27-2.52.81-3.91c1.31-.67 2.19-1.91 2.19-3.34zm-11.71 4.2L6.8 12.46l1.41-1.42 2.26 2.26 4.8-5.23 1.47 1.36-6.2 6.77z" />
-    </svg>
-  );
-}
-
-export function CaminoBlock({ steps, destinos, texts, className }: CaminoBlockProps) {
+export function CaminoBlock({ texts, className }: CaminoBlockProps) {
   const { ref: headerRef, visible: headerVisible } = useReveal(0.1);
-  const { itemRefs, visibleItems } = useStaggerReveal(steps.length, 0.2);
+  const { itemRefs, visibleItems } = useStaggerReveal(3, 0.2);
 
   const hasHeader = !!(texts.eyebrow || texts.heading || texts.sub);
 
@@ -108,28 +86,25 @@ export function CaminoBlock({ steps, destinos, texts, className }: CaminoBlockPr
               </h2>
             )}
             {texts.sub && (
-              <p className="text-[14px] max-[640px]:text-[13px] opacity-70 max-w-[560px] mx-auto leading-[1.55]">
+              <p className="text-[14px] max-[640px]:text-[13px] opacity-70 max-w-[640px] mx-auto leading-[1.55]">
                 {texts.sub}
               </p>
             )}
           </div>
         )}
 
-        <ol className="grid grid-cols-4 max-[960px]:grid-cols-2 max-[640px]:grid-cols-1 gap-4 mb-12 max-[960px]:mb-10">
-          {steps.map((step, i) => {
-            const gradoText = texts.grados[step.gradoKey];
-            const insigniaText = step.insigniaKey ? texts.insignias[step.insigniaKey] : null;
-            const hitoText = texts.hitos?.[step.num as "01" | "02" | "03" | "04"] ?? null;
-            const unlockText = texts.unlocks?.[step.unlockKey] ?? null;
-            const isVerified = step.insigniaKey === "verificado";
-
+        {/* 3 tiers verticales */}
+        <ol className="grid grid-cols-3 max-[960px]:grid-cols-1 gap-4 mb-14 max-[960px]:mb-10">
+          {(["coach", "proCoach", "headCoach"] as const).map((tierKey, i) => {
+            const tier = texts.tiers[tierKey];
+            const isHeadCoach = tierKey === "headCoach";
             return (
               <li
-                key={step.num}
+                key={tierKey}
                 ref={(el) => { itemRefs.current[i] = el as HTMLDivElement | null; }}
                 className={cn(
-                  "relative flex flex-col p-5 rounded-[2px] border transition-colors duration-500",
-                  isVerified
+                  "relative flex flex-col p-6 rounded-[2px] border transition-colors duration-500",
+                  isHeadCoach
                     ? "border-[rgba(83,74,183,0.5)] bg-[rgba(83,74,183,0.03)]"
                     : "border-white/[.10] hover:border-[var(--champan)]/35 bg-white/[0.012]",
                 )}
@@ -139,108 +114,84 @@ export function CaminoBlock({ steps, destinos, texts, className }: CaminoBlockPr
                   transition: `all 0.9s cubic-bezier(.16,1,.3,1) ${i * 0.1}s`,
                 }}
               >
-                {isVerified && (
+                {isHeadCoach && (
                   <span
                     aria-hidden
                     className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#534AB7] to-transparent"
                   />
                 )}
-
                 <span
                   aria-hidden
                   className="block font-bold text-[40px] leading-[1] tracking-[-1.5px] text-[var(--champan)]/85 mb-4"
                 >
-                  {step.num}
+                  {String(i + 1).padStart(2, "0")}
                 </span>
-
-                {insigniaText && (
-                  <div
-                    className={cn(
-                      "inline-flex items-center gap-1.5 self-start mb-3 px-2 py-[3px] rounded-[2px] border",
-                      INSIGNIA_STYLES[step.insigniaKey!],
-                    )}
-                  >
-                    {isVerified && <VerifiedCheck size={12} />}
-                    <span className="text-[10px] font-bold tracking-[1.5px] uppercase">
-                      {insigniaText}
-                    </span>
-                  </div>
-                )}
-
-                <h3 className="text-[14px] max-[960px]:text-[13px] font-bold uppercase tracking-[-0.2px] mb-3 leading-[1.2]">
-                  {gradoText}
+                <h3 className={cn(
+                  "text-[18px] max-[960px]:text-[16px] font-bold uppercase tracking-[-0.2px] mb-2 leading-[1.2]",
+                  isHeadCoach && "text-[#a89efc]",
+                )}>
+                  {tier.name}
                 </h3>
-
-                {hitoText && (
-                  <p className="text-[12.5px] opacity-70 leading-[1.5] mb-4">
-                    {hitoText}
-                  </p>
-                )}
-
-                {unlockText && (
-                  <div className="mt-auto pt-3 border-t border-white/[.08]">
-                    <span className="text-[10px] tracking-[1.5px] uppercase text-[var(--champan)] font-bold">
-                      {unlockText}
-                    </span>
-                  </div>
-                )}
+                <p className="text-[13px] opacity-70 leading-[1.5] mb-4 flex-1">
+                  {tier.desc}
+                </p>
+                <div className="mt-auto pt-3 border-t border-white/[.08]">
+                  <span className={cn(
+                    "text-[12px] tracking-[1px] uppercase font-bold",
+                    isHeadCoach ? "text-[#a89efc]" : "text-[var(--champan)]",
+                  )}>
+                    {tier.price}
+                  </span>
+                </div>
               </li>
             );
           })}
         </ol>
 
-        {/* Closer opcional — remate aspiracional bajo los escalones (modo carrera) */}
+        {/* Insignias horizontales (viven en Pro Coach) */}
+        <div className="relative max-w-[920px] mx-auto">
+          <div className="text-center mb-6">
+            <span className="text-[10px] font-bold tracking-[2.5px] uppercase text-[var(--champan)]">
+              Insignias disponibles en Pro Coach
+            </span>
+          </div>
+          <div className="grid grid-cols-3 max-[640px]:grid-cols-1 gap-4">
+            {(["cualificado", "certificado", "verificado"] as const).map((insigniaKey) => {
+              const insignia = texts.insignias[insigniaKey];
+              return (
+                <article
+                  key={insigniaKey}
+                  className={cn(
+                    "flex flex-col items-start p-4 rounded-[2px] border bg-white/[0.012]",
+                    insigniaKey === "cualificado" && "border-[rgba(155,209,192,0.45)]",
+                    insigniaKey === "certificado" && "border-[rgba(232,199,154,0.45)]",
+                    insigniaKey === "verificado" && "border-[rgba(83,74,183,0.65)]",
+                  )}
+                >
+                  <span
+                    className={cn(
+                      "text-[10px] font-bold tracking-[1.5px] uppercase mb-2",
+                      insigniaKey === "cualificado" && "text-[#9bd1c0]",
+                      insigniaKey === "certificado" && "text-[#e8c79a]",
+                      insigniaKey === "verificado" && "text-[#a89efc]",
+                    )}
+                  >
+                    {insignia.name}
+                  </span>
+                  <p className="text-[12.5px] opacity-70 leading-[1.45]">
+                    {insignia.desc}
+                  </p>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Closer opcional — remate aspiracional bajo el bloque */}
         {texts.closer && (
-          <p className="max-w-[680px] mx-auto text-center text-[14px] max-[640px]:text-[13px] leading-[1.55] mb-12 max-[960px]:mb-10 text-[var(--champan)]/85 font-medium">
+          <p className="max-w-[680px] mx-auto text-center text-[14px] max-[640px]:text-[13px] leading-[1.55] mt-14 max-[960px]:mt-10 text-[var(--champan)]/85 font-medium">
             {texts.closer}
           </p>
-        )}
-
-        {/* Disclaimer opcional — entre la grid de escalones y la bifurcación */}
-        {texts.disclaimer && (
-          <p className="max-w-[640px] mx-auto text-center text-[12px] opacity-55 italic leading-[1.55] mb-12 max-[960px]:mb-10">
-            {texts.disclaimer}
-          </p>
-        )}
-
-        {/* Bifurcación final — destinos opcionales tras Master Coach */}
-        {destinos && destinos.length > 0 && texts.destinos && (
-          <div className="relative max-w-[760px] mx-auto">
-            {/* Línea discontinua superior */}
-            <div
-              aria-hidden
-              className="border-t border-dashed border-[var(--champan)]/35 w-1/3 mx-auto mb-6"
-            />
-            <div className="text-center mb-6">
-              <span className="text-[12px] font-bold tracking-[2px] uppercase text-[var(--champan)] leading-[1.3]">
-                {texts.destinos.eyebrow}
-              </span>
-            </div>
-            <div className="grid grid-cols-2 max-[640px]:grid-cols-1 gap-5">
-              {destinos.map((destino) => {
-                const data = texts.destinos!.items[destino.id];
-                return (
-                  <article
-                    key={destino.id}
-                    className="relative flex items-start gap-4 p-5 rounded-[2px] border border-dashed border-[var(--champan)]/40 bg-white/[0.012]"
-                  >
-                    <span
-                      aria-hidden
-                      className="w-[14px] h-[14px] border-2 border-[var(--champan)] rotate-45 mt-[3px] flex-shrink-0"
-                    />
-                    <div className="flex flex-col">
-                      <span className="text-[12px] font-bold tracking-[1.5px] uppercase text-[var(--champan)] leading-[1.3] mb-1">
-                        {data.name}
-                      </span>
-                      <span className="text-[12.5px] opacity-75 italic leading-[1.4]">
-                        {data.desc}
-                      </span>
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
         )}
       </div>
     </section>

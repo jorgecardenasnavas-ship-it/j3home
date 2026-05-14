@@ -32,7 +32,6 @@ import { EspejoQuiz } from "@/components/EspejoQuiz";
 import { useReveal, useStaggerReveal } from "@/hooks/useReveal";
 import { useI18n } from "@/i18n/context";
 import { cn } from "@/lib/utils";
-import { CAMINO_STEPS } from "@/data/lab-coach-pricing";
 
 const CAMINO_COMPLETO_HREF = "/lab/coach/precios";
 const COACH_CHECKOUT = "https://j3padel.com/join";
@@ -684,14 +683,13 @@ export default function LabCoachPage() {
       <MensajesLaboratorio texts={tl.coachesDentro} />
       <QueHayDentroSection texts={tl.queHayDentro} />
       <CaminoBlock
-        steps={CAMINO_STEPS}
         texts={{
           eyebrow: tl.camino.eyebrow,
           heading: tl.camino.heading,
           sub: tl.camino.sub,
           closer: tl.camino.closer,
-          grados: tp.camino.grados,
-          insignias: tp.camino.insignias,
+          tiers: tl.camino.tiers,
+          insignias: tl.camino.insignias,
         }}
       />
       <NegocioSection texts={tl.negocio} />

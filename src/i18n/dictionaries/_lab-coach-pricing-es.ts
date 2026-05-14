@@ -160,7 +160,7 @@ export const LAB_COACH_ES = {
               },
               heading: "Coach con criterio.",
               body: "Las seis decisiones leídas con oficio. Eso ya es nivel de Coach Cualificado en cabeza. Pero el Camino empieza igual para todos: como Rookie. La diferencia es que tú la Ruta 1 la haces en semanas, no en meses.",
-              recommendation: "Tu Camino: empiezas por el Plan Lab. Lo siguiente lo descubres dentro.",
+              recommendation: "Tu Camino: empiezas como Coach. Lo siguiente lo descubres dentro.",
               ctaLabel: "Dar el salto",
               ctaHref: "https://j3padel.com/join",
             },
@@ -173,7 +173,7 @@ export const LAB_COACH_ES = {
               },
               heading: "Tienes parte del oficio. Falta cerrar el resto.",
               body: "Reconoces las trampas. Decides bien la mayoría de las veces. Pero hay momentos en pista donde aún tiras de instinto, no de método. Empiezas como Rookie, igual que todos — la diferencia es que tu base te hace ir más rápido.",
-              recommendation: "Tu Camino: empiezas por el Plan Lab. Lo siguiente se desbloquea solo cuando completes la Ruta 1.",
+              recommendation: "Tu Camino: empiezas como Coach. Lo siguiente se desbloquea solo cuando completes la Ruta 1.",
               ctaLabel: "Dar el salto",
               ctaHref: "https://j3padel.com/join",
             },
@@ -186,7 +186,7 @@ export const LAB_COACH_ES = {
               },
               heading: "Esto no es un fallo. Es el punto de partida.",
               body: "Las trampas que has marcado no son fallos tuyos. Son lo que te enseñaron a hacer. Empiezas como Rookie, y la Ruta 1 te coloca los tres pilares: criterio, método y planificación, desde la base.",
-              recommendation: "Tu Camino: empiezas por el Plan Lab. La Ruta 1 te coloca los tres pilares antes de seguir.",
+              recommendation: "Tu Camino: empiezas como Coach. La Ruta 1 te coloca los tres pilares antes de seguir.",
               ctaLabel: "Dar el salto",
               ctaHref: "https://j3padel.com/join",
             },
@@ -236,9 +236,40 @@ export const LAB_COACH_ES = {
 
       camino: {
         eyebrow: "El Camino",
-        heading: "Aquí todos empiezan como Rookie.",
-        sub: "Algunos duran días en el primer escalón. Otros, meses. Lo que pase después depende de ti.",
+        heading: "Aquí todos empiezan como Coach.",
+        sub: "Tres tiers. Cada uno incluye lo del anterior. Las insignias se ganan en Pro Coach.",
         closer: "Tu progreso queda en tu perfil. Tu nombre, en el directorio público.",
+        tiers: {
+          coach: {
+            name: "Coach",
+            desc: "Entras al laboratorio. Aprendes los fundamentos del oficio.",
+            price: "19€/mes",
+          },
+          proCoach: {
+            name: "Pro Coach",
+            desc: "Dominas el oficio completo. Las tres rutas, los directos en vivo, la comunidad. Aquí se ganan las insignias.",
+            price: "desde 540€/año",
+          },
+          headCoach: {
+            name: "Head Coach",
+            desc: "Te ocupas del negocio. Captación, posicionamiento, gestión, comunicación. Retos mensuales y sesiones ganadas con el equipo J3.",
+            price: "desde 840€/año",
+          },
+        },
+        insignias: {
+          cualificado: {
+            name: "Cualificado",
+            desc: "Al completar las 3 rutas con Pro Coach al día.",
+          },
+          certificado: {
+            name: "Certificado",
+            desc: "Vía Examen J3 (490€ pago único).",
+          },
+          verificado: {
+            name: "Verificado",
+            desc: "Auditoría humana, gratis, por mérito.",
+          },
+        },
       },
 
       queHayDentro: {
@@ -247,7 +278,7 @@ export const LAB_COACH_ES = {
         sub: "Sin maratones de vídeo, sin descargas pasivas. Aquí cada decisión es un experimento que se valida en tu propia pista.",
         cards: [
           {
-            badge: "Plan Lab",
+            badge: "Coach",
             title: "Aquí empieza el experimento.",
             subtitle: "El laboratorio te espera.",
             body: [
@@ -343,7 +374,7 @@ export const LAB_COACH_ES = {
           },
           {
             q: "¿Y si quiero darme de baja?",
-            a: "El Plan Lab es mensual. Cancelas desde tu panel cuando quieras, sin penalización. Mantienes acceso hasta el final del mes pagado.",
+            a: "El tier Coach es mensual. Cancelas desde tu panel cuando quieras, sin penalización. Mantienes acceso hasta el final del mes pagado.",
           },
           {
             q: "¿Qué pasa después de la Ruta 1?",
@@ -360,7 +391,7 @@ export const LAB_COACH_ES = {
         eyebrow: "Última puerta",
         headingPre: "Aquí dejas de leer.",
         headingAccent: "Aquí empiezas.",
-        sub: "Plan Lab · 19€/mes. Mes a mes. Cancelas cuando quieras.",
+        sub: "Tier Coach · 19€/mes. Mes a mes. Cancelas cuando quieras.",
         ctaPrimary: "Dar el salto",
         ctaSecondary: "Ver el Camino completo",
       },
@@ -559,11 +590,11 @@ export const LAB_COACH_ES = {
           description: "J3 mira tu trabajo con jugadores reales y dice que cumple el estándar. No es examen ni certificación: es un aval que se revalida cada 24 meses.",
           meritNote: "Por mérito · proceso gratuito",
           features: [
-            "12 meses como Master Coach activo",
+            "12 meses como Pro Coach activo",
             "30+ jugadores formados con metodología J3",
             "2 vídeos de sesiones reales auditados por J3",
             "Llamada de evaluación de 45-60 min",
-            "Plan Pro activo y al día",
+            "Pro Coach activo y al día",
           ],
           cta: "Ver requisitos completos",
         },
@@ -572,15 +603,14 @@ export const LAB_COACH_ES = {
       firstYearMath: {
         eyebrow: "INVERSIÓN AÑO 1",
         heading: "Cuánto te cuesta cada camino",
-        sub: "Referencia comercial sobre los caminos típicos. La Verificación no aparece porque es gratuita.",
+        sub: "Referencia comercial sobre los caminos típicos del coach. La Verificación no aparece porque es gratuita.",
         rows: {
-          base: "Plan Lab anual",
-          pro: "Plan Pro anual",
-          proExamen: "Plan Pro + examen",
-          proExamenSprint: "Plan Pro + examen + Mentor Sprint",
-          proExamenProg: "Plan Pro + examen + Mentor Programa",
+          pro: "Pro Coach anual",
+          proExamen: "Pro Coach + examen",
+          proExamenSprint: "Pro Coach + examen + Mentor Sprint",
+          proExamenProg: "Pro Coach + examen + Mentor Programa",
         },
-        note: "El founder rate (solo coaches actuales de J3 Lab) reduce los paquetes Mentor un 30%.",
+        note: "El founder rate (solo coaches actuales del Lab) reduce los paquetes Mentor un 30%.",
       },
 
       faq: {
@@ -604,8 +634,8 @@ export const LAB_COACH_ES = {
             a: "Recibes feedback escrito estructurado y vuelves a presentarte en 6 meses sin coste adicional en la siguiente convocatoria. El examen se aprueba: no se compra.",
           },
           {
-            q: "¿Puedo saltarme el Plan Lab e ir directo al Plan Pro?",
-            a: "No. El Plan Pro se desbloquea cuando completas la Ruta 1 desde el Plan Lab. Es un sistema de progresión por mérito, no un menú comercial. Los 19€/mes del Plan Lab son la puerta para todos.",
+            q: "¿Puedo saltarme el Coach e ir directo al Pro Coach?",
+            a: "No. El Pro Coach se desbloquea cuando completas la Ruta 1 desde el tier Coach. Es un sistema de progresión por mérito, no un menú comercial. Los 19€/mes del Coach son la puerta para todos.",
           },
         ],
       },
@@ -613,7 +643,7 @@ export const LAB_COACH_ES = {
       ctaFinal: {
         eyebrow: "EMPEZAR",
         heading: "El Camino empieza por la misma puerta",
-        sub: "Plan Lab · 19€/mes. Cancelas cuando quieras. El Plan Pro y el Examen se desbloquean conforme avances.",
+        sub: "Coach · 19€/mes. Cancelas cuando quieras. El Pro Coach y el Examen se desbloquean conforme avances.",
         ctaPrimary: "Dar el salto",
         ctaSecondary: "Ver el Camino completo",
       },
