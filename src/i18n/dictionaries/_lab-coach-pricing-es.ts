@@ -302,8 +302,8 @@ export const LAB_COACH_ES = {
           title: "Track record público",
           description: "Los retos ganados se acumulan como trayectoria visible de tu trabajo. No es una insignia más — es evidencia real de tu práctica.",
         },
-        cta: "Dar el salto al Head Coach",
-        access: "Requiere Pro Coach activo + las 3 rutas completadas + insignia Cualificado al día.",
+        cta: "Apúntate · te avisamos cuando abra",
+        access: "Pre-lanzamiento. Te enviamos el email de apertura en cuanto esté listo. Requerirá Pro Coach activo + las 3 rutas completadas + insignia Cualificado al día.",
       },
 
       queHayDentro: {

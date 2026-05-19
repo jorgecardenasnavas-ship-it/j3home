@@ -90,10 +90,15 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
 // completadas + insignia Cualificado activa (validación operativa).
 // Se mantiene como SubscriptionPlan separado (no en SUBSCRIPTION_PLANS)
 // para que UIs que iteran sobre SUBSCRIPTION_PLANS no lo pinten por error.
+//
+// PRE-LANZAMIENTO: el producto Stripe aún no está configurado. Mientras
+// tanto, el ctaHref captura interesados vía mailto: con asunto preparado.
+// Cuando Stripe esté listo, sustituir ctaHref por:
+//   "https://j3padel.com/join?plan=head-coach"
 export const HEAD_COACH_PLAN: SubscriptionPlan = {
   id: "head-coach",
   variant: "subscription",
-  ctaHref: "https://j3padel.com/join?plan=head-coach",
+  ctaHref: "mailto:hola@j3padel.com?subject=Interesado%20en%20el%20tier%20Head%20Coach&body=Hola%2C%20me%20interesa%20saber%20cuando%20abris%20el%20tier%20Head%20Coach.%20Quiero%20que%20me%20avisen.",
   recommended: false,
   pricing: {
     monthly: { amount: 90, currency: "EUR" },   // mensual fraccionado: 1.080€/año

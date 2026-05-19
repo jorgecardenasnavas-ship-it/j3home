@@ -98,6 +98,7 @@ export function CaminoBlock({ texts, className }: CaminoBlockProps) {
           {(["coach", "proCoach", "headCoach"] as const).map((tierKey, i) => {
             const tier = texts.tiers[tierKey];
             const isHeadCoach = tierKey === "headCoach";
+            const isProCoach = tierKey === "proCoach";
             return (
               <li
                 key={tierKey}
@@ -106,6 +107,8 @@ export function CaminoBlock({ texts, className }: CaminoBlockProps) {
                   "relative flex flex-col p-6 rounded-[2px] border transition-colors duration-500",
                   isHeadCoach
                     ? "border-[rgba(83,74,183,0.5)] bg-[rgba(83,74,183,0.03)]"
+                    : isProCoach
+                    ? "border-[var(--champan)]/45 bg-[rgba(201,169,110,0.04)]"
                     : "border-white/[.10] hover:border-[var(--champan)]/35 bg-white/[0.012]",
                 )}
                 style={{
@@ -119,6 +122,13 @@ export function CaminoBlock({ texts, className }: CaminoBlockProps) {
                     aria-hidden
                     className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#534AB7] to-transparent"
                   />
+                )}
+                {isProCoach && (
+                  <span
+                    className="absolute top-0 right-4 -translate-y-1/2 text-[9.5px] font-bold tracking-[2px] uppercase px-2.5 py-1 rounded-[2px] bg-[var(--champan)] text-[var(--negro-v)]"
+                  >
+                    Recomendado
+                  </span>
                 )}
                 <span
                   aria-hidden
