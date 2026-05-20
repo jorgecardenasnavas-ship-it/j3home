@@ -196,8 +196,8 @@ export const LAB_COACH_ES = {
 
       metodo: {
         eyebrow: "El sistema",
-        heading: "Criterio, método, planificación. La forma de decidir.",
-        sub: "Tres habilidades en secuencia: decides el foco, construyes el camino, conectas las semanas. Lo que enseña Fundamentos del oficio.",
+        heading: "Antes del ejercicio, la decisión.",
+        sub: "Tres habilidades en secuencia: decides el foco, construyes el camino, conectas las semanas.",
         cards: [
           {
             title: "Criterio",
