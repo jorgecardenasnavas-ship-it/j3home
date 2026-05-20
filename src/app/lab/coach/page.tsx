@@ -233,7 +233,7 @@ function MetodoSection({ texts }: { texts: LandingTexts["metodo"] }) {
 function QueHayDentroSection({ texts }: { texts: LandingTexts["queHayDentro"] }) {
   const { ref: headerRef, visible: headerVisible } = useReveal(0.1);
   const { itemRefs, visibleItems } = useStaggerReveal(texts.cards.length, 0.15);
-  const [billing, setBilling] = useState<"monthly" | "yearly">("monthly");
+  const [billing, setBilling] = useState<"monthly" | "yearly">("yearly");
 
   return (
     <section
@@ -282,7 +282,7 @@ function QueHayDentroSection({ texts }: { texts: LandingTexts["queHayDentro"] })
                 className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--champan)] to-transparent"
               />
               <span className="absolute -top-3 right-6 text-[9px] font-bold tracking-[2px] uppercase text-[var(--champan)] px-2 py-[3px] rounded-[2px] border border-[var(--champan)]/55 bg-[var(--bk)]">
-                Empieza aquí
+                Road to Pro Coach
               </span>
 
               <div className="inline-flex items-center gap-2 self-start mb-5">
