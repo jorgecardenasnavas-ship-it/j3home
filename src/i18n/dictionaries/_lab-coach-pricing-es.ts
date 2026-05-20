@@ -236,8 +236,8 @@ export const LAB_COACH_ES = {
 
       camino: {
         eyebrow: "El Camino",
-        heading: "Aquí todos empiezan como Coach.",
-        sub: "Tres tiers. Cada uno incluye lo del anterior. Las insignias se ganan en Pro Coach.",
+        heading: "Aquí todos empiezan como Coach. Pocos se pasan el juego.",
+        sub: "Todos sabemos meternos en pista. Nadie nos enseñó a salir.",
         closer: "Tu progreso queda en tu perfil. Tu nombre, en el directorio público.",
         tiers: {
           coach: {
